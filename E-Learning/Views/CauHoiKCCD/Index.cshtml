@@ -1,0 +1,232 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using E_Learning.Models
+@model PagedList.IPagedList<CauHoiKCCDView>
+@using PagedList.Mvc
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Danh Sách Câu Hỏi
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="card mb-4">
+            <div class="card-header">
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                @*@Html.DropDownList("IDND", null, "--Chọn Nội Dung--", new { id = "IDND", @class = "form-control marginTB5", @style = "width:100%", })*@
+                            </div>
+
+                        </div>
+
+                        @*<div class="col-md-2">
+            <div class="input-group-btn"><button class="btn btn-primary marginTB5" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button></div>
+        </div>*@
+                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL))
+                        {
+                            <div class="clo-md-3 m-l-auto">
+                                <a type="button" id="btn-add" class="btn btn-primary float-right" href="@Url.Action("DeleteAll", "CauHoiKCCD", new { KCCDID =Request.QueryString["KCCDID"], DeThiID = Request.QueryString["IDDT"]})" onclick="return confirm('Bạn muốn xóa tất cả câu hỏi và kết quả thi')"><i class="fas fa-trash">&nbsp;</i>&nbsp;Xóa tất cả </a>
+                                @*<div class="" id="btnAdd" role="dialog" data-url='@Url.Action("DeleteAll", "CauHoiQT", new { IDQTHD =@ViewBag.IDQTHD})'></div>*@
+                            </div>
+                        }
+                        <!--<div class="clo-md-3 m-l-auto">
+                            <a type="button" id="btn-add" class="btn btn-primary float-right" href="@Url.Action("DeleteAll", "CauHoiKCCD", new { KCCDID =Request.QueryString["KCCDID"], DeThiID = Request.QueryString["IDDT"]})" onclick="return confirm('Bạn muốn xóa tất cả câu hỏi và kết quả thi')"><i class="fas fa-trash">&nbsp;</i>&nbsp;Xóa tất cả </a>-->
+                            @*<div class="" id="btnAdd" role="dialog" data-url='@Url.Action("DeleteAll", "CauHoiQT", new { IDQTHD =@ViewBag.IDQTHD})'></div>*@
+                        <!--</div>-->
+                    </div>
+
+                </div>
+                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD))
+                {
+                    @*<div class="clo-md-3 m-l-auto">
+                        <button type="button" id="btn-Import" class="btn btn-primary m-l-auto"><i class="fa fa-upload">&nbsp;</i>&nbsp;Upload </button>
+                        <div class="modal fade" id="myModalimport" role="dialog" data-url='@Url.Action("ImportExcel", "Question", new { id = @Url.RequestContext.RouteData.Values["id"] })'></div>
+
+                        <button type="button" id="btn-add" class="btn btn-primary m-l-auto"><i class="fa fa-plus">&nbsp;</i>&nbsp;Thêm mới </button>
+                        <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create", "Question", new { id = @Url.RequestContext.RouteData.Values["id"] })'></div>
+                    </div>*@
+
+
+                }
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center" width="30px">STT</th>
+                                <th class="text-center">Nội Dung Câu Hỏi</th>
+                                <th class="text-center">Đáp Án A</th>
+                                <th class="text-center">Đáp Án B</th>
+                                <th class="text-center">Đáp Án C</th>
+                                <th class="text-center">Đáp Án D</th>
+                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
+                                {
+                                    <th class="text-center">Đáp Án Đúng</th>
+                                }
+
+                                <th class="text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int pageno = (int)Model.PageNumber;
+                                int itemperpage = (int)Model.PageSize;
+                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-center"> @RowNo@{RowNo++;}</td>
+                                    <td class="">@Html.Raw(item.NoiDungCH)</td>
+                                    <td>@Html.Raw(item.DapAnA)</td>
+                                    <td>@Html.Raw(item.DapAnB)</td>
+                                    <td>@Html.Raw(item.DapAnC)</td>
+                                    <td>@Html.Raw(item.DapAnD)</td>
+
+                                    @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
+                                    {
+                                        <td>@item.DapAnĐung</td>
+                                    }
+                                    <td class="text-center">
+
+
+                                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
+                                        {
+                                            <a id="btn-edit_@item.IDCH" title="Sửa" class="fa fa-edit icon_action"></a>
+                                            <div class="modal fade" id="myModale_@item.IDCH" role="dialog" data-url='@Url.Action("EditCH", "CauHoiKCCD", new { id = item.IDCH })'></div>
+                                            <script type="text/javascript">
+                                                    $("#btn-edit_@item.IDCH").click(function () {
+                                                        var url = $('#myModale_@item.IDCH').data('url');
+                                                        tinymce.remove('.myTextarea');
+                                                        $.get(url, function (data) {
+                                                            $("#myModale_@item.IDCH").html(data);
+                                                            $("#ModalTitle").html("Cập nhật Đề thi");
+                                                            $("#myModale_@item.IDCH").modal('show');
+                                                        });
+                                                    });
+                                            </script>
+                                        }
+                                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL))
+                                        {
+                                            <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("DeleteCH", "CauHoiKCCD", new { id = item.IDCH, KCCDID =item.KCCDID,DeThiID = item.DeThiID })"
+                                               onclick="return confirm('Bạn muốn xóa Câu Hỏi: @item.IDCH')">
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="pager">
+                        @Html.PagedListPager(Model, page => Url.Action("Index", "Question", new { page, IDND = Request.QueryString["IDND"] }))
+                        <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@*<script src="~/Content/Chonse/chosen.jquery.js"></script>*@
+<script type="text/javascript">
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        tinymce.remove('.myTextarea');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Thêm mới câu hỏi");
+            $("#myModal").modal('show');
+        });
+    });
+
+    $('#btn-Import').click(function () {
+        var url = $('#myModalimport').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Thêm mới danh sách câu hỏi");
+            $("#myModal").modal('show');
+        });
+    });
+    $("#IDND").chosen({
+        width: "100%"
+    });
+    $("#btn-search").on('click', function () {
+        window.location.href = '@Url.Action("Index", "Question")?IDND=' + $('#IDND').val();
+    });
+</script>
+
+<style>
+    .chosen-container-single .chosen-single {
+        color: #495057;
+        background: #fff;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.8;
+        text-transform: capitalize;
+    }
+
+        .chosen-container-single .chosen-single span {
+            text-transform: capitalize !important;
+            font-size: 16px !important;
+        }
+</style>
+
+

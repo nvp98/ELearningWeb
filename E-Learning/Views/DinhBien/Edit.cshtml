@@ -1,0 +1,149 @@
+﻿
+@model E_Learning.Models.DinhBienView
+@*<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+    <link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />*@
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog text-left" style="max-width:800px" id="formE">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.IDVT)
+            @Html.HiddenFor(model => model.IDDB)
+            @Html.HiddenFor(model => model.IDPB)
+            <div class="modal-body">
+
+                <fieldset id="SubmitForm">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label class=" mb-1 font-weight-bold">Tên Vị trí</label>
+                            @Html.TextAreaFor(model => model.TenViTri, new { @class = "form-control ", @rows = 1, placeholder = "Tên Vị trí", @id = "TenViTri", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.TenViTri, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class=" mb-1 font-weight-bold">Định biên</label>
+                            @Html.TextBoxFor(model => model.DinhBienNS, new { @class = "form-control ", @rows = 1, placeholder = "Định Biên", @id = "DinhBienNS", @type = "number" })
+                            @Html.ValidationMessageFor(model => model.DinhBienNS, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class=" mb-1 font-weight-bold" >Thời gian dự kiến bổ nhiệm</label>
+                            @Html.EditorFor(model => model.thoigianBoNhiem, new { @type = "date", @Value = Model.thoigianBoNhiem.ToString("yyyy-MM-dd"), htmlAttributes = new { @class = "form-control", placeholder = "Chọn ngày", @id = "thoigianBoNhiem", @type = "date", @Value = Model.thoigianBoNhiem.ToString("yyyy-MM-dd") } })
+                            @Html.ValidationMessageFor(model => model.thoigianBoNhiem, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-12 font-weight-bold">
+                            @Html.CheckBoxFor(m => m.isNSTapSu, new { @class = "fa-2x" })
+                            Đã có nhân sự tập sự?
+
+                        </div>
+                        <div class="form-group col-md-12 font-weight-bold">
+                            @Html.CheckBoxFor(m => m.isChuaCoNS, new { @class = "fa-2x" })
+                            Chưa có nhân sự đảm nhận/ đang tập sự?
+                        </div>
+
+                        <div class="form-group col-md-12 font-weight-bold">
+                            @Html.CheckBoxFor(m => m.isNSVTKhac, new { @class = "fa-2x " })
+                            Đã có nhân sự đảm nhận nhưng nhân sự này đang được tập sự ở vị tri khác?
+                        </div>
+                        <div class="form-group col-md-12 " style="display:grid">
+                            <label class="font-weight-bold">Ghi chú</label>
+                            @Html.TextAreaFor(model => model.ghichu, new { @class = "form-control", @rows = 1, placeholder = "Ghi chú", @id = "MaViTri", })
+                            @Html.ValidationMessageFor(model => model.ghichu, "", new { @class = "text-danger" })
+                        </div>
+
+
+                    </div>
+                    &nbsp;
+                    <div class="btn-margin-top text-center">
+                        <input type="submit" value="Xác nhận" class="btn btn-success button_submit" />
+                        <input type="reset" value="Hủy" class="btn btn-danger button_cancel" data-dismiss="modal" />
+                    </div>
+                </fieldset>
+
+            </div>
+
+
+        </div>
+    </div>
+}
+<style>
+    .button_submit {
+        float: right;
+        margin-bottom: 15px;
+    }
+
+    .button_cancel {
+        float: right;
+        margin-right: 15px
+    }
+
+    .margin-checkbox {
+        margin-right: 30px;
+    }
+</style>
+
+
+<script>
+    $("#formE #IDPhongBan").chosen({
+        width: "100%"
+    });
+    $(document).ready(function () {
+        $("#IDPhongBan").change(function () {
+            $.get("/FGroup/GetPX", { IDPB: $("#IDPhongBan").val() }, function (data) {
+                if (data[0] != null) {
+                    $("#IDPhanXuong").empty();
+                    $("#IDPhanXuong").append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")
+                    $.each(data, function (index, row) {
+                        $("#IDPhanXuong").append("<option value ='" + row.ID + "'>" + row.TenPX + "</option>")
+                    });
+
+                }
+                else {
+                    $("#IDPhanXuong").empty();
+                }
+            });
+            $.get("/FGroup/GetNhom", { IDPB: $("#IDPhongBan").val() }, function (data1) {
+                if (data1[0] != null) {
+                    $("#IDNhom").empty();
+                    $("#IDNhom").append("<option value ='" + null + "'>" + "--Chọn Nhóm--" + "</option>")
+                    $.each(data1, function (index, row) {
+                        $("#IDNhom").append("<option value ='" + row.IDNhom + "'>" + row.TenNhom + "</option>")
+                    });
+
+                }
+                else {
+                    $("#IDNhom").empty();
+                }
+            });
+            $.get("/FGroup/GetTo", { IDPB: $("#IDPhongBan").val() }, function (data1) {
+                if (data1[0] != null) {
+                    $("#IDTo").empty();
+                    $("#IDTo").append("<option value ='" + null + "'>" + "--Chọn Tổ--" + "</option>")
+                    $.each(data1, function (index, row) {
+                        $("#IDTo").append("<option value ='" + row.IDTo + "'>" + row.TenTo + "</option>")
+                    });
+
+                }
+                else {
+                    $("#IDTo").empty();
+                }
+            });
+        })
+    });
+
+</script>
+
+
+
+
+
+
+

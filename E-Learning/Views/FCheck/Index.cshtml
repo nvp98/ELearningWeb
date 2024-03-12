@@ -1,0 +1,313 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using E_Learning.Models
+@model PagedList.IPagedList<FCheckValidation>
+@using PagedList.Mvc
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+<style type="text/css">
+    a:hover {
+        cursor: pointer;
+    }
+</style>
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Danh sách đánh giá
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="card mb-4">
+            <!--<div class="card-header">
+
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">-->
+                                @*@Html.DropDownList("IDPB", null, "--Bộ Phận--", new { id = "IDPB", @class = "form-control marginTB5", @style = "width:100%", })*@
+                            <!--</div>
+
+                        </div>
+
+                        <div class="col-md-2">-->
+                            @*<div class="input-group-btn"><button class="btn btn-primary marginTB5" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button></div>*@
+                        <!--</div>
+                    </div>
+                </div>
+
+            </div>-->
+             <div class="card-header " style="border:none;">
+                    <div class="font-italic text-danger"><p>Lưu ý: Cần kiểm tra để đảm bảo <strong style="color: rgba(13, 27, 62, 0.7)"> Vị trí đánh giá</strong> trong danh sách đúng với thực tế trước khi thực hiện đánh giá </p></div>
+             </div>
+            <div class="card-body" style="padding-top:0">
+                <div class="card-header" style="background-color: azure">
+                    <i class="header-icon lnr-gift icon-gradient bg-grow-early"> </i>Danh sách đánh giá trực tiếp
+                </div>
+               
+                <div class="table-responsive mt-2">
+                    <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center" width="30px">STT</th>
+                                <th class="text-center">Mã nhân viên</th>
+                                <th class="text-center">Họ tên</th>
+                                <th class="text-center">Kíp</th>
+                                <th class="text-center">Vị trí đánh giá</th>
+                                <th class="text-center">BMTCV</th>
+                                <th class="text-center">Ngày đánh giá gần nhất</th>
+
+                                <th class="text-center ">Đánh giá</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int pageno = (int)Model.PageNumber;
+                                int itemperpage = (int)Model.PageSize;
+                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-center"> @RowNo@{RowNo++;}</td>
+                                    <td class="">@item.MaNV</td>
+                                    <td class="">@item.TenNV</td>
+                                    <td class="">@item.TenKip</td>
+                                    <td>@item.TenVT</td>
+                                    <td class="text-center">
+                                        <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                                    </td>
+                                    <td class="text-center">@item.NgayDG</td>
+                                    <td class="text-center p-0">
+                                        <a class="fa fa-check-square-o fa-2x" title="Đánh giá" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
+                                           onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
+                                        </a>
+                                    </td>
+                                    @*<td class="text-center">
+                                @if (ViewBag.DELETE == 1)
+                                {
+                                    <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "FDepartment", new { id = item.IDVT })"
+                                       onclick="return confirm('Bạn muốn xóa : @item.TenPhongBan')">
+                                    </a>
+                                }
+                                @if (ViewBag.EDIT == 1)
+                                {
+                                    <a id="btn-edit_@item.IDVT" title="Sửa" class="fa fa-edit icon_action "></a>
+                                    <div class=" modal fade" id="myModale_@item.IDVT" role="dialog" data-url='@Url.Action("Edit","FDepartment", new { id = item.IDVT })'></div>
+                                    <script type="text/javascript">
+                                        $("#btn-edit_@item.IDVT").click(function () {
+                                            var url = $('#myModale_@item.IDVT').data('url');
+                                            $.get(url, function (data) {
+                                                $("#myModale_@item.IDVT").html(data);
+                                                $("#ModalTitle").html("Cập nhật Vị trí");
+                                                $("#myModale_@item.IDVT").modal('show');
+                                                });
+                                            });
+                                    </script>
+                                }
+
+                            </td>*@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            
+        </div>
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="card-header" style="background-color: azure">
+                    <i class="header-icon lnr-gift icon-gradient bg-grow-early"> </i>Kiểm duyệt kết quả đánh giá
+                </div>
+                <div class="table-responsive mt-2">
+                    <table class="table table-bordered table-hover" id="table1" width="100%" cellpadding="0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center" width="30px">STT</th>
+                                <th class="text-center">Mã nhân viên</th>
+                                <th class="text-center">Họ tên</th>
+                                <th class="text-center">Kíp</th>
+                                <th class="text-center">Vị trí đánh giá</th>
+                                <th class="text-center">BMTCV</th>
+                                <th class="text-center">Ngày đánh giá gần nhất</th>
+
+                                <th class="text-center ">Xem xét</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                //int pageno = (int)Model.PageNumber;
+                                //int itemperpage = (int)Model.PageSize;
+                                int RowNo1 = 1;
+                            }
+                            @foreach (var item in ViewBag.ListUserView)
+                            {
+                                <tr>
+                                    <td class="text-center"> @RowNo1@{RowNo1++;}</td>
+                                    <td class="">@item.MaNV</td>
+                                    <td class="">@item.TenNV</td>
+                                    <td class="">@item.TenKip</td>
+                                    <td>@item.TenVT</td>
+                                    <td class="text-center">
+                                        <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                                    </td>
+                                    <td class="text-center">@item.NgayDG</td>
+                                    <td class="text-center p-0">
+                                        <a class="fa fa-check-square-o fa-2x" title="Xem xét" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
+                                           onclick="return confirm('Bạn muốn xem lại : @item.TenNV')">
+                                        </a>
+                                    </td>
+                                    @*<td class="text-center">
+                                @if (ViewBag.DELETE == 1)
+                                {
+                                    <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "FDepartment", new { id = item.IDVT })"
+                                       onclick="return confirm('Bạn muốn xóa : @item.TenPhongBan')">
+                                    </a>
+                                }
+                                @if (ViewBag.EDIT == 1)
+                                {
+                                    <a id="btn-edit_@item.IDVT" title="Sửa" class="fa fa-edit icon_action "></a>
+                                    <div class=" modal fade" id="myModale_@item.IDVT" role="dialog" data-url='@Url.Action("Edit","FDepartment", new { id = item.IDVT })'></div>
+                                    <script type="text/javascript">
+                                        $("#btn-edit_@item.IDVT").click(function () {
+                                            var url = $('#myModale_@item.IDVT').data('url');
+                                            $.get(url, function (data) {
+                                                $("#myModale_@item.IDVT").html(data);
+                                                $("#ModalTitle").html("Cập nhật Vị trí");
+                                                $("#myModale_@item.IDVT").modal('show');
+                                                });
+                                            });
+                                    </script>
+                                }
+
+                            </td>*@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@*<script src="~/Content/Chonse/chosen.jquery.js"></script>*@
+<script type="text/javascript">
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Thêm mới vị trí");
+            $("#myModal").modal('show');
+        });
+    });
+    $('#btn-add-vt').click(function () {
+        var url = $('#myModalVT').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Danh sách mã vị trí");
+            $("#myModal").modal('show');
+        });
+    });
+
+    //$('#btn-Import').click(function () {
+    //    var url = $('#myModalimport').data('url');
+    //    $.get(url, function (data) {
+    //        $("#myModal").html(data);
+    //        $("#ModalTitle").html("Thêm mới danh sách câu");
+    //        $("#myModal").modal('show');
+    //    });
+    //});
+    //$("#IDPB").chosen({
+    //    width: "100%"
+    //});
+    $("#btn-search").on('click', function () {
+        window.location.href = '@Url.Action("Index", "FDepartment")?IDPB=' + $('#IDPB').val();
+    });
+    $(document).ready(function () {
+        $('#table').DataTable({
+            "pageLength": 10,
+            "lengthChange": false,
+            "info": false
+            //columnDefs: [{
+            //    "targets": [4],
+            //    "searchable": false,
+            //    "visible": true
+            //}]
+        });
+        $('#table1').DataTable({
+            "pageLength": 10,
+            "lengthChange": false,
+            "info": false
+        });
+    });
+</script>
+
+<style>
+    .chosen-container-single .chosen-single {
+        color: #495057;
+        background: #fff;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.8;
+        text-transform: capitalize;
+    }
+
+        .chosen-container-single .chosen-single span {
+            text-transform: capitalize !important;
+            font-size: 16px !important;
+        }
+</style>
+
+

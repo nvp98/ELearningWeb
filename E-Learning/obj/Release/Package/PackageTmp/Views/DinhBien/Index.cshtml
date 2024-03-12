@@ -1,0 +1,1002 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using E_Learning.Models
+@model PagedList.IPagedList<DinhBienView>
+@using PagedList.Mvc
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+<style type="text/css">
+    a:hover {
+        cursor: pointer;
+    }
+
+    .table-responsive {
+        height: 720px;
+        overflow-y: scroll;
+        /*overflow:auto;*/
+        /*height:70vh;*/
+    }
+
+    thead tr:nth-child(1) th {
+        background: white;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    thead tr:nth-child(2) th {
+        background: white;
+        position: sticky;
+        top: 52px;
+        z-index: 10;
+    }
+    .table-responsive::-webkit-scrollbar {
+        width: 2px;
+    }
+</style>
+
+<div class="app-main__outer">
+    <div class="app-main__inner" style="padding: 30px 15px">
+
+        <div class="app-page-title d-none" style="padding-bottom:0">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Định biên nhân sự
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <input type="text" id="txtsearch" name="" placeholder="Nhập mã hoặc tên vị trí ..." class="form-control position-relative" style="top:-5px" value="@ViewBag.search">
+            </div>
+            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EX))
+            {
+                <div class="col-md-5" style="top:-5px">
+                    @using (Html.BeginForm("ImportExcel", "DinhBien", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input style="height: 41px;" type="file" id="FileUpload" name="FileUpload" class="form-control" onchange="checkfile(this);" />
+                            </div>
+                            <div class="col-md-6">
+                                @*<input type="submit" value="Import" id="btnSubmit" class="btn btn-primary" />*@
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-upload">&nbsp;</i> Import Excel</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="col-md-2">
+                    <a class="fa fa-download float-right btn btn-primary m-1" title="Export dữ liệu" href="@Url.Action("DowloadBMDinhBien", "DinhBien")"
+                       onclick="return confirm('Dowload Biểu mẫu?')">
+                        &nbsp;Dowload BM nhập liệu
+                    </a>
+                </div>
+            }
+
+            @*@if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EX))
+        {
+            <div class="col-md-2">
+                <a class="fa fa-file-excel float-right btn btn-primary m-1" title="Export dữ liệu" href="@Url.Action("ExportToExcel", "FPosition")"
+                   onclick="return confirm('Export dữ liệu?')">
+                    &nbsp;Thống kê nhập KNL
+                </a>
+            </div>
+        }*@
+
+        </div>
+        <div class="card mb-4">
+            <div class="card-header" style="padding-top:20px">
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="row">
+                                <label class=" mb-1">Bộ phận</label>
+                                @Html.DropDownList("IDPB", null, "--Bộ Phận--", new { id = "IDPB", @class = "form-control marginTB5", })
+                            </div>
+
+                        </div>
+                        <div class="col-md-2">
+                            <div class="row m-0">
+                                <label class=" mb-1">Khối</label>
+                                @Html.DropDownList("IDKhoi", null, "--Khối--", new { id = "IDKhoi", @class = "form-control marginTB5", })
+                            </div>
+
+                        </div>
+                        <div class="col-md-2">
+                            <div class="row m-0">
+                                <label class=" mb-1">Xưởng</label>
+                                <select class="form-control marginTB5" name="IDPX" id="IDPX">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="row m-0">
+                                <label class=" mb-1">Nhóm</label>
+                                <select class="form-control marginTB5" name="IDNhom" id="IDNhom">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="row m-0">
+                                <label class=" mb-1">Tổ</label>
+                                <select class="form-control marginTB5" name="IDTo" id="IDTo">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="input-group-btn" style="margin-top:24px"><button class="btn btn-primary marginTB5" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button></div>
+                        </div>
+
+                    </div>
+
+                </div>
+                @if (E_Learning.Models.MyAuthentication.IDQuyen == 5 || E_Learning.Models.MyAuthentication.IDQuyen == 6 || E_Learning.Models.MyAuthentication.IDQuyen == 1)
+                {
+                    @*<div class="clo-md-3 m-l-auto">
+                            <a class="btn btn-primary" title="Chi tiết" href="@Url.Action("CreateVTKNL", "FPosition")">
+                                <i class="fa fa-plus">&nbsp;</i>&nbsp;Danh sách mã vị trí
+                            </a>
+                        </div>*@
+                }
+
+
+            </div>
+
+            <div class="card-body" style="padding:15px 10px;">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0" data-show-columns="true">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center" style="font-size:11px" width="30px">STT</th>
+                                <th class="text-center" style="font-size:11px">Mã vị trí</th>
+                                <th class="text-center" style="font-size:11px" width="250">Vị trí</th>
+                                <th class="text-center" style="font-size:11px">Bộ phận</th>
+                                <th class="text-center" style="width:70px;font-size:11px">Khung Năng lực</th>
+                                <th class="text-center" style="width: 70px; font-size: 11px"> Bản mô tả công việc</th>
+                                <th class="text-center" style="width: 70px; font-size: 11px"> Định biên</th>
+                                <th class="text-center" style="width: 70px; font-size: 11px"> Số lượng hiện có</th>
+                                <th class="text-center" style="width: 70px; font-size: 11px"> Thừa thiếu</th>
+                                <th class="text-center" style="width: 100px; font-size: 11px"> Đã có nhân sự đang tập sự</th>
+                                <th class="text-center" style="width: 100px; font-size: 11px"> Chưa có nhân sự đảm nhận/ đang tập sự</th>
+                                @*<th class="text-center " colspan="3" style="width: 70px; font-size: 11px;"> Đã có nhân sự đảm nhận nhưng dự kiến trống</th>
+        <th class="text-center"   style=" font-size: 11px"> Thời gian bổ nhiệm vị trí trống</th>*@
+                                <th class="text-center" style=" font-size: 11px"> Thời gian dự bổ nhiệm</th>
+                                <th class="text-center" style="width: 150px; font-size: 11px">Đã có nhân sự đảm nhận nhưng nhân sự này đang được tập sự ở vị tri khác</th>
+                                <th class="text-center" style="width: 70px; font-size: 11px"> Ghi chú</th>
+                                <th class="text-center" style="width: 100px; font-size: 11px"> Ngày cập nhật</th>
+                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) || (ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
+                                {
+                                    <th scope="col" class="text-center" style="font-size:11px">Thao tác</th>
+                                }
+
+
+                            </tr>
+                            @*<tr>
+                                <th class="text-center" style="width: 70px; font-size: 11px"> Đánh dấu X</th>
+                                <th class="text-center" style="width: 70px; font-size: 11px"> Lý do</th>
+                                <th class="text-center" style=" font-size: 11px"> Thời gian dự kiến trống</th>
+                            </tr>*@
+                        </thead>
+                        <tbody>
+                            @{
+                                int pageno = (int)Model.PageNumber;
+                                int itemperpage = (int)Model.PageSize;
+                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-center"> @RowNo@{RowNo++;}</td>
+                                    <td class="">@item.MaViTri</td>
+                                    <td class="">@item.TenViTri</td>
+
+                                    <td>@item.TenPhongBan</td>
+                                    <td class="text-center">
+                                        <a class="fa fa-download" title="Dowload bảng KNL" href="@Url.Action("ExportToBMKNL", "FPosition", new { IDVT = item.IDVT })">
+                                        </a>
+                                        <a class="fa fa-file-text-o" title="Bảng khung năng lực" target="_blank" href="@Url.Action("FBMView", "FPosition", new { IDVT = item.IDVT })">
+                                        </a>
+                                    </td>
+                                    @if (@item.FilePath != null)
+                                    {
+                                        <td class="text-center">
+                                            <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.FilePath))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+
+                                    <td class="text-center font-weight-bold">@item.DinhBienNS</td>
+                                    <td class="text-center font-weight-bold">@item.CountNV</td>
+                                    @if (item.ThuaThieu == 0)
+                                    {
+                                        <td class="text-center font-weight-bold">0</td>
+                                    }
+                                    else if (item.ThuaThieu > 0)
+                                    {
+                                        <td class="text-center font-weight-bold bg-success">+ @item.ThuaThieu</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center font-weight-bold bg-danger"> @item.ThuaThieu</td>
+                                    }
+
+                                    <td class="text-center font-weight-bold">@item.NSTapSu</td>
+                                    <td class="text-center font-weight-bold">@item.ChuaCoNS</td>
+
+                                    @if (item.thoigianBoNhiem == null || item.thoigianBoNhiem == default(DateTime))
+                                    {
+                                        <td class="text-center"></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center font-weight-bold">@item.thoigianBoNhiem.ToString("dd-MM-yyyy")</td>
+                                    }
+                                    <td class="text-center font-weight-bold">@item.NSVTKhac</td>
+                                    <td>@item.ghichu</td>
+                                    @if (item.NgayTao == null || item.NgayTao == default(DateTime))
+                                    {
+                                        <td class="text-center"></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center font-weight-bold">@item.NgayTao.ToString("dd-MM-yyyy")</td>
+                                    }
+                                    @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) || (ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
+                                    {
+                                        <td class="text-center">
+                                            <a id="btn-edit_@item.IDVT" title="Sửa" class="fa fa-edit icon_action "></a>
+                                            <div class=" modal fade" id="myModaleK_@item.IDVT" role="dialog" data-url='@Url.Action("Edit", "DinhBien", new { id = item.IDVT })'></div>
+                                            <script type="text/javascript">
+                                                                    $("#btn-edit_@item.IDVT").click(function () {
+                                                                        var url = $('#myModaleK_@item.IDVT').data('url');
+                                                                                $.get(url, function (data) {
+                                                                                    $("#myModaleK_@item.IDVT").html(data);
+                                                                                    $("#ModalTitle").html("Cập nhật Vị trí");
+                                                                                    $("#myModaleK_@item.IDVT").modal('show');
+                                                                                });
+                                                                            });
+                                            </script>
+                                            @if (item.IDDB != null)
+                                            {
+                                                <a class="fa fa-refresh icon_action" title="Xóa dữ liệu nhập?" href="@Url.Action("Delete", "DinhBien", new { id = item.IDDB, IDPB = Request.QueryString["IDPB"] })"
+                                                   onclick="return confirm('Bạn muốn xóa : @item.MaViTri')">
+                                                </a>
+                                            }
+
+                                        </td>
+                                       
+                                    }
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                    <div class="pager">
+                        @Html.PagedListPager(Model, page => Url.Action("Index", "DinhBien", new { page, IDPB = Request.QueryString["IDPB"], IDPX = Request.QueryString["IDPX"], IDNhom = Request.QueryString["IDNhom"], IDTo = Request.QueryString["IDTo"], IDKhoi = Request.QueryString["IDKhoi"] }))
+                        <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <div class="app-wrapper-footer d-none">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@*<script src="~/Content/Chonse/chosen.jquery.js"></script>*@
+<script type="text/javascript">
+
+    function checkfile(sender) {
+        var validExts = new Array(".xlsx", ".xls");
+        var fileExt = sender.value;
+        fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+        if (validExts.indexOf(fileExt) < 0) {
+            alert("Vui lòng chọn file Excel: " +
+                validExts.toString() + "");
+            $('#FileUpload').val() = '';
+            return false;
+        }
+        else { return true; }
+    };
+
+    //$('#btn-add').click(function () {
+    //    var url = $('#myModal').data('url');
+    //    $.get(url, function (data) {
+    //        $("#myModal").html(data);
+    //        $("#ModalTitle").html("Thêm mới vị trí");
+    //        $("#myModal").modal('show');
+    //    });
+    //});
+    //$('#btn-add-vt').click(function () {
+    //    var url = $('#myModalVT').data('url');
+    //    $.get(url, function (data) {
+    //        $("#myModal").html(data);
+    //        $("#ModalTitle").html("Danh sách mã vị trí");
+    //        $("#myModal").modal('show');
+    //    });
+    //});
+
+    $("#IDPB").chosen({
+        width: "100%"
+    });
+    $("#btn-search").on('click', function () {
+        window.location.href = '@Url.Action("Index", "DinhBien")?IDPB=' + $('#IDPB').val() + "&IDPX=" + $('#IDPX').val() + "&IDNhom=" + $('#IDNhom').val() + "&IDTo=" + $('#IDTo').val() + "&IDKhoi=" + $('#IDKhoi').val() + "&search=" + $('#txtsearch').val();
+        //if ($('#IDPX').val() != null) {
+        //    $('#IDPX').val(Request.QueryString["IDPX"]);
+        //}
+    });
+    $(document).ready(function () {
+        const par = new URLSearchParams(window.location.search);
+        if (par.get('IDKhoi')) {
+            $("#IDKhoi").change();
+        }
+        else {
+            $("#IDPB").change();
+        }
+
+        var i = 1;
+        $("#add-chung").click(function () {
+            var renderList = $(`<tr>
+                                                            <td class='text-center delItem' > <i class="fa fa-trash icon_action btn" aria-hidden="true"></i> </td>
+                                                            <td >
+                                                                <textarea class='form-control' cols='20' id='tenvt_${i}' name='tenvt_${i}' placeholder='Tên vị trí' rows='1'></textarea>
+                                                                <span class='field-validation-valid text-danger' data-valmsg-for='TenViTri' data-valmsg-replace='true'></span>
+                                                            </td>
+                                                            <td style=''>
+                                                                <input class='form-control' data-val='true' data-val-number='The field DinhMuc must be a number.' id='mavt_${i}'  name='mavt_${i}' placeholder='' type='text' value=''>
+                                                                <span class='field-validation-valid text-danger' data-valmsg-for='DinhMuc' data-valmsg-replace='true'></span>
+                                                            </td>
+                                                            <td style=''>
+                                                              <select class="form-control marginTB5 SelectBP" name="IDPB_${i}" id="IDPB_${i}">
+                                                                  <option value ='null'>--Chọn Phòng Ban--</option>
+                                                                  @foreach (var item in ViewBag.IDPB)
+                                                                    {
+                                                                      <option value='@item.Value'>@item.Text</option>
+                                                                    }
+                                                                </select>
+                                                            </td>
+                                                            <td style=''>
+                                                              <select class="form-control marginTB5 SelectK" name="IDKhoi_${i}" id="IDKhoi_${i}">
+                                                                  <option value ='null'>--Chọn Khối--</option>
+                                                                  @foreach (var item in ViewBag.IDKhoi)
+                                                                    {
+                                                                      <option value='@item.Value'>@item.Text</option>
+                                                                    }
+                                                                </select>
+                                                            </td>
+                                                            <td style=''>
+                                                              <select class="form-control marginTB5 SelectPX" name="IDPX_${i}" id="IDPX_${i}">
+                                                                </select>
+                                                            </td>
+                                                            <td style=''>
+                                                              <select class="form-control marginTB5 SelectNhom" name="IDNhom_${i}" id="IDNhom_${i}">
+                                                                </select>
+                                                            </td>
+                                                            <td style=''>
+                                                              <select class="form-control marginTB5 " name="IDTo_${i}" id="IDTo_${i}">
+                                                                </select>
+                                                            </td>
+                                                            <td style=''>
+                                                            </td>
+                                                            <td style=''>
+                                                            </td>
+                                                            <td style=''>
+                                                            </td>
+                                                            <td style=''>
+                                                            </td>
+                                                        </tr>`);
+            $("#vt").before(renderList);
+            $("#SelectBP").change();
+            if ($("#IDPB").val() != null) {
+               /* console.log($("#IDPB").val());*/
+                $("#IDPB_" + i).val($("#IDPB").val());
+                $("#IDPB_" + i).change();
+            }
+            if ($("#IDKhoi").val() != null) {
+                /*console.log($("#IDKhoi").val());*/
+                $("#IDKhoi_" + i).val($("#IDKhoi").val());
+                $("#IDKhoi_" + i).change();
+            }
+            //console.log($("#IDKhoi").val(),'khoi')
+            //$("#IDKhoi").change();
+            //$("#IDPX").change();
+            //if ($("#IDPX").val() != null) {
+            //    console.log($("#IDPX").val());
+            //    $("#IDPX_" + i).val($("#IDPX").val());
+            //    $("#IDPX_" + i).change();
+            //}
+            i++;
+            $(".SelectBP").chosen({
+                width: "100%",
+            });
+        });
+    });
+    var previous, prvKh;
+    $("#IDPB").on('focus', function () {
+        // Store the current value on focus and on change
+        previous = this.value;
+    }).change(function () {
+
+        const params = new URLSearchParams(window.location.search);
+        var idpb = $(this).val();
+        var idpx = $("#IDPX").val() || params.get('IDPX');
+        var idk = $("#IDKhoi").val();
+        $.get("/FGroup/GetPX", { IDPB: idpb, IDKhoi: idk }, function (data) {
+            if (data[0] != null) {
+                $("#IDPX").empty();
+                $("#IDPX").append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")
+                $.each(data, function (index, row) {
+                    if (params.get('IDPX') == row.ID) {
+                        $("#IDPX").append("<option value ='" + row.ID + "' selected>" + row.TenPX + "</option>")
+                        $("#IDPX").change();
+                        //$("#IDKhoi").change();
+                    }
+                    else {
+                        $("#IDPX").append("<option value ='" + row.ID + "'>" + row.TenPX + "</option>")
+                    }
+
+                });
+
+            }
+            else {
+                $("#IDPX").empty();
+            }
+        });
+
+        if (idpx == "null" || idpx == null || (previous != idpb && previous != undefined)) {
+            $.get("/FGroup/GetNhom", { IDPB: idpb, IDKhoi: idk }, function (data1) {
+                if (data1[0] != null) {
+                    $("#IDNhom").empty();
+                    $("#IDNhom").append("<option value ='" + null + "'>" + "--Chọn Nhóm--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDNhom') == row.IDNhom) {
+                            $("#IDNhom").append("<option value ='" + row.IDNhom + "' selected>" + row.TenNhom + "</option>");
+                            //$("#IDNhom").change();
+                        }
+                        else {
+                            $("#IDNhom").append("<option value ='" + row.IDNhom + "'>" + row.TenNhom + "</option>")
+                        }
+                    });
+                }
+                else {
+                    $("#IDNhom").empty();
+                }
+            });
+            $.get("/FGroup/GetTo", { IDPB: idpb, IDKhoi: idk }, function (data1) {
+                if (data1[0] != null) {
+                    //console.log(data1[0]);
+                    /* $("#IDNhom").empty();*/
+                    $("#IDTo").empty();
+                    $("#IDTo").append("<option value ='" + null + "'>" + "--Chọn Tổ--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDTo') == row.IDTo) {
+                            $("#IDTo").append("<option value ='" + row.IDTo + "' selected>" + row.TenTo + "</option>")
+                            //$("#IDTo").change();
+                        }
+                        else {
+                            $("#IDTo").append("<option value ='" + row.IDTo + "'>" + row.TenTo + "</option>")
+                        }
+                    });
+                }
+                else {
+                    $("#IDTo").empty();
+                }
+            });
+        }
+        // Make sure the previous value is updated
+        previous = this.value;
+    });
+
+    $("#IDKhoi").on('focus', function () {
+        // Store the current value on focus and on change
+        prvKh = this.value;
+    }).change(function () {
+        const params = new URLSearchParams(window.location.search);
+        //console.log($(this).val());
+        var idpb = $("#IDPB").val();
+        var idpx = $("#IDPX").val() || params.get('IDPX');
+        $.get("/FGroup/GetPX", { IDPB: idpb, IDKhoi: $("#IDKhoi").val() }, function (data) {
+            if (data[0] != null) {
+                $("#IDPX").empty();
+                $("#IDPX").append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")
+                $.each(data, function (index, row) {
+                    if (params.get('IDPX') == row.ID) {
+                        $("#IDPX").append("<option value ='" + row.ID + "' selected>" + row.TenPX + "</option>")
+                        $("#IDPX").change();
+                    }
+                    else {
+                        $("#IDPX").append("<option value ='" + row.ID + "'>" + row.TenPX + "</option>")
+                    }
+                });
+                if (params.get('IDTo') !== "null") $("#IDNhom").empty();
+            }
+            else {
+                $("#IDPX").empty();
+            }
+        });
+        if (idpx == "null" || idpx == null || (prvKh != $("#IDKhoi").val() && prvKh != undefined)) {
+            $.get("/FGroup/GetNhom", { IDPB: idpb, IDKhoi: $("#IDKhoi").val() }, function (data1) {
+                if (data1[0] != null) {
+                    $("#IDNhom").empty();
+                    $("#IDNhom").append("<option value ='" + null + "'>" + "--Chọn Nhóm--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDNhom') == row.IDNhom) {
+                            $("#IDNhom").append("<option value ='" + row.IDNhom + "' selected>" + row.TenNhom + "</option>");
+                            /* $("#IDNhom").change();*/
+                        }
+                        else {
+                            $("#IDNhom").append("<option value ='" + row.IDNhom + "'>" + row.TenNhom + "</option>")
+                        }
+                    });
+                    if (params.get('IDNhom') !== "null") $("#IDTo").empty();
+                }
+                else {
+                    $("#IDNhom").empty();
+                }
+            });
+            $.get("/FGroup/GetTo", { IDPB: idpb, IDKhoi: $("#IDKhoi").val() }, function (data1) {
+                if (data1[0] != null) {
+                    //console.log(data1[0]);
+                    /* $("#IDNhom").empty();*/
+                    $("#IDTo").empty();
+                    $("#IDTo").append("<option value ='" + null + "'>" + "--Chọn Tổ--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDTo') == row.IDTo) {
+                            $("#IDTo").append("<option value ='" + row.IDTo + "' selected>" + row.TenTo + "</option>")
+                        }
+                        else {
+                            $("#IDTo").append("<option value ='" + row.IDTo + "'>" + row.TenTo + "</option>")
+                        }
+                    });
+
+                }
+                else {
+                    $("#IDTo").empty();
+                }
+            });
+        }
+        // Make sure the previous value is updated
+        prvKh = this.value;
+    });
+
+
+    $("#IDPX").on("change", function () {
+        const params = new URLSearchParams(window.location.search);
+        var idpx = $("#IDPX").val() || params.get('IDPX');
+        var idpb = $("#IDPB").val();
+        var idk = $("#IDKhoi").val();
+
+        $.get("/FGroup/GetNhom", { IDPX: idpx, IDPB: idpb, IDKhoi: idk }, function (data1) {
+            if (data1[0] != null) {
+                $("#IDNhom").empty();
+                $("#IDNhom").append("<option value ='" + null + "'>" + "--Chọn Nhóm--" + "</option>");
+                $.each(data1, function (index, row) {
+                    if (params.get('IDNhom') == row.IDNhom) {
+                        $("#IDNhom").append("<option value ='" + row.IDNhom + "' selected>" + row.TenNhom + "</option>");
+                        /*$("#IDNhom").change();*/
+                    }
+                    else {
+                        $("#IDNhom").append("<option value ='" + row.IDNhom + "'>" + row.TenNhom + "</option>")
+                    }
+                });
+                //if (params.get('IDTo') !== "null") $("#IDNhom").empty();
+            }
+            else {
+                $("#IDNhom").empty();
+            }
+        });
+        $.get("/FGroup/GetTo", { IDPX: idpx, IDPB: idpb, IDKhoi: idk }, function (data1) {
+            if (data1[0] != null) {
+                //console.log(data1[0]);
+                /* $("#IDNhom").empty();*/
+                $("#IDTo").empty();
+                $("#IDTo").append("<option value ='" + null + "'>" + "--Chọn Tổ--" + "</option>");
+                $.each(data1, function (index, row) {
+                    if (params.get('IDTo') == row.IDTo) {
+                        $("#IDTo").append("<option value ='" + row.IDTo + "' selected>" + row.TenTo + "</option>");
+                        /*$("#IDTo").change();*/
+                    }
+                    else {
+                        $("#IDTo").append("<option value ='" + row.IDTo + "'>" + row.TenTo + "</option>")
+                    }
+                });
+                //if (params.get('IDNhom') !== "null") $("#IDTo").empty();
+            }
+            else {
+                $("#IDTo").empty();
+            }
+        });
+    });
+
+    $("#IDNhom").on("change", function () {
+        const params = new URLSearchParams(window.location.search);
+        var idpx = $("#IDPX").val();
+        var idpb = $("#IDPB").val();
+        var idk = $("#IDKhoi").val();
+        var idnhom = $(this).val();
+        /* $("#IDTo").empty();*/
+        var iddex = $(this).attr('id').split("_")[1];
+        if (idnhom == "null") {
+            $.get("/FGroup/GetTo", { IDPX: idpx, IDPB: idpb, IDKhoi: idk }, function (data1) {
+                if (data1[0] != null) {
+                    //console.log(data1[0]);
+                    /* $("#IDNhom").empty();*/
+                    $("#IDTo").empty();
+                    $("#IDTo").append("<option value ='" + null + "'>" + "--Chọn Tổ--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDTo') == row.IDTo) {
+                            $("#IDTo").append("<option value ='" + row.IDTo + "' selected>" + row.TenTo + "</option>")
+                        }
+                        else {
+                            $("#IDTo").append("<option value ='" + row.IDTo + "'>" + row.TenTo + "</option>")
+                        }
+                    });
+                    //if (params.get('IDNhom') !== "null") $("#IDTo").empty();
+                }
+                else {
+                    $("#IDTo").empty();
+                }
+            });
+        }
+        else {
+            $("#IDTo").empty();
+        }
+    });
+
+    $("#IDTo").on("change", function () {
+        const params = new URLSearchParams(window.location.search);
+        var idpx = $("#IDPX").val();
+        var idpb = $("#IDPB").val();
+        var idk = $("#IDKhoi").val();
+        var idnhom = $("#IDNhom").val();
+        var idto = $("#IDTo").val();
+        /* $("#IDTo").empty();*/
+        /*var iddex = $(this).attr('id').split("_")[1];*/
+        /*console.log(idto, 'idnhomtt');*/
+        if (idto == "null") {
+            $.get("/FGroup/GetNhom", { IDPX: idpx, IDPB: idpb, IDKhoi: idk }, function (data1) {
+                if (data1[0] != null) {
+                    $("#IDNhom").empty();
+                    $("#IDNhom").append("<option value ='" + null + "'>" + "--Chọn Nhóm--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDNhom') == row.IDNhom) {
+                            $("#IDNhom").append("<option value ='" + row.IDNhom + "' selected>" + row.TenNhom + "</option>");
+                            /* $("#IDNhom").change();*/
+                        }
+                        else {
+                            $("#IDNhom").append("<option value ='" + row.IDNhom + "'>" + row.TenNhom + "</option>")
+                        }
+
+                    });
+
+                }
+                else {
+                    $("#IDNhom").empty();
+                }
+            });
+        }
+        else {
+            $("#IDNhom").empty();
+        }
+    });
+
+
+    $("#table").on("change", ".SelectBP", function () {
+        //$(this).closest("tr").remove();
+        const params = new URLSearchParams(window.location.search);
+        //console.log($(this).val());
+        var idpb = $(this).val();
+        var iddex = $(this).attr('id').split("_")[1];
+        $.get("/FGroup/GetPX", { IDPB: idpb }, function (data) {
+            if (data[0] != null) {
+                $("#IDPX_" + iddex).empty();
+                $("#IDPX_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")
+                $.each(data, function (index, row) {
+                    if (params.get('IDPX') == row.ID) {
+                        $("#IDPX_" + iddex).append("<option value ='" + row.ID + "' selected>" + row.TenPX + "</option>")
+                    }
+                    else {
+                        $("#IDPX_" + iddex).append("<option value ='" + row.ID + "'>" + row.TenPX + "</option>")
+                    }
+                });
+
+            }
+            else {
+                $("#IDPX_" + iddex).empty();
+            }
+        });
+        $.get("/FGroup/GetNhom", { IDPB: idpb }, function (data1) {
+            if (data1[0] != null) {
+                $("#IDNhom_" + iddex).empty();
+                $("#IDNhom_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Nhóm--" + "</option>");
+                $.each(data1, function (index, row) {
+                    if (params.get('IDNhom') == row.IDNhom) {
+                        $("#IDNhom_" + iddex).append("<option value ='" + row.IDNhom + "' selected>" + row.TenNhom + "</option>")
+                    }
+                    else {
+                        $("#IDNhom_" + iddex).append("<option value ='" + row.IDNhom + "'>" + row.TenNhom + "</option>")
+                    }
+
+                });
+
+            }
+            else {
+                $("#IDNhom_" + iddex).empty();
+            }
+        });
+        $.get("/FGroup/GetTo", { IDPB: idpb }, function (data1) {
+            if (data1[0] != null) {
+                //console.log(data1[0]);
+                /* $("#IDNhom").empty();*/
+                $("#IDTo_" + iddex).empty();
+                $("#IDTo_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Tổ--" + "</option>");
+                $.each(data1, function (index, row) {
+                    if (params.get('IDTo') == row.IDTo) {
+                        $("#IDTo_" + iddex).append("<option value ='" + row.IDTo + "' selected>" + row.TenTo + "</option>")
+                    }
+                    else {
+                        $("#IDTo_" + iddex).append("<option value ='" + row.IDTo + "'>" + row.TenTo + "</option>")
+                    }
+                });
+
+            }
+            else {
+                $("#IDTo_" + iddex).empty();
+            }
+        });
+
+    });
+    $("#table").on("change", ".SelectK", function () {
+        const params = new URLSearchParams(window.location.search);
+        //console.log($(this).val());
+        var idpb = $("#IDPB").val();
+        var iddex = $(this).attr('id').split("_")[1];
+        $.get("/FGroup/GetPX", { IDPB: idpb, IDKhoi: $("#IDKhoi").val() }, function (data) {
+            if (data[0] != null) {
+                $("#IDPX_" + iddex).empty();
+                $("#IDPX_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")
+                $.each(data, function (index, row) {
+                    if (params.get('IDPX') == row.ID) {
+                        $("#IDPX_" + iddex).append("<option value ='" + row.ID + "' selected>" + row.TenPX + "</option>")
+                        $("#IDPX_" + iddex).change();
+                    }
+                    else {
+                        $("#IDPX_" + iddex).append("<option value ='" + row.ID + "'>" + row.TenPX + "</option>")
+                    }
+
+                });
+
+            }
+            else {
+                $("#IDPX_"+iddex).empty();
+            }
+        });
+        $.get("/FGroup/GetNhom", { IDPB: idpb, IDKhoi: $("#IDKhoi").val() }, function (data1) {
+            if (data1[0] != null) {
+                $("#IDNhom_"+iddex).empty();
+                $("#IDNhom_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Nhóm--" + "</option>");
+                $.each(data1, function (index, row) {
+                    if (params.get('IDNhom') == row.IDNhom) {
+                        $("#IDNhom_" + iddex).append("<option value ='" + row.IDNhom + "' selected>" + row.TenNhom + "</option>");
+                        /* $("#IDNhom").change();*/
+                    }
+                    else {
+                        $("#IDNhom_" + iddex).append("<option value ='" + row.IDNhom + "'>" + row.TenNhom + "</option>")
+                    }
+
+                });
+
+            }
+            else {
+                $("#IDNhom_" + iddex).empty();
+            }
+        });
+        $.get("/FGroup/GetTo", { IDPB: idpb, IDKhoi: $("#IDKhoi").val() }, function (data1) {
+            if (data1[0] != null) {
+                //console.log(data1[0]);
+                /* $("#IDNhom").empty();*/
+                $("#IDTo_" + iddex).empty();
+                $("#IDTo_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Tổ--" + "</option>");
+                $.each(data1, function (index, row) {
+                    if (params.get('IDTo') == row.IDTo) {
+                        $("#IDTo_" + iddex).append("<option value ='" + row.IDTo + "' selected>" + row.TenTo + "</option>")
+                    }
+                    else {
+                        $("#IDTo_" + iddex).append("<option value ='" + row.IDTo + "'>" + row.TenTo + "</option>")
+                    }
+                });
+
+            }
+            else {
+                $("#IDTo_" + iddex).empty();
+            }
+        });
+    });
+    $("#table").on("change", ".SelectPX", function () {
+        const params = new URLSearchParams(window.location.search);
+        var idpx = $(this).val();
+        var iddex = $(this).attr('id').split("_")[1];
+
+        var idpb = $("#IDPB_" + iddex).val();
+        var idk = $("#IDKhoi_" + iddex).val();
+
+        $.get("/FGroup/GetNhom", { IDPX: idpx, IDPB: idpb, IDKhoi: idk }, function (data1) {
+            if (data1[0] != null) {
+                $("#IDNhom_"+iddex).empty();
+                $("#IDNhom_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Nhóm--" + "</option>");
+                $.each(data1, function (index, row) {
+                    if (params.get('IDNhom') == row.IDNhom) {
+                        $("#IDNhom_" + iddex).append("<option value ='" + row.IDNhom + "' selected>" + row.TenNhom + "</option>");
+                        /* $("#IDNhom").change();*/
+                    }
+                    else {
+                        $("#IDNhom_" + iddex).append("<option value ='" + row.IDNhom + "'>" + row.TenNhom + "</option>")
+                    }
+
+                });
+            }
+            else {
+                $("#IDNhom_" + iddex).empty();
+            }
+        });
+
+        $.get("/FGroup/GetTo", { IDPX: idpx, IDPB: idpb, IDKhoi: idk }, function (data1) {
+            if (data1[0] != null) {
+                //$("#IDNhom_" + iddex).empty();
+                $("#IDTo_" + iddex).empty();
+                $("#IDTo_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Tổ--" + "</option>");
+                $.each(data1, function (index, row) {
+                    if (params.get('IDTo') == row.IDTo) {
+                        $("#IDTo_" + iddex).append("<option value ='" + row.IDTo + "' selected>" + row.TenTo + "</option>")
+                    }
+                    else {
+                        $("#IDTo_" + iddex).append("<option value ='" + row.IDTo + "'>" + row.TenTo + "</option>")
+                    }
+
+                });
+
+            }
+            else {
+                $("#IDTo_" + iddex).empty();
+            }
+        });
+    });
+    //$("#table").on("change", ".SelectNhom", function () {
+    //    var idnhom = $(this).val();
+    //    var iddex = $(this).attr('id').split("_")[1];
+
+    //    $.get("/FGroup/GetTo", { IDNhom: idnhom }, function (data1) {
+    //        if (data1[0] != null) {
+    //            //$("#IDPX_" + iddex).empty();
+    //            $("#IDTo_" + iddex).empty();
+    //            $("#IDTo_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Tổ--" + "</option>");
+    //            $.each(data1, function (index, row) {
+    //                $("#IDTo_" + iddex).append("<option value ='" + row.IDTo + "'>" + row.TenTo + "</option>")
+    //            });
+
+    //        }
+    //        else {
+    //            $("#IDTo_" + iddex).empty();
+    //        }
+    //    });
+    //});
+    $("#table").on("click", ".delItem", function () {
+        $(this).closest("tr").remove();
+    });
+
+    async function addVT(url, params, method) {
+        return $.ajax({
+            url: url,
+            type: method || 'GET',
+            dataType: 'json',
+            data: params
+        });
+    }
+
+    $("#submit-vt").click(async function () {
+        let arr = [];
+        //console.log("in");
+        $(".SelectBP").each(function () {
+            var idd = $(this).attr('id').split("_")[1];
+            var tenvt = $("#tenvt_" + idd).val();
+            var mavt = $("#mavt_" + idd).val();
+            var IDPB = $("#IDPB_" + idd).val();
+            var IDPX = $("#IDPX_" + idd).val();
+            var IDK = $("#IDKhoi_" + idd).val();
+            var IDN = $("#IDNhom_" + idd).val();
+            var IDT = $("#IDTo_" + idd).val();
+            arr.push({ TenVT: tenvt, MaVT: mavt, IDPB: IDPB, IDK: IDK, IDPX: IDPX, IDNhom: IDN, IDTo: IDT });
+            //console.log("midle");
+            //console.log(IDPB, IDPX, IDK, IDN, IDT);
+            //$.get("FPosition/AddVT", { TenVT: tenvt, MaVT: mavt, IDPB: IDPB, IDK: IDK, IDPX: IDPX, IDNhom: IDN, IDTo: IDT }, async function (data1) {
+            //    //location.reload(true);
+            //}).fail(function () {
+            //    //location.reload(true);
+            //});
+        });
+        const promises = arr.map(async mnv => {
+            const result = await addVT("FPosition/AddVT", mnv);
+            //console.log(mnv);
+            return result;
+        })
+        const numFruits = await Promise.all(promises)
+                                        .then((values) => {
+                                            alert("Thêm mới thành công");
+                                            //location.reload(true);
+                                        })
+                                        .catch((error) => {
+                                            alert("Thêm mới thất bại");
+                                            //location.reload(true);
+                                        });
+        //console.log("out")
+        return location.reload(true);
+    })
+
+</script>
+
+<style>
+    .chosen-container-single .chosen-single {
+        color: #495057;
+        background: #fff;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.8;
+        text-transform: capitalize;
+    }
+
+        .chosen-container-single .chosen-single span {
+            text-transform: capitalize !important;
+            font-size: 16px !important;
+        }
+</style>
+
+

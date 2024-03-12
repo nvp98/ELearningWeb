@@ -1,0 +1,359 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.Models
+@model  List<FValueValidation>
+@using PagedList.Mvc
+
+
+@{
+    ELEARNINGEntities db_context = new ELEARNINGEntities();
+}
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<link href="~/Content/all.css" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+<style>
+    .bg-clor {
+        background-color: #F2F2F2;
+    }
+</style>
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+            <div class="app-page-title">
+                <div class="page-title-wrapper">
+
+                    <div class="page-title-heading">
+                        <div class="page-title-icon">
+                            <i class="pe-7s-portfolio icon-gradient bg-grow-early">
+                            </i>
+                        </div>
+                        <div class="font-weight-bold">
+                            Đánh giá năng lực nhân viên
+                            <div class="page-title-subheading">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="tab-content">
+                <div class="row">
+                    @*<div class="form-group col-md-4">
+                        <label class="font-weight-bold mb-1">Nhân viên</label>
+                        @Html.DropDownList("LSUser", null, "--Nhân viên--", new { id = "LSUser", @class = "form-control marginTB5", @style = "width:100%", })
+                    </div>*@
+                    @*<div class=" col-md-2">
+                        <label class="font-weight-bold mb-1"></label>
+                        <div class="input-group-btn"><button class="btn btn-primary marginTB5" type="button" id="btn-search-o"><i class="fa fa-search"></i> Tìm kiếm</button></div>
+                    </div>*@
+                </div>
+                <div class="row">
+                    <div class="card col-lg-12">
+                        <div class="card-header">
+                            Họ và Tên:&nbsp; @ViewBag.TenNV&nbsp;&nbsp;&nbsp;
+                            <span>
+                                - Vị trí đánh giá:&nbsp; @ViewBag.TenVT
+                            </span>
+                            <span>
+                                - Tháng đánh giá:&nbsp; @ViewBag.ThangDG.ToString("MM/yyyy")
+                            </span>
+                            @*<span class="m-l-auto">
+                                <input class="btn btn-success m-l-auto mr-1" type="submit" value="Xác Nhận" />
+                            </span>*@
+
+                        </div>
+
+
+                        <div class="card-body">
+                            <div class="row">
+
+                                <div class="table-responsive">
+                                    <div class="content">
+                                        <div class="formulation clearfix">
+                                            <div class="ablock">
+                                                <div class="answer">
+                                                    <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                                        <thread>
+                                                            <tr>
+                                                                <th rowspan="2">STT</th>
+                                                                <th rowspan="2" class="text-center">Yêu Cầu Năng Lực</th>
+                                                                <th colspan="8" class="text-center font-weight-bold">Chọn mức độ đạt được của nhân viên</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="text-center">Không đánh giá</th>
+                                                                <th class="text-center">1</th>
+                                                                <th class="text-center">2</th>
+                                                                <th class="text-center">3</th>
+                                                                <th class="text-center">4</th>
+                                                                <th class="text-center">5</th>
+                                                                <th class="text-center">6</th>
+                                                                <th class="text-center">Ngày cập nhật</th>
+                                                                <th class="text-center">Người đánh giá</th>
+                                                                <th class="text-center" width="100px">Ghi chú</th>
+                                                            </tr>
+                                                        </thread>
+
+                                                        <tbody>
+                                                            <tr><th colspan="10" class="font-weight-bold font-size-lg">I. Năng lực chung</th></tr>
+                                                            @{ int b = 0;}
+                                                            @for (int i = 0; i < Model.Count; i++)
+                                                            {
+
+                                                                @Html.HiddenFor(m => m[i].IDNV)
+                                                                @Html.HiddenFor(m => m[i].IDNVDG)
+                                                                @Html.HiddenFor(m => m[i].IDNL)
+                                                                @Html.HiddenFor(m => m[i].IDVT)
+                                                                @Html.HiddenFor(m => m[i].TenNL)
+                                                                @Html.HiddenFor(m => m[i].IDKQ)
+                                                                @Html.HiddenFor(m => m[i].ThangDG)
+                                                                @Html.HiddenFor(m => m[i].IDLoaiNL)
+                                                                @Html.HiddenFor(m => m[i].IsDanhGia)
+                                                                if (Model[i].IDLoaiNL == 1)
+                                                                {
+                                                                    if (Model[i].IsDanhGia == 1)
+                                                                    {
+                                                                        <tr>
+                                                                            <td class="text-center"> @(b+1)</td>
+                                                                            <td class="">@Model[i].TenNL</td>
+                                                                            <td class="text-center @(@Model[i].DinhMuc == 0 ? "bg-secondary" :"bg-clor")">@Html.RadioButtonFor(m => m[i].DiemDG, 0, new { disabled = "disabled" }) </td>
+                                                                            <td class="text-center @(@Model[i].DinhMuc == 1 ? "bg-secondary" : (@Model[i].DiemDG ==1?Model[i].ColorKQ:"bg-clor"))">@Html.RadioButtonFor(m => m[i].DiemDG, 1) </td>
+                                                                            <td class="text-center @(@Model[i].DinhMuc == 2 ? "bg-secondary" : (@Model[i].DiemDG ==2?Model[i].ColorKQ:"bg-clor"))">@Html.RadioButtonFor(m => m[i].DiemDG, 2) </td>
+                                                                            <td class="text-center @(@Model[i].DinhMuc == 3 ? "bg-secondary" : (@Model[i].DiemDG ==3?Model[i].ColorKQ:"bg-clor"))">@Html.RadioButtonFor(m => m[i].DiemDG, 3)</td>
+                                                                            <td class="text-center @(@Model[i].DinhMuc == 4 ? "bg-secondary" : (@Model[i].DiemDG ==4?Model[i].ColorKQ:"bg-clor"))">@Html.RadioButtonFor(m => m[i].DiemDG, 4)</td>
+                                                                            <td class="text-center @(@Model[i].DinhMuc == 5 ? "bg-secondary" : (@Model[i].DiemDG ==5?Model[i].ColorKQ:"bg-clor"))">@Html.RadioButtonFor(m => m[i].DiemDG, 5)</td>
+                                                                            <td class="text-center @(@Model[i].DinhMuc == 6 ? "bg-secondary" : (@Model[i].DiemDG ==6?Model[i].ColorKQ:"bg-clor"))">@Html.RadioButtonFor(m => m[i].DiemDG, 6)</td>
+                                                                            <td class="text-center" width="60px">@Model[i].StrNgayDG</td>
+                                                                            <td class="text-center">@Model[i].TenNVDG</td>
+                                                                            <td class="">
+                                                                                @Model[i].Note
+                                                                            </td>
+                                                                        </tr>
+                                                                        b++;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <tr class="bg-clor">
+                                                                            <td class="text-center"> @(b+1)</td>
+                                                                            <td class="">@Model[i].TenNL</td>
+                                                                            <td class="text-center @(@Model[i].DinhMuc == 0 ? "bg-secondary" :"bg-clor")">@Html.RadioButtonFor(m => m[i].DiemDG, 0, new { disabled = "disabled" }) </td>
+                                                                            <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 1, new { disabled = "disabled" }) </td>
+                                                                            <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 2, new { disabled = "disabled" }) </td>
+                                                                            <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 3, new { disabled = "disabled" })</td>
+                                                                            <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 4, new { disabled = "disabled" })</td>
+                                                                            <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 5, new { disabled = "disabled" })</td>
+                                                                            <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 6, new { disabled = "disabled" })</td>
+                                                                            <td class="text-center" width="60px"></td>
+                                                                            <td class="text-center"></td>
+                                                                            <td class="">
+                                                                            </td>
+                                                                        </tr>
+                                                                        b++;
+                                                                    }
+
+                                                                }
+
+                                                            }
+                                                            <tr><th colspan="10" class="font-weight-bold font-size-lg">II. Năng lực chuyên môn</th></tr>
+                                                            @{ int a = 0; }
+                                                            @foreach (var item in ViewBag.IDLoaiNL)
+                                                            {
+                                                                <tr><th colspan="10" class="font-weight-bold">@item.Text</th></tr>
+                                                                for (int i = 0; i < Model.Count; i++)
+                                                                {
+                                                                    if (Model[i].IDLoaiNL.ToString() == @item.Value)
+                                                                    {
+                                                                        @Html.HiddenFor(m => m[i].IDNV)
+                                                                        @Html.HiddenFor(m => m[i].IDNVDG)
+                                                                        @Html.HiddenFor(m => m[i].IDNL)
+                                                                        @Html.HiddenFor(m => m[i].IDVT)
+                                                                        @Html.HiddenFor(m => m[i].TenNL)
+                                                                        @Html.HiddenFor(m => m[i].ThangDG)
+                                                                        @Html.HiddenFor(m => m[i].IDLoaiNL)
+                                                                        @Html.HiddenFor(m => m[i].IsDanhGia)
+                                                                        if (Model[i].IDLoaiNL != 1 && Model[i].IDLoaiNL != 2)
+                                                                        {
+                                                                            <tr>
+                                                                                <td class="text-center "> @(a+1)</td>
+                                                                                <td class="">@Model[i].TenNL</td>
+                                                                                <td class="text-center @(@Model[i].DinhMuc == 0 ? "bg-secondary" :"bg-clor")">@Html.RadioButtonFor(m => m[i].DiemDG, 0, new { disabled = "disabled" }) </td>
+                                                                                <td class="text-center @(@Model[i].DinhMuc == 1 ? "bg-secondary" :(@Model[i].DiemDG ==1?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 1) </td>
+                                                                                <td class="text-center @(@Model[i].DinhMuc == 2 ? "bg-secondary" : (@Model[i].DiemDG ==2?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 2) </td>
+                                                                                <td class="text-center @(@Model[i].DinhMuc == 3 ? "bg-secondary" : (@Model[i].DiemDG ==3?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 3)</td>
+                                                                                <td class="text-center @(@Model[i].DinhMuc == 4 ? "bg-secondary" : (@Model[i].DiemDG ==4?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 4)</td>
+                                                                                <td class="text-center @(@Model[i].DinhMuc == 5 ? "bg-secondary" : (@Model[i].DiemDG ==5?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 5)</td>
+                                                                                <td class="text-center @(@Model[i].DinhMuc == 6 ? "bg-secondary" : (@Model[i].DiemDG ==6?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 6)</td>
+                                                                                <td class="text-center" width="60px">@Model[i].StrNgayDG</td>
+                                                                                <td class="text-center">@Model[i].TenNVDG</td>
+                                                                                <td class="">
+                                                                                    @Model[i].Note
+                                                                                </td>
+                                                                            </tr>
+                                                                            a++;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+
+                                                            <tr><th colspan="10" class="font-weight-bold font-size-lg">III. Năng lực quản lý</th></tr>
+                                                            @{ int c = 0;}
+                                                            @for (int i = 0; i < Model.Count; i++)
+                                                            {
+                                                                @Html.HiddenFor(m => m[i].IDNV)
+                                                                @Html.HiddenFor(m => m[i].IDNVDG)
+                                                                @Html.HiddenFor(m => m[i].IDNL)
+                                                                @Html.HiddenFor(m => m[i].IDVT)
+                                                                @Html.HiddenFor(m => m[i].TenNL)
+                                                                @Html.HiddenFor(m => m[i].IDKQ)
+                                                                @Html.HiddenFor(m => m[i].ThangDG)
+                                                                @Html.HiddenFor(m => m[i].IDLoaiNL)
+                                                                @Html.HiddenFor(m => m[i].IsDanhGia)
+                                                                if (Model[i].IDLoaiNL == 2)
+                                                                {
+                                                                    if (Model[i].IsDanhGia == 1)
+                                                                    {
+                                                                        <tr>
+                                                                            <td class="text-center"> @(c+1)</td>
+                                                                            <td class="">@Model[i].TenNL</td>
+                                                                            <td class="text-center @(@Model[i].DinhMuc == 0 ? "bg-secondary" :"bg-clor")">@Html.RadioButtonFor(m => m[i].DiemDG, 0, new { disabled = "disabled" }) </td>
+                                                                            <td class="text-center @(@Model[i].DinhMuc == 1 ? "bg-secondary" : (@Model[i].DiemDG ==1?Model[i].ColorKQ:"bg-clor"))">@Html.RadioButtonFor(m => m[i].DiemDG, 1) </td>
+                                                                            <td class="text-center @(@Model[i].DinhMuc == 2 ? "bg-secondary" : (@Model[i].DiemDG ==2?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 2) </td>
+                                                                            <td class="text-center @(@Model[i].DinhMuc == 3 ? "bg-secondary" : (@Model[i].DiemDG ==3?Model[i].ColorKQ:"bg-clor"))">@Html.RadioButtonFor(m => m[i].DiemDG, 3)</td>
+                                                                            <td class="text-center @(@Model[i].DinhMuc == 4 ? "bg-secondary" : (@Model[i].DiemDG ==4?Model[i].ColorKQ:"bg-clor"))">@Html.RadioButtonFor(m => m[i].DiemDG, 4)</td>
+                                                                            <td class="text-center @(@Model[i].DinhMuc == 5 ? "bg-secondary" : (@Model[i].DiemDG ==5?Model[i].ColorKQ:"bg-clor"))">@Html.RadioButtonFor(m => m[i].DiemDG, 5)</td>
+                                                                            <td class="text-center @(@Model[i].DinhMuc == 6 ? "bg-secondary" : (@Model[i].DiemDG ==6?Model[i].ColorKQ:"bg-clor"))">@Html.RadioButtonFor(m => m[i].DiemDG, 6)</td>
+                                                                            <td class="text-center" width="60px">@Model[i].StrNgayDG</td>
+                                                                            <td class="text-center">@Model[i].TenNVDG</td>
+                                                                            <td class="">
+                                                                                @Model[i].Note
+                                                                            </td>
+                                                                        </tr>
+                                                                        c++;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <tr class="bg-clor">
+                                                                            <td class="text-center"> @(c+1)</td>
+                                                                            <td class="">@Model[i].TenNL</td>
+                                                                            <td class="text-center @(@Model[i].DinhMuc == 0 ? "bg-secondary" :"bg-clor")">@Html.RadioButtonFor(m => m[i].DiemDG, 0, new { disabled = "disabled" }) </td>
+                                                                            <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 1, new { disabled = "disabled" }) </td>
+                                                                            <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 2, new { disabled = "disabled" }) </td>
+                                                                            <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 3, new { disabled = "disabled" })</td>
+                                                                            <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 4, new { disabled = "disabled" })</td>
+                                                                            <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 5, new { disabled = "disabled" })</td>
+                                                                            <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 6, new { disabled = "disabled" })</td>
+                                                                            <td class="text-center" width="60px"></td>
+                                                                            <td class="text-center"></td>
+                                                                            <td class="">
+                                                                            </td>
+                                                                        </tr>
+                                                                        c++;
+                                                                    }
+
+                                                                }
+
+                                                            }
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*@for (int i = 0; i < Model.Count; i++)
+                                    {
+
+                                        <div id="@(i+1)" class="que multichoice deferredfeedback notyetanswered">
+                                            <div class="content">
+                                                <div class="formulation clearfix">
+                                                    <div class="ablock">
+                                                        <div class="answer">
+                                                            @Html.HiddenFor(m => m[i].MaNV)
+                                                            @Html.HiddenFor(m => m[i].NVDG)
+                                                            @Html.HiddenFor(m => m[i].IDNL)
+                                                            @Html.HiddenFor(m => m[i].IDVT)
+                                                            @Html.DisplayFor(m => m[i].TenNL)
+                                                            1. @Html.RadioButtonFor(m => m[i].DiemDG, 1)
+                                                            2. @Html.RadioButtonFor(m => m[i].DiemDG, 2)
+                                                            3. @Html.RadioButtonFor(m => m[i].DiemDG, 3)
+                                                            4. @Html.RadioButtonFor(m => m[i].DiemDG, 4)
+                                                            5. @Html.RadioButtonFor(m => m[i].DiemDG, 5)
+                                                            6. @Html.RadioButtonFor(m => m[i].DiemDG, 6)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    }*@
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+    </div>
+
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@*<script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            $("tr.TDCheck").find("td.text-center").prop('disabled', 'disabled');
+        });
+    </script>*@
+
+
+<script type="text/javascript">
+    //$("#btn-search-a").on('click', function () {
+    //    var iduser = $('#LSUser').val();
+    //    //window.location.href = `${iduser}`;
+    //    window.history.replaceState('', '', updateURLParameter(window.location.href, "IDNV", iduser));
+    //});
+    $(':radio:not(:checked)').attr('disabled', true);
+    $("#LSUser").chosen({
+        width: "100%"
+    });
+    const urlParams = new URLSearchParams(window.location.search);
+    $("#btn-search-o").on('click', function () {
+        window.location.href = '@Url.Action("Value", "FCheck")?IDNV=' + $('#LSUser').val() + "&dt=" + urlParams.get('dt');
+    });
+</script>
+
+

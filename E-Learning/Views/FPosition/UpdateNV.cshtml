@@ -1,0 +1,193 @@
+﻿@model E_Learning.Models.DSachDGValidation
+@using E_Learning.Models
+@*<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+    <script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+    <link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />*@
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog" id="formE">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+
+                @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+                @*@Html.HiddenFor(model => model.IDKNL)*@
+                <fieldset id="SubmitForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class=" mb-1 font-weight-bold float-left">Vị trí khung năng lực</label>
+                                @Html.DropDownList("IDKNL", null, new { id = "IDVT", @class = "form-control", @style = "width:100%" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class=" mb-1 font-weight-bold float-left">Phòng Ban/Bộ Phận</label>
+                                @Html.DropDownList("IDPB", null, new { id = "IDPhongBan", @class = "form-control", @style = "width:100%" })
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <div class="form-group text-xl-left font-weight-bold">
+                                <div id="ListNV" class="overflow-auto" style="max-height:200px">
+                                    @if (MyAuthentication.IDQuyen != 9 && MyAuthentication.IDQuyen != 10)
+                                    {
+                                        <label class=" mb-1 font-weight-bold float-left">Nhân viên  &nbsp;<a class="fa fa-trash icon_action" id="Remove_NV" title="Xóa" href="#"></a></label>
+                                    }
+
+                                    @foreach (var item in ViewBag.Selec)
+                                    {
+
+                                        <div class="col-md-12 font-weight-bold float-left text-left">
+                                            @*<a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("DeleteNVIDKNL", "ViTriKNL", new { manv = item.Value,IDPB =@ViewBag.SelecIDPB})"
+                   onclick="return confirm('Bạn muốn cập nhật nhân viên : @item.Text')">
+                </a>*@
+
+                                            <input type="checkbox" aria-label="Checkbox for following text input" name="CheckRemove" id="@item.Value">
+                                            @item.Text
+                                        </div>
+
+                                    }
+                                </div>
+
+                                @Html.DropDownList("Selected", null, "", new { id = "multiSelectDropDownQAs", @class = "form-control multiSelectDropDownQAs", multiple = "multiple", })
+                                @*@Html.ListBox("Selected", ViewBag.Selected, new { style = "width:90%" })*@
+
+                            </div>
+                        </div>
+
+                        <div class=" col-md-12 mb-1" style="display:grid">
+                            <label class="mb-1 font-weight-bold text-left">Copy DS mã nhân viên</label>
+                            @Html.TextAreaFor(model => model.NVDG, new { @class = "form-control", @rows = 2, placeholder = "Nhập danh sách nhân viên", @id = "NVDG", })
+                            @Html.ValidationMessageFor(model => model.NVDG, "", new { @class = "text-danger" })
+                        </div>
+                        <div id="checkNV" style="width:70px" class="btn btn-primary form-group col-md-3 checkNV m-auto ">
+                            Check
+                        </div>
+                        <div class="col-md-11 overflow-auto border border-success rounded text-left mt-1" style="display: grid; height: 70px; margin: 0 auto;" id="dsnv">
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group text-xl-left font-weight-bold">
+                                <label class=" mb-1 font-weight-bold float-left font-italic text-danger">Kiêm nhiệm vị trí</label>
+                                @foreach (var item in ViewBag.SelecKN)
+                                {
+                                    <div class="col-md-12 font-weight-bold float-left text-left">
+                                        <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("DeleteNVKN", "FPosition", new { manv = item.Value,IDPB =@ViewBag.SelecIDPB,IDVT =@ViewBag.SelecIDVT})"
+                                           onclick="return confirm('Bạn muốn cập nhật nhân viên : @item.Text')">
+                                        </a>
+                                        @item.Text
+                                    </div>
+                                }
+                                @Html.DropDownList("SelectedKN", null, "", new { id = "multiSelectDropDownQAAs", @class = "form-control multiSelectDropDownQAs", multiple = "multiple", })
+                                @*@Html.ListBox("Selectedd", ViewBag.Selectedd, new { style = "width:90%" })*@
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="btn-margin-top text-center">
+                        @if (MyAuthentication.IDQuyen != 9 && MyAuthentication.IDQuyen != 10)
+                        {
+                            <input type="submit" value="Xác nhận" class="btn btn-primary pull-right" />
+                        }
+
+                    </div>
+                </fieldset>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".multiSelectDropDownQAs").chosen({
+            width: "100%",
+
+        });
+        $(".chosen-search-input").val("Chọn nhân viên");
+
+        async function RemNV(url, params, method) {
+            return $.ajax({
+                url: url,
+                type: method || 'GET',
+                dataType: 'json',
+                data: params
+            });
+        }
+
+        $("#Remove_NV").click(async function () {
+            let arr = [];
+            $("input[name='CheckRemove']:checked").each(function () {
+                arr.push($(this).attr('id'));
+            });
+            const promises = arr.map(async mnv => {
+                const result = await RemNV("FPosition/DeleteNVIDKNLJSON", { manv: mnv });
+                return result;
+            })
+            const numFruits = await Promise.all(promises)
+            $.get("FPosition/getNVJSON", { id: $("#IDVT").val() }, function (data1) {
+                $("#ListNV").empty();
+                $("#ListNV").append("<label class='mb-1 font-weight-bold float-left'>Nhân viên</label>");
+                $.each(data1, function (index, row) {
+                    $("#ListNV").append(`<div class="col-md-12 font-weight-bold float-left text-left">
+                                        <input type="checkbox" aria-label="Checkbox for following text input" name="CheckRemove" id=${row.MaNV}>
+                                        ${row.HoTen}
+                                    </div>`);
+                });
+            });
+
+        });
+
+        $(document).on("click", ".checkNV", function () {
+            /*var iddex = $(this).attr('id').split("_")[1];*/
+            $.get("/FPosition/CheckNV", { lsnv: $("#NVDG").val() }, function (data) {
+                if (data[0] != null) {
+                    $("#dsnv").empty();
+                    /*$("#dsnv").append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")*/
+                    $.each(data, function (index, row) {
+                        $("#dsnv").append("<div>" + row.HoTen + "</div>")
+                    });
+
+                }
+                else {
+                    $("#dsnv").empty();
+                }
+            });
+        });
+    });
+
+</script>
+<style>
+    .chosen-container-single .chosen-single {
+        color: #495057;
+        background: #fff;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.8;
+        text-transform: capitalize;
+    }
+
+        .chosen-container-single .chosen-single span {
+            text-transform: capitalize !important;
+            font-size: 16px !important;
+        }
+</style>
+
+
+

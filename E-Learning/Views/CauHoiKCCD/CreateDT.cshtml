@@ -1,0 +1,83 @@
+﻿
+@model E_Learning.Models.DeThiKCCDView
+
+
+@using (Html.BeginForm("CreateDT", "CauHoiKCCD", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog" id="form">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <fieldset id="SubmitForm">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="small mb-1">Mã Đề Thi</label>
+
+                                @Html.EditorFor(model => model.MaDe, new { htmlAttributes = new { @class = "form-control", placeholder = "Mã Đề Thi", @id = "MaDe" } })
+                                @Html.ValidationMessageFor(model => model.MaDe, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="small mb-1">Tên Đề Thi</label>
+                                @Html.EditorFor(model => model.TenDe, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên Đề Thi", @id = "TenBaiThi" } })
+                                @Html.ValidationMessageFor(model => model.TenDe, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="small mb-1">Nội dung ĐT Kèm cặp chỉ dẫn</label>
+                                @Html.DropDownListFor(model => model.KCCDID, ViewBag.NDList as SelectList, "--Chọn Nội dung--", new { @class = "form-control IDND", @id = "KCCDID" })
+                                @*@Html.DropDownList("BDList", null, "", new { @class = "form-control", @id = "IDND" })*@
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="small mb-1">Điểm Chuẩn </label>
+                                @Html.EditorFor(model => model.DiemChuan, new { htmlAttributes = new { @class = "form-control", placeholder = "Điểm Chuẩn", @id = "DiemChuan" } })
+                                @Html.ValidationMessageFor(model => model.DiemChuan, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="small mb-1">Thời Gian Làm Bài</label>
+                                @Html.EditorFor(model => model.ThoiGianLamBai, new { htmlAttributes = new { @class = "form-control", placeholder = "Thời gian Làm Bài", @id = "TGLamBai" } })
+                                @Html.ValidationMessageFor(model => model.ThoiGianLamBai, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="btn-margin-top text-center">
+                        <input type="submit" value="Xác nhận" id="btnSubmit" class="btn btn-success button_submit" />
+
+                    </div>
+
+                </fieldset>
+
+            </div>
+        </div>
+    </div>
+
+}
+
+<script type="text/javascript">
+    $(".IDND").chosen({
+        width: "100%"
+    });
+</script>
+

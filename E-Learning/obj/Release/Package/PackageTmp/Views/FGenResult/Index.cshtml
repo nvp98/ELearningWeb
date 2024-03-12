@@ -1,0 +1,463 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using E_Learning.Models
+@model  PagedList.IPagedList<FGenResultValidation>
+@using PagedList.Mvc
+
+@*<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />*@
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+<style type="text/css">
+    a:hover {
+        cursor: pointer;
+    }
+
+    #table tbody tr:nth-of-type(odd) {
+        background-color: rgba(0,0,0,0.03);
+    }
+</style>
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Tổng hợp đánh giá
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="card mb-4">
+            <div class="card-header text-capitalize ">
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="row">
+                                <label class=" mb-1">Bộ phận</label>
+                                @Html.DropDownList("IDPB", null, "--Bộ Phận--", new { id = "IDPB", @class = "form-control marginTB5", })
+                            </div>
+
+                        </div>
+                        <div class="col-md-2">
+                            <div class="row m-0">
+                                <label class=" mb-1">Phân Xưởng</label>
+                                <select class="form-control marginTB5" name="IDPX" id="IDPX">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="row m-0">
+                                <label class=" mb-1">Nhóm</label>
+                                <select class="form-control marginTB5" name="IDNhom" id="IDNhom">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="row m-0">
+                                <label class=" mb-1">Tổ</label>
+                                <select class="form-control marginTB5" name="IDTo" id="IDTo">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class=" mb-1">Chọn tháng</label>
+                            <input id="thang" type="month" name="thang" class="form-control" value=@ViewBag.Month />
+                        </div>
+                        <div class="col-md-1">
+                            <label></label>
+                            <div class="input-group-btn "><button class="btn btn-primary marginTB5" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button></div>
+                        </div>
+
+                    </div>
+
+                </div>
+                
+               
+                @*<div class="col-md-2">
+            <a class="fa fa-file-excel float-right btn btn-success m-1" title="Export dữ liệu" href="@Url.Action("ExportToExcelNV", "FPosition")"
+               onclick="return confirm('Export dữ liệu?')">
+                &nbsp;Export Nhân viên
+            </a>
+        </div>
+        <div class="col-md-2">
+            <a class="fa fa-file-excel  float-right btn btn-success m-1" title="Export dữ liệu" href="@Url.Action("ExportToExcelViTri", "FPosition")"
+               onclick="return confirm('Export dữ liệu?')">
+                &nbsp;Export Định danh VT KNL
+            </a>
+        </div>*@
+
+                @*<div class="col-md-2">
+            <button type="button" id="btn-Import" class="btn btn-primary m-l-auto"><i class="fa fa-upload">&nbsp;</i>&nbsp;Upload </button>
+            <div class="modal fade" id="myModalimport" role="dialog" data-url='@Url.Action("ImportExcel", "FPosition")'></div>
+        </div>*@
+
+                @*<div class="clo-md-3 m-l-auto">
+            <a class="btn btn-primary" title="Chi tiết" href="@Url.Action("CreateVTKNL", "ViTriKNL")">
+                <i class="fa fa-plus">&nbsp;</i>&nbsp;Danh sách mã vị trí
+            </a>
+        </div>*@
+
+                @*<div class="col-md-2">
+            <button type="button" id="btn-add" class="btn btn-primary m-l-auto" style="font-size:0.7rem"><i class="fa fa-user-plus">&nbsp;</i>&nbsp;Điều động nhân viên </button>
+            <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("ChangeNVGroup","FPosition")'></div>
+        </div>*@
+
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center" width="30px">STT</th>
+                                <th class="text-center">Tên Vị trí KNL</th>
+                                <th class="text-center">Phòng Ban</th>
+                                <th class="text-center"> Tổng NL</th>
+                                <th class="text-center"> Không đạt (%)</th>
+                                <th class="text-center"> Đạt (%)</th>
+                                <th class="text-center"> Vượt yêu cầu (%)</th>
+                                <th class="text-center"> Không đánh giá (%)</th>
+                                <th class="text-center">BMTCV</th>
+
+                                <th class="text-center" style="width:80px">Kết quả đánh giá KNL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int pageno = (int)Model.PageNumber;
+                                int itemperpage = (int)Model.PageSize;
+                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-center"> @RowNo@{RowNo++;}</td>
+                                    <td class="">@item.TenViTri</td>
+                                    <td class="">@item.TenPhongBan</td>
+                                    <td class="text-center"> @item.SumNL</td>
+                                    <td class="text-center">@item.TileKDat </td>
+                                    <td> @item.TileDat </td>
+                                    <td>@item.TileVuot </td>
+                                    <td>@item.TileKDGia</td>
+                                    <td class="text-center">
+                                        <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.FilePath))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="fa fa-th-list fa-2x" title="Đánh giá" href="@Url.Action("FGenResultDetails", "FGenResult", new { IDVT = item.IDVT, dt = Request.QueryString["dat"] })"
+                                           onclick="return confirm('Xem thống kê đánh giá')">
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+
+                    </table>
+                    <div class="pager">
+                        @Html.PagedListPager(Model, page => Url.Action("Index", "FGenResult", new { page, IDPB = Request.QueryString["IDPB"],dat= Request.QueryString["dat"], IDPX = Request.QueryString["IDPX"], IDNhom = Request.QueryString["IDNhom"], IDTo = Request.QueryString["IDTo"] }))
+                        <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script type="text/javascript">
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Điều động nhân sự sang vị trí mới");
+            $("#myModal").modal('show');
+        });
+    });
+    $('#btn-add-vt').click(function () {
+        var url = $('#myModalVT').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Danh sách mã vị trí");
+            $("#myModal").modal('show');
+        });
+    });
+    @*function SelectResult() {
+        var thang = $('#thang').val();
+        window.location.href = '@Url.Action("Index", "FGenResult")?IDPB=' + $('#IDPB').val() + '&dat=' + thang;
+    };*@
+    $('#btn-Import').click(function () {
+        var url = $('#myModalimport').data('url');
+        $.get(url, function (data) {
+            $("#myModalimport").html(data);
+            $("#ModalTitle").html("Thêm mới danh sách nhân viên");
+            $("#myModalimport").modal('show');
+        });
+    });
+    $("#IDPB").chosen({
+        width: "100%"
+    });
+    //$("#table").DataTable({
+    //    "pageLength":50
+    //})
+    $("#btn-search").on('click', function () {
+        var thang = $('#thang').val();
+        window.location.href = '@Url.Action("Index", "FGenResult")?IDPB=' + $('#IDPB').val() + '&dat=' + thang + "&IDPX=" + $('#IDPX').val() + "&IDNhom=" + $('#IDNhom').val() + "&IDTo=" + $('#IDTo').val();
+    });
+    $(document).ready(function () {
+        $("#IDPB").change();
+    })
+    $("#IDPB").on('focus', function () {
+        // Store the current value on focus and on change
+        previous = this.value;
+    }).change(function () {
+        const params = new URLSearchParams(window.location.search);
+        var idpb = $(this).val();
+        var idpx = $("#IDPX").val() || params.get('IDPX');
+        var idk = $("#IDKhoi").val();
+        $.get("/FGroup/GetPX", { IDPB: idpb, IDKhoi: idk }, function (data) {
+            if (data[0] != null) {
+                $("#IDPX").empty();
+                $("#IDPX").append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")
+                $.each(data, function (index, row) {
+                    if (params.get('IDPX') == row.ID) {
+                        $("#IDPX").append("<option value ='" + row.ID + "' selected>" + row.TenPX + "</option>")
+                        $("#IDPX").change();
+                        //$("#IDKhoi").change();
+                    }
+                    else {
+                        $("#IDPX").append("<option value ='" + row.ID + "'>" + row.TenPX + "</option>")
+                    }
+
+                });
+
+            }
+            else {
+                $("#IDPX").empty();
+            }
+        });
+
+        if (idpx == "null" || idpx == null || (previous != idpb && previous != undefined)) {
+            $.get("/FGroup/GetNhom", { IDPB: idpb, IDKhoi: idk }, function (data1) {
+                if (data1[0] != null) {
+                    $("#IDNhom").empty();
+                    $("#IDNhom").append("<option value ='" + null + "'>" + "--Chọn Nhóm--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDNhom') == row.IDNhom) {
+                            $("#IDNhom").append("<option value ='" + row.IDNhom + "' selected>" + row.TenNhom + "</option>");
+                            //$("#IDNhom").change();
+                        }
+                        else {
+                            $("#IDNhom").append("<option value ='" + row.IDNhom + "'>" + row.TenNhom + "</option>")
+                        }
+                    });
+                }
+                else {
+                    $("#IDNhom").empty();
+                }
+            });
+            $.get("/FGroup/GetTo", { IDPB: idpb, IDKhoi: idk }, function (data1) {
+                if (data1[0] != null) {
+                    //console.log(data1[0]);
+                    /* $("#IDNhom").empty();*/
+                    $("#IDTo").empty();
+                    $("#IDTo").append("<option value ='" + null + "'>" + "--Chọn Tổ--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDTo') == row.IDTo) {
+                            $("#IDTo").append("<option value ='" + row.IDTo + "' selected>" + row.TenTo + "</option>")
+                            //$("#IDTo").change();
+                        }
+                        else {
+                            $("#IDTo").append("<option value ='" + row.IDTo + "'>" + row.TenTo + "</option>")
+                        }
+                    });
+                }
+                else {
+                    $("#IDTo").empty();
+                }
+            });
+        }
+        // Make sure the previous value is updated
+        previous = this.value;
+    });
+
+    $("#IDPX").on("change", function () {
+        const params = new URLSearchParams(window.location.search);
+        var idpx = $("#IDPX").val() || params.get('IDPX');
+        var idpb = $("#IDPB").val();
+        var idk = $("#IDKhoi").val();
+
+        $.get("/FGroup/GetNhom", { IDPX: idpx, IDPB: idpb, IDKhoi: idk }, function (data1) {
+            if (data1[0] != null) {
+                $("#IDNhom").empty();
+                $("#IDNhom").append("<option value ='" + null + "'>" + "--Chọn Nhóm--" + "</option>");
+                $.each(data1, function (index, row) {
+                    if (params.get('IDNhom') == row.IDNhom) {
+                        $("#IDNhom").append("<option value ='" + row.IDNhom + "' selected>" + row.TenNhom + "</option>");
+                        /*$("#IDNhom").change();*/
+                    }
+                    else {
+                        $("#IDNhom").append("<option value ='" + row.IDNhom + "'>" + row.TenNhom + "</option>")
+                    }
+                });
+                //if (params.get('IDTo') !== "null") $("#IDNhom").empty();
+            }
+            else {
+                $("#IDNhom").empty();
+            }
+        });
+        $.get("/FGroup/GetTo", { IDPX: idpx, IDPB: idpb, IDKhoi: idk }, function (data1) {
+            if (data1[0] != null) {
+                //console.log(data1[0]);
+                /* $("#IDNhom").empty();*/
+                $("#IDTo").empty();
+                $("#IDTo").append("<option value ='" + null + "'>" + "--Chọn Tổ--" + "</option>");
+                $.each(data1, function (index, row) {
+                    if (params.get('IDTo') == row.IDTo) {
+                        $("#IDTo").append("<option value ='" + row.IDTo + "' selected>" + row.TenTo + "</option>");
+                        /*$("#IDTo").change();*/
+                    }
+                    else {
+                        $("#IDTo").append("<option value ='" + row.IDTo + "'>" + row.TenTo + "</option>")
+                    }
+                });
+                //if (params.get('IDNhom') !== "null") $("#IDTo").empty();
+            }
+            else {
+                $("#IDTo").empty();
+            }
+        });
+    });
+
+    $("#IDNhom").on("change", function () {
+        const params = new URLSearchParams(window.location.search);
+        var idpx = $("#IDPX").val();
+        var idpb = $("#IDPB").val();
+        var idk = $("#IDKhoi").val();
+        var idnhom = $(this).val();
+        /* $("#IDTo").empty();*/
+        var iddex = $(this).attr('id').split("_")[1];
+        if (idnhom == "null") {
+            $.get("/FGroup/GetTo", { IDPX: idpx, IDPB: idpb, IDKhoi: idk }, function (data1) {
+                if (data1[0] != null) {
+                    //console.log(data1[0]);
+                    /* $("#IDNhom").empty();*/
+                    $("#IDTo").empty();
+                    $("#IDTo").append("<option value ='" + null + "'>" + "--Chọn Tổ--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDTo') == row.IDTo) {
+                            $("#IDTo").append("<option value ='" + row.IDTo + "' selected>" + row.TenTo + "</option>")
+                        }
+                        else {
+                            $("#IDTo").append("<option value ='" + row.IDTo + "'>" + row.TenTo + "</option>")
+                        }
+                    });
+                    //if (params.get('IDNhom') !== "null") $("#IDTo").empty();
+                }
+                else {
+                    $("#IDTo").empty();
+                }
+            });
+        }
+        else {
+            $("#IDTo").empty();
+        }
+    });
+
+    $("#IDTo").on("change", function () {
+        const params = new URLSearchParams(window.location.search);
+        var idpx = $("#IDPX").val();
+        var idpb = $("#IDPB").val();
+        var idk = $("#IDKhoi").val();
+        var idnhom = $("#IDNhom").val();
+        var idto = $("#IDTo").val();
+        /* $("#IDTo").empty();*/
+        /*var iddex = $(this).attr('id').split("_")[1];*/
+        /*console.log(idto, 'idnhomtt');*/
+        if (idto == "null") {
+            $.get("/FGroup/GetNhom", { IDPX: idpx, IDPB: idpb, IDKhoi: idk }, function (data1) {
+                if (data1[0] != null) {
+                    $("#IDNhom").empty();
+                    $("#IDNhom").append("<option value ='" + null + "'>" + "--Chọn Nhóm--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDNhom') == row.IDNhom) {
+                            $("#IDNhom").append("<option value ='" + row.IDNhom + "' selected>" + row.TenNhom + "</option>");
+                            /* $("#IDNhom").change();*/
+                        }
+                        else {
+                            $("#IDNhom").append("<option value ='" + row.IDNhom + "'>" + row.TenNhom + "</option>")
+                        }
+
+                    });
+
+                }
+                else {
+                    $("#IDNhom").empty();
+                }
+            });
+        }
+        else {
+            $("#IDNhom").empty();
+        }
+    });
+</script>
+
+<style>
+    .chosen-container-single .chosen-single {
+        color: #495057;
+        background: #fff;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.8;
+        text-transform: capitalize;
+    }
+
+        .chosen-container-single .chosen-single span {
+            text-transform: capitalize !important;
+            font-size: 16px !important;
+        }
+</style>
+
+

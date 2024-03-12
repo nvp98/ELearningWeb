@@ -1,0 +1,441 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.ModelsQTHD
+@using E_Learning.Models
+@model PagedList.IPagedList<NoiDungQTView>
+@using PagedList.Mvc
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+<style>
+    a:hover {
+        cursor: pointer;
+    }
+    .table-responsive {
+        overflow-x: scroll;
+        overflow-y: scroll;
+        width: 100%;
+        height: 720px;
+    }
+    thead tr:nth-child(1) {
+        background: white;
+        position: sticky;
+        top: 0;
+        z-index: 2000;
+    }
+    .thead-fix {
+        background: white;
+        position: sticky;
+        top: 0;
+        left: 0;
+    }
+    .thead-fix-200 {
+        background: white;
+        position: sticky;
+        top: 0;
+        left: 70px;
+    }
+    table {
+        table-layout: fixed;
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+    }
+
+    tr {
+        border-top: 1px solid #ccc;
+    }
+
+    td, th {
+        vertical-align: top;
+        text-align: left;
+        width: 300px;
+        padding: 5px;
+    }
+
+        .fix:first-child {
+            left: 0;
+            width: 100px;
+            z-index:200;
+        }
+
+    .fix-field {
+        left: 70px;
+        width: 100px;
+        z-index: 200;
+    }
+    .fix-field170 {
+        left:170px;
+        width: 100px;
+        z-index: 200;
+    }
+    .fix-field270 {
+        left: 270px;
+        /*width: 100px;*/
+        z-index: 200;
+    }
+    .AliceBlue {
+        background-color: #F0F8FF;
+    }
+    .chosen-drop{
+        z-index:5000 !important;
+    }
+</style>
+<div class="app-main__outer" style="overflow:hidden">
+    <div class="app-main__inner" >
+
+        @*<div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-portfolio icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Nội dung Quy trình / Hướng dẫn
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>*@
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="card col-lg-12">
+                    <div class="card-header">
+                        <div class="col-md-7 col-lg-7">
+                            <div class="row">
+                                @{
+                                    var selectListTT = new SelectList(
+                                            new List<SelectListItem>
+                                            {
+                                new SelectListItem {Text = "Không phổ biến", Value = "0"},
+                                new SelectListItem {Text = "Phổ biến", Value = "1"},
+}, "Value", "Text");
+                                }
+                                <!--<div class="col-md-4">-->
+                                @*<input type="text" id="txtsearch" name="" placeholder="Tìm kiếm" class="form-control" value="@ViewBag.search">*@
+                                <!--</div>-->
+                                <div class="col-md-3">
+                                    @Html.DropDownList("IDPB", null, "--Phòng Ban--", new { id = "IDPB", @class = "form-control marginTB5", @style = "width:100%", })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.DropDownList("MaHieuQT", null, "--Mã hiệu--", new { id = "MaHieuQT", @class = "form-control marginTB5", @style = "width:100%", })
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.DropDownList("NoiDungQT", null, "--Quy trình--", new { id = "NoiDungQT", @class = "form-control marginTB5", @style = "width:100%", })
+                                </div>
+                                <div class="col-md-3 form-control">
+                                    @Html.DropDownList("LVDTID", null, "--Lĩnh Vực--", new { id = "LVDTID", @class = "form-control marginTB5", @style = "width:100%", })
+                                </div>
+                                <div class="col-md-3 form-control">
+                                    @Html.DropDownList("IDTinhTrang", selectListTT, "--Tình trạng--", new { id = "IDTinhTrang", @class = "form-control marginTB5", @style = "width:100%", })
+                                </div>
+                                <div class="col-md-2 form-control">
+                                    <button class="btn btn-primary" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="col-md-2"><button type="button" id="btn-ExportLH" class="btn btn-success m-l-auto"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Danh sách NDĐT</button></div>*@
+                        <div class="col-md-3 float-right">
+
+                            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD))
+                            {
+                                <button type="button" id="btn-Import" class="btn btn-success float-right ml-2 z-index:5000 !important"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Nhập Danh sách QT/HD</button>
+                                <div class="modal " style="z-index: 5000 !important" id="myModalimport" role="dialog" data-url='@Url.Action("ImportExcel", "NoiDungQT")'></div>
+
+                                <button type="button" id="btn-add" class="btn btn-primary float-right"><i class="fa fa-plus">&nbsp;</i>&nbsp;Thêm mới </button>
+                                <div class="" id="btnAdd" role="dialog" data-url='@Url.Action("Create","NoiDungQT")'></div>
+                            }
+
+                        </div>
+                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EX))
+                        {
+                            <div class="col-md-2">
+                                <a class="fa fa-file-excel float-right btn btn-primary m-1" title="Export dữ liệu" href="@Url.Action("ExportData", "NoiDungQT")"
+                                   onclick="return confirm('Export dữ liệu?')">
+                                    &nbsp;Thống kê QT/HD
+                                </a>
+                            </div>
+                        }
+
+                        @*<div class="col-md-2">
+            <button type="button" id="btn-add" class="btn btn-primary  pull-right"><i class="fa fa-plus">&nbsp;</i>&nbsp;Thêm mới </button>
+            <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","NoiDungDTKCCD")'></div>
+
+        </div>*@
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th style="width:70px" class="text-center  thead-fix">STT</th>
+                                        <th style="width:100px;" class="text-center fix fix-field thead-fix">Thao tác</th>
+
+                                        <th style="width:100px" class="text-left fix fix-field170 thead-fix">Mã hiệu</th>
+                                        <th class="text-left fix fix-field270 thead-fix">Tên QT/HD</th>
+                                        <th class="text-left" style="width:100px">Tình trạng</th>
+                                        <th class="text-left" style="width:150px">Loại tài liệu</th>
+                                        <th class="text-left" style="width:100px">Lĩnh Vực</th>
+                                        <th class="text-left">Bộ phận ban hành</th>
+                                        <th class="text-center" style="width:150px">Điểm chuẩn</th>
+                                        <th class="text-left" style="width:150px">Ngày hiệu lực</th>
+                                        <th class="text-left" style="width:150px">Ngày hết hiệu lực</th>
+                                        <th class="text-left" style="width:350px">File QT/HD</th>
+                                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
+                                        {
+                                            <th class="text-center" style="width:100px">SL Câu hỏi</th>
+                                        }
+
+                                        <th class="text-center" width="70" style="width:100px">Vị trí CV liên quan</th>
+                                        <th class="text-center" width="70" style="width:100px">SL Nhân viên hoàn thành</th>
+                                        <th class="text-center" style="width:100px">Lần cập nhật</th>
+                                        <th class="text-center">Nội dung cập nhật</th>
+                                        <th class="text-center">Văn bản liên quan</th>
+                                        <th class="text-center">Kết quả sát hạch</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int pageno = (int)Model.PageNumber;
+                                        int itemperpage = (int)Model.PageSize;
+                                        int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                        var colorA = "";
+                                    }
+                                    @foreach (var item in Model)
+                                    {
+                                       
+                                        if (item.TinhTrang != 1 ) { colorA = "rgba(0,0,0,0.12)"; } else { colorA = ""; }
+                                        <tr style="background-color:  @colorA">
+                                            <td class="AliceBlue text-center thead-fix tcustom" width="30px"> @RowNo@{RowNo++;}</td>
+                                            <td class="AliceBlue text-center fix-field thead-fix">
+                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL))
+                                                {
+                                                    <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "NoiDungQT", new { id = item.IDQTHD })"
+                                                       onclick="return confirm('Bạn muốn xóa : @item.TenQTHD')">
+                                                    </a>
+                                                }
+                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
+                                                {
+                                                    <a id="btn-edit_@item.IDQTHD" title="Sửa" class="fa fa-edit icon_action"></a>
+                                                    <div class="modal fade" id="myModale_@item.IDQTHD" role="dialog" data-url='@Url.Action("Edit","NoiDungQT", new { id = item.IDQTHD })'></div>
+                                                    <script type="text/javascript">
+                                                    $("#btn-edit_@item.IDQTHD").click(function () {
+                                                        var url = $('#myModale_@item.IDQTHD').data('url');
+                                                        window.location.href = url;
+                                                        //$.get(url, function (data) {
+                                                        //    $("#myModal").html(data);
+                                                        //    $("#ModalTitle").html("Cập nhật Nội dung");
+                                                        //    $("#myModal").modal('show');
+                                                        //});
+                                                    });
+                                                    </script>
+                                                }
+
+
+                                            </td>
+                                            <td class="AliceBlue text-center fix-field170 thead-fix">@item.MaHieu</td>
+                                            <td class="AliceBlue fix-field270 thead-fix">@item.TenQTHD</td>
+                                            @if (item.TinhTrangHL == 1)
+                                            {
+                                                <td class="text-success">Còn hiệu lực</td>
+                                            }
+                                            else if (item.TinhTrangHL == 2)
+                                            {
+                                                <td class="text-warning">Chưa hiệu lực</td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-danger">Hết hiệu lực</td>
+                                            }
+                                            <td>@item.TenLoaiQTHD</td>
+                                            <td>@item.TenLVDT</td>
+                                            <td>@item.TenPhongBan</td>
+                                            <td class="text-center">@item.DiemChuan</td>
+                                            <td class="text-center">@item.NgayHieuLuc.ToString("dd-MM-yyyy")</td>
+                                            @if (item.NgayHetHieuLuc == null || item.NgayHetHieuLuc == default(DateTime))
+                                            {
+                                                <td class="text-center">Null</td>
+                                            }
+                                            else
+                                            {
+                                                <td class="text-center">@item.NgayHetHieuLuc.ToString("dd-MM-yyyy")</td>
+                                            }
+
+                                            <td class="text-left">
+                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
+                                                {
+                                                    <span class="float-right">
+                                                        <a id="btn-editFile_@item.IDQTHD" title="Sửa file QT" class="fa fa-edit icon_action"></a>
+                                                    </span>
+                                                    <div class="modal fade" style="z-index:5000 !important" id="myModaleFile_@item.IDQTHD" role="dialog" data-url='@Url.Action("EditFileQT","NoiDungQT", new { id = item.IDQTHD })'></div>
+                                                    <script type="text/javascript">
+                                                    $("#btn-editFile_@item.IDQTHD").click(function () {
+                                                        var url = $('#myModaleFile_@item.IDQTHD').data('url');
+                                                        //window.location.href = url;
+                                                        $.get(url, function (data) {
+                                                            $("#myModaleFile_@item.IDQTHD").html(data);
+                                                            $("#ModalTitle").html("Cập nhật Nội dung");
+                                                            $("#myModaleFile_@item.IDQTHD").modal('show');
+                                                        });
+                                                    });
+                                                    </script>
+                                                }
+
+                                                @foreach (var a in item.List_FileQT)
+                                                {
+                                                    <div><a href="@Url.Content(a.FilePDF)" target="_blank"><span class="font-weight-bold">@a.OrderByID</span> . @a.TenFile</a></div>
+
+                                                }
+
+                                            </td>
+                                            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
+                                            {
+                                                <td class="text-center">
+                                                    <a class="font-italic" title="Câu hỏi" href="@Url.Action("Index","CauHoiQT", new { IDQTHD = item.IDQTHD })">
+                                                        @item.SL_CauHoi Câu hỏi
+                                                    </a>
+                                                </td>
+                                            }
+
+                                        <td class="text-center">
+                                            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.P_QTHD) && item.TinhTrang == 1 && item.TinhTrangHL == 1)
+                                            {
+                                                <span class="float-right">
+                                                    <a id="btn-editVT_@item.IDQTHD" title="Sửa VTCV" class="fas fa-folder-plus icon_action "></a>
+                                                </span>
+                                                @*<a class="font-italic fas fa-folder-plus icon_action" title="Sửa VTCV" href="@Url.Action("EditVTCV","NoiDungQT", new { IDQTHD = item.IDQTHD })">
+                                                </a>*@
+                                                <div class="modal fade" style="z-index:5000 !important" id="myModaleVTCV_@item.IDQTHD" role="dialog" data-url='@Url.Action("EditVTCV","NoiDungQT", new { IDQTHD = item.IDQTHD })'></div>
+                                                <script type="text/javascript">
+                                                    $("#btn-editVT_@item.IDQTHD").click(function () {
+                                                        var url = $('#myModaleVTCV_@item.IDQTHD').data('url');
+                                                        //window.location.href = url;
+                                                        $.get(url, function (data) {
+                                                            $("#myModaleVTCV_@item.IDQTHD").html(data);
+                                                            $("#ModalTitle").html("Cập nhật Nội dung");
+                                                            $("#myModaleVTCV_@item.IDQTHD").modal('show');
+                                                        });
+                                                    });
+                                                </script>
+                                            }
+
+                                            @item.SL_VTCVLQ
+                                        </td>
+                                            <td class="text-center">@item.SL_NVHT</td>
+                                            <td class="text-center">@item.LanCapNhat</td>
+                                            <td>@item.NoiDungCapNhat</td>
+                                            <td class="text-left">
+                                                @{ int j = 1;}
+                                                @foreach (var a in item.List_VanBanLQ)
+                                                {
+                                                    if (a.TinhTrangHL != 1)
+                                                    {
+                                                        <div>
+                                                            <span class="font-weight-bold">@j</span>  <a class="text-danger" title="" href="@Url.Action("VanBanLQView", "NoiDungQT", new { id = a.IDQTHD })">  @a.MaHieu - @a.TenQTHD </a>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div>
+                                                            <span class="font-weight-bold">@j</span>  <a class="" title="" href="@Url.Action("VanBanLQView", "NoiDungQT", new { id = a.IDQTHD })">  @a.MaHieu - @a.TenQTHD </a>
+                                                        </div>
+                                                    }
+
+                                                    j++;
+                                                }
+                                            </td>
+                                            <td class="text-center">
+                                                <a class="font-italic" title="Câu hỏi" href="@Url.Action("ListNV","ResultQTHD", new { IDQT = item.IDQTHD })">
+                                                    @item.SL_NVHT / @item.Total_SL_NV
+                                                </a>
+                                            </td>
+                                            @*<td class="text-center">@item.SL_NVHT / @item.Total_SL_NV</td>*@
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="pager">
+                            @Html.PagedListPager(Model, page => Url.Action("Index", "NoiDungQT", new { page, IDTinhTrang = Request.QueryString["IDTinhTrang"], IDQT= Request.QueryString["IDQT"], IDPB = Request.QueryString["IDPB"], IDMahieu = Request.QueryString["IDMahieu"], IDLVDT = Request.QueryString["IDLVDT"] }))
+                            <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script type="text/javascript">
+    //$(" #LVDTID").chosen({
+    //    width: "100%"
+    //});
+    $("#IDPB").chosen({
+        width: "100%"
+    });
+    $("#NoiDungQT").chosen({
+        width: "100%",
+    });
+    $("#MaHieuQT").chosen({
+        width: "100%",
+    });
+    $('#btn-add').click(function () {
+        var url = $('#btnAdd').data('url');
+        window.location.href = url;
+        //$.get(url, function (data) {
+        //    $("#myModal").html(data);
+        //    $("#ModalTitle").html("Thêm mới nhóm năng lực mới");
+        //    $("#myModal").modal('show');
+        //});
+    });
+    $('#btn-Import').click(function () {
+        var url = $('#myModalimport').data('url');
+        $.get(url, function (data) {
+            $("#myModalimport").html(data);
+            $("#ModalTitle").html("Thêm mới danh sách Quy trình/Hướng dẫn");
+            $("#myModalimport").modal('show');
+        });
+    });
+    $('#btn-ExportLH').click(function () {
+        window.location.href = "/NoiDungDTKCCD/ExportData";
+    });
+
+    $("#btn-search").on('click', function () {
+        var search = $('#txtsearch').val();
+        window.location.href = '@Url.Action("Index", "NoiDungQT")?search=' + search + "&IDQT=" + $('#NoiDungQT').val() + "&IDTinhTrang=" + $('#IDTinhTrang').val() + "&IDMahieu=" + $('#MaHieuQT').val() + "&IDPB=" + $('#IDPB').val() + "&IDLVDT=" + $('#LVDTID').val();
+    });
+</script>
+

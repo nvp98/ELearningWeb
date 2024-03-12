@@ -1,0 +1,205 @@
+﻿@model List<E_Learning.Models.TestView>
+@using E_Learning.Models;
+@{
+    ViewBag.Title = "ListPrintTestView";
+    Layout = "~/Views/Shared/printView.cshtml";
+}
+@foreach (var item in Model)
+{
+    <div style="display: flex; flex-wrap: wrap;">
+        <div style="width: 100%; padding-right: 15px; padding-left: 15px;position: relative; display: flex; flex-direction: column; min-width: 0; word-wrap: break-word; background-clip: border-box;  border-radius: 0.25rem; flex: 0 0 100%; max-width: 100%; ">
+
+            @* Code View *@
+            <div style="display: flex; flex-wrap: wrap; margin-right: -15px; margin-left: -15px;">
+                <div style="flex: 0 0 50%; float: left; max-width: 300px; text-align: center; font-weight: bold; font-size: 1.2rem; text-transform: uppercase;">
+                    <img alt="Hòa Phát Dung Quất" src="https://portal.hoaphatdungquat.vn/Content/assets/images/logo-inverse.png" width="90%" />
+                    <span class="" style="margin-top: 0; margin-bottom: 1rem;">Công ty Cổ phần Thép</span>
+                    <p class="" style="margin-top: 0; margin-bottom: 1rem;">Hòa Phát Dung Quất</p>
+
+                </div>
+                <div class="col-md-6" style="float:right;text-align:right; font-weight: bold; margin-left: auto;">
+                    <span>BM.04.23</span>
+                    <p style="margin-top: 2px"><span style="font-style:italic;">Ngày hiệu lực:</span> 01/05/2022</p>
+                </div>
+                <div style="flex: 0 0 100%; max-width: 100%; padding-bottom: 1rem;">
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <p style="text-align:center; font-size: 1.5rem;font-weight:bold; text-transform:uppercase;">Bài Kiểm Tra, Sát Hạch</p>
+                </div>
+                <div style="flex: 0 0 100%; max-width: 100%;">
+                    <table style="width: 100%; margin-bottom: 1px; color: #000000 !important; border: unset !important; text-indent: initial; border-collapse: collapse; ">
+                        <tr>
+                            <td width="50%" style="border: unset !important; ">- Họ và tên: @item.HoTen</td>
+                            <td width="25%" style="border: unset !important; ">- Ngày kiểm tra: @item.NgayThi.ToString("dd/MM/yyyy")</td>
+                        </tr>
+                        <tr>
+                            <td width="50%" style="border: unset !important; padding-top: 16px; ">- Ngày sinh: ...../...../.........</td>
+                            <td width="25%" style="border: unset !important; padding-top: 16px; ">- Thời gian làm bài: @item.ThoiGianLamBai phút</td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="flex: 0 0 50%; max-width: 50%;">
+                    <p>- Mã nhân viên: @item.MaNV</p>
+
+                </div>
+                <div style="flex: 0 0 100%; max-width: 100%;">
+                    <p style="margin-top: 0;margin-bottom: 1rem;">- Bộ phận: @item.TenPhongBan</p>
+                    <p>- Nội dung kiểm tra sát hạch: @item.NoiDungDT</p>
+                    <p>- Đề thi: @item.TenDeThi</p>
+
+                </div>
+                <div style="flex: 0 0 100%; max-width: 100%;">
+                    <table style="width: 100%; margin-bottom: 1px; color: #000000 !important; border: unset !important; text-indent: initial; border-collapse: collapse; ">
+                        <tr>
+                            <td width="25%" style="border: unset !important; ">- Hình thức:</td>
+                            <td width="25%" style="border: unset !important; ">&#128505; Lý thuyết</td>
+                            <td width="25%" style="border: unset !important;">&#x2610; Thực hành</td>
+                            <td width="25%" style="border: unset !important;">&#x2610; Vấn đáp</td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="flex: 0 0 100%; max-width: 100%; text-decoration: underline; margin: 0px;">
+                    <p><strong>Kết quả:</strong></p>
+                </div>
+                <div style="flex: 0 0 100%; max-width: 100%;">
+                    <table style="width: 100%; margin-bottom: 1px; background-color: rgba(0, 0, 0, 0); border: 1px solid black !important; color: #000000 !important; text-indent: initial; border-collapse: collapse; ">
+                        <thead style="display: table-header-group; vertical-align: middle; border-color: inherit;">
+                            <tr>
+                                <th style="text-align: center !important; border: 1px solid black;" width="25%">Hình thức kiểm tra, sát hạch</th>
+                                <th style="text-align: center !important; border: 1px solid black;" width="25%">Lý thuyết</th>
+                                <th style="text-align: center !important; border: 1px solid black;" width="25%">Thực hành</th>
+                                <th style="text-align: center !important; border: 1px solid black;" width="25%">Vấn đáp</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td style="text-align: center !important; border: 1px solid black;">
+                                    Điểm
+                                </td>
+                                <td style="text-align: center !important; border: 1px solid black;">
+                                    @item.DiemSo
+                                </td>
+                                <td style="text-align: center !important; border: 1px solid black;">
+                                </td>
+                                <td style="text-align: center !important; border: 1px solid black;">
+                                </td>
+                            </tr>
+                            <tr style="height:120px">
+                                <td style="text-align: center !important; border: 1px solid black;">
+                                    <p>Người đánh giá</p>
+                                    <p style="font-style:italic;">(Ký và ghi rõ họ tên)</p>
+                                </td>
+                                <td style="text-align: center !important; border: 1px solid black;">
+                                </td>
+                                <td style="text-align: center !important; border: 1px solid black;">
+                                </td>
+                                <td style="text-align: center !important; border: 1px solid black;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center !important; border: 1px solid black;">
+                                </td>
+                                <td style="text-align: center !important; border: 1px solid black; font-style: italic " colspan="3">
+                                    Ghi chú: Không đạt sát hạch khi có một hình thức thi đạt dưới 5 điểm
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    @*<P class="breakhere" />*@
+                    <br />  <br />
+                    <table style=" flex: 0 0 100%; max-width: 100%; width: 100%; margin-bottom: 1rem; background-color: rgba(0, 0, 0, 0); border: 1px solid black !important; color: #000000 !important; text-indent: initial; border-collapse: collapse; ">
+                        <thead style="display: table-header-group; vertical-align: middle; border-color: inherit;">
+                            <tr>
+                                <th width="30px" style="text-align: center !important; border: 1px solid black;">STT</th>
+                                <th style="text-align: center !important; border: 1px solid black;">Nội Dung</th>
+                                <th style="text-align: center !important; border: 1px solid black;" width="190px">Đáp án học viên</th>
+                                <th style="text-align: center !important; border: 1px solid black;" width="100px">Kết Quả</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                ELEARNINGEntities db_context = new ELEARNINGEntities();
+                                var _model = from a in db_context.BaiThis.Where(x => x.IDBaiThi == item.IDBaiThi && x.IDDeThi == item.IDDeThi && x.IDNV == item.IDNV)
+                                             join b in db_context.CTBaiThis on a.IDBaiThi equals b.IDBaiThi
+                                             join c in db_context.CauHois on b.IDCauHoi equals c.IDCH
+                                             join d in db_context.DanhSachDAs on c.IDDAĐung equals d.IDDSĐA
+                                             join e in db_context.DanhSachDAs on b.IDDApAnNV equals e.IDDSĐA
+                                             select new ManageQuestionValidation
+                                             {
+                                                 IDCH = (int)c.IDCH,
+                                                 NoiDungCH = c.NoiDungCH,
+                                                 DapAnA = c.DapAnA,
+                                                 DapAnB = c.DapAnB,
+                                                 DapAnC = c.DapAnC,
+                                                 DapAnD = c.DapAnD,
+                                                 DapAnĐung = d.TenĐA,
+                                                 IDDAĐung = (int)c.IDDAĐung,
+                                                 Diem = (double)b.Diem,
+                                                 DapAnHV = e.TenĐA
+
+                                             };
+                                int RowNo = 1;
+                                foreach (var n in _model)
+                                {
+                                    <tr>
+                                        <td style="text-align: center !important; border: 1px solid black;"> @RowNo@{RowNo++;}</td>
+                                        <td style="padding-left: 5px; border: 1px solid black;">
+                                            Câu hỏi: @n.NoiDungCH <br />
+                                            @if (n.IDDAĐung == 1)
+                                            {
+                                                <span style="font-weight: 700 !important;">A: @n.DapAnA</span> <br />
+                                                <span>B: @n.DapAnB</span><br />
+                                                <span>C: @n.DapAnC</span><br />
+                                                <span>D: @n.DapAnD</span>
+                                            }
+                                            else if (n.IDDAĐung == 2)
+                                            {
+                                                <span>A: @n.DapAnA </span><br />
+                                                <span style="font-weight: 700 !important;">B: @n.DapAnB</span><br />
+                                                <span>C: @n.DapAnC</span><br />
+                                                <span>D: @n.DapAnD</span>
+                                            }
+                                            else if (n.IDDAĐung == 3)
+                                            {
+                                                <span>A: @n.DapAnA </span><br />
+                                                <span>B: @n.DapAnB</span><br />
+                                                <span style="font-weight: 700 !important;">C: @n.DapAnC</span><br />
+                                                <span>D: @n.DapAnD</span>
+                                            }
+                                            else if (n.IDDAĐung == 4)
+                                            {
+                                                <span>A: @n.DapAnA </span><br />
+                                                <span>B: @n.DapAnB</span><br />
+                                                <span>C: @n.DapAnC</span><br />
+                                                <span style="font-weight: 700 !important;">D: @n.DapAnD</span>
+                                            }
+
+
+
+                                        </td>
+
+                                        <td style="text-align: center !important; border: 1px solid black;">@n.DapAnHV</td>
+                                        <td style="text-align: center !important; border: 1px solid black;">@n.Diem</td>
+
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @* End Code View *@
+
+
+        </div>
+    </div>
+    <div class="breakhere"> </div>
+}
+
+

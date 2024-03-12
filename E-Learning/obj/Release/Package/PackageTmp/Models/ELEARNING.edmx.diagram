@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cc8a0ec616f448e39dcfdf242ae4a7d6" Name="Diagram1" ZoomLevel="101">
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.BaiThi" Width="1.5" PointX="5.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.CauHoi" Width="1.5" PointX="7.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.CauHoiDeThi" Width="1.5" PointX="5.25" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.CTBaiThi" Width="1.5" PointX="7.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.CTLVDT" Width="1.5" PointX="3.75" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.DanhSachDA" Width="1.5" PointX="7.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.DeThi" Width="1.5" PointX="3" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.KhungNangLuc" Width="1.5" PointX="9.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.Kip" Width="1.5" PointX="9.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.KNL_DG" Width="1.5" PointX="9.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.KNL_DGiaTC" Width="1.5" PointX="7.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.KNL_Khoi" Width="1.5" PointX="9.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.KNL_KQ" Width="1.5" PointX="11.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.KNL_Nhom" Width="1.5" PointX="11.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.KNL_NVKiemNhiem" Width="1.5" PointX="11.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.KNL_PhanXuong" Width="1.5" PointX="11.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.KNL_Quyen" Width="1.5" PointX="13.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.KNL_To" Width="1.5" PointX="13.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.LinhVucDT" Width="1.5" PointX="1.5" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.ListController" Width="1.5" PointX="5.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.LoaiKNL" Width="1.5" PointX="13.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.LopHoc" Width="1.5" PointX="3" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.NhanVien" Width="1.5" PointX="3" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.NoiDungDT" Width="1.5" PointX="0.75" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.PhongBan" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.Quyen" Width="1.5" PointX="7.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.QuyenCN" Width="1.5" PointX="13.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.QuyenDetail" Width="1.5" PointX="9.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.TinhTrangLV" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.Vitri" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.ViTriKNL" Width="1.5" PointX="11.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.XNHocTap" Width="1.5" PointX="5.25" PointY="3.125" IsExpanded="true" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_CauHoiDeThi_DeThi" ManuallyRouted="false" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_CTLVDT_LinhVucDT" ManuallyRouted="false" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_DeThi_NoiDungDT" ManuallyRouted="false" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_NoiDungDT_LinhVucDT" ManuallyRouted="false" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_LopHoc_NoiDungDT" ManuallyRouted="false" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_XNHocTap_LopHoc" ManuallyRouted="false" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_NhanVien_PhongBan" ManuallyRouted="false" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_NhanVien_TinhTrangLV" ManuallyRouted="false" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_NhanVien_Vitri" ManuallyRouted="false" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_XNHocTap_NhanVien" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.HDSD" Width="1.5" PointX="14.375" PointY="13.75" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.KNL_LoaiKQ" Width="1.5" PointX="16.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.KNL_LSDG" Width="1.5" PointX="14" PointY="16.625" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_KNLKQ_KhungNangLuc" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_KNL_LSDG_ViTriKNL" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_CauHoiDeThi_CauHoi" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.DeNghiKCCD" Width="1.5" PointX="16.375" PointY="4.75" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.NhomNLKCCD" Width="1.5" PointX="16.375" PointY="11.375" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.NoiDungDTKCCD" Width="1.5" PointX="18.625" PointY="11" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.PhieuXacNhanKCCD" Width="1.5" PointX="18.625" PointY="4.125" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_PhieuXacNhanKCCD_DeNghiKCCD" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_NoiDungDTKCCD_NhomNLKCCD" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_DeNghiKCCD_NoiDungDTKCCD" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.QT_DinhKy" Width="1.5" PointX="16.375" PointY="19.5" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.QT_FileQT" Width="1.5" PointX="20.875" PointY="17.625" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.QT_LoaiQT" Width="1.5" PointX="16.375" PointY="16.625" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.QT_VanBanLQ" Width="1.5" PointX="20.875" PointY="14.625" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.QT_CauHoiQT" Width="1.5" PointX="20.875" PointY="21.25" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.QT_PhanQuyen" Width="1.5" PointX="23.875" PointY="17.25" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_QT_PhanQuyen_QT_DinhKy" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.QT_BaiKiemTra" Width="1.5" PointX="20.875" PointY="25.875" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.QT_CTBaiKiemTra" Width="1.5" PointX="23.125" PointY="23.875" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.QT_NoiDungQT" Width="1.5" PointX="18.625" PointY="25.125" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_QT_BaiKiemTra_QT_NoiDungQT" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_QT_CTBaiKiemTra_QT_BaiKiemTra" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_QT_CauHoiQT_QT_NoiDungQT" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_QT_CTBaiKiemTra_QT_CauHoiQT" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_QT_FileQT_QT_NoiDungQT" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_QT_NoiDungQT_QT_LoaiQT" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_QT_PhanQuyen_QT_NoiDungQT" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_QT_VanBanLQ_QT_NoiDungQT" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.ThongBao" Width="1.5" PointX="7.375" PointY="17.75" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.KCCD_CauHoi" Width="1.5" PointX="9.625" PointY="21" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.KCCD_DeThi" Width="1.5" PointX="7.375" PointY="21.375" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_KCCD_CauHoi_KCCD_DeThi" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.DinhBienVT" Width="1.5" PointX="12.375" PointY="20.75" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.KCCD_CTBaiThi" Width="1.5" PointX="11.875" PointY="24.25" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_KCCD_CTBaiThi_KCCD_CauHoi" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.KCCD_BaiThi" Width="1.5" PointX="21.375" PointY="1" />
+        <AssociationConnector Association="ELEARNING_KNLModel.FK_KCCD_CTBaiThi_KCCD_BaiThi" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

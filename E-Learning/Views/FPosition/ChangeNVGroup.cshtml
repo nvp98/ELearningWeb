@@ -1,0 +1,488 @@
+﻿@model E_Learning.Models.DSachDGValidation
+@using E_Learning.Models
+@*<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+    <link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />*@
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog" style="max-width:1200px" id="formF">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <fieldset id="SubmitForm">
+                    <div class="row">
+
+
+                        <div class="form-group col-md-4">
+                            <label class=" mb-1 ">Bộ Phận</label>
+
+                            @Html.DropDownList("IDPB", null, "--Bộ Phận--", new { id = "IDPB_1", @class = "form-control marginTB5 SelectBP", @style = "width:100%", })
+                        </div>
+                        <!--<div class="form-group col-md-2">
+                            <label class=" mb-1">Khối</label>-->
+                        @*@Html.DropDownList("IDKhoi", null, "--Chọn Khối--", new { id = "IDKhoi_1", @class = "form-control marginTB5 SelectK", @style = "width:100%", })*@
+                        <!--</div>
+                        <div class="form-group col-md-2">
+                            <label class=" mb-1">Phân Xưởng</label>
+                            <select class="form-control marginTB5 SelectPX" name="IDPX_1" id="IDPX_1">
+                            </select>-->
+                        @*@Html.DropDownList("IDPX", null, "--Chọn Phân Xưởng--", new { id = "IDPhanXuong", @class = "form-control marginTB5", @style = "width:100%", })*@
+                        <!--</div>
+                        <div class="form-group col-md-2">
+                            <label class=" mb-1">Nhóm</label>
+                            <select class="form-control marginTB5 SelectNhom" name="IDNhom_1" id="IDNhom_1">
+                            </select>-->
+                        @* @Html.DropDownList("IDNhom", null, "--Chọn Nhóm--", new { id = "IDNhom", @class = "form-control marginTB5", @style = "width:100%", })*@
+                        <!--</div>
+                        <div class="form-group col-md-2">
+                            <label class=" mb-1">Tổ</label>
+                            <select class="form-control marginTB5 SelectTo" name="IDTo_1" id="IDTo_1">
+                            </select>-->
+                        @*@Html.DropDownList("IDTo", null, "--Chọn Tổ--", new { id = "IDTo", @class = "form-control marginTB5", @style = "width:100%", })*@
+                        <!--</div>-->
+                        <div class="form-group col-md-8">
+                            <label class=" mb-1">Vị trí khung năng lực</label>
+                            <select class="form-control marginTB5 SelecVT" name="IDVT_1" id="IDVT_1">
+                            </select>
+                            @*@Html.DropDownList("IDVT", null, "--Chọn Vị trí--", new { id = "IDVT", @class = "form-control marginTB5", @style = "width:100%", })*@
+                        </div>
+                        <!--<div class="col-md-4">
+                            <div class="form-group text-xl-left font-weight-bold">
+                                <label class=" mb-1 font-weight-bold float-left">Nhân viên</label>-->
+                        @*@Html.DropDownList("Selected", null, "", new { id = "multiSelectDropDownQAs", @class = "form-control multiSelectDropDownQAs", multiple = "multiple", })*@
+                        @*@Html.ListBox("Selected", ViewBag.Selected, new { style = "width:90%" })*@
+
+                        <!--</div>
+                        </div>-->
+                        <div class='form-group col-md-6' style='display: grid'>
+                            <label class="mb-1 font-weight-bold float-left">Copy DS mã nhân viên</label>
+                            <textarea class='form-control DSNV' placeholder='Nhập danh sách nhân viên 1' rows='3' name='NVDG_1' id='NVDG_1'></textarea>
+                        </div>
+
+                        <!--<div class="form-group col-md-3 " style="display:grid">
+                            <label class="mb-1 font-weight-bold float-left">Copy DS mã nhân viên</label>-->
+                        @*<div id="checkNV" style="width:70px" class="btn btn-danger">
+                                Check
+                            </div>*@
+                        @*@Html.TextAreaFor(model => model.NVDG, new { @class = "form-control", @rows = 2, placeholder = "Nhập danh sách nhân viên", @id = "NVDG", })
+                            @Html.ValidationMessageFor(model => model.NVDG, "", new { @class = "text-danger" })*@
+                        <!--</div>-->
+
+                        <div id="checkNV_1" style="width:70px" class="btn btn-primary form-group col-md-1 h-25 checkNV m-auto">
+                            Check
+                        </div>
+                        <div class="form-group col-md-4 overflow-auto m-auto border border-success rounded" style="display:grid;height:100px" id="dsnv_1">
+                            @*<label class="mb-1 font-weight-bold float-left">Danh sách nhân viên</label>
+                                @Html.TextAreaFor(model => model.NVDG, new { @class = "form-control", @rows = 2, placeholder = "Nhập danh sách nhân viên", @id = "NVDG", })
+                                @Html.ValidationMessageFor(model => model.NVDG, "", new { @class = "text-danger" })*@
+                        </div>
+                        <hr class="col-md-11">
+                        <div id="list_vt" style="width:100%">
+
+                        </div>
+                        <div class="form-group col-md-12">
+                            <button id="add-vt" type="button" class="btn btn-secondary border border-white"><i class="fas fa-plus"></i></button>
+                        </div>
+
+                    </div>
+
+                    <div class="btn-margin-top text-center">
+                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
+                        {
+                            <input type="submit" value="Xác nhận" class="btn btn-primary pull-right " />
+                            <input type="reset" value="Hủy" class="btn btn-danger pull-right button_cancel mr-1" data-dismiss="modal" />
+                        }
+
+                    </div>
+                </fieldset>
+
+            </div>
+        </div>
+    </div>
+
+}
+
+
+<script>
+    $("#formF #IDPhongBan").chosen({
+        width: "100%"
+    });
+    $(".SelecVT").chosen({
+        width: "100%"
+    });
+    $(document).ready(function () {
+        var i = 2;
+        $("#add-vt").click(function () {
+            var renderList = $(`<div class='form-group col-md-2 marginTB5' style='display: grid'>
+                                    <select class="form-control marginTB5 SelectBP" name="IDPB_${i}" id="IDPB_${i}">
+                                                                  <option value ='null'>--Chọn Phòng Ban--</option>
+                                                                  @foreach (var item in ViewBag.IDPB)
+                                                                    {
+                                                                      <option value='@item.Value'>@item.Text</option>
+                                                                    }
+                                    </select>
+                                </div>
+                                <div class='form-group col-md-8 marginTB5' style='display: grid'>
+                                    <select class="form-control marginTB5 SelecVT" name="IDVT_${i}" id="IDVT_${i}">
+                                    </select>
+                                </div>
+
+                                <div class='form-group col-md-6' style='display: grid'>
+                                    <label class="mb-1 font-weight-bold float-left">Copy DS mã nhân viên</label>
+                                    <textarea class='form-control DSNV' placeholder='Nhập danh sách nhân viên ${i}' rows='3' name='NVDG_${i}' id='NVDG_${i}'></textarea>
+                                </div>
+                                <div id="checkNV_${i}" style="width:70px" class="btn btn-primary form-group col-md-1 h-25 checkNV m-auto">
+                                   Check
+                                </div>
+                                <div class="form-group col-md-4 overflow-auto m-auto border border-success rounded" style="display:grid;height:100px" id="dsnv_${i}">
+                                </div>
+                                <hr class="col-md-11">
+            `);
+            $("#list_vt").before(renderList);
+            i++;
+            $(".SelectBP").chosen({
+                width: "100%",
+            });
+            $(".SelecVT").chosen({
+                width: "100%",
+            });
+        });
+
+        $(document).on("change", ".SelectBP", function () {
+            //$(this).closest("tr").remove();
+            const params = new URLSearchParams(window.location.search);
+            //console.log("ssss");
+            var idpb = $(this).val();
+            var iddex = $(this).attr('id').split("_")[1];
+            //$.get("/FGroup/GetPX", { IDPB: idpb }, function (data) {
+            //    if (data[0] != null) {
+            //        $("#IDPX_" + iddex).empty();
+            //        $("#IDPX_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")
+            //        $.each(data, function (index, row) {
+            //            if (params.get('IDPX') == row.ID) {
+            //                $("#IDPX_" + iddex).append("<option value ='" + row.ID + "' selected>" + row.TenPX + "</option>")
+            //            }
+            //            else {
+            //                $("#IDPX_" + iddex).append("<option value ='" + row.ID + "'>" + row.TenPX + "</option>")
+            //            }
+            //        });
+
+            //    }
+            //    else {
+            //        $("#IDPX_" + iddex).empty();
+            //    }
+            //});
+            //$.get("/FGroup/GetNhom", { IDPB: idpb }, function (data1) {
+            //    if (data1[0] != null) {
+            //        $("#IDNhom_" + iddex).empty();
+            //        $("#IDNhom_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Nhóm--" + "</option>");
+            //        $.each(data1, function (index, row) {
+            //            if (params.get('IDNhom') == row.IDNhom) {
+            //                $("#IDNhom_" + iddex).append("<option value ='" + row.IDNhom + "' selected>" + row.TenNhom + "</option>")
+            //            }
+            //            else {
+            //                $("#IDNhom_" + iddex).append("<option value ='" + row.IDNhom + "'>" + row.TenNhom + "</option>")
+            //            }
+
+            //        });
+
+            //    }
+            //    else {
+            //        $("#IDNhom_" + iddex).empty();
+            //    }
+            //});
+            //$.get("/FGroup/GetTo", { IDPB: idpb }, function (data1) {
+            //    if (data1[0] != null) {
+            //        //console.log(data1[0]);
+            //        /* $("#IDNhom").empty();*/
+            //        $("#IDTo_" + iddex).empty();
+            //        $("#IDTo_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Tổ--" + "</option>");
+            //        $.each(data1, function (index, row) {
+            //            if (params.get('IDTo') == row.IDTo) {
+            //                $("#IDTo_" + iddex).append("<option value ='" + row.IDTo + "' selected>" + row.TenTo + "</option>")
+            //            }
+            //            else {
+            //                $("#IDTo_" + iddex).append("<option value ='" + row.IDTo + "'>" + row.TenTo + "</option>")
+            //            }
+            //        });
+
+            //    }
+            //    else {
+            //        $("#IDTo_" + iddex).empty();
+            //    }
+            //});
+            $.get("/FPosition/GetDataVTKNL", { IDPB: idpb }, function (data1) {
+                if (data1[0] != null) {
+                    //console.log(data1[0]);
+                    /* $("#IDNhom").empty();*/
+                    $("#IDVT_" + iddex).empty();
+                    $("#IDVT_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Vị trí--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        //if (params.get('IDVT') == row.IDTo) {
+                        //    $("#IDVT_" + iddex).append("<option value ='" + row.IDVT + "' selected>" + row.TenViTri + "</option>")
+                        //}
+                        //else {
+                            $("#IDVT_" + iddex).append("<option value ='" + row.IDVT + "'>" + row.TenViTri + "</option>")
+                 /*       }*/
+                    });
+                    $("#IDVT_" + iddex).trigger("chosen:updated")
+                }
+                else {
+                    $("#IDVT_" + iddex).empty();
+                }
+            });
+
+            });
+        $(document).on("change", ".SelectK", function () {
+            const params = new URLSearchParams(window.location.search);
+            //console.log($(this).val());
+
+            var iddex = $(this).attr('id').split("_")[1];
+            var idpb = $("#IDPB_"+iddex).val();
+            $.get("/FGroup/GetPX", { IDPB: idpb, IDKhoi: $("#IDKhoi_" + iddex).val() }, function (data) {
+                if (data[0] != null) {
+                    $("#IDPX_" + iddex).empty();
+                    $("#IDPX_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")
+                    $.each(data, function (index, row) {
+                        if (params.get('IDPX') == row.ID) {
+                            $("#IDPX_" + iddex).append("<option value ='" + row.ID + "' selected>" + row.TenPX + "</option>")
+                            $("#IDPX_" + iddex).change();
+                        }
+                        else {
+                            $("#IDPX_" + iddex).append("<option value ='" + row.ID + "'>" + row.TenPX + "</option>")
+                        }
+
+                    });
+
+                }
+                else {
+                    $("#IDPX_" + iddex).empty();
+                }
+            });
+            $.get("/FGroup/GetNhom", { IDPB: idpb, IDKhoi: $("#IDKhoi_" + iddex).val() }, function (data1) {
+                if (data1[0] != null) {
+                    $("#IDNhom_" + iddex).empty();
+                    $("#IDNhom_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Nhóm--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDNhom') == row.IDNhom) {
+                            $("#IDNhom_" + iddex).append("<option value ='" + row.IDNhom + "' selected>" + row.TenNhom + "</option>");
+                            /* $("#IDNhom").change();*/
+                        }
+                        else {
+                            $("#IDNhom_" + iddex).append("<option value ='" + row.IDNhom + "'>" + row.TenNhom + "</option>")
+                        }
+
+                    });
+
+                }
+                else {
+                    $("#IDNhom_" + iddex).empty();
+                }
+            });
+            $.get("/FGroup/GetTo", { IDPB: idpb, IDKhoi: $("#IDKhoi_" + iddex).val() }, function (data1) {
+                if (data1[0] != null) {
+                    //console.log(data1[0]);
+                    /* $("#IDNhom").empty();*/
+                    $("#IDTo_" + iddex).empty();
+                    $("#IDTo_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Tổ--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDTo') == row.IDTo) {
+                            $("#IDTo_" + iddex).append("<option value ='" + row.IDTo + "' selected>" + row.TenTo + "</option>")
+                        }
+                        else {
+                            $("#IDTo_" + iddex).append("<option value ='" + row.IDTo + "'>" + row.TenTo + "</option>")
+                        }
+                    });
+
+                }
+                else {
+                    $("#IDTo_" + iddex).empty();
+                }
+            });
+            $.get("/FGroup/GetVTKNL", { IDPB: idpb, IDKhoi: $("#IDKhoi_" + iddex).val() }, function (data1) {
+                if (data1[0] != null) {
+                    //console.log(data1[0]);
+                    /* $("#IDNhom").empty();*/
+                    $("#IDVT_" + iddex).empty();
+                    $("#IDVT_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Vị trí--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDVT') == row.IDTo) {
+                            $("#IDVT_" + iddex).append("<option value ='" + row.IDVT + "' selected>" + row.TenViTri + "</option>")
+                        }
+                        else {
+                            $("#IDVT_" + iddex).append("<option value ='" + row.IDVT + "'>" + row.TenViTri + "</option>")
+                        }
+                    });
+
+                }
+                else {
+                    $("#IDVT_" + iddex).empty();
+                }
+            });
+        });
+        $(document).on("change", ".SelectPX", function () {
+            const params = new URLSearchParams(window.location.search);
+            var idpx = $(this).val();
+            var iddex = $(this).attr('id').split("_")[1];
+            var idpb = $("#IDPB_" + iddex).val();
+            $.get("/FGroup/GetNhom", { IDPX: idpx, IDPB: idpb, IDKhoi: $("#IDKhoi_" + iddex).val() }, function (data1) {
+                if (data1[0] != null) {
+                    $("#IDNhom_" + iddex).empty();
+                    $("#IDNhom_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Nhóm--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDNhom') == row.IDNhom) {
+                            $("#IDNhom_" + iddex).append("<option value ='" + row.IDNhom + "' selected>" + row.TenNhom + "</option>");
+                            /* $("#IDNhom").change();*/
+                        }
+                        else {
+                            $("#IDNhom_" + iddex).append("<option value ='" + row.IDNhom + "'>" + row.TenNhom + "</option>")
+                        }
+
+                    });
+
+                }
+                else {
+                    $("#IDNhom_" + iddex).empty();
+                }
+            });
+
+            $.get("/FGroup/GetTo", { IDPX: idpx, IDPB: idpb, IDKhoi: $("#IDKhoi_" + iddex).val() }, function (data1) {
+                if (data1[0] != null) {
+                    //$("#IDNhom_" + iddex).empty();
+                    $("#IDTo_" + iddex).empty();
+                    $("#IDTo_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Tổ--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDTo') == row.IDTo) {
+                            $("#IDTo_" + iddex).append("<option value ='" + row.IDTo + "' selected>" + row.TenTo + "</option>")
+                        }
+                        else {
+                            $("#IDTo_" + iddex).append("<option value ='" + row.IDTo + "'>" + row.TenTo + "</option>")
+                        }
+
+                    });
+
+                }
+                else {
+                    $("#IDTo_" + iddex).empty();
+                }
+            });
+            $.get("/FGroup/GetVTKNL", { IDPX: idpx, IDPB: idpb, IDKhoi: $("#IDKhoi_" + iddex).val() }, function (data1) {
+                if (data1[0] != null) {
+                    //console.log(data1[0]);
+                    /* $("#IDNhom").empty();*/
+                    $("#IDVT_" + iddex).empty();
+                    $("#IDVT_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Vị trí--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDVT') == row.IDTo) {
+                            $("#IDVT_" + iddex).append("<option value ='" + row.IDVT + "' selected>" + row.TenViTri + "</option>")
+                        }
+                        else {
+                            $("#IDVT_" + iddex).append("<option value ='" + row.IDVT + "'>" + row.TenViTri + "</option>")
+                        }
+                    });
+
+                }
+                else {
+                    $("#IDVT_" + iddex).empty();
+                }
+            });
+        });
+        $(document).on("change", ".SelectNhom", function () {
+            const params = new URLSearchParams(window.location.search);
+
+            var iddex = $(this).attr('id').split("_")[1];
+
+            var idpb = $("#IDPB_" + iddex).val();
+            var idpx = $("#IDPX_" + iddex).val();
+            var idnhom = $("#IDNhom_" + iddex).val();
+            var idto = $("#IDTo_" + iddex).val();
+
+            $.get("/FGroup/GetVTKNL", { IDPX: idpx, IDPB: idpb, IDKhoi: $("#IDKhoi_" + iddex).val(), IDNhom :idnhom,IDTo :idto }, function (data1) {
+                if (data1[0] != null) {
+                    //console.log(data1[0]);
+                    /* $("#IDNhom").empty();*/
+                    $("#IDVT_" + iddex).empty();
+                    $("#IDVT_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Vị trí--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDVT') == row.IDTo) {
+                            $("#IDVT_" + iddex).append("<option value ='" + row.IDVT + "' selected>" + row.TenViTri + "</option>")
+                        }
+                        else {
+                            $("#IDVT_" + iddex).append("<option value ='" + row.IDVT + "'>" + row.TenViTri + "</option>")
+                        }
+                    });
+                }
+                else {
+                    $("#IDVT_" + iddex).empty();
+                }
+            });
+        });
+        $(document).on("change", ".SelectTo", function () {
+            const params = new URLSearchParams(window.location.search);
+
+            var iddex = $(this).attr('id').split("_")[1];
+
+            var idpb = $("#IDPB_" + iddex).val();
+            var idpx = $("#IDPX_" + iddex).val();
+            var idnhom = $("#IDNhom_" + iddex).val();
+            var idto = $("#IDTo_" + iddex).val();
+            $.get("/FGroup/GetVTKNL", { IDPX: idpx, IDPB: idpb, IDKhoi: $("#IDKhoi_" + iddex).val(), IDNhom :idnhom, IDTo :idto }, function (data1) {
+                if (data1[0] != null) {
+                    //console.log(data1[0]);
+                    /* $("#IDNhom").empty();*/
+                    $("#IDVT_" + iddex).empty();
+                    $("#IDVT_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Vị trí--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        if (params.get('IDVT') == row.IDTo) {
+                            $("#IDVT_" + iddex).append("<option value ='" + row.IDVT + "' selected>" + row.TenViTri + "</option>")
+                        }
+                        else {
+                            $("#IDVT_" + iddex).append("<option value ='" + row.IDVT + "'>" + row.TenViTri + "</option>")
+                        }
+                    });
+
+                }
+                else {
+                    $("#IDVT_" + iddex).empty();
+                }
+            });
+        });
+
+        $(document).on("click", ".checkNV", function () {
+            var iddex = $(this).attr('id').split("_")[1];
+            $.get("/FPosition/CheckNV", { lsnv: $("#NVDG_" + iddex).val() }, function (data) {
+                if (data[0] != null) {
+                    $("#dsnv_" + iddex).empty();
+                    /*$("#dsnv").append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")*/
+                    $.each(data, function (index, row) {
+                        $("#dsnv_" + iddex).append("<div>" + row.HoTen + "</div>")
+                    });
+                }
+                else {
+                    $("#dsnv_" + iddex).empty();
+                }
+            });
+        });
+
+    });
+
+
+    $(".SelectBP").chosen({
+        width: "100%",
+    });
+    $(".multiSelectDropDownQAs").chosen({
+        width: "100%",
+    });
+</script>
+
+
+
+

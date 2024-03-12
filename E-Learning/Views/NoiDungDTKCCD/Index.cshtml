@@ -1,0 +1,209 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.ModelsKCCD
+@using E_Learning.Models
+@model PagedList.IPagedList<NoiDungDTKCCDView>
+@using PagedList.Mvc
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-portfolio icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Nội dung đào tạo KCCD
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="card col-lg-12">
+                    <div class="card-header">
+                        <div class="col-md-7 col-lg-7">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" id="txtsearch" name="" placeholder="Tìm kiếm" class="form-control" value="@ViewBag.search">
+                                </div>
+
+                                <div class="col-md-3">
+                                    @Html.DropDownList("LVDTID", null, "--LVDT--", new { id = "LVDTID", @class = "form-control marginTB5", @style = "width:100%", })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.DropDownList("IDPB", null, "--Bộ Phận--", new { id = "IDPB", @class = "form-control marginTB5", @style = "width:100%", })
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2"><button type="button" id="btn-ExportLH" class="btn btn-success m-l-auto"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Danh sách NDĐT</button></div>
+                        <div class="col-md-3 float-right">
+                            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD))
+                            {
+                                <button type="button" id="btn-Import" class="btn btn-success float-right ml-2"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Nhập Danh sách </button>
+                                <span class="modal fade" id="myModalimport" role="dialog" data-url='@Url.Action("ImportExcel", "NoiDungDTKCCD")'></span>
+                                <button type="button" id="btn-add" class="btn btn-primary float-right"><i class="fa fa-plus">&nbsp;</i>&nbsp;Thêm mới </button>
+                                <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","NoiDungDTKCCD")'></div>
+                            }
+
+                        </div>
+                      
+                        @*<div class="col-md-2">
+            <button type="button" id="btn-add" class="btn btn-primary  pull-right"><i class="fa fa-plus">&nbsp;</i>&nbsp;Thêm mới </button>
+            <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","NoiDungDTKCCD")'></div>
+
+        </div>*@
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="30px" class="text-center">STT</th>
+                                        <th width="100px" class="text-center">Thao tác</th>
+                                        <th class="text-left">Mã nội dung</th>
+                                        <th class="text-left">Nội Dung Đào Tạo</th>
+                                        <th class="text-left">Phòng Ban</th>
+                                        <th class="text-left">Lĩnh Vực Đào Tạo</th>
+                                        <th class="text-left">Nhóm Năng Lực</th>
+                                        <th class="text-left">Ngày Tạo</th>
+                                        <th class="text-left" width="100">SL Câu hỏi đề thi</th>
+                                        <th class="text-center" width="70">SL Lớp học</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int pageno = (int)Model.PageNumber;
+                                        int itemperpage = (int)Model.PageSize;
+                                        int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                    }
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td class="text-center"> @RowNo@{RowNo++;}</td>
+                                            <td class="text-center">
+                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL))
+                                                {
+                                                    <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "NoiDungDTKCCD", new { id = item.ID })"
+                                                       onclick="return confirm('Bạn muốn xóa : @item.TenND')">
+                                                    </a>
+                                                }
+                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
+                                                {
+                                                    <a id="btn-edit_@item.ID" title="Sửa" class="fa fa-edit icon_action"></a>
+                                                    <div class="modal fade" id="myModale_@item.ID" role="dialog" data-url='@Url.Action("Edit","NoiDungDTKCCD", new { id = item.ID })'></div>
+                                                    <script type="text/javascript">
+                                                    $("#btn-edit_@item.ID").click(function () {
+                                                        var url = $('#myModale_@item.ID').data('url');
+                                                        $.get(url, function (data) {
+                                                            $("#myModal").html(data);
+                                                            $("#ModalTitle").html("Cập nhật Nội dung");
+                                                            $("#myModal").modal('show');
+                                                        });
+                                                    });
+                                                    </script>
+                                                }
+
+
+                                            </td>
+                                            <td class="text-center">@item.ID</td>
+                                            <td>@item.TenND</td>
+                                            <td>@item.TenPhongBan</td>
+                                            <td>@item.TenLVDT</td>
+                                            <td>@item.TenNhomNL</td>
+                                            <td>@item.NgayTao.ToString("dd-MM-yyyy")</td>
+                                            <td class="text-center">
+                                                <a class="font-italic" title="Câu hỏi" href="@Url.Action("DeThi","CauHoiKCCD", new { KCCDID = item.ID })">
+                                                    @item.SLCH Câu hỏi / @item.SLDT Đề thi
+                                                </a>
+                                            </td>
+                                            <td class="text-center">@item.SLLH</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="pager">
+                                @Html.PagedListPager(Model, page => Url.Action("Index", "NoiDungDTKCCD", new { page, IDLVDT = Request.QueryString["IDLVDT"], IDPB = Request.QueryString["IDPB"], search = Request.QueryString["search"] }))
+                                <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script type="text/javascript">
+    //$(" #LVDTID").chosen({
+    //    width: "100%"
+    //});
+    $("#IDPB").chosen({
+        width: "100%"
+    });
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Thêm mới nhóm năng lực mới");
+            $("#myModal").modal('show');
+        });
+    });
+    $('#btn-Import').click(function () {
+        var url = $('#myModalimport').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Thêm mới danh sách KCCD");
+            $("#myModal").modal('show');
+        });
+    });
+    $('#btn-ExportLH').click(function () {
+        window.location.href = "/NoiDungDTKCCD/ExportData";
+    });
+
+    $("#btn-search").on('click', function () {
+        var search = $('#txtsearch').val();
+        window.location.href = '@Url.Action("Index", "NoiDungDTKCCD")?search=' + search + "&IDPB=" + $('#IDPB').val() + "&IDLVDT=" + $('#LVDTID').val();
+    });
+</script>
+

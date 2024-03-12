@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-home icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Trang chủ
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+
+
+                <div class="col-lg-12">
+                    <div class="main-card mb-3 card">
+                        <div class="card-header">
+                            <i class="header-icon lnr-gift icon-gradient bg-grow-early"> </i>
+                            Welcome
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Chào mừng bạn đến với hệ thống học tập : E-Learning Hòa Phát Dung Quất.</strong></p>
+                            
+
+                        </div>
+                        <div class="d-block text-right card-footer">
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+
+            </div>
+        </div>
+    </div>
+</div>

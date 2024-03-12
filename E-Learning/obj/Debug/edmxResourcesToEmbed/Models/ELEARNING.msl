@@ -1,0 +1,1584 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ELEARNING_KNLModelStoreContainer" CdmEntityContainer="ELEARNINGEntities">
+    <EntitySetMapping Name="BaiThis">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.BaiThi">
+        <MappingFragment StoreEntitySet="BaiThi">
+          <ScalarProperty Name="IDBaiThi" ColumnName="IDBaiThi" />
+          <ScalarProperty Name="IDLH" ColumnName="IDLH" />
+          <ScalarProperty Name="IDDeThi" ColumnName="IDDeThi" />
+          <ScalarProperty Name="IDND" ColumnName="IDND" />
+          <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+          <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
+          <ScalarProperty Name="IDViTri" ColumnName="IDViTri" />
+          <ScalarProperty Name="DiemSo" ColumnName="DiemSo" />
+          <ScalarProperty Name="NgayThi" ColumnName="NgayThi" />
+          <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+          <ScalarProperty Name="LanThi" ColumnName="LanThi" />
+          <ScalarProperty Name="Flag" ColumnName="Flag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CauHois">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.CauHoi">
+        <MappingFragment StoreEntitySet="CauHoi">
+          <ScalarProperty Name="IDCH" ColumnName="IDCH" />
+          <ScalarProperty Name="NoiDungCH" ColumnName="NoiDungCH" />
+          <ScalarProperty Name="DapAnA" ColumnName="DapAnA" />
+          <ScalarProperty Name="DapAnB" ColumnName="DapAnB" />
+          <ScalarProperty Name="DapAnC" ColumnName="DapAnC" />
+          <ScalarProperty Name="DapAnD" ColumnName="DapAnD" />
+          <ScalarProperty Name="IDDAĐung" ColumnName="IDDAĐung" />
+          <ScalarProperty Name="IDND" ColumnName="IDND" />
+          <ScalarProperty Name="GVID" ColumnName="GVID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CauHoiDeThis">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.CauHoiDeThi">
+        <MappingFragment StoreEntitySet="CauHoiDeThi">
+          <ScalarProperty Name="IDCauHoiDeThi" ColumnName="IDCauHoiDeThi" />
+          <ScalarProperty Name="IDCauHoi" ColumnName="IDCauHoi" />
+          <ScalarProperty Name="IDDeThi" ColumnName="IDDeThi" />
+          <ScalarProperty Name="Diem" ColumnName="Diem" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CTBaiThis">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.CTBaiThi">
+        <MappingFragment StoreEntitySet="CTBaiThi">
+          <ScalarProperty Name="IDCTBT" ColumnName="IDCTBT" />
+          <ScalarProperty Name="IDBaiThi" ColumnName="IDBaiThi" />
+          <ScalarProperty Name="IDCauHoi" ColumnName="IDCauHoi" />
+          <ScalarProperty Name="IDDapAnDung" ColumnName="IDDapAnDung" />
+          <ScalarProperty Name="IDDApAnNV" ColumnName="IDDApAnNV" />
+          <ScalarProperty Name="Diem" ColumnName="Diem" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CTLVDTs">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.CTLVDT">
+        <MappingFragment StoreEntitySet="CTLVDT">
+          <ScalarProperty Name="IDCTLVDT" ColumnName="IDCTLVDT" />
+          <ScalarProperty Name="TenCTLVDT" ColumnName="TenCTLVDT" />
+          <ScalarProperty Name="LVDTID" ColumnName="LVDTID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DanhSachDAs">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.DanhSachDA">
+        <MappingFragment StoreEntitySet="DanhSachDA">
+          <ScalarProperty Name="IDDSĐA" ColumnName="IDDSĐA" />
+          <ScalarProperty Name="TenĐA" ColumnName="TenĐA" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DeThis">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.DeThi">
+        <MappingFragment StoreEntitySet="DeThi">
+          <ScalarProperty Name="IDDeThi" ColumnName="IDDeThi" />
+          <ScalarProperty Name="MaDe" ColumnName="MaDe" />
+          <ScalarProperty Name="TenDe" ColumnName="TenDe" />
+          <ScalarProperty Name="DiemChuan" ColumnName="DiemChuan" />
+          <ScalarProperty Name="ThoiGianLamBai" ColumnName="ThoiGianLamBai" />
+          <ScalarProperty Name="IDND" ColumnName="IDND" />
+          <ScalarProperty Name="GVID" ColumnName="GVID" />
+          <ScalarProperty Name="TongSoCau" ColumnName="TongSoCau" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KhungNangLucs">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.KhungNangLuc">
+        <MappingFragment StoreEntitySet="KhungNangLuc">
+          <ScalarProperty Name="IDNL" ColumnName="IDNL" />
+          <ScalarProperty Name="TenNL" ColumnName="TenNL" />
+          <ScalarProperty Name="IDLoaiNL" ColumnName="IDLoaiNL" />
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="IDPB" ColumnName="IDPB" />
+          <ScalarProperty Name="DinhMuc" ColumnName="DinhMuc" />
+          <ScalarProperty Name="IsDanhGia" ColumnName="IsDanhGia" />
+          <ScalarProperty Name="OrderBy" ColumnName="OrderBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Kips">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.Kip">
+        <MappingFragment StoreEntitySet="Kip">
+          <ScalarProperty Name="IDKip" ColumnName="IDKip" />
+          <ScalarProperty Name="TenKip" ColumnName="TenKip" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KNL_DG">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.KNL_DG">
+        <MappingFragment StoreEntitySet="KNL_DG">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="IDVTDG" ColumnName="IDVTDG" />
+          <ScalarProperty Name="IDVTDDG" ColumnName="IDVTDDG" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KNL_DGiaTC">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.KNL_DGiaTC">
+        <MappingFragment StoreEntitySet="KNL_DGiaTC">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="IDVTDGTT" ColumnName="IDVTDGTT" />
+          <ScalarProperty Name="IDVTDGTC" ColumnName="IDVTDGTC" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KNL_Khoi">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.KNL_Khoi">
+        <MappingFragment StoreEntitySet="KNL_Khoi">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MaKhoi" ColumnName="MaKhoi" />
+          <ScalarProperty Name="TenKhoi" ColumnName="TenKhoi" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KNL_KQ">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.KNL_KQ">
+        <MappingFragment StoreEntitySet="KNL_KQ">
+          <ScalarProperty Name="VTID" ColumnName="VTID" />
+          <ScalarProperty Name="DiemDM" ColumnName="DiemDM" />
+          <ScalarProperty Name="KQID" ColumnName="KQID" />
+          <ScalarProperty Name="IDKQ" ColumnName="IDKQ" />
+          <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+          <ScalarProperty Name="IDNL" ColumnName="IDNL" />
+          <ScalarProperty Name="IDNVDG" ColumnName="IDNVDG" />
+          <ScalarProperty Name="DiemDG" ColumnName="DiemDG" />
+          <ScalarProperty Name="ThangDG" ColumnName="ThangDG" />
+          <ScalarProperty Name="NgayDG" ColumnName="NgayDG" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KNL_Nhom">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.KNL_Nhom">
+        <MappingFragment StoreEntitySet="KNL_Nhom">
+          <ScalarProperty Name="IDNhom" ColumnName="IDNhom" />
+          <ScalarProperty Name="TenNhom" ColumnName="TenNhom" />
+          <ScalarProperty Name="MaNhom" ColumnName="MaNhom" />
+          <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
+          <ScalarProperty Name="IDPhanXuong" ColumnName="IDPhanXuong" />
+          <ScalarProperty Name="IDKhoi" ColumnName="IDKhoi" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KNL_NVKiemNhiem">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.KNL_NVKiemNhiem">
+        <MappingFragment StoreEntitySet="KNL_NVKiemNhiem">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+          <ScalarProperty Name="IDVTKN" ColumnName="IDVTKN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KNL_PhanXuong">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.KNL_PhanXuong">
+        <MappingFragment StoreEntitySet="KNL_PhanXuong">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MaPX" ColumnName="MaPX" />
+          <ScalarProperty Name="TenPX" ColumnName="TenPX" />
+          <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
+          <ScalarProperty Name="IDKhoi" ColumnName="IDKhoi" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KNL_Quyen">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.KNL_Quyen">
+        <MappingFragment StoreEntitySet="KNL_Quyen">
+          <ScalarProperty Name="IDQuyen" ColumnName="IDQuyen" />
+          <ScalarProperty Name="TenQuyen" ColumnName="TenQuyen" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KNL_To">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.KNL_To">
+        <MappingFragment StoreEntitySet="KNL_To">
+          <ScalarProperty Name="IDTo" ColumnName="IDTo" />
+          <ScalarProperty Name="TenTo" ColumnName="TenTo" />
+          <ScalarProperty Name="MaTo" ColumnName="MaTo" />
+          <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
+          <ScalarProperty Name="IDPhanXuong" ColumnName="IDPhanXuong" />
+          <ScalarProperty Name="IDKhoi" ColumnName="IDKhoi" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LinhVucDTs">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.LinhVucDT">
+        <MappingFragment StoreEntitySet="LinhVucDT">
+          <ScalarProperty Name="IDLVDT" ColumnName="IDLVDT" />
+          <ScalarProperty Name="TenLVDT" ColumnName="TenLVDT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ListControllers">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.ListController">
+        <MappingFragment StoreEntitySet="ListController">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Controller" ColumnName="Controller" />
+          <ScalarProperty Name="Mota" ColumnName="Mota" />
+          <ScalarProperty Name="isActive" ColumnName="isActive" />
+          <ScalarProperty Name="DSQuyenCN" ColumnName="DSQuyenCN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LoaiKNLs">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.LoaiKNL">
+        <MappingFragment StoreEntitySet="LoaiKNL">
+          <ScalarProperty Name="IDLoai" ColumnName="IDLoai" />
+          <ScalarProperty Name="TenLoai" ColumnName="TenLoai" />
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="OrderBy" ColumnName="OrderBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LopHocs">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.LopHoc">
+        <MappingFragment StoreEntitySet="LopHoc">
+          <ScalarProperty Name="IDLH" ColumnName="IDLH" />
+          <ScalarProperty Name="MaLH" ColumnName="MaLH" />
+          <ScalarProperty Name="TenLH" ColumnName="TenLH" />
+          <ScalarProperty Name="NDID" ColumnName="NDID" />
+          <ScalarProperty Name="QuyDT" ColumnName="QuyDT" />
+          <ScalarProperty Name="NamDT" ColumnName="NamDT" />
+          <ScalarProperty Name="TGBDLH" ColumnName="TGBDLH" />
+          <ScalarProperty Name="TGKTLH" ColumnName="TGKTLH" />
+          <ScalarProperty Name="GVID" ColumnName="GVID" />
+          <ScalarProperty Name="IDDeThi" ColumnName="IDDeThi" />
+          <ScalarProperty Name="ToChucThi" ColumnName="ToChucThi" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NhanViens">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.NhanVien">
+        <MappingFragment StoreEntitySet="NhanVien">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+          <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
+          <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+          <ScalarProperty Name="HoTenKhongDau" ColumnName="HoTenKhongDau" />
+          <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
+          <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+          <ScalarProperty Name="DienThoai" ColumnName="DienThoai" />
+          <ScalarProperty Name="NgayVaoLam" ColumnName="NgayVaoLam" />
+          <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
+          <ScalarProperty Name="IDTinhTrangLV" ColumnName="IDTinhTrangLV" />
+          <ScalarProperty Name="IDViTri" ColumnName="IDViTri" />
+          <ScalarProperty Name="IsGV" ColumnName="IsGV" />
+          <ScalarProperty Name="IDQuyen" ColumnName="IDQuyen" />
+          <ScalarProperty Name="IDVTKNL" ColumnName="IDVTKNL" />
+          <ScalarProperty Name="IDQuyenKNL" ColumnName="IDQuyenKNL" />
+          <ScalarProperty Name="MaViTri" ColumnName="MaViTri" />
+          <ScalarProperty Name="IDKip" ColumnName="IDKip" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NoiDungDTs">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.NoiDungDT">
+        <MappingFragment StoreEntitySet="NoiDungDT">
+          <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+          <ScalarProperty Name="IDND" ColumnName="IDND" />
+          <ScalarProperty Name="MaND" ColumnName="MaND" />
+          <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
+          <ScalarProperty Name="VideoND" ColumnName="VideoND" />
+          <ScalarProperty Name="ImageND" ColumnName="ImageND" />
+          <ScalarProperty Name="BPLID" ColumnName="BPLID" />
+          <ScalarProperty Name="LVDTID" ColumnName="LVDTID" />
+          <ScalarProperty Name="IDCTLVDT" ColumnName="IDCTLVDT" />
+          <ScalarProperty Name="ThoiLuongDT" ColumnName="ThoiLuongDT" />
+          <ScalarProperty Name="FileDinhKem" ColumnName="FileDinhKem" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PhongBans">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.PhongBan">
+        <MappingFragment StoreEntitySet="PhongBan">
+          <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
+          <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
+          <ScalarProperty Name="MaPB" ColumnName="MaPB" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Quyens">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.Quyen">
+        <MappingFragment StoreEntitySet="Quyen">
+          <ScalarProperty Name="IDQuyen" ColumnName="IDQuyen" />
+          <ScalarProperty Name="TenQuyen" ColumnName="TenQuyen" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuyenCNs">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.QuyenCN">
+        <MappingFragment StoreEntitySet="QuyenCN">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="TenQuyenCN" ColumnName="TenQuyenCN" />
+          <ScalarProperty Name="MaQuyen" ColumnName="MaQuyen" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuyenDetails">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.QuyenDetail">
+        <MappingFragment StoreEntitySet="QuyenDetails">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="IDQuyen" ColumnName="IDQuyen" />
+          <ScalarProperty Name="IDController" ColumnName="IDController" />
+          <ScalarProperty Name="IDQuyenCN" ColumnName="IDQuyenCN" />
+          <ScalarProperty Name="isActive" ColumnName="isActive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TinhTrangLVs">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.TinhTrangLV">
+        <MappingFragment StoreEntitySet="TinhTrangLV">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="TinhTrangLV1" ColumnName="TinhTrangLV" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vitris">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.Vitri">
+        <MappingFragment StoreEntitySet="Vitri">
+          <ScalarProperty Name="IDViTri" ColumnName="IDViTri" />
+          <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ViTriKNLs">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.ViTriKNL">
+        <MappingFragment StoreEntitySet="ViTriKNL">
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+          <ScalarProperty Name="MaViTri" ColumnName="MaViTri" />
+          <ScalarProperty Name="IDPB" ColumnName="IDPB" />
+          <ScalarProperty Name="IDKhoi" ColumnName="IDKhoi" />
+          <ScalarProperty Name="IDPX" ColumnName="IDPX" />
+          <ScalarProperty Name="IDNhom" ColumnName="IDNhom" />
+          <ScalarProperty Name="IDTo" ColumnName="IDTo" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="IDVTParent" ColumnName="IDVTParent" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="XNHocTaps">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.XNHocTap">
+        <MappingFragment StoreEntitySet="XNHocTap">
+          <ScalarProperty Name="IDHT" ColumnName="IDHT" />
+          <ScalarProperty Name="NVID" ColumnName="NVID" />
+          <ScalarProperty Name="LHID" ColumnName="LHID" />
+          <ScalarProperty Name="NgayTG" ColumnName="NgayTG" />
+          <ScalarProperty Name="NgayHT" ColumnName="NgayHT" />
+          <ScalarProperty Name="XNTG" ColumnName="XNTG" />
+          <ScalarProperty Name="XNHT" ColumnName="XNHT" />
+          <ScalarProperty Name="PBID" ColumnName="PBID" />
+          <ScalarProperty Name="VTID" ColumnName="VTID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="BaiThi_insert" FunctionName="ELEARNING_KNLModel.Store.BaiThi_insert" />
+    <FunctionImportMapping FunctionImportName="BaiThi_Update" FunctionName="ELEARNING_KNLModel.Store.BaiThi_Update" />
+    <FunctionImportMapping FunctionImportName="CauHoi_delete" FunctionName="ELEARNING_KNLModel.Store.CauHoi_delete" />
+    <FunctionImportMapping FunctionImportName="CauHoi_DeThi_list" FunctionName="ELEARNING_KNLModel.Store.CauHoi_DeThi_list">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.CauHoi_DeThi_list_Result">
+          <ScalarProperty Name="IDCH" ColumnName="IDCH" />
+          <ScalarProperty Name="NoiDungCH" ColumnName="NoiDungCH" />
+          <ScalarProperty Name="IDND" ColumnName="IDND" />
+          <ScalarProperty Name="GVID" ColumnName="GVID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="CauHoi_insert" FunctionName="ELEARNING_KNLModel.Store.CauHoi_insert" />
+    <FunctionImportMapping FunctionImportName="CauHoi_searchByID" FunctionName="ELEARNING_KNLModel.Store.CauHoi_searchByID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.CauHoi_searchByID_Result">
+          <ScalarProperty Name="IDCH" ColumnName="IDCH" />
+          <ScalarProperty Name="NoiDungCH" ColumnName="NoiDungCH" />
+          <ScalarProperty Name="DapAnA" ColumnName="DapAnA" />
+          <ScalarProperty Name="DapAnB" ColumnName="DapAnB" />
+          <ScalarProperty Name="DapAnC" ColumnName="DapAnC" />
+          <ScalarProperty Name="DapAnD" ColumnName="DapAnD" />
+          <ScalarProperty Name="IDDAĐung" ColumnName="IDDAĐung" />
+          <ScalarProperty Name="IDND" ColumnName="IDND" />
+          <ScalarProperty Name="GVID" ColumnName="GVID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="CauHoi_update" FunctionName="ELEARNING_KNLModel.Store.CauHoi_update" />
+    <FunctionImportMapping FunctionImportName="CauHoiDeThi_delete" FunctionName="ELEARNING_KNLModel.Store.CauHoiDeThi_delete" />
+    <FunctionImportMapping FunctionImportName="CauHoiDeThi_insert" FunctionName="ELEARNING_KNLModel.Store.CauHoiDeThi_insert" />
+    <FunctionImportMapping FunctionImportName="Controller_delete" FunctionName="ELEARNING_KNLModel.Store.Controller_delete" />
+    <FunctionImportMapping FunctionImportName="Controller_insert" FunctionName="ELEARNING_KNLModel.Store.Controller_insert" />
+    <FunctionImportMapping FunctionImportName="Controller_update" FunctionName="ELEARNING_KNLModel.Store.Controller_update" />
+    <FunctionImportMapping FunctionImportName="CTBaiThi_insert" FunctionName="ELEARNING_KNLModel.Store.CTBaiThi_insert" />
+    <FunctionImportMapping FunctionImportName="DeThi_delete" FunctionName="ELEARNING_KNLModel.Store.DeThi_delete" />
+    <FunctionImportMapping FunctionImportName="DeThi_insert" FunctionName="ELEARNING_KNLModel.Store.DeThi_insert" />
+    <FunctionImportMapping FunctionImportName="DeThi_searchByID" FunctionName="ELEARNING_KNLModel.Store.DeThi_searchByID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.DeThi_searchByID_Result">
+          <ScalarProperty Name="IDDeThi" ColumnName="IDDeThi" />
+          <ScalarProperty Name="MaDe" ColumnName="MaDe" />
+          <ScalarProperty Name="TenDe" ColumnName="TenDe" />
+          <ScalarProperty Name="DiemChuan" ColumnName="DiemChuan" />
+          <ScalarProperty Name="ThoiGianLamBai" ColumnName="ThoiGianLamBai" />
+          <ScalarProperty Name="IDND" ColumnName="IDND" />
+          <ScalarProperty Name="GVID" ColumnName="GVID" />
+          <ScalarProperty Name="TongSoCau" ColumnName="TongSoCau" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="DeThi_Update" FunctionName="ELEARNING_KNLModel.Store.DeThi_Update" />
+    <FunctionImportMapping FunctionImportName="KhungNangLuc_delete" FunctionName="ELEARNING_KNLModel.Store.KhungNangLuc_delete" />
+    <FunctionImportMapping FunctionImportName="KhungNangLuc_delete_VT" FunctionName="ELEARNING_KNLModel.Store.KhungNangLuc_delete_VT" />
+    <FunctionImportMapping FunctionImportName="KhungNangLuc_insert" FunctionName="ELEARNING_KNLModel.Store.KhungNangLuc_insert" />
+    <FunctionImportMapping FunctionImportName="KhungNangLuc_searchByIDNL" FunctionName="ELEARNING_KNLModel.Store.KhungNangLuc_searchByIDNL">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.KhungNangLuc_searchByIDNL_Result">
+          <ScalarProperty Name="IDNL" ColumnName="IDNL" />
+          <ScalarProperty Name="TenNL" ColumnName="TenNL" />
+          <ScalarProperty Name="IDLoaiNL" ColumnName="IDLoaiNL" />
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="IDPB" ColumnName="IDPB" />
+          <ScalarProperty Name="DinhMuc" ColumnName="DinhMuc" />
+          <ScalarProperty Name="IsDanhGia" ColumnName="IsDanhGia" />
+          <ScalarProperty Name="OrderBy" ColumnName="OrderBy" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="KhungNangLuc_SearchByIDVT" FunctionName="ELEARNING_KNLModel.Store.KhungNangLuc_SearchByIDVT">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.KhungNangLuc_SearchByIDVT_Result">
+          <ScalarProperty Name="IDNL" ColumnName="IDNL" />
+          <ScalarProperty Name="DinhMuc" ColumnName="DinhMuc" />
+          <ScalarProperty Name="IDLoaiNL" ColumnName="IDLoaiNL" />
+          <ScalarProperty Name="IDPB" ColumnName="IDPB" />
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="IsDanhGia" ColumnName="IsDanhGia" />
+          <ScalarProperty Name="OrderBy" ColumnName="OrderBy" />
+          <ScalarProperty Name="TenNL" ColumnName="TenNL" />
+          <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="KhungNangLuc_update" FunctionName="ELEARNING_KNLModel.Store.KhungNangLuc_update" />
+    <FunctionImportMapping FunctionImportName="KNL_KQ_delete" FunctionName="ELEARNING_KNLModel.Store.KNL_KQ_delete" />
+    <FunctionImportMapping FunctionImportName="KNL_KQ_insert" FunctionName="ELEARNING_KNLModel.Store.KNL_KQ_insert" />
+    <FunctionImportMapping FunctionImportName="KNL_KQ_searchByIDNV" FunctionName="ELEARNING_KNLModel.Store.KNL_KQ_searchByIDNV">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.KNL_KQ_searchByIDNV_Result">
+          <ScalarProperty Name="IDNL" ColumnName="IDNL" />
+          <ScalarProperty Name="TenNL" ColumnName="TenNL" />
+          <ScalarProperty Name="IDLoaiNL" ColumnName="IDLoaiNL" />
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="IDPB" ColumnName="IDPB" />
+          <ScalarProperty Name="DinhMuc" ColumnName="DinhMuc" />
+          <ScalarProperty Name="IsDanhGia" ColumnName="IsDanhGia" />
+          <ScalarProperty Name="OrderBy" ColumnName="OrderBy" />
+          <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+          <ScalarProperty Name="MaViTri" ColumnName="MaViTri" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="IDKQ" ColumnName="IDKQ" />
+          <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+          <ScalarProperty Name="IDNVDG" ColumnName="IDNVDG" />
+          <ScalarProperty Name="DiemDG" ColumnName="DiemDG" />
+          <ScalarProperty Name="ThangDG" ColumnName="ThangDG" />
+          <ScalarProperty Name="NgayDG" ColumnName="NgayDG" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+          <ScalarProperty Name="IDVTKNL" ColumnName="IDVTKNL" />
+          <ScalarProperty Name="TenLoai" ColumnName="TenLoai" />
+          <ScalarProperty Name="orByLoai" ColumnName="orByLoai" />
+          <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
+          <ScalarProperty Name="MaPB" ColumnName="MaPB" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="KNL_KQ_update" FunctionName="ELEARNING_KNLModel.Store.KNL_KQ_update" />
+    <FunctionImportMapping FunctionImportName="KNL_Quyen_insert" FunctionName="ELEARNING_KNLModel.Store.KNL_Quyen_insert" />
+    <FunctionImportMapping FunctionImportName="KNLDG_delete" FunctionName="ELEARNING_KNLModel.Store.KNLDG_delete" />
+    <FunctionImportMapping FunctionImportName="KNLDG_insert" FunctionName="ELEARNING_KNLModel.Store.KNLDG_insert" />
+    <FunctionImportMapping FunctionImportName="KNLDG_update" FunctionName="ELEARNING_KNLModel.Store.KNLDG_update" />
+    <FunctionImportMapping FunctionImportName="KNLDGiaTC_delete" FunctionName="ELEARNING_KNLModel.Store.KNLDGiaTC_delete" />
+    <FunctionImportMapping FunctionImportName="KNLDGiaTC_insert" FunctionName="ELEARNING_KNLModel.Store.KNLDGiaTC_insert" />
+    <FunctionImportMapping FunctionImportName="KNLDGiaTC_update" FunctionName="ELEARNING_KNLModel.Store.KNLDGiaTC_update" />
+    <FunctionImportMapping FunctionImportName="KNLKhoi_delete" FunctionName="ELEARNING_KNLModel.Store.KNLKhoi_delete" />
+    <FunctionImportMapping FunctionImportName="KNLKhoi_insert" FunctionName="ELEARNING_KNLModel.Store.KNLKhoi_insert" />
+    <FunctionImportMapping FunctionImportName="KNLKhoi_update" FunctionName="ELEARNING_KNLModel.Store.KNLKhoi_update" />
+    <FunctionImportMapping FunctionImportName="KNLNhom_delete" FunctionName="ELEARNING_KNLModel.Store.KNLNhom_delete" />
+    <FunctionImportMapping FunctionImportName="KNLNhom_insert" FunctionName="ELEARNING_KNLModel.Store.KNLNhom_insert" />
+    <FunctionImportMapping FunctionImportName="KNLNhom_update" FunctionName="ELEARNING_KNLModel.Store.KNLNhom_update" />
+    <FunctionImportMapping FunctionImportName="KNLNVKiemNhiem_delete" FunctionName="ELEARNING_KNLModel.Store.KNLNVKiemNhiem_delete" />
+    <FunctionImportMapping FunctionImportName="KNLNVKiemNhiem_insert" FunctionName="ELEARNING_KNLModel.Store.KNLNVKiemNhiem_insert" />
+    <FunctionImportMapping FunctionImportName="KNLNVKiemNhiem_update" FunctionName="ELEARNING_KNLModel.Store.KNLNVKiemNhiem_update" />
+    <FunctionImportMapping FunctionImportName="KNLPhanXuong_delete" FunctionName="ELEARNING_KNLModel.Store.KNLPhanXuong_delete" />
+    <FunctionImportMapping FunctionImportName="KNLPhanXuong_insert" FunctionName="ELEARNING_KNLModel.Store.KNLPhanXuong_insert" />
+    <FunctionImportMapping FunctionImportName="KNLPhanXuong_update" FunctionName="ELEARNING_KNLModel.Store.KNLPhanXuong_update" />
+    <FunctionImportMapping FunctionImportName="KNLTo_delete" FunctionName="ELEARNING_KNLModel.Store.KNLTo_delete" />
+    <FunctionImportMapping FunctionImportName="KNLTo_insert" FunctionName="ELEARNING_KNLModel.Store.KNLTo_insert" />
+    <FunctionImportMapping FunctionImportName="KNLTo_update" FunctionName="ELEARNING_KNLModel.Store.KNLTo_update" />
+    <FunctionImportMapping FunctionImportName="ListController_update" FunctionName="ELEARNING_KNLModel.Store.ListController_update" />
+    <FunctionImportMapping FunctionImportName="LoaiKNL_delete" FunctionName="ELEARNING_KNLModel.Store.LoaiKNL_delete" />
+    <FunctionImportMapping FunctionImportName="LoaiKNL_delete_VT" FunctionName="ELEARNING_KNLModel.Store.LoaiKNL_delete_VT" />
+    <FunctionImportMapping FunctionImportName="LoaiKNL_insert" FunctionName="ELEARNING_KNLModel.Store.LoaiKNL_insert" />
+    <FunctionImportMapping FunctionImportName="LoaiKNL_update" FunctionName="ELEARNING_KNLModel.Store.LoaiKNL_update" />
+    <FunctionImportMapping FunctionImportName="LopHoc_delete" FunctionName="ELEARNING_KNLModel.Store.LopHoc_delete" />
+    <FunctionImportMapping FunctionImportName="LopHoc_insert" FunctionName="ELEARNING_KNLModel.Store.LopHoc_insert" />
+    <FunctionImportMapping FunctionImportName="LopHoc_searchByID" FunctionName="ELEARNING_KNLModel.Store.LopHoc_searchByID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.LopHoc_searchByID_Result">
+          <ScalarProperty Name="IDLH" ColumnName="IDLH" />
+          <ScalarProperty Name="MaLH" ColumnName="MaLH" />
+          <ScalarProperty Name="TenLH" ColumnName="TenLH" />
+          <ScalarProperty Name="NDID" ColumnName="NDID" />
+          <ScalarProperty Name="QuyDT" ColumnName="QuyDT" />
+          <ScalarProperty Name="NamDT" ColumnName="NamDT" />
+          <ScalarProperty Name="TGBDLH" ColumnName="TGBDLH" />
+          <ScalarProperty Name="TGKTLH" ColumnName="TGKTLH" />
+          <ScalarProperty Name="GVID" ColumnName="GVID" />
+          <ScalarProperty Name="IDDeThi" ColumnName="IDDeThi" />
+          <ScalarProperty Name="ToChucThi" ColumnName="ToChucThi" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="LopHoc_select" FunctionName="ELEARNING_KNLModel.Store.LopHoc_select">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.LopHoc_select_Result">
+          <ScalarProperty Name="IDLH" ColumnName="IDLH" />
+          <ScalarProperty Name="MaLH" ColumnName="MaLH" />
+          <ScalarProperty Name="TenLH" ColumnName="TenLH" />
+          <ScalarProperty Name="NDID" ColumnName="NDID" />
+          <ScalarProperty Name="QuyDT" ColumnName="QuyDT" />
+          <ScalarProperty Name="NamDT" ColumnName="NamDT" />
+          <ScalarProperty Name="TGBDLH" ColumnName="TGBDLH" />
+          <ScalarProperty Name="TGKTLH" ColumnName="TGKTLH" />
+          <ScalarProperty Name="GVID" ColumnName="GVID" />
+          <ScalarProperty Name="IDDeThi" ColumnName="IDDeThi" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="LopHoc_update" FunctionName="ELEARNING_KNLModel.Store.LopHoc_update" />
+    <FunctionImportMapping FunctionImportName="Nhanvien_insert_API" FunctionName="ELEARNING_KNLModel.Store.Nhanvien_insert_API" />
+    <FunctionImportMapping FunctionImportName="NhanVien_select" FunctionName="ELEARNING_KNLModel.Store.NhanVien_select">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.NhanVien_select_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+          <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+          <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
+          <ScalarProperty Name="IsGV" ColumnName="IsGV" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Nhanvien_update_API" FunctionName="ELEARNING_KNLModel.Store.Nhanvien_update_API" />
+    <FunctionImportMapping FunctionImportName="Nhanvien_update_IDKNL" FunctionName="ELEARNING_KNLModel.Store.Nhanvien_update_IDKNL" />
+    <FunctionImportMapping FunctionImportName="Nhanvien_update_Quyen" FunctionName="ELEARNING_KNLModel.Store.Nhanvien_update_Quyen" />
+    <FunctionImportMapping FunctionImportName="Nhanvien_update_QuyenKNL" FunctionName="ELEARNING_KNLModel.Store.Nhanvien_update_QuyenKNL" />
+    <FunctionImportMapping FunctionImportName="NoiDungDT_delete" FunctionName="ELEARNING_KNLModel.Store.NoiDungDT_delete" />
+    <FunctionImportMapping FunctionImportName="NoiDungDT_insert" FunctionName="ELEARNING_KNLModel.Store.NoiDungDT_insert" />
+    <FunctionImportMapping FunctionImportName="NoiDungDT_ListContent" FunctionName="ELEARNING_KNLModel.Store.NoiDungDT_ListContent">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.NoiDungDT_ListContent_Result">
+          <ScalarProperty Name="IDND" ColumnName="IDND" />
+          <ScalarProperty Name="MaND" ColumnName="MaND" />
+          <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
+          <ScalarProperty Name="VideoND" ColumnName="VideoND" />
+          <ScalarProperty Name="ImageND" ColumnName="ImageND" />
+          <ScalarProperty Name="BPLID" ColumnName="BPLID" />
+          <ScalarProperty Name="LVDTID" ColumnName="LVDTID" />
+          <ScalarProperty Name="IDCTLVDT" ColumnName="IDCTLVDT" />
+          <ScalarProperty Name="ThoiLuongDT" ColumnName="ThoiLuongDT" />
+          <ScalarProperty Name="FileDinhKem" ColumnName="FileDinhKem" />
+          <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
+          <ScalarProperty Name="TenLVDT" ColumnName="TenLVDT" />
+          <ScalarProperty Name="TenCTLVDT" ColumnName="TenCTLVDT" />
+          <ScalarProperty Name="SLLH" ColumnName="SLLH" />
+          <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="NoiDungDT_searchByID" FunctionName="ELEARNING_KNLModel.Store.NoiDungDT_searchByID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.NoiDungDT_searchByID_Result">
+          <ScalarProperty Name="IDND" ColumnName="IDND" />
+          <ScalarProperty Name="MaND" ColumnName="MaND" />
+          <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
+          <ScalarProperty Name="VideoND" ColumnName="VideoND" />
+          <ScalarProperty Name="ImageND" ColumnName="ImageND" />
+          <ScalarProperty Name="BPLID" ColumnName="BPLID" />
+          <ScalarProperty Name="LVDTID" ColumnName="LVDTID" />
+          <ScalarProperty Name="IDCTLVDT" ColumnName="IDCTLVDT" />
+          <ScalarProperty Name="ThoiLuongDT" ColumnName="ThoiLuongDT" />
+          <ScalarProperty Name="FileDinhKem" ColumnName="FileDinhKem" />
+          <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="NoiDungDT_select" FunctionName="ELEARNING_KNLModel.Store.NoiDungDT_select">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.NoiDungDT_select_Result">
+          <ScalarProperty Name="IDND" ColumnName="IDND" />
+          <ScalarProperty Name="MaND" ColumnName="MaND" />
+          <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
+          <ScalarProperty Name="VideoND" ColumnName="VideoND" />
+          <ScalarProperty Name="ImageND" ColumnName="ImageND" />
+          <ScalarProperty Name="BPLID" ColumnName="BPLID" />
+          <ScalarProperty Name="LVDTID" ColumnName="LVDTID" />
+          <ScalarProperty Name="IDCTLVDT" ColumnName="IDCTLVDT" />
+          <ScalarProperty Name="ThoiLuongDT" ColumnName="ThoiLuongDT" />
+          <ScalarProperty Name="FileDinhKem" ColumnName="FileDinhKem" />
+          <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="NoiDungDT_update" FunctionName="ELEARNING_KNLModel.Store.NoiDungDT_update" />
+    <FunctionImportMapping FunctionImportName="PhongBan_delete_KNL" FunctionName="ELEARNING_KNLModel.Store.PhongBan_delete_KNL" />
+    <FunctionImportMapping FunctionImportName="PhongBan_insert" FunctionName="ELEARNING_KNLModel.Store.PhongBan_insert" />
+    <FunctionImportMapping FunctionImportName="PhongBan_insert_KNL" FunctionName="ELEARNING_KNLModel.Store.PhongBan_insert_KNL" />
+    <FunctionImportMapping FunctionImportName="PhongBan_update_KNL" FunctionName="ELEARNING_KNLModel.Store.PhongBan_update_KNL" />
+    <FunctionImportMapping FunctionImportName="QuyenDetails_delete" FunctionName="ELEARNING_KNLModel.Store.QuyenDetails_delete" />
+    <FunctionImportMapping FunctionImportName="QuyenDetails_insert" FunctionName="ELEARNING_KNLModel.Store.QuyenDetails_insert" />
+    <FunctionImportMapping FunctionImportName="QuyenDetails_isActive" FunctionName="ELEARNING_KNLModel.Store.QuyenDetails_isActive" />
+    <FunctionImportMapping FunctionImportName="QuyenDetails_update" FunctionName="ELEARNING_KNLModel.Store.QuyenDetails_update" />
+    <FunctionImportMapping FunctionImportName="TaiKhoan_ID" FunctionName="ELEARNING_KNLModel.Store.TaiKhoan_ID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.TaiKhoan_ID_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+          <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+          <ScalarProperty Name="HoTenKhongDau" ColumnName="HoTenKhongDau" />
+          <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
+          <ScalarProperty Name="IsGV" ColumnName="IsGV" />
+          <ScalarProperty Name="IDQuyen" ColumnName="IDQuyen" />
+          <ScalarProperty Name="IDQuyenKNL" ColumnName="IDQuyenKNL" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="TaiKhoan_select" FunctionName="ELEARNING_KNLModel.Store.TaiKhoan_select">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.TaiKhoan_select_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+          <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+          <ScalarProperty Name="HoTenKhongDau" ColumnName="HoTenKhongDau" />
+          <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
+          <ScalarProperty Name="IsGV" ColumnName="IsGV" />
+          <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
+          <ScalarProperty Name="TenQuyen" ColumnName="TenQuyen" />
+          <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="TaiKhoan_Update" FunctionName="ELEARNING_KNLModel.Store.TaiKhoan_Update" />
+    <FunctionImportMapping FunctionImportName="TK_Update_Quyen" FunctionName="ELEARNING_KNLModel.Store.TK_Update_Quyen" />
+    <FunctionImportMapping FunctionImportName="Vitri_insert" FunctionName="ELEARNING_KNLModel.Store.Vitri_insert" />
+    <FunctionImportMapping FunctionImportName="VitriKNL_delete" FunctionName="ELEARNING_KNLModel.Store.VitriKNL_delete" />
+    <FunctionImportMapping FunctionImportName="VitriKNL_insert" FunctionName="ELEARNING_KNLModel.Store.VitriKNL_insert" />
+    <FunctionImportMapping FunctionImportName="VitriKNL_update" FunctionName="ELEARNING_KNLModel.Store.VitriKNL_update" />
+    <FunctionImportMapping FunctionImportName="VitriKNL_update_file" FunctionName="ELEARNING_KNLModel.Store.VitriKNL_update_file" />
+    <FunctionImportMapping FunctionImportName="VitriKNL_update_VT" FunctionName="ELEARNING_KNLModel.Store.VitriKNL_update_VT" />
+    <FunctionImportMapping FunctionImportName="XNHocTap_delete" FunctionName="ELEARNING_KNLModel.Store.XNHocTap_delete" />
+    <FunctionImportMapping FunctionImportName="XNHocTap_insert" FunctionName="ELEARNING_KNLModel.Store.XNHocTap_insert" />
+    <FunctionImportMapping FunctionImportName="XNHocTap_searchByID" FunctionName="ELEARNING_KNLModel.Store.XNHocTap_searchByID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.XNHocTap_searchByID_Result">
+          <ScalarProperty Name="IDHT" ColumnName="IDHT" />
+          <ScalarProperty Name="NVID" ColumnName="NVID" />
+          <ScalarProperty Name="LHID" ColumnName="LHID" />
+          <ScalarProperty Name="NgayTG" ColumnName="NgayTG" />
+          <ScalarProperty Name="NgayHT" ColumnName="NgayHT" />
+          <ScalarProperty Name="XNTG" ColumnName="XNTG" />
+          <ScalarProperty Name="XNHT" ColumnName="XNHT" />
+          <ScalarProperty Name="PBID" ColumnName="PBID" />
+          <ScalarProperty Name="VTID" ColumnName="VTID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="XNHocTap_select" FunctionName="ELEARNING_KNLModel.Store.XNHocTap_select">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.XNHocTap_select_Result">
+          <ScalarProperty Name="IDHT" ColumnName="IDHT" />
+          <ScalarProperty Name="NVID" ColumnName="NVID" />
+          <ScalarProperty Name="LHID" ColumnName="LHID" />
+          <ScalarProperty Name="NgayTG" ColumnName="NgayTG" />
+          <ScalarProperty Name="NgayHT" ColumnName="NgayHT" />
+          <ScalarProperty Name="XNTG" ColumnName="XNTG" />
+          <ScalarProperty Name="XNHT" ColumnName="XNHT" />
+          <ScalarProperty Name="PBID" ColumnName="PBID" />
+          <ScalarProperty Name="VTID" ColumnName="VTID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="XNHocTap_update" FunctionName="ELEARNING_KNLModel.Store.XNHocTap_update" />
+    <FunctionImportMapping FunctionImportName="KNL_KQ_Select" FunctionName="ELEARNING_KNLModel.Store.KNL_KQ_Select">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.KNL_KQ_Select_Result">
+          <ScalarProperty Name="IDKQ" ColumnName="IDKQ" />
+          <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+          <ScalarProperty Name="IDNL" ColumnName="IDNL" />
+          <ScalarProperty Name="IDNVDG" ColumnName="IDNVDG" />
+          <ScalarProperty Name="DiemDG" ColumnName="DiemDG" />
+          <ScalarProperty Name="ThangDG" ColumnName="ThangDG" />
+          <ScalarProperty Name="NgayDG" ColumnName="NgayDG" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="TenNL" ColumnName="TenNL" />
+          <ScalarProperty Name="IDLoaiNL" ColumnName="IDLoaiNL" />
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="IsDanhGia" ColumnName="IsDanhGia" />
+          <ScalarProperty Name="DinhMuc" ColumnName="DinhMuc" />
+          <ScalarProperty Name="OrderBy" ColumnName="OrderBy" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="VitriKNL_searchByIDVT" FunctionName="ELEARNING_KNLModel.Store.VitriKNL_searchByIDVT">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.VitriKNL_searchByIDVT_Result">
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+          <ScalarProperty Name="MaViTri" ColumnName="MaViTri" />
+          <ScalarProperty Name="IDPB" ColumnName="IDPB" />
+          <ScalarProperty Name="IDKhoi" ColumnName="IDKhoi" />
+          <ScalarProperty Name="IDPX" ColumnName="IDPX" />
+          <ScalarProperty Name="IDNhom" ColumnName="IDNhom" />
+          <ScalarProperty Name="IDTo" ColumnName="IDTo" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="IDVTParent" ColumnName="IDVTParent" />
+          <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
+          <ScalarProperty Name="MaPB" ColumnName="MaPB" />
+          <ScalarProperty Name="TenPX" ColumnName="TenPX" />
+          <ScalarProperty Name="MaPX" ColumnName="MaPX" />
+          <ScalarProperty Name="TenTo" ColumnName="TenTo" />
+          <ScalarProperty Name="MaTo" ColumnName="MaTo" />
+          <ScalarProperty Name="TenNhom" ColumnName="TenNhom" />
+          <ScalarProperty Name="MaNhom" ColumnName="MaNhom" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="VitriKNL_search" FunctionName="ELEARNING_KNLModel.Store.VitriKNL_search">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.VitriKNL_search_Result">
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+          <ScalarProperty Name="MaViTri" ColumnName="MaViTri" />
+          <ScalarProperty Name="IDPB" ColumnName="IDPB" />
+          <ScalarProperty Name="IDKhoi" ColumnName="IDKhoi" />
+          <ScalarProperty Name="IDPX" ColumnName="IDPX" />
+          <ScalarProperty Name="IDNhom" ColumnName="IDNhom" />
+          <ScalarProperty Name="IDTo" ColumnName="IDTo" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="IDVTParent" ColumnName="IDVTParent" />
+          <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
+          <ScalarProperty Name="MaPB" ColumnName="MaPB" />
+          <ScalarProperty Name="TenPX" ColumnName="TenPX" />
+          <ScalarProperty Name="MaPX" ColumnName="MaPX" />
+          <ScalarProperty Name="TenTo" ColumnName="TenTo" />
+          <ScalarProperty Name="MaTo" ColumnName="MaTo" />
+          <ScalarProperty Name="TenNhom" ColumnName="TenNhom" />
+          <ScalarProperty Name="MaNhom" ColumnName="MaNhom" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="KNL_KQ_searchByIDNL" FunctionName="ELEARNING_KNLModel.Store.KNL_KQ_searchByIDNL">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.KNL_KQ_searchByIDNL_Result">
+          <ScalarProperty Name="IDKQ" ColumnName="IDKQ" />
+          <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+          <ScalarProperty Name="IDNL" ColumnName="IDNL" />
+          <ScalarProperty Name="IDNVDG" ColumnName="IDNVDG" />
+          <ScalarProperty Name="DiemDG" ColumnName="DiemDG" />
+          <ScalarProperty Name="ThangDG" ColumnName="ThangDG" />
+          <ScalarProperty Name="NgayDG" ColumnName="NgayDG" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="TenNL" ColumnName="TenNL" />
+          <ScalarProperty Name="DinhMuc" ColumnName="DinhMuc" />
+          <ScalarProperty Name="IsDanhGia" ColumnName="IsDanhGia" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="HDSDs">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.HDSD">
+        <MappingFragment StoreEntitySet="HDSD">
+          <ScalarProperty Name="OrderBy" ColumnName="OrderBy" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="MoTa" ColumnName="MoTa" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="HDSD_delete" FunctionName="ELEARNING_KNLModel.Store.HDSD_delete" />
+    <FunctionImportMapping FunctionImportName="HDSD_insert" FunctionName="ELEARNING_KNLModel.Store.HDSD_insert" />
+    <FunctionImportMapping FunctionImportName="HDSD_update" FunctionName="ELEARNING_KNLModel.Store.HDSD_update" />
+    <FunctionImportMapping FunctionImportName="NhanVien_searchByVTKNL" FunctionName="ELEARNING_KNLModel.Store.NhanVien_searchByVTKNL">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.NhanVien_searchByVTKNL_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+          <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+          <ScalarProperty Name="IDQuyen" ColumnName="IDQuyen" />
+          <ScalarProperty Name="MaViTri" ColumnName="MaViTri" />
+          <ScalarProperty Name="IDKip" ColumnName="IDKip" />
+          <ScalarProperty Name="TenKip" ColumnName="TenKip" />
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+          <ScalarProperty Name="IDPB" ColumnName="IDPB" />
+          <ScalarProperty Name="IDKhoi" ColumnName="IDKhoi" />
+          <ScalarProperty Name="IDPX" ColumnName="IDPX" />
+          <ScalarProperty Name="IDNhom" ColumnName="IDNhom" />
+          <ScalarProperty Name="IDTo" ColumnName="IDTo" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="IDVTParent" ColumnName="IDVTParent" />
+          <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
+          <ScalarProperty Name="MaPB" ColumnName="MaPB" />
+          <ScalarProperty Name="TenPX" ColumnName="TenPX" />
+          <ScalarProperty Name="MaPX" ColumnName="MaPX" />
+          <ScalarProperty Name="TenTo" ColumnName="TenTo" />
+          <ScalarProperty Name="MaTo" ColumnName="MaTo" />
+          <ScalarProperty Name="TenNhom" ColumnName="TenNhom" />
+          <ScalarProperty Name="MaNhom" ColumnName="MaNhom" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="KNL_KQ_SelectNV" FunctionName="ELEARNING_KNLModel.Store.KNL_KQ_SelectNV">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.KNL_KQ_SelectNV_Result">
+          <ScalarProperty Name="IDKQ" ColumnName="IDKQ" />
+          <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+          <ScalarProperty Name="IDNL" ColumnName="IDNL" />
+          <ScalarProperty Name="IDNVDG" ColumnName="IDNVDG" />
+          <ScalarProperty Name="DiemDG" ColumnName="DiemDG" />
+          <ScalarProperty Name="ThangDG" ColumnName="ThangDG" />
+          <ScalarProperty Name="NgayDG" ColumnName="NgayDG" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="KNL_KQ_SelectThang" FunctionName="ELEARNING_KNLModel.Store.KNL_KQ_SelectThang">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.KNL_KQ_SelectThang_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+          <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
+          <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+          <ScalarProperty Name="HoTenKhongDau" ColumnName="HoTenKhongDau" />
+          <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
+          <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+          <ScalarProperty Name="DienThoai" ColumnName="DienThoai" />
+          <ScalarProperty Name="NgayVaoLam" ColumnName="NgayVaoLam" />
+          <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
+          <ScalarProperty Name="IDTinhTrangLV" ColumnName="IDTinhTrangLV" />
+          <ScalarProperty Name="IDViTri" ColumnName="IDViTri" />
+          <ScalarProperty Name="IsGV" ColumnName="IsGV" />
+          <ScalarProperty Name="IDQuyen" ColumnName="IDQuyen" />
+          <ScalarProperty Name="IDVTKNL" ColumnName="IDVTKNL" />
+          <ScalarProperty Name="IDQuyenKNL" ColumnName="IDQuyenKNL" />
+          <ScalarProperty Name="MaViTri" ColumnName="MaViTri" />
+          <ScalarProperty Name="IDKip" ColumnName="IDKip" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="KNL_KQ_SelectDDG" FunctionName="ELEARNING_KNLModel.Store.KNL_KQ_SelectDDG">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.KNL_KQ_SelectDDG_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+          <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
+          <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+          <ScalarProperty Name="HoTenKhongDau" ColumnName="HoTenKhongDau" />
+          <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
+          <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+          <ScalarProperty Name="DienThoai" ColumnName="DienThoai" />
+          <ScalarProperty Name="NgayVaoLam" ColumnName="NgayVaoLam" />
+          <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
+          <ScalarProperty Name="IDTinhTrangLV" ColumnName="IDTinhTrangLV" />
+          <ScalarProperty Name="IDViTri" ColumnName="IDViTri" />
+          <ScalarProperty Name="IsGV" ColumnName="IsGV" />
+          <ScalarProperty Name="IDQuyen" ColumnName="IDQuyen" />
+          <ScalarProperty Name="IDVTKNL" ColumnName="IDVTKNL" />
+          <ScalarProperty Name="IDQuyenKNL" ColumnName="IDQuyenKNL" />
+          <ScalarProperty Name="MaViTri" ColumnName="MaViTri" />
+          <ScalarProperty Name="IDKip" ColumnName="IDKip" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="NhanVien_ExportExcel" FunctionName="ELEARNING_KNLModel.Store.NhanVien_ExportExcel">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.NhanVien_ExportExcel_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+          <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+          <ScalarProperty Name="TenKip" ColumnName="TenKip" />
+          <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
+          <ScalarProperty Name="Tên_vị_trí" ColumnName="Tên vị trí" />
+          <ScalarProperty Name="Mã_định_danh_vị_trí" ColumnName="Mã định danh vị trí" />
+          <ScalarProperty Name="Tổng_NL" ColumnName="Tổng NL" />
+          <ScalarProperty Name="Không_Đạt" ColumnName="Không Đạt" />
+          <ScalarProperty Name="Đạt" ColumnName="Đạt" />
+          <ScalarProperty Name="Vượt_yêu_cầu" ColumnName="Vượt yêu cầu" />
+          <ScalarProperty Name="Chưa_đánh_giá" ColumnName="Chưa đánh giá" />
+          <ScalarProperty Name="Ngày_đánh_giá_gần_nhất" ColumnName="Ngày đánh giá gần nhất" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="PhongBan_ExportKNL" FunctionName="ELEARNING_KNLModel.Store.PhongBan_ExportKNL">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.PhongBan_ExportKNL_Result">
+          <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
+          <ScalarProperty Name="MaPB" ColumnName="MaPB" />
+          <ScalarProperty Name="VTDDG" ColumnName="VTDDG" />
+          <ScalarProperty Name="ToTalVT" ColumnName="ToTalVT" />
+          <ScalarProperty Name="NVDDG" ColumnName="NVDDG" />
+          <ScalarProperty Name="TotalNV" ColumnName="TotalNV" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="NhanVien_SelectKQKNL" FunctionName="ELEARNING_KNLModel.Store.NhanVien_SelectKQKNL">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.NhanVien_SelectKQKNL_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+          <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+          <ScalarProperty Name="TenKip" ColumnName="TenKip" />
+          <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
+          <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="NgayDG" ColumnName="NgayDG" />
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="IDKip" ColumnName="IDKip" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="KNLDGiaTC_select" FunctionName="ELEARNING_KNLModel.Store.KNLDGiaTC_select">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.KNLDGiaTC_select_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="IDVTDGTC" ColumnName="IDVTDGTC" />
+          <ScalarProperty Name="IDVTDGTT" ColumnName="IDVTDGTT" />
+          <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="MaViTri" ColumnName="MaViTri" />
+          <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="NhanVien_selectByIDNV" FunctionName="ELEARNING_KNLModel.Store.NhanVien_selectByIDNV">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.NhanVien_selectByIDNV_Result">
+          <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="IDPB" ColumnName="IDPB" />
+          <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="VitriKNL_Select" FunctionName="ELEARNING_KNLModel.Store.VitriKNL_Select">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.VitriKNL_Select_Result">
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="MaViTri" ColumnName="MaViTri" />
+          <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
+          <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
+          <ScalarProperty Name="IDPX" ColumnName="IDPX" />
+          <ScalarProperty Name="TenPX" ColumnName="TenPX" />
+          <ScalarProperty Name="IDTo" ColumnName="IDTo" />
+          <ScalarProperty Name="TenTo" ColumnName="TenTo" />
+          <ScalarProperty Name="IDNhom" ColumnName="IDNhom" />
+          <ScalarProperty Name="TenNhom" ColumnName="TenNhom" />
+          <ScalarProperty Name="SLNV" ColumnName="SLNV" />
+          <ScalarProperty Name="SLNL" ColumnName="SLNL" />
+          <ScalarProperty Name="SLDGTC" ColumnName="SLDGTC" />
+          <ScalarProperty Name="SLNVDDG" ColumnName="SLNVDDG" />
+          <ScalarProperty Name="TenKhoi" ColumnName="TenKhoi" />
+          <ScalarProperty Name="IDKhoi" ColumnName="IDKhoi" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="NhanVien_ExportKQKNL" FunctionName="ELEARNING_KNLModel.Store.NhanVien_ExportKQKNL">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.NhanVien_ExportKQKNL_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+          <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+          <ScalarProperty Name="IDKip" ColumnName="IDKip" />
+          <ScalarProperty Name="TenKip" ColumnName="TenKip" />
+          <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+          <ScalarProperty Name="TenPX" ColumnName="TenPX" />
+          <ScalarProperty Name="TenNhom" ColumnName="TenNhom" />
+          <ScalarProperty Name="TenTo" ColumnName="TenTo" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="TotalNL" ColumnName="TotalNL" />
+          <ScalarProperty Name="KDAT" ColumnName="KDAT" />
+          <ScalarProperty Name="DAT" ColumnName="DAT" />
+          <ScalarProperty Name="VUOT" ColumnName="VUOT" />
+          <ScalarProperty Name="NODG" ColumnName="NODG" />
+          <ScalarProperty Name="CHUADG" ColumnName="CHUADG" />
+          <ScalarProperty Name="NgayDG" ColumnName="NgayDG" />
+          <ScalarProperty Name="IDPX" ColumnName="IDPX" />
+          <ScalarProperty Name="IDNhom" ColumnName="IDNhom" />
+          <ScalarProperty Name="IDTo" ColumnName="IDTo" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="KNL_LoaiKQ">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.KNL_LoaiKQ">
+        <MappingFragment StoreEntitySet="KNL_LoaiKQ">
+          <ScalarProperty Name="TenKQ" ColumnName="TenKQ" />
+          <ScalarProperty Name="IDKQ" ColumnName="IDKQ" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KNL_LSDG">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.KNL_LSDG">
+        <MappingFragment StoreEntitySet="KNL_LSDG">
+          <ScalarProperty Name="TONGNL" ColumnName="TONGNL" />
+          <ScalarProperty Name="CHUADG" ColumnName="CHUADG" />
+          <ScalarProperty Name="KDGia" ColumnName="KDGia" />
+          <ScalarProperty Name="VUOT" ColumnName="VUOT" />
+          <ScalarProperty Name="KDAT" ColumnName="KDAT" />
+          <ScalarProperty Name="DAT" ColumnName="DAT" />
+          <ScalarProperty Name="NgayDGGN" ColumnName="NgayDGGN" />
+          <ScalarProperty Name="ThangDG" ColumnName="ThangDG" />
+          <ScalarProperty Name="VTID" ColumnName="VTID" />
+          <ScalarProperty Name="NVID" ColumnName="NVID" />
+          <ScalarProperty Name="IDLS" ColumnName="IDLS" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="KNL_LSDG_insert" FunctionName="ELEARNING_KNLModel.Store.KNL_LSDG_insert" />
+    <FunctionImportMapping FunctionImportName="KNL_LSDG_update" FunctionName="ELEARNING_KNLModel.Store.KNL_LSDG_update" />
+    <FunctionImportMapping FunctionImportName="NhanVien_Export_ALL" FunctionName="ELEARNING_KNLModel.Store.NhanVien_Export_ALL">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.NhanVien_Export_ALL_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+          <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+          <ScalarProperty Name="IDKip" ColumnName="IDKip" />
+          <ScalarProperty Name="TenKip" ColumnName="TenKip" />
+          <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+          <ScalarProperty Name="MaViTri" ColumnName="MaViTri" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
+          <ScalarProperty Name="MaPB" ColumnName="MaPB" />
+          <ScalarProperty Name="TenPX" ColumnName="TenPX" />
+          <ScalarProperty Name="MaPX" ColumnName="MaPX" />
+          <ScalarProperty Name="TenTo" ColumnName="TenTo" />
+          <ScalarProperty Name="MaTo" ColumnName="MaTo" />
+          <ScalarProperty Name="TenNhom" ColumnName="TenNhom" />
+          <ScalarProperty Name="MaNhom" ColumnName="MaNhom" />
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="TenPBKNL" ColumnName="TenPBKNL" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="KNL_LSDG_Select" FunctionName="ELEARNING_KNLModel.Store.KNL_LSDG_Select">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.KNL_LSDG_Select_Result">
+          <ScalarProperty Name="IDLS" ColumnName="IDLS" />
+          <ScalarProperty Name="NVID" ColumnName="NVID" />
+          <ScalarProperty Name="VTID" ColumnName="VTID" />
+          <ScalarProperty Name="ThangDG" ColumnName="ThangDG" />
+          <ScalarProperty Name="NgayDGGN" ColumnName="NgayDGGN" />
+          <ScalarProperty Name="DAT" ColumnName="DAT" />
+          <ScalarProperty Name="KDAT" ColumnName="KDAT" />
+          <ScalarProperty Name="VUOT" ColumnName="VUOT" />
+          <ScalarProperty Name="KDGia" ColumnName="KDGia" />
+          <ScalarProperty Name="CHUADG" ColumnName="CHUADG" />
+          <ScalarProperty Name="TONGNL" ColumnName="TONGNL" />
+          <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="TenVTKNL" ColumnName="TenVTKNL" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="DeNghiKCCDs">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.DeNghiKCCD">
+        <MappingFragment StoreEntitySet="DeNghiKCCD">
+          <ScalarProperty Name="DeThiID" ColumnName="DeThiID" />
+          <ScalarProperty Name="isKiemTra" ColumnName="isKiemTra" />
+          <ScalarProperty Name="NgayXN" ColumnName="NgayXN" />
+          <ScalarProperty Name="DenNgay" ColumnName="DenNgay" />
+          <ScalarProperty Name="TuNgay" ColumnName="TuNgay" />
+          <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+          <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+          <ScalarProperty Name="ViTriID2" ColumnName="ViTriID2" />
+          <ScalarProperty Name="HuongDan2" ColumnName="HuongDan2" />
+          <ScalarProperty Name="ViTriID1" ColumnName="ViTriID1" />
+          <ScalarProperty Name="HuongDan1" ColumnName="HuongDan1" />
+          <ScalarProperty Name="PhongBanID" ColumnName="PhongBanID" />
+          <ScalarProperty Name="NhomNangLucID" ColumnName="NhomNangLucID" />
+          <ScalarProperty Name="LinhVucID" ColumnName="LinhVucID" />
+          <ScalarProperty Name="NoiDungKCCDID" ColumnName="NoiDungKCCDID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NhomNLKCCDs">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.NhomNLKCCD">
+        <MappingFragment StoreEntitySet="NhomNLKCCD">
+          <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NoiDungDTKCCDs">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.NoiDungDTKCCD">
+        <MappingFragment StoreEntitySet="NoiDungDTKCCD">
+          <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+          <ScalarProperty Name="PhongBanID" ColumnName="PhongBanID" />
+          <ScalarProperty Name="LVDTID" ColumnName="LVDTID" />
+          <ScalarProperty Name="NhomNLID" ColumnName="NhomNLID" />
+          <ScalarProperty Name="TenND" ColumnName="TenND" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PhieuXacNhanKCCDs">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.PhieuXacNhanKCCD">
+        <MappingFragment StoreEntitySet="PhieuXacNhanKCCD">
+          <ScalarProperty Name="TinhTrangThi" ColumnName="TinhTrangThi" />
+          <ScalarProperty Name="IDTinhTrang" ColumnName="IDTinhTrang" />
+          <ScalarProperty Name="HVNgayXacNhan" ColumnName="HVNgayXacNhan" />
+          <ScalarProperty Name="HVDeXuatKhac" ColumnName="HVDeXuatKhac" />
+          <ScalarProperty Name="HVDeXuat" ColumnName="HVDeXuat" />
+          <ScalarProperty Name="GVKetLuanYKienKhac" ColumnName="GVKetLuanYKienKhac" />
+          <ScalarProperty Name="GVKetLuan" ColumnName="GVKetLuan" />
+          <ScalarProperty Name="GVNhanXetTHSauDT" ColumnName="GVNhanXetTHSauDT" />
+          <ScalarProperty Name="GVNhanXetLTSauDT" ColumnName="GVNhanXetLTSauDT" />
+          <ScalarProperty Name="GVThucHanhSauDT" ColumnName="GVThucHanhSauDT" />
+          <ScalarProperty Name="GVLyThuyetSauDT" ColumnName="GVLyThuyetSauDT" />
+          <ScalarProperty Name="GVNhanXetTHTruocDT" ColumnName="GVNhanXetTHTruocDT" />
+          <ScalarProperty Name="GVNhanXetLTTruocDT" ColumnName="GVNhanXetLTTruocDT" />
+          <ScalarProperty Name="GVThucHanhTruocDT" ColumnName="GVThucHanhTruocDT" />
+          <ScalarProperty Name="GVLyThuyetTruocDT" ColumnName="GVLyThuyetTruocDT" />
+          <ScalarProperty Name="HVSauCanCaiThien" ColumnName="HVSauCanCaiThien" />
+          <ScalarProperty Name="HVSauDatDuoc" ColumnName="HVSauDatDuoc" />
+          <ScalarProperty Name="HVTruocCanCaiThien" ColumnName="HVTruocCanCaiThien" />
+          <ScalarProperty Name="HVTruocDatDuoc" ColumnName="HVTruocDatDuoc" />
+          <ScalarProperty Name="HocVienID" ColumnName="HocVienID" />
+          <ScalarProperty Name="DeNghiDTID" ColumnName="DeNghiDTID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="DeNghiKCCD_delete" FunctionName="ELEARNING_KNLModel.Store.DeNghiKCCD_delete" />
+    <FunctionImportMapping FunctionImportName="DeNghiKCCD_insert" FunctionName="ELEARNING_KNLModel.Store.DeNghiKCCD_insert" />
+    <FunctionImportMapping FunctionImportName="DeNghiKCCD_select" FunctionName="ELEARNING_KNLModel.Store.DeNghiKCCD_select">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.DeNghiKCCD_select_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="NoiDungKCCDID" ColumnName="NoiDungKCCDID" />
+          <ScalarProperty Name="LinhVucID" ColumnName="LinhVucID" />
+          <ScalarProperty Name="NhomNangLucID" ColumnName="NhomNangLucID" />
+          <ScalarProperty Name="PhongBanID" ColumnName="PhongBanID" />
+          <ScalarProperty Name="HuongDan1" ColumnName="HuongDan1" />
+          <ScalarProperty Name="ViTriID1" ColumnName="ViTriID1" />
+          <ScalarProperty Name="HuongDan2" ColumnName="HuongDan2" />
+          <ScalarProperty Name="ViTriID2" ColumnName="ViTriID2" />
+          <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+          <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+          <ScalarProperty Name="TuNgay" ColumnName="TuNgay" />
+          <ScalarProperty Name="DenNgay" ColumnName="DenNgay" />
+          <ScalarProperty Name="NgayXN" ColumnName="NgayXN" />
+          <ScalarProperty Name="TenND" ColumnName="TenND" />
+          <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
+          <ScalarProperty Name="TenNhomNL" ColumnName="TenNhomNL" />
+          <ScalarProperty Name="TenLVDT" ColumnName="TenLVDT" />
+          <ScalarProperty Name="HoTen1" ColumnName="HoTen1" />
+          <ScalarProperty Name="MaNV1" ColumnName="MaNV1" />
+          <ScalarProperty Name="VT1" ColumnName="VT1" />
+          <ScalarProperty Name="HoTen2" ColumnName="HoTen2" />
+          <ScalarProperty Name="MaNV2" ColumnName="MaNV2" />
+          <ScalarProperty Name="VT2" ColumnName="VT2" />
+          <ScalarProperty Name="isKiemTra" ColumnName="isKiemTra" />
+          <ScalarProperty Name="DeThiID" ColumnName="DeThiID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="DeNghiKCCD_selectKCCD" FunctionName="ELEARNING_KNLModel.Store.DeNghiKCCD_selectKCCD">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.DeNghiKCCD_selectKCCD_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="NoiDungKCCDID" ColumnName="NoiDungKCCDID" />
+          <ScalarProperty Name="LinhVucID" ColumnName="LinhVucID" />
+          <ScalarProperty Name="NhomNangLucID" ColumnName="NhomNangLucID" />
+          <ScalarProperty Name="PhongBanID" ColumnName="PhongBanID" />
+          <ScalarProperty Name="HuongDan1" ColumnName="HuongDan1" />
+          <ScalarProperty Name="ViTriID1" ColumnName="ViTriID1" />
+          <ScalarProperty Name="HuongDan2" ColumnName="HuongDan2" />
+          <ScalarProperty Name="ViTriID2" ColumnName="ViTriID2" />
+          <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+          <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+          <ScalarProperty Name="TuNgay" ColumnName="TuNgay" />
+          <ScalarProperty Name="DenNgay" ColumnName="DenNgay" />
+          <ScalarProperty Name="NgayXN" ColumnName="NgayXN" />
+          <ScalarProperty Name="TenND" ColumnName="TenND" />
+          <ScalarProperty Name="TenNhomNL" ColumnName="TenNhomNL" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="DeNghiKCCD_update" FunctionName="ELEARNING_KNLModel.Store.DeNghiKCCD_update" />
+    <FunctionImportMapping FunctionImportName="DeNghiKCCD_XacNhan" FunctionName="ELEARNING_KNLModel.Store.DeNghiKCCD_XacNhan" />
+    <FunctionImportMapping FunctionImportName="NoiDungDTKCCD_delete" FunctionName="ELEARNING_KNLModel.Store.NoiDungDTKCCD_delete" />
+    <FunctionImportMapping FunctionImportName="NoiDungDTKCCD_insert" FunctionName="ELEARNING_KNLModel.Store.NoiDungDTKCCD_insert" />
+    <FunctionImportMapping FunctionImportName="NoiDungDTKCCD_select" FunctionName="ELEARNING_KNLModel.Store.NoiDungDTKCCD_select">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.NoiDungDTKCCD_select_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="TenND" ColumnName="TenND" />
+          <ScalarProperty Name="NhomNLID" ColumnName="NhomNLID" />
+          <ScalarProperty Name="LVDTID" ColumnName="LVDTID" />
+          <ScalarProperty Name="PhongBanID" ColumnName="PhongBanID" />
+          <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+          <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
+          <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
+          <ScalarProperty Name="TenLVDT" ColumnName="TenLVDT" />
+          <ScalarProperty Name="SLLH" ColumnName="SLLH" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="NoiDungDTKCCD_selectKCCD" FunctionName="ELEARNING_KNLModel.Store.NoiDungDTKCCD_selectKCCD">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.NoiDungDTKCCD_selectKCCD_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="TenND" ColumnName="TenND" />
+          <ScalarProperty Name="NhomNLID" ColumnName="NhomNLID" />
+          <ScalarProperty Name="LVDTID" ColumnName="LVDTID" />
+          <ScalarProperty Name="PhongBanID" ColumnName="PhongBanID" />
+          <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+          <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="NoiDungDTKCCD_update" FunctionName="ELEARNING_KNLModel.Store.NoiDungDTKCCD_update" />
+    <FunctionImportMapping FunctionImportName="PhieuXacNhanKCCD_delete" FunctionName="ELEARNING_KNLModel.Store.PhieuXacNhanKCCD_delete" />
+    <FunctionImportMapping FunctionImportName="PhieuXacNhanKCCD_HV_update" FunctionName="ELEARNING_KNLModel.Store.PhieuXacNhanKCCD_HV_update" />
+    <FunctionImportMapping FunctionImportName="PhieuXacNhanKCCD_insert" FunctionName="ELEARNING_KNLModel.Store.PhieuXacNhanKCCD_insert" />
+    <FunctionImportMapping FunctionImportName="PhieuXacNhanKCCD_update" FunctionName="ELEARNING_KNLModel.Store.PhieuXacNhanKCCD_update" />
+    <FunctionImportMapping FunctionImportName="PhieuXacNhanKCCD_XacNhan" FunctionName="ELEARNING_KNLModel.Store.PhieuXacNhanKCCD_XacNhan" />
+    <FunctionImportMapping FunctionImportName="PhieuXacNhanKCCD_select" FunctionName="ELEARNING_KNLModel.Store.PhieuXacNhanKCCD_select">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.PhieuXacNhanKCCD_select_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="DeNghiDTID" ColumnName="DeNghiDTID" />
+          <ScalarProperty Name="HocVienID" ColumnName="HocVienID" />
+          <ScalarProperty Name="HVTruocDatDuoc" ColumnName="HVTruocDatDuoc" />
+          <ScalarProperty Name="HVTruocCanCaiThien" ColumnName="HVTruocCanCaiThien" />
+          <ScalarProperty Name="HVSauDatDuoc" ColumnName="HVSauDatDuoc" />
+          <ScalarProperty Name="HVSauCanCaiThien" ColumnName="HVSauCanCaiThien" />
+          <ScalarProperty Name="GVLyThuyetTruocDT" ColumnName="GVLyThuyetTruocDT" />
+          <ScalarProperty Name="GVThucHanhTruocDT" ColumnName="GVThucHanhTruocDT" />
+          <ScalarProperty Name="GVNhanXetLTTruocDT" ColumnName="GVNhanXetLTTruocDT" />
+          <ScalarProperty Name="GVNhanXetTHTruocDT" ColumnName="GVNhanXetTHTruocDT" />
+          <ScalarProperty Name="GVLyThuyetSauDT" ColumnName="GVLyThuyetSauDT" />
+          <ScalarProperty Name="GVThucHanhSauDT" ColumnName="GVThucHanhSauDT" />
+          <ScalarProperty Name="GVNhanXetLTSauDT" ColumnName="GVNhanXetLTSauDT" />
+          <ScalarProperty Name="GVNhanXetTHSauDT" ColumnName="GVNhanXetTHSauDT" />
+          <ScalarProperty Name="GVKetLuan" ColumnName="GVKetLuan" />
+          <ScalarProperty Name="GVKetLuanYKienKhac" ColumnName="GVKetLuanYKienKhac" />
+          <ScalarProperty Name="HVDeXuat" ColumnName="HVDeXuat" />
+          <ScalarProperty Name="HVDeXuatKhac" ColumnName="HVDeXuatKhac" />
+          <ScalarProperty Name="HVNgayXacNhan" ColumnName="HVNgayXacNhan" />
+          <ScalarProperty Name="IDTinhTrang" ColumnName="IDTinhTrang" />
+          <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+          <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+          <ScalarProperty Name="TenND" ColumnName="TenND" />
+          <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+          <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
+          <ScalarProperty Name="TinhTrangThi" ColumnName="TinhTrangThi" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="QT_DinhKy">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.QT_DinhKy">
+        <MappingFragment StoreEntitySet="QT_DinhKy">
+          <ScalarProperty Name="TenDinhKy" ColumnName="TenDinhKy" />
+          <ScalarProperty Name="MaDinhKy" ColumnName="MaDinhKy" />
+          <ScalarProperty Name="IDDK" ColumnName="IDDK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QT_FileQT">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.QT_FileQT">
+        <MappingFragment StoreEntitySet="QT_FileQT">
+          <ScalarProperty Name="OrderByID" ColumnName="OrderByID" />
+          <ScalarProperty Name="FilePDF" ColumnName="FilePDF" />
+          <ScalarProperty Name="QTHDID" ColumnName="QTHDID" />
+          <ScalarProperty Name="TenFile" ColumnName="TenFile" />
+          <ScalarProperty Name="IDFile" ColumnName="IDFile" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QT_LoaiQT">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.QT_LoaiQT">
+        <MappingFragment StoreEntitySet="QT_LoaiQT">
+          <ScalarProperty Name="TenLoai" ColumnName="TenLoai" />
+          <ScalarProperty Name="IDLoai" ColumnName="IDLoai" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="QT_FileQT_delete" FunctionName="ELEARNING_KNLModel.Store.QT_FileQT_delete" />
+    <FunctionImportMapping FunctionImportName="QT_FileQT_insert" FunctionName="ELEARNING_KNLModel.Store.QT_FileQT_insert" />
+    <FunctionImportMapping FunctionImportName="QT_FileQT_Update" FunctionName="ELEARNING_KNLModel.Store.QT_FileQT_Update" />
+    <FunctionImportMapping FunctionImportName="QT_NoiDungQT_delete" FunctionName="ELEARNING_KNLModel.Store.QT_NoiDungQT_delete" />
+    <FunctionImportMapping FunctionImportName="QT_NoiDungQT_insert" FunctionName="ELEARNING_KNLModel.Store.QT_NoiDungQT_insert" />
+    <FunctionImportMapping FunctionImportName="QT_NoiDungQT_update" FunctionName="ELEARNING_KNLModel.Store.QT_NoiDungQT_update" />
+    <FunctionImportMapping FunctionImportName="QT_QT_VanBanLQ_delete" FunctionName="ELEARNING_KNLModel.Store.QT_QT_VanBanLQ_delete" />
+    <FunctionImportMapping FunctionImportName="QT_QT_VanBanLQ_insert" FunctionName="ELEARNING_KNLModel.Store.QT_QT_VanBanLQ_insert" />
+    <FunctionImportMapping FunctionImportName="QT_QT_VanBanLQ_update" FunctionName="ELEARNING_KNLModel.Store.QT_QT_VanBanLQ_update" />
+    <FunctionImportMapping FunctionImportName="QT_NoiDungQT_insertExcel" FunctionName="ELEARNING_KNLModel.Store.QT_NoiDungQT_insertExcel" />
+    <EntitySetMapping Name="QT_VanBanLQ">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.QT_VanBanLQ">
+        <MappingFragment StoreEntitySet="QT_VanBanLQ">
+          <ScalarProperty Name="IDQT_LienQuan" ColumnName="IDQT_LienQuan" />
+          <ScalarProperty Name="QTHDID" ColumnName="QTHDID" />
+          <ScalarProperty Name="IDVB" ColumnName="IDVB" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="QT_CauHoiQT_delete" FunctionName="ELEARNING_KNLModel.Store.QT_CauHoiQT_delete" />
+    <FunctionImportMapping FunctionImportName="QT_CauHoiQT_insert" FunctionName="ELEARNING_KNLModel.Store.QT_CauHoiQT_insert" />
+    <FunctionImportMapping FunctionImportName="QT_CauHoiQT_update" FunctionName="ELEARNING_KNLModel.Store.QT_CauHoiQT_update" />
+    <EntitySetMapping Name="QT_CauHoiQT">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.QT_CauHoiQT">
+        <MappingFragment StoreEntitySet="QT_CauHoiQT">
+          <ScalarProperty Name="QTHDID" ColumnName="QTHDID" />
+          <ScalarProperty Name="IDDAĐung" ColumnName="IDDAĐung" />
+          <ScalarProperty Name="DapAnD" ColumnName="DapAnD" />
+          <ScalarProperty Name="DapAnC" ColumnName="DapAnC" />
+          <ScalarProperty Name="DapAnB" ColumnName="DapAnB" />
+          <ScalarProperty Name="DapAnA" ColumnName="DapAnA" />
+          <ScalarProperty Name="NoiDungCH" ColumnName="NoiDungCH" />
+          <ScalarProperty Name="IDCH" ColumnName="IDCH" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="QT_FileQT_UpdateOrderBy" FunctionName="ELEARNING_KNLModel.Store.QT_FileQT_UpdateOrderBy" />
+    <FunctionImportMapping FunctionImportName="QT_PhanQuyen_delete" FunctionName="ELEARNING_KNLModel.Store.QT_PhanQuyen_delete" />
+    <FunctionImportMapping FunctionImportName="QT_PhanQuyen_insert" FunctionName="ELEARNING_KNLModel.Store.QT_PhanQuyen_insert" />
+    <FunctionImportMapping FunctionImportName="QT_PhanQuyen_update" FunctionName="ELEARNING_KNLModel.Store.QT_PhanQuyen_update" />
+    <EntitySetMapping Name="QT_PhanQuyen">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.QT_PhanQuyen">
+        <MappingFragment StoreEntitySet="QT_PhanQuyen">
+          <ScalarProperty Name="DKID" ColumnName="DKID" />
+          <ScalarProperty Name="IDVTKNL" ColumnName="IDVTKNL" />
+          <ScalarProperty Name="QTHDID" ColumnName="QTHDID" />
+          <ScalarProperty Name="IDPhanQuyen" ColumnName="IDPhanQuyen" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="QT_BaiKiemTra_insert" FunctionName="ELEARNING_KNLModel.Store.QT_BaiKiemTra_insert" />
+    <FunctionImportMapping FunctionImportName="QT_BaiKiemTra_update" FunctionName="ELEARNING_KNLModel.Store.QT_BaiKiemTra_update" />
+    <FunctionImportMapping FunctionImportName="QT_BaiKiemTra_UpdateDiem" FunctionName="ELEARNING_KNLModel.Store.QT_BaiKiemTra_UpdateDiem" />
+    <FunctionImportMapping FunctionImportName="QT_CTBaiKiemTra_insert" FunctionName="ELEARNING_KNLModel.Store.QT_CTBaiKiemTra_insert" />
+    <EntitySetMapping Name="QT_BaiKiemTra">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.QT_BaiKiemTra">
+        <MappingFragment StoreEntitySet="QT_BaiKiemTra">
+          <ScalarProperty Name="LuotKiemTra" ColumnName="LuotKiemTra" />
+          <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+          <ScalarProperty Name="LanKT" ColumnName="LanKT" />
+          <ScalarProperty Name="NgayKTTT" ColumnName="NgayKTTT" />
+          <ScalarProperty Name="NgayHT" ColumnName="NgayHT" />
+          <ScalarProperty Name="Diem" ColumnName="Diem" />
+          <ScalarProperty Name="QTHDID" ColumnName="QTHDID" />
+          <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+          <ScalarProperty Name="IDKT" ColumnName="IDKT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QT_CTBaiKiemTra">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.QT_CTBaiKiemTra">
+        <MappingFragment StoreEntitySet="QT_CTBaiKiemTra">
+          <ScalarProperty Name="Diem" ColumnName="Diem" />
+          <ScalarProperty Name="IDDAĐung" ColumnName="IDDAĐung" />
+          <ScalarProperty Name="DapAnHV" ColumnName="DapAnHV" />
+          <ScalarProperty Name="IDCauHoi" ColumnName="IDCauHoi" />
+          <ScalarProperty Name="IDKiemTra" ColumnName="IDKiemTra" />
+          <ScalarProperty Name="IDCTKT" ColumnName="IDCTKT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QT_NoiDungQT">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.QT_NoiDungQT">
+        <MappingFragment StoreEntitySet="QT_NoiDungQT">
+          <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+          <ScalarProperty Name="NgayCapNhat" ColumnName="NgayCapNhat" />
+          <ScalarProperty Name="NoiDungCapNhat" ColumnName="NoiDungCapNhat" />
+          <ScalarProperty Name="LanCapNhat" ColumnName="LanCapNhat" />
+          <ScalarProperty Name="DiemChuan" ColumnName="DiemChuan" />
+          <ScalarProperty Name="NgayHetHieuLuc" ColumnName="NgayHetHieuLuc" />
+          <ScalarProperty Name="NgayHieuLuc" ColumnName="NgayHieuLuc" />
+          <ScalarProperty Name="IDLVDT" ColumnName="IDLVDT" />
+          <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
+          <ScalarProperty Name="IDLoaiQTHD" ColumnName="IDLoaiQTHD" />
+          <ScalarProperty Name="TenQTHD" ColumnName="TenQTHD" />
+          <ScalarProperty Name="MaHieu" ColumnName="MaHieu" />
+          <ScalarProperty Name="IDQTHD" ColumnName="IDQTHD" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="QT_BaiKiemTra_delete" FunctionName="ELEARNING_KNLModel.Store.QT_BaiKiemTra_delete" />
+    <FunctionImportMapping FunctionImportName="QT_CTBaiKiemTra_delete" FunctionName="ELEARNING_KNLModel.Store.QT_CTBaiKiemTra_delete" />
+    <FunctionImportMapping FunctionImportName="QT_BaiKiemTra_deleteQTID" FunctionName="ELEARNING_KNLModel.Store.QT_BaiKiemTra_deleteQTID" />
+    <FunctionImportMapping FunctionImportName="QuyenCN_insert" FunctionName="ELEARNING_KNLModel.Store.QuyenCN_insert" />
+    <FunctionImportMapping FunctionImportName="QT_CauHoiQT_deleteAll" FunctionName="ELEARNING_KNLModel.Store.QT_CauHoiQT_deleteAll" />
+    <FunctionImportMapping FunctionImportName="QT_BaiKiemTra_CheckQT" FunctionName="ELEARNING_KNLModel.Store.QT_BaiKiemTra_CheckQT">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.QT_BaiKiemTra_CheckQT_Result">
+          <ScalarProperty Name="IDKT" ColumnName="IDKT" />
+          <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+          <ScalarProperty Name="QTHDID" ColumnName="QTHDID" />
+          <ScalarProperty Name="Diem" ColumnName="Diem" />
+          <ScalarProperty Name="NgayHT" ColumnName="NgayHT" />
+          <ScalarProperty Name="NgayKTTT" ColumnName="NgayKTTT" />
+          <ScalarProperty Name="LanKT" ColumnName="LanKT" />
+          <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+          <ScalarProperty Name="LuotKiemTra" ColumnName="LuotKiemTra" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="QT_BaiKiemTra_Dat" FunctionName="ELEARNING_KNLModel.Store.QT_BaiKiemTra_Dat">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.QT_BaiKiemTra_Dat_Result">
+          <ScalarProperty Name="IDKT" ColumnName="IDKT" />
+          <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+          <ScalarProperty Name="QTHDID" ColumnName="QTHDID" />
+          <ScalarProperty Name="Diem" ColumnName="Diem" />
+          <ScalarProperty Name="NgayHT" ColumnName="NgayHT" />
+          <ScalarProperty Name="NgayKTTT" ColumnName="NgayKTTT" />
+          <ScalarProperty Name="LanKT" ColumnName="LanKT" />
+          <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+          <ScalarProperty Name="LuotKiemTra" ColumnName="LuotKiemTra" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="ThongBaos">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.ThongBao">
+        <MappingFragment StoreEntitySet="ThongBao">
+          <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+          <ScalarProperty Name="NgayTB" ColumnName="NgayTB" />
+          <ScalarProperty Name="NoiDungTB" ColumnName="NoiDungTB" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="ThongBao_delete" FunctionName="ELEARNING_KNLModel.Store.ThongBao_delete" />
+    <FunctionImportMapping FunctionImportName="ThongBao_insert" FunctionName="ELEARNING_KNLModel.Store.ThongBao_insert" />
+    <FunctionImportMapping FunctionImportName="ThongBao_update" FunctionName="ELEARNING_KNLModel.Store.ThongBao_update" />
+    <FunctionImportMapping FunctionImportName="QT_Result_searchByIDQT" FunctionName="ELEARNING_KNLModel.Store.QT_Result_searchByIDQT">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ELEARNING_KNLModel.QT_Result_searchByIDQT_Result">
+          <ScalarProperty Name="IDPhanQuyen" ColumnName="IDPhanQuyen" />
+          <ScalarProperty Name="QTHDID" ColumnName="QTHDID" />
+          <ScalarProperty Name="TenQTHD" ColumnName="TenQTHD" />
+          <ScalarProperty Name="MaHieu" ColumnName="MaHieu" />
+          <ScalarProperty Name="IDVTKNL" ColumnName="IDVTKNL" />
+          <ScalarProperty Name="DKID" ColumnName="DKID" />
+          <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+          <ScalarProperty Name="MaViTri" ColumnName="MaViTri" />
+          <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+          <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+          <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+          <ScalarProperty Name="Diem" ColumnName="Diem" />
+          <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+          <ScalarProperty Name="NgayHT" ColumnName="NgayHT" />
+          <ScalarProperty Name="NgayKTTT" ColumnName="NgayKTTT" />
+          <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
+          <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
+          <ScalarProperty Name="NgayHieuLuc" ColumnName="NgayHieuLuc" />
+          <ScalarProperty Name="NgayHetHieuLuc" ColumnName="NgayHetHieuLuc" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="KCCD_CauHoi">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.KCCD_CauHoi">
+        <MappingFragment StoreEntitySet="KCCD_CauHoi">
+          <ScalarProperty Name="DeThiID" ColumnName="DeThiID" />
+          <ScalarProperty Name="KCCDID" ColumnName="KCCDID" />
+          <ScalarProperty Name="IDDAĐung" ColumnName="IDDAĐung" />
+          <ScalarProperty Name="DapAnD" ColumnName="DapAnD" />
+          <ScalarProperty Name="DapAnC" ColumnName="DapAnC" />
+          <ScalarProperty Name="DapAnB" ColumnName="DapAnB" />
+          <ScalarProperty Name="DapAnA" ColumnName="DapAnA" />
+          <ScalarProperty Name="NoiDungCH" ColumnName="NoiDungCH" />
+          <ScalarProperty Name="IDCH" ColumnName="IDCH" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KCCD_DeThi">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.KCCD_DeThi">
+        <MappingFragment StoreEntitySet="KCCD_DeThi">
+          <ScalarProperty Name="KCCDID" ColumnName="KCCDID" />
+          <ScalarProperty Name="DiemChuan" ColumnName="DiemChuan" />
+          <ScalarProperty Name="TenDe" ColumnName="TenDe" />
+          <ScalarProperty Name="MaDe" ColumnName="MaDe" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="KCCD_CauHoi_delete" FunctionName="ELEARNING_KNLModel.Store.KCCD_CauHoi_delete" />
+    <FunctionImportMapping FunctionImportName="KCCD_CauHoi_insert" FunctionName="ELEARNING_KNLModel.Store.KCCD_CauHoi_insert" />
+    <FunctionImportMapping FunctionImportName="KCCD_CauHoi_Update" FunctionName="ELEARNING_KNLModel.Store.KCCD_CauHoi_Update" />
+    <FunctionImportMapping FunctionImportName="KCCD_DeThi_delete" FunctionName="ELEARNING_KNLModel.Store.KCCD_DeThi_delete" />
+    <FunctionImportMapping FunctionImportName="KCCD_DeThi_insert" FunctionName="ELEARNING_KNLModel.Store.KCCD_DeThi_insert" />
+    <FunctionImportMapping FunctionImportName="KCCD_DeThi_update" FunctionName="ELEARNING_KNLModel.Store.KCCD_DeThi_update" />
+    <FunctionImportMapping FunctionImportName="DinhBienVT_delete" FunctionName="ELEARNING_KNLModel.Store.DinhBienVT_delete" />
+    <FunctionImportMapping FunctionImportName="DinhBienVT_insert" FunctionName="ELEARNING_KNLModel.Store.DinhBienVT_insert" />
+    <FunctionImportMapping FunctionImportName="DinhBienVT_Update" FunctionName="ELEARNING_KNLModel.Store.DinhBienVT_Update" />
+    <EntitySetMapping Name="DinhBienVTs">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.DinhBienVT">
+        <MappingFragment StoreEntitySet="DinhBienVT">
+          <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+          <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+          <ScalarProperty Name="NSVTKhac" ColumnName="NSVTKhac" />
+          <ScalarProperty Name="TGBoNhiem" ColumnName="TGBoNhiem" />
+          <ScalarProperty Name="NSTrong" ColumnName="NSTrong" />
+          <ScalarProperty Name="NSTapSu" ColumnName="NSTapSu" />
+          <ScalarProperty Name="SLDinhBien" ColumnName="SLDinhBien" />
+          <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="KCCD_CTBaiThi">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.KCCD_CTBaiThi">
+        <MappingFragment StoreEntitySet="KCCD_CTBaiThi">
+          <ScalarProperty Name="Diem" ColumnName="Diem" />
+          <ScalarProperty Name="IDDAĐung" ColumnName="IDDAĐung" />
+          <ScalarProperty Name="DapAnHV" ColumnName="DapAnHV" />
+          <ScalarProperty Name="IDCauHoi" ColumnName="IDCauHoi" />
+          <ScalarProperty Name="IDBT" ColumnName="IDBT" />
+          <ScalarProperty Name="IDCT" ColumnName="IDCT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="KCCD_BaiThi_delete" FunctionName="ELEARNING_KNLModel.Store.KCCD_BaiThi_delete" />
+    <FunctionImportMapping FunctionImportName="KCCD_BaiThi_insert" FunctionName="ELEARNING_KNLModel.Store.KCCD_BaiThi_insert" />
+    <FunctionImportMapping FunctionImportName="KCCD_BaiThi_Update" FunctionName="ELEARNING_KNLModel.Store.KCCD_BaiThi_Update" />
+    <FunctionImportMapping FunctionImportName="KCCD_CTBaiThi_delete" FunctionName="ELEARNING_KNLModel.Store.KCCD_CTBaiThi_delete" />
+    <FunctionImportMapping FunctionImportName="KCCD_CTBaiThi_insert" FunctionName="ELEARNING_KNLModel.Store.KCCD_CTBaiThi_insert" />
+    <FunctionImportMapping FunctionImportName="KCCD_CTBaiThi_Update" FunctionName="ELEARNING_KNLModel.Store.KCCD_CTBaiThi_Update" />
+    <EntitySetMapping Name="KCCD_BaiThi">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.KCCD_BaiThi">
+        <MappingFragment StoreEntitySet="KCCD_BaiThi">
+          <ScalarProperty Name="DeNghiID" ColumnName="DeNghiID" />
+          <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+          <ScalarProperty Name="LanThi" ColumnName="LanThi" />
+          <ScalarProperty Name="NgayThi" ColumnName="NgayThi" />
+          <ScalarProperty Name="Diem" ColumnName="Diem" />
+          <ScalarProperty Name="DeThiID" ColumnName="DeThiID" />
+          <ScalarProperty Name="KCCDID" ColumnName="KCCDID" />
+          <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="PhieuXacNhanKCCD_TinhTrangThi" FunctionName="ELEARNING_KNLModel.Store.PhieuXacNhanKCCD_TinhTrangThi" />
+    <FunctionImportMapping FunctionImportName="KCCD_BaiThi_UpdateDiem" FunctionName="ELEARNING_KNLModel.Store.KCCD_BaiThi_UpdateDiem" />
+  </EntityContainerMapping>
+</Mapping>

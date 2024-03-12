@@ -1,0 +1,1205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{68525F6E-DCAB-499A-8DB8-452F23B37EE9}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>E_Learning</RootNamespace>
+    <AssemblyName>E-Learning</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44328</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>4.3</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="ClosedXML, Version=0.95.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.95.4\lib\net46\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Enterprise.Viewing.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\packages\CrystalReports.Enterprise.Viewing.ReportSource.13.0.4001\lib\net40\CrystalDecisions.Enterprise.Viewing.ReportSource.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.CommonObjectModel, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\packages\CrystalReports.ReportAppServer.CommonObjectModel.13.0.4001\lib\net40\CrystalDecisions.ReportAppServer.CommonObjectModel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.CubeDefModel, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\packages\CrystalReports.ReportAppServer.CubeDefModel.13.0.4001\lib\net40\CrystalDecisions.ReportAppServer.CubeDefModel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.DataDefModel, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\packages\CrystalReports.ReportAppServer.DataDefModel.13.0.4001\lib\net40\CrystalDecisions.ReportAppServer.DataDefModel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.ReportDefModel, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\packages\CrystalReports.ReportAppServer.ReportDefModel.13.0.4001\lib\net40\CrystalDecisions.ReportAppServer.ReportDefModel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.0.10.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelNumberFormat.1.0.10\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.13.3\lib\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.7.4-rc\lib\net45\Rotativa.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Compression.Base, Version=20.2460.0.40, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Compression.Base.20.2.0.40\lib\net46\Syncfusion.Compression.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.DocIO.Base, Version=20.1450.0.50, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.DocIO.AspNet.Mvc5.20.1.0.50\lib\net45\Syncfusion.DocIO.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Licensing, Version=20.2460.0.40, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Licensing.20.2.0.40\lib\net46\Syncfusion.Licensing.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.OfficeChart.Base, Version=20.1450.0.50, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.DocIO.AspNet.Mvc5.20.1.0.50\lib\net45\Syncfusion.OfficeChart.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.0.1\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.4.0.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Common\Encryptor.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ConfirmEStudyController.cs" />
+    <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\DetailedFieldController.cs" />
+    <Compile Include="Controllers\DinhBien\DinhBienController.cs" />
+    <Compile Include="Controllers\EClassroomController.cs" />
+    <Compile Include="Controllers\EGuideController.cs" />
+    <Compile Include="Controllers\EmloyeeManageController.cs" />
+    <Compile Include="Controllers\KCCD\CapabilityController.cs" />
+    <Compile Include="Controllers\KCCD\CauHoiKCCDController.cs" />
+    <Compile Include="Controllers\KCCD\ConfirmKCCDController.cs" />
+    <Compile Include="Controllers\KCCD\EvaluateKCCDController.cs" />
+    <Compile Include="Controllers\KCCD\NoiDungDTKCCDController.cs" />
+    <Compile Include="Controllers\KCCD\SuggestKCCDController.cs" />
+    <Compile Include="Controllers\KNL\FBlockController.cs" />
+    <Compile Include="Controllers\KNL\FCheckController.cs" />
+    <Compile Include="Controllers\KNL\FDepartmentController.cs" />
+    <Compile Include="Controllers\KNL\FFactoryController.cs" />
+    <Compile Include="Controllers\KNL\FGenResultController.cs" />
+    <Compile Include="Controllers\KNL\FGroupController.cs" />
+    <Compile Include="Controllers\KNL\FNestController.cs" />
+    <Compile Include="Controllers\KNL\FPermisionController.cs" />
+    <Compile Include="Controllers\KNL\FPositionController.cs" />
+    <Compile Include="Controllers\KNL\FResultController.cs" />
+    <Compile Include="Controllers\KNL\FViewController.cs" />
+    <Compile Include="Controllers\LibraryFieldController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ManageTestExamController.cs" />
+    <Compile Include="Controllers\ManageExamQuestionGroupController.cs" />
+    <Compile Include="Controllers\NotificationController.cs" />
+    <Compile Include="Controllers\QTHD\CauHoiQTController.cs" />
+    <Compile Include="Controllers\QTHD\ListTestQTController.cs" />
+    <Compile Include="Controllers\QTHD\NoiDungQTController.cs" />
+    <Compile Include="Controllers\QTHD\PhanQuyenQTController.cs" />
+    <Compile Include="Controllers\QTHD\ResultQTHDController.cs" />
+    <Compile Include="Controllers\QuestionController.cs" />
+    <Compile Include="Controllers\StatisticController.cs" />
+    <Compile Include="Controllers\STestController.cs" />
+    <Compile Include="Controllers\THistoryController.cs" />
+    <Compile Include="Controllers\LibraryClassController.cs" />
+    <Compile Include="Controllers\ManageClassController.cs" />
+    <Compile Include="Controllers\SLessonController.cs" />
+    <Compile Include="Controllers\LibraryETContentController.cs" />
+    <Compile Include="Controllers\ManageETContentController.cs" />
+    <Compile Include="Controllers\EmployeeAPIController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SHistoryController.cs" />
+    <Compile Include="Controllers\TLessonController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="ModelsKCCD\CauHoiKCCDView.cs" />
+    <Compile Include="ModelsKCCD\ConfirmKCCDView.cs" />
+    <Compile Include="ModelsKCCD\NhomNLKCCDview.cs" />
+    <Compile Include="ModelsKCCD\NoiDungDTKCCDView.cs" />
+    <Compile Include="ModelsKCCD\SuggestKCCDView.cs" />
+    <Compile Include="ModelsQTHD\CauHoiQTView.cs" />
+    <Compile Include="ModelsQTHD\KetQuaQTHDView.cs" />
+    <Compile Include="ModelsQTHD\ListTestQT.cs" />
+    <Compile Include="ModelsQTHD\NoiDungQTView.cs" />
+    <Compile Include="ModelsQTHD\PhanQuyenQT.cs" />
+    <Compile Include="Models\BaiThi.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CauHoi.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CauHoiDeThi.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CauHoiKCCDView.cs" />
+    <Compile Include="Models\CauHoi_DeThi_list_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CauHoi_searchByID_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CONSTKEY.cs" />
+    <Compile Include="Models\CTBaiThi.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CTLVDT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DanhSachDA.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeNghiKCCD.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeNghiKCCD_selectKCCD_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeNghiKCCD_select_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeThi.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeThiKCCDView.cs" />
+    <Compile Include="Models\DeThi_searchByID_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DinhBienView.cs" />
+    <Compile Include="Models\DinhBienVT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DSachDGValidation.cs" />
+    <Compile Include="Models\EGuideValidation.cs" />
+    <Compile Include="Models\ELEARNING.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ELEARNING.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ELEARNING.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ELEARNING.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ELEARNING.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FCheckValidation.cs" />
+    <Compile Include="Models\FGenResultValidation.cs" />
+    <Compile Include="Models\FResultValidation.cs" />
+    <Compile Include="Models\GroupQuyenValidation.cs" />
+    <Compile Include="Models\HDSD.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KCCD_BaiThi.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KCCD_CauHoi.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KCCD_CTBaiThi.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KCCD_DeThi.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KhoiKNLValidation.cs" />
+    <Compile Include="Models\KhungNangLuc.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KhungNangLucValidation.cs" />
+    <Compile Include="Models\KhungNangLuc_searchByIDNL_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KhungNangLuc_SearchByIDVT_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Kip.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNLDGiaTC_select_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_DG.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_DGiaTC.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_Khoi.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_KQ.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_KQ_searchByIDNL_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_KQ_searchByIDNV_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_KQ_SelectDDG_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_KQ_SelectNV_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_KQ_SelectThang_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_KQ_Select_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_LoaiKQ.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_LSDG.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_LSDG_Select_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_Nhom.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_NVKiemNhiem.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_PhanXuong.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_Quyen.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_To.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LinhVucDT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ListController.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ListControllerValidation.cs" />
+    <Compile Include="Models\LoaiKNL.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LopHoc.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LopHoc_searchByID_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LopHoc_select_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NhanVien.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NhanVien_ExportExcel_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NhanVien_ExportKQKNL_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NhanVien_Export_ALL_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NhanVien_searchByVTKNL_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NhanVien_selectByIDNV_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NhanVien_SelectKQKNL_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NhanVien_select_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NhomKNLValidation.cs" />
+    <Compile Include="Models\NhomNLKCCD.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NoiDungDT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NoiDungDTKCCD.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NoiDungDTKCCD_selectKCCD_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NoiDungDTKCCD_select_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NoiDungDT_ListContent_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NoiDungDT_searchByID_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NoiDungDT_select_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotificationView.cs" />
+    <Compile Include="Models\PdfWriterEvents .cs" />
+    <Compile Include="Models\CauHoiDeThiValidation.cs" />
+    <Compile Include="Models\ConfirmEStudyValidation.cs" />
+    <Compile Include="Models\DetailedFieldValidation.cs" />
+    <Compile Include="Models\EClassroomValidation.cs" />
+    <Compile Include="Models\Employees_API.cs" />
+    <Compile Include="Models\EmployeeValidation.cs" />
+    <Compile Include="Models\FieldValidation.cs" />
+    <Compile Include="Models\LoginValidation.cs" />
+    <Compile Include="Models\ManageClassValidation.cs" />
+    <Compile Include="Models\ManageETContentValidation.cs" />
+    <Compile Include="Models\ManageExamQuestionGroupValidation.cs" />
+    <Compile Include="Models\ManageTestExamValidation.cs" />
+    <Compile Include="Models\ManageQuestionValidation.cs" />
+    <Compile Include="Models\MyAuthentication.cs" />
+    <Compile Include="Models\PhanXuongValidation.cs" />
+    <Compile Include="Models\PhieuXacNhanKCCD.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PhieuXacNhanKCCD_select_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PhongBan.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PhongBanValidation.cs" />
+    <Compile Include="Models\PhongBan_ExportKNL_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QT_BaiKiemTra.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QT_BaiKiemTra_CheckQT_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QT_BaiKiemTra_Dat_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QT_CauHoiQT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QT_CTBaiKiemTra.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QT_DinhKy.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QT_FileQT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QT_LoaiQT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QT_NoiDungQT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QT_PhanQuyen.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QT_Result_searchByIDQT_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QT_VanBanLQ.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Question-TestValidation.cs" />
+    <Compile Include="Models\Quyen.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QuyenCN.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QuyenDetail.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ResultQTHDView.cs" />
+    <Compile Include="Models\StatisticValidation.cs" />
+    <Compile Include="Models\StudentTestDetailValidation.cs" />
+    <Compile Include="Models\TaiKhoan_ID_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TaiKhoan_select_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TestValidation.cs" />
+    <Compile Include="Models\TestView.cs" />
+    <Compile Include="Models\ThongBao.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TinhTrangLV.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ToKNLValidation.cs" />
+    <Compile Include="Models\Vitri.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViTriKNL.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViTriKNLValidation.cs" />
+    <Compile Include="Models\VitriKNL_Export_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VitriKNL_searchByIDVT_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VitriKNL_searchPage_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VitriKNL_search_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VitriKNL_Select_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\XNHocTap.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\XNHocTap_searchByID_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\XNHocTap_select_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\all.css" />
+    <Content Include="Content\assets\Chonse\chosen-sprite.png" />
+    <Content Include="Content\assets\Chonse\chosen.css" />
+    <Content Include="Content\assets\Chonse\chosen.jquery.js" />
+    <Content Include="Content\assets\css\PagedList.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\dataTables.bootstrap.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\dataTables.bootstrap.min.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\dataTables.bootstrap4.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\dataTables.bootstrap5.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\dataTables.bootstrap5.min.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\dataTables.bulma.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\dataTables.bulma.min.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\dataTables.dataTables.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\dataTables.dataTables.min.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\dataTables.foundation.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\dataTables.foundation.min.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\dataTables.jqueryui.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\dataTables.jqueryui.min.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\dataTables.semanticui.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\dataTables.semanticui.min.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\jquery.dataTables.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\css\jquery.dataTables.min.css" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\images\sort_asc.png" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\images\sort_asc_disabled.png" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\images\sort_both.png" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\images\sort_desc.png" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\images\sort_desc_disabled.png" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\dataTables.bootstrap.js" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\dataTables.bootstrap.min.js" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\dataTables.bootstrap4.js" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\dataTables.bootstrap4.min.js" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\dataTables.bootstrap5.js" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\dataTables.bootstrap5.min.js" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\dataTables.bulma.js" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\dataTables.bulma.min.js" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\dataTables.dataTables.js" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\dataTables.dataTables.min.js" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\dataTables.foundation.js" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\dataTables.foundation.min.js" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\dataTables.jqueryui.js" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\dataTables.jqueryui.min.js" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\dataTables.semanticui.js" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\dataTables.semanticui.min.js" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\jquery.dataTables.js" />
+    <Content Include="Content\assets\DataTables\DataTables-1.12.1\js\jquery.dataTables.min.js" />
+    <Content Include="Content\assets\DataTables\datatables.css" />
+    <Content Include="Content\assets\DataTables\datatables.js" />
+    <Content Include="Content\assets\DataTables\datatables.min.css" />
+    <Content Include="Content\assets\DataTables\datatables.min.js" />
+    <Content Include="Content\assets\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\assets\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\assets\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\assets\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\assets\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\assets\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\assets\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\assets\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\assets\font-awesome\HELP-US-OUT.txt" />
+    <Content Include="Content\assets\font-awesome\less\animated.less" />
+    <Content Include="Content\assets\font-awesome\less\bordered-pulled.less" />
+    <Content Include="Content\assets\font-awesome\less\core.less" />
+    <Content Include="Content\assets\font-awesome\less\fixed-width.less" />
+    <Content Include="Content\assets\font-awesome\less\font-awesome.less" />
+    <Content Include="Content\assets\font-awesome\less\icons.less" />
+    <Content Include="Content\assets\font-awesome\less\larger.less" />
+    <Content Include="Content\assets\font-awesome\less\list.less" />
+    <Content Include="Content\assets\font-awesome\less\mixins.less" />
+    <Content Include="Content\assets\font-awesome\less\path.less" />
+    <Content Include="Content\assets\font-awesome\less\rotated-flipped.less" />
+    <Content Include="Content\assets\font-awesome\less\screen-reader.less" />
+    <Content Include="Content\assets\font-awesome\less\stacked.less" />
+    <Content Include="Content\assets\font-awesome\less\variables.less" />
+    <Content Include="Content\assets\font-awesome\scss\font-awesome.scss" />
+    <Content Include="Content\assets\font-awesome\scss\_animated.scss" />
+    <Content Include="Content\assets\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="Content\assets\font-awesome\scss\_core.scss" />
+    <Content Include="Content\assets\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="Content\assets\font-awesome\scss\_icons.scss" />
+    <Content Include="Content\assets\font-awesome\scss\_larger.scss" />
+    <Content Include="Content\assets\font-awesome\scss\_list.scss" />
+    <Content Include="Content\assets\font-awesome\scss\_mixins.scss" />
+    <Content Include="Content\assets\font-awesome\scss\_path.scss" />
+    <Content Include="Content\assets\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="Content\assets\font-awesome\scss\_screen-reader.scss" />
+    <Content Include="Content\assets\font-awesome\scss\_stacked.scss" />
+    <Content Include="Content\assets\font-awesome\scss\_variables.scss" />
+    <Content Include="Content\assets\fonts\fa-solid-900.eot" />
+    <Content Include="Content\assets\fonts\fa-solid-900.svg" />
+    <Content Include="Content\assets\fonts\fa-solid-900.ttf" />
+    <Content Include="Content\assets\fonts\fa-solid-900.woff" />
+    <Content Include="Content\assets\fonts\fa-solid-900.woff2" />
+    <Content Include="Content\assets\fonts\Pe-icon-7-stroke.eot" />
+    <Content Include="Content\assets\fonts\Pe-icon-7-stroke.svg" />
+    <Content Include="Content\assets\fonts\Pe-icon-7-stroke.ttf" />
+    <Content Include="Content\assets\fonts\Pe-icon-7-stroke.woff" />
+    <Content Include="Content\assets\Highcharts\accessibility.js" />
+    <Content Include="Content\assets\Highcharts\data.js" />
+    <Content Include="Content\assets\Highcharts\drilldown.js" />
+    <Content Include="Content\assets\Highcharts\exporting.js" />
+    <Content Include="Content\assets\Highcharts\highcharts.js" />
+    <Content Include="Content\assets\images\achive-24.svg" />
+    <Content Include="Content\assets\images\AppStore.png" />
+    <Content Include="Content\assets\images\avatars\2.jpg" />
+    <Content Include="Content\assets\images\avatars\adminlogo.jpg" />
+    <Content Include="Content\assets\images\bg1.jpg" />
+    <Content Include="Content\assets\images\bg2.jpg" />
+    <Content Include="Content\assets\images\bg3.jfif" />
+    <Content Include="Content\assets\images\bg4.jpg" />
+    <Content Include="Content\assets\images\bg7.jpg" />
+    <Content Include="Content\assets\images\bg9.jpg" />
+    <Content Include="Content\assets\images\chat.png" />
+    <Content Include="Content\assets\images\elearning.jpg" />
+    <Content Include="Content\assets\images\envelope.png" />
+    <Content Include="Content\assets\images\exam-24.svg" />
+    <Content Include="Content\assets\images\gift-24.svg" />
+    <Content Include="Content\assets\images\GooglePlay.png" />
+    <Content Include="Content\assets\images\ks-24.svg" />
+    <Content Include="Content\assets\images\lessons.png" />
+    <Content Include="Content\assets\images\link-24.svg" />
+    <Content Include="Content\assets\images\logo-inverse.png" />
+    <Content Include="Content\assets\images\logo.png" />
+    <Content Include="Content\assets\images\logoExport.png" />
+    <Content Include="Content\assets\images\pdf-24.png" />
+    <Content Include="Content\assets\images\pdf_icon.png" />
+    <Content Include="Content\assets\images\teacher-2.jpg" />
+    <Content Include="Content\assets\images\teacher-3.jpg" />
+    <Content Include="Content\assets\images\teacher.jpg" />
+    <Content Include="Content\assets\images\video-24.png" />
+    <Content Include="Content\assets\images\WaterMark.jpg" />
+    <Content Include="Content\assets\images\WaterMark.png" />
+    <Content Include="Content\assets\images\WaterMarkElearning.jpg" />
+    <Content Include="Content\assets\jwplayer8.js" />
+    <Content Include="Content\assets\plotly-latest.min.js" />
+    <Content Include="Content\assets\scripts\main.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\icons\default\icons.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\license.txt" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\models\dom\model.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\advlist\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\anchor\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\autolink\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\autoresize\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\autosave\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\charmap\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\codesample\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\code\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\directionality\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\emoticons\js\emojiimages.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\emoticons\js\emojiimages.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\emoticons\js\emojis.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\emoticons\js\emojis.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\emoticons\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\fullscreen\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\help\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\image\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\importcss\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\insertdatetime\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\link\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\lists\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\media\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\nonbreaking\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\pagebreak\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\preview\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\quickbars\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\save\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\searchreplace\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\table\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\template\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\visualblocks\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\visualchars\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\plugins\wordcount\plugin.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\content\dark\content.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\content\default\content.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\content\document\content.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\content\tinymce-5-dark\content.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\content\tinymce-5\content.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\content\writer\content.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\ui\oxide-dark\content.inline.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\ui\oxide-dark\content.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\ui\oxide-dark\skin.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\ui\oxide-dark\skin.shadowdom.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\ui\oxide\content.inline.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\ui\oxide\content.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\ui\oxide\skin.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\ui\oxide\skin.shadowdom.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\ui\tinymce-5-dark\content.inline.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\ui\tinymce-5-dark\content.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\ui\tinymce-5-dark\skin.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\ui\tinymce-5-dark\skin.shadowdom.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\ui\tinymce-5\content.inline.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\ui\tinymce-5\content.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\ui\tinymce-5\skin.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\skins\ui\tinymce-5\skin.shadowdom.min.css" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\themes\silver\theme.min.js" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\tinymce.min.js" />
+    <Content Include="Content\assets\TinyMCE\tinimceConfig.js" />
+    <Content Include="Content\backgroundHP.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.js" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.min.js" />
+    <Content Include="Content\jquery-2.2.3.js" />
+    <Content Include="Content\jquery-2.2.3.min.js" />
+    <Content Include="Content\jquery-3.0.0.min.js" />
+    <Content Include="Content\jquery-3.4.1.js" />
+    <Content Include="Content\jquery-3.4.1.min.js" />
+    <Content Include="Content\jquery-3.4.1.min.map" />
+    <Content Include="Content\jquery-3.4.1.slim.js" />
+    <Content Include="Content\jquery-3.4.1.slim.min.js" />
+    <Content Include="Content\jquery-3.4.1.slim.min.map" />
+    <Content Include="Content\jquery.validate.js" />
+    <Content Include="Content\jquery.validate.min.js" />
+    <Content Include="Content\jquery.validate.unobtrusive.js" />
+    <Content Include="Content\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Content\JW8.js" />
+    <Content Include="Content\main.css" />
+    <Content Include="Content\modernizr-2.8.3.js" />
+    <Content Include="Content\moment-with-locales.js" />
+    <Content Include="Content\moment-with-locales.min.js" />
+    <Content Include="Content\moment.js" />
+    <Content Include="Content\moment.min.js" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Models\ELEARNING.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ELEARNING.edmx</DependentUpon>
+      <LastGenOutput>ELEARNING.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ELEARNING.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ELEARNING.edmx</DependentUpon>
+      <LastGenOutput>ELEARNING.cs</LastGenOutput>
+    </Content>
+    <Content Include="Rotativa\help-wkhtmltoimage.txt" />
+    <Content Include="Rotativa\help-wkhtmltopdf.txt" />
+    <Content Include="Rotativa\wkhtmltoimage.exe" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="libman.json" />
+    <Content Include="App_Data\Template_Question.xlsx" />
+    <Content Include="App_Browsers\qt.browser" />
+    <Content Include="App_Data\ThongKeNhapKNL.xlsx" />
+    <Content Include="App_Data\BM_LH.xlsx" />
+    <Content Include="App_Data\ThongKeNV_KNL.xlsx" />
+    <Content Include="App_Data\DS_ViTriKNL.xlsx" />
+    <Content Include="App_Data\BM_NVKNL.xlsx" />
+    <Content Include="Content\assets\Highcharts\highcharts.js.map" />
+    <Content Include="Content\assets\Highcharts\accessibility.js.map" />
+    <Content Include="Content\assets\Highcharts\data.js.map" />
+    <Content Include="Content\assets\Highcharts\drilldown.js.map" />
+    <Content Include="Content\assets\TinyMCE\js\tinymce\langs\README.md" />
+    <Content Include="App_Data\ThongKeBoPhan_KNL.xlsx" />
+    <Content Include="App_Data\ThongKeKQua_KNL.xlsx" />
+    <Content Include="App_Data\HPDQ_QT04BM12.xlsx" />
+    <Content Include="App_Data\DS_HocVienKCCD.xlsx" />
+    <Content Include="App_Data\BM_NDĐT_KCCD.xlsx" />
+    <Content Include="App_Data\BM_DSHV_KCCD.xlsx" />
+    <Content Include="App_Data\ThongKe_DS_NDĐT_KCCD.xlsx" />
+    <Content Include="App_Data\BM_DinhBienViTri.xlsx" />
+    <None Include="Content\jquery-3.4.1.intellisense.js" />
+    <None Include="Content\jquery.validate-vsdoc.js" />
+    <EntityDeploy Include="Models\ELEARNING.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ELEARNING.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ELEARNING.edmx.diagram">
+      <DependentUpon>ELEARNING.edmx</DependentUpon>
+    </Content>
+    <Content Include="PDF\0f0c1cfe-f1ec-409e-aeee-a18ba0557c97.pdf" />
+    <Content Include="PDF\1aa86997-9dad-42ce-8f20-530ae656b508.pdf" />
+    <Content Include="PDF\1abdbb25-919d-4c9c-9fdc-3760aed8cd64.pdf" />
+    <Content Include="PDF\2f1c1ad3-2f1a-4879-b4ca-6a2429fc6501.pdf" />
+    <Content Include="PDF\32ce328a-dd36-4667-8cff-980e5aa74419.pdf" />
+    <Content Include="PDF\82f166bd-c05a-4000-aa79-b5a02f7af2e2.pdf" />
+    <Content Include="PDF\8d2c92c4-ad8c-4ab0-80fa-b9d202af1357.pdf" />
+    <Content Include="PDF\de9b1b20-9261-42b0-af54-f41cd4e9d411.pdf" />
+    <Content Include="PDF\e97544c2-45d9-4259-adfa-83837295c0a9.pdf" />
+    <Content Include="FileJD\File4.pdf" />
+    <Content Include="FileQTHD\20231122112212_PL.01-STHT So do to chuc cua Cong ty 01.07.23.pdf" />
+    <Content Include="FileQTHD\20231122112212_PL.02-STHT Phuong phap danh gia rui ro ve chat luong 01.06.23.pdf" />
+    <Content Include="FileQTHD\20231122112212_STHT So tay he thong 01.06.23.pdf" />
+    <Content Include="FileQTHD\20231122114619_QT.01 Quy trinh kiem soat thong tin dang van ban 01.07.23.pdf" />
+    <Content Include="FileQTHD\20231122114619_QT.01.01 QT soan thao van ban he thong ISO 01.07.23.pdf" />
+    <Content Include="FileQTHD\20231122114816_PL.01-STHT So do to chuc cua Cong ty 01.07.23.pdf" />
+    <Content Include="FileQTHD\20231122114816_QT.05 Quy trinh lap ke hoach - to chuc san xuat 01.06.23.pdf" />
+    <Content Include="FileQTHD\20231201090132_PL.01-STHT So do to chuc cua Cong ty 01.07.23.pdf" />
+    <Content Include="FileQTHD\20231201090132_PL.02-STHT Phuong phap danh gia rui ro ve chat luong 01.06.23.pdf" />
+    <Content Include="FileQTHD\20231201090132_PL.03-STHT Boi canh va nhan dien rui ro- co hoi cua Cong ty 20.07.23.pdf" />
+    <Content Include="FileQTHD\20231201090132_STHT So tay he thong 01.06.23.pdf" />
+    <Content Include="FileQTHD\20231201144517_STHT So tay he thong 01.06.23.pdf" />
+    <Content Include="FileQTHD\20231201144524_PL.01-STHT So do to chuc cua Cong ty 01.07.23.pdf" />
+    <Content Include="FileQTHD\20231201144524_PL.02-STHT Phuong phap danh gia rui ro ve chat luong 01.06.23.pdf" />
+    <Content Include="FileQTHD\20231201144524_PL.03-STHT Boi canh va nhan dien rui ro- co hoi cua Cong ty 20.07.23.pdf" />
+    <Content Include="FileQTHD\20231201153711_PL.01-STHT So do to chuc cua Cong ty 01.07.23.pdf" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="UploadedFiles\Signature\HPDQ12806.png" />
+    <Content Include="Views\Shared\header.html" />
+    <Content Include="Views\STest\Thiketthuckhoahoc.html" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Employee\Sync.cshtml" />
+    <Content Include="Views\ManageETContent\Index.cshtml" />
+    <Content Include="Views\ManageETContent\Create.cshtml" />
+    <Content Include="Views\ManageETContent\Edit.cshtml" />
+    <Content Include="Views\LibraryETContent\Index.cshtml" />
+    <Content Include="Views\SLesson\Index.cshtml" />
+    <Content Include="Views\ManageClass\Index.cshtml" />
+    <Content Include="Views\ManageClass\Create.cshtml" />
+    <Content Include="Views\ManageClass\Edit.cshtml" />
+    <Content Include="Views\LibraryClass\Index.cshtml" />
+    <Content Include="Views\ConfirmEStudy\Index.cshtml" />
+    <Content Include="Views\ConfirmEStudy\Create.cshtml" />
+    <Content Include="Views\ConfirmEStudy\Edit.cshtml" />
+    <Content Include="Views\ConfirmEStudy\ImportExcel.cshtml" />
+    <Content Include="Views\EClassroom\Index.cshtml" />
+    <Content Include="Views\TLesson\Index.cshtml" />
+    <Content Include="Views\EClassroom\HistoryStudy.cshtml" />
+    <Content Include="Views\SHistory\Index.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Login\ChangePassword.cshtml" />
+    <Content Include="UploadedFiles\202108191422-ImportDSHT.xlsx" />
+    <Content Include="UploadedFiles\202108191428-ImportDSHT.xlsx" />
+    <Content Include="UploadedFiles\202108191443-ImportDSHT.xlsx" />
+    <Content Include="UploadedFiles\202108201516-ImportDSHT.xlsx" />
+    <Content Include="UploadedFiles\202108201518-BaoCaoTienDoTem.xlsx" />
+    <Content Include="UploadedFiles\202108220912-ImportDSHT.xlsx" />
+    <Content Include="UploadedFiles\202108241023-ImportDSHT.xlsx" />
+    <Content Include="UploadedFiles\202108241051-ImportDSHT.xlsx" />
+    <Content Include="UploadedFiles\202108241316-ImportDSHT.xlsx" />
+    <Content Include="UploadedFiles\202108241320-ImportDSHT.xlsx" />
+    <Content Include="UploadedFiles\202108241328-ImportDSHT.xlsx" />
+    <Content Include="UploadedFiles\202108241411-ImportDSHT.xlsx" />
+    <Content Include="UploadedFiles\202108311410-ImportDSHT.xlsx" />
+    <Content Include="Views\EmployeeAPI\Index.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\Resetpass.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\LibraryField\Index.cshtml" />
+    <Content Include="Views\ManageExamQuestionGroup\Index.cshtml" />
+    <Content Include="Views\ManageExamQuestionGroup\Create.cshtml" />
+    <Content Include="Views\ManageExamQuestionGroup\Edit.cshtml" />
+    <Content Include="Views\STest\Index.cshtml" />
+    <Content Include="Views\ManageTestExam\Index.cshtml" />
+    <Content Include="Views\ManageTestExam\Create.cshtml" />
+    <Content Include="Views\ManageTestExam\Edit.cshtml" />
+    <Content Include="Views\STest\Submit.cshtml" />
+    <Content Include="Views\Default\Index.cshtml" />
+    <Content Include="Views\Question\Index.cshtml" />
+    <Content Include="Views\Question\Create.cshtml" />
+    <Content Include="Views\Question\Edit.cshtml" />
+    <Content Include="Views\Question\ImportExcel.cshtml" />
+    <Content Include="Views\ManageTestExam\Question.cshtml" />
+    <Content Include="Views\ManageTestExam\AddQuestion.cshtml" />
+    <Content Include="Views\ManageTestExam\ViewQuestion.cshtml" />
+    <Content Include="Views\DetailedField\Index.cshtml" />
+    <Content Include="Views\ConfirmEStudy\TestView.cshtml" />
+    <Content Include="Views\Shared\printView.cshtml" />
+    <Content Include="Views\ConfirmEStudy\PrintTestView.cshtml" />
+    <Content Include="Views\ConfirmEStudy\ListPrintTestView.cshtml" />
+    <Content Include="Views\Shared\footer.html" />
+    <Content Include="Views\FBlock\Create.cshtml" />
+    <Content Include="Views\FBlock\Edit.cshtml" />
+    <Content Include="Views\FBlock\Index.cshtml" />
+    <Content Include="Views\FDepartment\Create.cshtml" />
+    <Content Include="Views\FDepartment\Edit.cshtml" />
+    <Content Include="Views\FDepartment\Index.cshtml" />
+    <Content Include="Views\FFactory\Create.cshtml" />
+    <Content Include="Views\FFactory\Edit.cshtml" />
+    <Content Include="Views\FFactory\Index.cshtml" />
+    <Content Include="Views\FGroup\Create.cshtml" />
+    <Content Include="Views\FGroup\Edit.cshtml" />
+    <Content Include="Views\FGroup\Index.cshtml" />
+    <Content Include="Views\FNest\Create.cshtml" />
+    <Content Include="Views\FNest\Edit.cshtml" />
+    <Content Include="Views\FNest\Index.cshtml" />
+    <Content Include="Views\FPosition\ChangeNVGroup.cshtml" />
+    <Content Include="Views\FPosition\Create.cshtml" />
+    <Content Include="Views\FPosition\CreateKNL.cshtml" />
+    <Content Include="Views\FPosition\CreateVTKNL.cshtml" />
+    <Content Include="Views\FPosition\Edit.cshtml" />
+    <Content Include="Views\FPosition\Index.cshtml" />
+    <Content Include="Views\FPosition\PerCheck.cshtml" />
+    <Content Include="Views\FPosition\SyncVT.cshtml" />
+    <Content Include="Views\FPosition\UpdateNV.cshtml" />
+    <Content Include="Views\FPosition\UploadFile.cshtml" />
+    <Content Include="Views\FPosition\CreateKNLDefault.cshtml" />
+    <Content Include="Views\FPosition\CopyMapingData.cshtml" />
+    <Content Include="Views\FPermision\AddUserQuyen.cshtml" />
+    <Content Include="Views\FPermision\AdminPermision.cshtml" />
+    <Content Include="Views\FPermision\Create.cshtml" />
+    <Content Include="Views\FPermision\Edit.cshtml" />
+    <Content Include="Views\FPermision\EditController.cshtml" />
+    <Content Include="Views\FPermision\Index.cshtml" />
+    <Content Include="Views\FPermision\ListUser.cshtml" />
+    <Content Include="Views\FPosition\CreateNVKN.cshtml" />
+    <Content Include="Views\FPosition\ListNVKNL.cshtml" />
+    <Content Include="Views\FPosition\SetVTPermision.cshtml" />
+    <Content Include="Views\FPosition\ShowSetVTPermision.cshtml" />
+    <Content Include="Views\FPosition\UpdateNVKN.cshtml" />
+    <Content Include="Views\FCheck\Index.cshtml" />
+    <Content Include="Views\FCheck\Value.cshtml" />
+    <Content Include="Views\Account\ResetListPass.cshtml" />
+    <Content Include="Views\FPosition\ImportExcel.cshtml" />
+    <Content Include="Views\FResult\Index.cshtml" />
+    <Content Include="Views\FResult\FView.cshtml" />
+    <Content Include="Views\FPosition\FBMView.cshtml" />
+    <Content Include="Views\FGenResult\Index.cshtml" />
+    <Content Include="Views\FGenResult\FGenResultDetails.cshtml" />
+    <Content Include="Views\Statistic\Index.cshtml" />
+    <Content Include="Views\EGuide\Index.cshtml" />
+    <Content Include="Views\EGuide\Create.cshtml" />
+    <Content Include="Views\EGuide\Edit.cshtml" />
+    <Content Include="UploadedFiles\HDSD\HDSD_20230303101726.pdf" />
+    <Content Include="UploadedFiles\HDSD\HDSD_20230303111354.pdf" />
+    <Content Include="UploadedFiles\HDSD\HDSD_20230303111428.pdf" />
+    <Content Include="UploadedFiles\HDSD\HDSD_20230303112809.pdf" />
+    <Content Include="UploadedFiles\HDSD\HDSD_20230303112828.pdf" />
+    <Content Include="UploadedFiles\HDSD\HDSD_20230303131335.pdf" />
+    <Content Include="UploadedFiles\HDSD\HDSD_20230303131353.pdf" />
+    <Content Include="Views\ConfirmEStudy\PrintFBMView.cshtml" />
+    <Content Include="Views\FView\Index.cshtml" />
+    <Content Include="Views\Statistic\ReportKNL.cshtml" />
+    <Content Include="Views\FDepartment\DataTable.cshtml" />
+    <Content Include="Views\Capability\Index.cshtml" />
+    <Content Include="Views\NoiDungDTKCCD\Index.cshtml" />
+    <Content Include="Views\NoiDungDTKCCD\Create.cshtml" />
+    <Content Include="Views\NoiDungDTKCCD\Edit.cshtml" />
+    <Content Include="Views\NoiDungDTKCCD\ImportExcel.cshtml" />
+    <Content Include="Views\FPosition\ChangePositon.cshtml" />
+    <Content Include="Views\SuggestKCCD\Index.cshtml" />
+    <Content Include="Views\SuggestKCCD\Create.cshtml" />
+    <Content Include="Views\SuggestKCCD\Edit.cshtml" />
+    <Content Include="Views\ConfirmKCCD\Index.cshtml" />
+    <Content Include="Views\ConfirmKCCD\Create.cshtml" />
+    <Content Include="Views\ConfirmKCCD\ImportExcel.cshtml" />
+    <Content Include="Views\ConfirmKCCD\Edit.cshtml" />
+    <Content Include="Views\EvaluateKCCD\Index.cshtml" />
+    <Content Include="Views\EvaluateKCCD\Details.cshtml" />
+    <Content Include="Views\SuggestKCCD\Approve.cshtml" />
+    <Content Include="Views\SuggestKCCD\ExportData.cshtml" />
+    <Content Include="Views\ConfirmKCCD\Details.cshtml" />
+    <Content Include="Views\NoiDungDTKCCD\ExportData.cshtml" />
+    <Content Include="Views\NoiDungQT\Index.cshtml" />
+    <Content Include="Views\NoiDungQT\Create.cshtml" />
+    <Content Include="Views\NoiDungQT\ImportExcel.cshtml" />
+    <Content Include="Views\NoiDungQT\Edit.cshtml" />
+    <Content Include="Views\NoiDungQT\EditFileQT.cshtml" />
+    <Content Include="Views\CauHoiQT\Index.cshtml" />
+    <Content Include="Views\CauHoiQT\Edit.cshtml" />
+    <Content Include="Views\NoiDungQT\VanBanLQView.cshtml" />
+    <Content Include="Views\NoiDungQT\PhanQuyenQT.cshtml" />
+    <Content Include="Views\NoiDungQT\EditVTCV.cshtml" />
+    <Content Include="Views\ListTestQT\Index.cshtml" />
+    <Content Include="Views\ListTestQT\TestQT.cshtml" />
+    <Content Include="Views\PhanQuyenQT\Index.cshtml" />
+    <Content Include="Views\ResultQTHD\Index.cshtml" />
+    <Content Include="Views\ListTestQT\ListQTView.cshtml" />
+    <Content Include="Views\Notification\Details.cshtml" />
+    <Content Include="Views\Notification\Create.cshtml" />
+    <Content Include="Views\Notification\Index.cshtml" />
+    <Content Include="Views\Notification\Edit.cshtml" />
+    <Content Include="Views\ResultQTHD\ListNV.cshtml" />
+    <Content Include="Views\CauHoiKCCD\DeThi.cshtml" />
+    <Content Include="Views\CauHoiKCCD\CreateDT.cshtml" />
+    <Content Include="Views\DinhBien\Index.cshtml" />
+    <Content Include="Views\DinhBien\Edit.cshtml" />
+    <Content Include="Views\CauHoiKCCD\Index.cshtml" />
+    <Content Include="Views\CauHoiKCCD\ImportExcel.cshtml" />
+    <Content Include="Views\CauHoiKCCD\EditDT.cshtml" />
+    <Content Include="Views\CauHoiKCCD\EditCH.cshtml" />
+    <Content Include="Views\EvaluateKCCD\TestKCCD.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\login\" />
+    <Folder Include="UploadedFiles\EduPro\" />
+    <Folder Include="UploadedFiles\ImagesUpload\" />
+    <Folder Include="Views\Class\" />
+    <Folder Include="Views\Courses\" />
+    <Folder Include="Views\EmloyeeManage\" />
+    <Folder Include="Views\LHistory\" />
+    <Folder Include="Views\StudyHistory\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Content\assets\TinyMCE\js\tinymce\tinymce.d.ts" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>58445</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44328/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

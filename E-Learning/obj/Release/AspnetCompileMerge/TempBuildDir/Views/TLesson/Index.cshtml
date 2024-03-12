@@ -1,0 +1,168 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.Models
+@model List<ManageClassValidation>
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+        @foreach (var item in Model)
+        {
+            <div class="app-page-title">
+                <div class="page-title-wrapper">
+                    <div class="page-title-heading">
+                        <div class="page-title-icon">
+                            <i class="pe-7s-notebook icon-gradient bg-grow-early">
+                            </i>
+                        </div>
+                        <div>
+                            @item.MaLH
+                            <div class="page-title-subheading">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="tab-content">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="main-card mb-3 card">
+                            <div class="card-body">
+
+                                <div class="row" style="padding: 38px 16px;">
+
+                                    <div class="col-lg-5" style="">
+                                        <div class="">
+                                            <h5 class="card-title">Hướng Dẫn Học Tập Trên Hệ Thống E-Learning</h5>
+
+                                            <ul>
+                                                <li><p>Học online: Học viên xem hết video bài học và nhấn nút “Hoàn thành” để được ghi nhận học xong bài học.</p></li>
+
+                                                <li><p>Học viên phải hoàn thành bài học online và làm bài kiểm tra trên giấy mới ghi nhận là hoàn thành khóa học này.</p></li>
+
+                                                <li><p>Khi đang học online nếu học viên thoát ra khỏi ứng dụng thì phải vào học lại từ đầu, ứng dụng không lưu nội dung học chưa hoàn thành.</p></li>
+
+                                                <li><p>Học viên có thể xem lại nội dung bài học trong thời gian khóa học online đang diễn ra.</p></li>
+
+                                                <li><p>Học viên không thể tua nhanh video, khi video bị sự cố dừng hoặc lỗi mạng học viên nhấn pause/play để tiếp tục.</p></li>
+                                            </ul>
+
+                                            <div class="widget-content">
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+
+                                                    <div class="widget-content-left"><strong>Nội dung : </strong></div>
+                                                    <div class="widget-content-right">@item.TenND</div>
+
+                                                </div>
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+
+                                                    <div class="widget-content-left"><strong>Lĩnh vực : </strong></div>
+                                                    <div class="widget-content-right">@item.LinhVuc</div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-7" style="">
+
+                                        <div class="" style="width: 100%; height: auto;">
+                                            <div id="myElement">Loading the player...</div>
+                                            <script type="text/javascript">
+                                                                var playerInstance = jwplayer("myElement");
+                                                                playerInstance.setup({
+                                                                    file: "@item.VideoLH",
+                                                                    image: "@item.ImageLH",
+                                                                    autostart: false,
+                                                                    controls: true,
+                                                                    width: "100%",
+                                                                    aspectratio: "16 : 9",
+                                                                   // height: 360,
+                                                                });
+                                            </script>
+                                        </div>
+
+                                    </div>
+                                    <div class="" style="position: absolute;bottom: 14px;right: 30px">
+
+                                        @*<a class="" id="" href="@Url.Action("Index" , "LibraryClass" , new { id = @item.NDID })">
+                                            <button id="back" class="btn-transition btn btn-outline-primary"><i class="fa fa-angle-left" aria-hidden="true"></i> Trở về </button>
+                                        </a>*@
+
+                                        <a class="" id="" href="@Url.Action("Index" , "LibraryClass" , new { id = @item.NDID })">
+                                            <button id="target" disabled="true" class="btn-transition btn btn-outline-success">Hoàn Thành <i class="fa fa-check" aria-hidden="true"></i></button>
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    // API JWplayer play
+
+    var element = document.getElementById("target");
+    element.disabled = true;
+    jwplayer().on('complete', function (event) {
+        console.log("complete");
+        element.disabled = false;
+
+    });
+
+
+    // API JWplayer prevent
+
+    //var seeking = false;
+    //var maxPlayPosition = 0;
+
+    //jwplayer().on('time', function (event) {
+    //    if (!seeking) {
+    //        maxPlayPosition = Math.max(event.position, maxPlayPosition);
+    //    }
+    //}).on('seek', function (event) {
+    //    seeking = true;
+    //}).on('seeked', function (event) {
+    //    var pos = jwplayer().getPosition();
+
+    //    if (pos > maxPlayPosition) {
+    //        jwplayer().seek(maxPlayPosition);
+    //    }
+
+    //    seeking = false;
+    //});
+
+
+</script>

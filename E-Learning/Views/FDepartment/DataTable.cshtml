@@ -1,0 +1,219 @@
+﻿@*@{
+        ViewBag.Title = "DataTable";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }*@
+
+@*<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />*@
+<link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" rel="stylesheet" />
+@*@section styles{
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    }*@
+@*<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-bordered table-striped" id="tblStudent">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Max</th>
+
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>*@
+
+<style type="text/css">
+    a:hover {
+        cursor: pointer;
+    }
+</style>
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Phòng Ban Khung Năng Lực
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="card mb-4">
+            <div class="card-header">
+
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                @Html.DropDownList("IDPB", null, "--Bộ Phận--", new { id = "IDPB", @class = "form-control marginTB5", @style = "width:100%", })
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="input-group-btn"><button class="btn btn-primary marginTB5" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button></div>
+                        </div>
+
+                    </div>
+
+                </div>
+                @*<div class="clo-md-3 m-l-auto">
+                        <a class="btn btn-primary" title="Chi tiết" href="@Url.Action("CreateVTKNL", "ViTriKNL")">
+                            <i class="fa fa-plus">&nbsp;</i>&nbsp;Danh sách mã vị trí
+                        </a>
+                    </div>*@
+               
+
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" id="tblStudent">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Max</th>
+
+                            </tr>
+                        </thead>
+                    </table>
+                    @*<div class="pager">
+                        @Html.PagedListPager(Model, page => Url.Action("Index", "FDepartment", new { page, IDPB = Request.QueryString["IDPB"] }))
+                        <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+@*<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>*@
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js"></script>
+
+@*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>*@
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        bindDatatable();
+    });
+
+
+    function bindDatatable() {
+
+        function newexportaction(e, dt, button, config) {
+            
+            var self = this;
+            var oldStart = dt.settings()[0]._iDisplayStart;
+            dt.one('preXhr', function (e, s, data) {
+               
+                // Just this once, load all data from the server...
+                data.start = 0;
+                data.length = 2147483647;
+                data.iDisplayLength = 100000;
+                dt.one('preDraw', function (e, settings) {
+                    // Call the original action function
+                    if (button[0].className.indexOf('buttons-copy') >= 0) {
+                        $.fn.dataTable.ext.buttons.copyHtml5.action.call(self, e, dt, button, config);
+                    } else if (button[0].className.indexOf('buttons-excel') >= 0) {
+                        $.fn.dataTable.ext.buttons.excelHtml5.available(dt, config) ?
+                            $.fn.dataTable.ext.buttons.excelHtml5.action.call(self, e, dt, button, config) :
+                            $.fn.dataTable.ext.buttons.excelFlash.action.call(self, e, dt, button, config);
+                    } else if (button[0].className.indexOf('buttons-csv') >= 0) {
+                        $.fn.dataTable.ext.buttons.csvHtml5.available(dt, config) ?
+                            $.fn.dataTable.ext.buttons.csvHtml5.action.call(self, e, dt, button, config) :
+                            $.fn.dataTable.ext.buttons.csvFlash.action.call(self, e, dt, button, config);
+                    } else if (button[0].className.indexOf('buttons-pdf') >= 0) {
+                        $.fn.dataTable.ext.buttons.pdfHtml5.available(dt, config) ?
+                            $.fn.dataTable.ext.buttons.pdfHtml5.action.call(self, e, dt, button, config) :
+                            $.fn.dataTable.ext.buttons.pdfFlash.action.call(self, e, dt, button, config);
+                    } else if (button[0].className.indexOf('buttons-print') >= 0) {
+                        $.fn.dataTable.ext.buttons.print.action(e, dt, button, config);
+                    }
+                    dt.one('preXhr', function (e, s, data) {
+                        console.log(data)
+                        // DataTables thinks the first item displayed is index 0, but we're not drawing that.
+                        // Set the property to what it was before exporting.
+                        settings._iDisplayStart = oldStart;
+                        data.start = oldStart;
+                    });
+                    // Reload the grid with the original page. Otherwise, API functions like table.cell(this) don't work properly.
+                    setTimeout(dt.ajax.reload, 0);
+                    // Prevent rendering of the full data to the DOM
+                    return false;
+                });
+            });
+            // Requery the server with the new one-time export settings
+            dt.ajax.reload();
+        };
+
+        datatable = $('#tblStudent')
+            .DataTable({
+                dom: 'Blfrtip',
+                buttons: [
+                     {
+                        "extend": 'excel',
+                        "text": '<button class="btn"><i class="fa fa-file-excel-o" style="color: green;"></i>  Excel</button>',
+                        "titleAttr": 'Excel',
+                        "action": newexportaction
+                    } 
+                ],
+                "sAjaxSource": "/FDepartment/GetData",
+                "bServerSide": true,
+                "bProcessing": true,
+                "bSearchable": true,
+                "order": [[1, 'asc']],
+                "language": {
+                    "emptyTable": "No record found.",
+                    "processing":
+                        '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+                },
+                "columns": [
+                    {
+                        "data": "HoTen",
+                        "autoWidth": true,
+                        "searchable": false
+                    },
+                    {
+                        "data": "MaNV",
+                        "autoWidth": true,
+                        "searchable": false
+                    },
+
+                ]
+            });
+    }
+</script>

@@ -1,0 +1,1010 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>E-Learning HPDQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="description" content="This is an example dashboard created using build-in elements and components.">
+    <meta name="msapplication-tap-highlight" content="no">
+    <!--
+    =========================================================
+    * ArchitectUI HTML Theme Dashboard - v1.0.0
+    =========================================================
+
+    =========================================================
+    * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+    -->
+    <link href="./main.css" rel="stylesheet">
+    <script src='./assets/plotly-latest.min.js'></script>
+    <link href="./all.css" rel="stylesheet" />
+    <style>        body {margin-left:0px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+       <div class="app-header header-shadow">
+            <div class="app-header__logo">
+                <div class="logo-src"></div>
+                <div class="header__pane ml-auto">
+                    <div>
+                        <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="app-header__mobile-menu">
+                <div>
+                    <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+                        <span class="hamburger-box">
+                            <span class="hamburger-inner"></span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+            <div class="app-header__menu">
+                <span>
+                    <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+                        <span class="btn-icon-wrapper">
+                            <i class="fa fa-ellipsis-v fa-w-6"></i>
+                        </span>
+                    </button>
+                </span>
+            </div>    
+            <div class="app-header__content">
+                <div class="app-header-left">
+                    <div class="search-wrapper">
+                        <div class="input-holder">
+                            <input type="text" class="search-input" placeholder="Type to search">
+                            <button class="search-icon"><span></span></button>
+                        </div>
+                        <button class="close"></button>
+                    </div>
+                       
+                </div>
+                <div class="app-header-right">
+                    <div class="header-btn-lg pr-0">
+                        <div class="widget-content p-0">
+                            <div class="widget-content-wrapper">
+                                <div class="widget-content-left">
+                                    <div class="btn-group">
+                                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
+                                            <img width="42" class="rounded-circle" src="assets/images/avatars/2.jpg" alt="">
+                                            <i class="fa fa-angle-down ml-2 opacity-8"></i>
+                                        </a>
+                                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                                            <button type="button" tabindex="0" class="dropdown-item">User Account</button>
+                                            <button type="button" tabindex="0" class="dropdown-item">Settings</button>
+                                            <h6 tabindex="-1" class="dropdown-header">Header</h6>
+                                            <button type="button" tabindex="0" class="dropdown-item">Actions</button>
+                                            <div tabindex="-1" class="dropdown-divider"></div>
+                                            <button type="button" tabindex="0" class="dropdown-item">Dividers</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="widget-content-left  ml-3 header-user-info">
+                                    <div class="widget-heading">
+                                        Nguyễn Văn A
+                                    </div>
+                                    <div class="widget-subheading">
+                                        PNS
+                                    </div>
+                                </div>
+                                <div class="widget-content-right header-user-info ml-3">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>        
+                </div>
+            </div>
+        </div>  
+
+        <div class="app-main">
+            <div class="app-sidebar sidebar-shadow">
+                <div class="app-header__logo">
+                    <div class="logo-src"></div>
+                    <div class="header__pane ml-auto">
+                        <div>
+                            <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
+                                <span class="hamburger-box">
+                                    <span class="hamburger-inner"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="app-header__mobile-menu">
+                    <div>
+                        <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="app-header__menu">
+                    <span>
+                        <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+                            <span class="btn-icon-wrapper">
+                                <i class="fa fa-ellipsis-v fa-w-6"></i>
+                            </span>
+                        </button>
+                    </span>
+                </div>
+                <div class="scrollbar-sidebar">
+                    <div class="app-sidebar__inner">
+                        <ul class="vertical-nav-menu">
+                            <li class="app-sidebar__heading">Dashboards</li>
+                            <li>
+                                <a href="index.html" class="mm-active">
+                                    <i class="metismenu-icon pe-7s-rocket"></i>
+                                    Trang chủ
+                                </a>
+                            </li>
+
+                            <li class="app-sidebar__heading">Quản trị</li>
+                            <li>
+                                <a href="#">
+                                    <i class="metismenu-icon pe-7s-display2"></i>
+                                    Tài khoản
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="metismenu-icon pe-7s-display2"></i>
+                                    Quyền
+                                </a>
+                            </li>
+                            <li class="app-sidebar__heading">Quản lý đào tạo</li>
+                            <li>
+                                <a href="dashboard-boxes.html">
+                                    <i class="metismenu-icon pe-7s-display2"></i>
+                                    Nhu cầu đào tạo
+                                </a>
+                            </li>
+                            <li>
+                                <a href="dashboard-boxes.html">
+                                    <i class="metismenu-icon pe-7s-display2"></i>
+                                    Kế hoạch đào tạo
+                                </a>
+                            </li>
+                            <li>
+                                <a href="dashboard-boxes.html">
+                                    <i class="metismenu-icon pe-7s-display2"></i>
+                                    Chương trình đào tạo
+                                </a>
+                            </li>
+                            <li>
+                                <a href="tables-regular.html">
+                                    <i class="metismenu-icon pe-7s-display2"></i>
+                                    Nội dung đào tạo
+                                </a>
+                            </li>
+                            <li class="app-sidebar__heading">Quản Lý Học Vụ</li>
+                            <li>
+                                <a href="#">
+                                    <i class="metismenu-icon pe-7s-diamond"></i>
+                                    Lớp học
+                                    <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="metismenu-icon pe-7s-eyedropper">
+                                    </i>Giảng viên
+                                    <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                </a>
+
+                                <ul>
+
+                                    <li>
+                                        <a href="#">
+                                            <i class="metismenu-icon">
+                                            </i>Giảng viên nội bộ
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="metismenu-icon">
+                                            </i>Giảng viên ngoài
+                                        </a>
+                                    </li>
+
+
+                                </ul>
+
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="metismenu-icon pe-7s-pendrive">
+                                    </i>Học viên
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="metismenu-icon pe-7s-car"></i>
+                                    Thi và khảo sát
+                                    <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                </a>
+
+                                <ul>
+
+                                    <li>
+                                        <a href="#">
+                                            <i class="metismenu-icon">
+                                            </i>Quản lí đề thi
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="metismenu-icon">
+                                            </i>Thi sát hạch
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="metismenu-icon">
+                                            </i>Thi tuyển dụng
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="metismenu-icon">
+                                            </i>Khảo sát
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                            <li class="app-sidebar__heading">Thư viện</li>
+                            <li>
+                                <a href="#">
+                                    <i class="metismenu-icon pe-7s-graph2">
+                                    </i>Tài liệu
+                                </a>
+                            </li>
+                            <li class="app-sidebar__heading">Báo cáo & Thống kê</li>
+                            <li>
+                                <a href="#">
+                                    <i class="metismenu-icon pe-7s-graph2">
+                                    </i>Báo cáo
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="metismenu-icon pe-7s-graph2">
+                                    </i>Thống kê
+                                </a>
+                            </li>
+                            <li class="app-sidebar__heading">Thông báo</li>
+                            <li>
+                                <a href="#">
+                                    <i class="metismenu-icon pe-7s-graph2">
+                                    </i>Thông báo chung
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="app-main__outer">
+                <div id="page-content" class="row">
+                    <div id="region-main-box" class="col-md-12 col-sm-12 col-xs-12">
+                        <section id="region-main">
+                            <div class="card" id="yui_3_17_2_1_1624693574280_656">
+                                <div class="card-body content-course" id="yui_3_17_2_1_1624693574280_655">
+                                    <div class="row" id="yui_3_17_2_1_1624693574280_654">
+                                        <div class="col-md-8 " id="yui_3_17_2_1_1624693574280_653">
+                                            <span class="notifications" id="user-notifications"></span>
+                                            <div role="main" id="yui_3_17_2_1_1624693574280_652">
+                                                <span id="maincontent"></span><form action="#" method="post" enctype="multipart/form-data" accept-charset="utf-8" id="responseform" autocomplete="off">
+                                                    <div id="yui_3_17_2_1_1624693574280_644">
+
+                                                        <div id="q1" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">1</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_280">
+                                                                    <input type="hidden" name="q6:1_:flagged" value="0" id="yui_3_17_2_1_1624693574280_27"><input type="hidden" value="qaid=72&amp;qubaid=6&amp;qid=583&amp;slot=1&amp;checksum=7cd11c3ca1399993a07018269ad6f6cf&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_28">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:1_:flaggedcheckbox" name="q6:1_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:1_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_29"><div class="qtext">Biểu tượng hình bình hành trong logo VTVcab biểu trưng cho?</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:1_answer" value="0" id="q6:1_answer0"><label for="q6:1_answer0" class="m-l-1">a. Biểu trưng cho sự đoàn kết vươn tầm lớn mạnh</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:1_answer" value="1" id="q6:1_answer1"><label for="q6:1_answer1" class="m-l-1">b. Biểu trưng sáng tạo không ngừng vươn xa</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:1_answer" value="2" id="q6:1_answer2"><label for="q6:1_answer2" class="m-l-1">c. Biểu trưng cho logo kênh</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:1_answer" value="3" id="q6:1_answer3"><label for="q6:1_answer3" class="m-l-1">d. Biểu trưng cho sự phát triển, sáng tạo không ngừng</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q2" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">2</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_288">
+                                                                    <input type="hidden" name="q6:2_:flagged" value="0" id="yui_3_17_2_1_1624693574280_30"><input type="hidden" value="qaid=73&amp;qubaid=6&amp;qid=639&amp;slot=2&amp;checksum=5262b237327d81c0fbf3fbebea20c1e2&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_31">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:2_:flaggedcheckbox" name="q6:2_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:2_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_32"><div class="qtext">Các dịch vụ hiện nay VTVcab đang cung cấp?</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:2_answer" value="0" id="q6:2_answer0"><label for="q6:2_answer0" class="m-l-1">a. Truyền hình, Internet, VOD</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:2_answer" value="1" id="q6:2_answer1"><label for="q6:2_answer1" class="m-l-1">b. Truyền hình, Internet, VoIP</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:2_answer" value="2" id="q6:2_answer2"><label for="q6:2_answer2" class="m-l-1">c. Internet, VOD, VoIP</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:2_answer" value="3" id="q6:2_answer3"><label for="q6:2_answer3" class="m-l-1">d. Truyền hình, VoIP, VOD</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q3" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">3</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_296">
+                                                                    <input type="hidden" name="q6:3_:flagged" value="0" id="yui_3_17_2_1_1624693574280_33"><input type="hidden" value="qaid=74&amp;qubaid=6&amp;qid=584&amp;slot=3&amp;checksum=9ac0a4b320b041193b316046b85a897b&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_34">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:3_:flaggedcheckbox" name="q6:3_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content" id="yui_3_17_2_1_1624693574280_643">
+                                                                <div class="formulation clearfix" id="yui_3_17_2_1_1624693574280_642">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:3_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_35"><div class="qtext">Các thương hiệu nhánh bao gồm thương hiệu về?</div><div class="ablock" id="yui_3_17_2_1_1624693574280_641">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer" id="yui_3_17_2_1_1624693574280_640">
+                                                                            <div class="r0"><input type="radio" name="q6:3_answer" value="0" id="q6:3_answer0"><label for="q6:3_answer0" class="m-l-1">a. Nội dung, dịch vụ, chăm sóc sức khỏe</label> </div>
+                                                                            <div class="r1" id="yui_3_17_2_1_1624693574280_639"><input type="radio" name="q6:3_answer" value="1" id="q6:3_answer1"><label for="q6:3_answer1" class="m-l-1">b. Dịch vụ, hợp tác, nội dung</label> </div>
+                                                                            <div class="r0" id="yui_3_17_2_1_1624693574280_659"><input type="radio" name="q6:3_answer" value="2" id="q6:3_answer2"><label for="q6:3_answer2" class="m-l-1">c. Hợp tác, dịch vụ, hoạt động xã hội</label> </div>
+                                                                            <div class="r1" id="yui_3_17_2_1_1624693574280_664"><input type="radio" name="q6:3_answer" value="3" id="q6:3_answer3"><label for="q6:3_answer3" class="m-l-1">d. Hợp tác, nội dung, chăm sóc sức khỏe</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q4" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">4</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_304">
+                                                                    <input type="hidden" name="q6:4_:flagged" value="0" id="yui_3_17_2_1_1624693574280_36"><input type="hidden" value="qaid=75&amp;qubaid=6&amp;qid=614&amp;slot=4&amp;checksum=c2dac71dfc672802be0e03f14f78b56a&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_37">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:4_:flaggedcheckbox" name="q6:4_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:4_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_38"><div class="qtext">Chia sẻ hóa trong chiến lược quản trị và điều hành của VTVcab gồm?</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:4_answer" value="0" id="q6:4_answer0"><label for="q6:4_answer0" class="m-l-1">a. Chia sẻ nguồn lực, hệ thống, nội dung và hạ tầng với mô hình quản trị tập trung. Chia sẻ kinh nghiệm và xu hướng trên thế giới</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:4_answer" value="1" id="q6:4_answer1"><label for="q6:4_answer1" class="m-l-1">b. Hạn chế chia sẻ hệ thống, nội dung. Chia sẻ kinh nghiệm và xu hướng trên thế giới</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:4_answer" value="2" id="q6:4_answer2"><label for="q6:4_answer2" class="m-l-1">c. Hạn chế chia sẻ nguồn lực. Chia sẻ kinh nghiệm làm việc.</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:4_answer" value="3" id="q6:4_answer3"><label for="q6:4_answer3" class="m-l-1">d. Chỉ chia sẻ nguồn lực, nhân lực cho VTV. Chia sẻ kinh nghiệm và xu hướng trên thế giới</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q5" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">5</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_312">
+                                                                    <input type="hidden" name="q6:5_:flagged" value="0" id="yui_3_17_2_1_1624693574280_39"><input type="hidden" value="qaid=76&amp;qubaid=6&amp;qid=608&amp;slot=5&amp;checksum=a25d5a6223f6672d664ffddcd4569e70&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_40">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:5_:flaggedcheckbox" name="q6:5_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:5_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_41"><div class="qtext">Cơ cấu tổ chức VTVcab được chia làm bao nhiêu khối?</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:5_answer" value="0" id="q6:5_answer0"><label for="q6:5_answer0" class="m-l-1">a. 4</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:5_answer" value="1" id="q6:5_answer1"><label for="q6:5_answer1" class="m-l-1">b. 6</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:5_answer" value="2" id="q6:5_answer2"><label for="q6:5_answer2" class="m-l-1">c. 5</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:5_answer" value="3" id="q6:5_answer3"><label for="q6:5_answer3" class="m-l-1">d. 3</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q6" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">6</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_320">
+                                                                    <input type="hidden" name="q6:6_:flagged" value="0" id="yui_3_17_2_1_1624693574280_42"><input type="hidden" value="qaid=77&amp;qubaid=6&amp;qid=632&amp;slot=6&amp;checksum=4ed529375e07274a045c85156774eced&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_43">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:6_:flaggedcheckbox" name="q6:6_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:6_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_44"><div class="qtext">Công nghệ GPON của VTVcab sử dụng loại dây cáp gì để kết nối đến nhà Khách hàng?</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:6_answer" value="0" id="q6:6_answer0"><label for="q6:6_answer0" class="m-l-1">a. Cáp đồng trục</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:6_answer" value="1" id="q6:6_answer1"><label for="q6:6_answer1" class="m-l-1">b. Cáp quang và cáp đồng trục</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:6_answer" value="2" id="q6:6_answer2"><label for="q6:6_answer2" class="m-l-1">c. Cáp quang</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:6_answer" value="3" id="q6:6_answer3"><label for="q6:6_answer3" class="m-l-1">d. Cáp điện</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q7" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">7</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_328">
+                                                                    <input type="hidden" name="q6:7_:flagged" value="0" id="yui_3_17_2_1_1624693574280_45"><input type="hidden" value="qaid=78&amp;qubaid=6&amp;qid=633&amp;slot=7&amp;checksum=ab3a0f842c71f5dc62ec568610e69848&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_46">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:7_:flaggedcheckbox" name="q6:7_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:7_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_47"><div class="qtext">Công nghệ HFC của VTVcab sử dụng loại dây cáp gì để kết nối?</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:7_answer" value="0" id="q6:7_answer0"><label for="q6:7_answer0" class="m-l-1">a. Cáp điện</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:7_answer" value="1" id="q6:7_answer1"><label for="q6:7_answer1" class="m-l-1">b. Cáp quang và cáp đồng trục</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:7_answer" value="2" id="q6:7_answer2"><label for="q6:7_answer2" class="m-l-1">c. Cáp đồng trục</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:7_answer" value="3" id="q6:7_answer3"><label for="q6:7_answer3" class="m-l-1">d. Cáp quang</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q8" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">8</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_336">
+                                                                    <input type="hidden" name="q6:8_:flagged" value="0" id="yui_3_17_2_1_1624693574280_48"><input type="hidden" value="qaid=79&amp;qubaid=6&amp;qid=598&amp;slot=8&amp;checksum=11655f76825808041c48222b14eebad8&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_49">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:8_:flaggedcheckbox" name="q6:8_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:8_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_50"><div class="qtext">Công nghệ mới chính thức ra mắt của VTVcab trong năm 2015 cho dịch vụ Internet là gì?</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:8_answer" value="0" id="q6:8_answer0"><label for="q6:8_answer0" class="m-l-1">a. GPON</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:8_answer" value="1" id="q6:8_answer1"><label for="q6:8_answer1" class="m-l-1">b. Docsis 3.0</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:8_answer" value="2" id="q6:8_answer2"><label for="q6:8_answer2" class="m-l-1">c. Docsis 3.0 và GPON</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:8_answer" value="3" id="q6:8_answer3"><label for="q6:8_answer3" class="m-l-1">d. ADSL</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q9" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">9</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_344">
+                                                                    <input type="hidden" name="q6:9_:flagged" value="0" id="yui_3_17_2_1_1624693574280_51"><input type="hidden" value="qaid=80&amp;qubaid=6&amp;qid=594&amp;slot=9&amp;checksum=c261b0ac07023a28f72d1ef82f880383&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_52">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:9_:flaggedcheckbox" name="q6:9_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:9_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_53"><div class="qtext">Công ty TNHH MTV Truyền hình Cáp Việt Nam do Đài THVN làm chủ sở hữu được thành lập năm nào</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:9_answer" value="0" id="q6:9_answer0"><label for="q6:9_answer0" class="m-l-1">a. 2012</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:9_answer" value="1" id="q6:9_answer1"><label for="q6:9_answer1" class="m-l-1">b. 2010</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:9_answer" value="2" id="q6:9_answer2"><label for="q6:9_answer2" class="m-l-1">c. 2011</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:9_answer" value="3" id="q6:9_answer3"><label for="q6:9_answer3" class="m-l-1">d. 2013</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q10" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">10</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_352">
+                                                                    <input type="hidden" name="q6:10_:flagged" value="0" id="yui_3_17_2_1_1624693574280_54"><input type="hidden" value="qaid=81&amp;qubaid=6&amp;qid=646&amp;slot=10&amp;checksum=17ff70fe1abfe163c3fbacc53a1ea75b&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_55">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:10_:flaggedcheckbox" name="q6:10_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:10_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_56"><div class="qtext">Cúp chiến thắng tổ chức bao lâu một lần</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:10_answer" value="0" id="q6:10_answer0"><label for="q6:10_answer0" class="m-l-1">a. 3 năm 1 lần</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:10_answer" value="1" id="q6:10_answer1"><label for="q6:10_answer1" class="m-l-1">b. Hàng năm</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:10_answer" value="2" id="q6:10_answer2"><label for="q6:10_answer2" class="m-l-1">c. 2 năm 1 lần</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:10_answer" value="3" id="q6:10_answer3"><label for="q6:10_answer3" class="m-l-1">d. 4 năm 1 lần</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q11" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">11</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_360">
+                                                                    <input type="hidden" name="q6:11_:flagged" value="0" id="yui_3_17_2_1_1624693574280_57"><input type="hidden" value="qaid=82&amp;qubaid=6&amp;qid=586&amp;slot=11&amp;checksum=8e403424afea992c6351da9fee0e38dd&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_58">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:11_:flaggedcheckbox" name="q6:11_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:11_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_59"><div class="qtext">Dịch vụ nào sau đây do VTVcab trực tiếp phát triển</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:11_answer" value="0" id="q6:11_answer0"><label for="q6:11_answer0" class="m-l-1">a. Onme</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:11_answer" value="1" id="q6:11_answer1"><label for="q6:11_answer1" class="m-l-1">b. VTVplus</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:11_answer" value="2" id="q6:11_answer2"><label for="q6:11_answer2" class="m-l-1">c. VTVgo</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:11_answer" value="3" id="q6:11_answer3"><label for="q6:11_answer3" class="m-l-1">d. VTVcab ON</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q12" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">12</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_368">
+                                                                    <input type="hidden" name="q6:12_:flagged" value="0" id="yui_3_17_2_1_1624693574280_60"><input type="hidden" value="qaid=83&amp;qubaid=6&amp;qid=599&amp;slot=12&amp;checksum=2b7c0fd3b77a60adfb8e4050555a5687&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_61">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:12_:flaggedcheckbox" name="q6:12_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:12_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_62"><div class="qtext">Dịch vụ truyền hình theo yêu cầu VTVcab ON được ra mắt năm nào</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:12_answer" value="0" id="q6:12_answer0"><label for="q6:12_answer0" class="m-l-1">a. 2016</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:12_answer" value="1" id="q6:12_answer1"><label for="q6:12_answer1" class="m-l-1">b. 2013</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:12_answer" value="2" id="q6:12_answer2"><label for="q6:12_answer2" class="m-l-1">c. 2015</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:12_answer" value="3" id="q6:12_answer3"><label for="q6:12_answer3" class="m-l-1">d. 2014</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q13" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">13</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_376">
+                                                                    <input type="hidden" name="q6:13_:flagged" value="0" id="yui_3_17_2_1_1624693574280_63"><input type="hidden" value="qaid=84&amp;qubaid=6&amp;qid=612&amp;slot=13&amp;checksum=6aa889b691e8e71e51c3793a9df06845&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_64">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:13_:flaggedcheckbox" name="q6:13_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:13_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_65"><div class="qtext">Giá trị cốt lõi của VTVcab?</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:13_answer" value="0" id="q6:13_answer0"><label for="q6:13_answer0" class="m-l-1">a. Sáng tạo – Chữ tín – Khách hàng – Cộng đồng</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:13_answer" value="1" id="q6:13_answer1"><label for="q6:13_answer1" class="m-l-1">b. Sáng tạo – Niềm tin – Khách hàng- Đoàn kết</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:13_answer" value="2" id="q6:13_answer2"><label for="q6:13_answer2" class="m-l-1">c. Sáng tạo –Khách hàng – Cộng đồng-Cá nhân</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:13_answer" value="3" id="q6:13_answer3"><label for="q6:13_answer3" class="m-l-1">d. Niềm tin – Khách hàng – Cộng đồng-Sáng tạo</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q14" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">14</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_384">
+                                                                    <input type="hidden" name="q6:14_:flagged" value="0" id="yui_3_17_2_1_1624693574280_66"><input type="hidden" value="qaid=85&amp;qubaid=6&amp;qid=645&amp;slot=14&amp;checksum=89cebef133f6d40117720c8d7a2d4109&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_67">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:14_:flaggedcheckbox" name="q6:14_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:14_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_68"><div class="qtext">Hàng năm VTVcab phối hợp tổ chức giải thưởng nào về thể thao?</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:14_answer" value="0" id="q6:14_answer0"><label for="q6:14_answer0" class="m-l-1">a. Tấm gương thể thao</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:14_answer" value="1" id="q6:14_answer1"><label for="q6:14_answer1" class="m-l-1">b. Cúp chiến thắng</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:14_answer" value="2" id="q6:14_answer2"><label for="q6:14_answer2" class="m-l-1">c. Huân chương chiến thắng</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:14_answer" value="3" id="q6:14_answer3"><label for="q6:14_answer3" class="m-l-1">d. Gala chiến thắng</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q15" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">15</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_392">
+                                                                    <input type="hidden" name="q6:15_:flagged" value="0" id="yui_3_17_2_1_1624693574280_69"><input type="hidden" value="qaid=86&amp;qubaid=6&amp;qid=590&amp;slot=15&amp;checksum=6c839550f0bde460528e6428552474ec&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_70">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:15_:flaggedcheckbox" name="q6:15_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:15_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_71"><div class="qtext">Hãnh truyền hình cáp Việt Nam – VCTV được thành lập năm nào?</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:15_answer" value="0" id="q6:15_answer0"><label for="q6:15_answer0" class="m-l-1">a. 2003</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:15_answer" value="1" id="q6:15_answer1"><label for="q6:15_answer1" class="m-l-1">b. 2000</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:15_answer" value="2" id="q6:15_answer2"><label for="q6:15_answer2" class="m-l-1">c. 2001</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:15_answer" value="3" id="q6:15_answer3"><label for="q6:15_answer3" class="m-l-1">d. 2002</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q16" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">16</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_400">
+                                                                    <input type="hidden" name="q6:16_:flagged" value="0" id="yui_3_17_2_1_1624693574280_72"><input type="hidden" value="qaid=87&amp;qubaid=6&amp;qid=617&amp;slot=16&amp;checksum=b90d628e26165011b7a9b74a3609245a&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_73">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:16_:flaggedcheckbox" name="q6:16_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:16_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_74"><div class="qtext">Hệ thống đa nền tảng (MPN) gồm?</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:16_answer" value="0" id="q6:16_answer0"><label for="q6:16_answer0" class="m-l-1">a. Zalo, truyền hình truyền thống, mạng di động, facebook, truyền hình online</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:16_answer" value="1" id="q6:16_answer1"><label for="q6:16_answer1" class="m-l-1">b. Truyền hình truyền thống, mạng di động, facebook, youtube, truyền hình online</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:16_answer" value="2" id="q6:16_answer2"><label for="q6:16_answer2" class="m-l-1">c. Twitter, youtube, truyền hình online, Truyền hình truyền thống, mạng di động</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:16_answer" value="3" id="q6:16_answer3"><label for="q6:16_answer3" class="m-l-1">d. netflix, truyền hình online, truyền hình truyền thống, mạng di động, facebook</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q17" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">17</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_408">
+                                                                    <input type="hidden" name="q6:17_:flagged" value="0" id="yui_3_17_2_1_1624693574280_75"><input type="hidden" value="qaid=88&amp;qubaid=6&amp;qid=641&amp;slot=17&amp;checksum=f1696c49212f3f41dfd8cd64626fd01a&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_76">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:17_:flaggedcheckbox" name="q6:17_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:17_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_77"><div class="qtext">Headend VTVcab hiện đang đặt ở đâu?</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:17_answer" value="0" id="q6:17_answer0"><label for="q6:17_answer0" class="m-l-1">a. 844 La Thành – Ba Đình - HN</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:17_answer" value="1" id="q6:17_answer1"><label for="q6:17_answer1" class="m-l-1">b. 43 Nguyễn Chí Thanh, Ba Đình, HN</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:17_answer" value="2" id="q6:17_answer2"><label for="q6:17_answer2" class="m-l-1">c. Số 5 Huỳnh Thúc Kháng</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:17_answer" value="3" id="q6:17_answer3"><label for="q6:17_answer3" class="m-l-1">d. Số 3 ngõ 84, Tòa nhà VTV Ngọc Khánh, Ba Đình, HN</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q18" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">18</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_416">
+                                                                    <input type="hidden" name="q6:18_:flagged" value="0" id="yui_3_17_2_1_1624693574280_78"><input type="hidden" value="qaid=89&amp;qubaid=6&amp;qid=630&amp;slot=18&amp;checksum=f082587e109d1b15a58a618285cbd476&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_79">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:18_:flaggedcheckbox" name="q6:18_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:18_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_80"><div class="qtext">Hiện tại VTVcab có bản quyền các giải bóng rổ nào?</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:18_answer" value="0" id="q6:18_answer0"><label for="q6:18_answer0" class="m-l-1">a. NBA, WNBA, VBA</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:18_answer" value="1" id="q6:18_answer1"><label for="q6:18_answer1" class="m-l-1">b. VBA, WNBA</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:18_answer" value="2" id="q6:18_answer2"><label for="q6:18_answer2" class="m-l-1">c. NBA, WNBA</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:18_answer" value="3" id="q6:18_answer3"><label for="q6:18_answer3" class="m-l-1">d. NBA, VBA</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q19" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">19</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_424">
+                                                                    <input type="hidden" name="q6:19_:flagged" value="0" id="yui_3_17_2_1_1624693574280_81"><input type="hidden" value="qaid=90&amp;qubaid=6&amp;qid=588&amp;slot=19&amp;checksum=8bf4c3f96979fc562568141dc1bd0678&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_82">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:19_:flaggedcheckbox" name="q6:19_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:19_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_83"><div class="qtext">Hiện tại VTVcab có bao nhiêu kênh sự kiện trực tiếp</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:19_answer" value="0" id="q6:19_answer0"><label for="q6:19_answer0" class="m-l-1">a. 4</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:19_answer" value="1" id="q6:19_answer1"><label for="q6:19_answer1" class="m-l-1">b. 5</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:19_answer" value="2" id="q6:19_answer2"><label for="q6:19_answer2" class="m-l-1">c. 2</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:19_answer" value="3" id="q6:19_answer3"><label for="q6:19_answer3" class="m-l-1">d. 3</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="q20" class="que multichoice deferredfeedback notyetanswered">
+                                                            <div class="info">
+                                                                <h3 class="no">Câu hỏi <span class="qno">20</span></h3><div class="state">Chưa trả lời</div><div class="grade">Đạt điểm 1,00</div><div class="questionflag editable" aria-atomic="true" aria-relevant="text" aria-live="assertive" id="yui_3_17_2_1_1624693574280_432">
+                                                                    <input type="hidden" name="q6:20_:flagged" value="0" id="yui_3_17_2_1_1624693574280_84"><input type="hidden" value="qaid=91&amp;qubaid=6&amp;qid=621&amp;slot=20&amp;checksum=a070542df3980028ec0368fc78a5e071&amp;sesskey=dBEpUfhnV9&amp;newstate=" class="questionflagpostdata" id="yui_3_17_2_1_1624693574280_85">
+                                                                    <input type="hidden" class="questionflagvalue" id="q6:20_:flaggedcheckbox" name="q6:20_:flagged" value="0"><span class="questionflagtext" title="Đánh cờ câu hỏi này để tham khảo sau">Đặt cờ</span>
+                                                                </div><div class="editquestion"><a href="#"><i class="icon fa slicon-settings fa-fw iconsmall" aria-hidden="true" title="Chỉnh sửa " aria-label="Chỉnh sửa "></i>Sửa câu hỏi</a></div>
+                                                            </div><div class="content">
+                                                                <div class="formulation clearfix">
+                                                                    <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:20_:sequencecheck" value="1" id="yui_3_17_2_1_1624693574280_86"><div class="qtext">Hiện tại, các nhóm kênh VTVcab, nhóm nào có số lượng kênh nhiều nhất?</div><div class="ablock">
+                                                                        <div class="prompt">Chọn một:</div><div class="answer">
+                                                                            <div class="r0"><input type="radio" name="q6:20_answer" value="0" id="q6:20_answer0"><label for="q6:20_answer0" class="m-l-1">a. Nhóm kênh Mua sắm</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:20_answer" value="1" id="q6:20_answer1"><label for="q6:20_answer1" class="m-l-1">b. Nhóm kênh Giải trí tổng hợp</label> </div>
+                                                                            <div class="r0"><input type="radio" name="q6:20_answer" value="2" id="q6:20_answer2"><label for="q6:20_answer2" class="m-l-1">c. Nhóm kênh Thể thao</label> </div>
+                                                                            <div class="r1"><input type="radio" name="q6:20_answer" value="3" id="q6:20_answer3"><label for="q6:20_answer3" class="m-l-1">d. Nhóm kênh Phim</label> </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="submitbtns"><input type="submit" name="next" value="Kết thúc bài làm ..." class="mod_quiz-next-nav btn btn-primary " id="yui_3_17_2_1_1624693574280_87"></div><input type="hidden" name="attempt" value="6" id="yui_3_17_2_1_1624693574280_88"><input type="hidden" name="thispage" value="0" id="followingpage"><input type="hidden" name="nextpage" value="-1" id="yui_3_17_2_1_1624693574280_89"><input type="hidden" name="timeup" value="0" id="timeup"><input type="hidden" name="sesskey" value="dBEpUfhnV9" id="yui_3_17_2_1_1624693574280_90"><input type="hidden" name="scrollpos" value="" id="scrollpos"><input type="hidden" name="slots" value="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20" id="yui_3_17_2_1_1624693574280_91">
+                                                    </div>
+                                                </form><div id="connection-error" style="display: none;" role="alert">
+                                                    <p>Network connection lost. (Autosave failed).</p>
+
+                                                    <p>Make a note of any responses entered on this page in the last few minutes, then try to re-connect.</p>
+
+                                                    <p>Once connection has been re-established, your responses should be saved and this message will disappear.</p>
+                                                </div><div id="connection-ok" style="display: none;" role="alert">
+                                                    <p>Network connection restored. You may continue safely.</p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-3">
+                                            <section class="hidden-print">
+                                                <aside id="block-region-side-pre" class="block-region yui3-dd-drop" data-blockregion="side-pre" data-droptarget="1">
+                                                    <a href="#sb-1" class="sr-only sr-only-focusable">Bỏ qua &lt;span id="mod_quiz_navblock_title"&gt;Thanh điều hướng&lt;/span&gt;</a>
+
+                                                    <aside id="mod_quiz_navblock" class="block block__fake  card m-b-1 yui3-dd-drop" role="navigation" data-block="_fake" aria-labelledby="instance-0-header">
+
+                                                        <div class="card-block">
+
+
+                                                            <h3 id="instance-0-header" class="card-title"><span id="mod_quiz_navblock_title">Thanh điều hướng</span></h3>
+
+                                                            <div class="card-text content">
+                                                                <div class="qn_buttons clearfix multipages"><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton1" title="Chưa trả lời" data-quiz-page="0" href="#"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>1<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton2" title="Chưa trả lời" data-quiz-page="0" href="#q2"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>2<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton3" title="Chưa trả lời" data-quiz-page="0" href="#q3"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>3<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton4" title="Chưa trả lời" data-quiz-page="0" href="#q4"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>4<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton5" title="Chưa trả lời" data-quiz-page="0" href="#q5"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>5<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton6" title="Chưa trả lời" data-quiz-page="0" href="#q6"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>6<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton7" title="Chưa trả lời" data-quiz-page="0" href="#q7"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>7<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton8" title="Chưa trả lời" data-quiz-page="0" href="#q8"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>8<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton9" title="Chưa trả lời" data-quiz-page="0" href="#q9"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>9<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton10" title="Chưa trả lời" data-quiz-page="0" href="#q10"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>10<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton11" title="Chưa trả lời" data-quiz-page="0" href="#q11"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>11<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton12" title="Chưa trả lời" data-quiz-page="0" href="#q12"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>12<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton13" title="Chưa trả lời" data-quiz-page="0" href="#q13"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>13<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton14" title="Chưa trả lời" data-quiz-page="0" href="#q14"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>14<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton15" title="Chưa trả lời" data-quiz-page="0" href="#q15"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>15<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton16" title="Chưa trả lời" data-quiz-page="0" href="#q16"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>16<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton17" title="Chưa trả lời" data-quiz-page="0" href="#q17"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>17<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton18" title="Chưa trả lời" data-quiz-page="0" href="#q18"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>18<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton19" title="Chưa trả lời" data-quiz-page="0" href="#q19"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>19<span class="accesshide"> This page <span class="flagstate"></span></span></a><a class="qnbutton  notyetanswered free btn btn-secondary thispage" id="quiznavbutton20" title="Chưa trả lời" data-quiz-page="0" href="#q20"><span class="thispageholder"></span><span class="trafficlight"></span><span class="accesshide">Question </span>20<span class="accesshide"> This page <span class="flagstate"></span></span></a></div><div class="othernav"><a class="btn btn-primary endtestlink " href="#">Kết thúc bài làm ...</a><div id="quiz-timer" role="timer" aria-atomic="true" aria-relevant="text">Thời gian còn lại <span id="quiz-time-left"></span></div></div>
+                                                                <div class="footer"></div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </aside>
+
+                                                    <span id="sb-1"></span>
+                                                </aside>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <div id="completionandnext">
+                            <div class="notice"></div>
+                            <div style="display:none"><span class="autocompletion"><img class="icon iconsmall" title="Học viên có thể tự đánh dấu là đã hoàn thành phần này" alt="Học viên có thể tự đánh dấu là đã hoàn thành phần này" src="#"></span></div>
+                            <div>
+                                <button class="btn button_next">Chuyển sang học phần tiếp theo</button>
+                                <button class="btn button_qa" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                    Hỏi đáp
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-xs-12">
+                        <div class="collapse" id="collapseExample">
+                            <div class="qabox">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="app-main__inner">
+            <div class="app-page-title">
+                <div class="page-title-wrapper">
+                    <div class="page-title-heading">
+                        <div class="page-title-icon">
+                            <i class="pe-7s-airplay icon-gradient bg-mean-fruit">
+                            </i>
+                        </div>
+                        <div>
+                            Dashboard
+                            <div class="page-title-subheading">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-title-actions">
+
+                        <div class="d-inline-block dropdown">
+
+                            <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link">
+                                            <i class="nav-link-icon lnr-inbox"></i>
+                                            <span>
+                                                Inbox
+                                            </span>
+                                            <div class="ml-auto badge badge-pill badge-secondary">86</div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link">
+                                            <i class="nav-link-icon lnr-book"></i>
+                                            <span>
+                                                Book
+                                            </span>
+                                            <div class="ml-auto badge badge-pill badge-danger">5</div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link">
+                                            <i class="nav-link-icon lnr-picture"></i>
+                                            <span>
+                                                Picture
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a disabled href="javascript:void(0);" class="nav-link disabled">
+                                            <i class="nav-link-icon lnr-file-empty"></i>
+                                            <span>
+                                                File Disabled
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-xl-3">
+                    <div class="card mb-3 widget-content bg-midnight-bloom">
+                        <div class="widget-content-wrapper text-white">
+                            <div class="widget-content-left">
+                                <div class="widget-heading">Khóa học</div>
+                                <div class="widget-subheading">Nội dung đào tạo đang triển khai</div>
+                            </div>
+                            <div class="widget-content-right">
+                                <div class="widget-numbers text-white"><span>256</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <div class="card mb-3 widget-content bg-arielle-smile">
+                        <div class="widget-content-wrapper text-white">
+                            <div class="widget-content-left">
+                                <div class="widget-heading">Giảng viên</div>
+                                <div class="widget-subheading">Giảng viên tham gia đào tạo</div>
+                            </div>
+                            <div class="widget-content-right">
+                                <div class="widget-numbers text-white"><span>368</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-3">
+                    <div class="card mb-3 widget-content bg-grow-early">
+                        <div class="widget-content-wrapper text-white">
+                            <div class="widget-content-left">
+                                <div class="widget-heading">Học viên</div>
+                                <div class="widget-subheading">Học viên dự kiến tham gia</div>
+                            </div>
+                            <div class="widget-content-right">
+                                <div class="widget-numbers text-white"><span>5678</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-3">
+                    <div class="card mb-3 widget-content bg-midnight-bloom">
+                        <div class="widget-content-wrapper text-white">
+                            <div class="widget-content-left">
+                                <div class="widget-heading">Học viên</div>
+                                <div class="widget-subheading">Học viên thực tế tham gia</div>
+                            </div>
+                            <div class="widget-content-right">
+                                <div class="widget-numbers text-white"><span>3678</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <div class="mb-3 card">
+                        <div class="card-header-tab card-header-tab-animation card-header">
+                            <div class="card-header-title">
+                                <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
+                                Báo cáo & Thống kê Đào tạo
+                            </div>
+
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="tabs-eg-77">
+                                    <div class="card mb-3 widget-chart widget-chart2 text-left w-100">
+                                        <div class="widget-chat-wrapper-outer row">
+                                            <div class="col-md-11" id="chart" style="padding: 0 3rem"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="main-card mb-3 card">
+                        <div class="card-header">
+                            Trạng thái Nội dung đào tạo
+                            <div class="btn-actions-pane-right">
+                                <div role="group" class="btn-group-sm btn-group">
+                                    <button class="active btn btn-focus">Last Month</button>
+                                    <button class="btn btn-focus">All Month</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">STT</th>
+                                        <th>Nội dung</th>
+                                        <th class="text-center">BP lập Nhu cầu</th>
+                                        <th class="text-center">Trạng thái</th>
+                                        <th class="text-center">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center text-muted">1</td>
+                                        <td>
+                                            <div class="widget-content p-0">
+                                                <div class="widget-content-wrapper">
+
+                                                    <div class="widget-content-left flex2">
+                                                        <div class="widget-heading">BGD-2020-1-CN-001</div>
+                                                        <div class="widget-subheading opacity-7">Sơ cấp Cán kéo kim loại - khóa 1</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">BGD</td>
+                                        <td class="text-center">
+                                            <div class="badge badge-success">Completed</div>
+                                        </td>
+                                        <td class="text-center">
+                                            <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm">Details</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center text-muted">2</td>
+                                        <td>
+                                            <div class="widget-content p-0">
+                                                <div class="widget-content-wrapper">
+
+                                                    <div class="widget-content-left flex2">
+                                                        <div class="widget-heading">CN-2020-2-ATLD-001</div>
+                                                        <div class="widget-subheading opacity-7">Hướng dẫn An toàn vận hành</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">P.CN</td>
+                                        <td class="text-center">
+                                            <div class="badge badge-success">Completed</div>
+                                        </td>
+                                        <td class="text-center">
+                                            <button type="button" id="PopoverCustomT-2" class="btn btn-primary btn-sm">Details</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center text-muted">3</td>
+                                        <td>
+                                            <div class="widget-content p-0">
+                                                <div class="widget-content-wrapper">
+
+                                                    <div class="widget-content-left flex2">
+                                                        <div class="widget-heading">K-2020-1-CK-001</div>
+                                                        <div class="widget-subheading opacity-7">BTBD- Băng tải và cơ cấu gạt liệu</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">BP.K</td>
+                                        <td class="text-center">
+                                            <div class="badge badge-danger">In Progress</div>
+                                        </td>
+                                        <td class="text-center">
+                                            <button type="button" id="PopoverCustomT-3" class="btn btn-primary btn-sm">Details</button>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>-->
+
+
+            </div>
+
+        </div>
+    </div>
+    <script type="text/javascript" src="./assets/scripts/main.js"></script>
+</body>
+
+   
+ 
+</html>

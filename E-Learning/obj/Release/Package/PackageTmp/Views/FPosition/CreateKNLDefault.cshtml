@@ -1,0 +1,271 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using E_Learning.Models
+@model List<KhungNangLucValidation>
+@using PagedList.Mvc
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Tạo mới Yêu cầu năng lực
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="card mb-4">
+            <div class="card-header">
+
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("CreateKNLDefault", "FPosition", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="" id="formF">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 id="ModalTitle"></h5>
+                                @*<a href="#" class="close" data-dismiss="modal">&times;</a>*@
+                            </div>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @*@Html.HiddenFor(model => model.IDNL)*@
+                            <div class="modal-body">
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <fieldset id="SubmitForm">
+                                    <div class="row">
+
+                                        <div id="list_vt" style="width:100%" class="row form-group col-md-12">
+                                            <div class="table-responsive col-md-12">
+                                                <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th class="text-center" width="100px">Thao tác</th>
+                                                            <th class="text-center">Yêu cầu năng lực</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr><th colspan="4" class="font-weight-bold font-size-lg">I. Năng lực chung</th></tr>
+                                                        @for (int i = 0; i < Model.Count; i++)
+                                                        {
+                                                            if (Model[i].IDLoaiNL == 1)
+                                                            {
+                                                                @Html.HiddenFor(m => m[i].IDNL)
+                                                                @Html.HiddenFor(m => m[i].IDLoaiNL)
+                                                                @Html.HiddenFor(m => m[i].IDPB)
+                                                                @Html.HiddenFor(m => m[i].IDVT)
+                                                                <tr>
+                                                                    <td class="text-center">
+                                                                        <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("DeleteKNLDefault", "FPosition" , new { id=Model[i].IDNL })"
+                                                                           onclick="return confirm('Bạn muốn Cập nhật Vị trí: @Model[i].IDNL ')">
+                                                                        </a>
+                                                                    </td>
+                                                                    <td class="">
+                                                                        @Html.TextAreaFor(m => m[i].TenNL, new { @class = "form-control", @rows = 1, placeholder = "Yêu cầu năng lực", })
+                                                                        @Html.ValidationMessageFor(m => m[i].TenNL, "", new { @class = "text-danger" })
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+
+                                                        <tr id="chung"><th colspan="4" class="font-weight-bold font-size-lg"><button id="add-chung" type="button" class="btn btn-light border border-white"><i class="fas fa-plus"></i></button></th></tr>
+
+
+                                                        <tr><th colspan="4" class="font-weight-bold font-size-lg">III. Năng lực quản lý</th></tr>
+                                                        @for (int i = 0; i < Model.Count; i++)
+                                                        {
+                                                            if (Model[i].IDLoaiNL == 2)
+                                                            {
+                                                                @Html.HiddenFor(m => m[i].IDNL)
+                                                                @Html.HiddenFor(m => m[i].IDLoaiNL)
+                                                                @Html.HiddenFor(m => m[i].IDPB)
+                                                                @Html.HiddenFor(m => m[i].IDVT)
+                                                                <tr>
+                                                                    <td class="text-center">
+                                                                        <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("DeleteKNLDefault", "FPosition" , new { id=Model[i].IDNL})"
+                                                                           onclick="return confirm('Bạn muốn Cập nhật Vị trí: @Model[i].IDNL ')">
+                                                                        </a>
+                                                                    </td>
+                                                                    <td class="">
+                                                                        @Html.TextAreaFor(m => m[i].TenNL, new { @class = "form-control", @rows = 1, placeholder = "Yêu cầu năng lực", })
+                                                                        @Html.ValidationMessageFor(m => m[i].TenNL, "", new { @class = "text-danger" })
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+
+                                                        <tr id="qly"><th colspan="4" class="font-weight-bold font-size-lg"><button id="add-qly" type="button" class="btn btn-light border border-white"><i class="fas fa-plus"></i></button></th></tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="btn-margin-top text-center ">
+                                        <input type="submit" value="Cập nhật" class="btn btn-primary pull-right " />
+                                        @*<input type="reset" value="Hủy" class="btn btn-danger pull-right button_cancel mr-1" data-dismiss="modal" />*@
+                                        <div class="btn btn-danger pull-right button_cancel mr-1">
+                                            <a class="text-light" title="Chi tiết" href="@Url.Action("Index", "FPosition" )"
+                                               onclick="return confirm('Hủy cập nhật nội dung')">
+                                                Hủy
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+
+                <script>
+                    $("#formF #IDVT").chosen({
+                        width: "100%"
+                    });
+
+
+                    $(document).ready(function () {
+                        var i = 2;
+                        $("#add-chung").click(function () {
+                            var renderList = $(`<tr>
+                                                                            <td class='text-center delItem' > <i class="fa fa-trash icon_action btn" aria-hidden="true"></i> </td>
+                                                                            <td class=''>
+                                                                                <textarea class='form-control' cols='20' id='nlchung_${i}' name='nlchung_${i}' placeholder='Yêu cầu năng lực' rows='1'></textarea>
+                                                                                <span class='field-validation-valid text-danger' data-valmsg-for='TenViTri' data-valmsg-replace='true'></span>
+                                                                            </td>
+
+                                                                        </tr>`);
+                            $("#chung").before(renderList);
+                            i++;
+                        });
+                    });
+
+
+                    $(document).ready(function () {
+                        var i = 1;
+                        $("#add-qly").click(function () {
+                            var renderList = $(`<tr>
+                                                                            <td class='text-center delItem'> <i class="fa fa-trash icon_action btn" aria-hidden="true"></i></td>
+                                                                            <td class=''>
+                                                                                <textarea class='form-control' cols='20' id='nlqly_${i}' name='nlqly_${i}' placeholder='Yêu cầu năng lực' rows='1'></textarea>
+                                                                                <span class='field-validation-valid text-danger' data-valmsg-for='TenViTri' data-valmsg-replace='true'></span>
+                                                                            </td>
+
+                                                                        </tr>`);
+                            $("#qly").before(renderList);
+                            i++;
+                        });
+                    });
+                    $(document).ready(function () {
+                        $("#table").on("click", ".delItem", function () {
+                            $(this).closest("tr").remove();
+                        });
+                    });
+
+                </script>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@*<script src="~/Content/Chonse/chosen.jquery.js"></script>*@
+<script src="~/Content/Chonse/chosen.jquery.js"></script>
+<script type="text/javascript">
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Thêm mới năng lực");
+            $("#myModal").modal('show');
+        });
+    });
+
+    $('#btn-Import').click(function () {
+        var url = $('#myModalimport').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Thêm mới danh sách năng lực");
+            $("#myModal").modal('show');
+        });
+    });
+    $("#IDPB").chosen({
+        width: "100%"
+    });
+    $("#btn-search").on('click', function () {
+        window.location.href = '@Url.Action("Index", "DSachDGia")?IDPB=' + $('#IDPB').val();
+    });
+</script>
+
+<style>
+    .chosen-container-single .chosen-single {
+        color: #495057;
+        background: #fff;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.8;
+        text-transform: capitalize;
+    }
+
+        .chosen-container-single .chosen-single span {
+            text-transform: capitalize !important;
+            font-size: 16px !important;
+        }
+</style>
+
+

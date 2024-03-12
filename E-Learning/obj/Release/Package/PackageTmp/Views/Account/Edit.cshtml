@@ -1,0 +1,61 @@
+﻿@{ Layout = null;}
+@model E_Learning.Models.LoginValidation
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="ModalTitle">Thay đổi thông tin</h5>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ID)
+                <fieldset id="SubmitForm">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label class="small mb-1" for="inputLastName">MaNV</label>
+                            @Html.EditorFor(model => model.MaNV, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "TenDangNhap" } })
+                            @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label class="small mb-1" for="inputLastName">Họ tên</label>
+                            @Html.EditorFor(model => model.HoTen, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "HoTen" } })
+                            @Html.ValidationMessageFor(model => model.HoTen, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label class="small mb-1" for="inputLastName">Quyền</label>
+                            @Html.DropDownListFor(model => model.IDQuyen, ViewBag.PList as SelectList, "--Chọn quyền--", new { @id = "IDQuyen", @class = "form-control" })
+                        </div>
+                    </div>
+                    @*<div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label class="small mb-1" for="inputLastName">Quyền KNL</label>
+                            @Html.DropDownListFor(model => model.IDQuyenKNL, ViewBag.QuyenList as SelectList, "--Chọn quyền--", new { @id = "IDQuyenKNL", @class = "form-control" })
+                        </div>
+                    </div>*@
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <button class="btn btn-primary pull-right" id="btncreate"><i class="fa fa-check-circle"></i> Cập nhật</button>
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div>
+        </div>
+    </div>
+
+}
+
+
+

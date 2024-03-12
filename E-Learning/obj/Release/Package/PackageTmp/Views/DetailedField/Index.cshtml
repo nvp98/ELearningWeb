@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.Models
+@model PagedList.IPagedList<DetailedFieldValidation>
+@using PagedList.Mvc
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+<div class="app-main__outer">
+
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-display2 icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Lĩnh vực chi tiết
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="main-card mb-3 card">
+                        <div class="card-header">
+                            <i class="header-icon lnr-gift icon-gradient bg-grow-early"> </i>Danh sách lĩnh vực chi tiết
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="tab-content" style="margin-top: 30px;">
+
+                                <div class="row" style="padding: 0 10%;">
+                                    @foreach (var item in Model)
+                                    {
+
+                                        <div class="col-md-6 col-xl-4">
+
+                                            <div class="card mb-3 widget-content bg-arielle-smile">
+                                                <div class="widget-content-wrapper text-white">
+                                                    <div class="widget-content-left">
+                                                        <div class="widget-heading">@item.TenLVDT</div>
+                                                        <div class="widget-subheading">
+                                                            @item.TenCTLVDT
+                                                        </div>
+                                                    </div>
+                                                    <div class="widget-content-right">
+                                                        <div class="widget-numbers text-white">
+                                                            <a id="@item.IDCTLVDT" href="@Url.Action("Index" , "LibraryETContent" , new { id = @item.IDCTLVDT })">
+                                                                <span class="btn-transition btn btn-light">@item.SLND Nội dung</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    }
+                                </div>
+
+                            </div>
+                            <div class="pager">
+                                @Html.PagedListPager(Model, page => Url.Action("Index", "DetailedField", new { page }))
+                                <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+                            </div>
+                        </div>
+
+
+                        <div class="d-block text-right card-footer">
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+
+</script>
+

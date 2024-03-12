@@ -1,0 +1,244 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using E_Learning.Models
+@model List<FResultValidation>
+@using PagedList.Mvc
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+<style type="text/css">
+    a:hover {
+        cursor: pointer;
+    }
+</style>
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title m-1">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Lịch Sử Đánh Giá Khung Năng Lực
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+       
+        <div class="card mb-4">
+
+            <div class="card-header">
+                <div class="form-group d-flex col-md-9 mt-3 col-6">
+                    <div class="mt-2">Chọn năm:&nbsp;&nbsp;</div>
+                    <select name="yearpicker" id="yearpicker" class="form-control col-md-5"></select>&nbsp;&nbsp;
+                    <div class="input-group-btn"><button class="btn btn-primary marginTB5" id="btn-search"><i class="fa fa-search"></i>Tìm kiếm</button></div>
+                    <div class="float-left ml-5 mt-2"> @ViewBag.HoTen&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                </div>
+
+                <div class="col-md-3 col-6">
+                    <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(ViewBag.BMTCV))" class="" title="Bảng mô tả công việc" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i>&nbsp;Xem mô tả công việc</a>&nbsp;&nbsp;
+                    <a class="fa fa-file-text  btn btn-success m-1" title="Xem bảng Khung năng lực" target="_blank" href="@Url.Action("FBMView", "FPosition",new { IDVT =@ViewBag.IDVT})"
+                       >
+                        &nbsp;Xem khung năng lực
+                    </a>
+                </div>
+
+
+            </div>
+            <div class="mt-2">
+               
+                <div class="text-uppercase font-weight-bold text-center">
+                    Vị trí Khung năng lực:&nbsp;<span class="font-italic text-danger">@ViewBag.TenVT</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                        <thead class="thead-light">
+                            <tr>
+                                @*<th class="text-center" width="30px">STT</th>*@
+                                <th class="text-center">Tháng Đánh giá</th>
+                                <th class="text-center"> Tổng NL</th>
+                                <th class="text-center"> Không đạt</th>
+                                <th class="text-center"> Đạt </th>
+                                <th class="text-center"> Vượt yêu cầu</th>
+                                <th class="text-center"> Chưa đánh giá</th>
+                                <th class="text-center"> Không đánh giá</th>
+                                <th class="text-center">Vị trí đánh giá</th>
+                                <th class="text-center">BMTCV</th>
+
+                                <th class="text-center">Kết quả</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*@{
+                            int pageno = (int)Model.PageNumber;
+                            int itemperpage = (int)Model.PageSize;
+                            int RowNo = ((pageno - 1) * itemperpage) + 1;
+                        }*@
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    @*<td class="text-center"> @RowNo@{RowNo++;}</td>*@
+                                    <td class="font-weight-bold text-center">@item.DGThang</td>
+                                    <td class="text-center font-weight-bold">@item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalKDat / @item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalDat / @item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalVuot /@item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalChuaDGia / @item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalKDGia / @item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TenViTri</td>
+                                    <td class="text-center">
+                                        @if (item.Total > 0)
+                                        {
+                                            <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.FilePath))" class="" title="Xem BMTCV" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                                        }
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if (item.Total > 0)
+                                        {
+                                            <a class="fa fa-th-list fa-2x" title="Xem kết quả" href="@Url.Action("FView", "FResult", new { IDNV = item.IDNV, dt =item.DGThangDate,IDVT =item.IDVT })">
+                                            </a>
+                                        }
+
+
+                                        @*@if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
+            {
+                <a id="btn-edit_@item.IDPhongBan" title="Sửa" class="fa fa-edit icon_action "></a>
+                <div class=" modal fade" id="myModale_@item.IDPhongBan" role="dialog" data-url='@Url.Action("Edit","FDepartment", new { id = item.IDPhongBan })'></div>
+                <script type="text/javascript">
+                $("#btn-edit_@item.IDPhongBan").click(function () {
+                    var url = $('#myModale_@item.IDPhongBan').data('url');
+                            $.get(url, function (data) {
+                                $("#myModale_@item.IDPhongBan").html(data);
+                                $("#ModalTitle").html("Cập nhật Vị trí");
+                                $("#myModale_@item.IDPhongBan").modal('show');
+                            });
+                        });
+                </script>
+            }*@
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    @*<div class="pager">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", "FDepartment", new { page, IDPB = Request.QueryString["IDPB"] }))
+                    <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+                </div>*@
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@*<script src="~/Content/Chonse/chosen.jquery.js"></script>*@
+<script type="text/javascript">
+
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Thêm mới vị trí");
+            $("#myModal").modal('show');
+        });
+    });
+    $('#btn-add-vt').click(function () {
+        var url = $('#myModalVT').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Danh sách mã vị trí");
+            $("#myModal").modal('show');
+        });
+    });
+    const urlParams = new URLSearchParams(window.location.search);
+
+    let startYear = 2021;
+    let endYear = new Date().getFullYear();
+    const yy = urlParams.get('begind');
+    for (i = endYear; i > startYear; i--) {
+        if (new Date(yy).getFullYear() == i) {
+            $('#yearpicker').append($('<option selected />').val(i).html(i));
+        }
+        else {
+            $('#yearpicker').append($('<option />').val(i).html(i));
+        }
+       
+    }
+
+    $("#IDPB").chosen({
+        width: "100%"
+    });
+    $("#btn-search").on('click', function () {
+        var y = $('#yearpicker').val();
+        var beginDate = new Date(y, 0, 1).toISOString();
+        var endDate = new Date(y, 11, 1).toISOString();
+        
+        const NV = urlParams.get('IDNV');
+
+        window.location.href = '@Url.Action("Index", "FResult")?IDNV=' + NV + "&begind=" + beginDate + "&endd=" + endDate;
+    });
+</script>
+
+<style>
+    .chosen-container-single .chosen-single {
+        color: #495057;
+        background: #fff;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.8;
+        text-transform: capitalize;
+    }
+
+        .chosen-container-single .chosen-single span {
+            text-transform: capitalize !important;
+            font-size: 16px !important;
+        }
+</style>
+
+

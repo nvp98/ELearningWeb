@@ -1,0 +1,172 @@
+﻿@model E_Learning.ModelsKCCD.ConfirmKCCDView
+@*<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+    <link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />*@
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Details", "EvaluateKCCD", FormMethod.Post, new { enctype = "multipart/form-data", }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.DeNghiDTID)
+    @Html.HiddenFor(m => m.ID)
+
+
+
+    <div class="app-main__outer">
+        <div class="app-main__inner">
+
+            <div class="tab-content">
+                <div class="row">
+                    <div class="card col-lg-12">
+                        <div class="card-header">
+                            <div class="col-md-8 col-lg-8">
+                                <div class="row">
+                                    Nội dung KCCD:&nbsp;&nbsp;&nbsp; @ViewBag.NoiDungDT
+                                </div>
+                            </div>
+                            <div class="col"></div>
+                            <div class="col-md-3 float-right">
+                            
+                            </div>
+
+                        </div>
+                        <div class="card-body">
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <fieldset id="SubmitForm">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class=" mb-1">Học viên</label>
+                                                @Html.DropDownListFor(model => model.HocVienID, ViewBag.NhanVienID as SelectList, null, new { @class = "form-control", @id = "HocVienID", @readonly = "true", required = "Select Plan Type" })
+                                                @Html.ValidationMessageFor(model => model.HocVienID, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12 font-weight-bold" style="display:grid">
+                                            Trước đào tạo
+                                        </div>
+                                        <div class="form-group col-md-12 " style="display:grid">
+                                            <label class=" mb-1 font-weight-bold">Đạt được<span class="text-danger">(*)</span></label>
+                                            @Html.TextAreaFor(model => model.HVTruocDatDuoc, new { @class = "form-control", @rows = 2, placeholder = "Nhận xét", @id = "HVTruocDatDuoc", required = "rquired" })
+                                            @Html.ValidationMessageFor(model => model.HVTruocDatDuoc, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-12 " style="display:grid">
+                                            <label class=" mb-1 font-weight-bold">Cần cải thiện<span class="text-danger">(*)</span></label>
+                                            @Html.TextAreaFor(model => model.HVTruocCanCaiThien, new { @class = "form-control", @rows = 2, placeholder = "Nhận xét", @id = "HVTruocCanCaiThien", required = "rquired" })
+                                            @Html.ValidationMessageFor(model => model.HVTruocCanCaiThien, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-12 font-weight-bold" style="display:grid">
+                                            Sau đào tạo
+                                        </div>
+                                        <div class="form-group col-md-12 " style="display:grid">
+                                            <label class=" mb-1 font-weight-bold">Đạt được<span class="text-danger">(*)</span></label>
+                                            @Html.TextAreaFor(model => model.HVSauDatDuoc, new { @class = "form-control", @rows = 2, placeholder = "Nhận xét", @id = "HVSauDatDuoc", required = "rquired" })
+                                            @Html.ValidationMessageFor(model => model.HVSauDatDuoc, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-12 " style="display:grid">
+                                            <label class=" font-weight-bold">Cần cải thiện (nếu có)</label>
+                                            @Html.TextAreaFor(model => model.HVSauCanCaiThien, new { @class = "form-control", @rows = 2, placeholder = "Nhận xét", @id = "HVSauCanCaiThien", })
+                                            @Html.ValidationMessageFor(model => model.HVSauCanCaiThien, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-12 font-weight-bold" style="display:flex">
+                                            Đề xuất của học viên <span class="text-danger">(*)</span>
+                                        </div>
+                                        <div class="form-group col-md-12" style="display:flex">
+                                            @Html.RadioButtonFor(model => model.HVDeXuat, "1", new { required = "required" }) @Html.Label("Được đào tạo lại nội dung này để nâng cao năng lực hơn nữa (kể cả đã đạt)", new { @class = " m-2 font-weight-bold", })
+                                            @Html.ValidationMessageFor(model => model.HVDeXuat, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-12 " style="display:flex">
+                                            @Html.RadioButtonFor(model => model.HVDeXuat, "2") @Html.Label("Khác", new { @class = " m-2 font-weight-bold" })
+                                            @Html.ValidationMessageFor(model => model.HVDeXuat, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div class="form-group col-md-12 " style="display:grid">
+                                            @Html.TextAreaFor(model => model.HVDeXuatKhac, new { @class = "form-control", @rows = 2, placeholder = "Ý kiến kết luận khác", @id = "HVDeXuatKhac", })
+                                            @Html.ValidationMessageFor(model => model.HVDeXuatKhac, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="btn-margin-top text-center">
+                                        <input type="submit" value="Xác nhận" class="btn btn-primary pull-right " />
+                                        <input type="reset" value="Hủy" class="btn btn-danger pull-right button_cancel mr-1" data-dismiss="modal" />
+                                    </div>
+                                </fieldset>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="app-wrapper-footer">
+            <div class="app-footer">
+                <div class="app-footer__inner">
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+}
+
+
+<script>
+    $("#HocVienID").chosen({
+        width: "100%",
+
+    });
+
+    //$().ready(function () {
+    //    $("#formConfir").validate({
+    //        onfocusout: false,
+    //        onkeyup: false,
+    //        onclick: false,
+    //        rules: {
+    //            "HocVienID": {
+    //                required: true,
+    //                maxlength: 15
+    //            },
+    //            "GVLyThuyetTruocDT": {
+    //                required: true,
+    //                maxlength: 2
+    //            },
+    //            "GVThucHanhTruocDT": {
+    //                required: true,
+    //                minlength: 8
+    //            },
+    //            "GVLyThuyetSauDT": {
+    //                required: true,
+    //                maxlength: 2
+    //            },
+    //            "GVThucHanhSauDT": {
+    //                required: true,
+    //                minlength: 8
+    //            }
+    //        }
+    //    });
+    //});
+
+    //$("#HuongDan2").chosen({
+    //    width: "100%"
+    //});
+
+    //$(document).ready(function () {
+    //    var i = 2;
+    //    $("#add-vt").click(function () {
+    //        var renderList = $(`<div class='form-group col-md-8' style='display: grid'>  <textarea class='form-control' placeholder='Tên vị trí ${i}' rows='1' name='TenVTKNL_${i}+' id='TenVTKNL_${i}'></textarea></div>
+    //                    <div class='form-group col-md-4' style='display: grid'>  <textarea class='form-control' placeholder='Mã vị trí ${i}' rows='1' name='MaViTri_${i}' id='MaViTri_${i}'></textarea></div>
+    //`);
+    //        $("#list_vt").before(renderList);
+    //        i++;
+    //    });
+    //});
+</script>
+
+
+
+

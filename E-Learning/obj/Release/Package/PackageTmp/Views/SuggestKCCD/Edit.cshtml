@@ -1,0 +1,150 @@
+﻿@model E_Learning.ModelsKCCD.SuggestKCCDView
+@*<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+    <link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />*@
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ID)
+    @Html.HiddenFor(model => model.PhongBanID)
+    @Html.HiddenFor(model => model.HuongDan1)
+    @Html.HiddenFor(model => model.ViTriID1)
+
+    <div class="modal-dialog" style="max-width:800px" id="formF">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <fieldset id="SubmitForm">
+                    <div class="row">
+                        <div class="form-group col-md-12 " style="display:grid">
+                            <label class="mb-1">Nội dung đào tạo</label>
+                            @Html.DropDownListFor(model => model.NoiDungKCCDID, ViewBag.IDNDDT as SelectList, new { @id = "NoiDungKCCDID", @class = "form-control" })
+                        </div>
+                        <script>
+                            $(document).ready(function () {
+                                $("#NoiDungKCCDID").change(function () {
+                                    $.get("/SuggestKCCD/GetNoiDungDT", { id: $("#NoiDungKCCDID").val() }, function (data) {
+                                        $("#NhomNangLucID").empty();
+                                        $("#LinhVucID").empty();
+                                        //$("#PhongBanID").empty();
+                                        //console.log(data)
+                                        $("#NhomNangLucID").append("<option value ='" + data.NhomNLID + "' selected>" + data.TenNhomNL + "</option>")
+                                        $("#LinhVucID").append("<option value ='" + data.LVDTID + "' selected>" + data.TenLVDT + "</option>")
+                                        //$("#PhongBanID").append("<option value ='" + data.TenPhongBan + "' selected>" + data.TenPhongBan + "</option>")
+                                        //$.each(data, function (index, row) {
+                                        //    $("#NhomNangLucID").append("<option value ='" + row.NhomNLID + "'>" + row.NoiDung + "</option>")
+                                        //});
+                                    });
+
+                                })
+                            });
+
+                        </script>
+                        <div class="form-group col-md-12">
+                            <label class=" mb-1">Nhóm Năng Lực</label>
+                            @Html.DropDownListFor(model => model.NhomNangLucID, ViewBag.NhomNLID as SelectList, "--Chọn Nhóm Năng Lực--", new { @id = "NhomNangLucID", @class = "form-control", @readonly = "true" })
+                            @*@Html.TextBox("NhomNangLucID", null, "--Nhóm Năng Lực--", new { id = "NhomNangLucID", @class = "form-control marginTB5", @style = "width:100%", })*@
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class=" mb-1">lĩnh Vực Đào Tạo</label>
+                            @Html.DropDownListFor(model => model.LinhVucID, ViewBag.LVDTID as SelectList, "--LVĐT--", new { @id = "LinhVucID", @class = "form-control", @readonly = "true" })
+                            @*@Html.DropDownList("LVDTID", null, "--LVĐT--", new { id = "LVDTID", @class = "form-control marginTB5", @style = "width:100%", })*@
+                        </div>
+                        <!--<div class="form-group col-md-12">
+    <label class=" mb-1">Bộ Phận</label>-->
+                        @*@Html.DropDownList("PhongBanID", new SelectList(" "), "--Bộ Phận--", new { id = "PhongBanID", @class = "form-control marginTB5", @style = "width:100%", @readonly = "true" })*@
+                        <!--</div>-->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class=" mb-1">Thời gian Bắt Đầu</label>
+                                @Html.EditorFor(model => model.TuNgay, new { @value = ViewBag.TuNgay, htmlAttributes = new { @class = "form-control", placeholder = "Chọn ngày", @id = "TuNgay", @type = "date", @Value = ViewBag.TuNgay } })
+                                @Html.ValidationMessageFor(model => model.TuNgay, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class=" mb-1">Thời Gian Kết Thúc</label>
+                                @Html.EditorFor(model => model.DenNgay, new { @value = ViewBag.DenNgay, htmlAttributes = new { @class = "form-control", placeholder = "Chọn ngày", @id = "DenNgay", @type = "date", @Value = ViewBag.DenNgay } })
+                                @Html.ValidationMessageFor(model => model.DenNgay, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class=" mb-1">Người hướng dẫn 2</label>
+                                @Html.DropDownListFor(model => model.HuongDan2, ViewBag.NhanVienID as SelectList, null, new { @class = "form-control", @id = "HuongDan2" })
+                                @Html.ValidationMessageFor(model => model.DenNgay, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            Làm bài thi sát hạch?
+                            @Html.CheckBoxFor(m => m.isKiemTra, new { @class = "fa-2x" })
+                        </div>
+                        @{ var ds = Model.isKiemTra == true ? "block" : "none";}
+                        <div class="col-md-12" id="dethi" style="display:@ds">
+                            <div class="form-group">
+                                <label class="mb-1">Đề Thi<span class="text-danger">(*)</span></label>
+
+                                @Html.DropDownListFor(model => model.DeThiID, ViewBag.IDDeThi as SelectList, null, new { @class = "form-control", @id = "DeThiID" })
+                                @*@Html.ValidationMessageFor(model => model.DeThiID, "", new { @class = "text-danger" })*@
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="btn-margin-top text-center">
+                        <input type="submit" value="Xác nhận" class="btn btn-primary pull-right " />
+                        <input type="reset" value="Hủy" class="btn btn-danger pull-right button_cancel mr-1" data-dismiss="modal" />
+                    </div>
+                </fieldset>
+
+            </div>
+        </div>
+    </div>
+
+}
+
+
+<script>
+    $("#formF #NoiDungKCCDID").chosen({
+        width: "100%"
+    });
+
+    $("#HuongDan2").chosen({
+        width: "100%"
+    });
+
+    $("#isKiemTra").on("change", function () {
+        // Check if the checkbox is checked
+        if ($(this).prop("checked")) {
+            $("#dethi").css("display", "block");
+            // Perform actions when the checkbox is checked
+        } else {
+            $("#dethi").css("display", "none");
+            // Perform actions when the checkbox is unchecked
+        }
+    });
+    //$(document).ready(function () {
+    //    var i = 2;
+    //    $("#add-vt").click(function () {
+    //        var renderList = $(`<div class='form-group col-md-8' style='display: grid'>  <textarea class='form-control' placeholder='Tên vị trí ${i}' rows='1' name='TenVTKNL_${i}+' id='TenVTKNL_${i}'></textarea></div>
+    //                    <div class='form-group col-md-4' style='display: grid'>  <textarea class='form-control' placeholder='Mã vị trí ${i}' rows='1' name='MaViTri_${i}' id='MaViTri_${i}'></textarea></div>
+    //`);
+    //        $("#list_vt").before(renderList);
+    //        i++;
+    //    });
+    //});
+</script>
+
+
+
+

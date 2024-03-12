@@ -1,0 +1,106 @@
+﻿@model E_Learning.Models.NotificationView
+<style>
+    .noti {
+        width: 400px;
+        z-index: 5000 !important;
+        position: fixed;
+        bottom: 64px;
+        right: 0;
+        background-color: ghostwhite;
+        border-radius: 20px;
+        height: 500px;
+        margin-right: 10px;
+        box-shadow: 0 0px 5px 3px rgba(0,0,0,0.2);
+        -webkit-box-shadow: 0 0px 5px 3px rgba(0,0,0,0.2);
+        padding-right: 0 !important;
+    }
+
+    .btnnoti {
+        /*width: 40px;*/
+
+        width: 60px;
+        height: 60px;
+        border-radius: 40px;
+        /*margin-bottom: 10px;*/
+        background: #ffffff;
+        /*position: relative;*/
+        box-shadow: 0 0px 5px 3px rgba(0,0,0,0.2);
+        -webkit-box-shadow: 0 0px 5px 3px rgba(0,0,0,0.2);
+        z-index: 5000 !important;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        border: 0;
+        /*background-color: transparent;*/
+        /*background-color: honeydew;*/
+        cursor: pointer;
+    }
+
+    .modal-open {
+        overflow: auto;
+        padding-right: 0 !important;
+    }
+
+    body:not(.modal-open) {
+        padding-right: 0px !important;
+    }
+</style>
+
+<div class="noti" id="exampleModal"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-header" style="background-color: #06428B;border-radius:20px 20px 0 0">
+        <h5 class="modal-title text-white">Thông báo !</h5>
+        <button type="button" id="close" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" style="overflow:auto; height:420px">
+        @if (Model != null)
+        {
+            @Html.Raw(Model.NoiDungTB)
+        }
+
+    </div>
+    @*<div class="modal-footer">
+            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>*@
+
+</div>
+<!-- Button trigger modal -->
+<button type="button" id="button" class="btnnoti" style="padding:0">
+    <img src="~/Content/assets/images/envelope.png" width="40" />
+</button>
+
+<script type="text/javascript">
+    //$('#exampleModal').modal('show')
+    $('#exampleModal').modal('toggle');
+
+    var modalshow = true;
+    var data = sessionStorage.getItem('showNoti');
+    if (data == "false") {
+        modalshow = true;
+        $("#exampleModal").modal("hide");
+    }
+    else {
+        modalshow = false;
+        $("#exampleModal").modal("show");
+    }
+
+    $("#button").click(function () {
+        if (modalshow == true) {
+            sessionStorage.setItem("showNoti", true);
+            $("#exampleModal").modal("show");
+            modalshow = false;
+        }
+        else {
+            sessionStorage.setItem("showNoti", false);
+            $("#exampleModal").modal("hide");
+            modalshow = true;
+        }
+    })
+    $("#close").click(function () {
+        sessionStorage.setItem("showNoti", false);
+        $("#exampleModal").modal("hide");
+        modalshow = true;
+    })
+</script>

@@ -1,0 +1,243 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.Models
+@model List<TestValidation>
+@using PagedList.Mvc
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<link href="~/Content/all.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+        @using (Html.BeginForm("Confirm", "STest", FormMethod.Post))
+        {
+            <div class="app-page-title">
+                <div class="page-title-wrapper">
+
+                    <div class="page-title-heading">
+                        <div class="page-title-icon">
+                            <i class="pe-7s-portfolio icon-gradient bg-grow-early">
+                            </i>
+                        </div>
+                        <div>
+                            Đề Thi
+                            <div class="page-title-subheading">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="tab-content">
+                <div class="row">
+                    <div class="card col-lg-12">
+
+                        <div class="card-header">
+                            Thời gian làm bài:
+                            <span class="m-l-auto">
+
+                                @*<button type="button" id="btn-add" class="btn btn-success m-l-auto"><i class="fa fa-hourglass-start">&nbsp;</i>&nbsp;Bắt đầu làm bài </button>
+            <span class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("","")'></span>*@
+
+                                @*<button type="button" id="btn-add" class="btn btn-success m-l-auto"><i class="fa fa-paper-plane">&nbsp;</i>&nbsp;Nộp bài </button>
+            <span class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Submit","STest", new { id = @Url.RequestContext.RouteData.Values["id"]})'></span>*@
+                                <input class="btn btn-success m-l-auto" type="submit" value="Nộp bài" onclick="this.disabled=true;this.value='Đang nộp bài...'; this.form.submit();" />
+
+                            </span>
+                           
+                        </div>
+                        <div class="card-header">
+                            <span class="m-auto">
+
+                                Lưu ý: Đáp áp được trộn ngẫu nhiên, nên các đáp án dạng cả A và B đều đúng/sai thì thí sinh hiểu là có 2 phương án đúng/sai.
+
+                            </span>
+                        </div>
+
+
+                        <div class="card-body">
+
+
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                <div id="@(i+1)" class="que multichoice deferredfeedback notyetanswered">
+                                    <div class="info">
+                                        <h3 class="no">Câu hỏi <span class="qno">@(i+1)</span></h3>
+                                        <div class="grade">Đạt điểm: @Html.DisplayFor(m => m[i].Diem)</div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="formulation clearfix">
+                                            <h4 class="accesshide">Đoạn văn câu hỏi</h4><div class="qtext">@Html.Raw(Model[i].NoiDungCH)</div>
+                                            <div class="ablock">
+                                                <div class="prompt">Chọn một:</div>
+                                                <div class="answer">
+                                                    @Html.HiddenFor(m => m[i].IDCH)
+                                                    @Html.HiddenFor(m => m[i].IDLH)
+                                                    @Html.HiddenFor(m => m[i].IDDeThi)
+                                                    @Html.HiddenFor(m => m[i].IDND)
+                                                    @Html.HiddenFor(m => m[i].IDDAĐung)
+                                                    @Html.HiddenFor(m => m[i].Diem)
+                                                    @*<div class="r0">
+            @Html.RadioButtonFor(m => m[i].Answer, "1")
+
+            a. <label class="m-l-1">@Html.Raw(Model[i].DapAnA)</label>
+        </div>
+        <div class="r1">
+            @Html.RadioButtonFor(m => m[i].Answer, "2")
+            b. <label class="m-l-1">@Html.Raw(Model[i].DapAnB)</label>
+        </div>
+        <div class="r0">
+            @Html.RadioButtonFor(m => m[i].Answer, "3")
+            c.  <label class="m-l-1">@Html.Raw(Model[i].DapAnC)</label>
+        </div>
+        <div class="r1">
+            @Html.RadioButtonFor(m => m[i].Answer, "4")
+            d.  <label class="m-l-1">@Html.Raw(Model[i].DapAnD)</label>
+        </div>*@
+                                                    @{
+                                                        // Định nghĩa một model để chứa giá trị động
+
+                                                        var anser = Model[i].Answer; // Giá trị động từ C#
+                                                        var dapanA = Model[i].DapAnA;
+                                                        var dapanB = Model[i].DapAnB;
+                                                        var dapanC = Model[i].DapAnC;
+                                                        var dapanD = Model[i].DapAnD;
+
+                                                        // Tạo một mảng chứa các thẻ HTML bạn muốn hiển thị
+                                                        List<string> htmlTags = new List<string>
+                                                                                                                                                    {
+        "<div class=\"r0\"><input data-val=\"true\"  name=["+ i +"].Answer" +" type=\"radio\" value=\"1\"><span class=\"dapAn \"></span>  <label class=\"m-l-1\">"+dapanA+"</label></div>",
+        "<div class=\"r0\"><input data-val=\"true\"  name=["+i +"].Answer"+" type=\"radio\" value=\"2\"><span class=\"dapAn \"></span> <label class=\"m-l-1\">"+dapanB+"</label></div>",
+        "<div class=\"r0\"><input data-val=\"true\"  name=["+i +"].Answer" +" type=\"radio\" value=\"3\"><span class=\"dapAn \"></span> <label class=\"m-l-1\">"+dapanC+"</label></div>",
+     "<div class=\"r0\"><input data-val=\"true\"  name=["+i +"].Answer" +" type=\"radio\" value=\"4\"><span class=\"dapAn \"></span> <label class=\"m-l-1\">"+dapanD+"</label></div>",
+    };
+
+                                                        // Xáo trộn danh sách thẻ HTML
+                                                        var shuffledHtmlTags = htmlTags.OrderBy(x => Guid.NewGuid()).ToList();
+                                                    }
+
+                                                    @foreach (var htmlTag in shuffledHtmlTags)
+                                                    {
+                                                        @Html.Raw(htmlTag)
+                                                    }
+                                                    <script>
+                                                        // Lấy tất cả các phần tử có lớp 'dapAn'
+                                                        var elements = document.querySelectorAll('.dapAn');
+                                                        var ii = 1;
+                                                        // Thay đổi nội dung của mỗi phần tử
+                                                        elements.forEach(function (element) {
+                                                            if (ii == 1) {
+                                                                element.textContent = "a.";
+                                                            }
+                                                            else if (ii == 2) {
+                                                                element.textContent = "b.";
+                                                            }
+                                                            else if (ii == 3) {
+                                                                element.textContent = "c.";
+                                                            }
+                                                            else if (ii == 4) {
+                                                                element.textContent = "d.";
+                                                            }
+                                                            ii++;
+                                                            if (ii > 4) ii = 1;
+                                                        });
+                                                    </script>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            }
+                            @*@{
+                                int stt = (int)Model.Count;
+                                int i = 1;
+                                int x = 1;
+                                int a = 1;
+                                int b = 1;
+                                int c = 1;
+                                int d = 1;
+                                int na = 1;
+                                int nb = 1;
+                                int nc = 1;
+                                int nd = 1;
+                                int q = 1;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <div id="@x@{x++;}" class="que multichoice deferredfeedback notyetanswered">
+                                    <div class="info">
+                                        <h3 class="no">Câu hỏi <span class="qno">@i@{i++;}</span></h3>
+                                        <div class="grade">Đạt điểm: @item.Diem</div>
+                                    </div>
+                                    <div class="content">
+                                        <div class="formulation clearfix">
+                                            <h4 class="accesshide">Đoạn văn câu hỏi</h4><input type="hidden" name="q6:@q@{q++;}_:sequencecheck" value="1" id=""><div class="qtext">@item.NoiDungCH</div>
+                                            <div class="ablock">
+                                                <div class="prompt">Chọn một:</div>
+                                                <div class="answer">
+                                                    <div class="r0"><input type="radio" name="q6:@na@{na++;}_answer" value="0" id="q6:@a@{a++;}_answer0"><label class="m-l-1">a. @item.DapAnA</label> </div>
+                                                    <div class="r1"><input type="radio" name="q6:@nb@{nb++;}_answer" value="1" id="q6:@b@{b++;}_answer1"><label class="m-l-1">b. @item.DapAnB</label> </div>
+                                                    <div class="r0"><input type="radio" name="q6:@nc@{nc++;}_answer" value="2" id="q6:@c@{c++;}_answer2"><label class="m-l-1">c. @item.DapAnC</label> </div>
+                                                    <div class="r1"><input type="radio" name="q6:@nd@{nd++;}_answer" value="3" id="q6:@d@{d++;}_answer3"><label class="m-l-1">d. @item.DapAnD</label> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }*@
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        }
+
+    </div>
+
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    function myFunction() {
+        //fix sumbit Test -> logout 
+        $.get("/STest/AddEvent", function (data, status) {
+           /* alert("Data: " + data + "\nStatus: " + status);*/
+        });
+    }
+    let display = setInterval(myFunction, 300000);
+
+</script>
+
+

@@ -1,0 +1,193 @@
+﻿@model E_Learning.ModelsQTHD.NoiDungQTView
+
+@using (Html.BeginForm("EditFileQT", "NoiDungQT", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog" id="formE" >
+        <div class="modal-content" style="width:527px;">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+
+                @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+                @Html.HiddenFor(model => model.IDQTHD)
+                <fieldset id="SubmitForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class=" mb-1 font-weight-bold float-left">Tên nội dung QT</label>
+                                @{
+                                    var qt = (E_Learning.Models.QT_NoiDungQT)ViewBag.NoiDungQT;
+                                }
+                                <textarea class="form-control" cols="20" id="TenND" name="TenND" rows="1" readonly>@qt.MaHieu - @qt.TenQTHD</textarea>
+                            </div>
+                        </div>
+
+                        <div class="font-weight-bold col-12 form-group">FILE TÀI LIỆU QT/HD<span class="text-danger">(*)</span></div>
+                        <div class="">
+                            <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="70px" style="width:70px" class="text-center">STT</th>
+                                        <th width="" style="width:200px" class="text-center">Tên tài liệu</th>
+                                        <th class="text-left" style="width:100px" width="200px">Thứ tự</th>
+                                        <th width="50px" style="width:150px">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int drow = 1;
+                                    }
+                                    @foreach (var item in Model.List_FileQT)
+                                    {
+                                        <tr class="tb-render" id="listFile_@item.IDFile">
+                                            <td class="text-center font-weight-bold">
+                                                @drow
+                                            </td>
+                                            <td>
+                                                @item.TenFile
+                                            </td>
+                                            <td class="text-center font-weight-bold">
+                                                <input class='form-control' data-val='true' data-val-number='.' id='t_@item.IDFile' name='t_@item.IDFile' placeholder='' type='number' value='@item.OrderByID'>
+                                            </td>
+                                            <td class="text-center">
+                                                <a class="fa fa-trash icon_action Remove_FileQT" title="Xóa" href="#" id="@item.IDFile" onclick="return confirm('Bạn muốn xóa File QTHD?')">
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        drow++;
+                                    }
+                                    <tr>
+                                        <td class="text-center font-weight-bold">
+                                       
+                                        </td>
+                                        <td>
+                                            <input style="height: 41px;" type="file" id="files_0" name="files[0]" class="form-control" onchange="checkfile(this);" />
+                                        </td>
+                                        <td class="text-center font-weight-bold">
+                                            <input class='form-control' data-val='true' data-val-number='.' id='tt_0' name='tt_0' placeholder='' type='number' value='1'>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr id="vt">
+                                        <th colspan="15" class="font-weight-bold font-size-lg">
+                                            <button id="add-chung" type="button" class="btn btn-light border border-white "><i class="fas fa-plus"></i></button>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <div class="btn-margin-top text-center">
+                        @*@if (MyAuthentication.IDQuyen != 9 && MyAuthentication.IDQuyen != 10)
+                        {
+                            <input type="submit" value="Xác nhận" class="btn btn-primary pull-right" />
+                        }*@
+                        <input type="submit" value="Xác nhận" class="btn btn-primary pull-right" />
+                    </div>
+                </fieldset>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".multiSelectDropDownQAs").chosen({
+            width: "100%",
+
+        });
+        $(".chosen-search-input").val("Chọn nhân viên");
+
+        async function RemNV(url, params, method) {
+            return $.ajax({
+                url: url,
+                type: method || 'GET',
+                dataType: 'json',
+                data: params
+            });
+        }
+
+        $(document).ready(function () {
+            var i = 1;
+            $("#add-chung").click(function () {
+                var renderList = $(`<tr>
+                                                            <td class="text-center font-weight-bold"> </td>
+                                                            <td >
+                                                                <input style="height: 41px;" type="file" id="files_${i}" name="files[${i}]" class="form-control" onchange="checkfile(this);" />
+                                                            </td>
+                                                            <td style=''>
+                                                                 <input class='form-control' data-val='true' data-val-number='.' id='tt_${i}' name='tt_${i}' placeholder='' type='number' value='${i + 1}'>
+                                                            </td>
+                                                          <td class='text-center ' >  </td>
+                                                        </tr>`);
+                $("#vt").before(renderList);
+                i++;
+               
+            });
+            //$("#table").on("click", ".delItem", function () {
+            //    $(this).closest("tr").remove();
+            //});
+        });
+
+
+        $(".Remove_FileQT").click(async function () {
+            let id = $(this).attr('id');
+            $.get("/NoiDungQT/DeleteFileQT", { id: id }, function (data1) {
+                if (data1 == true) {
+                    $('table tr#listFile_' + id).remove();
+                }
+            });
+
+        });
+
+
+        $(document).on("click", ".checkNV", function () {
+            /*var iddex = $(this).attr('id').split("_")[1];*/
+            $.get("/FPosition/CheckNV", { lsnv: $("#NVDG").val() }, function (data) {
+                if (data[0] != null) {
+                    $("#dsnv").empty();
+                    /*$("#dsnv").append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")*/
+                    $.each(data, function (index, row) {
+                        $("#dsnv").append("<div>" + row.HoTen + "</div>")
+                    });
+
+                }
+                else {
+                    $("#dsnv").empty();
+                }
+            });
+        });
+    });
+
+</script>
+<style>
+    .chosen-container-single .chosen-single {
+        color: #495057;
+        background: #fff;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.8;
+        text-transform: capitalize;
+    }
+
+        .chosen-container-single .chosen-single span {
+            text-transform: capitalize !important;
+            font-size: 16px !important;
+        }
+</style>
+
+
+
