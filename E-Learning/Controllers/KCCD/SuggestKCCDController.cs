@@ -255,7 +255,7 @@ namespace E_Learning.Controllers.KCCD
                            SLHV = phieunx.Where(x => x.DeNghiDTID == a.ID).Count(),
                            SLHVHT = phieunx.Where(x => x.DeNghiDTID == a.ID && x.IDTinhTrang != 0).Count(),
                            TinhTrangHVXN = phieunx.Where(x => x.DeNghiDTID == a.ID).Count() == phieunx.Where(x => x.DeNghiDTID == a.ID && x.IDTinhTrang ==1).Count() && phieunx.Where(x => x.DeNghiDTID == a.ID).Count() != 0 ? 1:0,
-                           TinhTrangThi = a.isKiemTra == 1 ? phieunx.Where(x=> x.DeNghiDTID == a.ID &&(x.TinhTrangThi ==1 ||x.TinhTrangThi ==3)).Count() == phieunx.Where(x => x.DeNghiDTID == a.ID).Count() || a.isKiemTra == 0 ?1:0:0
+                           TinhTrangThi = a.isKiemTra == 1 ? phieunx.Where(x=> x.DeNghiDTID == a.ID &&(x.TinhTrangThi ==1 ||x.TinhTrangThi ==3)).Count() == phieunx.Where(x => x.DeNghiDTID == a.ID).Count() ?1:0:1
                        }).ToList();
 
             List<PhongBan> dt = db.PhongBans.ToList();
