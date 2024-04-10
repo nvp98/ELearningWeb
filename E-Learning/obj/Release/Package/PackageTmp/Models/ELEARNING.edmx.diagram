@@ -87,6 +87,7 @@
         <AssociationConnector Association="ELEARNING_KNLModel.FK_KCCD_CTBaiThi_KCCD_CauHoi" />
         <EntityTypeShape EntityType="ELEARNING_KNLModel.KCCD_BaiThi" Width="1.5" PointX="21.375" PointY="1" />
         <AssociationConnector Association="ELEARNING_KNLModel.FK_KCCD_CTBaiThi_KCCD_BaiThi" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.NQ_KetQua" Width="1.5" PointX="21.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

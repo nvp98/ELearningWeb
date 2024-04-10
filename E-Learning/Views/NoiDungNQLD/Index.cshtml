@@ -1,0 +1,224 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.Models
+@model PagedList.IPagedList<NoiQuyView>
+@using PagedList.Mvc
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-portfolio icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Quản Lý Nội Quy Lao Động
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="card col-lg-12">
+                    <div class="card-header">
+                        @*@if (E_Learning.Models.MyAuthentication.IDQuyen == 1)
+                            {*@
+                        <div class="col-md-8 col-lg-10">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" id="txtsearch" name="" placeholder="Tìm kiếm" class="form-control" value="@ViewBag.search">
+                                </div>
+
+                                <div class="col-md-3">
+                                    @Html.DropDownList("IDNQLD", null, "--Nội Quy Lao Động--", new { id = "IDNQLD", @class = "form-control marginTB5", @style = "width:100%", })
+                                </div>
+
+                                <div class="col-md-3">
+                                    @*@Html.DropDownList("CTLVDTID", null, "--CTLVDT--", new { id = "CTLVDTID", @class = "form-control marginTB5", @style = "width:100%", })*@
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button>
+                                </div>
+                            </div>
+                        </div>
+                        @*//}*@
+
+                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD) || true)
+                        {
+                            <div class="col-md-2">
+                                <button type="button" id="btn-add" class="btn btn-primary m-l-auto pull-right"><i class="fa fa-plus">&nbsp;</i>&nbsp;Thêm mới </button>
+                                <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","NoiDungNQLD")'></div>
+
+                            </div>
+                        }
+
+
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content" style="margin-top: 30px;">
+
+                            <div class="row">
+                                @foreach (var item in Model)
+                                {
+
+                                    <div class="col-md-6 col-xl-3">
+                                        <div class="card mb-3">
+
+                                            <div class="text-white">
+                                                <img src="@item.ImageND" style="width:100%">
+                                               
+                                            </div>
+
+                                            <div class="widget-content">
+                                                <div class="content d-flex mb-3">
+                                                    @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) || true)
+                                                    {
+                                                        <a class="fa fa-trash icon_action IconDel fsize-2 mr-2" title="Xóa" href="@Url.Action("Delete", "NoiDungNQLD", new { id = item.IDND })"
+                                                           onclick="return confirm('Bạn muốn xóa Nội quy: @item.IDND')">
+                                                        </a>
+                                                    }
+                                                    @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT) || true)
+                                                    {
+                                                        <a id="btn-edit_@item.IDND" title="Sửa" class="fa fa-edit icon_action edit-custom fsize-2 mr-2"></a>
+                                                        <div class=" modal fade" id="myModaleK_@item.IDND" role="dialog" data-url='@Url.Action("Edit", "NoiDungNQLD", new { id = item.IDND})'></div>
+                                                        <script type="text/javascript">
+                                                                    $("#btn-edit_@item.IDND").click(function () {
+                                                                        var url = $('#myModaleK_@item.IDND').data('url');
+                                                                                $.get(url, function (data) {
+                                                                                    $("#myModaleK_@item.IDND").html(data);
+                                                                                    $("#ModalTitle").html("Cập nhật Nội Quy");
+                                                                                    $("#myModaleK_@item.IDND").modal('show');
+                                                                                });
+                                                                            });
+                                                        </script>
+                                                    }
+                                                    <div class="widget-subheading font-weight-bold">@item.NoiDung.ToUpper()</div>
+                                                </div>
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+
+                                                    <div class="widget-content-left"><strong>Mã nội dung: </strong></div>
+                                                    <div class="widget-content-right">@item.MaND</div>
+
+                                                </div>
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+
+                                                    <div class="widget-content-left"><strong>Hoàn thành xem Video:</strong></div>
+                                                    <div class="widget-content-right">@item.SLHT lượt</div>
+
+                                                </div>
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+
+                                                    <div class="widget-content-left"><strong>Hoàn thành xem File nội quy:</strong></div>
+                                                    <div class="widget-content-right">@item.SLHTFile lượt</div>
+
+                                                </div>
+                                                @*<div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+
+            <div class="widget-content-left"><strong>BP LNC:</strong></div>
+            <div class="widget-content-right">@item.BPLNC</div>
+
+        </div>
+        <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+
+            <div class="widget-content-left"><strong>Lĩnh vực: </strong></div>
+            <div class="widget-content-right">@item.LinhVuc</div>
+
+        </div>
+        <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+
+            <div class="widget-content-left"><strong>Lĩnh vực chi Tiết: </strong></div>
+            <div class="widget-content-right">@item.LVChiTiet</div>
+
+        </div>*@
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0;">
+
+                                                    <div class="widget-content-right">
+                                                        @if (item.FileDinhKem != null && item.FileDinhKem.Length > 0)
+                                                        {
+                                                            <a href="@item.FileDinhKem" target="_blank">
+                                                                <span class="btn-transition btn btn-outline-alternate">Đọc Nội quy</span>
+                                                            </a>
+                                                            @*<a href="@item.FileDinhKem" target="_blank"><i class="fa fa-download mr-3"></i>File chi tiết</a>*@
+                                                        }
+
+                                                        <a id="@item.IDND" href="@Url.Action("Index" , "NQView" , new { id = @item.IDND })">
+                                                            <span class="btn-transition btn btn-outline-info">Xem nội quy</span>
+                                                        </a>
+                                                        @*<a class="" id="@item.IDND" href="@Url.Action("Index" , "LibraryClass", new { id = @item.IDND })">
+                                                            <span id="back" class="btn-transition btn btn-outline-primary">Xem kết quả</span>
+                                                        </a>*@
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script type="text/javascript">
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Thêm mới Nội dung");
+            $("#myModal").modal('show');
+        });
+    });
+    $("#IDNQLD").chosen({
+        width: "100%"
+    });
+    $("#btn-search").on('click', function () {
+        var search = $('#txtsearch').val();
+        window.location.href = '@Url.Action("Index", "NoiDungNQLD")?search=' + search + '&IDNQLD=' + $('#IDNQLD').val();
+    });
+</script>

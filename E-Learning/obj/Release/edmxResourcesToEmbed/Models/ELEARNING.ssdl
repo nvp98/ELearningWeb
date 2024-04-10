@@ -390,6 +390,8 @@
     <Property Name="ThoiLuongDT" Type="int" />
     <Property Name="FileDinhKem" Type="nvarchar" MaxLength="300" />
     <Property Name="NgayTao" Type="date" />
+    <Property Name="isOrder" Type="int" />
+    <Property Name="isNQ" Type="int" />
   </EntityType>
   <EntityType Name="NoiDungDTKCCD">
     <Key>
@@ -401,6 +403,20 @@
     <Property Name="LVDTID" Type="int" />
     <Property Name="PhongBanID" Type="int" />
     <Property Name="NgayTao" Type="smalldatetime" />
+  </EntityType>
+  <EntityType Name="NQ_KetQua">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NDDTID" Type="int" />
+    <Property Name="XNTG" Type="int" />
+    <Property Name="XNHT" Type="int" />
+    <Property Name="XNHTFile" Type="int" />
+    <Property Name="IDNV" Type="int" />
+    <Property Name="NgayTG" Type="date" />
+    <Property Name="NgayHT" Type="date" />
+    <Property Name="TinhTrang" Type="int" />
   </EntityType>
   <EntityType Name="PhieuXacNhanKCCD">
     <Key>
@@ -1547,6 +1563,17 @@
     <Parameter Name="FileDinhKem" Type="nvarchar" Mode="In" />
     <Parameter Name="NgayTao" Type="date" Mode="In" />
   </Function>
+  <Function Name="NoiDungDT_insert_NQLD" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="MaND" Type="nvarchar" Mode="In" />
+    <Parameter Name="NoiDung" Type="nvarchar" Mode="In" />
+    <Parameter Name="VideoND" Type="nvarchar" Mode="In" />
+    <Parameter Name="ImageND" Type="nvarchar" Mode="In" />
+    <Parameter Name="ThoiLuongDT" Type="int" Mode="In" />
+    <Parameter Name="FileDinhKem" Type="nvarchar" Mode="In" />
+    <Parameter Name="NgayTao" Type="date" Mode="In" />
+    <Parameter Name="isOrder" Type="int" Mode="In" />
+    <Parameter Name="isNQ" Type="int" Mode="In" />
+  </Function>
   <Function Name="NoiDungDT_ListContent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="search" Type="nvarchar(max)" Mode="In" />
   </Function>
@@ -1566,6 +1593,17 @@
     <Parameter Name="ThoiLuongDT" Type="int" Mode="In" />
     <Parameter Name="FileDinhKem" Type="nvarchar" Mode="In" />
     <Parameter Name="NgayTao" Type="date" Mode="In" />
+  </Function>
+  <Function Name="NoiDungDT_updateNQLD" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IDND" Type="int" Mode="In" />
+    <Parameter Name="MaND" Type="nvarchar" Mode="In" />
+    <Parameter Name="NoiDung" Type="nvarchar" Mode="In" />
+    <Parameter Name="VideoND" Type="nvarchar" Mode="In" />
+    <Parameter Name="ImageND" Type="nvarchar" Mode="In" />
+    <Parameter Name="ThoiLuongDT" Type="int" Mode="In" />
+    <Parameter Name="FileDinhKem" Type="nvarchar" Mode="In" />
+    <Parameter Name="NgayTao" Type="date" Mode="In" />
+    <Parameter Name="isOrder" Type="int" Mode="In" />
   </Function>
   <Function Name="NoiDungDTKCCD_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ID" Type="int" Mode="In" />
@@ -1590,6 +1628,29 @@
     <Parameter Name="LVDTID" Type="int" Mode="In" />
     <Parameter Name="PhongBanID" Type="int" Mode="In" />
     <Parameter Name="NgayTao" Type="smalldatetime" Mode="In" />
+  </Function>
+  <Function Name="NQ_KetQua__insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="NQ_KetQua _insert">
+    <Parameter Name="NDDTID" Type="int" Mode="In" />
+    <Parameter Name="XNTG" Type="int" Mode="In" />
+    <Parameter Name="XNHT" Type="int" Mode="In" />
+    <Parameter Name="XNHTFile" Type="int" Mode="In" />
+    <Parameter Name="IDNV" Type="int" Mode="In" />
+    <Parameter Name="NgayTG" Type="date" Mode="In" />
+    <Parameter Name="NgayHT" Type="date" Mode="In" />
+    <Parameter Name="TinhTrang" Type="int" Mode="In" />
+  </Function>
+  <Function Name="NQ_KetQua_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="NQ_KetQua_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ID" Type="int" Mode="In" />
+    <Parameter Name="XNHT" Type="int" Mode="In" />
+    <Parameter Name="NgayHT" Type="date" Mode="In" />
+    <Parameter Name="TinhTrang" Type="int" Mode="In" />
+  </Function>
+  <Function Name="NQ_KetQua_UpdateXNFile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ID" Type="int" Mode="In" />
+    <Parameter Name="XNHTFile" Type="int" Mode="In" />
   </Function>
   <Function Name="PhieuXacNhanKCCD_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ID" Type="int" Mode="In" />
@@ -2014,6 +2075,7 @@
     <EntitySet Name="NhomNLKCCD" EntityType="Self.NhomNLKCCD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NoiDungDT" EntityType="Self.NoiDungDT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NoiDungDTKCCD" EntityType="Self.NoiDungDTKCCD" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NQ_KetQua" EntityType="Self.NQ_KetQua" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PhieuXacNhanKCCD" EntityType="Self.PhieuXacNhanKCCD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PhongBan" EntityType="Self.PhongBan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QT_BaiKiemTra" EntityType="Self.QT_BaiKiemTra" Schema="dbo" store:Type="Tables" />

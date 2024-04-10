@@ -253,6 +253,10 @@
     <Compile Include="Controllers\ManageTestExamController.cs" />
     <Compile Include="Controllers\ManageExamQuestionGroupController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
+    <Compile Include="Controllers\NQLD\NoiDungNQLDController.cs" />
+    <Compile Include="Controllers\NQLD\NQLDUserController.cs" />
+    <Compile Include="Controllers\NQLD\NQViewController.cs" />
+    <Compile Include="Controllers\NQLD\ResultNQLDController.cs" />
     <Compile Include="Controllers\QTHD\CauHoiQTController.cs" />
     <Compile Include="Controllers\QTHD\ListTestQTController.cs" />
     <Compile Include="Controllers\QTHD\NoiDungQTController.cs" />
@@ -279,6 +283,7 @@
     <Compile Include="ModelsKCCD\NhomNLKCCDview.cs" />
     <Compile Include="ModelsKCCD\NoiDungDTKCCDView.cs" />
     <Compile Include="ModelsKCCD\SuggestKCCDView.cs" />
+    <Compile Include="ModelsNQLD\ResultNQLDView.cs" />
     <Compile Include="ModelsQTHD\CauHoiQTView.cs" />
     <Compile Include="ModelsQTHD\KetQuaQTHDView.cs" />
     <Compile Include="ModelsQTHD\ListTestQT.cs" />
@@ -505,7 +510,12 @@
     <Compile Include="Models\NoiDungDT_select_Result.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
+    <Compile Include="ModelsNQLD\NoiQuyKQView.cs" />
+    <Compile Include="ModelsNQLD\NoiQuyView.cs" />
     <Compile Include="Models\NotificationView.cs" />
+    <Compile Include="Models\NQ_KetQua.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PdfWriterEvents .cs" />
     <Compile Include="Models\CauHoiDeThiValidation.cs" />
     <Compile Include="Models\ConfirmEStudyValidation.cs" />
@@ -1134,6 +1144,14 @@
     <Content Include="Views\CauHoiKCCD\EditDT.cshtml" />
     <Content Include="Views\CauHoiKCCD\EditCH.cshtml" />
     <Content Include="Views\EvaluateKCCD\TestKCCD.cshtml" />
+    <Content Include="Views\NoiDungNQLD\Index.cshtml" />
+    <Content Include="Views\NoiDungNQLD\Create.cshtml" />
+    <Content Include="Views\NoiDungNQLD\Edit.cshtml" />
+    <Content Include="Views\NQView\Index.cshtml" />
+    <Content Include="Views\NQView\ListNQ.cshtml" />
+    <Content Include="Views\NQLDUser\Index.cshtml" />
+    <Content Include="Views\ResultNQLD\Index.cshtml" />
+    <Content Include="Views\ResultNQLD\ResultView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\login\" />

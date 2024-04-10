@@ -286,6 +286,8 @@
     <NavigationProperty Name="LinhVucDT" Relationship="Self.FK_NoiDungDT_LinhVucDT" FromRole="NoiDungDT" ToRole="LinhVucDT" />
     <NavigationProperty Name="LopHocs" Relationship="Self.FK_LopHoc_NoiDungDT" FromRole="NoiDungDT" ToRole="LopHoc" />
     <Property Name="NgayTao" Type="DateTime" Precision="0" />
+    <Property Name="isOrder" Type="Int32" />
+    <Property Name="isNQ" Type="Int32" />
   </EntityType>
   <EntityType Name="PhongBan">
     <Key>
@@ -1705,6 +1707,52 @@
       <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
       <Parameter Name="IDBT" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="NoiDungDT_insert_NQLD">
+      <Parameter Name="MaND" Mode="In" Type="String" />
+      <Parameter Name="NoiDung" Mode="In" Type="String" />
+      <Parameter Name="VideoND" Mode="In" Type="String" />
+      <Parameter Name="ImageND" Mode="In" Type="String" />
+      <Parameter Name="ThoiLuongDT" Mode="In" Type="Int32" />
+      <Parameter Name="FileDinhKem" Mode="In" Type="String" />
+      <Parameter Name="NgayTao" Mode="In" Type="DateTime" />
+      <Parameter Name="isOrder" Mode="In" Type="Int32" />
+      <Parameter Name="isNQ" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="NoiDungDT_updateNQLD">
+      <Parameter Name="IDND" Mode="In" Type="Int32" />
+      <Parameter Name="MaND" Mode="In" Type="String" />
+      <Parameter Name="NoiDung" Mode="In" Type="String" />
+      <Parameter Name="VideoND" Mode="In" Type="String" />
+      <Parameter Name="ImageND" Mode="In" Type="String" />
+      <Parameter Name="ThoiLuongDT" Mode="In" Type="Int32" />
+      <Parameter Name="FileDinhKem" Mode="In" Type="String" />
+      <Parameter Name="NgayTao" Mode="In" Type="DateTime" />
+      <Parameter Name="isOrder" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="NQ_KetQua" EntityType="ELEARNING_KNLModel.NQ_KetQua" />
+    <FunctionImport Name="NQ_KetQua__insert">
+      <Parameter Name="NDDTID" Mode="In" Type="Int32" />
+      <Parameter Name="XNTG" Mode="In" Type="Int32" />
+      <Parameter Name="XNHT" Mode="In" Type="Int32" />
+      <Parameter Name="XNHTFile" Mode="In" Type="Int32" />
+      <Parameter Name="IDNV" Mode="In" Type="Int32" />
+      <Parameter Name="NgayTG" Mode="In" Type="DateTime" />
+      <Parameter Name="NgayHT" Mode="In" Type="DateTime" />
+      <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="NQ_KetQua_delete">
+      <Parameter Name="ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="NQ_KetQua_Update">
+      <Parameter Name="ID" Mode="In" Type="Int32" />
+      <Parameter Name="XNHT" Mode="In" Type="Int32" />
+      <Parameter Name="NgayHT" Mode="In" Type="DateTime" />
+      <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="NQ_KetQua_UpdateXNFile">
+      <Parameter Name="ID" Mode="In" Type="Int32" />
+      <Parameter Name="XNHTFile" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="CauHoi_DeThi_list_Result">
     <Property Type="Int32" Name="IDCH" Nullable="false" />
@@ -2872,4 +2920,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="NQ_KetQua">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NDDTID" Type="Int32" />
+    <Property Name="XNTG" Type="Int32" />
+    <Property Name="XNHT" Type="Int32" />
+    <Property Name="XNHTFile" Type="Int32" />
+    <Property Name="IDNV" Type="Int32" />
+    <Property Name="NgayTG" Type="DateTime" Precision="0" />
+    <Property Name="NgayHT" Type="DateTime" Precision="0" />
+    <Property Name="TinhTrang" Type="Int32" />
+  </EntityType>
 </Schema>

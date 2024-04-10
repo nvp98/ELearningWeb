@@ -279,6 +279,8 @@
     <EntitySetMapping Name="NoiDungDTs">
       <EntityTypeMapping TypeName="ELEARNING_KNLModel.NoiDungDT">
         <MappingFragment StoreEntitySet="NoiDungDT">
+          <ScalarProperty Name="isNQ" ColumnName="isNQ" />
+          <ScalarProperty Name="isOrder" ColumnName="isOrder" />
           <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
           <ScalarProperty Name="IDND" ColumnName="IDND" />
           <ScalarProperty Name="MaND" ColumnName="MaND" />
@@ -1580,5 +1582,26 @@
     </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="PhieuXacNhanKCCD_TinhTrangThi" FunctionName="ELEARNING_KNLModel.Store.PhieuXacNhanKCCD_TinhTrangThi" />
     <FunctionImportMapping FunctionImportName="KCCD_BaiThi_UpdateDiem" FunctionName="ELEARNING_KNLModel.Store.KCCD_BaiThi_UpdateDiem" />
+    <FunctionImportMapping FunctionImportName="NoiDungDT_insert_NQLD" FunctionName="ELEARNING_KNLModel.Store.NoiDungDT_insert_NQLD" />
+    <FunctionImportMapping FunctionImportName="NoiDungDT_updateNQLD" FunctionName="ELEARNING_KNLModel.Store.NoiDungDT_updateNQLD" />
+    <EntitySetMapping Name="NQ_KetQua">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.NQ_KetQua">
+        <MappingFragment StoreEntitySet="NQ_KetQua">
+          <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+          <ScalarProperty Name="NgayHT" ColumnName="NgayHT" />
+          <ScalarProperty Name="NgayTG" ColumnName="NgayTG" />
+          <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+          <ScalarProperty Name="XNHTFile" ColumnName="XNHTFile" />
+          <ScalarProperty Name="XNHT" ColumnName="XNHT" />
+          <ScalarProperty Name="XNTG" ColumnName="XNTG" />
+          <ScalarProperty Name="NDDTID" ColumnName="NDDTID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="NQ_KetQua__insert" FunctionName="ELEARNING_KNLModel.Store.NQ_KetQua__insert" />
+    <FunctionImportMapping FunctionImportName="NQ_KetQua_delete" FunctionName="ELEARNING_KNLModel.Store.NQ_KetQua_delete" />
+    <FunctionImportMapping FunctionImportName="NQ_KetQua_Update" FunctionName="ELEARNING_KNLModel.Store.NQ_KetQua_Update" />
+    <FunctionImportMapping FunctionImportName="NQ_KetQua_UpdateXNFile" FunctionName="ELEARNING_KNLModel.Store.NQ_KetQua_UpdateXNFile" />
   </EntityContainerMapping>
 </Mapping>

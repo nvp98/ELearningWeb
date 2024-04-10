@@ -244,11 +244,11 @@
                                     }
                                     else if (item.ThuaThieu > 0)
                                     {
-                                        <td class="text-center font-weight-bold bg-success">+ @item.ThuaThieu</td>
+                                        <td class="text-center font-weight-bold bg-success text-white">+ @item.ThuaThieu</td>
                                     }
                                     else
                                     {
-                                        <td class="text-center font-weight-bold bg-danger"> @item.ThuaThieu</td>
+                                        <td class="text-center font-weight-bold bg-danger text-white"> @item.ThuaThieu</td>
                                     }
 
                                     <td class="text-center font-weight-bold">@item.NSTapSu</td>
@@ -309,6 +309,9 @@
                         <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
                     </div>
                 </div>
+                @*<div>
+                    <iframe width="100%" height="500px" src="https://khaosat.me/embed/survey/dang-ky-chay-kich-off-tai-khach-san-harmonia-chuong-trinh-chay-bo-cua-cong-ty-co-phan-thep-hoa-phat--dbff06a" frameborder="0" allowfullscreen></iframe>
+                </div>*@
             </div>
         </div>
 

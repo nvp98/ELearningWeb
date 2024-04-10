@@ -175,6 +175,7 @@
                                     Thông tin vị trí quản lý
                                 </a>
                             </li>
+
                             @if (ListControll.Contains("Statistic"))
                             {
                                 <li>
@@ -197,7 +198,12 @@
                                     </ul>
                                 </li>
                             }
-
+                            <li>
+                                <a href="@Url.Action("ListNQ","NQView")">
+                                    <i class="metismenu-icon pe-7s-way"></i>
+                                    Nội quy lao động
+                                </a>
+                            </li>
 
                             <li id="QuanTri" style="display: none" class="app-sidebar__heading">Quản trị</li>
                             @if (ListControll.Contains("Account"))
@@ -583,6 +589,28 @@
                                     </a>
                                 </li>
                             }
+                            <li class="app-sidebar__heading">Nội quy lao động</li>
+                            @if (ListControll.Contains("NoiDungNQLD"))
+                            {
+                                <li>
+                                    <a href="@Url.Action("Index", "NoiDungNQLD")">
+                                        <i class="metismenu-icon pe-7s-note2">
+                                        </i>Nội dung NQLĐ
+                                    </a>
+                                </li>
+                            }
+
+                            @if (ListControll.Contains("ResultNQLD"))
+                            {
+                                <li>
+                                    <a href="@Url.Action("Index", "ResultNQLD")">
+                                        <i class="metismenu-icon pe-7s-graph3">
+                                        </i>Kết quả NQLĐ
+                                    </a>
+                                </li>
+                            }
+
+
                             @*<li>
             <a href="@Url.Action("Index","NoiDungDTKCCD",new {IDPB = E_Learning.Models.MyAuthentication.IDPhongban})">
                 <i class="metismenu-icon pe-7s-note2">

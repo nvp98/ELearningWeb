@@ -32,6 +32,8 @@ namespace E_Learning.Models
         public Nullable<int> ThoiLuongDT { get; set; }
         public string FileDinhKem { get; set; }
         public Nullable<System.DateTime> NgayTao { get; set; }
+        public Nullable<int> isOrder { get; set; }
+        public Nullable<int> isNQ { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DeThi> DeThis { get; set; }

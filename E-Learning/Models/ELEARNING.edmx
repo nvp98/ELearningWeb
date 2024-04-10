@@ -395,6 +395,8 @@
           <Property Name="ThoiLuongDT" Type="int" />
           <Property Name="FileDinhKem" Type="nvarchar" MaxLength="300" />
           <Property Name="NgayTao" Type="date" />
+          <Property Name="isOrder" Type="int" />
+          <Property Name="isNQ" Type="int" />
         </EntityType>
         <EntityType Name="NoiDungDTKCCD">
           <Key>
@@ -406,6 +408,20 @@
           <Property Name="LVDTID" Type="int" />
           <Property Name="PhongBanID" Type="int" />
           <Property Name="NgayTao" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="NQ_KetQua">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NDDTID" Type="int" />
+          <Property Name="XNTG" Type="int" />
+          <Property Name="XNHT" Type="int" />
+          <Property Name="XNHTFile" Type="int" />
+          <Property Name="IDNV" Type="int" />
+          <Property Name="NgayTG" Type="date" />
+          <Property Name="NgayHT" Type="date" />
+          <Property Name="TinhTrang" Type="int" />
         </EntityType>
         <EntityType Name="PhieuXacNhanKCCD">
           <Key>
@@ -1552,6 +1568,17 @@
           <Parameter Name="FileDinhKem" Type="nvarchar" Mode="In" />
           <Parameter Name="NgayTao" Type="date" Mode="In" />
         </Function>
+        <Function Name="NoiDungDT_insert_NQLD" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaND" Type="nvarchar" Mode="In" />
+          <Parameter Name="NoiDung" Type="nvarchar" Mode="In" />
+          <Parameter Name="VideoND" Type="nvarchar" Mode="In" />
+          <Parameter Name="ImageND" Type="nvarchar" Mode="In" />
+          <Parameter Name="ThoiLuongDT" Type="int" Mode="In" />
+          <Parameter Name="FileDinhKem" Type="nvarchar" Mode="In" />
+          <Parameter Name="NgayTao" Type="date" Mode="In" />
+          <Parameter Name="isOrder" Type="int" Mode="In" />
+          <Parameter Name="isNQ" Type="int" Mode="In" />
+        </Function>
         <Function Name="NoiDungDT_ListContent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="search" Type="nvarchar(max)" Mode="In" />
         </Function>
@@ -1571,6 +1598,17 @@
           <Parameter Name="ThoiLuongDT" Type="int" Mode="In" />
           <Parameter Name="FileDinhKem" Type="nvarchar" Mode="In" />
           <Parameter Name="NgayTao" Type="date" Mode="In" />
+        </Function>
+        <Function Name="NoiDungDT_updateNQLD" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDND" Type="int" Mode="In" />
+          <Parameter Name="MaND" Type="nvarchar" Mode="In" />
+          <Parameter Name="NoiDung" Type="nvarchar" Mode="In" />
+          <Parameter Name="VideoND" Type="nvarchar" Mode="In" />
+          <Parameter Name="ImageND" Type="nvarchar" Mode="In" />
+          <Parameter Name="ThoiLuongDT" Type="int" Mode="In" />
+          <Parameter Name="FileDinhKem" Type="nvarchar" Mode="In" />
+          <Parameter Name="NgayTao" Type="date" Mode="In" />
+          <Parameter Name="isOrder" Type="int" Mode="In" />
         </Function>
         <Function Name="NoiDungDTKCCD_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
@@ -1595,6 +1633,29 @@
           <Parameter Name="LVDTID" Type="int" Mode="In" />
           <Parameter Name="PhongBanID" Type="int" Mode="In" />
           <Parameter Name="NgayTao" Type="smalldatetime" Mode="In" />
+        </Function>
+        <Function Name="NQ_KetQua__insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="NQ_KetQua _insert">
+          <Parameter Name="NDDTID" Type="int" Mode="In" />
+          <Parameter Name="XNTG" Type="int" Mode="In" />
+          <Parameter Name="XNHT" Type="int" Mode="In" />
+          <Parameter Name="XNHTFile" Type="int" Mode="In" />
+          <Parameter Name="IDNV" Type="int" Mode="In" />
+          <Parameter Name="NgayTG" Type="date" Mode="In" />
+          <Parameter Name="NgayHT" Type="date" Mode="In" />
+          <Parameter Name="TinhTrang" Type="int" Mode="In" />
+        </Function>
+        <Function Name="NQ_KetQua_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="NQ_KetQua_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="XNHT" Type="int" Mode="In" />
+          <Parameter Name="NgayHT" Type="date" Mode="In" />
+          <Parameter Name="TinhTrang" Type="int" Mode="In" />
+        </Function>
+        <Function Name="NQ_KetQua_UpdateXNFile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="XNHTFile" Type="int" Mode="In" />
         </Function>
         <Function Name="PhieuXacNhanKCCD_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
@@ -2019,6 +2080,7 @@
           <EntitySet Name="NhomNLKCCD" EntityType="Self.NhomNLKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NoiDungDT" EntityType="Self.NoiDungDT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NoiDungDTKCCD" EntityType="Self.NoiDungDTKCCD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NQ_KetQua" EntityType="Self.NQ_KetQua" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhieuXacNhanKCCD" EntityType="Self.PhieuXacNhanKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhongBan" EntityType="Self.PhongBan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QT_BaiKiemTra" EntityType="Self.QT_BaiKiemTra" Schema="dbo" store:Type="Tables" />
@@ -2437,6 +2499,8 @@
           <NavigationProperty Name="LinhVucDT" Relationship="Self.FK_NoiDungDT_LinhVucDT" FromRole="NoiDungDT" ToRole="LinhVucDT" />
           <NavigationProperty Name="LopHocs" Relationship="Self.FK_LopHoc_NoiDungDT" FromRole="NoiDungDT" ToRole="LopHoc" />
           <Property Name="NgayTao" Type="DateTime" Precision="0" />
+          <Property Name="isOrder" Type="Int32" />
+          <Property Name="isNQ" Type="Int32" />
         </EntityType>
         <EntityType Name="PhongBan">
           <Key>
@@ -3856,6 +3920,52 @@
             <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
             <Parameter Name="IDBT" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="NoiDungDT_insert_NQLD">
+            <Parameter Name="MaND" Mode="In" Type="String" />
+            <Parameter Name="NoiDung" Mode="In" Type="String" />
+            <Parameter Name="VideoND" Mode="In" Type="String" />
+            <Parameter Name="ImageND" Mode="In" Type="String" />
+            <Parameter Name="ThoiLuongDT" Mode="In" Type="Int32" />
+            <Parameter Name="FileDinhKem" Mode="In" Type="String" />
+            <Parameter Name="NgayTao" Mode="In" Type="DateTime" />
+            <Parameter Name="isOrder" Mode="In" Type="Int32" />
+            <Parameter Name="isNQ" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="NoiDungDT_updateNQLD">
+            <Parameter Name="IDND" Mode="In" Type="Int32" />
+            <Parameter Name="MaND" Mode="In" Type="String" />
+            <Parameter Name="NoiDung" Mode="In" Type="String" />
+            <Parameter Name="VideoND" Mode="In" Type="String" />
+            <Parameter Name="ImageND" Mode="In" Type="String" />
+            <Parameter Name="ThoiLuongDT" Mode="In" Type="Int32" />
+            <Parameter Name="FileDinhKem" Mode="In" Type="String" />
+            <Parameter Name="NgayTao" Mode="In" Type="DateTime" />
+            <Parameter Name="isOrder" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="NQ_KetQua" EntityType="ELEARNING_KNLModel.NQ_KetQua" />
+          <FunctionImport Name="NQ_KetQua__insert">
+            <Parameter Name="NDDTID" Mode="In" Type="Int32" />
+            <Parameter Name="XNTG" Mode="In" Type="Int32" />
+            <Parameter Name="XNHT" Mode="In" Type="Int32" />
+            <Parameter Name="XNHTFile" Mode="In" Type="Int32" />
+            <Parameter Name="IDNV" Mode="In" Type="Int32" />
+            <Parameter Name="NgayTG" Mode="In" Type="DateTime" />
+            <Parameter Name="NgayHT" Mode="In" Type="DateTime" />
+            <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="NQ_KetQua_delete">
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="NQ_KetQua_Update">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="XNHT" Mode="In" Type="Int32" />
+            <Parameter Name="NgayHT" Mode="In" Type="DateTime" />
+            <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="NQ_KetQua_UpdateXNFile">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="XNHTFile" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="CauHoi_DeThi_list_Result">
           <Property Type="Int32" Name="IDCH" Nullable="false" />
@@ -5023,6 +5133,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="NQ_KetQua">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NDDTID" Type="Int32" />
+          <Property Name="XNTG" Type="Int32" />
+          <Property Name="XNHT" Type="Int32" />
+          <Property Name="XNHTFile" Type="Int32" />
+          <Property Name="IDNV" Type="Int32" />
+          <Property Name="NgayTG" Type="DateTime" Precision="0" />
+          <Property Name="NgayHT" Type="DateTime" Precision="0" />
+          <Property Name="TinhTrang" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5307,6 +5431,8 @@
           <EntitySetMapping Name="NoiDungDTs">
             <EntityTypeMapping TypeName="ELEARNING_KNLModel.NoiDungDT">
               <MappingFragment StoreEntitySet="NoiDungDT">
+                <ScalarProperty Name="isNQ" ColumnName="isNQ" />
+                <ScalarProperty Name="isOrder" ColumnName="isOrder" />
                 <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
                 <ScalarProperty Name="IDND" ColumnName="IDND" />
                 <ScalarProperty Name="MaND" ColumnName="MaND" />
@@ -6608,6 +6734,27 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="PhieuXacNhanKCCD_TinhTrangThi" FunctionName="ELEARNING_KNLModel.Store.PhieuXacNhanKCCD_TinhTrangThi" />
           <FunctionImportMapping FunctionImportName="KCCD_BaiThi_UpdateDiem" FunctionName="ELEARNING_KNLModel.Store.KCCD_BaiThi_UpdateDiem" />
+          <FunctionImportMapping FunctionImportName="NoiDungDT_insert_NQLD" FunctionName="ELEARNING_KNLModel.Store.NoiDungDT_insert_NQLD" />
+          <FunctionImportMapping FunctionImportName="NoiDungDT_updateNQLD" FunctionName="ELEARNING_KNLModel.Store.NoiDungDT_updateNQLD" />
+          <EntitySetMapping Name="NQ_KetQua">
+            <EntityTypeMapping TypeName="ELEARNING_KNLModel.NQ_KetQua">
+              <MappingFragment StoreEntitySet="NQ_KetQua">
+                <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+                <ScalarProperty Name="NgayHT" ColumnName="NgayHT" />
+                <ScalarProperty Name="NgayTG" ColumnName="NgayTG" />
+                <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+                <ScalarProperty Name="XNHTFile" ColumnName="XNHTFile" />
+                <ScalarProperty Name="XNHT" ColumnName="XNHT" />
+                <ScalarProperty Name="XNTG" ColumnName="XNTG" />
+                <ScalarProperty Name="NDDTID" ColumnName="NDDTID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="NQ_KetQua__insert" FunctionName="ELEARNING_KNLModel.Store.NQ_KetQua__insert" />
+          <FunctionImportMapping FunctionImportName="NQ_KetQua_delete" FunctionName="ELEARNING_KNLModel.Store.NQ_KetQua_delete" />
+          <FunctionImportMapping FunctionImportName="NQ_KetQua_Update" FunctionName="ELEARNING_KNLModel.Store.NQ_KetQua_Update" />
+          <FunctionImportMapping FunctionImportName="NQ_KetQua_UpdateXNFile" FunctionName="ELEARNING_KNLModel.Store.NQ_KetQua_UpdateXNFile" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

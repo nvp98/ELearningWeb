@@ -1,0 +1,109 @@
+﻿@model E_Learning.Models.NoiQuyView
+
+@using (Html.BeginForm("Edit", "NoiDungNQLD", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.IDND)
+    <div class="modal-dialog" id="form">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+
+
+
+                <fieldset id="SubmitForm">
+                    <div class="row">
+
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="small mb-1">Mã Nội Dung Đào Tạo</label>
+                                @*@Html.EditorFor(model => model.MaND, new { htmlAttributes = new { @class = "form-control", placeholder = "Mã NDĐT", @id = "MaND" } })*@
+                                @Html.TextBox("MaND", null, new { @class = "form-control", @readonly = "true" })
+                                @Html.ValidationMessageFor(model => model.MaND, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="small mb-1">Thứ tự sắp xếp</label>
+                                @Html.EditorFor(model => model.isOrder, new { htmlAttributes = new { @class = "form-control", placeholder = "Thứ tự", @id = "isOrder" } })
+                                @Html.ValidationMessageFor(model => model.isOrder, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="small mb-1">Tên Nội Quy Lao Động</label>
+                                @Html.EditorFor(model => model.NoiDung, new { htmlAttributes = new { @class = "form-control", placeholder = "Nội Dung Đào Tạo", @id = "NoiDung" } })
+                                @Html.ValidationMessageFor(model => model.NoiDung, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="small mb-1">Video Nội Quy</label>
+                                @Html.EditorFor(model => model.VideoND, new { htmlAttributes = new { @class = "form-control", placeholder = "Link Video", @id = "VideoND" } })
+                                @Html.ValidationMessageFor(model => model.VideoND, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="small mb-1">Hình Ảnh Nội Quy</label>
+                                @Html.EditorFor(model => model.ImageND, new { htmlAttributes = new { @class = "form-control", placeholder = "Link Thumbnail", @id = "ImageND" } })
+                                @Html.ValidationMessageFor(model => model.ImageND, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="small mb-1">Thời lượng (phút)</label>
+                                @Html.EditorFor(model => model.ThoiLuongDT, new { htmlAttributes = new { @class = "form-control", placeholder = "Thời lượng", @id = "ThoiLuongDT" } })
+                                @Html.ValidationMessageFor(model => model.ThoiLuongDT, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="small mb-1">Ngày Tạo</label>
+                                @Html.EditorFor(model => model.NgayTao, new { @value = ViewBag.NgayTao, htmlAttributes = new { @class = "form-control", placeholder = "Chọn ngày", @id = "NgayTao", @type = "date", @Value = ViewBag.NgayTao } })
+                                @Html.ValidationMessageFor(model => model.NgayTao, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="small mb-1">File Nội Quy</label>
+                                @if (Model.FileDinhKem != null)
+                                {
+                                    <a href="@Model.FileDinhKem" target="_blank">
+                                        <span class="btn-transition ">@Model.FileDinhKem</span>
+                                    </a>
+                                }
+                                <div class="">
+                                    <input type="file" name="PDFEduFile" style="width:100%;" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-margin-top text-center">
+                        <input type="submit" value="Xác nhận" class="btn btn-success button_submit" />
+                        @*<input type="reset" value="Hủy" class="btn btn-danger button_cancel" data-dismiss="modal"/>*@
+                    </div>
+
+                </fieldset>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+<script>
+
+</script>
