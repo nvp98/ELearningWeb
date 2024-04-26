@@ -581,6 +581,16 @@
           <Property Name="IDQuyenCN" Type="int" />
           <Property Name="isActive" Type="int" />
         </EntityType>
+        <EntityType Name="TB_KyLuat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TB_TieuDe" Type="nvarchar" MaxLength="150" />
+          <Property Name="TB_Thang" Type="int" />
+          <Property Name="TB_Nam" Type="int" />
+          <Property Name="TB_File" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="ThongBao">
           <Key>
             <PropertyRef Name="ID" />
@@ -618,6 +628,7 @@
           <Property Name="IDTo" Type="int" />
           <Property Name="FilePath" Type="nvarchar(max)" />
           <Property Name="IDVTParent" Type="int" />
+          <Property Name="TinhTrang" Type="int" />
         </EntityType>
         <EntityType Name="XNHocTap">
           <Key>
@@ -1954,6 +1965,22 @@
           <Parameter Name="ID" Type="int" Mode="In" />
           <Parameter Name="MatKhau" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="TB_KyLuat_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="TB_KyLuat_insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TB_TieuDe" Type="nvarchar" Mode="In" />
+          <Parameter Name="TB_Thang" Type="int" Mode="In" />
+          <Parameter Name="TB_Nam" Type="int" Mode="In" />
+          <Parameter Name="TB_File" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="TB_KyLuat_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="TB_TieuDe" Type="nvarchar" Mode="In" />
+          <Parameter Name="TB_Thang" Type="int" Mode="In" />
+          <Parameter Name="TB_Nam" Type="int" Mode="In" />
+          <Parameter Name="TB_File" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <Function Name="ThongBao_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
@@ -2010,6 +2037,10 @@
         <Function Name="VitriKNL_update_file" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDVT" Type="int" Mode="In" />
           <Parameter Name="FilePath" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="VitriKNL_update_TinhTrang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDVT" Type="int" Mode="In" />
+          <Parameter Name="TinhTrang" Type="int" Mode="In" />
         </Function>
         <Function Name="VitriKNL_update_VT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDVT" Type="int" Mode="In" />
@@ -2095,6 +2126,7 @@
           <EntitySet Name="Quyen" EntityType="Self.Quyen" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuyenCN" EntityType="Self.QuyenCN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuyenDetails" EntityType="Self.QuyenDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_KyLuat" EntityType="Self.TB_KyLuat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThongBao" EntityType="Self.ThongBao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TinhTrangLV" EntityType="Self.TinhTrangLV" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vitri" EntityType="Self.Vitri" Schema="dbo" store:Type="Tables" />
@@ -2567,6 +2599,7 @@
           <Property Name="FilePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IDVTParent" Type="Int32" />
           <NavigationProperty Name="KNL_LSDG" Relationship="ELEARNING_KNLModel.FK_KNL_LSDG_ViTriKNL" FromRole="ViTriKNL" ToRole="KNL_LSDG" />
+          <Property Name="TinhTrang" Type="Int32" />
         </EntityType>
         <EntityType Name="XNHocTap">
           <Key>
@@ -3966,6 +3999,33 @@
             <Parameter Name="ID" Mode="In" Type="Int32" />
             <Parameter Name="XNHTFile" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="TB_KyLuat" EntityType="ELEARNING_KNLModel.TB_KyLuat" />
+          <FunctionImport Name="TB_KyLuat__insert">
+            <Parameter Name="TB_TieuDe" Mode="In" Type="String" />
+            <Parameter Name="TB_Thang" Mode="In" Type="Int32" />
+            <Parameter Name="TB_Nam" Mode="In" Type="Int32" />
+            <Parameter Name="TB_File" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="TB_KyLuat_delete">
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="TB_KyLuat_Update">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="TB_TieuDe" Mode="In" Type="String" />
+            <Parameter Name="TB_Thang" Mode="In" Type="Int32" />
+            <Parameter Name="TB_Nam" Mode="In" Type="Int32" />
+            <Parameter Name="TB_File" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="TB_KyLuat_insert">
+            <Parameter Name="TB_TieuDe" Mode="In" Type="String" />
+            <Parameter Name="TB_Thang" Mode="In" Type="Int32" />
+            <Parameter Name="TB_Nam" Mode="In" Type="Int32" />
+            <Parameter Name="TB_File" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="VitriKNL_update_TinhTrang">
+            <Parameter Name="IDVT" Mode="In" Type="Int32" />
+            <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="CauHoi_DeThi_list_Result">
           <Property Type="Int32" Name="IDCH" Nullable="false" />
@@ -4427,6 +4487,7 @@
           <Property Type="Int32" Name="SLNVDDG" Nullable="true" />
           <Property Type="String" Name="TenKhoi" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="IDKhoi" Nullable="true" />
+          <Property Type="Int32" Name="TinhTrang" Nullable="true" />
         </ComplexType>
         <ComplexType Name="NhanVien_ExportKQKNL_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -5147,6 +5208,16 @@
           <Property Name="NgayHT" Type="DateTime" Precision="0" />
           <Property Name="TinhTrang" Type="Int32" />
         </EntityType>
+        <EntityType Name="TB_KyLuat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TB_TieuDe" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="TB_Thang" Type="Int32" />
+          <Property Name="TB_Nam" Type="Int32" />
+          <Property Name="TB_File" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5503,6 +5574,7 @@
           <EntitySetMapping Name="ViTriKNLs">
             <EntityTypeMapping TypeName="ELEARNING_KNLModel.ViTriKNL">
               <MappingFragment StoreEntitySet="ViTriKNL">
+                <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
                 <ScalarProperty Name="IDVT" ColumnName="IDVT" />
                 <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
                 <ScalarProperty Name="MaViTri" ColumnName="MaViTri" />
@@ -6148,6 +6220,7 @@
                 <ScalarProperty Name="SLNVDDG" ColumnName="SLNVDDG" />
                 <ScalarProperty Name="TenKhoi" ColumnName="TenKhoi" />
                 <ScalarProperty Name="IDKhoi" ColumnName="IDKhoi" />
+                <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -6755,6 +6828,21 @@
           <FunctionImportMapping FunctionImportName="NQ_KetQua_delete" FunctionName="ELEARNING_KNLModel.Store.NQ_KetQua_delete" />
           <FunctionImportMapping FunctionImportName="NQ_KetQua_Update" FunctionName="ELEARNING_KNLModel.Store.NQ_KetQua_Update" />
           <FunctionImportMapping FunctionImportName="NQ_KetQua_UpdateXNFile" FunctionName="ELEARNING_KNLModel.Store.NQ_KetQua_UpdateXNFile" />
+          <EntitySetMapping Name="TB_KyLuat">
+            <EntityTypeMapping TypeName="ELEARNING_KNLModel.TB_KyLuat">
+              <MappingFragment StoreEntitySet="TB_KyLuat">
+                <ScalarProperty Name="TB_File" ColumnName="TB_File" />
+                <ScalarProperty Name="TB_Nam" ColumnName="TB_Nam" />
+                <ScalarProperty Name="TB_Thang" ColumnName="TB_Thang" />
+                <ScalarProperty Name="TB_TieuDe" ColumnName="TB_TieuDe" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="TB_KyLuat_delete" FunctionName="ELEARNING_KNLModel.Store.TB_KyLuat_delete" />
+          <FunctionImportMapping FunctionImportName="TB_KyLuat_Update" FunctionName="ELEARNING_KNLModel.Store.TB_KyLuat_Update" />
+          <FunctionImportMapping FunctionImportName="TB_KyLuat_insert" FunctionName="ELEARNING_KNLModel.Store.TB_KyLuat_insert" />
+          <FunctionImportMapping FunctionImportName="VitriKNL_update_TinhTrang" FunctionName="ELEARNING_KNLModel.Store.VitriKNL_update_TinhTrang" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

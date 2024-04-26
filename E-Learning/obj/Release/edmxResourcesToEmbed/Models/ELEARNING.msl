@@ -351,6 +351,7 @@
     <EntitySetMapping Name="ViTriKNLs">
       <EntityTypeMapping TypeName="ELEARNING_KNLModel.ViTriKNL">
         <MappingFragment StoreEntitySet="ViTriKNL">
+          <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
           <ScalarProperty Name="IDVT" ColumnName="IDVT" />
           <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
           <ScalarProperty Name="MaViTri" ColumnName="MaViTri" />
@@ -996,6 +997,7 @@
           <ScalarProperty Name="SLNVDDG" ColumnName="SLNVDDG" />
           <ScalarProperty Name="TenKhoi" ColumnName="TenKhoi" />
           <ScalarProperty Name="IDKhoi" ColumnName="IDKhoi" />
+          <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -1603,5 +1605,20 @@
     <FunctionImportMapping FunctionImportName="NQ_KetQua_delete" FunctionName="ELEARNING_KNLModel.Store.NQ_KetQua_delete" />
     <FunctionImportMapping FunctionImportName="NQ_KetQua_Update" FunctionName="ELEARNING_KNLModel.Store.NQ_KetQua_Update" />
     <FunctionImportMapping FunctionImportName="NQ_KetQua_UpdateXNFile" FunctionName="ELEARNING_KNLModel.Store.NQ_KetQua_UpdateXNFile" />
+    <EntitySetMapping Name="TB_KyLuat">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.TB_KyLuat">
+        <MappingFragment StoreEntitySet="TB_KyLuat">
+          <ScalarProperty Name="TB_File" ColumnName="TB_File" />
+          <ScalarProperty Name="TB_Nam" ColumnName="TB_Nam" />
+          <ScalarProperty Name="TB_Thang" ColumnName="TB_Thang" />
+          <ScalarProperty Name="TB_TieuDe" ColumnName="TB_TieuDe" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="TB_KyLuat_delete" FunctionName="ELEARNING_KNLModel.Store.TB_KyLuat_delete" />
+    <FunctionImportMapping FunctionImportName="TB_KyLuat_Update" FunctionName="ELEARNING_KNLModel.Store.TB_KyLuat_Update" />
+    <FunctionImportMapping FunctionImportName="TB_KyLuat_insert" FunctionName="ELEARNING_KNLModel.Store.TB_KyLuat_insert" />
+    <FunctionImportMapping FunctionImportName="VitriKNL_update_TinhTrang" FunctionName="ELEARNING_KNLModel.Store.VitriKNL_update_TinhTrang" />
   </EntityContainerMapping>
 </Mapping>

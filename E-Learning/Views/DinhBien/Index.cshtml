@@ -72,7 +72,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <input type="text" id="txtsearch" name="" placeholder="Nhập mã hoặc tên vị trí ..." class="form-control position-relative" style="top:-5px" value="@ViewBag.search">
             </div>
             @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EX))
@@ -96,6 +96,13 @@
                     <a class="fa fa-download float-right btn btn-primary m-1" title="Export dữ liệu" href="@Url.Action("DowloadBMDinhBien", "DinhBien")"
                        onclick="return confirm('Dowload Biểu mẫu?')">
                         &nbsp;Dowload BM nhập liệu
+                    </a>
+                </div>
+
+                <div class="col-md-2">
+                    <a class="fa fa-download float-right btn btn-primary m-1" title="Export dữ liệu" href="@Url.Action("DowloadBMNhapLieu", "DinhBien")"
+                       onclick="return confirm('Dowload dữ liệu?')">
+                        &nbsp;Dowload Dữ liệu 
                     </a>
                 </div>
             }

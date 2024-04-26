@@ -1,0 +1,288 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using E_Learning.Models
+@*@model List<TBKyLuatValidation>*@
+@model PagedList.IPagedList<TBKyLuatValidation>
+@using PagedList.Mvc
+
+@*<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+    <script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+    <link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />*@
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+<style type="text/css">
+    a:hover {
+        cursor: pointer;
+    }
+
+    .edit-custom {
+        position: relative;
+        top: 5px;
+        right: 5px;
+    }
+
+    .BoxCustom {
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    }
+
+    .BoxItem {
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
+    }
+
+    .BorderRadius {
+        border-bottom-left-radius: 15px;
+    }
+
+    .IconDel {
+        position: relative;
+        top: -70px;
+        left: 45px;
+    }
+    table tr.active {
+        background: #ccc;
+    }
+
+</style>
+
+<div class="app-main__outer">
+    <div class="app-main__inner" style="padding: 30px 30px 0;">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Thông báo xử lý kỷ luật CBNV và xem xét trách nhiệm liên đới
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="col-md-7 col-lg-7">
+                    <div class="row">
+
+                        <div class="col-md-4">
+                        <input type="text" id="txtsearch" name="" placeholder="Tìm kiếm" class="form-control" value="@ViewBag.search">
+                        </div>
+                        <div class="col-md-3">
+                            @Html.DropDownList("Thang", null, "--Chọn tháng--", new { id = "Thang", @class = "form-control marginTB5", @style = "width:100%", })
+                        </div>
+                        <div class="col-md-3">
+                            @Html.DropDownList("Nam", null, "--Chọn năm--", new { id = "Nam", @class = "form-control marginTB5", @style = "width:100%", })
+                        </div>
+                        @*<div class="col-md-3">
+            @Html.DropDownList("MaHieuQT", null, "--Mã hiệu--", new { id = "MaHieuQT", @class = "form-control marginTB5", @style = "width:100%", })
+        </div>
+        <div class="col-md-4">
+            @Html.DropDownList("NoiDungQT", null, "--Quy trình--", new { id = "NoiDungQT", @class = "form-control marginTB5", @style = "width:100%", })
+        </div>
+        <div class="col-md-3 form-control">
+            @Html.DropDownList("LVDTID", null, "--Lĩnh Vực--", new { id = "LVDTID", @class = "form-control marginTB5", @style = "width:100%", })
+        </div>
+        <div class="col-md-3 form-control">
+            @Html.DropDownList("IDTinhTrang", selectListTT, "--Tình trạng--", new { id = "IDTinhTrang", @class = "form-control marginTB5", @style = "width:100%", })
+        </div>*@
+                        <div class="col-md-2 form-control">
+                            <button class="btn btn-primary" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-md-9">
+            Hướng dẫn sử dụng hệ thống E-Learning
+        </div>*@
+                @*<div class="clo-md-3 m-l-auto">
+            <a class="btn btn-primary" title="Chi tiết" href="@Url.Action("CreateVTKNL", "ViTriKNL")">
+                <i class="fa fa-plus">&nbsp;</i>&nbsp;Danh sách mã vị trí
+            </a>
+        </div>*@
+                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD))
+                {
+                    <div class="clo-md-3 ml-2">
+                        <button type="button" id="btn-add" class="btn btn-primary m-l-auto"><i class="fa fa-plus">&nbsp;</i>&nbsp;Thêm mới </button>
+                        <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create", "TBKyLuat")'></div>
+                    </div>
+                }
+
+                @{ 
+                    var checkHide = "none";
+                    if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) || (ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
+                    {
+                        checkHide = "";
+                    }
+                }
+            </div>
+            <div class="row">
+                <div class="card-body col-md-4 col-xs-12 col-sm-12">
+                    <div class="table-responsive ">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th style="width:20px" class="text-center  thead-fix">STT</th>
+                                    <th style="width:20px; display: @checkHide " class="text-center fix fix-field thead-fix " >Thao tác</th>
+
+                                    <th style="width:100px" class="text-left fix fix-field170 thead-fix">Tiêu đề thông báo</th>
+                                    @*<th class="text-left fix fix-field270 thead-fix">Tháng</th>
+                                    <th class="text-left" style="width:100px">Năm</th>*@
+                                    <th class="text-left" style="width:50px">Xem File</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int pageno = (int)Model.PageNumber;
+                                    int itemperpage = (int)Model.PageSize;
+                                    int RowNo = ((pageno - 1) * itemperpage) + 1;
+                          
+                                }
+                                @foreach (var item in Model)
+                                {
+
+
+                                    <tr style="cursor:pointer" data-id="@Url.Content("~/UploadedFiles/TBKyLuat/" + System.IO.Path.GetFileName(@item.TB_File))">
+                                        <td class="AliceBlue text-center thead-fix tcustom" width="20px"> @RowNo@{RowNo++;}</td>
+                                        <td class="AliceBlue text-center fix-field thead-fix " style="display:@checkHide">
+                                            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL))
+                                            {
+                                                <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "TBKyLuat", new { id = item.ID })"
+                                                   onclick="return confirm('Bạn muốn xóa thông báo: @item.ID')">
+                                                </a>
+                                            }
+                                            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
+                                            {
+                                                <a id="btn-edit_@item.ID" title="Sửa" class="fa fa-edit icon_action"></a>
+                                                <div class=" modal fade" id="myModaleK_@item.ID" role="dialog" data-url='@Url.Action("Edit", "TBKyLuat", new { id = item.ID})'></div>
+                                                <script type="text/javascript">
+                                                                    $("#btn-edit_@item.ID").click(function () {
+                                                                        var url = $('#myModaleK_@item.ID').data('url');
+                                                                                $.get(url, function (data) {
+                                                                                    $("#myModaleK_@item.ID").html(data);
+                                                                                    $("#ModalTitle").html("Cập nhật Thông báo ");
+                                                                                    $("#myModaleK_@item.ID").modal('show');
+                                                                                });
+                                                                            });
+                                                </script>
+                                            }
+
+                                        </td>
+                                        <td class="  ">@item.TB_TieuDe</td>
+                                        @*<td class="AliceBlue fix-field270 thead-fix">@item.TB_Thang</td>
+                                        <td class="AliceBlue fix-field270 thead-fix">@item.TB_Nam</td>*@
+                                        <td class="AliceBlue fix-field270 thead-fix">
+                                            <a href="@Url.Content("~/UploadedFiles/TBKyLuat/" + System.IO.Path.GetFileName(@item.TB_File))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; ">Xem</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="pager">
+                        @Html.PagedListPager(Model, page => Url.Action("Index", "TBKyLuat", new { page, thang = Request.QueryString["Thang"], nam = Request.QueryString["Nam"] }))
+                        <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+                    </div>
+                </div>
+                <div class="col-md-8 col-xs-12 col-sm-12">
+                    <embed class="pdf" id="viewFile"
+                           src=""
+                           style="width:100%;min-height:900px">
+                </div>
+            </div>
+            
+
+           
+        </div>
+
+
+
+    </div>
+
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="~/Content/Chonse/chosen.jquery.js"></script>
+<script type="text/javascript">
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Thêm mới HDSD");
+            $("#myModal").modal('show');
+        });
+    });
+    $('#btn-add-vt').click(function () {
+        var url = $('#myModalVT').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Danh ");
+            $("#myModal").modal('show');
+        });
+    });
+    $(document).ready(function () {
+        $("#table > tbody > tr").click(function () {
+            $("tr").removeClass("active");
+            $(this).addClass("active");
+            var url = $(this).data("id");
+            var urlprev = $('#viewFile').attr('src');
+            if (urlprev != url) {
+                $('#viewFile').attr('src', url);
+            }
+        });
+    });
+     $("#btn-search").on('click', function () {
+        var search = $('#txtsearch').val();
+        window.location.href = '@Url.Action("Index", "TBKyLuat")?search=' + search + "&thang=" + $('#Thang').val() + "&nam=" + $('#Nam').val() ;
+    });
+</script>
+
+<style>
+    .chosen-container-single .chosen-single {
+        color: #495057;
+        background: #fff;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.8;
+        text-transform: capitalize;
+    }
+
+        .chosen-container-single .chosen-single span {
+            text-transform: capitalize !important;
+            font-size: 16px !important;
+        }
+</style>
+
+

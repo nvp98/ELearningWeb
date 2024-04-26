@@ -354,6 +354,7 @@
     <Property Name="FilePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="IDVTParent" Type="Int32" />
     <NavigationProperty Name="KNL_LSDG" Relationship="ELEARNING_KNLModel.FK_KNL_LSDG_ViTriKNL" FromRole="ViTriKNL" ToRole="KNL_LSDG" />
+    <Property Name="TinhTrang" Type="Int32" />
   </EntityType>
   <EntityType Name="XNHocTap">
     <Key>
@@ -1753,6 +1754,33 @@
       <Parameter Name="ID" Mode="In" Type="Int32" />
       <Parameter Name="XNHTFile" Mode="In" Type="Int32" />
     </FunctionImport>
+    <EntitySet Name="TB_KyLuat" EntityType="ELEARNING_KNLModel.TB_KyLuat" />
+    <FunctionImport Name="TB_KyLuat__insert">
+      <Parameter Name="TB_TieuDe" Mode="In" Type="String" />
+      <Parameter Name="TB_Thang" Mode="In" Type="Int32" />
+      <Parameter Name="TB_Nam" Mode="In" Type="Int32" />
+      <Parameter Name="TB_File" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="TB_KyLuat_delete">
+      <Parameter Name="ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="TB_KyLuat_Update">
+      <Parameter Name="ID" Mode="In" Type="Int32" />
+      <Parameter Name="TB_TieuDe" Mode="In" Type="String" />
+      <Parameter Name="TB_Thang" Mode="In" Type="Int32" />
+      <Parameter Name="TB_Nam" Mode="In" Type="Int32" />
+      <Parameter Name="TB_File" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="TB_KyLuat_insert">
+      <Parameter Name="TB_TieuDe" Mode="In" Type="String" />
+      <Parameter Name="TB_Thang" Mode="In" Type="Int32" />
+      <Parameter Name="TB_Nam" Mode="In" Type="Int32" />
+      <Parameter Name="TB_File" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="VitriKNL_update_TinhTrang">
+      <Parameter Name="IDVT" Mode="In" Type="Int32" />
+      <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="CauHoi_DeThi_list_Result">
     <Property Type="Int32" Name="IDCH" Nullable="false" />
@@ -2214,6 +2242,7 @@
     <Property Type="Int32" Name="SLNVDDG" Nullable="true" />
     <Property Type="String" Name="TenKhoi" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="IDKhoi" Nullable="true" />
+    <Property Type="Int32" Name="TinhTrang" Nullable="true" />
   </ComplexType>
   <ComplexType Name="NhanVien_ExportKQKNL_Result">
     <Property Type="Int32" Name="ID" Nullable="false" />
@@ -2933,5 +2962,15 @@
     <Property Name="NgayTG" Type="DateTime" Precision="0" />
     <Property Name="NgayHT" Type="DateTime" Precision="0" />
     <Property Name="TinhTrang" Type="Int32" />
+  </EntityType>
+  <EntityType Name="TB_KyLuat">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TB_TieuDe" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="TB_Thang" Type="Int32" />
+    <Property Name="TB_Nam" Type="Int32" />
+    <Property Name="TB_File" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
 </Schema>

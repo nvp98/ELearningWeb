@@ -125,8 +125,10 @@ namespace E_Learning.Controllers
                            CountNV = a.SLNV ==null ? 0:a.SLNV,
                            CountKNL = a.SLNL,
                            CountDGTC = a.SLDGTC,
-                           CountNVDDG = a.SLNVDDG
-                       }).OrderBy(x => x.IDPB).ToList();
+                           CountNVDDG = a.SLNVDDG,
+                           TinhTrang = a.TinhTrang
+                       }).OrderBy(x => x.IDPB).ThenBy(x=>x.IDPX).ThenBy(x => x.IDNhom).ThenBy(x => x.IDTo).ToList();
+            if(!ListQuyen.Contains(CONSTKEY.LOCK)) res = res.Where(x=>x.TinhTrang != 0).ToList();
             //foreach (var k in res)
             //{
             //    //var listNVVT = KQKNLThang.Where(x => x.IDVTKNL == k.IDVT).ToList();
@@ -833,6 +835,36 @@ namespace E_Learning.Controllers
             }
             return RedirectToAction("Index", "FPosition", new { IDPB = IDPB });
         }
+
+        public ActionResult Hide(int id, int? IDPB)
+        {
+            try
+            {
+                db.NhanViens.Where(x => x.IDVTKNL == id).ToList().ForEach(i => i.IDVTKNL = null);
+                db.KNL_NVKiemNhiem.Where(x => x.IDVTKN == id).ToList().RemoveAll(x => x.IDVTKN == id);
+                db.SaveChanges();
+                db.VitriKNL_update_TinhTrang(id,0);
+            }
+            catch (Exception e)
+            {
+                TempData["msgError"] = "<script>alert('Xóa dữ liệu thất bại');</script>";
+            }
+            return RedirectToAction("Index", "FPosition", new { IDPB = IDPB });
+        }
+
+        public ActionResult Show(int id, int? IDPB)
+        {
+            try
+            {
+                db.VitriKNL_update_TinhTrang(id, 1);
+            }
+            catch (Exception e)
+            {
+                TempData["msgError"] = "<script>alert('Xóa dữ liệu thất bại');</script>";
+            }
+            return RedirectToAction("Index", "FPosition", new { IDPB = IDPB });
+        }
+
         public int GetIDNVKN(int? IDNV, int? IDVTKN)
         {
             var model = db.KNL_NVKiemNhiem.Where(x => x.IDNV == IDNV && x.IDVTKN == IDVTKN).SingleOrDefault();

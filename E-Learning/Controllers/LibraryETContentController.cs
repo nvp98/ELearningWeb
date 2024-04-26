@@ -35,6 +35,7 @@ namespace E_Learning.Controllers
                                BPLNC = p.TenPhongBan,
                                ThoiLuongDT = (int)a.ThoiLuongDT,
                                SLLH = NoiDungSLLH.Count(),
+                               NgayTao = a.NgayTao
                            }).Where(x => x.IDCTLVDT == id).ToList();
                 if (page == null) page = 1;
                 int pageSize = 20;

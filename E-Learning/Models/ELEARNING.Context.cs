@@ -82,6 +82,7 @@ namespace E_Learning.Models
         public virtual DbSet<KCCD_CTBaiThi> KCCD_CTBaiThi { get; set; }
         public virtual DbSet<KCCD_BaiThi> KCCD_BaiThi { get; set; }
         public virtual DbSet<NQ_KetQua> NQ_KetQua { get; set; }
+        public virtual DbSet<TB_KyLuat> TB_KyLuat { get; set; }
     
         public virtual int BaiThi_insert(Nullable<int> iDLH, Nullable<int> iDDeThi, Nullable<int> iDND, Nullable<int> iDNV, Nullable<int> iDPhongBan, Nullable<int> iDViTri, Nullable<double> diemSo, Nullable<System.DateTime> ngayThi, Nullable<bool> tinhTrang, Nullable<int> lanThi, ObjectParameter iDBaiThi)
         {
@@ -3900,6 +3901,95 @@ namespace E_Learning.Models
                 new ObjectParameter("XNHTFile", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NQ_KetQua_UpdateXNFile", iDParameter, xNHTFileParameter);
+        }
+    
+        public virtual int TB_KyLuat__insert(string tB_TieuDe, Nullable<int> tB_Thang, Nullable<int> tB_Nam, string tB_File)
+        {
+            var tB_TieuDeParameter = tB_TieuDe != null ?
+                new ObjectParameter("TB_TieuDe", tB_TieuDe) :
+                new ObjectParameter("TB_TieuDe", typeof(string));
+    
+            var tB_ThangParameter = tB_Thang.HasValue ?
+                new ObjectParameter("TB_Thang", tB_Thang) :
+                new ObjectParameter("TB_Thang", typeof(int));
+    
+            var tB_NamParameter = tB_Nam.HasValue ?
+                new ObjectParameter("TB_Nam", tB_Nam) :
+                new ObjectParameter("TB_Nam", typeof(int));
+    
+            var tB_FileParameter = tB_File != null ?
+                new ObjectParameter("TB_File", tB_File) :
+                new ObjectParameter("TB_File", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("TB_KyLuat__insert", tB_TieuDeParameter, tB_ThangParameter, tB_NamParameter, tB_FileParameter);
+        }
+    
+        public virtual int TB_KyLuat_delete(Nullable<int> iD)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("TB_KyLuat_delete", iDParameter);
+        }
+    
+        public virtual int TB_KyLuat_Update(Nullable<int> iD, string tB_TieuDe, Nullable<int> tB_Thang, Nullable<int> tB_Nam, string tB_File)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            var tB_TieuDeParameter = tB_TieuDe != null ?
+                new ObjectParameter("TB_TieuDe", tB_TieuDe) :
+                new ObjectParameter("TB_TieuDe", typeof(string));
+    
+            var tB_ThangParameter = tB_Thang.HasValue ?
+                new ObjectParameter("TB_Thang", tB_Thang) :
+                new ObjectParameter("TB_Thang", typeof(int));
+    
+            var tB_NamParameter = tB_Nam.HasValue ?
+                new ObjectParameter("TB_Nam", tB_Nam) :
+                new ObjectParameter("TB_Nam", typeof(int));
+    
+            var tB_FileParameter = tB_File != null ?
+                new ObjectParameter("TB_File", tB_File) :
+                new ObjectParameter("TB_File", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("TB_KyLuat_Update", iDParameter, tB_TieuDeParameter, tB_ThangParameter, tB_NamParameter, tB_FileParameter);
+        }
+    
+        public virtual int TB_KyLuat_insert(string tB_TieuDe, Nullable<int> tB_Thang, Nullable<int> tB_Nam, string tB_File)
+        {
+            var tB_TieuDeParameter = tB_TieuDe != null ?
+                new ObjectParameter("TB_TieuDe", tB_TieuDe) :
+                new ObjectParameter("TB_TieuDe", typeof(string));
+    
+            var tB_ThangParameter = tB_Thang.HasValue ?
+                new ObjectParameter("TB_Thang", tB_Thang) :
+                new ObjectParameter("TB_Thang", typeof(int));
+    
+            var tB_NamParameter = tB_Nam.HasValue ?
+                new ObjectParameter("TB_Nam", tB_Nam) :
+                new ObjectParameter("TB_Nam", typeof(int));
+    
+            var tB_FileParameter = tB_File != null ?
+                new ObjectParameter("TB_File", tB_File) :
+                new ObjectParameter("TB_File", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("TB_KyLuat_insert", tB_TieuDeParameter, tB_ThangParameter, tB_NamParameter, tB_FileParameter);
+        }
+    
+        public virtual int VitriKNL_update_TinhTrang(Nullable<int> iDVT, Nullable<int> tinhTrang)
+        {
+            var iDVTParameter = iDVT.HasValue ?
+                new ObjectParameter("IDVT", iDVT) :
+                new ObjectParameter("IDVT", typeof(int));
+    
+            var tinhTrangParameter = tinhTrang.HasValue ?
+                new ObjectParameter("TinhTrang", tinhTrang) :
+                new ObjectParameter("TinhTrang", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("VitriKNL_update_TinhTrang", iDVTParameter, tinhTrangParameter);
         }
     }
 }

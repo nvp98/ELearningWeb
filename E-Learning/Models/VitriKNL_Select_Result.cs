@@ -31,5 +31,6 @@ namespace E_Learning.Models
         public Nullable<int> SLNVDDG { get; set; }
         public string TenKhoi { get; set; }
         public Nullable<int> IDKhoi { get; set; }
+        public Nullable<int> TinhTrang { get; set; }
     }
 }

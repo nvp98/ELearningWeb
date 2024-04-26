@@ -576,6 +576,16 @@
     <Property Name="IDQuyenCN" Type="int" />
     <Property Name="isActive" Type="int" />
   </EntityType>
+  <EntityType Name="TB_KyLuat">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TB_TieuDe" Type="nvarchar" MaxLength="150" />
+    <Property Name="TB_Thang" Type="int" />
+    <Property Name="TB_Nam" Type="int" />
+    <Property Name="TB_File" Type="nvarchar(max)" />
+  </EntityType>
   <EntityType Name="ThongBao">
     <Key>
       <PropertyRef Name="ID" />
@@ -613,6 +623,7 @@
     <Property Name="IDTo" Type="int" />
     <Property Name="FilePath" Type="nvarchar(max)" />
     <Property Name="IDVTParent" Type="int" />
+    <Property Name="TinhTrang" Type="int" />
   </EntityType>
   <EntityType Name="XNHocTap">
     <Key>
@@ -1949,6 +1960,22 @@
     <Parameter Name="ID" Type="int" Mode="In" />
     <Parameter Name="MatKhau" Type="nvarchar" Mode="In" />
   </Function>
+  <Function Name="TB_KyLuat_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="TB_KyLuat_insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TB_TieuDe" Type="nvarchar" Mode="In" />
+    <Parameter Name="TB_Thang" Type="int" Mode="In" />
+    <Parameter Name="TB_Nam" Type="int" Mode="In" />
+    <Parameter Name="TB_File" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <Function Name="TB_KyLuat_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ID" Type="int" Mode="In" />
+    <Parameter Name="TB_TieuDe" Type="nvarchar" Mode="In" />
+    <Parameter Name="TB_Thang" Type="int" Mode="In" />
+    <Parameter Name="TB_Nam" Type="int" Mode="In" />
+    <Parameter Name="TB_File" Type="nvarchar(max)" Mode="In" />
+  </Function>
   <Function Name="ThongBao_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ID" Type="int" Mode="In" />
   </Function>
@@ -2005,6 +2032,10 @@
   <Function Name="VitriKNL_update_file" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IDVT" Type="int" Mode="In" />
     <Parameter Name="FilePath" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <Function Name="VitriKNL_update_TinhTrang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IDVT" Type="int" Mode="In" />
+    <Parameter Name="TinhTrang" Type="int" Mode="In" />
   </Function>
   <Function Name="VitriKNL_update_VT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IDVT" Type="int" Mode="In" />
@@ -2090,6 +2121,7 @@
     <EntitySet Name="Quyen" EntityType="Self.Quyen" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QuyenCN" EntityType="Self.QuyenCN" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QuyenDetails" EntityType="Self.QuyenDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TB_KyLuat" EntityType="Self.TB_KyLuat" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ThongBao" EntityType="Self.ThongBao" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TinhTrangLV" EntityType="Self.TinhTrangLV" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Vitri" EntityType="Self.Vitri" Schema="dbo" store:Type="Tables" />

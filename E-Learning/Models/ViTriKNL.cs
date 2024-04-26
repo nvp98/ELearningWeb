@@ -30,6 +30,7 @@ namespace E_Learning.Models
         public Nullable<int> IDTo { get; set; }
         public string FilePath { get; set; }
         public Nullable<int> IDVTParent { get; set; }
+        public Nullable<int> TinhTrang { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<KNL_LSDG> KNL_LSDG { get; set; }

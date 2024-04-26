@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="cc8a0ec616f448e39dcfdf242ae4a7d6" Name="Diagram1" ZoomLevel="101">
+      <Diagram DiagramId="cc8a0ec616f448e39dcfdf242ae4a7d6" Name="Diagram1" ZoomLevel="77">
         <EntityTypeShape EntityType="ELEARNING_KNLModel.BaiThi" Width="1.5" PointX="5.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNING_KNLModel.CauHoi" Width="1.5" PointX="7.75" PointY="1.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNING_KNLModel.CauHoiDeThi" Width="1.5" PointX="5.25" PointY="18.75" IsExpanded="true" />
@@ -88,6 +88,7 @@
         <EntityTypeShape EntityType="ELEARNING_KNLModel.KCCD_BaiThi" Width="1.5" PointX="21.375" PointY="1" />
         <AssociationConnector Association="ELEARNING_KNLModel.FK_KCCD_CTBaiThi_KCCD_BaiThi" />
         <EntityTypeShape EntityType="ELEARNING_KNLModel.NQ_KetQua" Width="1.5" PointX="21.375" PointY="4.75" />
+        <EntityTypeShape EntityType="ELEARNING_KNLModel.TB_KyLuat" Width="1.5" PointX="18.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

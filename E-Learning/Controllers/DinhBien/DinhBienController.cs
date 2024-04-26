@@ -41,7 +41,7 @@ namespace E_Learning.Controllers.DinhBien
             ViewBag.IDPX = new SelectList(px, "ID", "TenPX");
             if(IDPB == null) IDPB = 0;
             var listDB = db.DinhBienVTs.ToList();
-            var res = (from a in db.VitriKNL_Select(IDPB)
+            var res = (from a in db.VitriKNL_Select(IDPB).Where(x=>x.TinhTrang != 0)
                        join b in listDB
                        on a.IDVT equals b.IDVT into ul
                        from b in ul.DefaultIfEmpty()
@@ -252,10 +252,40 @@ namespace E_Learning.Controllers.DinhBien
                         Worksheet.Cell(row, "K").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "K").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
+                        Worksheet.Cell(row, "L").Value = data.DinhBienNS;
+                        Worksheet.Cell(row, "L").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "L").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "L").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
                         Worksheet.Cell(row, "M").Value = data.CountNV;
                         Worksheet.Cell(row, "M").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                         Worksheet.Cell(row, "M").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "M").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "O").Value = data.NSTapSu;
+                        Worksheet.Cell(row, "O").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "O").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "O").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "P").Value = data.ChuaCoNS;
+                        Worksheet.Cell(row, "P").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "P").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "P").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "Q").Value = data.thoigianBoNhiem != default?"'" +data.thoigianBoNhiem.ToString("dd/MM/yyyy") : "";
+                        Worksheet.Cell(row, "Q").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "Q").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "Q").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "R").Value = data.NSVTKhac;
+                        Worksheet.Cell(row, "R").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "R").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "R").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "S").Value = data.ghichu;
+                        Worksheet.Cell(row, "S").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "S").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "S").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
                         //Worksheet.Cell(row, "O").Value = data.CountNV != 0 ?"X":"";
                         //Worksheet.Cell(row, "O").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
@@ -286,9 +316,150 @@ namespace E_Learning.Controllers.DinhBien
                 return View(TempData);
             }
         }
+
+        public ActionResult DowloadBMNhapLieu()
+        {
+            try
+            {
+                string fileNamemau = AppDomain.CurrentDomain.BaseDirectory + @"App_Data\BM_DinhBienViTri.xlsx";
+                string fileNamemaunew = AppDomain.CurrentDomain.BaseDirectory + @"App_Data\BM_DinhBienViTri_Temp.xlsx";
+                XLWorkbook Workbook = new XLWorkbook(fileNamemau);
+                IXLWorksheet Worksheet = Workbook.Worksheet("BM_DBVT");
+                List<DinhBienView> DataKNL = GetViTriKNL().Where(x=>x.DinhBienNS != null).ToList();
+                int row = 3;
+                if (DataKNL.Count > 0)
+                {
+                    foreach (var data in DataKNL)
+                    {
+                        Worksheet.Cell(row, "A").Value = row - 2;
+                        Worksheet.Cell(row, "A").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "A").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "A").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "B").Value = data.TenViTri;
+                        Worksheet.Cell(row, "B").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "B").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "B").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "C").Value = data.IDVT;
+                        Worksheet.Cell(row, "C").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "C").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "C").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "D").Value = data.MaViTri;
+                        Worksheet.Cell(row, "D").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "D").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "D").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "E").Value = data.TenPhongBan;
+                        Worksheet.Cell(row, "E").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "E").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "E").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "F").Value = data.TenKhoi;
+                        Worksheet.Cell(row, "F").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "F").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "F").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "G").Value = data.TenPX;
+                        Worksheet.Cell(row, "G").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "G").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "G").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "H").Value = data.TenNhom;
+                        Worksheet.Cell(row, "H").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "H").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "H").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+
+                        Worksheet.Cell(row, "I").Value = data.TenTo;
+                        Worksheet.Cell(row, "I").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "I").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "I").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "J").Value = data.CountKNL;
+                        Worksheet.Cell(row, "J").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "J").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "J").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "K").Value = data.NhapBMTCV;
+                        Worksheet.Cell(row, "K").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "K").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "K").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "L").Value = data.DinhBienNS;
+                        Worksheet.Cell(row, "L").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "L").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "L").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "M").Value = data.CountNV;
+                        Worksheet.Cell(row, "M").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "M").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "M").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "O").Value = data.NSTapSu;
+                        Worksheet.Cell(row, "O").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "O").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "O").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "P").Value = data.ChuaCoNS;
+                        Worksheet.Cell(row, "P").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "P").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "P").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "Q").Value = data.thoigianBoNhiem != default ? "'" + data.thoigianBoNhiem.ToString("dd/MM/yyyy") : "";
+                        Worksheet.Cell(row, "Q").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "Q").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "Q").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "R").Value = data.NSVTKhac;
+                        Worksheet.Cell(row, "R").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "R").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "R").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "S").Value = data.ghichu;
+                        Worksheet.Cell(row, "S").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "S").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "S").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        //Worksheet.Cell(row, "O").Value = data.CountNV != 0 ?"X":"";
+                        //Worksheet.Cell(row, "O").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        //Worksheet.Cell(row, "O").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        //Worksheet.Cell(row, "O").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        row = row + 1;
+                    }
+
+                    Workbook.SaveAs(fileNamemaunew);
+                    byte[] fileBytes = System.IO.File.ReadAllBytes(fileNamemaunew);
+                    string fileName = "BM_DinhBienViTri- " + DateTime.Now.Date.ToString("dd/MM/yyyy") + ".xlsx";
+                    return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+                }
+                else
+                {
+
+                    //Worksheet.Cell("A1").Value = "Ngày xuất file: " + DateTime.Now.Date.ToString("dd/MM/yyyy");
+                    Workbook.SaveAs(fileNamemaunew);
+                    byte[] fileBytes = System.IO.File.ReadAllBytes(fileNamemaunew);
+                    string fileName = "BM_DinhBienViTri - " + DateTime.Now.Date.ToString("dd/MM/yyyy") + ".xlsx";
+                    return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["msg"] = "<script>alert('" + ex + "');window.location.href = '/Everyday/'</script>";
+                return View(TempData);
+            }
+        }
+
         private List<DinhBienView> GetViTriKNL()
         {
-            var res = (from a in db.VitriKNL_Select(0)
+            var listDB = db.DinhBienVTs.ToList();
+            var listVT = db.VitriKNL_Select(0).Where(x => x.TinhTrang != 0);
+            var res = (from a in listVT
+                       join b in listDB
+                       on a.IDVT equals b.IDVT into ul
+                       from b in ul.DefaultIfEmpty()
                        select new DinhBienView
                        {
                            IDVT = a.IDVT,
@@ -307,7 +478,14 @@ namespace E_Learning.Controllers.DinhBien
                            FilePath = a.FilePath,
                            CountNV = a.SLNV == null ? 0 : a.SLNV,
                            CountKNL = a.SLNL,
-                           NhapBMTCV = a.FilePath != null?"Đã nhập":"Chưa nhập"
+                           NhapBMTCV = a.FilePath != null?"Đã nhập":"Chưa nhập",
+                           DinhBienNS = b?.SLDinhBien,
+                           NSTapSu = b?.NSTapSu == 1 ? "X" : "",
+                           ChuaCoNS = b?.NSTrong == 1 ? "X" : "",
+                           thoigianBoNhiem = b?.TGBoNhiem ?? default,
+                           NSVTKhac = b?.NSVTKhac == 1 ? "X" : "",
+                           ghichu = b?.GhiChu,
+                           
                        }).OrderBy(x => x.IDPB).ToList();
             return res;
         }

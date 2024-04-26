@@ -92,6 +92,21 @@
                                                         <div class="widget-content-right">@item.LVChiTiet</div>
 
                                                     </div>
+                                                    <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+
+                                                        <div class="widget-content-left"><strong>Ngày tạo: </strong></div>
+                                                        @if (item.NgayTao != null)
+                                                        {
+                                                            DateTime a = (DateTime)item.NgayTao;
+                                                            <div class="widget-content-right">@a.ToString("dd/MM/yyyy")</div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="widget-content-right"></div>
+                                                        }
+
+
+                                                    </div>
                                                     <div class="widget-content-wrapper" style="padding: .5rem 0;">
 
                                                         <div class="widget-content-right">

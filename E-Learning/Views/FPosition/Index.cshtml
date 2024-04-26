@@ -279,10 +279,12 @@
                                     int pageno = (int)Model.PageNumber;
                                     int itemperpage = (int)Model.PageSize;
                                     int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                    var colorA = "";
                                 }
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
+                                    if (item.TinhTrang == 0) { colorA = "rgba(152,152,152,1)"; } else { colorA = ""; }
+                                    <tr style="background-color:  @colorA">
                                         <td class="text-center"> @RowNo@{RowNo++;}</td>
                                         <td class="text-center">@item.IDVT</td>
                                         <td class="">@item.TenViTri</td>
@@ -454,7 +456,7 @@
                                         <td class="text-center">@item.CountNVDDG / @item.CountNV</td>
 
 
-                                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) || (ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
+                                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) || (ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT) || (ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.LOCK))
                                         {
                                             <td class="text-center">
                                                 @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL))
@@ -462,6 +464,8 @@
                                                     <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "FPosition", new { id = item.IDVT, IDPB = Request.QueryString["IDPB"] })"
                                                        onclick="return confirm('Bạn muốn xóa khung năng lực: @item.TenViTri')">
                                                     </a>
+
+
                                                 }
                                                 @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
                                                 {
@@ -482,6 +486,23 @@
                                                 {
                                                     <a class="fas fa-tasks" title="Xem kết quả" href="@Url.Action("Index", "FView", new { IDVT = item.IDVT })">
                                                     </a>
+                                                }
+
+
+                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.LOCK))
+                                                {
+                                                    if (item.TinhTrang == 0)
+                                                    {
+                                                        <a class="fa fa-eye icon_action" title="Hiện" href="@Url.Action("Show", "FPosition", new { id = item.IDVT, IDPB = Request.QueryString["IDPB"] })"
+                                                           onclick="return confirm('Bạn muốn xóa khung năng lực: @item.TenViTri')">
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a class="fa fa-eye-slash icon_action" title="Ẩn" href="@Url.Action("Hide", "FPosition", new { id = item.IDVT, IDPB = Request.QueryString["IDPB"] })"
+                                                           onclick="return confirm('Bạn muốn xóa khung năng lực: @item.TenViTri')">
+                                                        </a>
+                                                    }
                                                 }
 
                                             </td>

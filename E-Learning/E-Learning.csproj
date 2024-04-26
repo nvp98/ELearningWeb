@@ -265,6 +265,7 @@
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\STestController.cs" />
+    <Compile Include="Controllers\TBKL\TBKyLuatController.cs" />
     <Compile Include="Controllers\THistoryController.cs" />
     <Compile Include="Controllers\LibraryClassController.cs" />
     <Compile Include="Controllers\ManageClassController.cs" />
@@ -598,6 +599,10 @@
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaiKhoan_select_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TBKyLuatValidation.cs" />
+    <Compile Include="Models\TB_KyLuat.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TestValidation.cs" />
@@ -1152,11 +1157,15 @@
     <Content Include="Views\NQLDUser\Index.cshtml" />
     <Content Include="Views\ResultNQLD\Index.cshtml" />
     <Content Include="Views\ResultNQLD\ResultView.cshtml" />
+    <Content Include="Views\TBKyLuat\Index.cshtml" />
+    <Content Include="Views\TBKyLuat\Create.cshtml" />
+    <Content Include="Views\TBKyLuat\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\login\" />
     <Folder Include="UploadedFiles\EduPro\" />
     <Folder Include="UploadedFiles\ImagesUpload\" />
+    <Folder Include="UploadedFiles\TBKyLuat\" />
     <Folder Include="Views\Class\" />
     <Folder Include="Views\Courses\" />
     <Folder Include="Views\EmloyeeManage\" />
