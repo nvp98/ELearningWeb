@@ -134,6 +134,8 @@ namespace E_Learning.Models
         public Nullable<int> KDGIA { get; set; }
         public Nullable<int> CHUADG { get; set; }
         public string NgayDG { get; set; }
+        public string HanDG { get; set; }
+        public string NgayHanDG { get; set; }
     }
 
     public class ExportViTriKNL

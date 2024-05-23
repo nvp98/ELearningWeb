@@ -26,6 +26,7 @@ namespace E_Learning.Models
         public int? TinhTrang { get; set; }
         public DateTime? NgaHT { get;set; }
         public DateTime? NgayKTTT { get; set; }
+        public DateTime? NgayKT { get; set; }
         public DateTime? NgayHieuLuc { get; set; }
         public DateTime? NgayHetHieuLuc { get; set; }
         public int? TinhTrangHL { get; set; }

@@ -199,15 +199,20 @@
         function pause() {
             jwplayer().pause();
             console.log("auto pause");
-            alert("Bạn có đang theo dõi bài học");
-            jwplayer().play();
-            console.log("auto play");
-        }
-        jwplayer().on('pause', function (event) {
-            console.log("pauset");
-            clearInterval(checkview);
+            setTimeout(aler, 1000);
 
-        });
+        }
+        function aler() {
+            clearInterval(checkview);
+            alert("Bạn có đang theo dõi bài học");
+            console.log("auto play");
+            jwplayer().play();
+        }
+        //jwplayer().on('pause', function (event) {
+        //    console.log("pauset");
+        //    clearInterval(checkview);
+        //});
+
     });
 
     // API JWplayer prevent

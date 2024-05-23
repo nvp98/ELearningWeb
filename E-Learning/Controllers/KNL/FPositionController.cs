@@ -818,7 +818,7 @@ namespace E_Learning.Controllers
                 var aa = db.NhanViens.Where(x => x.IDVTKNL == id ).ToList();
                 var ab = db.KNL_LSDG.Where(x => x.VTID == id).ToList();
                 var ac = db.KNL_NVKiemNhiem.Where(x => x.IDVTKN == id).ToList();
-                if (aa.Count ==0 && ab.Count ==0 && ac.Count ==0) db.VitriKNL_delete(id);
+                if (aa.Count == 0 && ab.Count == 0 && ac.Count == 0) { db.VitriKNL_delete(id); db.QT_PhanQuyen.Where(x => x.IDVTKNL == id).ToList().RemoveAll(x => x.IDVTKNL == id); db.SaveChanges(); }
                 else TempData["msgError"] = "<script>alert('Xóa dữ liệu thất bại');</script>";
                 //if (aa.Count > 0)
                 //{
@@ -1433,7 +1433,8 @@ namespace E_Learning.Controllers
                         item.TotalKDGia = KQ.KDGia;
                         item.TotalChuaDG = KQ.CHUADG;
                         item.ThangDG = KQ.ThangDG.ToString();
-                        
+                        item.NgayCanhBao = KQ.KDAT > 0 ? (((DateTime)KQ.NgayDGGN).AddMonths(6) - DateTime.Now).Days : -1000;
+                        item.NgayHanDG = KQ.KDAT > 0 ? ((DateTime)KQ.NgayDGGN).AddMonths(6) : default;
                     }
                     //add QT/HD
                     var qthd = db.QT_PhanQuyen.Where(x => x.IDVTKNL == item.IDVT && x.QT_NoiDungQT.NgayHieuLuc < DateTime.Now && (x.QT_NoiDungQT.NgayHetHieuLuc == null || x.QT_NoiDungQT.NgayHetHieuLuc == default || x.QT_NoiDungQT.NgayHetHieuLuc > DateTime.Now)).ToList();
@@ -4270,7 +4271,9 @@ namespace E_Learning.Controllers
                            KDAT = a.KDAT,
                            KDGIA = a.NODG,
                            CHUADG = a.CHUADG,
-                           NgayDG = a.NgayDG == null ? "" : String.Format("{0:dd/MM/yyyy}", a?.NgayDG)
+                           NgayDG = a.NgayDG == null ? "" : String.Format("{0:dd/MM/yyyy}", a?.NgayDG),
+                           HanDG = a.KDAT > 0?"Cần đánh giá lại sau " + (((DateTime)a.NgayDG).AddMonths(6) - DateTime.Now).Days + " ngày tới" : ""  ,
+                           NgayHanDG = a.KDAT > 0 ? String.Format("{0:dd/MM/yyyy}", ((DateTime)a.NgayDG).AddMonths(6)) : "",
                        }).ToList();
             if (IDPX != null) employees = employees.Where(x => x.IDPX == IDPX).ToList();
             if (IDNhom != null) employees = employees.Where(x => x.IDNhom == IDNhom).ToList();

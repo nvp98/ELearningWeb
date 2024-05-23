@@ -23,8 +23,9 @@ namespace E_Learning.Models
         public string MaViTri { get; set; }
         public string NgayDG { get; set; }
         public string fileBMTCV { get; set; }
-
+        public DateTime NgayHanDG { get; set; }
         public string ThangDG { get; set; }
+        public int? NgayCanhBao { get; set; }
         public int? Total { get; set; }
         public int? TotalVuot { get; set; }
         public int? TotalDat { get; set; }
@@ -47,7 +48,9 @@ namespace E_Learning.Models
         public string TenNVDG { get; set; }
         public Nullable<int> DiemDG { get; set; }
         public DateTime ThangDG { get; set; }
+        public DateTime NgayHanDG { get; set; }
         public DateTime NgayDG { get; set; }
+        public Nullable<int> NgayCanhBao { get; set; }
         public string StrNgayDG { get; set; }
         public string Note { get; set; }
 
@@ -63,6 +66,7 @@ namespace E_Learning.Models
         public string ColorDM { get; set; }
         public Nullable<int> OrderBy { get; set; }
         public Nullable<int> OrderByLoai { get; set; }
+        public bool CapNhatDG { get; set; }
     }
 
 

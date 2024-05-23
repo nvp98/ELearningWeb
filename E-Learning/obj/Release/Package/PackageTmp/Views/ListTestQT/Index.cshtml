@@ -67,12 +67,13 @@
                                         <th style="width:150px;" class="text-center">Thao tác</th>
                                         <th class="text-left fix fix-field270 thead-fix">Tên QT/HD</th>
                                         <th class="text-center">Điểm chuẩn</th>
+                                        <th class="text-left" style="width:100px">Ngày hiệu lực</th>
                                         <th class="text-left" style="width:100px">Tình trạng hiệu lực</th>
                                         <th class="text-left" style="width:350px">File QT/HD</th>
                                         @*<th class="text-center" style="width:100px">SL Câu hỏi</th>*@
                                         <th class="text-center">Văn bản liên quan</th>
                                         <th class="text-center" style="width:100px">Định kỳ</th>
-                                        <th class="text-center" style="width:100px">Ngày kiểm tra gần nhất</th>
+                                        <th class="text-center" style="width:100px">Ngày hoàn thành gần nhất</th>
                                         <th class="text-center" style="width:100px">Ngày Sát hạch tiếp theo</th>
                                         <th class="text-center">Kết quả sát hạch</th>
                                     </tr>
@@ -90,9 +91,9 @@
                                             <td class="AliceBlue text-center ">
                                                 @if (item.TinhTrangKT == 1)
                                                 {
-                                                   
-                                                        <span class="btn-transition btn btn-outline-success">Đạt - Điểm số @item.DiemSo</span>
-                                                   
+
+                                                    <span class="btn-transition btn btn-outline-success">Đạt - Điểm số @item.DiemSo</span>
+
                                                 }
                                                 else if (item.TinhTrangKT == 0)
                                                 {
@@ -108,14 +109,14 @@
                                                 }
                                                 else if (item.TinhTrangKT == 3)
                                                 {
-                                                   
-                                                        <span class="btn-transition btn btn-outline-danger ">Chưa đạt - Làm lại sau 24h</span>
-                                                   
+
+                                                    <span class="btn-transition btn btn-outline-danger ">Chưa đạt - Làm lại sau 24h</span>
+
                                                 }
                                             </td>
                                             <td class="  "><a class="" title="" target="_blank" href="@Url.Action("VanBanLQView", "NoiDungQT", new { id = item.QTHDID })">  @item.NoiDungQT.MaHieu - @item.NoiDungQT.TenQTHD</a></td>
                                             <td class="text-center">@item.NoiDungQT.DiemChuan</td>
-
+                                            <td class="text-center">@(((DateTime)item.NoiDungQT.NgayHieuLuc).ToString("dd/MM/yyyy"))</td>
                                             @if (item.NoiDungQT.NgayHieuLuc > DateTime.Now)
                                             {
                                                 <td class="text-danger">Chưa hiệu lực</td>

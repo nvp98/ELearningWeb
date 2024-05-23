@@ -27,10 +27,10 @@ namespace E_Learning.Models
         public Nullable<double> Diem { get; set; }
         public Nullable<int> TinhTrang { get; set; }
         public Nullable<System.DateTime> NgayHT { get; set; }
-        public Nullable<System.DateTime> NgayKTTT { get; set; }
         public string TenPhongBan { get; set; }
         public int IDPhongBan { get; set; }
         public Nullable<System.DateTime> NgayHieuLuc { get; set; }
         public Nullable<System.DateTime> NgayHetHieuLuc { get; set; }
+        public Nullable<System.DateTime> NgayKTTT { get; set; }
     }
 }

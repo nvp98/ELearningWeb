@@ -179,15 +179,19 @@
         function pause() {
             jwplayer().pause();
             console.log("auto pause");
-            alert("Bạn có đang theo dõi bài học");
-            jwplayer().play();
-            console.log("auto play");
+            setTimeout(aler, 1000);
         }
-        jwplayer().on('pause', function (event) {
-            console.log("pauset");
+        function aler() {
             clearInterval(checkview);
-
-        });
+            alert("Bạn có đang theo dõi bài học");
+            console.log("auto play");
+            jwplayer().play();
+        }
+        //jwplayer().on('pause', function (event) {
+        //    console.log("pauset");
+        //    clearInterval(checkview);
+        //});
+        
     });
     
     // API JWplayer prevent
@@ -203,7 +207,6 @@
         seeking = true;
     }).on('seeked', function (event) {
         var pos = jwplayer().getPosition();
-
         if (pos > maxPlayPosition) {
             jwplayer().seek(maxPlayPosition);
         }

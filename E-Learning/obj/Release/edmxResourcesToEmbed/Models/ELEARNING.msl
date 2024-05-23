@@ -1383,6 +1383,7 @@
     <EntitySetMapping Name="QT_BaiKiemTra">
       <EntityTypeMapping TypeName="ELEARNING_KNLModel.QT_BaiKiemTra">
         <MappingFragment StoreEntitySet="QT_BaiKiemTra">
+          <ScalarProperty Name="NgayKT" ColumnName="NgayKT" />
           <ScalarProperty Name="LuotKiemTra" ColumnName="LuotKiemTra" />
           <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
           <ScalarProperty Name="LanKT" ColumnName="LanKT" />
@@ -1491,11 +1492,11 @@
           <ScalarProperty Name="Diem" ColumnName="Diem" />
           <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
           <ScalarProperty Name="NgayHT" ColumnName="NgayHT" />
-          <ScalarProperty Name="NgayKTTT" ColumnName="NgayKTTT" />
           <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
           <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
           <ScalarProperty Name="NgayHieuLuc" ColumnName="NgayHieuLuc" />
           <ScalarProperty Name="NgayHetHieuLuc" ColumnName="NgayHetHieuLuc" />
+          <ScalarProperty Name="NgayKTTT" ColumnName="NgayKTTT" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -1620,5 +1621,6 @@
     <FunctionImportMapping FunctionImportName="TB_KyLuat_Update" FunctionName="ELEARNING_KNLModel.Store.TB_KyLuat_Update" />
     <FunctionImportMapping FunctionImportName="TB_KyLuat_insert" FunctionName="ELEARNING_KNLModel.Store.TB_KyLuat_insert" />
     <FunctionImportMapping FunctionImportName="VitriKNL_update_TinhTrang" FunctionName="ELEARNING_KNLModel.Store.VitriKNL_update_TinhTrang" />
+    <FunctionImportMapping FunctionImportName="QT_BaiKiemTra_UpdateDeThi" FunctionName="ELEARNING_KNLModel.Store.QT_BaiKiemTra_UpdateDeThi" />
   </EntityContainerMapping>
 </Mapping>

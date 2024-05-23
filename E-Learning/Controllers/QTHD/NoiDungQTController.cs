@@ -442,20 +442,20 @@ namespace E_Learning.Controllers.QTHD
                     DateTime? dt = null;
                     if (_DO.isActive == true) _DO.TinhTrang = 1; else _DO.TinhTrang = 0;
                     if (_DO.NgayHetHieuLuc != null && _DO.NgayHetHieuLuc != default) dt= _DO.NgayHetHieuLuc;
-                    //Cập nhật QT delete BaiKiemTra 
-                    if (_DO.LanCapNhat != _DO.LanCapNhatOld)
-                    {
+                    //Cập nhật QT delete BaiKiemTra  (Bỏ ràng buộc này)
+                    //if (_DO.LanCapNhat != _DO.LanCapNhatOld)
+                    //{
                        
-                        var ls = db.QT_BaiKiemTra.Where(x => x.QTHDID == _DO.IDQTHD).ToList();
-                        if (ls.Count > 0)
-                        {
-                            foreach(var ss in ls)
-                            {
-                                db.QT_CTBaiKiemTra_delete(ss.IDKT);
-                            }
-                        }
-                        db.QT_BaiKiemTra_deleteQTID(_DO.IDQTHD);
-                    }
+                    //    var ls = db.QT_BaiKiemTra.Where(x => x.QTHDID == _DO.IDQTHD).ToList();
+                    //    if (ls.Count > 0)
+                    //    {
+                    //        foreach(var ss in ls)
+                    //        {
+                    //            db.QT_CTBaiKiemTra_delete(ss.IDKT); // xóa các bài kiểm tra cũ khi cập nhật QT
+                    //        }
+                    //    }
+                    //    db.QT_BaiKiemTra_deleteQTID(_DO.IDQTHD);
+                    //}
                     var a = db.QT_NoiDungQT_update(_DO.IDQTHD, _DO.MaHieu, _DO.TenQTHD, _DO.IDLoaiQTHD, _DO.IDPhongBan, _DO.IDLVDT, _DO.NgayHieuLuc, dt, _DO.DiemChuan, _DO.LanCapNhat, _DO.NoiDungCapNhat, DateTime.Now, _DO.TinhTrang);
                 }
                 //update file
@@ -562,7 +562,10 @@ namespace E_Learning.Controllers.QTHD
                         int co = 0;
                         try
                         {
-
+                            if (dt.Rows.Count >0) // cập nhật lại tình trạng thi và điểm thi
+                            {
+                                db.QT_BaiKiemTra_UpdateDeThi(0, 0, _DO.IDQTHD);
+                            }
                             for (int i = 5; i < dt.Rows.Count; i++)
                             {
                                 string NDCH = dt.Rows[i][1].ToString().Trim();
@@ -1201,13 +1204,13 @@ namespace E_Learning.Controllers.QTHD
             try
             {
                 //update QT
-                var listFile = db.QT_PhanQuyen.Where(x => x.QTHDID == _DO.QTHDID).ToList();
+                var listFile = db.QT_PhanQuyen.Where(x => x.QTHDID == _DO.QTHDID ).ToList();
                 if (listFile != null)
                 {
                     foreach (var item in listFile)
                     {
                         int? IDDK = ToNullableInt(collection["qt_" + item.IDVTKNL]);
-                        if(IDDK == null) { IDDK = 0; }
+                        if(IDDK == null) { IDDK = 1; }
                         var a = db.QT_PhanQuyen_update(item.IDPhanQuyen, item.QTHDID, item.IDVTKNL, IDDK);
                     }
                 }

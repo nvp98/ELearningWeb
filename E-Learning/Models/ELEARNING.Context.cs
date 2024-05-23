@@ -3069,7 +3069,7 @@ namespace E_Learning.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("QT_PhanQuyen_update", iDPhanQuyenParameter, qTHDIDParameter, iDVTKNLParameter, dKIDParameter);
         }
     
-        public virtual int QT_BaiKiemTra_insert(Nullable<int> iDNV, Nullable<int> qTHDID, Nullable<double> diem, Nullable<System.DateTime> ngayHT, Nullable<System.DateTime> ngayKTTT, Nullable<int> lanKT, Nullable<int> tinhTrang, Nullable<int> luotKiemTra, ObjectParameter iDKT)
+        public virtual int QT_BaiKiemTra_insert(Nullable<int> iDNV, Nullable<int> qTHDID, Nullable<double> diem, Nullable<System.DateTime> ngayHT, Nullable<System.DateTime> ngayKTTT, Nullable<int> lanKT, Nullable<int> tinhTrang, Nullable<int> luotKiemTra, Nullable<System.DateTime> ngayKT, ObjectParameter iDKT)
         {
             var iDNVParameter = iDNV.HasValue ?
                 new ObjectParameter("IDNV", iDNV) :
@@ -3103,7 +3103,11 @@ namespace E_Learning.Models
                 new ObjectParameter("LuotKiemTra", luotKiemTra) :
                 new ObjectParameter("LuotKiemTra", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("QT_BaiKiemTra_insert", iDNVParameter, qTHDIDParameter, diemParameter, ngayHTParameter, ngayKTTTParameter, lanKTParameter, tinhTrangParameter, luotKiemTraParameter, iDKT);
+            var ngayKTParameter = ngayKT.HasValue ?
+                new ObjectParameter("NgayKT", ngayKT) :
+                new ObjectParameter("NgayKT", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("QT_BaiKiemTra_insert", iDNVParameter, qTHDIDParameter, diemParameter, ngayHTParameter, ngayKTTTParameter, lanKTParameter, tinhTrangParameter, luotKiemTraParameter, ngayKTParameter, iDKT);
         }
     
         public virtual int QT_BaiKiemTra_update(Nullable<int> iDKT, Nullable<int> iDNV, Nullable<int> qTHDID, Nullable<double> diem, Nullable<System.DateTime> ngayHT, Nullable<System.DateTime> ngayKTTT, Nullable<int> lanKT, Nullable<int> tinhTrang, Nullable<int> luotKiemTra)
@@ -3147,7 +3151,7 @@ namespace E_Learning.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("QT_BaiKiemTra_update", iDKTParameter, iDNVParameter, qTHDIDParameter, diemParameter, ngayHTParameter, ngayKTTTParameter, lanKTParameter, tinhTrangParameter, luotKiemTraParameter);
         }
     
-        public virtual int QT_BaiKiemTra_UpdateDiem(Nullable<double> diem, Nullable<int> tinhTrang, Nullable<int> iDKT)
+        public virtual int QT_BaiKiemTra_UpdateDiem(Nullable<double> diem, Nullable<int> tinhTrang, Nullable<System.DateTime> ngayHT, Nullable<int> iDKT)
         {
             var diemParameter = diem.HasValue ?
                 new ObjectParameter("Diem", diem) :
@@ -3157,11 +3161,15 @@ namespace E_Learning.Models
                 new ObjectParameter("TinhTrang", tinhTrang) :
                 new ObjectParameter("TinhTrang", typeof(int));
     
+            var ngayHTParameter = ngayHT.HasValue ?
+                new ObjectParameter("NgayHT", ngayHT) :
+                new ObjectParameter("NgayHT", typeof(System.DateTime));
+    
             var iDKTParameter = iDKT.HasValue ?
                 new ObjectParameter("IDKT", iDKT) :
                 new ObjectParameter("IDKT", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("QT_BaiKiemTra_UpdateDiem", diemParameter, tinhTrangParameter, iDKTParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("QT_BaiKiemTra_UpdateDiem", diemParameter, tinhTrangParameter, ngayHTParameter, iDKTParameter);
         }
     
         public virtual int QT_CTBaiKiemTra_insert(Nullable<int> iDKiemTra, Nullable<int> iDCauHoi, Nullable<int> iDDAĐung, Nullable<int> dapAnHV, Nullable<double> diem)
@@ -3990,6 +3998,23 @@ namespace E_Learning.Models
                 new ObjectParameter("TinhTrang", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("VitriKNL_update_TinhTrang", iDVTParameter, tinhTrangParameter);
+        }
+    
+        public virtual int QT_BaiKiemTra_UpdateDeThi(Nullable<double> diem, Nullable<int> tinhTrang, Nullable<int> qTHDID)
+        {
+            var diemParameter = diem.HasValue ?
+                new ObjectParameter("Diem", diem) :
+                new ObjectParameter("Diem", typeof(double));
+    
+            var tinhTrangParameter = tinhTrang.HasValue ?
+                new ObjectParameter("TinhTrang", tinhTrang) :
+                new ObjectParameter("TinhTrang", typeof(int));
+    
+            var qTHDIDParameter = qTHDID.HasValue ?
+                new ObjectParameter("QTHDID", qTHDID) :
+                new ObjectParameter("QTHDID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("QT_BaiKiemTra_UpdateDeThi", diemParameter, tinhTrangParameter, qTHDIDParameter);
         }
     }
 }

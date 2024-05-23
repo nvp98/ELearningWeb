@@ -149,12 +149,14 @@ namespace E_Learning.Controllers.QTHD
                 {
                     foreach (var item in a)
                     {
-                        //delete chi tiết bài thi
-                        db.QT_CTBaiKiemTra_delete(item.IDKT);
+                        //delete chi tiết bài thi (bỏ logic)
+                        //db.QT_CTBaiKiemTra_delete(item.IDKT);
                     }
+                    // cập nhật tình trạng làm bài thi
+                    db.QT_BaiKiemTra_UpdateDeThi(0, 0, IDQTHD); 
                 }
               
-                db.QT_BaiKiemTra_deleteQTID(IDQTHD);
+                //db.QT_BaiKiemTra_deleteQTID(IDQTHD);
                 db.QT_CauHoiQT_deleteAll(IDQTHD);
             }
             catch (Exception e)

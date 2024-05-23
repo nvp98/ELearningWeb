@@ -1469,6 +1469,7 @@
       <Parameter Name="LanKT" Mode="In" Type="Int32" />
       <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
       <Parameter Name="LuotKiemTra" Mode="In" Type="Int32" />
+      <Parameter Name="NgayKT" Mode="In" Type="DateTime" />
       <Parameter Name="IDKT" Mode="InOut" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="QT_BaiKiemTra_update">
@@ -1485,6 +1486,7 @@
     <FunctionImport Name="QT_BaiKiemTra_UpdateDiem">
       <Parameter Name="Diem" Mode="In" Type="Double" />
       <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
+      <Parameter Name="NgayHT" Mode="In" Type="DateTime" />
       <Parameter Name="IDKT" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="QT_CTBaiKiemTra_insert">
@@ -1780,6 +1782,11 @@
     <FunctionImport Name="VitriKNL_update_TinhTrang">
       <Parameter Name="IDVT" Mode="In" Type="Int32" />
       <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="QT_BaiKiemTra_UpdateDeThi">
+      <Parameter Name="Diem" Mode="In" Type="Double" />
+      <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
+      <Parameter Name="QTHDID" Mode="In" Type="Int32" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="CauHoi_DeThi_list_Result">
@@ -2658,6 +2665,7 @@
     <Property Name="LuotKiemTra" Type="Int32" />
     <NavigationProperty Name="QT_NoiDungQT" Relationship="ELEARNING_KNLModel.FK_QT_BaiKiemTra_QT_NoiDungQT" FromRole="QT_BaiKiemTra" ToRole="QT_NoiDungQT" />
     <NavigationProperty Name="QT_CTBaiKiemTra" Relationship="ELEARNING_KNLModel.FK_QT_CTBaiKiemTra_QT_BaiKiemTra" FromRole="QT_BaiKiemTra" ToRole="QT_CTBaiKiemTra" />
+    <Property Name="NgayKT" Type="DateTime" Precision="0" />
   </EntityType>
   <EntityType Name="QT_CTBaiKiemTra">
     <Key>
@@ -2838,11 +2846,11 @@
     <Property Type="Double" Name="Diem" Nullable="true" />
     <Property Type="Int32" Name="TinhTrang" Nullable="true" />
     <Property Type="DateTime" Name="NgayHT" Nullable="true" />
-    <Property Type="DateTime" Name="NgayKTTT" Nullable="true" />
     <Property Type="String" Name="TenPhongBan" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="IDPhongBan" Nullable="false" />
     <Property Type="DateTime" Name="NgayHieuLuc" Nullable="true" />
     <Property Type="DateTime" Name="NgayHetHieuLuc" Nullable="true" />
+    <Property Type="DateTime" Name="NgayKTTT" Nullable="true" />
   </ComplexType>
   <EntityType Name="KCCD_CauHoi">
     <Key>

@@ -45,7 +45,7 @@ namespace E_Learning.Controllers.TBKL
             ViewBag.Thang = new SelectList(selec, "Text", "Value");
 
             var selecYear = new List<SelectListItem>();
-            foreach (var item in Enumerable.Range(2023, (DateTime.Now.Year - 2023) + 1))
+            foreach (var item in Enumerable.Range(2020, (DateTime.Now.Year - 2020) + 1))
             {
                 var se = new SelectListItem { Text =  item.ToString(), Value =item.ToString() };
                 selecYear.Add(se);

@@ -126,6 +126,8 @@
                         <th class="text-center">Vượt yêu cầu</th>
                         <th class="text-center">Chưa đánh giá</th>
                         <th class="text-center">Ngày đánh giá gần nhất</th>
+                        <th class="text-center">Ngày đến hạn đánh giá lại</th>
+                        <th class="text-center">Hạn đánh giá lại</th>
 
                     </tr>
                 </thead>
@@ -255,6 +257,8 @@
                                     <th class="text-center" width="70px">Chưa đánh giá</th>
                                     <th class="text-center" width="70px">Không đánh giá</th>
                                     <th class="text-center">Ngày đánh giá gần nhất</th>
+                                    <th class="text-center">Ngày đến hạn đánh giá lại</th>
+                                    <th class="text-center">Hạn đánh giá lại</th>
                                     <th class="text-center">SL QT/HD</th>
                                     <th class="text-center">SL Hoàn Thành QT/HD</th>
                                     <th class="text-center ">Xem chi tiết</th>
@@ -305,6 +309,27 @@
                                         <td class="text-center">@item.TotalChuaDG</td>
                                         <td class="text-center">@item.TotalKDGia</td>
                                         <td class="text-center">@item.NgayDG</td>
+                                        if (item.NgayCanhBao > 0)
+                                        {
+                                            <td class="text-center text-danger">
+                                                @item.NgayHanDG.ToString("dd/MM/yyyy")
+                                            </td>
+                                            <td class="text-center text-danger">
+                                                Cần đánh giá lại trong @item.NgayCanhBao ngày tới
+                                            </td>
+                                        }
+                                        else if (item.NgayCanhBao < 0 && item.NgayCanhBao != -1000)
+                                        {
+                                            <td class="text-center text-danger">
+                                                @item.NgayHanDG.ToString("dd/MM/yyyy")
+                                            </td>
+                                            <td class="text-center text-danger"> Quá hạn đánh giá</td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                            <td></td>
+                                        }
                                         <td class="text-center">@item.TotalQTHD</td>
                                         <td class="text-center">@item.TotalHTQTHD</td>
                                         <td>
@@ -864,6 +889,17 @@
                     "autoWidth": true,
                     "searchable": false
                 },
+                {
+                    "data": "NgayHanDG",
+                    "autoWidth": true,
+                    "searchable": false
+                },
+                {
+                    "data": "HanDG",
+                    "autoWidth": true,
+                    "searchable": false
+                },
+               
             ]
         });
 

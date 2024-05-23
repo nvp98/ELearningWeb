@@ -95,7 +95,7 @@ namespace E_Learning.Controllers.KNL
             return View(KQua);
         }
 
-        public ActionResult FView(int? IDNV, DateTime dt,int? IDVT)
+        public ActionResult FView(int? IDNV, DateTime? dt,int? IDVT)
         {
             var nv = (from a in db.NhanViens.Where(x => x.ID == IDNV)
                       join b in db.ViTriKNLs on a.IDVTKNL equals b.IDVT

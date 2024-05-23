@@ -426,7 +426,9 @@ namespace E_Learning.Controllers.KNL
                           OrderByLoai = a.orByLoai,
                           ColorKQ = a.DiemDG < a.DinhMuc ? "bg-danger" : "bg-success",
                           IDNVDG = a.IDNVDG,
-                          TenNVDG = a.HoTen
+                          TenNVDG = a.HoTen,
+                          NgayCanhBao = a.DiemDG < a.DinhMuc ? (((DateTime)a.NgayDG).AddMonths(6) -DateTime.Now).Days : -1000,
+                          NgayHanDG = a.DiemDG < a.DinhMuc ? ((DateTime)a.NgayDG).AddMonths(6): default(DateTime),
                       }).ToList().OrderBy(x => x.OrderBy);
 
             //var res = (from a in db.KhungNangLucs.Where(x => x.IDVT == nv.IDVT && (x.IDLoaiNL == 1 || x.IDLoaiNL == 2 || (x.IDLoaiNL != 1 && x.IDLoaiNL != 2 && x.IsDanhGia == 1)))
@@ -541,6 +543,10 @@ namespace E_Learning.Controllers.KNL
                             {
                                 db.KNL_KQ_update(KQ.IDKQ, KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, null);
                             }
+                        }
+                        else if(diemkq == KQ.DiemDG && KQ.CapNhatDG == true)
+                        {
+                            db.KNL_KQ_update(KQ.IDKQ, KQ.IDNV, KQ.IDNL, nv.ID, KQ.DiemDG, KQ.ThangDG, DateTime.Now, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, KQ.Note);
                         }
                     }
                     

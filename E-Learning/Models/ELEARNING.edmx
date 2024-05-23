@@ -135,12 +135,12 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IDNV" Type="int" />
           <Property Name="KCCDID" Type="int" />
-          <Property Name="DeNghiID" Type="int" />
-          <Property Name="DeThiID" Type="int" />
           <Property Name="Diem" Type="float" />
           <Property Name="NgayThi" Type="date" />
-          <Property Name="LanThi" Type="int" />
           <Property Name="TinhTrang" Type="int" />
+          <Property Name="DeThiID" Type="int" />
+          <Property Name="LanThi" Type="int" />
+          <Property Name="DeNghiID" Type="int" />
         </EntityType>
         <EntityType Name="KCCD_CauHoi">
           <Key>
@@ -177,19 +177,6 @@
           <Property Name="DiemChuan" Type="float" />
           <Property Name="KCCDID" Type="int" />
         </EntityType>
-        <EntityType Name="KhungNangLuc">
-          <Key>
-            <PropertyRef Name="IDNL" />
-          </Key>
-          <Property Name="IDNL" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TenNL" Type="nvarchar(max)" />
-          <Property Name="IDLoaiNL" Type="int" />
-          <Property Name="IDVT" Type="int" />
-          <Property Name="IDPB" Type="int" />
-          <Property Name="DinhMuc" Type="int" />
-          <Property Name="IsDanhGia" Type="int" />
-          <Property Name="OrderBy" Type="int" />
-        </EntityType>
         <EntityType Name="Kip">
           <Key>
             <PropertyRef Name="IDKip" />
@@ -214,14 +201,6 @@
           <Property Name="IDVTDGTT" Type="int" />
           <Property Name="IDVTDGTC" Type="int" />
         </EntityType>
-        <EntityType Name="KNL_Khoi">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MaKhoi" Type="nvarchar" MaxLength="30" />
-          <Property Name="TenKhoi" Type="nvarchar" MaxLength="50" />
-        </EntityType>
         <EntityType Name="KNL_KQ">
           <Key>
             <PropertyRef Name="IDKQ" />
@@ -237,6 +216,14 @@
           <Property Name="DiemDM" Type="int" />
           <Property Name="KQID" Type="int" />
           <Property Name="VTID" Type="int" />
+        </EntityType>
+        <EntityType Name="KNL_Khoi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaKhoi" Type="nvarchar" MaxLength="30" />
+          <Property Name="TenKhoi" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="KNL_LoaiKQ">
           <Key>
@@ -261,6 +248,14 @@
           <Property Name="CHUADG" Type="int" />
           <Property Name="TONGNL" Type="int" />
         </EntityType>
+        <EntityType Name="KNL_NVKiemNhiem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDNV" Type="int" />
+          <Property Name="IDVTKN" Type="int" />
+        </EntityType>
         <EntityType Name="KNL_Nhom">
           <Key>
             <PropertyRef Name="IDNhom" />
@@ -271,14 +266,6 @@
           <Property Name="IDPhongBan" Type="int" />
           <Property Name="IDPhanXuong" Type="int" />
           <Property Name="IDKhoi" Type="int" />
-        </EntityType>
-        <EntityType Name="KNL_NVKiemNhiem">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IDNV" Type="int" />
-          <Property Name="IDVTKN" Type="int" />
         </EntityType>
         <EntityType Name="KNL_PhanXuong">
           <Key>
@@ -307,6 +294,19 @@
           <Property Name="IDPhongBan" Type="int" />
           <Property Name="IDPhanXuong" Type="int" />
           <Property Name="IDKhoi" Type="int" />
+        </EntityType>
+        <EntityType Name="KhungNangLuc">
+          <Key>
+            <PropertyRef Name="IDNL" />
+          </Key>
+          <Property Name="IDNL" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenNL" Type="nvarchar(max)" />
+          <Property Name="IDLoaiNL" Type="int" />
+          <Property Name="IDVT" Type="int" />
+          <Property Name="IDPB" Type="int" />
+          <Property Name="DinhMuc" Type="int" />
+          <Property Name="IsDanhGia" Type="int" />
+          <Property Name="OrderBy" Type="int" />
         </EntityType>
         <EntityType Name="LinhVucDT">
           <Key>
@@ -350,36 +350,6 @@
           <Property Name="IDDeThi" Type="int" />
           <Property Name="ToChucThi" Type="bit" />
         </EntityType>
-        <EntityType Name="NhanVien">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MaNV" Type="varchar" MaxLength="10" />
-          <Property Name="MatKhau" Type="nvarchar" MaxLength="50" />
-          <Property Name="HoTen" Type="nvarchar" MaxLength="50" />
-          <Property Name="HoTenKhongDau" Type="nvarchar" MaxLength="50" />
-          <Property Name="NgaySinh" Type="date" />
-          <Property Name="DiaChi" Type="nvarchar" MaxLength="150" />
-          <Property Name="DienThoai" Type="varchar" MaxLength="11" />
-          <Property Name="NgayVaoLam" Type="date" />
-          <Property Name="IDPhongBan" Type="int" />
-          <Property Name="IDTinhTrangLV" Type="int" />
-          <Property Name="IDViTri" Type="int" />
-          <Property Name="IsGV" Type="bit" />
-          <Property Name="IDQuyen" Type="int" />
-          <Property Name="IDVTKNL" Type="int" />
-          <Property Name="IDQuyenKNL" Type="int" />
-          <Property Name="MaViTri" Type="varchar" MaxLength="50" />
-          <Property Name="IDKip" Type="int" />
-        </EntityType>
-        <EntityType Name="NhomNLKCCD">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NoiDung" Type="nvarchar" MaxLength="150" />
-        </EntityType>
         <EntityType Name="NoiDungDT">
           <Key>
             <PropertyRef Name="IDND" />
@@ -422,6 +392,36 @@
           <Property Name="NgayTG" Type="date" />
           <Property Name="NgayHT" Type="date" />
           <Property Name="TinhTrang" Type="int" />
+        </EntityType>
+        <EntityType Name="NhanVien">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaNV" Type="varchar" MaxLength="10" />
+          <Property Name="MatKhau" Type="nvarchar" MaxLength="50" />
+          <Property Name="HoTen" Type="nvarchar" MaxLength="50" />
+          <Property Name="HoTenKhongDau" Type="nvarchar" MaxLength="50" />
+          <Property Name="NgaySinh" Type="date" />
+          <Property Name="DiaChi" Type="nvarchar" MaxLength="150" />
+          <Property Name="DienThoai" Type="varchar" MaxLength="11" />
+          <Property Name="NgayVaoLam" Type="date" />
+          <Property Name="IDPhongBan" Type="int" />
+          <Property Name="IDTinhTrangLV" Type="int" />
+          <Property Name="IDViTri" Type="int" />
+          <Property Name="IsGV" Type="bit" />
+          <Property Name="IDQuyen" Type="int" />
+          <Property Name="IDVTKNL" Type="int" />
+          <Property Name="IDQuyenKNL" Type="int" />
+          <Property Name="MaViTri" Type="varchar" MaxLength="50" />
+          <Property Name="IDKip" Type="int" />
+        </EntityType>
+        <EntityType Name="NhomNLKCCD">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NoiDung" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="PhieuXacNhanKCCD">
           <Key>
@@ -471,6 +471,7 @@
           <Property Name="LanKT" Type="int" />
           <Property Name="TinhTrang" Type="int" />
           <Property Name="LuotKiemTra" Type="int" />
+          <Property Name="NgayKT" Type="date" />
         </EntityType>
         <EntityType Name="QT_CauHoiQT">
           <Key>
@@ -591,6 +592,13 @@
           <Property Name="TB_Nam" Type="int" />
           <Property Name="TB_File" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="TinhTrangLV">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="TinhTrangLV" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="ThongBao">
           <Key>
             <PropertyRef Name="ID" />
@@ -599,13 +607,6 @@
           <Property Name="NoiDungTB" Type="nvarchar(max)" />
           <Property Name="NgayTB" Type="date" />
           <Property Name="TinhTrang" Type="int" />
-        </EntityType>
-        <EntityType Name="TinhTrangLV">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="TinhTrangLV" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Vitri">
           <Key>
@@ -764,6 +765,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_NoiDungDT_LinhVucDT">
+          <End Role="LinhVucDT" Type="Self.LinhVucDT" Multiplicity="0..1" />
+          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LinhVucDT">
+              <PropertyRef Name="IDLVDT" />
+            </Principal>
+            <Dependent Role="NoiDungDT">
+              <PropertyRef Name="LVDTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NoiDungDTKCCD_NhomNLKCCD">
+          <End Role="NhomNLKCCD" Type="Self.NhomNLKCCD" Multiplicity="0..1" />
+          <End Role="NoiDungDTKCCD" Type="Self.NoiDungDTKCCD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NhomNLKCCD">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NoiDungDTKCCD">
+              <PropertyRef Name="NhomNLID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_NhanVien_PhongBan">
           <End Role="PhongBan" Type="Self.PhongBan" Multiplicity="0..1" />
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
@@ -797,30 +822,6 @@
             </Principal>
             <Dependent Role="NhanVien">
               <PropertyRef Name="IDViTri" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NoiDungDT_LinhVucDT">
-          <End Role="LinhVucDT" Type="Self.LinhVucDT" Multiplicity="0..1" />
-          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LinhVucDT">
-              <PropertyRef Name="IDLVDT" />
-            </Principal>
-            <Dependent Role="NoiDungDT">
-              <PropertyRef Name="LVDTID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NoiDungDTKCCD_NhomNLKCCD">
-          <End Role="NhomNLKCCD" Type="Self.NhomNLKCCD" Multiplicity="0..1" />
-          <End Role="NoiDungDTKCCD" Type="Self.NoiDungDTKCCD" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NhomNLKCCD">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="NoiDungDTKCCD">
-              <PropertyRef Name="NhomNLID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -869,18 +870,6 @@
             </Principal>
             <Dependent Role="QT_CTBaiKiemTra">
               <PropertyRef Name="IDKiemTra" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_QT_CTBaiKiemTra_QT_CauHoiQT">
-          <End Role="QT_CauHoiQT" Type="Self.QT_CauHoiQT" Multiplicity="0..1" />
-          <End Role="QT_CTBaiKiemTra" Type="Self.QT_CTBaiKiemTra" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="QT_CauHoiQT">
-              <PropertyRef Name="IDCH" />
-            </Principal>
-            <Dependent Role="QT_CTBaiKiemTra">
-              <PropertyRef Name="IDCauHoi" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1785,6 +1774,7 @@
           <Parameter Name="LanKT" Type="int" Mode="In" />
           <Parameter Name="TinhTrang" Type="int" Mode="In" />
           <Parameter Name="LuotKiemTra" Type="int" Mode="In" />
+          <Parameter Name="NgayKT" Type="date" Mode="In" />
           <Parameter Name="IDKT" Type="int" Mode="InOut" />
         </Function>
         <Function Name="QT_BaiKiemTra_update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -1798,9 +1788,15 @@
           <Parameter Name="TinhTrang" Type="int" Mode="In" />
           <Parameter Name="LuotKiemTra" Type="int" Mode="In" />
         </Function>
+        <Function Name="QT_BaiKiemTra_UpdateDeThi" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Diem" Type="float" Mode="In" />
+          <Parameter Name="TinhTrang" Type="int" Mode="In" />
+          <Parameter Name="QTHDID" Type="int" Mode="In" />
+        </Function>
         <Function Name="QT_BaiKiemTra_UpdateDiem" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Diem" Type="float" Mode="In" />
           <Parameter Name="TinhTrang" Type="int" Mode="In" />
+          <Parameter Name="NgayHT" Type="date" Mode="In" />
           <Parameter Name="IDKT" Type="int" Mode="In" />
         </Function>
         <Function Name="QT_CauHoiQT_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -2090,28 +2086,28 @@
           <EntitySet Name="KCCD_CauHoi" EntityType="Self.KCCD_CauHoi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KCCD_CTBaiThi" EntityType="Self.KCCD_CTBaiThi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KCCD_DeThi" EntityType="Self.KCCD_DeThi" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="KhungNangLuc" EntityType="Self.KhungNangLuc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kip" EntityType="Self.Kip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_DG" EntityType="Self.KNL_DG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_DGiaTC" EntityType="Self.KNL_DGiaTC" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="KNL_Khoi" EntityType="Self.KNL_Khoi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_KQ" EntityType="Self.KNL_KQ" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KNL_Khoi" EntityType="Self.KNL_Khoi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_LoaiKQ" EntityType="Self.KNL_LoaiKQ" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_LSDG" EntityType="Self.KNL_LSDG" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="KNL_Nhom" EntityType="Self.KNL_Nhom" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_NVKiemNhiem" EntityType="Self.KNL_NVKiemNhiem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KNL_Nhom" EntityType="Self.KNL_Nhom" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_PhanXuong" EntityType="Self.KNL_PhanXuong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_Quyen" EntityType="Self.KNL_Quyen" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_To" EntityType="Self.KNL_To" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KhungNangLuc" EntityType="Self.KhungNangLuc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LinhVucDT" EntityType="Self.LinhVucDT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ListController" EntityType="Self.ListController" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoaiKNL" EntityType="Self.LoaiKNL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LopHoc" EntityType="Self.LopHoc" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="NhanVien" EntityType="Self.NhanVien" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="NhomNLKCCD" EntityType="Self.NhomNLKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NoiDungDT" EntityType="Self.NoiDungDT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NoiDungDTKCCD" EntityType="Self.NoiDungDTKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NQ_KetQua" EntityType="Self.NQ_KetQua" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NhanVien" EntityType="Self.NhanVien" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NhomNLKCCD" EntityType="Self.NhomNLKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhieuXacNhanKCCD" EntityType="Self.PhieuXacNhanKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhongBan" EntityType="Self.PhongBan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QT_BaiKiemTra" EntityType="Self.QT_BaiKiemTra" Schema="dbo" store:Type="Tables" />
@@ -2127,8 +2123,8 @@
           <EntitySet Name="QuyenCN" EntityType="Self.QuyenCN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuyenDetails" EntityType="Self.QuyenDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TB_KyLuat" EntityType="Self.TB_KyLuat" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ThongBao" EntityType="Self.ThongBao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TinhTrangLV" EntityType="Self.TinhTrangLV" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ThongBao" EntityType="Self.ThongBao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vitri" EntityType="Self.Vitri" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ViTriKNL" EntityType="Self.ViTriKNL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="XNHocTap" EntityType="Self.XNHocTap" Schema="dbo" store:Type="Tables" />
@@ -2172,6 +2168,14 @@
             <End Role="NoiDungDT" EntitySet="NoiDungDT" />
             <End Role="LopHoc" EntitySet="LopHoc" />
           </AssociationSet>
+          <AssociationSet Name="FK_NoiDungDT_LinhVucDT" Association="Self.FK_NoiDungDT_LinhVucDT">
+            <End Role="LinhVucDT" EntitySet="LinhVucDT" />
+            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NoiDungDTKCCD_NhomNLKCCD" Association="Self.FK_NoiDungDTKCCD_NhomNLKCCD">
+            <End Role="NhomNLKCCD" EntitySet="NhomNLKCCD" />
+            <End Role="NoiDungDTKCCD" EntitySet="NoiDungDTKCCD" />
+          </AssociationSet>
           <AssociationSet Name="FK_NhanVien_PhongBan" Association="Self.FK_NhanVien_PhongBan">
             <End Role="PhongBan" EntitySet="PhongBan" />
             <End Role="NhanVien" EntitySet="NhanVien" />
@@ -2183,14 +2187,6 @@
           <AssociationSet Name="FK_NhanVien_Vitri" Association="Self.FK_NhanVien_Vitri">
             <End Role="Vitri" EntitySet="Vitri" />
             <End Role="NhanVien" EntitySet="NhanVien" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NoiDungDT_LinhVucDT" Association="Self.FK_NoiDungDT_LinhVucDT">
-            <End Role="LinhVucDT" EntitySet="LinhVucDT" />
-            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NoiDungDTKCCD_NhomNLKCCD" Association="Self.FK_NoiDungDTKCCD_NhomNLKCCD">
-            <End Role="NhomNLKCCD" EntitySet="NhomNLKCCD" />
-            <End Role="NoiDungDTKCCD" EntitySet="NoiDungDTKCCD" />
           </AssociationSet>
           <AssociationSet Name="FK_PhieuXacNhanKCCD_DeNghiKCCD" Association="Self.FK_PhieuXacNhanKCCD_DeNghiKCCD">
             <End Role="DeNghiKCCD" EntitySet="DeNghiKCCD" />
@@ -2206,10 +2202,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_QT_CTBaiKiemTra_QT_BaiKiemTra" Association="Self.FK_QT_CTBaiKiemTra_QT_BaiKiemTra">
             <End Role="QT_BaiKiemTra" EntitySet="QT_BaiKiemTra" />
-            <End Role="QT_CTBaiKiemTra" EntitySet="QT_CTBaiKiemTra" />
-          </AssociationSet>
-          <AssociationSet Name="FK_QT_CTBaiKiemTra_QT_CauHoiQT" Association="Self.FK_QT_CTBaiKiemTra_QT_CauHoiQT">
-            <End Role="QT_CauHoiQT" EntitySet="QT_CauHoiQT" />
             <End Role="QT_CTBaiKiemTra" EntitySet="QT_CTBaiKiemTra" />
           </AssociationSet>
           <AssociationSet Name="FK_QT_FileQT_QT_NoiDungQT" Association="Self.FK_QT_FileQT_QT_NoiDungQT">
@@ -3714,6 +3706,7 @@
             <Parameter Name="LanKT" Mode="In" Type="Int32" />
             <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
             <Parameter Name="LuotKiemTra" Mode="In" Type="Int32" />
+            <Parameter Name="NgayKT" Mode="In" Type="DateTime" />
             <Parameter Name="IDKT" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="QT_BaiKiemTra_update">
@@ -3730,6 +3723,7 @@
           <FunctionImport Name="QT_BaiKiemTra_UpdateDiem">
             <Parameter Name="Diem" Mode="In" Type="Double" />
             <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
+            <Parameter Name="NgayHT" Mode="In" Type="DateTime" />
             <Parameter Name="IDKT" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="QT_CTBaiKiemTra_insert">
@@ -4025,6 +4019,11 @@
           <FunctionImport Name="VitriKNL_update_TinhTrang">
             <Parameter Name="IDVT" Mode="In" Type="Int32" />
             <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="QT_BaiKiemTra_UpdateDeThi">
+            <Parameter Name="Diem" Mode="In" Type="Double" />
+            <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
+            <Parameter Name="QTHDID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="CauHoi_DeThi_list_Result">
@@ -4903,6 +4902,7 @@
           <Property Name="LuotKiemTra" Type="Int32" />
           <NavigationProperty Name="QT_NoiDungQT" Relationship="ELEARNING_KNLModel.FK_QT_BaiKiemTra_QT_NoiDungQT" FromRole="QT_BaiKiemTra" ToRole="QT_NoiDungQT" />
           <NavigationProperty Name="QT_CTBaiKiemTra" Relationship="ELEARNING_KNLModel.FK_QT_CTBaiKiemTra_QT_BaiKiemTra" FromRole="QT_BaiKiemTra" ToRole="QT_CTBaiKiemTra" />
+          <Property Name="NgayKT" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="QT_CTBaiKiemTra">
           <Key>
@@ -5083,11 +5083,11 @@
           <Property Type="Double" Name="Diem" Nullable="true" />
           <Property Type="Int32" Name="TinhTrang" Nullable="true" />
           <Property Type="DateTime" Name="NgayHT" Nullable="true" />
-          <Property Type="DateTime" Name="NgayKTTT" Nullable="true" />
           <Property Type="String" Name="TenPhongBan" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="IDPhongBan" Nullable="false" />
           <Property Type="DateTime" Name="NgayHieuLuc" Nullable="true" />
           <Property Type="DateTime" Name="NgayHetHieuLuc" Nullable="true" />
+          <Property Type="DateTime" Name="NgayKTTT" Nullable="true" />
         </ComplexType>
         <EntityType Name="KCCD_CauHoi">
           <Key>
@@ -6606,6 +6606,7 @@
           <EntitySetMapping Name="QT_BaiKiemTra">
             <EntityTypeMapping TypeName="ELEARNING_KNLModel.QT_BaiKiemTra">
               <MappingFragment StoreEntitySet="QT_BaiKiemTra">
+                <ScalarProperty Name="NgayKT" ColumnName="NgayKT" />
                 <ScalarProperty Name="LuotKiemTra" ColumnName="LuotKiemTra" />
                 <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
                 <ScalarProperty Name="LanKT" ColumnName="LanKT" />
@@ -6714,11 +6715,11 @@
                 <ScalarProperty Name="Diem" ColumnName="Diem" />
                 <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
                 <ScalarProperty Name="NgayHT" ColumnName="NgayHT" />
-                <ScalarProperty Name="NgayKTTT" ColumnName="NgayKTTT" />
                 <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
                 <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
                 <ScalarProperty Name="NgayHieuLuc" ColumnName="NgayHieuLuc" />
                 <ScalarProperty Name="NgayHetHieuLuc" ColumnName="NgayHetHieuLuc" />
+                <ScalarProperty Name="NgayKTTT" ColumnName="NgayKTTT" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -6843,6 +6844,7 @@
           <FunctionImportMapping FunctionImportName="TB_KyLuat_Update" FunctionName="ELEARNING_KNLModel.Store.TB_KyLuat_Update" />
           <FunctionImportMapping FunctionImportName="TB_KyLuat_insert" FunctionName="ELEARNING_KNLModel.Store.TB_KyLuat_insert" />
           <FunctionImportMapping FunctionImportName="VitriKNL_update_TinhTrang" FunctionName="ELEARNING_KNLModel.Store.VitriKNL_update_TinhTrang" />
+          <FunctionImportMapping FunctionImportName="QT_BaiKiemTra_UpdateDeThi" FunctionName="ELEARNING_KNLModel.Store.QT_BaiKiemTra_UpdateDeThi" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

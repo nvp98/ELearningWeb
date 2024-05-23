@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>D:\Publish\Publish_KNL</_PublishTargetUrl>
-    <History>True|2024-04-25T03:03:55.8014129Z;True|2024-04-25T09:26:13.5587227+07:00;True|2024-04-24T15:01:14.8121855+07:00;True|2024-04-09T14:43:58.4635718+07:00;True|2024-04-06T09:31:56.3615644+07:00;True|2024-04-01T10:56:18.9148766+07:00;True|2024-04-01T08:14:17.5038402+07:00;True|2024-03-28T10:04:26.0840237+07:00;True|2024-03-27T16:35:05.1463163+07:00;False|2024-03-27T16:34:21.2435397+07:00;False|2024-03-27T16:33:50.7369312+07:00;False|2024-03-27T16:33:24.9318279+07:00;True|2024-03-14T09:09:44.1442973+07:00;True|2024-03-12T13:55:12.8788815+07:00;True|2024-03-07T16:53:45.4380347+07:00;True|2024-03-05T10:16:27.7206097+07:00;True|2024-03-05T08:04:20.8916697+07:00;True|2024-03-04T17:00:28.3954561+07:00;True|2024-02-29T13:20:13.6708135+07:00;True|2024-02-06T09:30:42.7582481+07:00;True|2024-01-20T08:13:29.6340755+07:00;True|2024-01-18T10:27:45.4393669+07:00;True|2024-01-10T08:06:32.1781321+07:00;True|2024-01-03T13:33:43.0474689+07:00;True|2023-12-28T14:04:11.6369239+07:00;True|2023-12-28T13:59:05.2658509+07:00;True|2023-12-19T16:41:41.5510870+07:00;True|2023-12-19T16:19:56.9037578+07:00;True|2023-12-18T13:22:32.9616391+07:00;True|2023-12-14T10:28:24.1709895+07:00;True|2023-12-13T09:26:10.4847788+07:00;True|2023-12-04T14:32:14.5025190+07:00;True|2023-12-04T13:12:11.7720405+07:00;True|2023-12-04T11:28:39.7102268+07:00;True|2023-12-04T11:24:53.9481910+07:00;True|2023-12-04T11:22:21.5922914+07:00;True|2023-12-04T11:19:42.7375606+07:00;True|2023-12-04T11:18:55.0068117+07:00;True|2023-12-04T10:01:43.0046355+07:00;True|2023-12-04T09:40:51.5396746+07:00;True|2023-11-07T09:01:05.4407459+07:00;True|2023-11-03T13:32:17.8479846+07:00;True|2023-10-27T08:41:33.7097438+07:00;True|2023-10-25T10:42:05.8748742+07:00;True|2023-10-24T14:50:02.1770058+07:00;True|2023-10-17T09:02:04.6566321+07:00;True|2023-09-25T15:01:37.7025077+07:00;True|2023-09-20T16:10:14.2074976+07:00;True|2023-08-30T10:31:53.3606885+07:00;True|2023-08-30T10:26:09.6181726+07:00;True|2023-08-30T10:22:36.7194724+07:00;True|2023-08-30T10:06:04.3053877+07:00;True|2023-08-30T07:54:10.2935194+07:00;True|2023-08-30T07:53:45.3817182+07:00;True|2023-07-11T14:52:09.4908670+07:00;True|2023-07-11T10:46:23.4027288+07:00;True|2023-07-10T14:20:37.0182597+07:00;True|2023-07-10T14:15:09.0044704+07:00;True|2023-07-08T10:21:32.3859197+07:00;</History>
+    <History>True|2024-05-23T02:47:11.2731875Z;True|2024-05-22T14:44:23.7207217+07:00;True|2024-04-25T10:03:55.8014129+07:00;True|2024-04-25T09:26:13.5587227+07:00;True|2024-04-24T15:01:14.8121855+07:00;True|2024-04-09T14:43:58.4635718+07:00;True|2024-04-06T09:31:56.3615644+07:00;True|2024-04-01T10:56:18.9148766+07:00;True|2024-04-01T08:14:17.5038402+07:00;True|2024-03-28T10:04:26.0840237+07:00;True|2024-03-27T16:35:05.1463163+07:00;False|2024-03-27T16:34:21.2435397+07:00;False|2024-03-27T16:33:50.7369312+07:00;False|2024-03-27T16:33:24.9318279+07:00;True|2024-03-14T09:09:44.1442973+07:00;True|2024-03-12T13:55:12.8788815+07:00;True|2024-03-07T16:53:45.4380347+07:00;True|2024-03-05T10:16:27.7206097+07:00;True|2024-03-05T08:04:20.8916697+07:00;True|2024-03-04T17:00:28.3954561+07:00;True|2024-02-29T13:20:13.6708135+07:00;True|2024-02-06T09:30:42.7582481+07:00;True|2024-01-20T08:13:29.6340755+07:00;True|2024-01-18T10:27:45.4393669+07:00;True|2024-01-10T08:06:32.1781321+07:00;True|2024-01-03T13:33:43.0474689+07:00;True|2023-12-28T14:04:11.6369239+07:00;True|2023-12-28T13:59:05.2658509+07:00;True|2023-12-19T16:41:41.5510870+07:00;True|2023-12-19T16:19:56.9037578+07:00;True|2023-12-18T13:22:32.9616391+07:00;True|2023-12-14T10:28:24.1709895+07:00;True|2023-12-13T09:26:10.4847788+07:00;True|2023-12-04T14:32:14.5025190+07:00;True|2023-12-04T13:12:11.7720405+07:00;True|2023-12-04T11:28:39.7102268+07:00;True|2023-12-04T11:24:53.9481910+07:00;True|2023-12-04T11:22:21.5922914+07:00;True|2023-12-04T11:19:42.7375606+07:00;True|2023-12-04T11:18:55.0068117+07:00;True|2023-12-04T10:01:43.0046355+07:00;True|2023-12-04T09:40:51.5396746+07:00;True|2023-11-07T09:01:05.4407459+07:00;True|2023-11-03T13:32:17.8479846+07:00;True|2023-10-27T08:41:33.7097438+07:00;True|2023-10-25T10:42:05.8748742+07:00;True|2023-10-24T14:50:02.1770058+07:00;True|2023-10-17T09:02:04.6566321+07:00;True|2023-09-25T15:01:37.7025077+07:00;True|2023-09-20T16:10:14.2074976+07:00;True|2023-08-30T10:31:53.3606885+07:00;True|2023-08-30T10:26:09.6181726+07:00;True|2023-08-30T10:22:36.7194724+07:00;True|2023-08-30T10:06:04.3053877+07:00;True|2023-08-30T07:54:10.2935194+07:00;True|2023-08-30T07:53:45.3817182+07:00;True|2023-07-11T14:52:09.4908670+07:00;True|2023-07-11T10:46:23.4027288+07:00;True|2023-07-10T14:20:37.0182597+07:00;True|2023-07-10T14:15:09.0044704+07:00;True|2023-07-08T10:21:32.3859197+07:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -73,10 +73,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/06/2017 22:59:22</publishTime>
     </File>
     <File Include="bin/E-Learning.dll">
-      <publishTime>04/25/2024 15:36:53</publishTime>
+      <publishTime>05/23/2024 09:47:00</publishTime>
     </File>
     <File Include="bin/E-Learning.pdb">
-      <publishTime>04/25/2024 15:36:53</publishTime>
+      <publishTime>05/23/2024 09:47:00</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>10/23/2017 13:15:18</publishTime>
@@ -1378,7 +1378,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/30/2023 11:00:57</publishTime>
     </File>
     <File Include="Views/FCheck/Value.cshtml">
-      <publishTime>07/08/2023 08:31:43</publishTime>
+      <publishTime>05/23/2024 09:14:15</publishTime>
     </File>
     <File Include="Views/FDepartment/Create.cshtml">
       <publishTime>09/23/2022 10:08:01</publishTime>
@@ -1483,7 +1483,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/25/2024 15:19:48</publishTime>
     </File>
     <File Include="Views/FPosition/ListNVKNL.cshtml">
-      <publishTime>02/06/2024 13:51:21</publishTime>
+      <publishTime>05/23/2024 09:46:12</publishTime>
     </File>
     <File Include="Views/FPosition/PerCheck.cshtml">
       <publishTime>05/04/2023 13:49:34</publishTime>
@@ -1528,7 +1528,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/02/2023 10:50:04</publishTime>
     </File>
     <File Include="Views/ListTestQT/Index.cshtml">
-      <publishTime>01/16/2024 08:31:36</publishTime>
+      <publishTime>05/23/2024 09:29:10</publishTime>
     </File>
     <File Include="Views/ListTestQT/ListQTView.cshtml">
       <publishTime>12/13/2023 08:35:07</publishTime>
@@ -1648,7 +1648,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/10/2024 07:58:24</publishTime>
     </File>
     <File Include="Views/NQLDUser/Index.cshtml">
-      <publishTime>04/09/2024 13:40:59</publishTime>
+      <publishTime>05/21/2024 08:02:37</publishTime>
     </File>
     <File Include="Views/NQView/Index.cshtml">
       <publishTime>03/27/2024 13:33:01</publishTime>
@@ -1681,7 +1681,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/18/2024 09:22:07</publishTime>
     </File>
     <File Include="Views/ResultQTHD/ListNV.cshtml">
-      <publishTime>03/04/2024 08:34:39</publishTime>
+      <publishTime>05/21/2024 15:48:19</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>07/22/2021 10:52:57</publishTime>
@@ -1702,7 +1702,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/02/2023 12:33:20</publishTime>
     </File>
     <File Include="Views/SLesson/Index.cshtml">
-      <publishTime>10/18/2022 15:12:46</publishTime>
+      <publishTime>05/21/2024 08:02:57</publishTime>
     </File>
     <File Include="Views/Statistic/Index.cshtml">
       <publishTime>03/01/2023 13:32:46</publishTime>
@@ -1753,7 +1753,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/22/2021 10:52:57</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/04/2023 09:40:40</publishTime>
+      <publishTime>05/22/2024 14:44:13</publishTime>
     </File>
   </ItemGroup>
 </Project>

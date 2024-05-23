@@ -121,7 +121,8 @@ namespace E_Learning.Controllers.QTHD
                            IDVTKNL =a.IDVTKNL,
                            MaHieu = a.MaHieu,
                            NgaHT =a.NgayHT,
-                           NgayKTTT =a.NgayKTTT,
+                           NgayKTTT = a.NgayKTTT,
+                           //NgayKT =a.NgayKT,
                            TenQTHD =a.TenQTHD,
                            TenVTKNL = a.TenViTri,
                            TinhTrang = a.TinhTrang,
@@ -175,6 +176,7 @@ namespace E_Learning.Controllers.QTHD
                 {
                     foreach (var data in DataKNL)
                     {
+                        int dk = (int)db.QT_DinhKy.Where(x => x.IDDK == data.IDDK).FirstOrDefault().MaDinhKy;
                         Worksheet.Cell(row, "A").Value = row - 1;
                         Worksheet.Cell(row, "A").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                         Worksheet.Cell(row, "A").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
@@ -212,19 +214,19 @@ namespace E_Learning.Controllers.QTHD
                         Worksheet.Cell(row, "G").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                         //Worksheet.Cell(row, "F").Style.Fill.BackgroundColor = XLColor.Yellow;
 
-                        Worksheet.Cell(row, "H").Value = data.diem != null && data.TinhTrangKT ==0 ?data.diem.ToString():"";
+                        Worksheet.Cell(row, "H").Value = data.diem != null && data.NgaHT != null && data.TinhTrangKT ==0 ?data.diem.ToString():"";
                         Worksheet.Cell(row, "H").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                         Worksheet.Cell(row, "H").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "H").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                         //Worksheet.Cell(row, "H").Style.DateFormat.Format = "dd/MM/yyyy";
 
-                        Worksheet.Cell(row, "I").Value = data.NgaHT != null?data.NgaHT.ToString():"";
+                        Worksheet.Cell(row, "I").Value = data.NgaHT != null ?data.NgaHT.ToString():"";
                         Worksheet.Cell(row, "I").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                         Worksheet.Cell(row, "I").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "I").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                         Worksheet.Cell(row, "I").Style.DateFormat.Format = "dd/MM/yyyy";
 
-                        Worksheet.Cell(row, "J").Value = data.NgayKTTT != null ? data.NgayKTTT.ToString() : "";
+                        Worksheet.Cell(row, "J").Value = data.NgaHT != null ? ((DateTime)data.NgaHT).AddMonths(dk).ToString() : "";
                         Worksheet.Cell(row, "J").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                         Worksheet.Cell(row, "J").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "J").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
@@ -284,7 +286,7 @@ namespace E_Learning.Controllers.QTHD
                            NgayHieuLuc = a.NgayHieuLuc,
                            NgayHetHieuLuc = a.NgayHetHieuLuc,
                            TinhTrangHL = a.NgayHieuLuc < DateTime.Now && (a.NgayHetHieuLuc == null || a.NgayHetHieuLuc == default || a.NgayHetHieuLuc > DateTime.Now) ? 1 : a.NgayHieuLuc > DateTime.Now ? 2 : 0,
-                           TinhTrangKT = a.DKID != 1 && DateTime.Now > a.NgayKTTT?1:0 
+                           TinhTrangKT = a.DKID != 1 && a.NgayHT != null && DateTime.Now > ((DateTime)a.NgayHT).AddMonths((int)db.QT_DinhKy.Where(x=>x.IDDK == a.DKID).FirstOrDefault().MaDinhKy) ?1:0 
                        }).ToList().Where(x => x.TinhTrangHL == 1).OrderBy(x => x.MaNV).OrderBy(x=>x.IDPB);
 
             if (IDMahieu != 0) res = res.Where(x => x.IDQTHD == IDMahieu).ToList().OrderBy(x => x.MaNV).OrderBy(x => x.IDPB);

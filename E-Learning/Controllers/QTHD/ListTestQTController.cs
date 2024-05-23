@@ -72,22 +72,32 @@ namespace E_Learning.Controllers.QTHD
             // tình trạng làm bài thi
             foreach (var item in res)
             {
-                int aa = (int)item.QT_DinhKy.MaDinhKy;
+                int dk = (int)item.QT_DinhKy.MaDinhKy;
 
-                DateTime NgayKTTT = (DateTime)item.NoiDungQT.NgayHieuLuc;
+                //DateTime NgayKTTT = (DateTime)item.NoiDungQT.NgayHieuLuc;
                 var checkkt = db.QT_BaiKiemTra.Where(x => x.IDNV == IDNV && x.QTHDID == item.QTHDID).OrderByDescending(x => x.LanKT).ToList();
-                if (checkkt.Count != 0)
+                if (checkkt.Count() != 0)
                 {
-                    item.NgayKTTiep = (DateTime)checkkt.FirstOrDefault().NgayKTTT;
+                    if(checkkt.FirstOrDefault().NgayHT != null)
+                    {
+                        item.NgayKTTiep = (DateTime)checkkt.FirstOrDefault().NgayHT;
+                        item.NgayKTTiep = item.NgayKTTiep.AddMonths(dk);
+                    }
+                    else
+                    {
+                        item.NgayKTTiep = new DateTime(1970, 01, 01);
+                    }
+                   
                     item.DiemSo = checkkt.Where(x => x.TinhTrang == 1).FirstOrDefault()?.Diem ?? 0;
-                    DateTime nht = (DateTime)checkkt.FirstOrDefault().NgayHT;
+                    item.NgayHT = checkkt.FirstOrDefault()?.NgayHT ?? default;
+                    DateTime nht = (DateTime)checkkt.FirstOrDefault().NgayKT;
 
-                    if (item.NgayKTTiep < DateTime.Now && aa != 0) //quá hạn
+                    if (item.NgayKTTiep < DateTime.Now && dk != 0) //quá hạn
                     {
                         item.TinhTrangKT = 0;
                         //item.NgayHT = checkkt.Where(x => x.TinhTrang == 1).FirstOrDefault()?.NgayHT ?? default;
                     }
-                    else if (checkkt.Where(x => x.TinhTrang == 1).Count() > 0 && (item.NgayKTTiep >= DateTime.Now || aa == 0)) //Đạt
+                    else if (checkkt.Where(x => x.TinhTrang == 1).Count() > 0 && (item.NgayKTTiep >= DateTime.Now || dk == 0)) //Đạt
                     {
                         item.TinhTrangKT = 1;
                         item.TinhTrang = checkkt.Where(x => x.TinhTrang == 1).Count() > 0 ? 1 : 0;
@@ -165,6 +175,17 @@ namespace E_Learning.Controllers.QTHD
                     if (checkkt.Count != 0)
                     {
                         item.NgayKTTiep = (DateTime)checkkt.FirstOrDefault().NgayKTTT;
+                        int dk = (int)db.QT_DinhKy.Where(x => x.IDDK == item.DKID).FirstOrDefault().MaDinhKy;    
+                        if (checkkt.FirstOrDefault().NgayHT != null)
+                        {
+                            item.NgayKTTiep = (DateTime)checkkt.FirstOrDefault().NgayHT;
+                            item.NgayKTTiep = item.NgayKTTiep.AddMonths(dk);
+                        }
+                        else
+                        {
+                            item.NgayKTTiep = new DateTime(1970, 01, 01);
+                        }
+
                         item.DiemSo = checkkt.Where(x => x.TinhTrang == 1).FirstOrDefault()?.Diem ?? 0;
 
                         if (item.NgayKTTiep < DateTime.Now && aa != 0) //quá hạn
@@ -213,7 +234,7 @@ namespace E_Learning.Controllers.QTHD
             {
                 if (lanthi.Count >= 3 && lanthi.FirstOrDefault().NgayKTTT >= DateTime.Now)
                 {
-                    DateTime aa = (DateTime)lanthi.FirstOrDefault().NgayHT;
+                    DateTime aa = (DateTime)lanthi.FirstOrDefault().NgayKT;
                     if (aa.AddDays(1) >= DateTime.Now)
                     {
                         TempData["msgSuccess"] = "<script>alert('Bạn đã thi quá 3 lần. Vui lòng làm lại bài thi sau 24h');</script>";
@@ -289,11 +310,11 @@ namespace E_Learning.Controllers.QTHD
                         if (i == 0)
                         {
                             var lanthi = db.QT_BaiKiemTra.Where(x => x.IDNV == ListQ.IDNV && x.QTHDID == ListQ.QTHDID).OrderByDescending(x=>x.LanKT).ToList();
-                            if (lanthi.Count !=0)
+                            if (lanthi.Count() !=0)
                             {
                                 if(lanthi.FirstOrDefault().NgayKTTT >= DateTime.Now || dk == 0)
                                 {
-                                    DateTime ngay = (DateTime)lanthi.FirstOrDefault().NgayHT;
+                                    DateTime ngay = (DateTime)lanthi.FirstOrDefault().NgayKT;
                                     if (lanthi.Where(x => x.TinhTrang == 1).Count() > 0)
                                     {
                                         TempData["msgSuccess"] = "<script>alert('Bạn đã thi đạt ở kỳ sát hạch này');</script>";
@@ -322,11 +343,11 @@ namespace E_Learning.Controllers.QTHD
                                         }
                                         if (lanthi.Count >= 3)
                                         {
-                                            db.QT_BaiKiemTra_insert(ListQ.IDNV, ListQ.QTHDID, 0, DateTime.Now, lanthi.FirstOrDefault().NgayKTTT, 1, 0, luotKt, IDKTout);
+                                            db.QT_BaiKiemTra_insert(ListQ.IDNV, ListQ.QTHDID, 0, DateTime.Now, DateTime.Now.AddMonths(dk), 1, 0, luotKt,DateTime.Now, IDKTout);
                                         }
                                         else
                                         {
-                                            db.QT_BaiKiemTra_insert(ListQ.IDNV, ListQ.QTHDID, 0, DateTime.Now, lanthi.FirstOrDefault().NgayKTTT, (lanthi.Count + 1), 0, luotKt, IDKTout);
+                                            db.QT_BaiKiemTra_insert(ListQ.IDNV, ListQ.QTHDID, 0, DateTime.Now, DateTime.Now.AddMonths(dk), (lanthi.Count + 1), 0, luotKt, DateTime.Now, IDKTout);
                                         }
                                         //db.QT_BaiKiemTra_insert(ListQ.IDNV, ListQ.QTHDID, 0, DateTime.Now, lanthi.FirstOrDefault().NgayKTTT, (lanthi.Count + 1), 0, luotKt, IDKTout);
                                         IDBaiThi = Convert.ToInt32(IDKTout.Value);
@@ -366,7 +387,7 @@ namespace E_Learning.Controllers.QTHD
                                     db.QT_BaiKiemTra_delete(ListQ.IDNV, ListQ.QTHDID);
 
                                     //db.QT_BaiKiemTra_insert(ListQ.IDNV, ListQ.QTHDID, 0, DateTime.Now, NgayKTTT.AddMonths(dk * (countCir + 1)),1, 0, luotKt + 1, IDKTout);
-                                    db.QT_BaiKiemTra_insert(ListQ.IDNV, ListQ.QTHDID, 0, DateTime.Now, DateTime.Now.AddMonths(dk), 1, 0, luotKt + 1, IDKTout);
+                                    db.QT_BaiKiemTra_insert(ListQ.IDNV, ListQ.QTHDID, 0, DateTime.Now, DateTime.Now.AddMonths(dk), 1, 0, luotKt + 1, DateTime.Now, IDKTout);
 
                                     IDBaiThi = Convert.ToInt32(IDKTout.Value);
                                     if (Q.IDDAĐung == Q.Answer)
@@ -389,7 +410,7 @@ namespace E_Learning.Controllers.QTHD
                                     countCir = Countthang / dk;
                                 }
                                 //db.QT_BaiKiemTra_insert(ListQ.IDNV, ListQ.QTHDID, 0, DateTime.Now, NHL.AddMonths(dk * (countCir + 1)), 1, 0, 1, IDKTout);
-                                db.QT_BaiKiemTra_insert(ListQ.IDNV, ListQ.QTHDID, 0, DateTime.Now, DateTime.Now.AddMonths(dk), 1, 0, 1, IDKTout);
+                                db.QT_BaiKiemTra_insert(ListQ.IDNV, ListQ.QTHDID, 0, DateTime.Now, DateTime.Now.AddMonths(dk), 1, 0, 1, DateTime.Now, IDKTout);
                                 //if (lanthi.Count >= 3)
                                 //{
                                 //    db.QT_BaiKiemTra_insert(ListQ.IDNV, ListQ.QTHDID, 0, DateTime.Now, NHL.AddMonths(dk * (countCir + 1)), 0, 0, luotKt+1, IDKTout);
@@ -421,12 +442,12 @@ namespace E_Learning.Controllers.QTHD
                     if(diemso > 10 ) diemso = 10;
                     if (diemso >= qt.DiemChuan)
                     {
-                        db.QT_BaiKiemTra_UpdateDiem(diemso, 1, IDBaiThi);
+                        db.QT_BaiKiemTra_UpdateDiem(diemso, 1,DateTime.Now, IDBaiThi);
                         msg = "<script>alert('Chúc mừng bạn đã hoàn thành bài thi với số điểm là: " + diemso + "');</script>";
                     }
                     else
                     {
-                        db.QT_BaiKiemTra_UpdateDiem(diemso, 0, IDBaiThi);
+                        db.QT_BaiKiemTra_UpdateDiem(diemso, 0,null, IDBaiThi);
                         msg = "<script>alert('Bài thi của bạn đạt số điểm là: " + diemso + ". Bạn cần tham gia thi lại');</script>";
                     }
 
