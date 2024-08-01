@@ -43,6 +43,9 @@
     .table-responsive::-webkit-scrollbar {
         width: 2px;
     }
+    .flex1{
+        flex:1;
+    }
 
 </style>
 
@@ -68,13 +71,16 @@
             <div class="col-md-2">
                 <input type="text" id="txtsearch" name="" placeholder="Nhập mã vị trí" class="form-control position-relative" style="top:-5px" value="@ViewBag.search">
             </div>
+            <div class="col-md-2">
+                <input type="text" id="txtsearchVT" name="" placeholder="Nhập tên vị trí" class="form-control position-relative" style="top:-5px" value="@ViewBag.searchVT">
+            </div>
             @*<div class="col-md-2">
             <button type="button" id="btn-add" class="btn btn-primary m-l-auto" style="font-size:0.7rem"><i class="fa fa-user-plus">&nbsp;</i>&nbsp;Điều động nhân viên </button>
             <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("ChangeNVGroup","FPosition")'></div>
         </div>*@
             @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DE_KNL))
             {
-                <div class="col-md-2">
+                <div class="col-md-2 flex1">
                     <a class="fa fa-random float-right btn btn-warning" title="Năng lực mặc định" style="font-size:0.8rem" href="@Url.Action("CreateKNLDefault", "FPosition")"
                        onclick="return confirm('Cập nhật năng lực mặc định ')">
                         &nbsp;Năng lực mặc định
@@ -90,34 +96,14 @@
         </div>*@
             @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.TRAN_KNL))
             {
-                <div class="col-md-2 ">
+                <div class="col-md-1 flex1">
                     @*<a id="btn-sync" title="Đồng bộ" class="fa fa-refresh float-right">Đồng bộ Vị trí</a>*@
                     <a class="fa fa-exchange btn btn-warning" title="Điều chuyển vị trí" href="@Url.Action("ChangePositon", "FPosition")">
                         Điều chuyển vị trí
                     </a>
                 </div>
-            }
 
-            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ED_KNL))
-            {
-                <div class="col-md-2 ">
-                    @*<a id="btn-sync" title="Đồng bộ" class="fa fa-refresh float-right">Đồng bộ Vị trí</a>*@
-                    <button type="button" id="btn-sync" class="btn btn-success m-l-auto"><i class="fa fa-refresh">&nbsp;</i>&nbsp;Đồng bộ Vị trí </button>
-                    <div class=" modal fade" id="myModaleS" role="dialog" data-url='@Url.Action("SyncVT","FPosition")'></div>
-                    <script type="text/javascript">
-                        $("#btn-sync").click(function () {
-                            var url = $('#myModaleS').data('url');
-                            $.get(url, function (data) {
-                                $("#myModaleS").html(data);
-                                $("#ModalTitle").html("Sync Vị trí");
-                                $("#myModaleS").modal('show');
-                            });
-
-                        });
-                    </script>
-                </div>
-
-                <div class="col-md-2">
+                <div class="col-md-2 flex1">
                     <button type="button" id="btn-copys" class="btn btn-secondary m-l-auto"><i class="fa fa-files-o">&nbsp;</i>&nbsp;Copy Dữ liệu </button>
                     <div class=" modal fade" id="myModaleC" role="dialog" data-url='@Url.Action("CopyMapingData","FPosition")'></div>
                     <script type="text/javascript">
@@ -134,22 +120,46 @@
                 </div>
             }
 
+            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ED_KNL))
+            {
+                <div class="col-md-2 flex1">
+                    @*<a id="btn-sync" title="Đồng bộ" class="fa fa-refresh float-right">Đồng bộ Vị trí</a>*@
+                    <button type="button" id="btn-sync" class="btn btn-success m-l-auto"><i class="fa fa-refresh">&nbsp;</i>&nbsp;Đồng bộ Vị trí </button>
+                    <div class=" modal fade" id="myModaleS" role="dialog" data-url='@Url.Action("SyncVT","FPosition")'></div>
+                    <script type="text/javascript">
+                        $("#btn-sync").click(function () {
+                            var url = $('#myModaleS').data('url');
+                            $.get(url, function (data) {
+                                $("#myModaleS").html(data);
+                                $("#ModalTitle").html("Sync Vị trí");
+                                $("#myModaleS").modal('show');
+                            });
+
+                        });
+                    </script>
+                </div>
+
+
+
+            }
+
             @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EX))
             {
-                <div class="col-md-2">
-                    <a class="fa fa-file-excel float-right btn btn-primary m-1" title="Export dữ liệu" href="@Url.Action("ExportToExcel", "FPosition")"
+                <div class="col-md-2 flex1">
+                    <a class="fa fa-file-excel float-right btn btn-primary " title="Export dữ liệu" href="@Url.Action("ExportToExcel", "FPosition")"
                        onclick="return confirm('Export dữ liệu?')">
                         &nbsp;Thống kê nhập KNL
                     </a>
                 </div>
+                <div class="col-md-2 flex1">
+                    <a class="fa fa-file-excel float-right btn btn-primary " title="Export dữ liệu" href="@Url.Action("ExportToBMKNL", "FPosition",new { IDPB = Request.QueryString["IDPB"],IDPX =Request.QueryString["IDPX"],IDTo= Request.QueryString["IDTo"],IDNhom =Request.QueryString["IDNhom"] })"
+                       onclick="return confirm('Export dữ liệu?')">
+                        &nbsp;DS bảng KNL
+                    </a>
+                </div>
             }
 
-            <div class="col-md-2">
-                <a class="fa fa-file-excel float-right btn btn-primary m-1" title="Export dữ liệu" href="@Url.Action("ExportToBMKNL", "FPosition",new { IDPB = Request.QueryString["IDPB"],IDPX =Request.QueryString["IDPX"],IDTo= Request.QueryString["IDTo"],IDNhom =Request.QueryString["IDNhom"] })"
-                   onclick="return confirm('Export dữ liệu?')">
-                    &nbsp;DS bảng KNL
-                </a>
-            </div>
+
 
 
 
@@ -465,7 +475,6 @@
                                                        onclick="return confirm('Bạn muốn xóa khung năng lực: @item.TenViTri')">
                                                     </a>
 
-
                                                 }
                                                 @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
                                                 {
@@ -589,7 +598,7 @@
         width: "100%"
     });
     $("#btn-search").on('click', function () {
-        window.location.href = '@Url.Action("Index", "FPosition")?IDPB=' + $('#IDPB').val() + "&IDPX=" + $('#IDPX').val() + "&IDNhom=" + $('#IDNhom').val() + "&IDTo=" + $('#IDTo').val() + "&IDKhoi=" + $('#IDKhoi').val() + "&search=" + $('#txtsearch').val();
+        window.location.href = '@Url.Action("Index", "FPosition")?IDPB=' + $('#IDPB').val() + "&IDPX=" + $('#IDPX').val() + "&IDNhom=" + $('#IDNhom').val() + "&IDTo=" + $('#IDTo').val() + "&IDKhoi=" + $('#IDKhoi').val() + "&search=" + $('#txtsearch').val() + "&searchVT=" + $('#txtsearchVT').val();
         //if ($('#IDPX').val() != null) {
         //    $('#IDPX').val(Request.QueryString["IDPX"]);
         //}

@@ -28,6 +28,7 @@ namespace E_Learning.Models
         public int IDQuyen { get; set; }
         public int IDQuyenKNL { get; set; }
         public int IDPhongBan { get; set; }
+        public List<ItemCheck> LSChecked { get; set; }
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Wordprocessing;
 using E_Learning.Models;
 using E_Learning.ModelsQTHD;
 using PagedList;
@@ -232,6 +233,9 @@ namespace E_Learning.Controllers.QTHD
             var lanthi = db.QT_BaiKiemTra.Where(x => x.IDNV == NVID && x.QTHDID == IDQTHD ).OrderByDescending(x=>x.LanKT).ToList();
             if (lanthi.Count > 0)
             {
+                var dinhky = db.QT_PhanQuyen.Where(x=>x.QTHDID == IDQTHD && x.IDVTKNL == IDVTKNL).FirstOrDefault();
+                var NgayHT = lanthi.Where(x=>x.NgayHT != null && x.TinhTrang ==1).FirstOrDefault();
+                if (NgayHT != null) lanthi.FirstOrDefault().NgayKTTT = (DateTime)NgayHT.NgayHT.Value.AddMonths((int)dinhky.QT_DinhKy.MaDinhKy);
                 if (lanthi.Count >= 3 && lanthi.FirstOrDefault().NgayKTTT >= DateTime.Now)
                 {
                     DateTime aa = (DateTime)lanthi.FirstOrDefault().NgayKT;
@@ -312,7 +316,10 @@ namespace E_Learning.Controllers.QTHD
                             var lanthi = db.QT_BaiKiemTra.Where(x => x.IDNV == ListQ.IDNV && x.QTHDID == ListQ.QTHDID).OrderByDescending(x=>x.LanKT).ToList();
                             if (lanthi.Count() !=0)
                             {
-                                if(lanthi.FirstOrDefault().NgayKTTT >= DateTime.Now || dk == 0)
+                                var dinhky = db.QT_PhanQuyen.Where(x => x.QTHDID == ListQ.QTHDID && x.IDVTKNL == ListQ.IDVTKNL).FirstOrDefault();
+                                var NgayHT = lanthi.Where(x => x.NgayHT != null && x.TinhTrang == 1).FirstOrDefault();
+                                if (NgayHT != null) lanthi.FirstOrDefault().NgayKTTT = (DateTime)NgayHT.NgayHT.Value.AddMonths((int)dinhky.QT_DinhKy.MaDinhKy);
+                                if (lanthi.FirstOrDefault().NgayKTTT >= DateTime.Now || dk == 0)
                                 {
                                     DateTime ngay = (DateTime)lanthi.FirstOrDefault().NgayKT;
                                     if (lanthi.Where(x => x.TinhTrang == 1).Count() > 0)
@@ -325,7 +332,6 @@ namespace E_Learning.Controllers.QTHD
                                     {
                                         TempData["msgSuccess"] = "<script>alert('Bạn đã thi quá 3 lần. Vui lòng làm lại bài thi sau 24h');</script>";
                                         return RedirectToAction("Index", "ListTestQT", new { IDNV = ListQ.IDNV, IDVTKNL = ListQ.IDVTKNL });
-
                                     }
                                     else
                                     {

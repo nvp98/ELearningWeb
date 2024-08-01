@@ -1,0 +1,98 @@
+﻿@model E_Learning.Models.ManageClassValidation
+
+@*<script src="~/Scripts/jquery-3.0.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>*@
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm("ExportProcess", "ManageClass", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog" id="form">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <fieldset id="SubmitForm">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="small mb-1" for="inputLastName">Tải Mẫu xử lý dữ liệu</label>
+                                <input type="file" id="FileUpload" name="FileUpload" class="form-control" onchange="checkfile(this);" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="btn-margin-top text-center">
+                        <input type="submit" value="Xử lý dữ liệu" id="btnSubmit" class="btn btn-success button_submit" />
+
+                    </div>
+                </fieldset>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+<script>
+    function checkfile(sender) {
+        var validExts = new Array(".xlsx", ".xls");
+        var fileExt = sender.value;
+        fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+        if (validExts.indexOf(fileExt) < 0) {
+            alert("Vui lòng chọn file Excel: " +
+                validExts.toString() + "");
+            $('#FileUpload').val() = '';
+            return false;
+        }
+        else { return true; }
+    };
+
+    $("#btnSubmit").on('click', function () {
+        var file = $('#FileUpload').val();
+        if (file.length == 0) {
+            alert('Vui lòng chọn file Import.');
+            return false;
+        } else {
+            var validExts = new Array(".xlsx", ".xls");
+            var fileExt = file;
+            fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+            if (validExts.indexOf(fileExt) < 0) {
+                alert("Vui lòng chọn file Excel: " +
+                    validExts.toString() + "");
+                return false;
+            }
+            else {
+                return true;
+                //var begind = Date.parse($('#TGBDLH').val());
+                //var endd = Date.parse($('#TGKTLH').val());
+                //if (begind > endd) {
+                //    alert('Vui lòng chọn Thời gian Bắt đầu phải nhỏ hơn Thời gian Kết thúc');
+                //    return false;
+                //} else if (endd < Date.now()) {
+                //    alert('Vui lòng chọn Thời gian Kết thúc phải lớn hơn ngày hiện tại');
+                //    return false;
+                //} else {
+                //    return true;
+                //}
+            }
+        }
+
+    });
+
+
+    $("#NDID").chosen({
+        width: "100%"
+    });
+
+
+</script>
+

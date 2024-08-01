@@ -21,6 +21,18 @@ namespace E_Learning.Controllers
                            join b in db.QuyenCNs on a.IDQuyenCN equals b.ID
                            join c in db.ListControllers.Where(x => x.Controller == ControllerName && x.isActive == 1) on a.IDController equals c.ID
                            select b.MaQuyen).ToList();
+            var mulQuyen = db.PhanQuyenHTs.Where(x => x.IDNV == MyAuthentication.ID).ToList();
+            if (mulQuyen.Count > 0)
+            {
+                foreach (var item in mulQuyen)
+                {
+                    var lsq = (from a in db.QuyenDetails.Where(x => x.IDQuyen == item.IDQuyen && x.isActive == 1)
+                               join b in db.QuyenCNs on a.IDQuyenCN equals b.ID
+                               join c in db.ListControllers.Where(x => x.Controller == ControllerName && x.isActive == 1) on a.IDController equals c.ID
+                               select b.MaQuyen).ToList();
+                    lsQuyen.AddRange(lsq);
+                }
+            }
             if (!lsQuyen.Contains(CONSTKEY.V)) lsQuyen = new List<string>();
             return lsQuyen;
         }
@@ -30,6 +42,17 @@ namespace E_Learning.Controllers
             var lsQuyen = (from a in db.QuyenDetails.Where(x => x.IDQuyen == Idquyen && x.IDQuyenCN == 1 && x.isActive == 1)
                            join b in db.ListControllers.Where(x => x.isActive == 1) on a.IDController equals b.ID
                            select b.Controller).ToList();
+            var mulQuyen = db.PhanQuyenHTs.Where(x=>x.IDNV == MyAuthentication.ID).ToList();
+            if(mulQuyen.Count > 0)
+            {
+                foreach (var item in mulQuyen)
+                {
+                    var lsq = (from a in db.QuyenDetails.Where(x => x.IDQuyen == item.IDQuyen && x.IDQuyenCN == 1 && x.isActive == 1)
+                               join b in db.ListControllers.Where(x => x.isActive == 1) on a.IDController equals b.ID
+                               select b.Controller).ToList();
+                    lsQuyen.AddRange(lsq);
+                }
+            }
             return lsQuyen;
         }
         public ActionResult About()

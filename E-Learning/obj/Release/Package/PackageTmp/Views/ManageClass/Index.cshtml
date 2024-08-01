@@ -82,6 +82,8 @@
                         @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EX))
                         {
                             <button type="button" id="btn-ExportLH" class="btn btn-success m-l-auto"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Danh sách lớp học</button>
+                            <button type="button" id="btn-process" class="btn btn-primary m-l-auto"><i class="fa fa-plus">&nbsp;</i>&nbsp;Xử lý dữ liệu </button>
+                            <span class="modal fade" id="myModalProcess" role="dialog" data-url='@Url.Action("ExportProcess","ManageClass"@*, new { id = @Url.RequestContext.RouteData.Values["id"]}*@)'></span>
                         }
                         <button type="button" id="btn-Export" class="btn btn-success m-l-auto"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Biểu Mẫu DSHV</button>
                         <span class="modal fade" id="myModalimport" role="dialog" data-url='@Url.Action("ExportToExcel","ManageClass")'></span>
@@ -204,6 +206,15 @@
             $("#myModal").html(data);
             $("#ModalTitle").html("Thêm mới Lớp Học");
             $("#myModal").modal('show');
+        });
+    });
+
+    $('#btn-process').click(function () {
+        var url = $('#myModalProcess').data('url');
+        $.get(url, function (data) {
+            $("#myModalProcess").html(data);
+            $("#ModalTitle").html("Xử lý dữ liệu");
+            $("#myModalProcess").modal('show');
         });
     });
 

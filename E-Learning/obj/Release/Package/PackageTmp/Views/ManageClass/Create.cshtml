@@ -60,7 +60,7 @@
                                             $.get("/ManageClass/GetDeThi", { id: $("#NDID").val() }, function (data) {
                                                 $("#IDDeThi").empty();
                                                 $.each(data, function (index, row) {
-                                                    $("#IDDeThi").append("<option value ='" + row.IDDeThi + "'>" + row.TenDe + "</option>")
+                                                    $("#IDDeThi").append("<option value ='" + row.IDDeThi + "'>" +"Điểm chuẩn: "+ row.DiemChuan + "-" + row.TenDe + "</option>")
                                                 });
                                             });
                                         })

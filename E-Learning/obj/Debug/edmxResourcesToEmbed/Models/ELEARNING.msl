@@ -1622,5 +1622,14 @@
     <FunctionImportMapping FunctionImportName="TB_KyLuat_insert" FunctionName="ELEARNING_KNLModel.Store.TB_KyLuat_insert" />
     <FunctionImportMapping FunctionImportName="VitriKNL_update_TinhTrang" FunctionName="ELEARNING_KNLModel.Store.VitriKNL_update_TinhTrang" />
     <FunctionImportMapping FunctionImportName="QT_BaiKiemTra_UpdateDeThi" FunctionName="ELEARNING_KNLModel.Store.QT_BaiKiemTra_UpdateDeThi" />
+    <EntitySetMapping Name="PhanQuyenHTs">
+      <EntityTypeMapping TypeName="ELEARNING_KNLModel.PhanQuyenHT">
+        <MappingFragment StoreEntitySet="PhanQuyenHT">
+          <ScalarProperty Name="IDQuyen" ColumnName="IDQuyen" />
+          <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

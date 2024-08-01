@@ -53,8 +53,8 @@ namespace E_Learning.Controllers
                 return RedirectToAction("", "Home");
             }
             db.Configuration.ProxyCreationEnabled = false;
-            var quyen = ViewBag.CREATE;
-            if (quyen != "1") return RedirectToAction("Index", "Home");
+            //var quyen = ViewBag.CREATE;
+            //if (quyen != "1") return RedirectToAction("Index", "Home");
             List<PhongBan> dt = db.PhongBans.ToList();
             ViewBag.IDPB = new SelectList(dt, "IDPhongBan", "TenPhongBan");
 

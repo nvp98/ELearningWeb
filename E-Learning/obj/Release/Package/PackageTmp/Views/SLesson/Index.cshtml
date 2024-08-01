@@ -17,86 +17,130 @@
     @Html.Raw(TempData["msgError"])
 }
 
+<style>
+  /*  #videoPlayer::-webkit-media-controls-timeline,
+    #videoPlayer::-webkit-media-controls-current-time-display {
+        display: none;
+    }*/
+    #videoPlayer::-webkit-media-controls-timeline {
+        display: none;
+    }
+
+    #videoPlayer::-moz-media-controls {
+        display: none;
+    }
+
+    /* Ẩn các điều khiển video mặc định */
+  /*  video::-webkit-media-controls {
+        display: none !important;
+    }
+
+    video::-moz-media-controls {
+        display: none !important;
+    }
+
+    video::-ms-media-controls {
+        display: none !important;
+    }*/
+
+    /* Tạo một thanh tiến trình tùy chỉnh */
+    .custom-controls {
+        width: 100%;
+        background-color: #ddd;
+        height: 5px;
+        position: absolute;
+        bottom: 0;
+        cursor: pointer;
+    }
+
+    .progress-bar {
+        height: 100%;
+        background-color: #2196F3;
+        width: 0;
+    }
+</style>
+
 
 <div class="app-main__outer">
     <div class="app-main__inner">
-         @foreach (var item in Model) {
-        <div class="app-page-title">
-            <div class="page-title-wrapper">
-                <div class="page-title-heading">
-                    <div class="page-title-icon">
-                        <i class="pe-7s-notebook icon-gradient bg-grow-early">
-                        </i>
-                    </div>
-                    <div>
-                        @item.TenLH
-                        <div class="page-title-subheading">
+        @foreach (var item in Model)
+        {
+            <div class="app-page-title">
+                <div class="page-title-wrapper">
+                    <div class="page-title-heading">
+                        <div class="page-title-icon">
+                            <i class="pe-7s-notebook icon-gradient bg-grow-early">
+                            </i>
+                        </div>
+                        <div>
+                            @item.TenLH
+                            <div class="page-title-subheading">
+                            </div>
                         </div>
                     </div>
+
                 </div>
-
             </div>
-        </div>
 
-        <div class="tab-content">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="main-card mb-3 card">
-                        <div class="card-body">
+            <div class="tab-content">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="main-card mb-3 card">
+                            <div class="card-body">
 
-                            <div class="row" style="padding: 38px 16px;">
+                                <div class="row" style="padding: 38px 16px;">
 
-                                
-                                <div class="col-lg-5" style="">
-                                    <div class="">
-                                        <h5 class="card-title">Hướng Dẫn Học Tập Trên Hệ Thống E-Learning</h5>
 
-                                        <ul>
-                                            <li><p>Học online: Học viên phải xem hết video bài học và nhấn nút <strong>“Hoàn thành”</strong> mới <strong>ghi nhận hoàn thành bài học.</strong></p></li>
+                                    <div class="col-lg-5" style="">
+                                        <div class="">
+                                            <h5 class="card-title">Hướng Dẫn Học Tập Trên Hệ Thống E-Learning</h5>
 
-                                            <li><p>Học viên phải <strong>hoàn thành bài học online</strong> và <strong>làm bài kiểm tra trắc nghiệm online</strong> mới ghi nhận là hoàn thành khóa học này.</p></li>
+                                            <ul>
+                                                <li><p>Học online: Học viên phải xem hết video bài học và nhấn nút <strong>“Hoàn thành”</strong> mới <strong>ghi nhận hoàn thành bài học.</strong></p></li>
 
-                                            <li><p>Học viên không thể tua nhanh video, khi video bị sự cố hoặc lỗi mạng học viên nhấn <strong>pause/play</strong> để tiếp tục.</p></li>
+                                                <li><p>Học viên phải <strong>hoàn thành bài học online</strong> và <strong>làm bài kiểm tra trắc nghiệm online</strong> mới ghi nhận là hoàn thành khóa học này.</p></li>
 
-                                            <li><p>Khi đang học online nếu học viên thoát khi chưa <strong>"Hoàn thành"</strong> bài học thì phải vào học lại từ đầu.</p></li>
+                                                <li><p>Học viên không thể tua nhanh video, khi video bị sự cố hoặc lỗi mạng học viên nhấn <strong>pause/play</strong> để tiếp tục.</p></li>
 
-                                            <li><p>Học viên có thể xem lại nội dung bài học trong thời gian lớp học online đang diễn ra.</p></li>
+                                                <li><p>Khi đang học online nếu học viên thoát khi chưa <strong>"Hoàn thành"</strong> bài học thì phải vào học lại từ đầu.</p></li>
 
-                                            <li><p>Học viên có thể <strong>làm bài kiểm tra online 3 lần </strong> nếu chưa đạt.</p></li>
-                                        </ul>
-                                        <div class="widget-content">
-                                            <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+                                                <li><p>Học viên có thể xem lại nội dung bài học trong thời gian lớp học online đang diễn ra.</p></li>
 
-                                                <div class="widget-content-left"><strong>Nội dung: </strong></div>
-                                                <div class="widget-content-right">@item.TenND</div>
+                                                <li><p>Học viên có thể <strong>làm bài kiểm tra online 3 lần </strong> nếu chưa đạt.</p></li>
+                                            </ul>
+                                            <div class="widget-content">
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
 
-                                            </div>
-                                            <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
-
-                                                <div class="widget-content-left"><strong>Lĩnh vực: </strong></div>
-                                                <div class="widget-content-right">@item.LinhVuc</div>
-
-                                            </div>
-                                            <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
-
-                                                <div class="widget-content-left"><strong>Tài liệu học tập đính kèm: </strong></div>
-                                                <div class="widget-content-right">
-                                                    @if (item.FileCTDT != null && item.FileCTDT.Length > 0)
-                                                    {
-                                                        <a href="@item.FileCTDT" target="_blank"><span style="color:red;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span> Xem nội dung</a>
-                                                    }
+                                                    <div class="widget-content-left"><strong>Nội dung: </strong></div>
+                                                    <div class="widget-content-right">@item.TenND</div>
 
                                                 </div>
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
 
+                                                    <div class="widget-content-left"><strong>Lĩnh vực: </strong></div>
+                                                    <div class="widget-content-right">@item.LinhVuc</div>
+
+                                                </div>
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+
+                                                    <div class="widget-content-left"><strong>Tài liệu học tập đính kèm: </strong></div>
+                                                    <div class="widget-content-right">
+                                                        @if (item.FileCTDT != null && item.FileCTDT.Length > 0)
+                                                        {
+                                                            <a href="@item.FileCTDT" target="_blank"><span style="color:red;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span> Xem nội dung</a>
+                                                        }
+
+                                                    </div>
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-7" style="">
+                                    <div class="col-lg-7" style="">
 
-                                    <div class="" style="width: 100%; height: auto;">
-                                        <div id="myElement">Loading the player...</div>
-                                        <script type="text/javascript">
+                                        <div class="" style="width: 100%; height: auto;">
+                                            @*<div id="myElement">Loading the player...</div>
+                                            <script type="text/javascript">
                                                                 var playerInstance = jwplayer("myElement");
                                                                 playerInstance.setup({
                                                                     file: "@item.VideoLH",
@@ -107,38 +151,45 @@
                                                                     aspectratio: "16 : 9",
                                                                    // height: 360,
                                                                 });
-                                        </script>
+                                            </script>*@
+                                            <video id="@(item.XNHT == false?"videoPlayer":"" )" width="100%" poster="@item.ImageLH" controls controlsList="nodownload" preload="auto" autoplay="true">
+                                                <source src="@item.VideoLH" type="video/mp4">
+                                                Trình duyệt của bạn không hỗ trợ thẻ video.
+                                            </video>
+                                            <div class="custom-controls" id="custom-controls">
+                                                <div class="progress-bar" id="progress-bar"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="" style="position: absolute;bottom: 14px;right: 30px">
+
+                                        @*<a class="" id="" href="@Url.Action("Index" , "EClassroom" , new { id = @item.NVID })">
+                                                <button id="back" class="btn-transition btn btn-outline-primary"><i class="fa fa-angle-left" aria-hidden="true"></i> Trở về </button>
+                                            </a>*@
+                                        @if (@item.XNHT == false)
+                                        {
+                                            <div id="dddd"></div>
+                                            <a class="" id="" href="@Url.Action("CompleteLesson" , "SLesson" , new { id = @item.IDHT })" onclick="">
+                                                <button id="target" class="btn-transition btn btn-success">Hoàn thành</button>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <script>
+                                                console.log("Complete");
+                                            </script>
+                                        }
                                     </div>
 
                                 </div>
-                                <div class="" style="position: absolute;bottom: 14px;right: 30px">
-
-                                    @*<a class="" id="" href="@Url.Action("Index" , "EClassroom" , new { id = @item.NVID })">
-                                        <button id="back" class="btn-transition btn btn-outline-primary"><i class="fa fa-angle-left" aria-hidden="true"></i> Trở về </button>
-                                    </a>*@
-                                    @if (@item.XNHT == false)
-                                    {
-                                        <div id="dddd"></div>
-                                        <a class="" id="" href="@Url.Action("CompleteLesson" , "SLesson" , new { id = @item.IDHT })" onclick="">
-                                            <button id="target" class="btn-transition btn btn-success">Hoàn thành</button>
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <script>
-                                            console.log("Complete");
-                                        </script>
-                                    }
-                                </div>
 
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-         }
+        }
     </div>
     <div class="app-wrapper-footer">
         <div class="app-footer">
@@ -148,6 +199,231 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="myModalTB" tabindex="-1" data-backdrop="static" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Thông báo!</h5>
+                @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>*@
+            </div>
+            <div class="modal-body text-center ">
+                <h6 class="font-weight-bold text-danger">Bạn có đang theo dõi bài học?</h6>
+                <h6 class="font-weight-bold text-danger">Sau 10 phút nếu không xác nhận hệ thống tự động đăng xuất!</h6>
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>*@
+                <button type="button" class="btn btn-primary" id="confirmBtn">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var video = document.getElementById('videoPlayer');
+    var progressBar = document.getElementById('progress-bar');
+    var lastPlaybackTime = 0;
+    // Cập nhật thanh tiến trình khi video đang phát và cập nhật thời gian phát
+    video.addEventListener('timeupdate', function () {
+        lastPlaybackTime = video.currentTime;
+        var progress = (video.currentTime / video.duration) * 100;
+        progressBar.style.width = progress + '%';
+    });
+
+    // Ngăn chặn người dùng kéo thanh tiến trình
+    document.getElementById('custom-controls').addEventListener('click', function (event) {
+        event.preventDefault();
+    });
+
+    // Handle the error event
+    video.addEventListener("error", function (e) {
+        // Optionally, save the error time to the server or local storage
+        localStorage.setItem('videoTime', lastPlaybackTime);
+    });
+
+    // Sự kiện khi video bị tạm dừng
+    video.addEventListener('pause', function () {
+        // Lưu thời gian hiện tại của video vào local storage
+        localStorage.setItem('videoTime', lastPlaybackTime);
+
+    });
+
+    // Sự kiện khi người dùng thoát khỏi trang
+    window.addEventListener('beforeunload', function () {
+        // Lưu thời gian hiện tại của video vào local storage
+        localStorage.setItem('videoTime', lastPlaybackTime);
+    });
+
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var video = document.getElementById("videoPlayer");
+        var modal = document.getElementById("myModalTB");
+        var confirmButton = document.getElementById("confirmBtn");
+        var videoStopped = false;
+        var videoEnded = false;
+        var lastTime = 0;
+        var stopTimeout;
+        var exitTimeout;
+
+        // Lấy URL hiện tại
+        var urlParams = new URLSearchParams(window.location.search);
+        var videoId = urlParams.get('LHID');
+       
+        localStorage.setItem('videoID', videoId);
+
+        // Thiết lập thời gian dừng lại (5 phút = 300 giây)
+        var stopInterval = 300 * 1000;
+        // Thiết lập thời gian tự động thoát (10 phút = 600 giây)
+        var autoExitTime = 600 * 1000;
+
+        function startStopTimeout() {
+            stopTimeout = setTimeout(function () {
+                if (!videoEnded) {
+                    video.pause();
+                    //modal.style.display = "block";
+                    $('#myModalTB').modal('show');
+                    videoStopped = true;
+
+                    // Thiết lập thời gian tự động thoát sau 10 phút nếu không xác nhận
+                    exitTimeout = setTimeout(function () {
+                        alert("Bạn đã không xác nhận trong thời gian quy định. Trang sẽ tự động thoát ra ngoài.");
+                        window.location.href = '@Url.Action("Logout", "Login")'; // Chuyển hướng tới trang khác
+                    }, autoExitTime);
+                }
+            }, stopInterval);
+        }
+
+        function resetTimeouts() {
+            clearTimeout(stopTimeout);
+            clearTimeout(exitTimeout);
+        }
+
+        // Khi video được phát lại, khởi động lại bộ đếm thời gian
+        video.addEventListener("play", function () {
+            if (!videoEnded) {
+                resetTimeouts();
+                startStopTimeout();
+            }
+        });
+
+        // Khi nhấn nút xác nhận, ẩn modal và tiếp tục phát video
+        confirmButton.addEventListener("click", function () {
+            //modal.style.display = "none";
+            $('#myModalTB').modal('hide');
+            if (videoStopped) {
+                video.play();
+                videoStopped = false;
+                resetTimeouts(); // Hủy bỏ thời gian tự động thoát nếu người dùng xác nhận
+            }
+        });
+
+        // Kiểm tra khi video kết thúc
+        video.addEventListener("ended", function () {
+            var element = document.getElementById("target");
+            videoEnded = true;
+            resetTimeouts(); // Dừng các bộ đếm thời gian khi video kết thúc
+            //alert("Bạn đã xem hết video!");
+            console.log("complete");
+            element.disabled = false;
+        });
+
+        // Chống tua video
+        //video.addEventListener("timeupdate", function () {
+        //    if (video.currentTime > lastTime + 1) {
+        //        video.currentTime = lastTime;
+        //    } else {
+        //        lastTime = video.currentTime;
+        //    }
+        //});
+
+        //video.addEventListener("seeking", function () {
+        //    event.preventDefault();
+        //    //if (video.currentTime > lastTime) {
+        //    //    video.currentTime = lastTime;
+        //    //}
+        //});
+        // Dừng video khi chuyển tab và phát lại khi quay lại
+        //document.addEventListener("visibilitychange", function () {
+        //    if (document.hidden) {
+        //        video.pause();
+        //    } else if (videoStopped) {
+        //        video.play();
+        //    }
+        //});
+        // Giám sát thời gian hiện tại của video để phát hiện sự cố
+        video.ontimeupdate = function () {
+            if (!videoEnded && video.currentTime === 0) {
+                video.play();
+            }
+        };
+        // Lấy phần tử video
+/*        var video = document.getElementById('myVideo');*/
+
+       
+        // Khi trang được tải
+        window.addEventListener('load', function () {
+            // Kiểm tra xem có thời gian đã lưu trong local storage không
+            var savedTime = localStorage.getItem('videoTime');
+            var videoId = urlParams.get('LHID');
+            var videoIdStore = localStorage.getItem('videoID');
+            if (savedTime && videoId == videoIdStore) {
+                // Nếu có, đặt thời gian đó cho video
+                video.currentTime = savedTime;
+            }
+        });
+    });
+</script>
+
+<script>
+    var video = document.getElementById('videoPlayer');
+    var lastPlaybackTime = 0;
+    // Lắng nghe sự kiện lỗi
+    video.onerror = function (event) {
+        var error = video.error;
+        var errorMessage = '';
+
+        switch (error.code) {
+            case error.MEDIA_ERR_ABORTED:
+                errorMessage = 'Video playback was aborted.';
+                break;
+            case error.MEDIA_ERR_NETWORK:
+                errorMessage = 'A network error caused the video download to fail.';
+                break;
+            case error.MEDIA_ERR_DECODE:
+                errorMessage = 'The video playback was aborted due to a corruption problem or because the video used features your browser did not support.';
+                break;
+            case error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+                errorMessage = 'The video could not be loaded, either because the server or network failed or because the format is not supported.';
+                break;
+            default:
+                errorMessage = 'An unknown error occurred.';
+                break;
+        }
+        console.log(errorMessage);
+    };
+
+    // Kiểm tra các lỗi phát sinh trong quá trình tải video
+    video.onstalled = function () {
+        console.log('The video is stalled due to lack of data.');
+    };
+
+    video.onwaiting = function () {
+        console.log('The video is waiting for more data.');
+    };
+
+    //video.onseeking = function () {
+    //    alert('The video is seeking.');
+    //};
+
+    //video.onseeked = function () {
+    //    alert('The video has finished seeking.');
+    //};
+</script>
 
 <script type="text/javascript">
 
@@ -172,14 +448,19 @@
     //        clearInterval(Pause);
     //    }, 20000);
     //});
-
+    let checkview;
     jwplayer().on('play', function (event) {
         console.log("playt");
-        var checkview = setInterval(pause, 300000);
+        checkview = setInterval(pause, 300000);
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
         function pause() {
             jwplayer().pause();
             console.log("auto pause");
-            setTimeout(aler, 1000);
+            $('#myModalTB').modal('show');
+            clearInterval(checkview);
+            startTimer(); // đếm 10ph dừng
         }
         function aler() {
             clearInterval(checkview);
@@ -191,9 +472,62 @@
         //    console.log("pauset");
         //    clearInterval(checkview);
         //});
-        
+
     });
-    
+
+    $('#confirmBtn').on('click', function () {
+        console.log('Confirmed');
+        // Thực hiện hành động xác nhận ở đây
+        $('#myModalTB').modal('hide'); // Đóng modal sau khi xác nhận
+        console.log("auto play");
+        jwplayer().play();
+        stopTimer();
+    });
+
+
+    // Dừng video khi chuyển tab
+    document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+            jwplayer().pause();
+            clearInterval(checkview);
+        } else {
+            // Uncomment the line below if you want the video to resume playing when the tab becomes visible again
+            // video.play();
+        }
+    });
+
+    // Dừng video khi cửa sổ bị làm mờ
+    //window.addEventListener("blur", function () {
+    //    jwplayer().pause();
+    //});
+
+    let timer;
+    let seconds = 0;
+
+    function startTimer() {
+        // Nếu bộ đếm đã chạy, không làm gì cả
+        if (timer) return;
+        // Bắt đầu bộ đếm thời gian
+        timer = setInterval(() => {
+            seconds++;
+    /*        console.log(seconds);*/
+            let minutes = Math.floor((seconds % 3600) / 60);
+            if (minutes == 10) {
+                 window.location.href = '@Url.Action("Logout", "Login")';
+            }
+            //document.getElementById("timer").textContent = seconds;
+        }, 1000); // Cập nhật mỗi giây
+    }
+
+    function stopTimer() {
+        // Dừng bộ đếm thời gian
+        clearInterval(timer);
+        timer = null;
+        seconds = 0;
+    }
+
+
+
     // API JWplayer prevent
 
     var seeking = false;

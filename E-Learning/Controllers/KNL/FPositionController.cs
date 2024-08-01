@@ -40,7 +40,7 @@ namespace E_Learning.Controllers
         int Idquyen = MyAuthentication.IDQuyen;
         String ControllerName = "FPosition";
         // GET: FPosition
-        public ActionResult Index(int? page, string search, int? IDPB,int? IDPX,int? IDNhom ,int? IDKhoi,int? IDTo)
+        public ActionResult Index(int? page, string search, string searchVT, int? IDPB,int? IDPX,int? IDNhom ,int? IDKhoi,int? IDTo)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             ViewBag.QUYENCN = ListQuyen;
@@ -52,59 +52,13 @@ namespace E_Learning.Controllers
 
             if (search == null) search = "";
             ViewBag.search = search;
+            if (searchVT == null) searchVT = "";
+            ViewBag.searchVT = searchVT;
             int idpb = MyAuthentication.IDPhongban;
             var manv = MyAuthentication.Username;
             var ThangDG = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             if (IDPB == null) IDPB = 0;
 
-            //var Idquyen = MyAuthentication.IDQuyen;
-            //var IdquyenKNL = MyAuthentication.IDQuyenKNL;
-            //int? idns = GetIDPNS("P. Nhân sự");
-
-            //var aa = db.QuyenKNLs.Where(x => x.MaNV == manv && x.isDanhGia == 1).Select(x=>x.IDVT).ToList();
-            //var dsquyen = db.QuyenKNLs.Where(x => x.MaNV == manv && x.isDanhGia == 1).ToList();
-
-            //var KQKNLThang =  db.KNL_KQ_SelectThang(ThangDG).ToList();
-            //var KQKNLThang = db.KNL_KQ_SelectDDG().ToList();
-            //var ListNV = db.NhanViens.Where(x => x.IDTinhTrangLV == 1).ToList();
-            //var listKNL = db.KhungNangLucs.ToList();
-            //var listDGTC = db.KNL_DGiaTC.ToList();
-            //var res = (from a in db.ViTriKNLs
-            //           join d in db.PhongBans
-            //           on a.IDPB equals d.IDPhongBan
-            //           join e in db.KNL_PhanXuong
-            //            on a.IDPX equals e.ID into ul
-            //           from e in ul.DefaultIfEmpty()
-            //           join f in db.KNL_Nhom
-            //           on a.IDNhom equals f.IDNhom into uls
-            //           from f in uls.DefaultIfEmpty()
-            //           join g in db.KNL_To
-            //           on a.IDTo equals g.IDTo into ulk
-            //           from g in ulk.DefaultIfEmpty()
-            //           join h in db.KNL_Khoi
-            //           on a.IDKhoi equals h.ID into ulg
-            //           from h in ulg.DefaultIfEmpty()
-            //           select new ViTriKNLValidation
-            //           {
-            //               IDVT = a.IDVT,
-            //               TenViTri = a.TenViTri,
-            //               IDPB = a.IDPB,
-            //               TenPhongBan = d.TenPhongBan,
-            //               MaViTri = a.MaViTri,
-            //               IDKhoi = a.IDKhoi,
-            //               TenKhoi = h.TenKhoi,
-            //               IDPX = a.IDPX,
-            //               TenPX = e.TenPX,
-            //               IDNhom = a.IDNhom,
-            //               TenNhom = f.TenNhom,
-            //               IDTo = a.IDTo,
-            //               TenTo = g.TenTo,
-            //               FilePath = a.FilePath,
-            //               CountNV = db.NhanViens.Where(x => x.IDVTKNL == a.IDVT && x.IDTinhTrangLV == 1).Count(),
-            //               CountKNL = db.KhungNangLucs.Where(x => x.IDVT == a.IDVT).Count(),
-            //               CountDGTC = db.KNL_DGiaTC.Where(x => x.IDVT == a.IDVT).Count(),
-            //               //CountNVDDG = (from aa in db.NhanViens.Where(x => x.IDVTKNL == a.IDVT && x.IDTinhTrangLV == 1) join ab in db.KNL_KQ.Where(x => x.ThangDG == ThangDG) on aa.ID equals ab.IDNV into ls from ab in ls.Take(1) select aa).ToList().Count
-            //           }).OrderBy(x => x.IDPB).ToList();
             var res = (from a in db.VitriKNL_Select(IDPB)
                        select new ViTriKNLValidation
                        {
@@ -146,6 +100,7 @@ namespace E_Learning.Controllers
             if (IDNhom != null) res = res.Where(x => x.IDNhom == IDNhom).ToList();
             if (IDTo != null) res = res.Where(x => x.IDTo == IDTo).ToList();
             if (!String.IsNullOrEmpty(search)) res = res.Where(x => x.MaViTri == search).ToList();
+            if (!String.IsNullOrEmpty(searchVT)) res = res.Where(x => x.TenViTri?.IndexOf(searchVT, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
 
             if (ListQuyen.Contains(CONSTKEY.V_BP)) res = res.Where(x => x.IDPB == idpb).ToList();
             //if(Idquyen != 1 && IdquyenKNL ==0 ) res = res.Where(x => x.IDPB == 0).ToList();
@@ -1606,6 +1561,22 @@ namespace E_Learning.Controllers
             ViewBag.IDPB = new SelectList(dt, "IDPhongBan", "TenPhongBan");
             ViewBag.IDDS = new SelectList(dt, "IDPhongBan", "TenPhongBan");
 
+            ViewBag.IDPB = new SelectList(dt, "IDPhongBan", "TenPhongBan");
+            ViewBag.IDPB2 = new SelectList(dt, "IDPhongBan", "TenPhongBan");
+
+            List<KNL_PhanXuong> px = db.KNL_PhanXuong.ToList();
+            ViewBag.IDPX1 = new SelectList(px, "ID", "TenPX");
+            ViewBag.IDPX2 = new SelectList(px, "ID", "TenPX");
+
+            List<KNL_Nhom> nhom = db.KNL_Nhom.ToList();
+            ViewBag.IDNhom1 = new SelectList(nhom, "IDNhom", "TenNhom");
+            ViewBag.IDNhom2 = new SelectList(nhom, "IDNhom", "TenNhom");
+
+            List<KNL_To> to = db.KNL_To.ToList();
+            ViewBag.IDTo1 = new SelectList(to, "IDTo", "TenTo");
+            ViewBag.IDTo2 = new SelectList(to, "IDTo", "TenTo");
+
+
             return PartialView();
         }
 
@@ -1712,6 +1683,104 @@ namespace E_Learning.Controllers
                         }
                     }
                 }
+
+                int? pb1 = ToNullableInt(collection["IDPB"]);
+                int? px1 = ToNullableInt(collection["IDPX1"]);
+                int? nhom1 = ToNullableInt(collection["IDNhom1"]);
+                int? to1 = ToNullableInt(collection["IDTo1"]);
+                int? pb2 = ToNullableInt(collection["IDDS"]);
+                int? px2 = ToNullableInt(collection["IDPX2"]);
+
+                if (pb1 != null && pb2 != null && px1 != null){
+                    var px = db.KNL_PhanXuong.Where(x => x.ID == px1).FirstOrDefault();
+                   
+                    if (nhom1 != null)
+                    {
+                        var vt = db.ViTriKNLs.Where(x => x.IDNhom == nhom1).ToList();
+                        var nhom = db.KNL_Nhom.Where(x => x.IDNhom == nhom1).FirstOrDefault();
+                        // set new values
+                        nhom.IDPhongBan = pb2;
+                        nhom.IDPhanXuong = px2;
+                        db.SaveChanges();
+                        foreach (var item in vt)
+                        {
+                            db.VitriKNL_update(item.IDVT,item.TenViTri,item.MaViTri,pb2,item.IDKhoi, px2, item.IDNhom,item.IDTo,item.FilePath);
+                        }
+                    }
+                    if (to1 != null)
+                    {
+                        var vt = db.ViTriKNLs.Where(x => x.IDTo == to1).ToList();
+                        var to = db.KNL_To.Where(x => x.IDTo == to1).FirstOrDefault();
+                        // set new values
+                        to.IDPhongBan = pb2;
+                        to.IDPhanXuong = px2;
+                        db.SaveChanges();
+                        foreach (var item in vt)
+                        {
+                            db.VitriKNL_update(item.IDVT, item.TenViTri, item.MaViTri, pb2, item.IDKhoi, px2, item.IDNhom, item.IDTo, item.FilePath);
+                        }
+                    }
+                    if (to1 == null && nhom1 == null)
+                    {
+                        px.IDPhongBan = pb2;
+                        db.SaveChanges();
+                        var vt = db.ViTriKNLs.Where(x => x.IDPX == px1).ToList();
+                        // update to
+                        var lsTo = vt.Where(x => x.IDTo != null && x.IDTo != 0).ToList();
+                        foreach (var t in lsTo)
+                        {
+                            var to = db.KNL_To.Where(x => x.IDTo == t.IDTo).FirstOrDefault();
+                            to.IDPhongBan = pb2;
+                            db.SaveChanges();
+                        }
+                        // update nhom
+                        var lsNhom = vt.Where(x => x.IDNhom != null && x.IDNhom != 0).ToList();
+                        foreach (var t in lsNhom)
+                        {
+                            var nhom = db.KNL_Nhom.Where(x => x.IDNhom == t.IDNhom).FirstOrDefault();
+                            nhom.IDPhongBan = pb2;
+                            //t.IDPB = pb2;
+                            db.SaveChanges();
+                        }
+                        db.SaveChanges();
+                        foreach (var item in vt)
+                        {
+                            db.VitriKNL_update(item.IDVT, item.TenViTri, item.MaViTri, pb2, item.IDKhoi, px2, item.IDNhom, item.IDTo, item.FilePath);
+                        }
+                    }
+
+                }
+                else if(pb1 != null && pb2 != null && px1 == null)
+                {
+                    if (nhom1 != null)
+                    {
+                        var vt = db.ViTriKNLs.Where(x => x.IDNhom == nhom1).ToList();
+                        var nhom = db.KNL_Nhom.Where(x => x.IDNhom == nhom1).FirstOrDefault();
+                        // set new values
+                        nhom.IDPhongBan = pb2;
+                        nhom.IDPhanXuong = px2;
+                        db.SaveChanges();
+                        foreach (var item in vt)
+                        {
+                            db.VitriKNL_update(item.IDVT, item.TenViTri, item.MaViTri, pb2, item.IDKhoi, px2, item.IDNhom, item.IDTo, item.FilePath);
+                        }
+                    }
+                    if (to1 != null)
+                    {
+                        var vt = db.ViTriKNLs.Where(x => x.IDTo == to1).ToList();
+                        var to = db.KNL_To.Where(x => x.IDTo == to1).FirstOrDefault();
+                        // set new values
+                        to.IDPhongBan = pb2;
+                        to.IDPhanXuong = px2;
+                        db.SaveChanges();
+                        foreach (var item in vt)
+                        {
+                            db.VitriKNL_update(item.IDVT, item.TenViTri, item.MaViTri, pb2, item.IDKhoi, px2, item.IDNhom, item.IDTo, item.FilePath);
+                        }
+                    }
+                }
+
+
 
                 TempData["msgSuccess"] = "<script>alert('Copy Dữ liệu thành công');</script>";
             }

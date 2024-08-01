@@ -7,6 +7,8 @@ using E_Learning.Models;
 using PagedList;
 using E_Learning.Common;
 using System.Text.RegularExpressions;
+using DocumentFormat.OpenXml.ExtendedProperties;
+using CrystalDecisions.ReportAppServer.DataDefModel;
 
 namespace E_Learning.Controllers
 {
@@ -223,6 +225,32 @@ namespace E_Learning.Controllers
                            IDQuyen = (int)a.IDQuyen,
                            IDQuyenKNL = (int?)a.IDQuyenKNL ?? 0
                        }).ToList();
+            if (res.Count > 0)
+            {
+                var lsCheck = new List<ItemCheck>();
+                int idnv = res[0].ID;
+                var dsquyenPQ = db.PhanQuyenHTs.Where(x=>x.IDNV == idnv).ToList();
+                var dsquyen = db.Quyens.ToList();
+                if (dsquyen.Count > 0) {
+                    foreach (var item in dsquyen)
+                    {
+                        bool checkQuyen = dsquyenPQ.Any(x => x.IDQuyen == item.IDQuyen);
+                            if (checkQuyen)
+                            {
+                                var a = new ItemCheck { Name = item.TenQuyen, IDCN = item.IDQuyen, isChecked = true };
+                                lsCheck.Add(a);
+                            }
+                            else
+                            {
+                                var a = new ItemCheck { Name = item.TenQuyen, IDCN = item.IDQuyen, isChecked = false };
+                                lsCheck.Add(a);
+                            }
+                    }
+                    
+                }
+                res[0].LSChecked = lsCheck.ToList();
+
+            }
             LoginValidation DO = new LoginValidation();
             if (res.Count > 0)
             {
@@ -233,6 +261,7 @@ namespace E_Learning.Controllers
                     DO.HoTen = nv.HoTen;
                     DO.IDQuyen = nv.IDQuyen;
                     DO.IDQuyenKNL = nv.IDQuyenKNL;
+                    DO.LSChecked =nv.LSChecked;
                 }
             }
             else
@@ -249,6 +278,19 @@ namespace E_Learning.Controllers
             {
                 //db.Nhanvien_update_QuyenKNL(_DO.MaNV, _DO.IDQuyenKNL);
                 db.TK_Update_Quyen(_DO.ID, _DO.IDQuyen);
+                var pq = db.PhanQuyenHTs.Where(x=>x.IDNV == _DO.ID).ToList();
+                db.PhanQuyenHTs.RemoveRange(pq);
+                db.SaveChanges();
+                foreach (var item in _DO.LSChecked)
+                {
+                    if (item.isChecked) {
+                        var q = new PhanQuyenHT();
+                        q.IDNV = _DO.ID;
+                        q.IDQuyen = item.IDCN;
+                        db.PhanQuyenHTs.Add(q);
+                        db.SaveChanges();
+                    }
+                }
                 TempData["msgSuccess"] = "<script>alert('Cập nhập thành công');</script>";
             }
             catch (Exception e)

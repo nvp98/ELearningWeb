@@ -604,6 +604,12 @@ namespace E_Learning.Controllers
                         Worksheet.Cell(row, "M").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                         Worksheet.Cell(row, "M").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
+                        Worksheet.Cell(row, "N").Value = data.IDLH;
+                        Worksheet.Cell(row, "N").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "N").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "N").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        Worksheet.Cell(row, "N").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
                         row = row + 1;
                     }
                 }
@@ -621,6 +627,148 @@ namespace E_Learning.Controllers
             }
 
         }
+
+
+        public ActionResult ExportProcess()
+        {
+            //var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
+            //if (!ListQuyen.Contains(CONSTKEY.ADD))
+            //{
+            //    TempData["msgError"] = "<script>alert('Bạn không có quyền thực hiện chức năng này');</script>";
+            //    return RedirectToAction("", "Home");
+            //}
+
+
+            return PartialView();
+        }
+
+      
+        [HttpPost]
+        public ActionResult ExportProcess(ManageClassValidation _DO)
+        {
+            try
+            {
+
+
+                string filePath = string.Empty;
+
+                string fileNameMau = "";
+                string fileNamemaunew = "";
+
+                if (Request != null)
+                {
+                    HttpPostedFileBase file = Request.Files["FileUpload"];
+                    if ((file != null) && (file.ContentLength > 0) && !string.IsNullOrEmpty(file.FileName))
+                    {
+                        string path = Server.MapPath("~/UploadedFiles/");
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+                        filePath = path + Path.GetFileName(DateTime.Now.ToString("yyyyMMddHHmm") + "-" + file.FileName);
+
+                        file.SaveAs(filePath);
+
+                        Stream stream = file.InputStream;
+                        // We return the interface, so that  
+                        IExcelDataReader reader = null;
+                        if (file.FileName.EndsWith(".xls"))
+                        {
+                            reader = ExcelReaderFactory.CreateBinaryReader(stream);
+                        }
+                        else if (file.FileName.EndsWith(".xlsx"))
+                        {
+                            reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+                        }
+                        else
+                        {
+                            TempData["msg"] = "<script>alert('Vui lòng chọn đúng định dạng file Excel');</script>";
+                            return View();
+                        }
+                        DataSet result = reader.AsDataSet();
+                        DataTable dt = result.Tables["DSHT_Tuan"];
+                        reader.Close();
+                        int dtc = 0, dtrung = 0;
+
+                        fileNameMau = filePath;
+                        fileNamemaunew = filePath;
+                        XLWorkbook Workbook = new XLWorkbook(filePath);
+                        IXLWorksheet Worksheet = Workbook.Worksheet("DSHT_Tuan");
+
+
+                        if (dt.Rows.Count > 0)
+                        {
+                            var DSXNHT = db_context.XNHocTaps.ToList();
+                            var DSBaiThi = db_context.BaiThis.ToList();
+                            for (int i = 3; i < dt.Rows.Count; i++)
+                            {
+                                var IDLH = int.Parse(dt.Rows[i][1].ToString());
+                                var LHID = db_context.LopHocs.Where(x => x.IDLH == IDLH).Select(g => g.IDLH).FirstOrDefault();
+                               for(int j = 6; j < dt.Columns.Count; j++)
+                                {
+                                    var IDNV = int.Parse(dt.Rows[2][j].ToString());
+                                    //var NVID = db_context.NhanViens.Where(x => x.ID == IDNV).Select(g => g.ID).FirstOrDefault();
+                                    var XNHT = DSXNHT.Where(x => x.NVID == IDNV && x.LHID == LHID ).ToList();
+                                    var baithi = DSBaiThi.Where(x => x.IDNV == IDNV && x.IDLH == LHID ).OrderByDescending(x=>x.LanThi).FirstOrDefault();
+                                    if (XNHT.Count != 0)
+                                    {
+                                        var xnhtHT = XNHT.Where(x=>x.XNHT == true).FirstOrDefault();
+                                        Worksheet.Cell(i + 1, j + 1).Value = "x";
+                                        Worksheet.Cell(i + 1, j + 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                                        Worksheet.Cell(i + 1, j + 1).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                                        Worksheet.Cell(i + 1, j + 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                                        if (xnhtHT != null)
+                                        {
+                                            if (baithi != null)
+                                            {
+                                                if (baithi.TinhTrang == true)
+                                                {
+                                                    Worksheet.Cell(i + 1, j + 1).Value =  baithi.NgayThi.ToString();
+                                                    Worksheet.Cell(i + 1, j + 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                                                    Worksheet.Cell(i + 1, j + 1).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                                                    Worksheet.Cell(i + 1, j + 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                                                    Worksheet.Cell(i + 1, j + 1).Style.Font.SetFontColor(XLColor.Green);
+                                                }
+                                                else
+                                                {
+                                                    Worksheet.Cell(i + 1, j + 1).Value = baithi.LanThi + " lần thi(Chưa Đạt)";
+                                                    Worksheet.Cell(i + 1, j + 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                                                    Worksheet.Cell(i + 1, j + 1).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                                                    Worksheet.Cell(i + 1, j + 1).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                                                    Worksheet.Cell(i + 1, j + 1).Style.Font.SetFontColor(XLColor.Red);
+                                                }
+                                            }
+                                        }
+                                       
+                                    }
+                                }
+                            }
+                        }
+                        Workbook.SaveAs(fileNamemaunew);
+
+
+                    }
+                }
+            
+
+
+               
+                //XLWorkbook Workbook = new XLWorkbook(filePath);
+
+                //Workbook.SaveAs(fileNamemaunew);
+                byte[] fileBytes = System.IO.File.ReadAllBytes(fileNamemaunew);
+                //byte[] fileBytes = System.IO.File.ReadAllBytes(fileNameMau);
+                string fileName = "DuLieuDT_" + DateTime.Now.Date.ToString("dd/MM/yyyy") + ".xlsx";
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+            catch (Exception ex)
+            {
+                TempData["msg"] = "<script>alert('" + ex + "');window.location.href = '/ManageClass'</script>";
+                return RedirectToAction("Index", "ManageClass");
+            }
+
+        }
+
         private List<ManageClassValidation> GetDSLopHoc()
         {
             var res = (from l in db_context.LopHocs
@@ -688,7 +836,8 @@ namespace E_Learning.Controllers
                                                         select new ManageTestExamValidation()
                                                         {
                                                             IDDeThi = d.IDDeThi,
-                                                            TenDe = d.TenDe
+                                                            TenDe = d.TenDe, 
+                                                            DiemChuan = (double)d.DiemChuan
                                                         }).ToList();
 
             return Json(DeThiList, JsonRequestBehavior.AllowGet);

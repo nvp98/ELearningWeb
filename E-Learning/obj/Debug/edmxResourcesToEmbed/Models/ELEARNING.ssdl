@@ -418,6 +418,14 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="NoiDung" Type="nvarchar" MaxLength="150" />
   </EntityType>
+  <EntityType Name="PhanQuyenHT">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IDNV" Type="int" />
+    <Property Name="IDQuyen" Type="int" />
+  </EntityType>
   <EntityType Name="PhieuXacNhanKCCD">
     <Key>
       <PropertyRef Name="ID" />
@@ -2103,6 +2111,7 @@
     <EntitySet Name="NQ_KetQua" EntityType="Self.NQ_KetQua" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NhanVien" EntityType="Self.NhanVien" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NhomNLKCCD" EntityType="Self.NhomNLKCCD" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PhanQuyenHT" EntityType="Self.PhanQuyenHT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PhieuXacNhanKCCD" EntityType="Self.PhieuXacNhanKCCD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PhongBan" EntityType="Self.PhongBan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QT_BaiKiemTra" EntityType="Self.QT_BaiKiemTra" Schema="dbo" store:Type="Tables" />

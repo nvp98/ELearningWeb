@@ -6,8 +6,8 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog" role="document" >
+        <div class="modal-content" style="width:700px">
             <div class="modal-header">
                 <h5 id="ModalTitle">Thay đổi thông tin</h5>
                 <a href="#" class="close" data-dismiss="modal">&times;</a>
@@ -38,12 +38,25 @@
                             @Html.DropDownListFor(model => model.IDQuyen, ViewBag.PList as SelectList, "--Chọn quyền--", new { @id = "IDQuyen", @class = "form-control" })
                         </div>
                     </div>
-                    @*<div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label class="small mb-1" for="inputLastName">Quyền KNL</label>
-                            @Html.DropDownListFor(model => model.IDQuyenKNL, ViewBag.QuyenList as SelectList, "--Chọn quyền--", new { @id = "IDQuyenKNL", @class = "form-control" })
+                    <div class="col-md-12 mb-2">
+                        <div class=" form-group text-xl-left font-weight-bold">
+                            <div class="font-weight-bold text-left">Group Quyền</div>
+                            @for (int i = 0; i < Model.LSChecked.Count; i++)
+                            {
+                                <div class="col-md-3 font-weight-bold float-left text-left">
+                                    @Html.CheckBoxFor(m => Model.LSChecked[i].isChecked)
+                                    @Html.HiddenFor(m => Model.LSChecked[i].IDCN)
+                                    @Model.LSChecked[i].Name
+                                </div>
+                            }
                         </div>
-                    </div>*@
+                    </div>
+                    @*<div class="form-row">
+            <div class="form-group col-md-12">
+                <label class="small mb-1" for="inputLastName">Quyền KNL</label>
+                @Html.DropDownListFor(model => model.IDQuyenKNL, ViewBag.QuyenList as SelectList, "--Chọn quyền--", new { @id = "IDQuyenKNL", @class = "form-control" })
+            </div>
+        </div>*@
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <button class="btn btn-primary pull-right" id="btncreate"><i class="fa fa-check-circle"></i> Cập nhật</button>

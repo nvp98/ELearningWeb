@@ -155,7 +155,7 @@
                             <li class="app-sidebar__heading">Tổng quan</li>
                             <li>
                                 <a href="@Url.Action("Index","EClassroom")">
-                                    <i class="metismenu-icon pe-7s-display1"></i>
+                                    <i class="metismenu-icon pe-7s-display1 font-weight-bold"></i>
                                     Lớp học của bạn
                                 </a>
                             </li>
@@ -165,22 +165,542 @@
         }*@
                             <li>
                                 <a href="@Url.Action("Index","ListTestQT", new {IDNV = E_Learning.Models.MyAuthentication.ID,IDVTKNL=E_Learning.Models.MyAuthentication.IDVTKNL})">
-                                    <i class="metismenu-icon pe-7s-share"></i>
+                                    <i class="metismenu-icon pe-7s-share font-weight-bold"></i>
                                     QT/HD Công việc của bạn
                                 </a>
                             </li>
+                            @if (checkDGNV == 1)
+                            {
+                                <li>
+                                    @*<a href="@Url.Action("Index","FCheck")">
+                    <i class="metismenu-icon pe-7s-news-paper">
+                    </i>Đánh giá nhân viên
+                </a>*@
+                                    <a title="Cập nhật KNL" href="@Url.Action("Index","FCheck")"
+                                       onclick="return confirm('Cần kiểm tra để đảm bảo Vị trí đánh giá trong danh sách đúng với thực tế trước khi thực hiện đánh giá')">
+                                        <i class="metismenu-icon pe-7s-news-paper font-weight-bold">
+                                        </i>Đánh giá nhân viên
+                                    </a>
+                                </li>
+                            }
                             <li>
-                                <a href="@Url.Action("Index","DinhBien", new {IDPB = E_Learning.Models.MyAuthentication.IDPhongban})">
-                                    <i class="metismenu-icon pe-7s-expand1"></i>
-                                    Thông tin vị trí quản lý
+                                <a href="@Url.Action("Index","FResult",new { IDNV = @E_Learning.Models.MyAuthentication.ID,begind = new DateTime(DateTime.Now.Year, 1, 1),endd =new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)})">
+                                    <i class="metismenu-icon  pe-7s-diskette font-weight-bold">
+                                    </i>Kết quả đánh giá KNL
                                 </a>
                             </li>
 
-                            @if (ListControll.Contains("Statistic"))
+
+
+
+                            <li class="app-sidebar__heading">Bảng tin</li>
+                            <li>
+                                <a href="@Url.Action("Index","DinhBien", new {IDPB = E_Learning.Models.MyAuthentication.IDPhongban})">
+                                    <i class="metismenu-icon pe-7s-expand1 font-weight-bold"></i>
+                                    Thông tin vị trí quản lý
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("ListNQ","NQView")">
+                                    <i class="metismenu-icon pe-7s-way font-weight-bold"></i>
+                                    Nội quy lao động
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index","TBKyLuat")">
+                                    <i class="metismenu-icon pe-7s-ribbon font-weight-bold"></i>
+                                    Thông báo xử lý kỷ luật
+                                </a>
+                            </li>
+
+                            <li id="QuanTri" style="display: none" class="app-sidebar__heading">Quản trị</li>
+                            <li class=" @((new List<String> { "Account", "FPermision", "Notification" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
+                                @if ((new List<String> { "Account", "FPermision", "Notification" }).Any(x => ListControll.Contains(x)))
+                                {
+                                    <a href="#" id="IDTK" class="">
+                                        <i class="metismenu-icon pe-7s-tools font-weight-bold">
+                                        </i>Quản trị hệ thống
+                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                    </a>
+                                }
+                                <ul id="LSTK">
+                                    @if (ListControll.Contains("Account"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "Account")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Account" ? "mm-active" : "")">
+                                                <i class="pe-7s-users"></i>
+                                                &nbsp;&nbsp;Tài khoản
+                                            </a>
+                                        </li>
+                                        showQuanTri = 1;
+                                    }
+                                    @if (ListControll.Contains("FPermision"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index","FPermision")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FPermision" ? "mm-active" : "")">
+                                                <i class="pe-7s-config">
+                                                </i>&nbsp;&nbsp;Phân Quyền
+                                            </a>
+                                        </li>
+                                        showQuanTri = 1;
+                                    }
+                                    @if (ListControll.Contains("Notification"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index","Notification")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Notification" ? "mm-active" : "")">
+                                                <i class=" pe-7s-volume2">
+                                                </i>&nbsp;&nbsp;Cấu hình thông báo
+                                            </a>
+                                        </li>
+                                        showQuanTri = 1;
+                                    }
+                                </ul>
+                            </li>
+                            <li class=" @((new List<String> { "FPosition/ListNVKNL", "FPosition/UpdateNVKN", "FPosition/SetVTPermision" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
+                                @if ((new List<String> { "USER_KNL", "KN_KNL", "PER_KNL" }).Any(x => ListQFPosition.Contains(x)))
+                                {
+                                    <a href="#" id="IDTK" class="">
+                                        <i class="metismenu-icon pe-7s-tools font-weight-bold">
+                                        </i>Quản trị đánh giá KNL
+                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                    </a>
+                                }
+
+                                <ul id="LSTK">
+                                    @if (ListQFPosition.Contains("USER_KNL"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("ListNVKNL","FPosition",new {IDPB = E_Learning.Models.MyAuthentication.IDPhongban})" class="font-size-md font-weight-bold @(Context.Request.Path == "/FPosition/ListNVKNL" ? "mm-active" : "")">
+                                                <i class=" pe-7s-shuffle">
+                                                </i>&nbsp;&nbsp;QL nhân sự và kết quả KNL
+                                            </a>
+                                        </li>
+                                        showQTriKNL = 1;
+                                    }
+                                    @if (ListQFPosition.Contains("KN_KNL"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("UpdateNVKN","FPosition")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FPosition/UpdateNVKN" ? "mm-active" : "")">
+                                                <i class="pe-7s-add-user">
+                                                </i>&nbsp;&nbsp;Kiêm nhiệm
+                                            </a>
+                                        </li>
+                                        showQTriKNL = 1;
+                                    }
+                                    @if (ListQFPosition.Contains("PER_KNL"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("SetVTPermision","FPosition",new {IDPB =E_Learning.Models.MyAuthentication.IDPhongban})" class="text-wrap pr-0 font-size-md font-weight-bold @(Context.Request.Path == "/FPosition/SetVTPermision" ? "mm-active" : "")">
+                                                <i class=" pe-7s-config">
+                                                </i>&nbsp;&nbsp;Phân quyền đánh giá
+                                            </a>
+                                        </li>
+                                        showQTriKNL = 1;
+                                    }
+                                </ul>
+                            </li>
+                            <li class=" @((new List<String> { "FDepartment", "FBlock", "FFactory","FGroup","FNest" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
+                                @if ((new List<String> { "FDepartment", "FBlock", "FFactory", "FGroup", "FNest" }).Any(x => ListControll.Contains(x)))
+                                {
+                                    <a href="#" id="IDTK" class="">
+                                        <i class="metismenu-icon pe-7s-tools font-weight-bold">
+                                        </i>Quản trị khung năng lực
+                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                    </a>
+                                }
+                                <ul id="LSTK">
+                                    @if (ListControll.Contains("FDepartment"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index","FDepartment")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FDepartment" ? "mm-active" : "")">
+                                                <i class=" pe-7s-tools">
+                                                </i>&nbsp;&nbsp;Phòng Ban
+                                            </a>
+                                        </li>
+                                        showQuanTriKNL = 1;
+                                    }
+                                    @if (ListControll.Contains("FBlock"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index","FBlock")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FBlock" ? "mm-active" : "")">
+                                                <i class=" pe-7s-target">
+                                                </i>&nbsp;&nbsp;Khối
+                                            </a>
+                                        </li>
+                                        showQuanTriKNL = 1;
+                                    }
+                                    @if (ListControll.Contains("FFactory"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index","FFactory")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FFactory" ? "mm-active" : "")">
+                                                <i class=" pe-7s-browser">
+                                                </i>&nbsp;&nbsp;Xưởng
+                                            </a>
+                                        </li>
+                                        showQuanTriKNL = 1;
+                                    }
+                                    @if (ListControll.Contains("FGroup"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index","FGroup")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FGroup" ? "mm-active" : "")">
+                                                <i class=" pe-7s-tools">
+                                                </i>&nbsp;&nbsp;Danh sách Nhóm
+                                            </a>
+                                        </li>
+                                        showQuanTriKNL = 1;
+                                    }
+                                    @if (ListControll.Contains("FNest"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index","FNest")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FNest" ? "mm-active" : "")">
+                                                <i class=" pe-7s-tools">
+                                                </i>&nbsp;&nbsp;Danh sách Tổ
+                                            </a>
+                                        </li>
+                                        showQuanTriKNL = 1;
+                                    }
+                                </ul>
+                            </li>
+
+
+
+                            <li id="quanly" style="" class="app-sidebar__heading">Danh mục quản lý</li>
+                            @if (ListControll.Contains("FPosition"))
                             {
                                 <li>
+                                    <a href="@Url.Action("Index","FPosition",new {IDPB = E_Learning.Models.MyAuthentication.IDPhongban})">
+                                        <i class="metismenu-icon pe-7s-tools">
+                                        </i>Danh sách Vị trí KNL
+                                    </a>
+                                </li>
+                                showKNL = 1;
+                            }
+                            <li class=" @((new List<String> { "NoiDungDTKCCD", "SuggestKCCD/Approve", "SuggestKCCD" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
+
+                                <a href="#" id="IDTK" class="">
+                                    <i class="metismenu-icon pe-7s-graph1 font-weight-bold">
+                                    </i>Kèm cặp chỉ dẫn
+                                    <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                </a>
+
+                                <ul id="LSTK">
+                                    @if (checkAppro == 1)
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Approve", "SuggestKCCD")" class="font-size-md font-weight-bold @(Context.Request.Path == "/SuggestKCCD/Approve" ? "mm-active" : "")">
+                                                <i class=" pe-7s-repeat">
+                                                </i>&nbsp;&nbsp;Phê duyệt phiếu KCCD
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (ListControll.Contains("NoiDungDTKCCD"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "NoiDungDTKCCD")" class="font-size-md font-weight-bold @(Context.Request.Path == "/NoiDungDTKCCD" ? "mm-active" : "")">
+                                                <i class=" pe-7s-note2">
+                                                </i>&nbsp;&nbsp;Nội dung đào tạo KCCD
+                                            </a>
+                                        </li>
+
+                                    }
+                                    <li>
+                                        <a href="@Url.Action("Index", "SuggestKCCD")" class="font-size-md font-weight-bold @(Context.Request.Path == "/SuggestKCCD" ? "mm-active" : "")">
+                                            <i class=" pe-7s-paper-plane">
+                                            </i>&nbsp;&nbsp;Đề nghị KCCD
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class=" @((new List<String> { "NoiDungQT", "ResultQTHD/ListNV", "ResultQTHD" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
+                                @if ((new List<String> { "NoiDungQT", "CauHoiQT", "ResultQTHD" }).Any(x => ListControll.Contains(x)))
+                                {
+                                    <a href="#" id="IDTK" class="">
+                                        <i class="metismenu-icon pe-7s-network font-weight-bold">
+                                        </i>Quy trình / Hướng dẫn
+                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                    </a>
+                                }
+
+                                <ul id="LSTK">
+                                    @if (ListControll.Contains("NoiDungQT"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "NoiDungQT")" class="font-size-md font-weight-bold @(Context.Request.Path == "/NoiDungQT" ? "mm-active" : "")">
+                                                <i class=" pe-7s-note2">
+                                                </i>&nbsp;&nbsp;Nội dung QT/HD
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (ListControll.Contains("CauHoiQT"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "ResultQTHD")" class="font-size-md font-weight-bold @(Context.Request.Path == "/ResultQTHD/ListNV" ? "mm-active" : "")">
+                                                <i class=" pe-7s-edit">
+                                                </i>&nbsp;&nbsp;Câu hỏi QT/HD
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (ListControll.Contains("ResultQTHD"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("ListNV", "ResultQTHD")" class="font-size-md font-weight-bold @(Context.Request.Path == "/ResultQTHD" ? "mm-active" : "")">
+                                                <i class=" pe-7s-graph3">
+                                                </i>&nbsp;&nbsp;Kết quả QT/HD
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+
+
+
+                            <li class=" @(Context.Request.Path == "/NoiDungNQLD" || Context.Request.Path == "/ResultNQLD" ? "mm-active" : "")">
+                                @if ((new List<String> { "NoiDungNQLD", "ResultNQLD" }).Any(x => ListControll.Contains(x)))
+                                {
+                                    <a href="#" id="IDTK" class="">
+                                        <i class="metismenu-icon pe-7s-photo-gallery font-weight-bold">
+                                        </i>Nội quy lao động
+                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                    </a>
+                                }
+
+                                <ul id="LSTK">
+                                    @if (ListControll.Contains("NoiDungNQLD"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "NoiDungNQLD")" class="font-size-md font-weight-bold @(Context.Request.Path == "/NoiDungNQLD" ? "mm-active" : "")">
+                                                <i class=" pe-7s-note2">
+                                                </i>&nbsp;&nbsp;Nội dung NQLĐ
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (ListControll.Contains("ResultNQLD"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "ResultNQLD")" class=" font-weight-bold @(Context.Request.Path == "/ResultNQLD" ? "mm-active" : "")">
+                                                <i class=" pe-7s-graph3">
+                                                </i>&nbsp;&nbsp;Kết quả NQLĐ
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+
+                            <li class=" @(Context.Request.Path == "/ManageETContent" || Context.Request.Path == "/ManageClass" || Context.Request.Path == "/LibraryField" ? "mm-active" : "")">
+                                @if ((new List<String> { "ManageETContent", "ManageClass", "LibraryField" }).Any(x => ListControll.Contains(x)))
+                                {
+                                    <a href="#" id="IDTK" class="">
+                                        <i class="metismenu-icon pe-7s-photo-gallery font-weight-bold">
+                                        </i>Quản lý học vụ
+                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                    </a>
+                                }
+                                <ul id="LSTK">
+                                    @if (ListControll.Contains("ManageETContent"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "ManageETContent")" class="font-size-md font-weight-bold @(Context.Request.Path == "/ManageETContent" ? "mm-active" : "")">
+                                                <i class=" pe-7s-note2">
+                                                </i>&nbsp;&nbsp;Quản lý NDĐT
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (ListControll.Contains("ManageClass"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "ManageClass")" class=" font-weight-bold @(Context.Request.Path == "/ManageClass" ? "mm-active" : "")">
+                                                <i class=" pe-7s-graph3">
+                                                </i>&nbsp;&nbsp;Quản lý Lớp học
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (ListControll.Contains("LibraryField"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "LibraryField")" class=" font-weight-bold @(Context.Request.Path == "/LibraryField" ? "mm-active" : "")">
+                                                <i class=" pe-7s-graph3">
+                                                </i>&nbsp;&nbsp;Thư viện NDĐT
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                            <li class=" @(Context.Request.Path == "/Question" || Context.Request.Path == "/ManageTestExam" ? "mm-active" : "")">
+                                @if ((new List<String> { "Question", "ManageTestExam" }).Any(x => ListControll.Contains(x)))
+                                {
+                                    <a href="#" id="IDTK" class="">
+                                        <i class="metismenu-icon pe-7s-photo-gallery font-weight-bold">
+                                        </i>Quản lý câu hỏi đề thi
+                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                    </a>
+                                }
+                                <ul id="LSTK">
+                                    @if (ListControll.Contains("Question"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "Question", new {IDND =1})" class="font-size-md font-weight-bold @(Context.Request.Path == "/Question" ? "mm-active" : "")">
+                                                <i class=" pe-7s-note2">
+                                                </i>&nbsp;&nbsp; Ngân hàng câu hỏi
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (ListControll.Contains("ManageTestExam"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "ManageTestExam", new {IDND =1})" class=" font-weight-bold @(Context.Request.Path == "/ManageTestExam" ? "mm-active" : "")">
+                                                <i class=" pe-7s-graph3">
+                                                </i>&nbsp;&nbsp; Ngân hàng đề thi
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+
+                            @*@if (User.Identity.IsAuthenticated)
+        {
+
+            if (E_Learning.Models.MyAuthentication.IDQuyen == 1)
+            {
+                <li class="app-sidebar__heading">Quản lý Học Vụ</li>
+                <li>
+                    <a href="@Url.Action("Index","ManageETContent")">
+                        <i class="metismenu-icon pe-7s-portfolio"></i>
+                        Quản lý NDĐT
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "ManageClass", new {IDPB = E_Learning.Models.MyAuthentication.IDPhongban})">
+                        <i class="metismenu-icon pe-7s-id"></i>
+                        Quản lý Lớp học
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="@Url.Action("Index","LibraryField")">
+                        <i class="metismenu-icon pe-7s-display2"></i>
+                        Thư viện NDĐT
+                    </a>
+                </li>
+
+                <li class="app-sidebar__heading">Quản lý câu hỏi đề thi</li>
+                <li>
+                    <a href="@Url.Action("Index", "Question", new {IDND =1})">
+                        <i class="metismenu-icon pe-7s-display2"></i>
+                        Ngân hàng câu hỏi
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index","ManageTestExam", new {IDND =1})">
+                        <i class="metismenu-icon pe-7s-display2"></i>
+                        Ngân hàng đề thi
+                    </a>
+                </li>
+            }
+
+
+            else if (E_Learning.Models.MyAuthentication.IDQuyen == 2 || E_Learning.Models.MyAuthentication.IDQuyen == 3)
+            {
+                <li class="app-sidebar__heading">Quản lý Học Vụ</li>
+                <li>
+                    <a href="@Url.Action("Index","ManageETContent")">
+                        <i class="metismenu-icon pe-7s-portfolio"></i>
+                        Quản lý NDĐT
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index","ManageClass")">
+                        <i class="metismenu-icon pe-7s-id"></i>
+                        Quản lý Lớp học
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index","LibraryField")">
+                        <i class="metismenu-icon pe-7s-display2"></i>
+                        Thư viện NDĐT
+                    </a>
+                </li>
+                <li class="app-sidebar__heading">Quản lý câu hỏi đề thi</li>
+                <li>
+                    <a href="@Url.Action("Index","Question")">
+                        <i class="metismenu-icon pe-7s-display2"></i>
+                        Ngân hàng câu hỏi
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index","ManageTestExam")">
+                        <i class="metismenu-icon pe-7s-display2"></i>
+                        Ngân hàng đề thi
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li id="QTriHV" style="display: none" class="app-sidebar__heading">Quản lý Học Vụ</li>
+                if (ListControll.Contains("ManageETContent"))
+                {
+                    <li>
+                        <a href="@Url.Action("Index","ManageETContent")">
+                            <i class="metismenu-icon pe-7s-portfolio"></i>
+                            Quản lý NDĐT
+                        </a>
+                    </li>
+                    showQTriHV = 1;
+                }
+                if (ListControll.Contains("ManageClass"))
+                {
+                    <li>
+                        <a href="@Url.Action("Index","ManageClass")">
+                            <i class="metismenu-icon pe-7s-id"></i>
+                            Quản lý Lớp học
+                        </a>
+                    </li>
+                    showQTriHV = 1;
+                }
+                if (ListControll.Contains("LibraryField"))
+                {
+                    <li>
+                        <a href="@Url.Action("Index","LibraryField")">
+                            <i class="metismenu-icon pe-7s-display2"></i>
+                            Thư viện NDĐT
+                        </a>
+                    </li>
+                    showQTriHV = 1;
+                }
+                <li id="QTriCHDT" style="display: none" class="app-sidebar__heading">Quản lý câu hỏi đề thi</li>
+                if (ListControll.Contains("Question"))
+                {
+                    <li>
+                        <a href="@Url.Action("Index","Question")">
+                            <i class="metismenu-icon pe-7s-display2"></i>
+                            Ngân hàng câu hỏi
+                        </a>
+                    </li>
+                    showQTriCHDT = 1;
+                }
+                if (ListControll.Contains("ManageTestExam"))
+                {
+                    <li>
+                        <a href="@Url.Action("Index","ManageTestExam")">
+                            <i class="metismenu-icon pe-7s-display2"></i>
+                            Ngân hàng đề thi
+                        </a>
+                    </li>
+                    showQTriCHDT = 1;
+                }
+
+
+            }
+        }*@
+
+
+                            @if (ListControll.Contains("Statistic"))
+                            {
+                                <li id="ThongKe" style="" class="app-sidebar__heading">Thống kê</li>
+                                <li>
                                     <a href="#" id="IDTK">
-                                        <i class="metismenu-icon pe-7s-graph">
+                                        <i class="metismenu-icon pe-7s-graph font-weight-bold">
                                         </i>Thống kê
                                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                                     </a>
@@ -198,437 +718,35 @@
                                     </ul>
                                 </li>
                             }
-                            <li>
-                                <a href="@Url.Action("ListNQ","NQView")">
-                                    <i class="metismenu-icon pe-7s-way"></i>
-                                    Nội quy lao động
-                                </a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Index","TBKyLuat")">
-                                    <i class="metismenu-icon pe-7s-ribbon"></i>
-                                    Thông báo xử lý kỷ luật
-                                </a>
-                            </li>
-
-                            <li id="QuanTri" style="display: none" class="app-sidebar__heading">Quản trị</li>
-                            @if (ListControll.Contains("Account"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("Index", "Account")">
-                                        <i class="metismenu-icon pe-7s-users"></i>
-                                        Tài khoản
-                                    </a>
-                                </li>
-                                showQuanTri = 1;
-                            }
-                            @if (ListControll.Contains("FPermision"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("Index","FPermision")">
-                                        <i class="metismenu-icon pe-7s-config">
-                                        </i>Phân Quyền
-                                    </a>
-                                </li>
-                                showQuanTri = 1;
-                            }
-                            @if (ListControll.Contains("Notification"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("Index","Notification")">
-                                        <i class="metismenu-icon pe-7s-volume2">
-                                        </i>Cấu hình thông báo
-                                    </a>
-                                </li>
-                                showQuanTri = 1;
-                            }
-
-
-
-                            @if (User.Identity.IsAuthenticated)
-                            {
-
-                                if (E_Learning.Models.MyAuthentication.IDQuyen == 1)
-                                {
-                                    <li class="app-sidebar__heading">Quản lý Học Vụ</li>
-                                    <li>
-                                        <a href="@Url.Action("Index","ManageETContent")">
-                                            <i class="metismenu-icon pe-7s-portfolio"></i>
-                                            Quản lý NDĐT
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("Index", "ManageClass", new {IDPB = E_Learning.Models.MyAuthentication.IDPhongban})">
-                                            <i class="metismenu-icon pe-7s-id"></i>
-                                            Quản lý Lớp học
-                                        </a>
-                                    </li>
-
-
-                                    <li>
-                                        <a href="@Url.Action("Index","LibraryField")">
-                                            <i class="metismenu-icon pe-7s-display2"></i>
-                                            Thư viện NDĐT
-                                        </a>
-                                    </li>
-
-                                    <li class="app-sidebar__heading">Quản lý câu hỏi đề thi</li>
-                                    <li>
-                                        <a href="@Url.Action("Index", "Question", new {IDND =1})">
-                                            <i class="metismenu-icon pe-7s-display2"></i>
-                                            Ngân hàng câu hỏi
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("Index","ManageTestExam", new {IDND =1})">
-                                            <i class="metismenu-icon pe-7s-display2"></i>
-                                            Ngân hàng đề thi
-                                        </a>
-                                    </li>
-                                }
-
-
-                                else if (E_Learning.Models.MyAuthentication.IDQuyen == 2 || E_Learning.Models.MyAuthentication.IDQuyen == 3)
-                                {
-                                    <li class="app-sidebar__heading">Quản lý Học Vụ</li>
-                                    <li>
-                                        <a href="@Url.Action("Index","ManageETContent")">
-                                            <i class="metismenu-icon pe-7s-portfolio"></i>
-                                            Quản lý NDĐT
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("Index","ManageClass")">
-                                            <i class="metismenu-icon pe-7s-id"></i>
-                                            Quản lý Lớp học
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("Index","LibraryField")">
-                                            <i class="metismenu-icon pe-7s-display2"></i>
-                                            Thư viện NDĐT
-                                        </a>
-                                    </li>
-                                    <li class="app-sidebar__heading">Quản lý câu hỏi đề thi</li>
-                                    <li>
-                                        <a href="@Url.Action("Index","Question")">
-                                            <i class="metismenu-icon pe-7s-display2"></i>
-                                            Ngân hàng câu hỏi
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("Index","ManageTestExam")">
-                                            <i class="metismenu-icon pe-7s-display2"></i>
-                                            Ngân hàng đề thi
-                                        </a>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li id="QTriHV" style="display: none" class="app-sidebar__heading">Quản lý Học Vụ</li>
-                                    if (ListControll.Contains("ManageETContent"))
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Index","ManageETContent")">
-                                                <i class="metismenu-icon pe-7s-portfolio"></i>
-                                                Quản lý NDĐT
-                                            </a>
-                                        </li>
-                                        showQTriHV = 1;
-                                    }
-                                    if (ListControll.Contains("ManageClass"))
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Index","ManageClass")">
-                                                <i class="metismenu-icon pe-7s-id"></i>
-                                                Quản lý Lớp học
-                                            </a>
-                                        </li>
-                                        showQTriHV = 1;
-                                    }
-                                    if (ListControll.Contains("LibraryField"))
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Index","LibraryField")">
-                                                <i class="metismenu-icon pe-7s-display2"></i>
-                                                Thư viện NDĐT
-                                            </a>
-                                        </li>
-                                        showQTriHV = 1;
-                                    }
-                                    <li id="QTriCHDT" style="display: none" class="app-sidebar__heading">Quản lý câu hỏi đề thi</li>
-                                    if (ListControll.Contains("Question"))
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Index","Question")">
-                                                <i class="metismenu-icon pe-7s-display2"></i>
-                                                Ngân hàng câu hỏi
-                                            </a>
-                                        </li>
-                                        showQTriCHDT = 1;
-                                    }
-                                    if (ListControll.Contains("ManageTestExam"))
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Index","ManageTestExam")">
-                                                <i class="metismenu-icon pe-7s-display2"></i>
-                                                Ngân hàng đề thi
-                                            </a>
-                                        </li>
-                                        showQTriCHDT = 1;
-                                    }
-
-
-                                }
-                            }
                             <li class="app-sidebar__heading">Thư viện</li>
                             <li>
                                 <a href="#">
-                                    <i class="metismenu-icon pe-7s-notebook">
+                                    <i class="metismenu-icon pe-7s-notebook font-weight-bold">
                                     </i>Tài liệu
                                 </a>
                             </li>
                             <li>
                                 <a href="@Url.Action("Index","EGuide")">
-                                    <i class="metismenu-icon pe-7s-headphones">
+                                    <i class="metismenu-icon pe-7s-headphones font-weight-bold">
                                     </i>Hướng dẫn sử dụng
                                 </a>
                             </li>
-                            <li id="KNL" class="app-sidebar__heading">Khung Năng Lực</li>
-                            @if (ListControll.Contains("FPosition"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("Index","FPosition",new {IDPB = E_Learning.Models.MyAuthentication.IDPhongban})">
-                                        <i class="metismenu-icon pe-7s-tools">
-                                        </i>Danh sách Vị trí KNL
-                                    </a>
-                                </li>
-                                showKNL = 1;
-                            }
-                            @if (checkDGNV == 1)
-                            {
-                                <li>
-                                    @*<a href="@Url.Action("Index","FCheck")">
-                    <i class="metismenu-icon pe-7s-news-paper">
-                    </i>Đánh giá nhân viên
-                </a>*@
-                                    <a title="Cập nhật KNL" href="@Url.Action("Index","FCheck")"
-                                       onclick="return confirm('Cần kiểm tra để đảm bảo Vị trí đánh giá trong danh sách đúng với thực tế trước khi thực hiện đánh giá')">
-                                        <i class="metismenu-icon pe-7s-news-paper">
-                                        </i>Đánh giá nhân viên
-                                    </a>
-                                </li>
-                            }
-                            <li>
-                                <a href="@Url.Action("Index","FResult",new { IDNV = @E_Learning.Models.MyAuthentication.ID,begind = new DateTime(DateTime.Now.Year, 1, 1),endd =new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)})">
-                                    <i class="metismenu-icon  pe-7s-diskette">
-                                    </i>Kết quả đánh giá
-                                </a>
-                            </li>
-                            <li id="QTriKNL" style="display: none" class="app-sidebar__heading">Quản trị đánh giá KNL</li>
-                            @if (ListQFPosition.Contains("USER_KNL"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("ListNVKNL","FPosition",new {IDPB = E_Learning.Models.MyAuthentication.IDPhongban})">
-                                        <i class="metismenu-icon pe-7s-shuffle">
-                                        </i>QL nhân sự và kết quả KNL
-                                    </a>
-                                </li>
-                                showQTriKNL = 1;
-                            }
-                            @if (ListQFPosition.Contains("KN_KNL"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("UpdateNVKN","FPosition")">
-                                        <i class="metismenu-icon pe-7s-add-user">
-                                        </i>Quản lý kiêm nhiệm
-                                    </a>
-                                </li>
-                                showQTriKNL = 1;
-                            }
-                            @if (ListQFPosition.Contains("PER_KNL"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("SetVTPermision","FPosition",new {IDPB =E_Learning.Models.MyAuthentication.IDPhongban})" class="text-wrap pr-0">
-                                        <i class="metismenu-icon pe-7s-config">
-                                        </i>QL Phân quyền đánh giá
-                                    </a>
-                                </li>
-                                showQTriKNL = 1;
-                            }
-
-                            <li id="QuanTriKNL" style="display: none" class="app-sidebar__heading">Quản trị Khung năng lực</li>
-
-                            @*@if (ListQFPosition.Contains("PER_KNL"))
-        {
-            <li>
-                <a href="@Url.Action("SetVTPermision","FPosition",new {IDPB =E_Learning.Models.MyAuthentication.IDPhongban})" class="text-wrap pr-0">
-                    <i class="metismenu-icon pe-7s-config">
-                    </i>QL Bảng KNL
-                </a>
-            </li>
-            showQuanTriKNL = 1;
-        }*@
-
-                            @if (ListControll.Contains("FDepartment"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("Index","FDepartment")">
-                                        <i class="metismenu-icon pe-7s-tools">
-                                        </i>Phòng Ban
-                                    </a>
-                                </li>
-                                showQuanTriKNL = 1;
-                            }
-                            @if (ListControll.Contains("FBlock"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("Index","FBlock")">
-                                        <i class="metismenu-icon pe-7s-target">
-                                        </i>Khối
-                                    </a>
-                                </li>
-                                showQuanTriKNL = 1;
-                            }
-                            @if (ListControll.Contains("FFactory"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("Index","FFactory")">
-                                        <i class="metismenu-icon pe-7s-browser">
-                                        </i>Xưởng
-                                    </a>
-                                </li>
-                                showQuanTriKNL = 1;
-                            }
-                            @if (ListControll.Contains("FGroup"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("Index","FGroup")">
-                                        <i class="metismenu-icon pe-7s-tools">
-                                        </i>Danh sách Nhóm
-                                    </a>
-                                </li>
-                                showQuanTriKNL = 1;
-                            }
-                            @if (ListControll.Contains("FNest"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("Index","FNest")">
-                                        <i class="metismenu-icon pe-7s-tools">
-                                        </i>Danh sách Tổ
-                                    </a>
-                                </li>
-                                showQuanTriKNL = 1;
-                            }
-
-                            <li class="app-sidebar__heading">Kèm cặp chỉ dẫn</li>
-                            @if (checkAppro == 1)
-                            {
-                                <li>
-                                    <a href="@Url.Action("Approve","SuggestKCCD")">
-                                        <i class="metismenu-icon pe-7s-repeat">
-                                        </i>Phê duyệt phiếu KCCD
-                                    </a>
-                                </li>
-                            }
+                            @*<li id="KNL" class="app-sidebar__heading">Khung Năng Lực</li>*@
 
 
-                            @*<li>
-            <a href="@Url.Action("Index","Capability")">
-                <i class="metismenu-icon pe-7s-tools">
-                </i>Nhóm năng lực KCCD
-            </a>
-        </li>*@
-                            @if (ListControll.Contains("NoiDungDTKCCD"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("Index","NoiDungDTKCCD",new {IDPB = E_Learning.Models.MyAuthentication.IDPhongban})">
-                                        <i class="metismenu-icon pe-7s-note2">
-                                        </i>Nội dung đào tạo KCCD
-                                    </a>
-                                </li>
-                                showQuanTriKNL = 1;
-                            }
-
-                            @*@if (ListControll.Contains("SuggestKCCD"))
-        {
-            <li>
-                <a href="@Url.Action("Index","SuggestKCCD")">
-                    <i class="metismenu-icon pe-7s-tools">
-                    </i>Đề nghị KCCD
-                </a>
-            </li>
-            showQuanTriKNL = 1;
-        }*@
-                            <li>
-                                <a href="@Url.Action("Index","SuggestKCCD")">
-                                    <i class="metismenu-icon pe-7s-paper-plane">
-                                    </i>Đề nghị KCCD
-                                </a>
-                            </li>
-
-                            <li class="app-sidebar__heading">Quy trình/Hướng dẫn</li>
-                            @if (ListControll.Contains("NoiDungQT"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("Index", "NoiDungQT")">
-                                        <i class="metismenu-icon pe-7s-note2">
-                                        </i>Nội dung QT/HD
-                                    </a>
-                                </li>
-                            }
-                            @if (ListControll.Contains("CauHoiQT"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("Index", "ResultQTHD")">
-                                        <i class="metismenu-icon pe-7s-edit">
-                                        </i>Câu hỏi QT/HD
-                                    </a>
-                                </li>
-                            }
-                            @if (ListControll.Contains("ResultQTHD"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("ListNV", "ResultQTHD")">
-                                        <i class="metismenu-icon pe-7s-graph3">
-                                        </i>Kết quả QT/HD
-                                    </a>
-                                </li>
-                            }
-                            <li class="app-sidebar__heading">Nội quy lao động</li>
-                            @if (ListControll.Contains("NoiDungNQLD"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("Index", "NoiDungNQLD")">
-                                        <i class="metismenu-icon pe-7s-note2">
-                                        </i>Nội dung NQLĐ
-                                    </a>
-                                </li>
-                            }
-
-                            @if (ListControll.Contains("ResultNQLD"))
-                            {
-                                <li>
-                                    <a href="@Url.Action("Index", "ResultNQLD")">
-                                        <i class="metismenu-icon pe-7s-graph3">
-                                        </i>Kết quả NQLĐ
-                                    </a>
-                                </li>
-                            }
 
 
-                            @*<li>
-            <a href="@Url.Action("Index","NoiDungDTKCCD",new {IDPB = E_Learning.Models.MyAuthentication.IDPhongban})">
-                <i class="metismenu-icon pe-7s-note2">
-                </i>QL Phân quyền
-            </a>
-        </li>*@
-                            @*<li>
-            <a href="@Url.Action("Index","NoiDungDTKCCD",new {IDPB = E_Learning.Models.MyAuthentication.IDPhongban})">
-                <i class="metismenu-icon pe-7s-note2">
-                </i>Kết quả sát hạch
-            </a>
-        </li>*@
+
+                            @*<li id="QTriKNL" style="display: none" class="app-sidebar__heading">Quản trị đánh giá KNL</li>*@
+
+
+                            @*<li id="QuanTriKNL" style="display: none" class="app-sidebar__heading">Quản trị Khung năng lực</li>*@
+
+
+
+
+
+
 
                         </ul>
                     </div>

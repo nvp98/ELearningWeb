@@ -423,6 +423,14 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NoiDung" Type="nvarchar" MaxLength="150" />
         </EntityType>
+        <EntityType Name="PhanQuyenHT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDNV" Type="int" />
+          <Property Name="IDQuyen" Type="int" />
+        </EntityType>
         <EntityType Name="PhieuXacNhanKCCD">
           <Key>
             <PropertyRef Name="ID" />
@@ -2108,6 +2116,7 @@
           <EntitySet Name="NQ_KetQua" EntityType="Self.NQ_KetQua" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NhanVien" EntityType="Self.NhanVien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NhomNLKCCD" EntityType="Self.NhomNLKCCD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhanQuyenHT" EntityType="Self.PhanQuyenHT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhieuXacNhanKCCD" EntityType="Self.PhieuXacNhanKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhongBan" EntityType="Self.PhongBan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QT_BaiKiemTra" EntityType="Self.QT_BaiKiemTra" Schema="dbo" store:Type="Tables" />
@@ -4025,6 +4034,7 @@
             <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
             <Parameter Name="QTHDID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="PhanQuyenHTs" EntityType="ELEARNING_KNLModel.PhanQuyenHT" />
           </EntityContainer>
         <ComplexType Name="CauHoi_DeThi_list_Result">
           <Property Type="Int32" Name="IDCH" Nullable="false" />
@@ -5217,6 +5227,14 @@
           <Property Name="TB_Thang" Type="Int32" />
           <Property Name="TB_Nam" Type="Int32" />
           <Property Name="TB_File" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PhanQuyenHT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDNV" Type="Int32" />
+          <Property Name="IDQuyen" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -6845,6 +6863,15 @@
           <FunctionImportMapping FunctionImportName="TB_KyLuat_insert" FunctionName="ELEARNING_KNLModel.Store.TB_KyLuat_insert" />
           <FunctionImportMapping FunctionImportName="VitriKNL_update_TinhTrang" FunctionName="ELEARNING_KNLModel.Store.VitriKNL_update_TinhTrang" />
           <FunctionImportMapping FunctionImportName="QT_BaiKiemTra_UpdateDeThi" FunctionName="ELEARNING_KNLModel.Store.QT_BaiKiemTra_UpdateDeThi" />
+          <EntitySetMapping Name="PhanQuyenHTs">
+            <EntityTypeMapping TypeName="ELEARNING_KNLModel.PhanQuyenHT">
+              <MappingFragment StoreEntitySet="PhanQuyenHT">
+                <ScalarProperty Name="IDQuyen" ColumnName="IDQuyen" />
+                <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

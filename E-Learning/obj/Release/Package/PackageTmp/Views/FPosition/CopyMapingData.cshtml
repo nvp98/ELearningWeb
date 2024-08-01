@@ -27,15 +27,132 @@
                             <label class=" mb-1">Vị trí</label>
                             @Html.DropDownList("IDKNL", null, "--Vị trí--", new { id = "IDKNL", @class = "form-control marginTB5 SelectVT", @style = "width:100%", })
                         </div>
+                        <div class="form-group">
+                            <h6 class=" ml-10   text-danger">Áp dụng cho chuyển cả Xưởng</h6>
+                        </div>
+                        <div class="row form-group">
+
+                            <div class="col-md-12">
+                                <div class="form-group text-xl-left font-weight-bold">
+
+                                    <label class=" mb-1 font-weight-bold float-left">Phân xưởng</label>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $("#IDPB").change(function () {
+                                                $.get("/FGroup/GetPX", { IDPB: $("#IDPB").val() }, function (data) {
+                                                    $("#IDPX1").empty();
+                                                    $("#IDPX1").append("<option value ='" + null + "'>" + "--Chọn Xưởng--" + "</option>");
+                                                    $.each(data, function (index, row) {
+                                                        $("#IDPX1").append("<option value ='" + row.ID + "'>" + row.TenPX + "</option>")
+                                                    });
+                                                });
+                                            })
+                                        });
+                                    </script>
+                                    @Html.DropDownList("IDPX1", null, "--Phân xưởng--", new { id = "IDPX1", @class = "form-control marginTB5 selec ChosenSL", })
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <h6 class=" ml-10   text-danger">Áp dụng cho chuyển cả Nhóm, tổ</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group text-xl-left font-weight-bold">
+                                    <label class=" mb-1 font-weight-bold float-left">Nhóm</label>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $("#IDPB").change(function () {
+                                                $.get("/FGroup/GetNhom", { IDPB: $("#IDPB").val() }, function (data) {
+                                                    $("#IDNhom1").empty();
+                                                    $("#IDNhom1").append("<option value ='" + null + "'>" + "--Chọn Nhóm--" + "</option>");
+                                                    $.each(data, function (index, row) {
+                                                        $("#IDNhom1").append("<option value ='" + row.IDNhom + "'>" + row.TenNhom + "</option>")
+                                                    });
+                                                });
+                                            })
+                                            $("#IDPX1").change(function () {
+                                                $.get("/FGroup/GetNhom", { IDPB: $("#IDPB").val(), IDPX: $("#IDPX1").val() }, function (data) {
+                                                    $("#IDNhom1").empty();
+                                                    $("#IDNhom1").append("<option value ='" + null + "'>" + "--Chọn Nhóm--" + "</option>");
+                                                    $.each(data, function (index, row) {
+                                                        $("#IDNhom1").append("<option value ='" + row.IDNhom + "'>" + row.TenNhom + "</option>")
+                                                    });
+                                                });
+                                            })
+                                        });
+                                    </script>
+                                    @Html.DropDownList("IDNhom1", null, "--Nhóm--", new { id = "IDNhom1", @class = "form-control marginTB5 selec ChosenSL", })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group text-xl-left font-weight-bold">
+                                    <label class=" mb-1 font-weight-bold float-left">Tổ</label>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $("#IDPB").change(function () {
+                                                $.get("/FGroup/GetTo", { IDPB: $("#IDPB").val() }, function (data) {
+                                                    $("#IDTo1").empty();
+                                                    $("#IDTo1").append("<option value ='" + null + "'>" + "--Chọn Tổ--" + "</option>");
+                                                    $.each(data, function (index, row) {
+                                                        $("#IDTo1").append("<option value ='" + row.IDTo + "'>" + row.TenTo + "</option>")
+                                                    });
+                                                });
+                                            })
+                                            $("#IDPX1").change(function () {
+                                                $.get("/FGroup/GetTo", { IDPB: $("#IDPB").val(), IDPX: $("#IDPX1").val() }, function (data) {
+                                                    $("#IDTo1").empty();
+                                                    $("#IDTo1").append("<option value ='" + null + "'>" + "--Chọn Tổ--" + "</option>");
+                                                    $.each(data, function (index, row) {
+                                                        $("#IDTo1").append("<option value ='" + row.IDTo + "'>" + row.TenTo + "</option>")
+                                                    });
+                                                });
+                                            })
+                                        });
+
+                                    </script>
+                                    @Html.DropDownList("IDTo1", null, "--Tổ--", new { id = "IDTo1", @class = "form-control marginTB5 selec ChosenSL", })
+                                </div>
+                            </div>
+                        </div>
+
+
                         <h5 class="w-100 font-italic font-weight-bold">Vị trí Được chuyển dữ liệu</h5>
+
                         <div class="form-group col-md-12">
                             <label class=" mb-1 ">Bộ Phận</label>
                             @Html.DropDownList("IDDS", null, "--Bộ Phận--", new { id = "IDDS", @class = "form-control marginTB5 SelectBP", @style = "width:100%", })
+                        </div>
+
+                        <div class="form-group">
+                            <h6 class=" ml-10   text-danger">Chuyển Nhóm, tổ đến phân xưởng</h6>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="col-md-12">
+                                <div class="form-group text-xl-left font-weight-bold">
+
+                                    <label class=" mb-1 font-weight-bold float-left">Phân xưởng</label>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $("#IDDS").change(function () {
+                                                $.get("/FGroup/GetPX", { IDPB: $("#IDDS").val() }, function (data) {
+                                                    $("#IDPX2").empty();
+                                                    $("#IDPX2").append("<option value ='" + null + "'>" + "--Chọn Xưởng--" + "</option>");
+                                                    $.each(data, function (index, row) {
+                                                        $("#IDPX2").append("<option value ='" + row.ID + "'>" + row.TenPX + "</option>")
+                                                    });
+                                                });
+                                            })
+                                        });
+                                    </script>
+                                    @Html.DropDownList("IDPX2", null, "--Phân xưởng--", new { id = "IDPX2", @class = "form-control marginTB5 selec ChosenSL", })
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group text-xl-left col-md-12">
                             <label class=" mb-1 ">Vị trí</label>
                             @Html.DropDownList("Selected", null, "", new { id = "multiSelectDropDownQAs", @class = "form-control multiSelectDropDownQAs", multiple = "multiple", @style = "width:100%" })
                         </div>
+
                         <hr class="col-md-11">
 
                         <div class=" col-md-12 mb-1" style="display:grid">
@@ -81,7 +198,9 @@
     $("#IDKNL").chosen({
         width: "100%"
     });
-
+    //$(".ChosenSL").chosen({
+    //    width: "100%"
+    //})
     $(".multiSelectDropDownQAs").chosen({
         width: "100%",
     });

@@ -1788,6 +1788,7 @@
       <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
       <Parameter Name="QTHDID" Mode="In" Type="Int32" />
     </FunctionImport>
+    <EntitySet Name="PhanQuyenHTs" EntityType="ELEARNING_KNLModel.PhanQuyenHT" />
   </EntityContainer>
   <ComplexType Name="CauHoi_DeThi_list_Result">
     <Property Type="Int32" Name="IDCH" Nullable="false" />
@@ -2980,5 +2981,13 @@
     <Property Name="TB_Thang" Type="Int32" />
     <Property Name="TB_Nam" Type="Int32" />
     <Property Name="TB_File" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="PhanQuyenHT">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IDNV" Type="Int32" />
+    <Property Name="IDQuyen" Type="Int32" />
   </EntityType>
 </Schema>

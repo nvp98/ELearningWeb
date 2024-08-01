@@ -532,6 +532,9 @@
     <Compile Include="Models\ManageTestExamValidation.cs" />
     <Compile Include="Models\ManageQuestionValidation.cs" />
     <Compile Include="Models\MyAuthentication.cs" />
+    <Compile Include="Models\PhanQuyenHT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PhanXuongValidation.cs" />
     <Compile Include="Models\PhieuXacNhanKCCD.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
@@ -646,6 +649,9 @@
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\ManageClass\ExportProcess.cshtml" />
+    <None Include="Views\Shared\LayoutAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\all.css" />

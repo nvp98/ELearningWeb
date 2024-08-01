@@ -74,17 +74,17 @@
                                                 </div>
                                                 @*<div class="widget-content-wrapper" style="padding: .5rem 0 0;">
 
-                                                    <div class="widget-content-left"><strong>Lĩnh vực: </strong></div>
-                                                    <div class="widget-content-right">@item.LinhVuc</div>
+                                                        <div class="widget-content-left"><strong>Lĩnh vực: </strong></div>
+                                                        <div class="widget-content-right">@item.LinhVuc</div>
 
-                                                </div>*@
+                                                    </div>*@
                                                 <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
 
                                                     <div class="widget-content-left"><strong>File Nội quy: </strong></div>
                                                     <div class="widget-content-right">
                                                         @if (item.FileDinhKem != null)
                                                         {
-                                                             if (item.XNHTFile != 1)
+                                                            if (item.XNHTFile != 1)
                                                             {
                                                                 <a id="file_@item.IDND" href="@Url.Action("CompleteFile", "NQLDUser", new {id = @item.IDND, link = @item.FileDinhKem})" target="_blank">
                                                                     <span style="color:red;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span> Xem file NQLĐ
@@ -103,7 +103,7 @@
                                                             {
                                                                 <a href="@item.FileDinhKem" target="_blank"><span style="color:red;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span> Xem file NQLĐ</a>
                                                             }
-                                                            
+
                                                         }
 
                                                     </div>
@@ -115,19 +115,23 @@
                                     <div class="col-lg-7" style="">
 
                                         <div class="" style="width: 100%; height: auto;">
-                                            <div id="myElement">Loading the player...</div>
-                                            <script type="text/javascript">
-                                                                var playerInstance = jwplayer("myElement");
-                                                                playerInstance.setup({
-                                                                    file: "@item.VideoND",
-                                                                    image: "@item.ImageND",
-                                                                    autostart: false,
-                                                                    controls: true,
-                                                                    width: "100%",
-                                                                    aspectratio: "16 : 9",
-                                                                   // height: 360,
-                                                                });
-                                            </script>
+                                            @*<div id="myElement">Loading the player...</div>*@
+                                            @*<script type="text/javascript">
+                                                            var playerInstance = jwplayer("myElement");
+                                                            playerInstance.setup({
+                                                                file: "@item.VideoND",
+                                                                image: "@item.ImageND",
+                                                                autostart: false,
+                                                                controls: true,
+                                                                width: "100%",
+                                                                aspectratio: "16 : 9",
+                                                               // height: 360,
+                                                            });
+                                        </script>*@
+                                            <video id="@(item.XNHT == 0?"videoPlayer":"" )" width="100%" poster="@item.ImageND" controls controlsList="nodownload" preload="true" autoplay="true">
+                                                <source src="@item.VideoND" type="video/mp4">
+                                                Trình duyệt của bạn không hỗ trợ thẻ video.
+                                            </video>
                                         </div>
 
                                     </div>
@@ -146,7 +150,7 @@
                                         else
                                         {
                                             <script>
-                                            console.log("Complete");
+                                                console.log("Complete");
                                             </script>
                                         }
                                     </div>
@@ -168,6 +172,119 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="myModalTB" tabindex="-1" data-backdrop="static" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Thông báo!</h5>
+                @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>*@
+            </div>
+            <div class="modal-body text-center ">
+                <h6 class="font-weight-bold text-danger">Bạn có đang theo dõi bài học?</h6>
+                <h6 class="font-weight-bold text-danger">Sau 10 phút nếu không xác nhận hệ thống tự động đăng xuất!</h6>
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>*@
+                <button type="button" class="btn btn-primary" id="confirmBtn">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var video = document.getElementById("videoPlayer");
+        var modal = document.getElementById("myModalTB");
+        var confirmButton = document.getElementById("confirmBtn");
+        var videoStopped = false;
+        var videoEnded = false;
+        var lastTime = 0;
+        var stopTimeout;
+        var exitTimeout;
+
+        // Thiết lập thời gian dừng lại (5 phút = 300 giây)
+        var stopInterval = 300 * 1000;
+        // Thiết lập thời gian tự động thoát (10 phút = 600 giây)
+        var autoExitTime = 600 * 1000;
+
+        function startStopTimeout() {
+            stopTimeout = setTimeout(function () {
+                if (!videoEnded) {
+                    video.pause();
+                    //modal.style.display = "block";
+                    $('#myModalTB').modal('show');
+                    videoStopped = true;
+
+                    // Thiết lập thời gian tự động thoát sau 10 phút nếu không xác nhận
+                    exitTimeout = setTimeout(function () {
+                        alert("Bạn đã không xác nhận trong thời gian quy định. Trang sẽ tự động thoát ra ngoài.");
+                        window.location.href = '@Url.Action("Logout", "Login")'; // Chuyển hướng tới trang khác
+                    }, autoExitTime);
+                }
+            }, stopInterval);
+        }
+
+        function resetTimeouts() {
+            clearTimeout(stopTimeout);
+            clearTimeout(exitTimeout);
+        }
+
+        // Khi video được phát lại, khởi động lại bộ đếm thời gian
+        video.addEventListener("play", function () {
+            if (!videoEnded) {
+                resetTimeouts();
+                startStopTimeout();
+            }
+        });
+
+        // Khi nhấn nút xác nhận, ẩn modal và tiếp tục phát video
+        confirmButton.addEventListener("click", function () {
+            //modal.style.display = "none";
+            $('#myModalTB').modal('hide');
+            if (videoStopped) {
+                video.play();
+                videoStopped = false;
+                resetTimeouts(); // Hủy bỏ thời gian tự động thoát nếu người dùng xác nhận
+            }
+        });
+
+        // Kiểm tra khi video kết thúc
+        video.addEventListener("ended", function () {
+            var element = document.getElementById("target");
+            videoEnded = true;
+            resetTimeouts(); // Dừng các bộ đếm thời gian khi video kết thúc
+            //alert("Bạn đã xem hết video!");
+            console.log("complete");
+            element.disabled = false;
+        });
+
+        // Chống tua video
+        video.addEventListener("timeupdate", function () {
+            if (video.currentTime > lastTime + 1) {
+                video.currentTime = lastTime;
+            } else {
+                lastTime = video.currentTime;
+            }
+        });
+
+        video.addEventListener("seeking", function () {
+            if (video.currentTime > lastTime) {
+                video.currentTime = lastTime;
+            }
+        });
+        // Dừng video khi chuyển tab và phát lại khi quay lại
+        document.addEventListener("visibilitychange", function () {
+            if (document.hidden) {
+                video.pause();
+            } else if (videoStopped) {
+                video.play();
+            }
+        });
+    });
+</script>
 
 <script type="text/javascript">
 
@@ -193,14 +310,19 @@
     //    }, 20000);
     //});
 
+    let checkview;
     jwplayer().on('play', function (event) {
         console.log("playt");
-        var checkview = setInterval(pause, 300000);
+        checkview = setInterval(pause, 300000);
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
         function pause() {
             jwplayer().pause();
             console.log("auto pause");
-            setTimeout(aler, 1000);
-
+            $('#myModalTB').modal('show');
+            clearInterval(checkview);
+            startTimer(); // đếm 10ph dừng
         }
         function aler() {
             clearInterval(checkview);
@@ -214,6 +336,57 @@
         //});
 
     });
+
+    $('#confirmBtn').on('click', function () {
+        console.log('Confirmed');
+        // Thực hiện hành động xác nhận ở đây
+        $('#myModalTB').modal('hide'); // Đóng modal sau khi xác nhận
+        console.log("auto play");
+        jwplayer().play();
+        stopTimer();
+    });
+
+
+    // Dừng video khi chuyển tab
+    document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+            jwplayer().pause();
+            clearInterval(checkview);
+        } else {
+            // Uncomment the line below if you want the video to resume playing when the tab becomes visible again
+            // video.play();
+        }
+    });
+
+    // Dừng video khi cửa sổ bị làm mờ
+    //window.addEventListener("blur", function () {
+    //    jwplayer().pause();
+    //});
+
+    let timer;
+    let seconds = 0;
+
+    function startTimer() {
+        // Nếu bộ đếm đã chạy, không làm gì cả
+        if (timer) return;
+        // Bắt đầu bộ đếm thời gian
+        timer = setInterval(() => {
+            seconds++;
+    /*        console.log(seconds);*/
+            let minutes = Math.floor((seconds % 3600) / 60);
+            if (minutes == 10) {
+                 window.location.href = '@Url.Action("Logout", "Login")';
+            }
+            //document.getElementById("timer").textContent = seconds;
+        }, 1000); // Cập nhật mỗi giây
+    }
+
+    function stopTimer() {
+        // Dừng bộ đếm thời gian
+        clearInterval(timer);
+        timer = null;
+        seconds = 0;
+    }
 
     // API JWplayer prevent
 

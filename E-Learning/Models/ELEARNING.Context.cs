@@ -83,6 +83,7 @@ namespace E_Learning.Models
         public virtual DbSet<KCCD_BaiThi> KCCD_BaiThi { get; set; }
         public virtual DbSet<NQ_KetQua> NQ_KetQua { get; set; }
         public virtual DbSet<TB_KyLuat> TB_KyLuat { get; set; }
+        public virtual DbSet<PhanQuyenHT> PhanQuyenHTs { get; set; }
     
         public virtual int BaiThi_insert(Nullable<int> iDLH, Nullable<int> iDDeThi, Nullable<int> iDND, Nullable<int> iDNV, Nullable<int> iDPhongBan, Nullable<int> iDViTri, Nullable<double> diemSo, Nullable<System.DateTime> ngayThi, Nullable<bool> tinhTrang, Nullable<int> lanThi, ObjectParameter iDBaiThi)
         {
