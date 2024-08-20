@@ -2934,6 +2934,17 @@ namespace E_Learning.Controllers
                         Worksheet.Cell(row, "Z").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "Z").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
+
+                        Worksheet.Cell(row, "AA").Value = data.IDVT;
+                        Worksheet.Cell(row, "AA").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "AA").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "AA").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "AB").Value = data.TinhTrang ==0?"Hết hiệu lực":"Còn hiệu lực";
+                        Worksheet.Cell(row, "AB").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "AB").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "AB").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
                         row = row + 1;
                     }
 
@@ -2993,6 +3004,7 @@ namespace E_Learning.Controllers
                            TenPX = e.TenPX,
                            TenNhom = f.TenNhom,
                            TenTo = g.TenTo,
+                           TinhTrang = a.TinhTrang,
                            NhapBMTCV = a.FilePath != null ? "Đã Nhập" : "Chưa Nhập",
                            CountChung = db.KhungNangLucs.Where(x => x.IDVT == a.IDVT && x.IDLoaiNL == 1).Count(),
                            CountQLy = db.KhungNangLucs.Where(x => x.IDVT == a.IDVT && x.IDLoaiNL == 2).Count(),
@@ -3484,6 +3496,11 @@ namespace E_Learning.Controllers
                         Worksheet.Cell(row, "I").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                         Worksheet.Cell(row, "I").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "I").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "J").Value = data.TinhTrang == 0 ? "Hết hiệu lực" : "Còn hiệu lực";
+                        Worksheet.Cell(row, "J").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "J").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "J").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
                         row = row + 1;
                     }

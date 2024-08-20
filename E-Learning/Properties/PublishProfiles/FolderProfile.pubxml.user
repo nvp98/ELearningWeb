@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>D:\Publish\E-Learning</_PublishTargetUrl>
-    <History>True|2024-08-01T03:32:13.0372341Z;</History>
+    <History>True|2024-08-20T08:11:38.3562456Z;True|2024-08-01T10:32:13.0372341+07:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -31,10 +31,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/06/2017 22:59:22</publishTime>
     </File>
     <File Include="bin/E-Learning.dll">
-      <publishTime>08/01/2024 10:32:01</publishTime>
+      <publishTime>08/20/2024 15:11:23</publishTime>
     </File>
     <File Include="bin/E-Learning.pdb">
-      <publishTime>08/01/2024 10:32:01</publishTime>
+      <publishTime>08/20/2024 15:11:23</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>10/23/2017 13:15:18</publishTime>
@@ -1612,7 +1612,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/10/2024 07:58:24</publishTime>
     </File>
     <File Include="Views/NQLDUser/Index.cshtml">
-      <publishTime>07/31/2024 13:28:31</publishTime>
+      <publishTime>08/05/2024 13:56:33</publishTime>
     </File>
     <File Include="Views/NQView/Index.cshtml">
       <publishTime>03/27/2024 13:33:01</publishTime>
@@ -1666,7 +1666,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/02/2023 12:33:20</publishTime>
     </File>
     <File Include="Views/SLesson/Index.cshtml">
-      <publishTime>08/01/2024 10:29:52</publishTime>
+      <publishTime>08/20/2024 14:36:58</publishTime>
     </File>
     <File Include="Views/Statistic/Index.cshtml">
       <publishTime>03/01/2023 13:32:46</publishTime>
@@ -1717,7 +1717,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/22/2021 10:52:57</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/01/2024 10:32:03</publishTime>
+      <publishTime>08/20/2024 15:11:25</publishTime>
     </File>
   </ItemGroup>
 </Project>

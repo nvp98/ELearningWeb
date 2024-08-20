@@ -226,9 +226,13 @@
     var video = document.getElementById('videoPlayer');
     var progressBar = document.getElementById('progress-bar');
     var lastPlaybackTime = 0;
+    var videoHasError = false;
     // Cập nhật thanh tiến trình khi video đang phát và cập nhật thời gian phát
     video.addEventListener('timeupdate', function () {
-        lastPlaybackTime = video.currentTime;
+        //if (!video.paused && !video.ended && !videoHasError) {
+        //    var progress = (video.currentTime / video.duration) * 100;
+        //    progressBar.style.width = progress + '%';
+        //}
         var progress = (video.currentTime / video.duration) * 100;
         progressBar.style.width = progress + '%';
     });
@@ -240,12 +244,15 @@
 
     // Handle the error event
     video.addEventListener("error", function (e) {
+        lastPlaybackTime = video.currentTime;
+        videoHasError = true;
         // Optionally, save the error time to the server or local storage
         localStorage.setItem('videoTime', lastPlaybackTime);
     });
 
     // Sự kiện khi video bị tạm dừng
     video.addEventListener('pause', function () {
+        lastPlaybackTime = video.currentTime;
         // Lưu thời gian hiện tại của video vào local storage
         localStorage.setItem('videoTime', lastPlaybackTime);
 
@@ -253,10 +260,25 @@
 
     // Sự kiện khi người dùng thoát khỏi trang
     window.addEventListener('beforeunload', function () {
+        lastPlaybackTime = video.currentTime;
         // Lưu thời gian hiện tại của video vào local storage
         localStorage.setItem('videoTime', lastPlaybackTime);
     });
-
+    // Reset cờ lỗi khi video tải lại
+    video.addEventListener('loadeddata', function () {
+        var urlParams = new URLSearchParams(window.location.search);
+        //localStorage.setItem('videoTime', lastPlaybackTime);
+        //video.currentTime = lastPlaybackTime;
+        // Kiểm tra xem có thời gian đã lưu trong local storage không
+        var savedTime = localStorage.getItem('videoTime');
+        var videoId = urlParams.get('LHID');
+        var videoIdStore = localStorage.getItem('videoID');
+        if (savedTime && videoId == videoIdStore) {
+            // Nếu có, đặt thời gian đó cho video
+            video.currentTime = savedTime;
+        }
+        videoHasError = false;
+    });
 </script>
 
 <script>
@@ -375,6 +397,7 @@
                 // Nếu có, đặt thời gian đó cho video
                 video.currentTime = savedTime;
             }
+            //console.log(savedTime);
         });
     });
 </script>

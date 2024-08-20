@@ -171,6 +171,7 @@ namespace E_Learning.Models
         public Nullable<int> SLNVDuocDG { get; set; }
         public Nullable<int> SLNVKDuocDG { get; set; }
         public Nullable<int> CountVTAuto { get; set; }
+        public Nullable<int> TinhTrang { get;set; }
     }
     public class AddNL
     {
