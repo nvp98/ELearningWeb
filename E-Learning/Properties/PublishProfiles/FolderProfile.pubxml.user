@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>D:\Publish\E-Learning</_PublishTargetUrl>
-    <History>True|2024-08-20T08:11:38.3562456Z;True|2024-08-01T10:32:13.0372341+07:00;</History>
+    <History>True|2024-11-27T07:52:20.2847226Z;True|2024-08-20T15:11:38.3562456+07:00;True|2024-08-01T10:32:13.0372341+07:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -31,10 +31,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/06/2017 22:59:22</publishTime>
     </File>
     <File Include="bin/E-Learning.dll">
-      <publishTime>08/20/2024 15:11:23</publishTime>
+      <publishTime>11/27/2024 14:52:04</publishTime>
     </File>
     <File Include="bin/E-Learning.pdb">
-      <publishTime>08/20/2024 15:11:23</publishTime>
+      <publishTime>11/27/2024 14:52:04</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>10/23/2017 13:15:18</publishTime>
@@ -644,6 +644,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="Content/assets/images/GooglePlay.png">
       <publishTime>12/18/2023 13:24:29</publishTime>
+    </File>
+    <File Include="Content/assets/images/imgElearning.jpg">
+      <publishTime>11/12/2024 14:43:13</publishTime>
     </File>
     <File Include="Content/assets/images/ks-24.svg">
       <publishTime>07/22/2021 10:54:58</publishTime>
@@ -1264,7 +1267,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/11/2023 14:58:18</publishTime>
     </File>
     <File Include="Views/ConfirmEStudy/TestView.cshtml">
-      <publishTime>10/01/2022 07:46:30</publishTime>
+      <publishTime>09/18/2024 10:48:49</publishTime>
     </File>
     <File Include="Views/ConfirmKCCD/Create.cshtml">
       <publishTime>11/03/2023 11:01:38</publishTime>
@@ -1477,7 +1480,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/01/2024 11:12:06</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>08/20/2021 14:05:21</publishTime>
+      <publishTime>11/27/2024 14:50:16</publishTime>
     </File>
     <File Include="Views/LibraryClass/Index.cshtml">
       <publishTime>09/03/2021 09:54:32</publishTime>
@@ -1522,7 +1525,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/03/2024 08:39:57</publishTime>
     </File>
     <File Include="Views/ManageETContent/Index.cshtml">
-      <publishTime>02/03/2024 09:04:38</publishTime>
+      <publishTime>09/20/2024 09:30:57</publishTime>
     </File>
     <File Include="Views/ManageExamQuestionGroup/Create.cshtml">
       <publishTime>10/27/2021 10:28:41</publishTime>
@@ -1660,13 +1663,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/01/2022 14:16:05</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>07/19/2024 14:19:29</publishTime>
+      <publishTime>11/26/2024 11:23:40</publishTime>
     </File>
     <File Include="Views/SHistory/Index.cshtml">
       <publishTime>08/02/2023 12:33:20</publishTime>
     </File>
     <File Include="Views/SLesson/Index.cshtml">
-      <publishTime>08/20/2024 14:36:58</publishTime>
+      <publishTime>08/26/2024 08:57:12</publishTime>
     </File>
     <File Include="Views/Statistic/Index.cshtml">
       <publishTime>03/01/2023 13:32:46</publishTime>

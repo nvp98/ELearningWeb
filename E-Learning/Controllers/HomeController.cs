@@ -55,6 +55,22 @@ namespace E_Learning.Controllers
             }
             return lsQuyen;
         }
+
+        public JsonResult Get_LichSu_KNL()
+        {
+            KNL_LSDG knl = new KNL_LSDG() { DAT = 0, KDGia = 0, CHUADG = 0, KDAT = 0, TONGNL = 0, VUOT = 0 };
+            var res = db.KNL_LSDG.Where(x => x.NVID == MyAuthentication.ID).ToList();
+            knl.NVID = MyAuthentication.ID;
+            knl.VUOT = res.LastOrDefault().VUOT;
+            knl.KDAT = res.LastOrDefault().KDAT;
+            knl.DAT = res.LastOrDefault().DAT;
+            knl.TONGNL = res.LastOrDefault().TONGNL;
+            knl.ThangDG = res.LastOrDefault().ThangDG;
+            knl.CHUADG = res.LastOrDefault().CHUADG;
+            knl.KDGia = res.LastOrDefault().KDGia;
+            return Json(knl, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

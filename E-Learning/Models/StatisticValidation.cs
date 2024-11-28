@@ -47,4 +47,19 @@ namespace E_Learning.Models
         public string name { get; set; }
         public int data { get; set; }
     }
+
+    public class DuLieuTongQuan
+    {
+        public int SL_LopHoc_GV { get; set; }
+        public int SL_GioDT_GV { get; set; }
+        public float Tong_LopChuaHT { get; set; }
+        public int Tong_LopDaHT { get; set; }
+        public int Tong_LopDaHTThi { get; set; }
+        public int Tong_GioDT { get; set; }
+        public int Tong_LopHoc { get; set; }
+        public int Tong_QTHD { get; set; }
+        public int Tong_NQLD { get; set; }
+        public int TongNL { get; set; }
+    }
+
 }

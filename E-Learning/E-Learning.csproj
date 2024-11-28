@@ -649,6 +649,7 @@
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\assets\images\imgElearning.jpg" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\ManageClass\ExportProcess.cshtml" />
     <None Include="Views\Shared\LayoutAdmin.cshtml" />

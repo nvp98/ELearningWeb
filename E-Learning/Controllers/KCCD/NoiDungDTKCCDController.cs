@@ -478,6 +478,11 @@ namespace E_Learning.Controllers.KCCD
                         Worksheet.Cell(row, "G").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                         //Worksheet.Cell(row, "F").Style.Fill.BackgroundColor = XLColor.Yellow;
 
+                        Worksheet.Cell(row, "H").Value = data.SLCH + " Câu hỏi/ " + data.SLDT + " Đề thi" ;
+                        Worksheet.Cell(row, "H").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                        Worksheet.Cell(row, "H").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "H").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
                         row = row + 1;
                     }
 
@@ -522,7 +527,9 @@ namespace E_Learning.Controllers.KCCD
                            PhongBanID = (int)a.PhongBanID,
                            TenPhongBan = a.TenPhongBan,
                            NgayTao = (DateTime)a.NgayTao,
-                           TenND = a.TenND
+                           TenND = a.TenND,
+                           SLCH = db.KCCD_CauHoi.Where(x => x.KCCDID == a.ID).Count(),
+                           SLDT = db.KCCD_DeThi.Where(x => x.KCCDID == a.ID).Count(),
                        }).ToList();
             return res;
         }

@@ -164,7 +164,7 @@
                                 </tbody>
                             </table>
                             <div class="pager">
-                                @Html.PagedListPager(Model, page => Url.Action("Index", "ManageETContent", new { page, IDLVDT = Request.QueryString["IDLVDT"], IDCTLVDT = Request.QueryString["CTLVDTID"] }))
+                                @Html.PagedListPager(Model, page => Url.Action("Index", "ManageETContent", new { page,search = Request.QueryString["search"], IDLVDT = Request.QueryString["IDLVDT"], IDCTLVDT = Request.QueryString["CTLVDTID"] }))
                                 <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
                             </div>
                         </div>

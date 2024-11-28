@@ -295,8 +295,14 @@
         // Lấy URL hiện tại
         var urlParams = new URLSearchParams(window.location.search);
         var videoId = urlParams.get('LHID');
-       
+        var IDNV = @MyAuthentication.ID;
+        var videoIdStore = localStorage.getItem('videoID');
+        var nhanvienID = localStorage.getItem('NVID');
+        if (videoIdStore != videoId || IDNV != nhanvienID) {
+            localStorage.removeItem('videoTime');
+        }
         localStorage.setItem('videoID', videoId);
+        localStorage.setItem('NVID', IDNV);
 
         // Thiết lập thời gian dừng lại (5 phút = 300 giây)
         var stopInterval = 300 * 1000;
@@ -386,7 +392,7 @@
         // Lấy phần tử video
 /*        var video = document.getElementById('myVideo');*/
 
-       
+
         // Khi trang được tải
         window.addEventListener('load', function () {
             // Kiểm tra xem có thời gian đã lưu trong local storage không

@@ -35,7 +35,7 @@ namespace E_Learning.Controllers
                 {
                     string Cookie = string.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8}", user.ID, user.MaNV, user.HoTen, user.IDPhongBan, user.IDQuyen,user.IDViTri,user.IDQuyenKNL,user.IDVTKNL,user.MaViTri);
                     FormsAuthentication.SetAuthCookie(Cookie, false);
-                    return RedirectToAction("Index", "EClassroom");
+                    return RedirectToAction("Index", "Home");
 
                 }
                 else
