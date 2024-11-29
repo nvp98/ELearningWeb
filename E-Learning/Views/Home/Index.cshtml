@@ -148,7 +148,7 @@
                       IDND = a.IDND,
                       ThoiLuongDT = a.ThoiLuongDT
                   }).ToList();
-    int? sogioDTGV = nddtGV?.Sum(x => x.ThoiLuongDT.GetValueOrDefault()) ?? 0;
+    float? sogioDTGV = nddtGV?.Sum(x => x.ThoiLuongDT.GetValueOrDefault())/60 ?? 0;
 
     var tongsoLH = db.XNHocTaps.Where(x => x.NVID == nhanvien.ID).ToList();
     int LHTG = tongsoLH.Where(x => x.XNTG == true).Count();
@@ -171,7 +171,7 @@
                          IDND = a.IDND,
                          ThoiLuongDT = a.ThoiLuongDT
                      }).ToList();
-    int? sogioDT = Listsogio?.Sum(x => x.ThoiLuongDT.GetValueOrDefault())??0;
+    float? sogioDT = Listsogio?.Sum(x => x.ThoiLuongDT.GetValueOrDefault())/60??0;
 
     var ListLS_DaoTao = (from h in db.XNHocTaps
                          join l in db.LopHocs on h.LHID equals l.IDLH
