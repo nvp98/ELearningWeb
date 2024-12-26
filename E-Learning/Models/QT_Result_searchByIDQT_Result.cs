@@ -17,6 +17,8 @@ namespace E_Learning.Models
         public Nullable<int> QTHDID { get; set; }
         public string TenQTHD { get; set; }
         public string MaHieu { get; set; }
+        public Nullable<System.DateTime> NgayHieuLuc { get; set; }
+        public Nullable<System.DateTime> NgayHetHieuLuc { get; set; }
         public Nullable<int> IDVTKNL { get; set; }
         public Nullable<int> DKID { get; set; }
         public string TenViTri { get; set; }
@@ -24,13 +26,11 @@ namespace E_Learning.Models
         public int IDNV { get; set; }
         public string HoTen { get; set; }
         public string MaNV { get; set; }
+        public int IDPhongBan { get; set; }
+        public string TenPhongBan { get; set; }
         public Nullable<double> Diem { get; set; }
         public Nullable<int> TinhTrang { get; set; }
         public Nullable<System.DateTime> NgayHT { get; set; }
-        public string TenPhongBan { get; set; }
-        public int IDPhongBan { get; set; }
-        public Nullable<System.DateTime> NgayHieuLuc { get; set; }
-        public Nullable<System.DateTime> NgayHetHieuLuc { get; set; }
         public Nullable<System.DateTime> NgayKTTT { get; set; }
     }
 }

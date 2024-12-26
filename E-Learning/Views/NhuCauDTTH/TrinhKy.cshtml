@@ -1,0 +1,182 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model E_Learning.ModelsDTTH.CapDuyetView
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+
+<script>
+    $("#BPSD").chosen({
+        width: "100%"
+    });
+    $("#PCHN").chosen({
+        width: "100%"
+    });
+    $("#PNS").chosen({
+        width: "100%"
+    });
+    $("#BGD").chosen({
+        width: "100%"
+    });
+    function checkfile(sender) {
+        var validExts = new Array(".xlsx", ".xls");
+        var fileExt = sender.value;
+        fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+        if (validExts.indexOf(fileExt) < 0) {
+            alert("Vui lòng chọn file Excel: " +
+                validExts.toString() + "");
+            $('#FileUpload').val() = '';
+            return false;
+        }
+        else { return true; }
+    };
+
+    $("#btnSubmit").on('click', function () {
+        var file = $('#FileUpload').val();
+        if (file.length == 0) {
+            alert('Vui lòng chọn file Import.');
+            return false;
+        } else {
+            var validExts = new Array(".xlsx", ".xls");
+            var fileExt = file;
+            fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+            if (validExts.indexOf(fileExt) < 0) {
+                alert("Vui lòng chọn file Excel: " +
+                    validExts.toString() + "");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    });
+</script>
+
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*@using E_Learning.ModelsDTTH
+@using E_Learning.Models
+@model PagedList.IPagedList<SH_KyDuyetNCDTView>
+@using PagedList.Mvc*@
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-portfolio icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Thông tin trình ký Nhu cầu đào tạo
+                        <div class="page-title-subheading">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="card col-lg-12">
+                    <div class="card-body">
+                        @using (Html.BeginForm("TrinhKy", "NhuCauDTTH", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="row">
+                                <div class=" w-100">
+                                   
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <input type="hidden" name="IDNCDT" id="IDNCDT" value="@ViewBag.IDNCDT" />
+                                    <fieldset id="SubmitForm">
+                                        <table class="table table-bordered table-striped table-hover" cellspacing="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td width="300"><div class="font-weight-bold col-12 text-danger">BỘ PHẬN SỬ DỤNG (BP.SD):</div></td>
+                                                    <td> @Html.DropDownListFor(m => m.BPSD, (SelectList)ViewBag.BPSD, "-- Chọn nhân viên --", new { id = "BPSD", @class = "form-control marginTB5", @style = "width:100%", })</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="300"><div class="font-weight-bold col-12 text-danger">PHÒNG CHỨC NĂNG (PCHN):</div></td>
+                                                    <td> @Html.DropDownListFor(m => m.PCHN, (SelectList)ViewBag.PCHN, "-- Chọn nhân viên --", new { id = "PCHN", @class = "form-control marginTB5", @style = "width:100%", })</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="300"><div class="font-weight-bold col-12 text-danger">PHÒNG NHÂN SỰ (P.NS):</div></td>
+                                                    <td> @Html.DropDownListFor(m => m.PNS, (SelectList)ViewBag.PNS, "-- Chọn nhân viên --", new { id = "PNS", @class = "form-control marginTB5", @style = "width:100%", })</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="300"><div class="font-weight-bold col-12 text-danger">BAN GIÁM ĐỐC (BGĐ):</div></td>
+                                                    <td>  @Html.DropDownListFor(m => m.BGD, (SelectList)ViewBag.BGD, "-- Chọn nhân viên --", new { id = "BGD", @class = "form-control marginTB5", @style = "width:100%", })</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="btn-margin-top text-center">
+                                            @*<a href="@Url.Action("DownloadExcel", "NoiDungDTTH")" class="float-left"> <i class="fa fa-download" aria-hidden="true"></i> Tải biểu mẫu import </a>*@
+                                            <input type="submit" value="Xác nhận" class="btn btn-success button_submit float-right" />
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script type="text/javascript">
+    $("#BPSD").chosen({
+        width: "100%"
+    });
+    $("#PCHN").chosen({
+        width: "100%"
+    });
+    $("#PNS").chosen({
+        width: "100%"
+    });
+    $("#BGD").chosen({
+        width: "100%"
+    });
+</script>
+
+
+

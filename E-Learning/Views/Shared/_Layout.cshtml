@@ -33,6 +33,7 @@
         var ListQFPosition = new E_Learning.Controllers.HomeController().GetPermisionCN(Idquyen, "FPosition");
         var checkDGNV = new E_Learning.Controllers.KNL.FCheckController().CheckDGiaNV();
         var checkAppro = new E_Learning.Controllers.KCCD.SuggestKCCDController().CheckApprove();
+        var dsloaiNCDT = new E_Learning.Controllers.DaoTaoTH.NhuCauDTTHController().GetDSLoaiNCDT();
         var showQuanTriKNL = 0;
         var showKNL = 0;
         var showQuanTri = 0;
@@ -96,6 +97,7 @@
                                         <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
                                             <a class="dropdown-item" href="@Url.Action("Logout","Login")">Đăng xuất</a>
                                             <a class="dropdown-item" href="@Url.Action("ChangePassword","Login")">Đổi mật khẩu</a>
+                                            <a class="dropdown-item" href="@Url.Action("CapNhatChuKy","Login")">Cập nhật chữ ký</a>
 
 
                                         </div>
@@ -193,9 +195,63 @@
                                     </i>Kết quả đánh giá KNL
                                 </a>
                             </li>
+                            <li class="app-sidebar__heading">Thủ tục đào tạo</li>
+                            @if (ListControll.Contains("NoiDungDTTH"))
+                            {
+                                <li>
+                                    <a href="@Url.Action("Index","NoiDungDTTH", new {IDLoaiDT =1})">
+                                        <i class="metismenu-icon pe-7s-display1 font-weight-bold"></i>
+                                        Nội dung đào tạo
+                                    </a>
+                                </li>
+                            }
+                            @if (ListControll.Contains("NhuCauDTTH"))
+                            {
+                                <li class=" @((new List<String> { "NhuCauDTTH" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
+                                    <a href="">
+                                        <i class="metismenu-icon pe-7s-display1 font-weight-bold"></i>
+                                        Nhu cầu đào tạo
+                                    </a>
+                                    <ul id="NCDT">
+                                        @foreach (var item in dsloaiNCDT)
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("Index", "NhuCauDTTH",new {IDLoaiDT =item.IDLoai})" class="font-size-md font-weight-bold ">
+                                                    <i class="pe-7s-users"></i>
+                                                    &nbsp;&nbsp;@item.TenLoaiNCDT
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
 
-
-
+                            <li>
+                                <a href="">
+                                    <i class="metismenu-icon pe-7s-display1 font-weight-bold"></i>
+                                    Ký duyệt online
+                                </a>
+                                <ul id="NCDT">
+                                    <li>
+                                        <a href="@Url.Action("Index_NCDT", "PheDuyetPhieu")" class="font-size-md font-weight-bold ">
+                                            <i class="pe-7s-users"></i>
+                                            &nbsp;&nbsp;Nhu cầu đào tạo
+                                        </a>
+                                    </li>
+                                    @*<li>
+                                        <a href="@Url.Action("Index", "PheDuyetPhieu",new {LoaiKyDuyet = 2})" class="font-size-md font-weight-bold ">
+                                            <i class="pe-7s-users"></i>
+                                            &nbsp;&nbsp;Tổ chức đào tạo
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index", "PheDuyetPhieu",new {LoaiKyDuyet = 3})" class="font-size-md font-weight-bold ">
+                                            <i class="pe-7s-users"></i>
+                                            &nbsp;&nbsp;Kế hoạch đào tạo
+                                        </a>
+                                    </li>*@
+                                </ul>
+                            </li>
 
                             <li class="app-sidebar__heading">Bảng tin</li>
                             <li>

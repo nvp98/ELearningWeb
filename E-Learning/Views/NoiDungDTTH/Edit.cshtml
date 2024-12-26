@@ -1,0 +1,117 @@
+﻿@model E_Learning.Models.NoiDungDT
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="modal-dialog" style="max-width:800px" id="formF">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <fieldset id="SubmitForm">
+                    @*@Html.AntiForgeryToken()*@
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.IDND)
+                    <div class="row">
+
+                        <div class="form-group col-md-6">
+                            <label class="mb-1">Tên Nội dung đào tạo</label>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.NoiDung, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.NoiDung, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="mb-1">Link video đào tạo(Áp dụng cho đào tạo trực tuyến)</label>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.VideoND, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.VideoND, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="mb-1">Link hình ảnh đào tạo(Áp dụng cho đào tạo trực tuyến)</label>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.ImageND, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ImageND, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            @Html.LabelFor(model => model.FileDinhKem, htmlAttributes: new { @class = "control-label col" })
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.FileDinhKem, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FileDinhKem, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="mb-1">Lĩnh vực đào tạo</label>
+                            <div class="col-md-12">
+                                @Html.DropDownList("LVDTID", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.LVDTID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="mb-1">Nguồn giảng viên</label>
+                            <div class="col-md-12">
+                                @Html.DropDownList("IDNguonGV", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IDNguonGV, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="mb-1">Hoạt động đào tạo</label>
+                            <div class="col-md-12">
+                                @Html.DropDownList("IDHoatDongDT", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IDHoatDongDT, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="mb-1">Nhóm năng lực</label>
+                            <div class="col-md-12">
+                                @Html.DropDownList("IDNhomNL", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IDNhomNL, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="mb-1">Phương pháp đào tạo</label>
+                            <div class="col-md-12">
+                                @Html.DropDownList("IDPhuongPhapDT", null, "--Chọn Phương pháp--", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IDPhuongPhapDT, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group col-md-6">
+                            <label class="mb-1">Phân loại đào tạo</label>
+                            <div class="col-md-12">
+                                @Html.DropDownList("IDPhanLoaiDT", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IDPhanLoaiDT, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-margin-top text-center">
+                        <input type="submit" value="Xác nhận" class="btn btn-primary pull-right " />
+                        <input type="reset" value="Hủy" class="btn btn-danger pull-right button_cancel mr-1" data-dismiss="modal" />
+                    </div>
+                </fieldset>
+
+            </div>
+        </div>
+    </div>
+}
+
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@

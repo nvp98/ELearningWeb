@@ -21,7 +21,7 @@ namespace E_Learning.Models
         public Nullable<int> IDDAĐung { get; set; }
         public Nullable<double> Diem { get; set; }
     
-        public virtual KCCD_CauHoi KCCD_CauHoi { get; set; }
         public virtual KCCD_BaiThi KCCD_BaiThi { get; set; }
+        public virtual KCCD_CauHoi KCCD_CauHoi { get; set; }
     }
 }

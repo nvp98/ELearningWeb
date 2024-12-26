@@ -14,12 +14,6 @@ namespace E_Learning.Models
     
     public partial class QT_CauHoiQT
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public QT_CauHoiQT()
-        {
-            this.QT_CTBaiKiemTra = new HashSet<QT_CTBaiKiemTra>();
-        }
-    
         public int IDCH { get; set; }
         public string NoiDungCH { get; set; }
         public string DapAnA { get; set; }
@@ -30,7 +24,5 @@ namespace E_Learning.Models
         public Nullable<int> QTHDID { get; set; }
     
         public virtual QT_NoiDungQT QT_NoiDungQT { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QT_CTBaiKiemTra> QT_CTBaiKiemTra { get; set; }
     }
 }

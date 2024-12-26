@@ -17,8 +17,9 @@ namespace E_Learning.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NoiDungDT()
         {
-            this.DeThis = new HashSet<DeThi>();
-            this.LopHocs = new HashSet<LopHoc>();
+            this.DeThi = new HashSet<DeThi>();
+            this.LopHoc = new HashSet<LopHoc>();
+            this.SH_NhuCauDT = new HashSet<SH_NhuCauDT>();
         }
     
         public int IDND { get; set; }
@@ -34,11 +35,24 @@ namespace E_Learning.Models
         public Nullable<System.DateTime> NgayTao { get; set; }
         public Nullable<int> isOrder { get; set; }
         public Nullable<int> isNQ { get; set; }
+        public Nullable<int> IDNguonGV { get; set; }
+        public Nullable<int> IDHoatDongDT { get; set; }
+        public Nullable<int> IDPhuongPhapDT { get; set; }
+        public Nullable<int> IDNhomNL { get; set; }
+        public Nullable<int> IDPhanLoaiDT { get; set; }
+        public Nullable<int> LoaiNCDT_ID { get; set; }
+        public Nullable<bool> IsDelete { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DeThi> DeThis { get; set; }
+        public virtual ICollection<DeThi> DeThi { get; set; }
         public virtual LinhVucDT LinhVucDT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LopHoc> LopHocs { get; set; }
+        public virtual ICollection<LopHoc> LopHoc { get; set; }
+        public virtual SH_HoatDongDT SH_HoatDongDT { get; set; }
+        public virtual SH_NguonGV SH_NguonGV { get; set; }
+        public virtual NhomNLKCCD NhomNLKCCD { get; set; }
+        public virtual SH_PhanLoaiNDDT SH_PhanLoaiNDDT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SH_NhuCauDT> SH_NhuCauDT { get; set; }
     }
 }

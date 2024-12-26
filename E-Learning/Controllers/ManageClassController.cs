@@ -644,7 +644,7 @@ namespace E_Learning.Controllers
 
       
         [HttpPost]
-        public ActionResult ExportProcess(ManageClassValidation _DO)
+        public ActionResult ExportProcess(ManageClassValidation _DO, string SelectedMonth)
         {
             try
             {
@@ -700,6 +700,12 @@ namespace E_Learning.Controllers
                         {
                             var DSXNHT = db_context.XNHocTaps.ToList();
                             var DSBaiThi = db_context.BaiThis.ToList();
+                            if (!string.IsNullOrEmpty(SelectedMonth)) {
+                                DateTime selectedDate;
+                                if (DateTime.TryParse(SelectedMonth, out selectedDate)) {
+                                    DSXNHT = DSXNHT.Where(x => x.NgayTG.HasValue && x.NgayTG.Value.Month == selectedDate.Month && x.NgayTG.Value.Year == selectedDate.Year).ToList();
+                                }
+                            }
                             for (int i = 3; i < dt.Rows.Count; i++)
                             {
                                 var IDLH = int.Parse(dt.Rows[i][1].ToString());

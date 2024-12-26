@@ -17,13 +17,16 @@ namespace E_Learning.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NhomNLKCCD()
         {
-            this.NoiDungDTKCCDs = new HashSet<NoiDungDTKCCD>();
+            this.NoiDungDT = new HashSet<NoiDungDT>();
+            this.NoiDungDTKCCD = new HashSet<NoiDungDTKCCD>();
         }
     
         public int ID { get; set; }
         public string NoiDung { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NoiDungDTKCCD> NoiDungDTKCCDs { get; set; }
+        public virtual ICollection<NoiDungDT> NoiDungDT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NoiDungDTKCCD> NoiDungDTKCCD { get; set; }
     }
 }

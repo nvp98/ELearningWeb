@@ -128,20 +128,10 @@
                                                                // height: 360,
                                                             });
                                         </script>*@
-                                             @if (item.XNHT != 1)
-                                            {
-                                                <video id="videoPlayer" width="100%" poster="@item.ImageND" controls controlsList="nodownload" preload="true" autoplay="true">
-                                                    <source src="@item.VideoND" type="video/mp4">
-                                                    Trình duyệt của bạn không hỗ trợ thẻ video.
-                                                </video>
-                                            }
-                                            else
-                                            {
-                                                <video  width="100%" poster="@item.ImageND" controls controlsList="nodownload" preload="true" autoplay="true">
-                                                    <source src="@item.VideoND" type="video/mp4">
-                                                    Trình duyệt của bạn không hỗ trợ thẻ video.
-                                                </video>
-                                            }
+                                            <video id="@(item.XNHT == 0?"videoPlayer":"" )" width="100%" poster="@item.ImageND" controls controlsList="nodownload" preload="true" autoplay="true">
+                                                <source src="@item.VideoND" type="video/mp4">
+                                                Trình duyệt của bạn không hỗ trợ thẻ video.
+                                            </video>
                                         </div>
 
                                     </div>

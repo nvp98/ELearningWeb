@@ -1,0 +1,250 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.Models
+@*@model List<EmployeeValidation>*@
+@using PagedList.Mvc
+
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+@*<style type="text/css">
+        .table-responsive {
+            height: 720px;
+            overflow-y: scroll;
+            /*overflow:auto;*/
+            /*height:70vh;*/
+        }
+
+        thead tr:nth-child(1) th {
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .table-responsive::-webkit-scrollbar {
+            width: 2px;
+        }
+    </style>*@
+<style>
+    input[type="checkbox"] {
+        zoom: 1.3;
+        position: relative;
+        top: 3px;
+    }
+</style>
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title mb-0">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Danh sách vị trí phân quyền
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="card mb-4">
+            <div class="card-header d-none">
+
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="font-weight-bold mb-1">Tên Nội dung: @ViewBag.NoiDung</label>
+                    </div>
+                    @*<div class=" col-md-2">
+                            <label class="font-weight-bold mb-1"></label>
+                            <div class="input-group-btn"><button class="btn btn-primary marginTB5" type="button" id="btn-search-a"><i class="fa fa-search"></i> Tìm kiếm</button></div>
+                        </div>*@
+                    <div class="clo-md-3 m-l-auto">
+                        <button type="button" id="btn-add" class="btn btn-primary m-l-auto"><i class="fa fa-plus">&nbsp;</i>&nbsp;Thêm mới </button>
+                        <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("AddViTri","NoiDungDTTH",new { IDND = Request.QueryString["IDND"] })'></div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center " width="30px">STT</th>
+                                <th class="text-center">Mã vị trí</th>
+                                <th class="text-center">Tên vị trí</th>
+                                <th class="text-center">Bộ phận</th>
+                                <th class="text-center">Phương pháp đào tạo</th>
+                                @*<th class="text-center">Định kỳ đào tạo</th>*@
+                                <th class="text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script src="~/Content/Chonse/chosen.jquery.js"></script>*@
+@*<script src="~/Content/Chonse/chosen.jquery.js"></script>
+    <script src="~/Content/Chonse/chosen.jquery.js"></script>*@
+<script type="text/javascript">
+    //$("#SelectQuyen").chosen({
+    //    width: "100%"
+    //});
+
+    $(document).ready(function () {
+        var dataTable = [], table;
+        $.get("/NoiDungDTTH/GetDSViTri", { IDND: @Request.QueryString["IDND"] }, function (data1) {
+            if (data1[0] != null) {
+                $.each(data1, function (index, row) {
+                    dataTable.push([index + 1, row.ViTri_ID, row.TenViTri, row.TenPhongBan, [row.PhuongPhapDT_ID,row.ID], row.ID]);
+                })
+                table = $('#table').DataTable({
+                    "pageLength": 50,
+                    data: dataTable,
+                    columns: [
+                        { 'data': '0' },
+                        { 'data': '1' },
+                        { 'data': '2' },
+                        { 'data': '3' },
+                        {
+                            "render": function (data, type, full, meta) {
+                                return `<div class="form-group col-md-12">
+                                  <select class="form-control marginTB5 " id="PhuongPhapDT_${data[1]}" name="PhuongPhapDT_${data[1]}" style="width:100%">
+                                                                    @foreach (var item in ViewBag.PhuongPhapDT_ID)
+                                                                    {
+                                                                     <option value='@item.Value' ${data[0] == @item.Value? 'selected':''}>@item.Text</option>
+                                                                    }
+                                </select>
+                            </div>`
+                            },
+                            orderable: false
+                        },
+                       
+                        {
+                            sortable: false,
+                            "render": function (data, type, full, meta) {
+                                return `<a class="fa fa-save icon_action fa-2x " href="" title="Lưu" onclick="return confirm('Bạn muốn xóa phân quyền vị trí: ${data}')?Luu(${data}):''""> &nbsp; <a class="fa fa-sign-out icon_action fa-2x" title="Xóa vị trí khỏi nhóm" href="" onclick="return confirm('Bạn muốn xóa phân quyền vị trí: ${data}')?Xoa(${data}):''"">`;
+                            }
+                        },
+                    ],
+                    columnDefs: [
+                        {
+                            targets: 0,
+                            className: 'text-center'
+                        },
+                        {
+                            targets: -1,
+                            className: 'text-center'
+                        },
+                        {
+                            targets: 1,
+                            className: 'text-center'
+                        },
+                    ]
+                });
+            }
+            else {
+                $('#table').dataTable().fnClearTable();
+            }
+        });
+
+    });
+    //$("#btn-search-a").on('click', function () {
+    //    var idq = $('#SelectQuyen').val();
+    //    window.location.href = `${idq}`;
+    //});
+    function SelectGQuyen() {
+        var idq = $('#SelectQuyen').val();
+        window.location.href = `${idq}`;
+    };
+    //$(document).ready(function () {
+    //    $('#table').DataTable({
+    //        "pageLength": 50
+    //    });
+    //});
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Cập nhật user quyền");
+            $("#myModal").modal('show');
+        });
+    });
+    async function showAlertAsync() {
+        alert("Async alert!");
+    }
+    function Luu(id) {
+        var PhuongPhapDT_ID = $("#PhuongPhapDT_" + id).val();
+        var DinhKy_ID = $("#DinhKy_" + id).val();
+        $.get("/NoiDungDTTH/Luu", { ID: id, IDPP : PhuongPhapDT_ID, DKID : DinhKy_ID }, function (data1) {
+            alert("Cập nhật thành công!");
+            location.reload();
+        })
+        
+    }
+    function Xoa(id) {
+        $.get("/NoiDungDTTH/Xoa", { ID: id }, function (data1) {
+            alert("Xóa thành công!");
+            location.reload();
+        })
+
+    }
+    
+
+</script>
+
+<style>
+    .chosen-container-single .chosen-single {
+        color: #495057;
+        background: #fff;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.8;
+        text-transform: capitalize;
+    }
+
+        .chosen-container-single .chosen-single span {
+            text-transform: capitalize !important;
+            font-size: 16px !important;
+        }
+</style>
+
+

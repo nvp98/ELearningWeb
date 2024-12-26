@@ -50,6 +50,9 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
     <Reference Include="ClosedXML, Version=0.95.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ClosedXML.0.95.4\lib\net46\ClosedXML.dll</HintPath>
     </Reference>
@@ -91,11 +94,11 @@
     <Reference Include="ExcelNumberFormat, Version=1.0.10.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelNumberFormat.1.0.10\lib\net20\ExcelNumberFormat.dll</HintPath>
     </Reference>
-    <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
+    <Reference Include="itextsharp, Version=5.5.13.4, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.4\lib\net461\itextsharp.dll</HintPath>
     </Reference>
-    <Reference Include="itextsharp.xmlworker, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\itextsharp.xmlworker.5.5.13.3\lib\itextsharp.xmlworker.dll</HintPath>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.13.4, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.13.4\lib\net461\itextsharp.xmlworker.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -223,8 +226,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\Encryptor.cs" />
+    <Compile Include="Common\PdfHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConfirmEStudyController.cs" />
+    <Compile Include="Controllers\DaoTaoTH\NhuCauDTTHController.cs" />
+    <Compile Include="Controllers\DaoTaoTH\NoiDungDTTHController.cs" />
+    <Compile Include="Controllers\DaoTaoTH\PheDuyetPhieuController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\DetailedFieldController.cs" />
     <Compile Include="Controllers\DinhBien\DinhBienController.cs" />
@@ -279,6 +286,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ModelsDTTH\NhuCauDTTHView.cs" />
+    <Compile Include="ModelsDTTH\NoiDungDTTHView.cs" />
+    <Compile Include="ModelsDTTH\TrinhKyDTTHView.cs" />
     <Compile Include="ModelsKCCD\CauHoiKCCDView.cs" />
     <Compile Include="ModelsKCCD\ConfirmKCCDView.cs" />
     <Compile Include="ModelsKCCD\NhomNLKCCDview.cs" />
@@ -306,6 +316,7 @@
     <Compile Include="Models\CauHoi_searchByID_Result.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\CONSTKEY.cs" />
     <Compile Include="Models\CTBaiThi.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
@@ -322,6 +333,9 @@
     <Compile Include="Models\DeNghiKCCD_selectKCCD_Result.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DeNghiKCCD_select_APP_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DeNghiKCCD_select_Result.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
@@ -334,6 +348,9 @@
     </Compile>
     <Compile Include="Models\DinhBienView.cs" />
     <Compile Include="Models\DinhBienVT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DSachDG.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DSachDGValidation.cs" />
@@ -487,6 +504,8 @@
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\NhomKNLValidation.cs" />
+    <Compile Include="ModelsNQLD\NoiQuyKQView.cs" />
+    <Compile Include="ModelsNQLD\NoiQuyView.cs" />
     <Compile Include="Models\NhomNLKCCD.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
@@ -511,9 +530,10 @@
     <Compile Include="Models\NoiDungDT_select_Result.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
-    <Compile Include="ModelsNQLD\NoiQuyKQView.cs" />
-    <Compile Include="ModelsNQLD\NoiQuyView.cs" />
     <Compile Include="Models\NotificationView.cs" />
+    <Compile Include="Models\NQ_Chuong.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\NQ_KetQua.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
@@ -537,6 +557,9 @@
     </Compile>
     <Compile Include="Models\PhanXuongValidation.cs" />
     <Compile Include="Models\PhieuXacNhanKCCD.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PhieuXacNhanKCCD_select_APP_Result.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PhieuXacNhanKCCD_select_Result.cs">
@@ -592,12 +615,69 @@
     <Compile Include="Models\QuyenCN.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\QuyenDetail.cs">
+    <Compile Include="Models\QuyenDetails.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ResultQTHDView.cs" />
+    <Compile Include="Models\SH_CapKyDuyet.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_ChiTiet_NCDT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_DinhKy.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_HoatDongDT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_KetQuaDaoTao.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_KyDuyetNCDT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_LoaiNhacLai.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_NguonGV.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_NhacLai.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_NhuCauDT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_PhanLoaiNCDT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_PhanLoaiNDDT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_PhuongPhapDT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_QuyDaoTao.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_TrinhKy.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_ViTri_NDDT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\StatisticValidation.cs" />
     <Compile Include="Models\StudentTestDetailValidation.cs" />
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TaiKhoan_ID_Result.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
@@ -624,13 +704,7 @@
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViTriKNLValidation.cs" />
-    <Compile Include="Models\VitriKNL_Export_Result.cs">
-      <DependentUpon>ELEARNING.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\VitriKNL_searchByIDVT_Result.cs">
-      <DependentUpon>ELEARNING.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\VitriKNL_searchPage_Result.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VitriKNL_search_Result.cs">
@@ -650,8 +724,67 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\assets\images\imgElearning.jpg" />
+    <Content Include="FileChuKy\HPDQ16961_20241109095239.png" />
+    <Content Include="FileChuKy\HPDQ18461_20241109093222.png" />
+    <Content Include="FileChuKy\HPDQ18461_20241109093658.png" />
+    <Content Include="FileChuKy\HPDQ18461_20241109093823.png" />
+    <Content Include="FileChuKy\HPDQ18461_20241109093906.png" />
+    <Content Include="FileChuKy\HPDQ18461_20241109093912.png" />
+    <Content Include="FileChuKy\HPDQ18461_20241109093927.png" />
+    <Content Include="FileChuKy\HPDQ18461_20241109093932.png" />
+    <Content Include="FileChuKy\HPDQ18461_20241109094550.png" />
+    <Content Include="FileChuKy\HPDQ18461_20241109094555.png" />
+    <Content Include="Models\ELEARNING.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ELEARNING.edmx</DependentUpon>
+      <LastGenOutput>ELEARNING.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ELEARNING.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ELEARNING.edmx</DependentUpon>
+      <LastGenOutput>ELEARNING.cs</LastGenOutput>
+    </Content>
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\ManageClass\ExportProcess.cshtml" />
+    <Content Include="FileNCDTTH\20241107134923_Nhu cầu đào tạo quý 2 năm 2022 lần 2.pdf" />
+    <Content Include="FileNCDTTH\20241107140304_BM.04.14_Nhu cau dao tao nhan luc NM.LT-Quy 2.2023 01.05.22-2 %281%29 - Copy_Approved.pdf" />
+    <Content Include="FileNCDTTH\20241107140326_BM.13-QT.04 Nhu cau dao tao nhan luc Huan luyen ATVSLĐ cac nhom Quy IV.2024_Approved 1.pdf" />
+    <EntityDeploy Include="Models\ELEARNING.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ELEARNING.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ELEARNING.edmx.diagram">
+      <DependentUpon>ELEARNING.edmx</DependentUpon>
+    </Content>
+    <Content Include="Views\NhuCauDTTH\Create.cshtml" />
+    <Content Include="Views\NhuCauDTTH\Edit.cshtml" />
+    <Content Include="Views\NhuCauDTTH\Index.cshtml" />
+    <Content Include="Views\NhuCauDTTH\TrinhKy.cshtml" />
+    <Content Include="Views\NoiDungDTTH\AddNoiDung.cshtml" />
+    <Content Include="Views\NoiDungDTTH\AddViTri.cshtml" />
+    <Content Include="Views\NoiDungDTTH\Create.cshtml" />
+    <Content Include="Views\NoiDungDTTH\Delete.cshtml" />
+    <Content Include="Views\NoiDungDTTH\Details.cshtml" />
+    <Content Include="Views\NoiDungDTTH\DS_NoiDung.cshtml" />
+    <Content Include="Views\NoiDungDTTH\DS_ViTri.cshtml" />
+    <Content Include="Views\NoiDungDTTH\Edit.cshtml" />
+    <Content Include="Views\NoiDungDTTH\ImportExcel.cshtml" />
+    <Content Include="Views\NoiDungDTTH\Index.cshtml" />
+    <Content Include="Views\NoiDungDTTH\PhanQuyenNDDT.cshtml" />
+    <Content Include="Views\NoiDungDTTH\Process.cshtml" />
+    <Content Include="Views\PheDuyetPhieu\Create.cshtml" />
+    <Content Include="Views\PheDuyetPhieu\Delete.cshtml" />
+    <Content Include="Views\PheDuyetPhieu\Details.cshtml" />
+    <Content Include="Views\PheDuyetPhieu\Edit.cshtml" />
+    <Content Include="Views\PheDuyetPhieu\Index.cshtml" />
+    <Content Include="Views\PheDuyetPhieu\Index_NCDT.cshtml" />
+    <Content Include="Views\NhuCauDTTH\Edit_View.cshtml" />
+    <Content Include="Views\PheDuyetPhieu\XuLyPhieuNCDT.cshtml" />
+    <Content Include="Views\Login\CapNhatChuKy.cshtml" />
+    <Content Include="Views\NoiDungDTTH\PhanQuyenVT_NDDT.cshtml" />
+    <Content Include="Views\NhuCauDTTH\NCDT_ViewPRE.cshtml" />
+    <Content Include="Views\NhuCauDTTH\PrintView.cshtml" />
+    <Content Include="Views\NhuCauDTTH\ExportView.cshtml" />
     <None Include="Views\Shared\LayoutAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -887,16 +1020,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Models\ELEARNING.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ELEARNING.edmx</DependentUpon>
-      <LastGenOutput>ELEARNING.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\ELEARNING.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ELEARNING.edmx</DependentUpon>
-      <LastGenOutput>ELEARNING.cs</LastGenOutput>
-    </Content>
     <Content Include="Rotativa\help-wkhtmltoimage.txt" />
     <Content Include="Rotativa\help-wkhtmltopdf.txt" />
     <Content Include="Rotativa\wkhtmltoimage.exe" />
@@ -926,13 +1049,6 @@
     <Content Include="App_Data\BM_DinhBienViTri.xlsx" />
     <None Include="Content\jquery-3.4.1.intellisense.js" />
     <None Include="Content\jquery.validate-vsdoc.js" />
-    <EntityDeploy Include="Models\ELEARNING.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ELEARNING.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\ELEARNING.edmx.diagram">
-      <DependentUpon>ELEARNING.edmx</DependentUpon>
-    </Content>
     <Content Include="PDF\0f0c1cfe-f1ec-409e-aeee-a18ba0557c97.pdf" />
     <Content Include="PDF\1aa86997-9dad-42ce-8f20-530ae656b508.pdf" />
     <Content Include="PDF\1abdbb25-919d-4c9c-9fdc-3760aed8cd64.pdf" />

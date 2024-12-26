@@ -16,7 +16,10 @@ namespace E_Learning.Models
         public int IDVT { get; set; }
         public string MaViTri { get; set; }
         public string TenViTri { get; set; }
+        public Nullable<int> TinhTrang { get; set; }
         public string FilePath { get; set; }
+        public Nullable<int> IDKhoi { get; set; }
+        public string TenKhoi { get; set; }
         public Nullable<int> IDPhongBan { get; set; }
         public string TenPhongBan { get; set; }
         public Nullable<int> IDPX { get; set; }
@@ -29,8 +32,5 @@ namespace E_Learning.Models
         public Nullable<int> SLNL { get; set; }
         public Nullable<int> SLDGTC { get; set; }
         public Nullable<int> SLNVDDG { get; set; }
-        public string TenKhoi { get; set; }
-        public Nullable<int> IDKhoi { get; set; }
-        public Nullable<int> TinhTrang { get; set; }
     }
 }

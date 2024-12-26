@@ -27,6 +27,8 @@ namespace E_Learning.Models
         public Nullable<System.DateTime> TuNgay { get; set; }
         public Nullable<System.DateTime> DenNgay { get; set; }
         public Nullable<System.DateTime> NgayXN { get; set; }
+        public Nullable<int> isKiemTra { get; set; }
+        public Nullable<int> DeThiID { get; set; }
         public string TenND { get; set; }
         public string TenNhomNL { get; set; }
     }

@@ -21,6 +21,9 @@ namespace E_Learning.Models
         public string TenPhongBan { get; set; }
         public int IDVT { get; set; }
         public string TenViTri { get; set; }
+        public Nullable<int> IDPX { get; set; }
+        public Nullable<int> IDNhom { get; set; }
+        public Nullable<int> IDTo { get; set; }
         public string TenPX { get; set; }
         public string TenNhom { get; set; }
         public string TenTo { get; set; }
@@ -32,8 +35,5 @@ namespace E_Learning.Models
         public Nullable<int> NODG { get; set; }
         public Nullable<int> CHUADG { get; set; }
         public Nullable<System.DateTime> NgayDG { get; set; }
-        public Nullable<int> IDPX { get; set; }
-        public Nullable<int> IDNhom { get; set; }
-        public Nullable<int> IDTo { get; set; }
     }
 }

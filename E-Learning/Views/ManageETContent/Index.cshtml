@@ -22,7 +22,9 @@
     @Html.Raw(TempData["msgError"])
 }
 
-
+@{ 
+    ELEARNINGEntities db = new ELEARNINGEntities();
+}
 
 <div class="app-main__outer">
     <div class="app-main__inner">
@@ -91,12 +93,14 @@
                                         <th width="" class="text-center">BP Lập Nhu Cầu</th>
                                         <th width="" class="text-center">Lĩnh Vực</th>
                                         <th width="" class="text-center">Lĩnh Vực Chi Tiết</th>
+                                        <th width="130px" class="text-center">Nhóm năng lực</th>
                                         <th width="" class="text-center">Nội Dung Đào Tạo</th>
                                         @*<th width="" class="text-center">Video Nội Dung</th>
         <th width="" class="text-center">Hình Ảnh Nội Dung</th>*@
                                         <th width="130px" class="text-center">Thời lượng</th>
                                         <th width="70px" class="text-center">SL Lớp học</th>
                                         <th width="" class="text-center">File CTĐT</th>
+
                                         <th width="120px" class="text-center">Ngày tạo</th>
 
                                         <th width="80px" class="text-center">Thao tác</th>
@@ -110,12 +114,21 @@
                                     }
                                     @foreach (var item in Model)
                                     {
+                                        var nddt = db.NoiDungDTs.Where(x => x.IDND == item.IDND).FirstOrDefault();
                                         <tr>
                                             <td class="text-center"> @RowNo@{RowNo++;}</td>
                                             <td class="text-center">@item.MaND</td>
                                             <td class="text-center">@item.BPLNC</td>
                                             <td class="text-center">@item.LinhVuc</td>
                                             <td class="text-center">@item.LVChiTiet</td>
+                                            @if (nddt.IDNhomNL != null)
+                                            {
+                                                <td class="text-center">@db.NhomNLKCCDs.Where(x => x.ID == nddt.IDNhomNL).FirstOrDefault().NoiDung</td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
                                             <td>@item.NoiDung</td>
                                             @*<td class="text-center">@item.VideoND</td>
         <td class="text-center">@item.ImageND</td>*@
@@ -129,7 +142,7 @@
 
                                             </td>
                                             <td class="text-center">
-                                                @if (item.NgayTao != null )
+                                                @if (item.NgayTao != null)
                                                 {
                                                     @(item.NgayTao?.ToString("dd-MM-yyyy"));
                                                 }

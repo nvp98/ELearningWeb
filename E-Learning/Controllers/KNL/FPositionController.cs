@@ -31,6 +31,7 @@ using ClosedXML.Excel.Drawings;
 using Syncfusion.CompoundFile.DocIO.Native;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using Org.BouncyCastle.Asn1.Ocsp;
+using System.Data.Entity;
 
 namespace E_Learning.Controllers
 {
@@ -80,7 +81,8 @@ namespace E_Learning.Controllers
                            CountKNL = a.SLNL,
                            CountDGTC = a.SLDGTC,
                            CountNVDDG = a.SLNVDDG,
-                           TinhTrang = a.TinhTrang
+                           TinhTrang = a.TinhTrang,
+                           CountSLNDDT = db.SH_ViTri_NDDT.Where(x=>x.Vitri_ID == a.IDVT).Count()
                        }).OrderBy(x => x.IDPB).ThenBy(x=>x.IDPX).ThenBy(x => x.IDNhom).ThenBy(x => x.IDTo).ToList();
             if(!ListQuyen.Contains(CONSTKEY.LOCK)) res = res.Where(x=>x.TinhTrang != 0).ToList();
             //foreach (var k in res)

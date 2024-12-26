@@ -31,4 +31,13 @@ namespace E_Learning.Models
         public List<ItemCheck> LSChecked { get; set; }
 
     }
+
+    public class ChuKyView
+    {
+        public string ChuKy { get; set; }
+        public int IDNV { get; set; }
+        public HttpPostedFileBase FileChuKy { get; set; }
+
+    }
+
 }

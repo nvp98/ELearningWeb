@@ -14,12 +14,6 @@ namespace E_Learning.Models
     
     public partial class ViTriKNL
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ViTriKNL()
-        {
-            this.KNL_LSDG = new HashSet<KNL_LSDG>();
-        }
-    
         public int IDVT { get; set; }
         public string TenViTri { get; set; }
         public string MaViTri { get; set; }
@@ -31,8 +25,5 @@ namespace E_Learning.Models
         public string FilePath { get; set; }
         public Nullable<int> IDVTParent { get; set; }
         public Nullable<int> TinhTrang { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KNL_LSDG> KNL_LSDG { get; set; }
     }
 }

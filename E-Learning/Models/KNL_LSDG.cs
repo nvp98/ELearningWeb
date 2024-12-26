@@ -25,7 +25,5 @@ namespace E_Learning.Models
         public Nullable<int> KDGia { get; set; }
         public Nullable<int> CHUADG { get; set; }
         public Nullable<int> TONGNL { get; set; }
-    
-        public virtual ViTriKNL ViTriKNL { get; set; }
     }
 }

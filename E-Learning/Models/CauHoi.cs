@@ -17,7 +17,7 @@ namespace E_Learning.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CauHoi()
         {
-            this.CauHoiDeThis = new HashSet<CauHoiDeThi>();
+            this.CauHoiDeThi = new HashSet<CauHoiDeThi>();
         }
     
         public int IDCH { get; set; }
@@ -31,6 +31,6 @@ namespace E_Learning.Models
         public Nullable<int> GVID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CauHoiDeThi> CauHoiDeThis { get; set; }
+        public virtual ICollection<CauHoiDeThi> CauHoiDeThi { get; set; }
     }
 }

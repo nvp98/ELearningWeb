@@ -23,6 +23,7 @@ namespace E_Learning.Models
         public Nullable<int> IDTo { get; set; }
         public string FilePath { get; set; }
         public Nullable<int> IDVTParent { get; set; }
+        public Nullable<int> TinhTrang { get; set; }
         public string TenPhongBan { get; set; }
         public string MaPB { get; set; }
         public string TenPX { get; set; }

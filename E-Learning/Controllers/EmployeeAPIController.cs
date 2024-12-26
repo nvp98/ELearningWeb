@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity.Core.Objects;
 using System.Globalization;
-using System.IO;
+//using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -13,6 +13,8 @@ using System.Web.Mvc;
 using E_Learning.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.IO;
+using iTextSharp.tool.xml.html.head;
 
 namespace E_Learning.Controllers
 {
@@ -73,6 +75,7 @@ namespace E_Learning.Controllers
         List<Employees_API.data> GetAPI()
         {
             var GetTo = GetToken();
+            string path = AppDomain.CurrentDomain.BaseDirectory + @"App_Data\JsonHPDQ.json";
             string link = ConfigurationManager.AppSettings["LinkAPI"];
             using (WebClient webClient = new WebClient())
             {
@@ -80,12 +83,13 @@ namespace E_Learning.Controllers
 
                 webClient.Encoding = Encoding.UTF8;
                 webClient.Headers.Add("Authorization", token);
-                var json = webClient.DownloadString(link);
+                webClient.DownloadFile(link, path);
+                var json = webClient.DownloadString(path);
                 //Getdata(json);
                 //Json khong dung chuan
                 //=>Nen cat chuoi, cat chuoi the nay cu chuoi qua
                 json = json.Remove(0, 36);
-                json = json.Replace("}]}","}]");
+                json = json.Replace("}]}", "}]");
                 var list = JsonConvert.DeserializeObject<List<Employees_API.data>>(json);
                 return list.ToList();
             }
@@ -100,11 +104,20 @@ namespace E_Learning.Controllers
                 return m.ToString();
             return "";
         }
-        public int GetIDPhongBan(string TenPB)
+        public int GetIDPhongBan(string TenPB,string MaBP_API)
         {
-            var pb = _db.PhongBans.Where(x => x.TenPhongBan == TenPB).SingleOrDefault();
+            var pb = _db.PhongBans.Where(x => x.TenPhongBan == TenPB || x.API_MaPB == MaBP_API).FirstOrDefault();
+            if(pb != null)
+            {
+                if(pb.API_MaPB != MaBP_API.Trim() || pb.TenPhongBan != TenPB)
+                {
+                    pb.API_MaPB = MaBP_API;
+                    pb.TenPhongBan = TenPB;
+                    _db.SaveChanges(); // cập nhật API_MaPB
+                }
+            }
             //if (pb != null &&  pb.MaPB != maphongban) _db.PhongBan_update_KNL(pb.IDPhongBan, TenPB, maphongban);
-            var model = _db.PhongBans.Where(x => x.TenPhongBan == TenPB).SingleOrDefault();
+            var model = _db.PhongBans.Where(x => x.API_MaPB == MaBP_API).FirstOrDefault();
             if (model == null)
                 return 0;
             //if(TenPB != model.TenPhongBan) _db.PhongBan_update_KNL(model.IDPhongBan, TenPB, maphongban);
@@ -112,7 +125,7 @@ namespace E_Learning.Controllers
         }
         public int GetIDViTri(string TenViTri)
         {
-            var model = _db.Vitris.Where(x => x.TenViTri == TenViTri).SingleOrDefault();
+            var model = _db.Vitris.Where(x => x.TenViTri == TenViTri).FirstOrDefault();
             if (model == null)
                 return 0;
             return model.IDViTri;
@@ -157,7 +170,7 @@ namespace E_Learning.Controllers
                                     {
                                         ObjectParameter IDPhongBanout = new ObjectParameter("IDPhongBan", typeof(int));
                                         ObjectParameter IDViTriout = new ObjectParameter("IDViTri", typeof(int));
-                                        IDPhongBan = GetIDPhongBan(item.phongban);
+                                        IDPhongBan = GetIDPhongBan(item.phongban,item.maphongban);
                                         if (IDPhongBan == 0)
                                         {
                                             _db.PhongBan_insert(IDPhongBanout, item.phongban);
@@ -184,7 +197,7 @@ namespace E_Learning.Controllers
                                         //}
                                         ObjectParameter IDPhongBanout = new ObjectParameter("IDPhongBan", typeof(int));
                                         ObjectParameter IDViTriout = new ObjectParameter("IDViTri", typeof(int));
-                                        IDPhongBan = GetIDPhongBan(item.phongban);
+                                        IDPhongBan = GetIDPhongBan(item.phongban,item.maphongban);
                                         if (IDPhongBan == 0)
                                         {
                                             _db.PhongBan_insert(IDPhongBanout, item.phongban);
@@ -198,11 +211,12 @@ namespace E_Learning.Controllers
                                         }
                                         if(rsnv.IDPhongBan!=IDPhongBan || rsnv.IDViTri!=IDViTri || rsnv.IDTinhTrangLV!=item.tinhtranglamviec || rsnv.MaViTri != item.mavitri || rsnv.IDKip != int.Parse(item.makip))
                                         {
-                                        if (item.tinhtranglamviec == 0)
-                                        {
-                                            _db.Nhanvien_update_IDKNL(MaNV, null);
-                                        }
+                                            if (item.tinhtranglamviec == 0)
+                                            {
+                                                _db.Nhanvien_update_IDKNL(MaNV, null);
+                                            }
                                         _db.Nhanvien_update_API(MaNV, item.diachi, item.sodienthoai, IDPhongBan, item.tinhtranglamviec, IDViTri, item.mavitri, int.Parse(item.makip));
+                                        //_db.Nhanvien_update_HoTen(MaNV, item.hoten, convertToUnSign(item.hoten));
                                         dtc++;
                                         }    
                                         

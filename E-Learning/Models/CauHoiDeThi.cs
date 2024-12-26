@@ -19,7 +19,7 @@ namespace E_Learning.Models
         public Nullable<int> IDDeThi { get; set; }
         public Nullable<double> Diem { get; set; }
     
-        public virtual DeThi DeThi { get; set; }
         public virtual CauHoi CauHoi { get; set; }
+        public virtual DeThi DeThi { get; set; }
     }
 }

@@ -140,22 +140,33 @@
 
                                         <div class="" style="width: 100%; height: auto;">
                                             @*<div id="myElement">Loading the player...</div>
-                                            <script type="text/javascript">
-                                                                var playerInstance = jwplayer("myElement");
-                                                                playerInstance.setup({
-                                                                    file: "@item.VideoLH",
-                                                                    image: "@item.ImageLH",
-                                                                    autostart: false,
-                                                                    controls: true,
-                                                                    width: "100%",
-                                                                    aspectratio: "16 : 9",
-                                                                   // height: 360,
-                                                                });
-                                            </script>*@
-                                            <video id="@(item.XNHT == false?"videoPlayer":"" )" width="100%" poster="@item.ImageLH" controls controlsList="nodownload" preload="auto" autoplay="true">
-                                                <source src="@item.VideoLH" type="video/mp4">
-                                                Trình duyệt của bạn không hỗ trợ thẻ video.
-                                            </video>
+        <script type="text/javascript">
+                            var playerInstance = jwplayer("myElement");
+                            playerInstance.setup({
+                                file: "@item.VideoLH",
+                                image: "@item.ImageLH",
+                                autostart: false,
+                                controls: true,
+                                width: "100%",
+                                aspectratio: "16 : 9",
+                               // height: 360,
+                            });
+        </script>*@
+                                            @if (item.XNHT == false)
+                                            {
+                                                <video id="videoPlayer" width="100%" poster="@item.ImageLH" controls controlsList="nodownload" preload="auto" autoplay="true">
+                                                    <source src="@item.VideoLH" type="video/mp4">
+                                                    Trình duyệt của bạn không hỗ trợ thẻ video.
+                                                </video>
+                                            }
+                                            else
+                                            {
+                                                <video width="100%" poster="@item.ImageLH" controls controlsList="nodownload" preload="auto" autoplay="true">
+                                                    <source src="@item.VideoLH" type="video/mp4">
+                                                    Trình duyệt của bạn không hỗ trợ thẻ video.
+                                                </video>
+                                            }
+
                                             <div class="custom-controls" id="custom-controls">
                                                 <div class="progress-bar" id="progress-bar"></div>
                                             </div>

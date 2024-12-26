@@ -23,11 +23,11 @@ namespace E_Learning.Models
         public int ID { get; set; }
         public Nullable<int> IDNV { get; set; }
         public Nullable<int> KCCDID { get; set; }
-        public Nullable<int> DeThiID { get; set; }
         public Nullable<double> Diem { get; set; }
         public Nullable<System.DateTime> NgayThi { get; set; }
-        public Nullable<int> LanThi { get; set; }
         public Nullable<int> TinhTrang { get; set; }
+        public Nullable<int> DeThiID { get; set; }
+        public Nullable<int> LanThi { get; set; }
         public Nullable<int> DeNghiID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

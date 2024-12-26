@@ -16,12 +16,12 @@ namespace E_Learning.Models
         public int ID { get; set; }
         public string MaNV { get; set; }
         public string HoTen { get; set; }
+        public Nullable<int> IDKip { get; set; }
         public string TenKip { get; set; }
         public string TenPhongBan { get; set; }
+        public int IDVT { get; set; }
         public string TenViTri { get; set; }
         public string FilePath { get; set; }
         public Nullable<System.DateTime> NgayDG { get; set; }
-        public int IDVT { get; set; }
-        public Nullable<int> IDKip { get; set; }
     }
 }

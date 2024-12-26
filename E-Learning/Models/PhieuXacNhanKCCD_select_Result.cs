@@ -34,11 +34,11 @@ namespace E_Learning.Models
         public string HVDeXuatKhac { get; set; }
         public Nullable<System.DateTime> HVNgayXacNhan { get; set; }
         public Nullable<int> IDTinhTrang { get; set; }
+        public Nullable<int> TinhTrangThi { get; set; }
         public string HoTen { get; set; }
         public string MaNV { get; set; }
         public string TenND { get; set; }
         public string TenViTri { get; set; }
         public string TenPhongBan { get; set; }
-        public Nullable<int> TinhTrangThi { get; set; }
     }
 }

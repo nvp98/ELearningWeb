@@ -17,14 +17,18 @@ namespace E_Learning.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PhongBan()
         {
-            this.NhanViens = new HashSet<NhanVien>();
+            this.NhanVien = new HashSet<NhanVien>();
+            this.SH_NhuCauDT = new HashSet<SH_NhuCauDT>();
         }
     
         public int IDPhongBan { get; set; }
         public string TenPhongBan { get; set; }
         public string MaPB { get; set; }
+        public string API_MaPB { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NhanVien> NhanViens { get; set; }
+        public virtual ICollection<NhanVien> NhanVien { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SH_NhuCauDT> SH_NhuCauDT { get; set; }
     }
 }

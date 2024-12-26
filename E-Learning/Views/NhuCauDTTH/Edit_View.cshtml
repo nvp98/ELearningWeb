@@ -1,0 +1,386 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@model E_Learning.ModelsDTTH.NhuCauDTTHView
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+@using E_Learning.Models;
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+<style>
+    /* Đặt chiều cao cố định và thêm cuộn dọc */
+    .table-responsive1 {
+        max-height: 300px; /* Thay đổi 300px thành chiều cao bạn muốn */
+        overflow-y: auto;
+    }
+
+    input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+    }
+</style>
+@{
+    ELEARNINGEntities db = new ELEARNINGEntities();
+    var TrinhKy = db.SH_TrinhKy.Where(x => x.CapDuyet == Model.TrinhKy_ID).FirstOrDefault();
+    var KyDuyetPhieu = db.SH_KyDuyetNCDT.Where(x => x.NCDT_ID == Model.ID_NCDT).ToList();
+    var CapBP = KyDuyetPhieu.Where(x => x.CapDuyet == 1).FirstOrDefault();
+    var CapPCHN = KyDuyetPhieu.Where(x => x.CapDuyet == 2).FirstOrDefault();
+    var CapPNS = KyDuyetPhieu.Where(x => x.CapDuyet == 3).FirstOrDefault();
+    var CapBGD = KyDuyetPhieu.Where(x => x.CapDuyet == 4).FirstOrDefault();
+    var nhanvien = db.NhanViens.ToList();
+}
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div style="display: flex; margin-bottom: 5px; position:sticky;top:">
+            <span class="">
+
+            </span>
+            @* <span class="m-l-auto"><a class="btn btn-primary" href="@Url.Action("ExportToPdfsss","ConfirmEStudy")">&nbsp;In Phiếu </a></span>*@
+            @*<button type="button" id="btn-Import" class="btn btn-danger float-right ml-2"><i class="fa fa-refresh">&nbsp;</i>&nbsp;Không xác nhận </button>*@
+            @*<form action="@Url.Action("KhongXacNhanPhieu","PheDuyetPhieu",new {id = Model.ID_NCDT})" method="post">
+            <button type="submit" id="" class="btn btn-danger float-right ml-2"><i class="fa fa-refresh">&nbsp;</i>&nbsp;Không xác nhận </button>
+        </form>*@
+            @*<form action="@Url.Action("XacNhanPhieu","PheDuyetPhieu",new {id = Model.ID_NCDT})" method="post">
+            <button type="submit" id="" class="btn btn-success float-right ml-2"><i class="fa fa-check-square-o">&nbsp;</i>&nbsp;Xác nhận </button>
+        </form>*@
+        @*<a href="@Url.Action("ExportViewToPdf", "NhuCauDTTH", new { id = Model.ID_NCDT })" target="_blank">Xuất PDF</a>*@
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="card col-md-12">
+
+                    @* Code View *@
+                    <div class="HeadTest row">
+                        <div class="col-md-6" style="float: left; max-width: 300px; text-align: center; font-weight: bold; font-size: 1.2rem; text-transform: uppercase;">
+                            <img alt="Hòa Phát Dung Quất" src="~/Content/assets/images/logo-inverse.png" width="90%" />
+                            <span class="" style="">Công ty Cổ phần Thép</span>
+                            <p class="" style="">Hòa Phát Dung Quất</p>
+
+                        </div>
+                        <div class="col-md-6" style="float:right;text-align:right; font-weight: bold; margin-left: auto;">
+                            <span>BM.13/QT.04</span>
+                            <p><span style="font-style:italic;">Ngày hiệu lực:</span> 01/12/2023</p>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 1rem;">
+                            <p style="text-align:center; font-size: 1.5rem;font-weight:bold; text-transform:uppercase;">NHU CẦU ĐÀO TẠO NHÂN LỰC</p>
+                            <p style="text-align: center;"><span style="font-style:italic;">Quý:&nbsp;</span> @ViewBag.Quy  &nbsp; / &nbsp;  <span style="font-style:italic;">Năm:&nbsp;</span> @ViewBag.Nam  &nbsp; </p>
+                        </div>
+
+                        <div class="col-md-12">
+                            <p>Kính gửi: @TrinhKy.TenTrinhKy</p>
+                            <p class="font-italic">– Căn cứ yêu cầu thực tế công việc của bộ phận;</p>
+                            <p class="font-italic">– Căn cứ vào trình độ năng lực của người lao động tại bộ phận.</p>
+
+                        </div>
+                        <div class="col-md-12">
+                            <p> Bộ phận:&nbsp; @ViewBag.IDPhongBan  &nbsp; đề xuất nhu cầu đào tạo của Bộ phận như sau:</p>
+                        </div>
+                        <div class="col-md-12 " style="overflow-x:auto" >
+                            <table class="table table-bordered" style="width:150%">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-center" rowspan="2" >STT</th>
+                                        <th class="text-center" colspan="2"  style="width:150px">Thông tin khóa đào tạo</th>
+                                        <th class="text-center" colspan="2"  style="width:150px">Thông tin học viên</th>
+                                        <th class="text-center" colspan="4" style="width:150px">Đơn vị đào tạo giảng viên</th>
+                                        <th class="text-center" rowspan="2"  style="width:200px">Phương pháp đào tạo</th>
+                                        <th class="text-center" rowspan="2" style="width:100px">Lĩnh vực đào tạo</th>
+                                        <th class="text-center" rowspan="2" style="width:100px" >
+                                            Thời gian bắt đầu đào tạo
+                                            (Tháng)
+                                        </th>
+                                        <th class="text-center" rowspan="2" style="width:100px" >
+                                            Thời lượng đào tạo
+                                            dự kiến
+                                            (Giờ)
+                                        </th>
+                                        <th class="text-center" rowspan="2" style="width:150px">Địa điểm đào tạo dự kiến</th>
+                                        <th class="text-center" rowspan="2" width="150">Ghi chú</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center" >Nhóm năng lực</th>
+                                        <th class="text-center" >Tên khóa đào tạo</th>
+                                        <th class="text-center" >Đối tượng tham gia đào tạo</th>
+                                        <th class="text-center" >Số lượng dự kiến (Người)</th>
+                                        <th class="text-center" >Mã nhân viên</th>
+                                        <th class="text-center" >Họ và tên</th>
+                                        <th class="text-center" >Vị trí công việc</th>
+                                        <th class="text-center" >
+                                            Đơn vị đào tạo/
+                                            Bộ phận
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @{
+                                        int pageno = 1;
+                                        int itemperpage = 1;
+                                        int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                        var noidungdt = db.NoiDungDTs.Where(x => x.IDND == Model.NoiDungDT_ID).FirstOrDefault();
+                                        var NhomNL = db.NhomNLKCCDs.Where(x => x.ID == Model.chiTietNhuCauDTTHView.Nhom_ID).FirstOrDefault();
+                                        var GiangVien = db.NhanViens.Where(x => x.ID == Model.chiTietNhuCauDTTHView.GiangVien_ID).FirstOrDefault();
+                                        var PPhapDT = db.SH_PhuongPhapDT.Where(x => x.ID == Model.PhuongPhapDT_ID).FirstOrDefault();
+                                        var LVDT = db.LinhVucDTs.Where(x => x.IDLVDT == noidungdt.LVDTID).FirstOrDefault();
+                                    }
+                                    <tr>
+                                        <td class="text-center"> @RowNo@{RowNo++;}</td>
+                                        <td> @(NhomNL?.NoiDung ?? "")</td>
+                                        <td>@Model.TenNoiDungDT</td>
+                                        <td>@Model.chiTietNhuCauDTTHView.DoiTuongDT</td>
+                                        <td class="text-center">@Model.chiTietNhuCauDTTHView.SoLuongNguoi</td>
+                                        @if (GiangVien == null)
+                                        {
+                                            <td></td>
+                                            <td>@Model.chiTietNhuCauDTTHView.TenGiangVien</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@GiangVien.MaNV</td>
+                                            <td>@GiangVien.HoTen</td>
+                                        }
+
+                                        <td>@Model.chiTietNhuCauDTTHView.TenViTri</td>
+                                        <td>@Model.chiTietNhuCauDTTHView.DonViDT</td>
+                                        <td>@PPhapDT.TenPhuongPhapDT</td>
+                                        <td>@LVDT.TenLVDT</td>
+                                        <td>@Model.chiTietNhuCauDTTHView.ThoiGianDT</td>
+                                        <td>@Model.chiTietNhuCauDTTHView.ThoiLuong</td>
+                                        <td>@Model.chiTietNhuCauDTTHView.DiaDiemDT</td>
+                                        <td>@Model.chiTietNhuCauDTTHView.GhiChu</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-12 row flex-row-reverse">
+                            <div class="col-4"> <p class="font-italic">Quảng Ngãi, ngày @Model.NgayTao.Day tháng @Model.NgayTao.Month năm @Model.NgayTao.Year </p></div>
+                        </div>
+                        <div class="col-md-12 row" style="margin-bottom:50px">
+                            <div class="col text-center">
+                                <div class="font-weight-bold">B.GĐ</div>
+                                @if (CapBGD != null)
+                                {
+                                    var bgd = nhanvien.Where(x => x.ID == CapBGD.NguoiDuyet_ID).FirstOrDefault();
+                                    if (CapBGD.TinhTrangDuyet == 1 && bgd != null)
+                                    {
+                                        <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(bgd.ChuKy) ? "" : @Url.Content(bgd.ChuKy))" /></div>
+                                        <div class="font-weight-bold">@bgd.HoTen</div>
+                                    }
+                                    else if (CapBGD.TinhTrangDuyet == 0 && bgd != null)
+                                    {
+                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Chưa ký</div>
+                                        <div class="font-weight-bold">@bgd.HoTen</div>
+                                    }
+
+                                }
+                            </div>
+                            <div class="col text-center">
+                                <div class="font-weight-bold">P.NS</div>
+                                @if (CapPNS != null)
+                                {
+                                    var pns = nhanvien.Where(x => x.ID == CapPNS.NguoiDuyet_ID).FirstOrDefault();
+                                    if (CapPNS.TinhTrangDuyet == 1 && pns != null)
+                                    {
+                                        <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(pns.ChuKy) ? "" : @Url.Content(@pns.ChuKy))" /></div>
+                                        <div class="font-weight-bold">@pns.HoTen</div>
+                                    }
+                                    else if (CapPNS.TinhTrangDuyet == 0 && pns != null)
+                                    {
+                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Chưa ký</div>
+                                        <div class="font-weight-bold">@pns.HoTen</div>
+                                    }
+
+                                }
+                            </div>
+                            <div class="col text-center">
+                                <div class="font-weight-bold">P.CHN</div>
+                                @if (CapPCHN != null)
+                                {
+                                    var pns = nhanvien.Where(x => x.ID == CapPCHN.NguoiDuyet_ID).FirstOrDefault();
+                                    if (CapPCHN.TinhTrangDuyet == 1 && pns != null)
+                                    {
+                                        <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(pns.ChuKy) ? "" : @Url.Content(@pns.ChuKy))" /></div>
+                                        <div class="font-weight-bold">@pns.HoTen</div>
+                                    }
+                                    else if (CapPCHN.TinhTrangDuyet == 0 && pns != null)
+                                    {
+                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Chưa ký</div>
+                                        <div class="font-weight-bold">@pns.HoTen</div>
+                                    }
+
+                                }
+                            </div>
+                            <div class="col text-center">
+                                <div class="font-weight-bold">BP</div>
+                                @if (CapBP != null)
+                                {
+                                    var pns = nhanvien.Where(x => x.ID == CapBP.NguoiDuyet_ID).FirstOrDefault();
+                                    if (CapBP.TinhTrangDuyet == 1 && pns != null)
+                                    {
+                                        <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(pns.ChuKy) ? "" : @Url.Content(@pns.ChuKy))" /></div>
+                                        <div class="font-weight-bold">@pns.HoTen</div>
+                                    }
+                                    else if (CapBP.TinhTrangDuyet == 0 && pns != null)
+                                    {
+                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Chưa ký</div>
+                                        <div class="font-weight-bold">@pns.HoTen</div>
+                                    }
+
+                                }
+
+                            </div>
+                        </div>
+                        <div id="list_vt" style="width:100%">
+                            <div style="margin-left:2%;">
+                                @*<p>
+                                    <b>
+                                        Ghi chú:
+                                    </b><br />
+                                    – Sau khi Nhu cầu đào tạo được phê duyệt không quá 02 ngày, đầu mối tại BP có nhu cầu đào tạo gửi email Nhu cầu đào tạo đến Nhân viên Nhân sự (chuyên trách BP), Nhân viên Đào tạo – P.NS, Kỹ thuật viên P.CHN hoặc chuyển tiếp văn bản qua hệ thống E–Office để nắm thông tin và phối hợp;<br />
+                                    – Kính gửi: Tùy vào các nội dung theo phân nhiệm, trình đến cấp phê duyệt phù hợp và có thể để trống hoặc xóa các thành phần còn lại. Chọn một trong ba theo phân nhiệm trình ký: Ban Giám đốc; Trưởng bộ phận; Phòng Nhân sự (chọn theo list tự động);<br />
+                                    – Bộ phận: Tùy vào nội dung đào tạo có thể là một hoặc nhiều BP khác nhau, trong đó cả Bộ phận đề nghị đào tạo và BP có địa điểm, giảng viên tổ chức đào tạo; <br />
+                                    – Nhóm năng lực: Chọn một trong ba nhóm năng lực: Năng lực chung; Năng lực Chuyên môn; Năng lực Quản lý (chọn theo list tự động); <br />
+                                    – Tên khóa đào tạo: Là tên của nội dung cần đào tạo, thể hiện ngắn gọn và nêu bật được nội dung cần đào tạo hoặc tên vị trí công việc cần đào tạo; <br />
+                                    – Đối tượng học viên: Ghi ngắn gọn các nhóm đối tượng học viên hoặc tên vị trí công việc; <br />
+                                    – Thông tin giảng viên: Nếu khóa đào tạo dùng giảng viên thuê ngoài thì ghi “Thuê ngoài” hoặc “Tên đơn vị/ đối tác" nếu đã xác định được đơn vị đào tạo; nếu Giảng viên nội bộ thì ghi đầy đủ thông tin; <br />
+                                    - Phương pháp đào tạo: Chỉ lập Nhu cầu đào tạo đối với phương pháp đào tạo: Mở lớp đào tạo tập trung; Hội thảo, trao đổi, chia sẻ kinh nghiệm (chọn theo list tự động). Nếu đào tạo theo Phương pháp Mở lớp đào tạo trên hệ thống E-Learning (cột thời lượng đào tạo là 01 giờ và cột ghi chú: Hệ thống E-Learning); <br />
+                                    – Lĩnh vực đào tạo: An toàn lao động theo luật định/ An toàn lao động khác/ Cơ khí/ Điện/ Công nghệ/ Nghiệp vụ khác; <br />
+                                    – Thời lượng đào tạo dự kiến: Số giờ để đào tạo hết nội dung chương trình đào tạo đối với một lượt đào tạo; <br />
+                                    – Địa điểm đào tạo: Ghi rõ cụ thể vị trí: Lý thuyết: Phòng họp/ Phòng giao ca … Thực hành: Khu vực làm việc của Tổ - Phân xưởng. Nếu địa điểm ngoài Công ty thì ghi rõ và đầy đủ địa điểm; <br />
+                                    – Đối với nhu cầu đào tạo mất phí, có sự tham gia của giảng viên bên ngoài hoặc phải cử CBNV đi đào tạo tại địa điểm bên ngoài Công ty: T/PBP, đơn vị đại diện các bên liên quan ký trình tới cấp BGĐ Công ty.<br />
+                                </p>*@
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    $("#IDPhongBan").chosen({
+        width: "100%"
+    });
+    $("#NoiDung_ID").chosen({
+        width: "100%"
+    });
+    $(".ddlMultiSlectBox").chosen({
+        width: "100%"
+    });
+    $("#GiangVien_ID").chosen({
+        width: "100%"
+    });
+
+    $("#BPSD").chosen({
+        width: "100%"
+    });
+    $("#PCHN").chosen({
+        width: "100%"
+    });
+    $("#PNS").chosen({
+        width: "100%"
+    });
+    $("#BGD").chosen({
+        width: "100%"
+    });
+
+    $(document).ready(function () {
+        $('#myFormId').on('submit', function (event) {
+            //event.preventDefault(); // Ngăn form submit mặc định
+
+            // Biến để kiểm tra tình trạng form
+            let isValid = true;
+
+            // Kiểm tra tên
+            const name = $('#NoiDung_ID').val();
+            if (!name) {
+                alert("Vui lòng chọn nội dung.");
+                //$("#err-noidung").text("Vui lòng chọn nội dung đào tạo.").show();
+                //$("#username").addClass("error");
+                isValid = false;
+                //event.preventDefault(); // Ngăn form submit mặc định
+            }
+
+            // Kiểm tra phương pháp
+            const pp = $('#PhuongPhapDT_ID').val();
+            if (!pp) {
+                alert("Vui lòng chọn phương pháp.");
+                isValid = false;
+                //event.preventDefault(); // Ngăn form submit mặc định
+            }
+
+            if ($("input[name='SelectedItems']:checked").length == 0) {
+                alert("Vui lòng chọn ít nhất 1 vị trí cần đào tạo.");
+                isValid = false;
+                //event.preventDefault(); // Ngăn form submit mặc định
+            }
+
+            //// Kiểm tra mật khẩu
+            //const password = $('#password').val();
+            //if (password.length < 6) {
+            //    alert("Mật khẩu phải có ít nhất 6 ký tự.");
+            //    isValid = false;
+            //}
+
+            // Không hợp lệ thì dừng
+            if (!isValid) {
+                event.preventDefault();
+                //alert("Form hợp lệ và đã được gửi!");
+                // Thực hiện submit form nếu cần
+                //this.submit(); // Loại bỏ event.preventDefault() ở trên nếu muốn submit thực sự
+            }
+        });
+    });
+
+
+
+    $(document).ready(function () {
+        $("#NoiDung_ID, #PhuongPhapDT_ID").on("change", function () {
+            $.get("/NhuCauDTTH/GetDSViTri", { IDNoiDungDT: $("#NoiDung_ID").val(), PhuongPhapDT_ID: $("#PhuongPhapDT_ID").val() }, function (data1) {
+                if (data1[0] != null) {
+                    $("#listVT").empty();
+                    //$("#IDPPDT").append("<option value ='" + null + "'>" + "--Phương pháp Đào tạo--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        $("#listVT").append(`<tr>
+                                                    <th style="vertical-align:middle">${row.TenViTri} </th>
+                                                    <th style="vertical-align:middle">
+                                                        <label>
+                                                            <input type="checkbox" name="SelectedItems" value="${row.ID}">
+                                                        </label>
+                                                    </th>
+                                                </tr>`);
+                    });
+                }
+                else {
+                    $("#listVT").empty();
+                }
+            });
+        })
+    })
+</script>
+
+
+
+
+
+
+
+

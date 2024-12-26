@@ -18,10 +18,12 @@ namespace E_Learning.Models
         public string HoTen { get; set; }
         public Nullable<int> IDKip { get; set; }
         public string TenKip { get; set; }
+        public string TenPhongBan { get; set; }
+        public Nullable<int> IDVT { get; set; }
         public string TenViTri { get; set; }
         public string MaViTri { get; set; }
         public string FilePath { get; set; }
-        public string TenPhongBan { get; set; }
+        public string TenPBKNL { get; set; }
         public string MaPB { get; set; }
         public string TenPX { get; set; }
         public string MaPX { get; set; }
@@ -29,7 +31,5 @@ namespace E_Learning.Models
         public string MaTo { get; set; }
         public string TenNhom { get; set; }
         public string MaNhom { get; set; }
-        public Nullable<int> IDVT { get; set; }
-        public string TenPBKNL { get; set; }
     }
 }

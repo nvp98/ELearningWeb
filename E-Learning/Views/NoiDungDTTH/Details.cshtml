@@ -1,0 +1,171 @@
+﻿@model E_Learning.Models.NoiDungDT
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>NoiDungDT</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MaND)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaND)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoiDung)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoiDung)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VideoND)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VideoND)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageND)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageND)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BPLID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BPLID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IDCTLVDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IDCTLVDT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ThoiLuongDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThoiLuongDT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileDinhKem)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileDinhKem)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NgayTao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgayTao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isOrder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isOrder)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isNQ)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isNQ)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IDNguonGV)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IDNguonGV)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IDHoatDongDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IDHoatDongDT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IDPPDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IDPPDT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IDNhomNL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IDNhomNL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DuyetNDDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DuyetNDDT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TacGia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TacGia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IDPhanLoaiDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IDPhanLoaiDT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LinhVucDT.TenLVDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LinhVucDT.TenLVDT)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IDND }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

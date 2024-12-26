@@ -17,7 +17,7 @@ namespace E_Learning.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public DeNghiKCCD()
         {
-            this.PhieuXacNhanKCCDs = new HashSet<PhieuXacNhanKCCD>();
+            this.PhieuXacNhanKCCD = new HashSet<PhieuXacNhanKCCD>();
         }
     
         public int ID { get; set; }
@@ -37,8 +37,8 @@ namespace E_Learning.Models
         public Nullable<int> isKiemTra { get; set; }
         public Nullable<int> DeThiID { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PhieuXacNhanKCCD> PhieuXacNhanKCCDs { get; set; }
         public virtual NoiDungDTKCCD NoiDungDTKCCD { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PhieuXacNhanKCCD> PhieuXacNhanKCCD { get; set; }
     }
 }

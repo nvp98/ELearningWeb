@@ -17,7 +17,7 @@ namespace E_Learning.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NhanVien()
         {
-            this.XNHocTaps = new HashSet<XNHocTap>();
+            this.XNHocTap = new HashSet<XNHocTap>();
         }
     
         public int ID { get; set; }
@@ -38,11 +38,12 @@ namespace E_Learning.Models
         public Nullable<int> IDQuyenKNL { get; set; }
         public string MaViTri { get; set; }
         public Nullable<int> IDKip { get; set; }
+        public string ChuKy { get; set; }
     
         public virtual PhongBan PhongBan { get; set; }
         public virtual TinhTrangLV TinhTrangLV { get; set; }
         public virtual Vitri Vitri { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<XNHocTap> XNHocTaps { get; set; }
+        public virtual ICollection<XNHocTap> XNHocTap { get; set; }
     }
 }

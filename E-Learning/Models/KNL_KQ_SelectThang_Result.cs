@@ -31,5 +31,6 @@ namespace E_Learning.Models
         public Nullable<int> IDQuyenKNL { get; set; }
         public string MaViTri { get; set; }
         public Nullable<int> IDKip { get; set; }
+        public string ChuKy { get; set; }
     }
 }

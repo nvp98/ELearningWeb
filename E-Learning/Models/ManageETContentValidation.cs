@@ -41,7 +41,8 @@ namespace E_Learning.Models
 
         [Required(ErrorMessage = "Nhập Thời Lượng Đào Tạo")]
         public int ThoiLuongDT { get; set; }
-
+        public int IDNhomNL { get; set; }
+        public string TenNhomNL { get; set; }
         public int? SLLH { get; set; }
 
         public string FileDinhKem { get; set; }

@@ -132,13 +132,19 @@
             border-color: #00529C;
         }
 </style>
-@if (!User.Identity.IsAuthenticated)
+@*@if (!User.Identity.IsAuthenticated)
 {
     Response.Redirect("~/Login");
-}
+}*@
+
 @{
+    if (!User.Identity.IsAuthenticated)
+    {
+        Response.Redirect("~/Login");
+    }
     ELEARNINGEntities db = new ELEARNINGEntities();
     var nhanvien = db.NhanViens.Where(x => x.ID == MyAuthentication.ID).FirstOrDefault();
+    if (nhanvien == null) { Response.Redirect("~/Login"); }
     var lophocGV = db.LopHocs.Where(x => x.GVID == nhanvien.ID).ToList();
     var nddt = db.NoiDungDTs.ToList();
     var nddtGV = (from a in nddt

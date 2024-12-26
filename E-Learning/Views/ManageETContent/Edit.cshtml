@@ -62,7 +62,12 @@
                                 @Html.ValidationMessageFor(model => model.MaND, "", new { @class = "text-danger" })
                             </div>
                         </div>
-
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="small mb-1">Lĩnh vực ĐT</label>
+                                @Html.DropDownListFor(model => model.IDNhomNL, ViewBag.IDNhomNL as SelectList, new { @id = "IDNhomNL", @class = "form-control" })
+                            </div>
+                        </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="small mb-1">Nội Dung Đào Tạo</label>

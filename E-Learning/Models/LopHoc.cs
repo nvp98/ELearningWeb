@@ -17,7 +17,7 @@ namespace E_Learning.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public LopHoc()
         {
-            this.XNHocTaps = new HashSet<XNHocTap>();
+            this.XNHocTap = new HashSet<XNHocTap>();
         }
     
         public int IDLH { get; set; }
@@ -34,6 +34,6 @@ namespace E_Learning.Models
     
         public virtual NoiDungDT NoiDungDT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<XNHocTap> XNHocTaps { get; set; }
+        public virtual ICollection<XNHocTap> XNHocTap { get; set; }
     }
 }

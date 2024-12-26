@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -98,6 +99,65 @@ namespace E_Learning.Controllers
                 ViewBag.Message = "<script>alert('Lỗi thay đổi mật khẩu')</script>";
                 //TempData["msg"] = "<script>alert('Lỗi thay đổi mật khẩu')</script>";
                 return View();
+            }
+
+        }
+
+        public ActionResult CapNhatChuKy()
+        {
+            var nv = _db.NhanViens.Where(x=>x.ID == MyAuthentication.ID).FirstOrDefault();
+            ChuKyView ck = new ChuKyView();
+            ck.ChuKy = nv.ChuKy;
+            ck.IDNV = nv.ID;
+            return View(ck);
+        }
+        [HttpPost]
+        public ActionResult CapNhatChuKy(ChuKyView model)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                string[] _allowedExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
+                var nv = _db.NhanViens.Where(x => x.ID == model.IDNV).FirstOrDefault();
+                string filePathSave = null;
+                //upload file NCDT
+                if (model.FileChuKy != null)
+                {
+                    string path = Server.MapPath("~/FileChuKy/");
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    //Use Namespace called :  System.IO  
+                    string FileName = model.FileChuKy.FileName;
+                    string FileNameSave =  nv.MaNV + "_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                    //To Get File Extension  
+                    string FileExtension = model.FileChuKy != null ? Path.GetExtension(FileName) : "";
+                    //Add Current Date To Attached File Name  
+                    if (!_allowedExtensions.Contains(FileExtension?.ToLower()))
+                    {
+                        ViewBag.Message = "<script>alert('Chọn đúng định dạng hình ảnh  \".jpg\", \".jpeg\", \".png\", \".gif\", \".bmp\"')</script>";
+                        //TempData["msg"] = "<script>alert('Lỗi thay đổi mật khẩu')</script>";
+                        //return View();
+                    }
+                    else
+                    {
+                        FileNameSave = FileNameSave.Trim() + FileExtension;
+                        model.FileChuKy.SaveAs(path + FileNameSave);
+                        filePathSave = "~/FileChuKy/" + FileNameSave;
+                        nv.ChuKy = filePathSave;
+                        _db.SaveChanges();
+                        ViewBag.Message = "<script>alert('Cập nhật chữ ký thành công')</script>";
+                        //TempData["msg"] = "<script>alert('Lỗi thay đổi mật khẩu')</script>";
+                       
+                    }
+                }
+                return CapNhatChuKy();
+            }
+            else
+            {
+                ViewBag.Message = "<script>alert('Lỗi thay đổi mật khẩu')</script>";
+                //TempData["msg"] = "<script>alert('Lỗi thay đổi mật khẩu')</script>";
+                return CapNhatChuKy();
             }
 
         }

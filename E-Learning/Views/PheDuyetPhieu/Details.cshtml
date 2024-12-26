@@ -1,0 +1,59 @@
+﻿@model E_Learning.Models.SH_KyDuyetNCDT
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SH_KyDuyetNCDT</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NCDT_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NCDT_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NguoiDuyet_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NguoiDuyet_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CapDuyet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CapDuyet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TinhTrangDuyet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TinhTrangDuyet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NgayDuyet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgayDuyet)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

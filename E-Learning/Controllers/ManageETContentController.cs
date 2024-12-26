@@ -50,7 +50,7 @@ namespace E_Learning.Controllers
                           ThoiLuongDT = (int)a.ThoiLuongDT,
                           FileDinhKem = a.FileDinhKem,
                           SLLH = a.SLLH,
-                          NgayTao =a.NgayTao
+                          NgayTao =a.NgayTao,
                       }).ToList();
 
             List<CTLVDT> ctlvdt = db_context.CTLVDTs.ToList();
@@ -112,7 +112,7 @@ namespace E_Learning.Controllers
 
             List<LinhVucDT> lv = db_context.LinhVucDTs.ToList();
             ViewBag.LVList = new SelectList(lv, "IDLVDT", "TenLVDT");
-
+            ViewBag.IDNhomNL = new SelectList(db_context.NhomNLKCCDs, "ID", "NoiDung");
 
             List<PhongBan> bp = db_context.PhongBans.ToList();
             ViewBag.BPLList = new SelectList(bp, "IDPhongBan", "TenPhongBan");
@@ -149,6 +149,17 @@ namespace E_Learning.Controllers
                 if (IsNDAvailable(_DO.MaND) == false)
                 {
                     db_context.NoiDungDT_insert(_DO.MaND, _DO.NoiDung, _DO.VideoND, _DO.ImageND, _DO.BPLID, _DO.LVDTID, _DO.IDCTLVDT, _DO.ThoiLuongDT, _DO.FileDinhKem,_DO.NgayTao);
+                    // cập nhật nhóm NL
+                    var checknd = db_context.NoiDungDTs.Where(x=>x.MaND == _DO.MaND).FirstOrDefault();
+                    if (checknd != null)
+                    {
+                        checknd.IDNguonGV = 1;
+                        checknd.IDPhuongPhapDT = 1;
+                        checknd.IDHoatDongDT = 2;
+                        checknd.IDPhanLoaiDT = 1;
+                        checknd.IDNhomNL = _DO.IDNhomNL;
+                    }
+                    db_context.SaveChanges();
                     TempData["msgSuccess"] = "<script>alert('Thêm mới thành công');</script>";
                 }
                 else
@@ -229,7 +240,7 @@ namespace E_Learning.Controllers
 
                 List<LinhVucDT> lv = db_context.LinhVucDTs.ToList();
                 ViewBag.LVList = new SelectList(lv, "IDLVDT", "TenLVDT", DO.LVDTID);
-
+                ViewBag.IDNhomNL = new SelectList(db_context.NhomNLKCCDs, "ID", "NoiDung");
                 List<CTLVDT> CTLV = db_context.CTLVDTs.Where(x => x.LVDTID == DO.LVDTID).ToList();
                 ViewBag.CTLVList = new SelectList(CTLV, "IDCTLVDT", "TenCTLVDT", DO.IDCTLVDT);
 
@@ -271,6 +282,12 @@ namespace E_Learning.Controllers
                 }
 
                 db_context.NoiDungDT_update(_DO.IDND, _DO.MaND, _DO.NoiDung, _DO.VideoND, _DO.ImageND, _DO.BPLID, _DO.LVDTID, _DO.IDCTLVDT, _DO.ThoiLuongDT, _DO.FileDinhKem,_DO.NgayTao);
+                var checknd = db_context.NoiDungDTs.Where(x => x.IDND == _DO.IDND).FirstOrDefault();
+                if (checknd != null)
+                {
+                    checknd.IDNhomNL = _DO.IDNhomNL;
+                }
+                db_context.SaveChanges();
 
                 TempData["msgSuccess"] = "<script>alert('Cập nhập thành công');</script>";
             }

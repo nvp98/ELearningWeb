@@ -17,16 +17,16 @@ namespace E_Learning.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public LinhVucDT()
         {
-            this.CTLVDTs = new HashSet<CTLVDT>();
-            this.NoiDungDTs = new HashSet<NoiDungDT>();
+            this.CTLVDT = new HashSet<CTLVDT>();
+            this.NoiDungDT = new HashSet<NoiDungDT>();
         }
     
         public int IDLVDT { get; set; }
         public string TenLVDT { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CTLVDT> CTLVDTs { get; set; }
+        public virtual ICollection<CTLVDT> CTLVDT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NoiDungDT> NoiDungDTs { get; set; }
+        public virtual ICollection<NoiDungDT> NoiDungDT { get; set; }
     }
 }

@@ -22,6 +22,5 @@ namespace E_Learning.Models
         public Nullable<double> Diem { get; set; }
     
         public virtual QT_BaiKiemTra QT_BaiKiemTra { get; set; }
-        public virtual QT_CauHoiQT QT_CauHoiQT { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace E_Learning.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NoiDungDTKCCD()
         {
-            this.DeNghiKCCDs = new HashSet<DeNghiKCCD>();
+            this.DeNghiKCCD = new HashSet<DeNghiKCCD>();
         }
     
         public int ID { get; set; }
@@ -27,8 +27,8 @@ namespace E_Learning.Models
         public Nullable<int> PhongBanID { get; set; }
         public Nullable<System.DateTime> NgayTao { get; set; }
     
-        public virtual NhomNLKCCD NhomNLKCCD { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DeNghiKCCD> DeNghiKCCDs { get; set; }
+        public virtual ICollection<DeNghiKCCD> DeNghiKCCD { get; set; }
+        public virtual NhomNLKCCD NhomNLKCCD { get; set; }
     }
 }

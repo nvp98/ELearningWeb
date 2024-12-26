@@ -22,8 +22,8 @@ namespace E_Learning.Models
         public Nullable<System.DateTime> ThangDG { get; set; }
         public Nullable<System.DateTime> NgayDG { get; set; }
         public string Note { get; set; }
-        public Nullable<int> KQID { get; set; }
         public Nullable<int> DiemDM { get; set; }
+        public Nullable<int> KQID { get; set; }
         public Nullable<int> VTID { get; set; }
     
         public virtual KhungNangLuc KhungNangLuc { get; set; }

@@ -274,6 +274,10 @@
                                     {
                                         <th class="text-center" style="width: 70px; font-size: 10px"> QT/HD</th>
                                     }
+                                    @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.P_QTHD))
+                                    {
+                                        <th class="text-center" style="width: 70px; font-size: 10px"> Danh sách nội dung Đào tạo</th>
+                                    }
 
                                     <th class="text-center" style="width: 70px; font-size: 10px">Đã Đánh giá</th>
 
@@ -461,10 +465,16 @@
                                             </td>
                                         }
 
-
+                                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.P_QTHD))
+                                        {
+                                            <td class="text-right">
+                                                @if (item.CountSLNDDT > 0)
+                                                {<span>@item.CountSLNDDT - </span>}
+                                                <a id="btn-ND_@item.IDVT" title="Phân quyền Nội dung" href="@Url.Action("DS_NoiDung","NoiDungDTTH", new { IDVT = item.IDVT })" class="fa fa-indent "></a>
+                                            </td>
+                                        }
 
                                         <td class="text-center">@item.CountNVDDG / @item.CountNV</td>
-
 
                                         @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) || (ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT) || (ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.LOCK))
                                         {

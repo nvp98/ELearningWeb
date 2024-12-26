@@ -66,6 +66,14 @@
 
                             </div>
                         </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="small mb-1">Nhóm năng lực</label>
+                                @*@Html.EditorFor(model => model.MaND, new { htmlAttributes = new { @class = "form-control", placeholder = "Mã NDĐT", @id = "MaND" } })*@
+                                @Html.DropDownListFor(model => model.IDNhomNL, ViewBag.IDNhomNL as SelectList, new { @id = "IDNhomNL", @class = "form-control" })
+
+                            </div>
+                        </div>
 
 
 

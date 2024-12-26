@@ -10726,7 +10726,7 @@ button,
 
 .vertical-nav-menu ul {
     transition: padding 300ms;
-    padding: .5em 0 0 2rem
+   /* padding: .5em 0 0 2rem*/
 }
 
 .vertical-nav-menu ul:before {
