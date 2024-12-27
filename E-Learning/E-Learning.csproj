@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -80,10 +81,10 @@
       <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
@@ -724,16 +725,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\assets\images\imgElearning.jpg" />
-    <Content Include="FileChuKy\HPDQ16961_20241109095239.png" />
-    <Content Include="FileChuKy\HPDQ18461_20241109093222.png" />
-    <Content Include="FileChuKy\HPDQ18461_20241109093658.png" />
-    <Content Include="FileChuKy\HPDQ18461_20241109093823.png" />
-    <Content Include="FileChuKy\HPDQ18461_20241109093906.png" />
-    <Content Include="FileChuKy\HPDQ18461_20241109093912.png" />
-    <Content Include="FileChuKy\HPDQ18461_20241109093927.png" />
-    <Content Include="FileChuKy\HPDQ18461_20241109093932.png" />
-    <Content Include="FileChuKy\HPDQ18461_20241109094550.png" />
-    <Content Include="FileChuKy\HPDQ18461_20241109094555.png" />
     <Content Include="Models\ELEARNING.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ELEARNING.edmx</DependentUpon>
@@ -746,9 +737,6 @@
     </Content>
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\ManageClass\ExportProcess.cshtml" />
-    <Content Include="FileNCDTTH\20241107134923_Nhu cầu đào tạo quý 2 năm 2022 lần 2.pdf" />
-    <Content Include="FileNCDTTH\20241107140304_BM.04.14_Nhu cau dao tao nhan luc NM.LT-Quy 2.2023 01.05.22-2 %281%29 - Copy_Approved.pdf" />
-    <Content Include="FileNCDTTH\20241107140326_BM.13-QT.04 Nhu cau dao tao nhan luc Huan luyen ATVSLĐ cac nhom Quy IV.2024_Approved 1.pdf" />
     <EntityDeploy Include="Models\ELEARNING.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ELEARNING.Designer.cs</LastGenOutput>
@@ -1049,32 +1037,6 @@
     <Content Include="App_Data\BM_DinhBienViTri.xlsx" />
     <None Include="Content\jquery-3.4.1.intellisense.js" />
     <None Include="Content\jquery.validate-vsdoc.js" />
-    <Content Include="PDF\0f0c1cfe-f1ec-409e-aeee-a18ba0557c97.pdf" />
-    <Content Include="PDF\1aa86997-9dad-42ce-8f20-530ae656b508.pdf" />
-    <Content Include="PDF\1abdbb25-919d-4c9c-9fdc-3760aed8cd64.pdf" />
-    <Content Include="PDF\2f1c1ad3-2f1a-4879-b4ca-6a2429fc6501.pdf" />
-    <Content Include="PDF\32ce328a-dd36-4667-8cff-980e5aa74419.pdf" />
-    <Content Include="PDF\82f166bd-c05a-4000-aa79-b5a02f7af2e2.pdf" />
-    <Content Include="PDF\8d2c92c4-ad8c-4ab0-80fa-b9d202af1357.pdf" />
-    <Content Include="PDF\de9b1b20-9261-42b0-af54-f41cd4e9d411.pdf" />
-    <Content Include="PDF\e97544c2-45d9-4259-adfa-83837295c0a9.pdf" />
-    <Content Include="FileJD\File4.pdf" />
-    <Content Include="FileQTHD\20231122112212_PL.01-STHT So do to chuc cua Cong ty 01.07.23.pdf" />
-    <Content Include="FileQTHD\20231122112212_PL.02-STHT Phuong phap danh gia rui ro ve chat luong 01.06.23.pdf" />
-    <Content Include="FileQTHD\20231122112212_STHT So tay he thong 01.06.23.pdf" />
-    <Content Include="FileQTHD\20231122114619_QT.01 Quy trinh kiem soat thong tin dang van ban 01.07.23.pdf" />
-    <Content Include="FileQTHD\20231122114619_QT.01.01 QT soan thao van ban he thong ISO 01.07.23.pdf" />
-    <Content Include="FileQTHD\20231122114816_PL.01-STHT So do to chuc cua Cong ty 01.07.23.pdf" />
-    <Content Include="FileQTHD\20231122114816_QT.05 Quy trinh lap ke hoach - to chuc san xuat 01.06.23.pdf" />
-    <Content Include="FileQTHD\20231201090132_PL.01-STHT So do to chuc cua Cong ty 01.07.23.pdf" />
-    <Content Include="FileQTHD\20231201090132_PL.02-STHT Phuong phap danh gia rui ro ve chat luong 01.06.23.pdf" />
-    <Content Include="FileQTHD\20231201090132_PL.03-STHT Boi canh va nhan dien rui ro- co hoi cua Cong ty 20.07.23.pdf" />
-    <Content Include="FileQTHD\20231201090132_STHT So tay he thong 01.06.23.pdf" />
-    <Content Include="FileQTHD\20231201144517_STHT So tay he thong 01.06.23.pdf" />
-    <Content Include="FileQTHD\20231201144524_PL.01-STHT So do to chuc cua Cong ty 01.07.23.pdf" />
-    <Content Include="FileQTHD\20231201144524_PL.02-STHT Phuong phap danh gia rui ro ve chat luong 01.06.23.pdf" />
-    <Content Include="FileQTHD\20231201144524_PL.03-STHT Boi canh va nhan dien rui ro- co hoi cua Cong ty 20.07.23.pdf" />
-    <Content Include="FileQTHD\20231201153711_PL.01-STHT So do to chuc cua Cong ty 01.07.23.pdf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1086,7 +1048,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="UploadedFiles\Signature\HPDQ12806.png" />
     <Content Include="Views\Shared\header.html" />
     <Content Include="Views\STest\Thiketthuckhoahoc.html" />
     <Content Include="Web.config" />
@@ -1121,19 +1082,6 @@
     <Content Include="Views\SHistory\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Login\ChangePassword.cshtml" />
-    <Content Include="UploadedFiles\202108191422-ImportDSHT.xlsx" />
-    <Content Include="UploadedFiles\202108191428-ImportDSHT.xlsx" />
-    <Content Include="UploadedFiles\202108191443-ImportDSHT.xlsx" />
-    <Content Include="UploadedFiles\202108201516-ImportDSHT.xlsx" />
-    <Content Include="UploadedFiles\202108201518-BaoCaoTienDoTem.xlsx" />
-    <Content Include="UploadedFiles\202108220912-ImportDSHT.xlsx" />
-    <Content Include="UploadedFiles\202108241023-ImportDSHT.xlsx" />
-    <Content Include="UploadedFiles\202108241051-ImportDSHT.xlsx" />
-    <Content Include="UploadedFiles\202108241316-ImportDSHT.xlsx" />
-    <Content Include="UploadedFiles\202108241320-ImportDSHT.xlsx" />
-    <Content Include="UploadedFiles\202108241328-ImportDSHT.xlsx" />
-    <Content Include="UploadedFiles\202108241411-ImportDSHT.xlsx" />
-    <Content Include="UploadedFiles\202108311410-ImportDSHT.xlsx" />
     <Content Include="Views\EmployeeAPI\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Resetpass.cshtml" />
@@ -1213,13 +1161,6 @@
     <Content Include="Views\EGuide\Index.cshtml" />
     <Content Include="Views\EGuide\Create.cshtml" />
     <Content Include="Views\EGuide\Edit.cshtml" />
-    <Content Include="UploadedFiles\HDSD\HDSD_20230303101726.pdf" />
-    <Content Include="UploadedFiles\HDSD\HDSD_20230303111354.pdf" />
-    <Content Include="UploadedFiles\HDSD\HDSD_20230303111428.pdf" />
-    <Content Include="UploadedFiles\HDSD\HDSD_20230303112809.pdf" />
-    <Content Include="UploadedFiles\HDSD\HDSD_20230303112828.pdf" />
-    <Content Include="UploadedFiles\HDSD\HDSD_20230303131335.pdf" />
-    <Content Include="UploadedFiles\HDSD\HDSD_20230303131353.pdf" />
     <Content Include="Views\ConfirmEStudy\PrintFBMView.cshtml" />
     <Content Include="Views\FView\Index.cshtml" />
     <Content Include="Views\Statistic\ReportKNL.cshtml" />
@@ -1286,9 +1227,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\login\" />
-    <Folder Include="UploadedFiles\EduPro\" />
-    <Folder Include="UploadedFiles\ImagesUpload\" />
-    <Folder Include="UploadedFiles\TBKyLuat\" />
     <Folder Include="Views\Class\" />
     <Folder Include="Views\Courses\" />
     <Folder Include="Views\EmloyeeManage\" />
@@ -1345,7 +1283,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

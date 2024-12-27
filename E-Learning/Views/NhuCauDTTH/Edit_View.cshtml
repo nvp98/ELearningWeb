@@ -183,7 +183,12 @@
                                     }
                                     else if (CapBGD.TinhTrangDuyet == 0 && bgd != null)
                                     {
-                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Chưa ký</div>
+                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">@(Model.TinhTrang != 3? "Chưa ký":"")</div>
+                                        <div class="font-weight-bold">@bgd.HoTen</div>
+                                    }
+                                    else if (CapBGD.TinhTrangDuyet == 2 && bgd != null)
+                                    {
+                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Đã từ chối</div>
                                         <div class="font-weight-bold">@bgd.HoTen</div>
                                     }
 
@@ -201,10 +206,16 @@
                                     }
                                     else if (CapPNS.TinhTrangDuyet == 0 && pns != null)
                                     {
-                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Chưa ký</div>
+                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">
+                                            @(Model.TinhTrang != 3? "Chưa ký":"")
+                                        </div>
                                         <div class="font-weight-bold">@pns.HoTen</div>
                                     }
-
+                                    else if (CapPNS.TinhTrangDuyet == 2 && pns != null)
+                                    {
+                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Đã từ chối</div>
+                                        <div class="font-weight-bold">@pns.HoTen</div>
+                                    }
                                 }
                             </div>
                             <div class="col text-center">
@@ -219,7 +230,12 @@
                                     }
                                     else if (CapPCHN.TinhTrangDuyet == 0 && pns != null)
                                     {
-                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Chưa ký</div>
+                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger"> @(Model.TinhTrang != 3? "Chưa ký":"")</div>
+                                        <div class="font-weight-bold">@pns.HoTen</div>
+                                    }
+                                    else if (CapPCHN.TinhTrangDuyet == 2 && pns != null)
+                                    {
+                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Đã từ chối</div>
                                         <div class="font-weight-bold">@pns.HoTen</div>
                                     }
 
@@ -237,10 +253,16 @@
                                     }
                                     else if (CapBP.TinhTrangDuyet == 0 && pns != null)
                                     {
-                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Chưa ký</div>
+                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">
+                                            @(Model.TinhTrang != 3? "Chưa ký":"")
+                                        </div>
                                         <div class="font-weight-bold">@pns.HoTen</div>
                                     }
-
+                                    else if (CapBP.TinhTrangDuyet == 2 && pns != null)
+                                    {
+                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Đã từ chối</div>
+                                        <div class="font-weight-bold">@pns.HoTen</div>
+                                    }
                                 }
 
                             </div>

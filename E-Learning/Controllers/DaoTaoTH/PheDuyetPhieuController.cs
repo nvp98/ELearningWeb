@@ -52,7 +52,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                     var checkky = kyduyet.Where(x => x.CapDuyet < item.CapDuyet).ToList(); // check các cấp duyệt nhỏ hơn
                     if (checkky.Count() != 0 )
                     {
-                        if(checkky.Where(x=>x.TinhTrangDuyet == 0).Count() != 0)
+                        if(checkky.Where(x=>x.TinhTrangDuyet == 0 || x.TinhTrangDuyet == 2).Count() != 0) // nếu chưa duyệt hoặc hủy thì ẩn
                         {
                             res = res.Where(x=>x.ID != item.ID).ToList();
                         }
@@ -220,6 +220,13 @@ namespace E_Learning.Controllers.DaoTaoTH
             sH_KyDuyetNCDT.NgayDuyet = DateTime.Now;
             sH_KyDuyetNCDT.TinhTrangDuyet = 2; // hủy
             db.SaveChanges();
+            // kiểm tra và update SH_NCDT về hủy
+            var ncdt = db.SH_NhuCauDT.Where(x => x.ID == id).FirstOrDefault();
+            if (ncdt != null)
+            {
+                ncdt.TinhTrang = 3; // hủy NCĐT
+                db.SaveChanges();
+            }
             TempData["msgSuccess"] = "<script>alert('Xác nhận thành công ');</script>";
             return RedirectToAction("Index_NCDT", "PheDuyetPhieu");
         }

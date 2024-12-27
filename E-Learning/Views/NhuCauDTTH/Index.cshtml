@@ -218,11 +218,6 @@
                                             @if (item.TinhTrang == 0)
                                             {
                                                 <td class="text-center"> <button type="button" class="btn btn-warning" style="width:120px"> Đang lưu </button></td>
-                                                <!--<td class="text-center">-->
-                                                    @*<a href="@Url.Action("TrinhKy","NhuCauDTTH", new {NCDTID = item.ID})" title="Edit" class=""><i class="fa fa-plane">&nbsp;</i>&nbsp;Trình ký</a>*@
-                                                    <!--<button type="button"  class="btn btn-warning  "><a href="@Url.Action("TrinhKy","NhuCauDTTH", new {NCDTID = item.ID_NCDT})" title="Edit" class=""><i class="fa fa-plane">&nbsp;</i>&nbsp;Trình ký</a> </button>
-                                                   
-                                                </td>-->
                                             }
                                             else if (item.TinhTrang == 1)
                                             {
@@ -236,7 +231,7 @@
                                             }
                                             else if (item.TinhTrang == 3)
                                             {
-                                                <td class="text-center"> <button type="button" class="btn btn-danger" style="width:120px"> Hủy phiếu </button></td>
+                                                <td class="text-center"> <button type="button" class="btn btn-danger" style="width:120px"> Không phê duyệt </button></td>
                                                 @*<td class="text-center"> <button type="button" class="btn btn-danger"> Hủy phiếu </button></td>*@
                                             }
                                         </tr>
