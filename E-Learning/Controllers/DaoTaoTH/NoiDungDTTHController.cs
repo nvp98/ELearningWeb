@@ -288,7 +288,8 @@ namespace E_Learning.Controllers.DaoTaoTH
         // Phân quyền vị trí
         public ActionResult DS_ViTri(int? IDND)
         {
-            //var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
+            var ListQuyen = new HomeController().GetPermisionCN(Idquyen, "FPosition");
+            ViewBag.QUYENCN = ListQuyen;
             //if (!ListQuyen.Contains(CONSTKEY.PER))
             //{
             //    TempData["msgError"] = "<script>alert('Bạn không có quyền thực hiện chức năng này');</script>";
@@ -1019,10 +1020,19 @@ namespace E_Learning.Controllers.DaoTaoTH
         public JsonResult Xoa(int ID)
         {
             SH_ViTri_NDDT pq = db.SH_ViTri_NDDT.Find(ID);
-            db.SH_ViTri_NDDT.Remove(pq);
-            db.SaveChanges();
+            var mess = "";
+            if (pq.NCDT_ID == null){  // check nếu chưa lập NCĐT
+                db.SH_ViTri_NDDT.Remove(pq);
+                db.SaveChanges();
+                mess = "Xóa thành công";
+            }
+            else
+            {
+                mess = "Không thành công! Vị trí đã được lập Nhu cầu đào tạo";
+            }
+            var result = new { status = "OK", message = mess };
             //return RedirectToAction("Index");
-            var result = new { status = "OK", message = "Request successful!" };
+
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

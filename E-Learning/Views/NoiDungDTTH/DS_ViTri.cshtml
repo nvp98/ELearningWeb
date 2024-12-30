@@ -81,10 +81,14 @@
                             <label class="font-weight-bold mb-1"></label>
                             <div class="input-group-btn"><button class="btn btn-primary marginTB5" type="button" id="btn-search-a"><i class="fa fa-search"></i> Tìm kiếm</button></div>
                         </div>*@
-                    <div class="clo-md-3 m-l-auto">
+                <div class="clo-md-3 m-l-auto">
+                    @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.P_QTHD))
+                    {
                         <button type="button" id="btn-add" class="btn btn-primary m-l-auto"><i class="fa fa-plus">&nbsp;</i>&nbsp;Thêm mới </button>
                         <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("AddViTri","NoiDungDTTH",new { IDND = Request.QueryString["IDND"] })'></div>
-                    </div>
+                    }
+
+                </div>
                 </div>
 
                 <div class="table-responsive">
@@ -129,7 +133,7 @@
         $.get("/NoiDungDTTH/GetDSViTri", { IDND: @Request.QueryString["IDND"] }, function (data1) {
             if (data1[0] != null) {
                 $.each(data1, function (index, row) {
-                    dataTable.push([index + 1, row.ViTri_ID, row.TenViTri, row.TenPhongBan, [row.PhuongPhapDT_ID,row.ID], row.ID]);
+                    dataTable.push([index + 1, row.ViTri_ID, row.TenViTri, row.TenPhongBan, row.TenPhuongPhapDT, row.ID]);
                 })
                 table = $('#table').DataTable({
                     "pageLength": 50,
@@ -139,24 +143,16 @@
                         { 'data': '1' },
                         { 'data': '2' },
                         { 'data': '3' },
-                        {
-                            "render": function (data, type, full, meta) {
-                                return `<div class="form-group col-md-12">
-                                  <select class="form-control marginTB5 " id="PhuongPhapDT_${data[1]}" name="PhuongPhapDT_${data[1]}" style="width:100%">
-                                                                    @foreach (var item in ViewBag.PhuongPhapDT_ID)
-                                                                    {
-                                                                     <option value='@item.Value' ${data[0] == @item.Value? 'selected':''}>@item.Text</option>
-                                                                    }
-                                </select>
-                            </div>`
-                            },
-                            orderable: false
-                        },
-                       
+                        { 'data': '4' },
                         {
                             sortable: false,
                             "render": function (data, type, full, meta) {
-                                return `<a class="fa fa-save icon_action fa-2x " href="" title="Lưu" onclick="return confirm('Bạn muốn xóa phân quyền vị trí: ${data}')?Luu(${data}):''""> &nbsp; <a class="fa fa-sign-out icon_action fa-2x" title="Xóa vị trí khỏi nhóm" href="" onclick="return confirm('Bạn muốn xóa phân quyền vị trí: ${data}')?Xoa(${data}):''"">`;
+                                var checkRS = '@((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.P_QTHD))';
+                                var rs = "";
+                                if (checkRS.toLowerCase() == "true") {
+                                    rs = ` &nbsp; <a class="fa fa-sign-out icon_action fa-2x" title="Xóa vị trí khỏi nhóm" href="" onclick="return confirm('Bạn muốn xóa phân quyền vị trí: ${data}')?Xoa(${data}):''"">`;
+                                }
+                                return rs;
                             }
                         },
                     ],
@@ -213,7 +209,7 @@
             alert("Cập nhật thành công!");
             location.reload();
         })
-        
+
     }
     function Xoa(id) {
         $.get("/NoiDungDTTH/Xoa", { ID: id }, function (data1) {
@@ -222,7 +218,7 @@
         })
 
     }
-    
+
 
 </script>
 
