@@ -39,7 +39,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                 TempData["msgError"] = "<script>alert('Bạn không có quyền truy cập chức năng này');</script>";
                 return RedirectToAction("", "Home");
             }
-            if (IDLoaiDT == null) IDLoaiDT = 1;
+            //if (IDLoaiDT == null) IDLoaiDT = 1;
             //var students = db.NoiDungDTs.Where(x=>x.IDPhanLoaiDT != null)
             //          .Include(s => s.LinhVucDT ).Include(x=>x.SH_PhanLoaiNDDT)
             //          .ToList();

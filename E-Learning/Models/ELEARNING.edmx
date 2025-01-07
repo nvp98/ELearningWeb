@@ -724,7 +724,7 @@
           <Key>
             <PropertyRef Name="IDLoai" />
           </Key>
-          <Property Name="IDLoai" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDLoai" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="TenLoaiNCDT" Type="nvarchar" MaxLength="50" />
           <Property Name="LoaiHinhDT_ID" Type="int" />
         </EntityType>
@@ -1035,6 +1035,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_NhanVien_PhongBan">
+          <End Role="PhongBan" Type="Self.PhongBan" Multiplicity="0..1" />
+          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhongBan">
+              <PropertyRef Name="IDPhongBan" />
+            </Principal>
+            <Dependent Role="NhanVien">
+              <PropertyRef Name="IDPhongBan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_NhanVien_TinhTrangLV">
           <End Role="TinhTrangLV" Type="Self.TinhTrangLV" Multiplicity="0..1" />
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
@@ -1080,6 +1092,18 @@
             </Principal>
             <Dependent Role="SH_NhuCauDT">
               <PropertyRef Name="PhanLoaiNCDT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NhuCauDT_PhongBan">
+          <End Role="PhongBan" Type="Self.PhongBan" Multiplicity="0..1" />
+          <End Role="SH_NhuCauDT" Type="Self.SH_NhuCauDT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhongBan">
+              <PropertyRef Name="IDPhongBan" />
+            </Principal>
+            <Dependent Role="SH_NhuCauDT">
+              <PropertyRef Name="BoPhanLNC_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1200,6 +1224,18 @@
             </Principal>
             <Dependent Role="SH_ChiTiet_NCDT">
               <PropertyRef Name="NhuCauDT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SH_NhuCauDT_NhanVien">
+          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="0..1" />
+          <End Role="SH_NhuCauDT" Type="Self.SH_NhuCauDT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NhanVien">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SH_NhuCauDT">
+              <PropertyRef Name="NguoiTao_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2617,6 +2653,10 @@
             <End Role="NhomNLKCCD" EntitySet="NhomNLKCCD" />
             <End Role="NoiDungDTKCCD" EntitySet="NoiDungDTKCCD" />
           </AssociationSet>
+          <AssociationSet Name="FK_NhanVien_PhongBan" Association="Self.FK_NhanVien_PhongBan">
+            <End Role="PhongBan" EntitySet="PhongBan" />
+            <End Role="NhanVien" EntitySet="NhanVien" />
+          </AssociationSet>
           <AssociationSet Name="FK_NhanVien_TinhTrangLV" Association="Self.FK_NhanVien_TinhTrangLV">
             <End Role="TinhTrangLV" EntitySet="TinhTrangLV" />
             <End Role="NhanVien" EntitySet="NhanVien" />
@@ -2631,6 +2671,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_NhuCauDT_PhanLoaiNCDT" Association="Self.FK_NhuCauDT_PhanLoaiNCDT">
             <End Role="SH_PhanLoaiNCDT" EntitySet="SH_PhanLoaiNCDT" />
+            <End Role="SH_NhuCauDT" EntitySet="SH_NhuCauDT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NhuCauDT_PhongBan" Association="Self.FK_NhuCauDT_PhongBan">
+            <End Role="PhongBan" EntitySet="PhongBan" />
             <End Role="SH_NhuCauDT" EntitySet="SH_NhuCauDT" />
           </AssociationSet>
           <AssociationSet Name="FK_PhieuXacNhanKCCD_DeNghiKCCD" Association="Self.FK_PhieuXacNhanKCCD_DeNghiKCCD">
@@ -2672,6 +2716,10 @@
           <AssociationSet Name="FK_SH_ChiTiet_NCDT_SH_NhuCauDT" Association="Self.FK_SH_ChiTiet_NCDT_SH_NhuCauDT">
             <End Role="SH_NhuCauDT" EntitySet="SH_NhuCauDT" />
             <End Role="SH_ChiTiet_NCDT" EntitySet="SH_ChiTiet_NCDT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SH_NhuCauDT_NhanVien" Association="Self.FK_SH_NhuCauDT_NhanVien">
+            <End Role="NhanVien" EntitySet="NhanVien" />
+            <End Role="SH_NhuCauDT" EntitySet="SH_NhuCauDT" />
           </AssociationSet>
           <AssociationSet Name="FK_XNHocTap_LopHoc" Association="Self.FK_XNHocTap_LopHoc">
             <End Role="LopHoc" EntitySet="LopHoc" />
@@ -3159,6 +3207,7 @@
           <NavigationProperty Name="TinhTrangLV" Relationship="Self.FK_NhanVien_TinhTrangLV" FromRole="NhanVien" ToRole="TinhTrangLV" />
           <NavigationProperty Name="Vitri" Relationship="Self.FK_NhanVien_Vitri" FromRole="NhanVien" ToRole="Vitri" />
           <NavigationProperty Name="XNHocTap" Relationship="Self.FK_XNHocTap_NhanVien" FromRole="NhanVien" ToRole="XNHocTap" />
+          <NavigationProperty Name="SH_NhuCauDT" Relationship="ELEARNINGModel.FK_SH_NhuCauDT_NhanVien" FromRole="NhanVien" ToRole="SH_NhuCauDT" />
         </EntityType>
         <EntityType Name="NhomNLKCCD">
           <Key>
@@ -3454,6 +3503,7 @@
           <NavigationProperty Name="PhongBan" Relationship="Self.FK_NhuCauDT_PhongBan" FromRole="SH_NhuCauDT" ToRole="PhongBan" />
           <NavigationProperty Name="SH_ChiTiet_NCDT" Relationship="Self.FK_SH_ChiTiet_NCDT_SH_NhuCauDT" FromRole="SH_NhuCauDT" ToRole="SH_ChiTiet_NCDT" />
           <NavigationProperty Name="SH_PhanLoaiNCDT" Relationship="Self.FK_NhuCauDT_PhanLoaiNCDT" FromRole="SH_NhuCauDT" ToRole="SH_PhanLoaiNCDT" />
+          <NavigationProperty Name="NhanVien" Relationship="ELEARNINGModel.FK_SH_NhuCauDT_NhanVien" FromRole="SH_NhuCauDT" ToRole="NhanVien" />
         </EntityType>
         <EntityType Name="SH_PhanLoaiNCDT">
           <Key>
@@ -5453,6 +5503,10 @@
             <Parameter Name="VTID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="SH_KetQuaDaoTao" EntityType="ELEARNINGModel.SH_KetQuaDaoTao" />
+          <AssociationSet Name="FK_SH_NhuCauDT_NhanVien" Association="ELEARNINGModel.FK_SH_NhuCauDT_NhanVien">
+            <End Role="NhanVien" EntitySet="NhanVien" />
+            <End Role="SH_NhuCauDT" EntitySet="SH_NhuCauDT" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="CauHoi_DeThi_list_Result">
           <Property Type="Int32" Name="IDCH" Nullable="false" />
@@ -6155,6 +6209,18 @@
           <Property Name="NCDT_ID" Type="Int32" />
           <Property Name="NhanVien_ID" Type="Int32" />
         </EntityType>
+        <Association Name="FK_SH_NhuCauDT_NhanVien">
+          <End Type="ELEARNINGModel.NhanVien" Role="NhanVien" Multiplicity="0..1" />
+          <End Type="ELEARNINGModel.SH_NhuCauDT" Role="SH_NhuCauDT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NhanVien">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SH_NhuCauDT">
+              <PropertyRef Name="NguoiTao_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8130,7 +8196,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

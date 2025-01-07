@@ -38,6 +38,7 @@
                         </div>
 
                     </div>
+                  
                 </div>
             </div>
         </div>
@@ -46,87 +47,108 @@
             <div class="row">
                 <div class="card col-lg-12">
                     <div class="card-header">
+                        <div class="row">
+                            <button type="submit" class="btn btn-primary" style="margin-right:8px" onclick="SubmitForm()">Phê duyệt</button>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th width="30px" style="vertical-align:middle">TT</th>
-                                        <th class="text-center" width="300px" style="vertical-align:middle">Thông tin khóa đào tạo</th>
-                                        <th class="text-center" width="150px" style="vertical-align:middle">Quy trình</th>
-                                        <th class="text-center" width="150px" style="vertical-align:middle">Cấp duyệt</th>
-                                        <th class="text-center" width="150px" style="vertical-align:middle">Người tạo</th>
-                                        <th class="text-center" width="150px" style="vertical-align:middle">Ngày tạo</th>
-                                        <th class="text-center" width="200px" style="vertical-align:middle">Ngày xử lý</th>
-                                        <th class="text-center" width="150px" style="vertical-align:middle">Tình trạng</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{
-                                        int pageno = (int)Model.PageNumber;
-                                        int itemperpage = (int)Model.PageSize;
-                                        int RowNo = ((pageno - 1) * itemperpage) + 1;
-                                    }
-                                    @foreach (var item in Model)
-                                    {
-                                        ELEARNINGEntities db = new ELEARNINGEntities();
-                                        var NCDT = db.SH_NhuCauDT.Where(x => x.ID == item.NCDT_ID).FirstOrDefault();
-                                        var NguoiTao = db.NhanViens.Where(x => x.ID == NCDT.NguoiTao_ID).FirstOrDefault();
+                            <form method="post" id="myForm">
+                                <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                    <thead class="thead-light">
                                         <tr>
-                                            <td class="text-center"> @RowNo@{RowNo++;}</td>
-                                            <td class=""> <a id="btn-edit_@item.ID" href="@Url.Action("XuLyPhieuNCDT","PheDuyetPhieu", new { id = item.NCDT_ID })" title="Edit" class="">@NCDT.NoiDungDT.NoiDung</a></td>
-                                            <td class="">Nhu cầu đào tạo</td>
-                                            @if (item.CapDuyet == 1)
-                                            {
-                                                <td class="">BP Sử dụng</td>
-                                            }
-                                            else if (item.CapDuyet == 2)
-                                            {
-                                                <td class="">Phòng Chức năng</td>
-                                            }
-                                            else if (item.CapDuyet == 3)
-                                            {
-                                                <td class="">Phòng nhân sự</td>
-                                            }
-                                            else if (item.CapDuyet == 4)
-                                            {
-                                                <td class="">Ban giám đốc</td>
-                                            }
-                                            <td class="">@NguoiTao.MaNV <br /> @NguoiTao.HoTen</td>
-                                            @if (NCDT.NgayTao != null)
-                                            {
-                                                <td class="">@(((DateTime)NCDT.NgayTao).ToString("dd/MM/yyyy HH:mm:ss"))</td>
-                                            }
-                                            else
-                                            {
-                                                <td class=""></td>
-                                            }
-                                            @if (item.NgayDuyet != null)
-                                            {
-                                                <td class="">@(((DateTime)item.NgayDuyet).ToString("dd/MM/yyyy"))</td>
-                                            }
-                                            else
-                                            {
-                                                <td class=""></td>
-                                            }
-
-                                            @if (item.TinhTrangDuyet == 0)
-                                            {
-                                                <td class="text-center"> <button type="button" class="btn btn-warning"> Chưa xử lý </button></td>
-                                            }
-                                            else if (item.TinhTrangDuyet == 1)
-                                            {
-                                                <td class="text-center"> <button type="button" class="btn btn-success"> Hoàn tất </button></td>
-                                            }
-                                            else if (item.TinhTrangDuyet == 2)
-                                            {
-                                                <td class="text-center"> <button type="button" class="btn btn-danger"> Đã từ chối </button></td>
-                                            }
+                                            <th width="30px" style="vertical-align:middle">TT</th>
+                                            <th class="text-center" width="50px" style="vertical-align:middle;background-color: #f7f7f7;">
+                                                <input type="checkbox" id="selectAll" /> Chọn Tất Cả<br />
+                                            </th>
+                                            <th class="text-center" width="300px" style="vertical-align:middle">Thông tin khóa đào tạo</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Quy trình</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Cấp duyệt</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Người tạo</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Ngày tạo</th>
+                                            <th class="text-center" width="200px" style="vertical-align:middle">Ngày xử lý</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Tình trạng</th>
                                         </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            int pageno = (int)Model.PageNumber;
+                                            int itemperpage = (int)Model.PageSize;
+                                            int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                        }
+                                        @foreach (var item in Model)
+                                        {
+                                            ELEARNINGEntities db = new ELEARNINGEntities();
+                                            var NCDT = db.SH_NhuCauDT.Where(x => x.ID == item.NCDT_ID).FirstOrDefault();
+                                            var NguoiTao = db.NhanViens.Where(x => x.ID == NCDT.NguoiTao_ID).FirstOrDefault();
+                                            <tr>
+                                                <td class="text-center"> @RowNo@{RowNo++;}</td>
+                                                @if (item.TinhTrangDuyet == 0)
+                                                {
+                                                    <td class="text-center">
+                                                        <input type="checkbox" class="itemCheckbox" name="selectedItems" value="@item.NCDT_ID" />
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-center">
+                                                    </td>
+
+                                                }
+                                                <td class=""> <a id="btn-edit_@item.ID" href="@Url.Action("XuLyPhieuNCDT","PheDuyetPhieu", new { id = item.NCDT_ID })" title="Edit" class="">@NCDT.NoiDungDT.NoiDung</a></td>
+                                                <td class="">Nhu cầu đào tạo</td>
+                                                @if (item.CapDuyet == 1)
+                                                {
+                                                    <td class="">BP Sử dụng</td>
+                                                }
+                                                else if (item.CapDuyet == 2)
+                                                {
+                                                    <td class="">Phòng Chức năng</td>
+                                                }
+                                                else if (item.CapDuyet == 3)
+                                                {
+                                                    <td class="">Phòng nhân sự</td>
+                                                }
+                                                else if (item.CapDuyet == 4)
+                                                {
+                                                    <td class="">Ban giám đốc</td>
+                                                }
+                                                <td class="">@NguoiTao.MaNV <br /> @NguoiTao.HoTen</td>
+                                                @if (NCDT.NgayTao != null)
+                                                {
+                                                    <td class="">@(((DateTime)NCDT.NgayTao).ToString("dd/MM/yyyy HH:mm:ss"))</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class=""></td>
+                                                }
+                                                @if (item.NgayDuyet != null)
+                                                {
+                                                    <td class="">@(((DateTime)item.NgayDuyet).ToString("dd/MM/yyyy"))</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class=""></td>
+                                                }
+
+                                                @if (item.TinhTrangDuyet == 0)
+                                                {
+                                                    <td class="text-center"> <button type="button" class="btn btn-warning"> Chưa xử lý </button></td>
+                                                }
+                                                else if (item.TinhTrangDuyet == 1)
+                                                {
+                                                    <td class="text-center"> <button type="button" class="btn btn-success"> Hoàn tất </button></td>
+                                                }
+                                                else if (item.TinhTrangDuyet == 2)
+                                                {
+                                                    <td class="text-center"> <button type="button" class="btn btn-danger"> Đã từ chối </button></td>
+                                                }
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </form>
+                            
                             <div class="pager">
                                 @Html.PagedListPager(Model, page => Url.Action("Index_NCDT", "PheDuyetPhieu", new { page, IDLVDT = Request.QueryString["IDLVDT"], IDGV = Request.QueryString["IDGV"], search = Request.QueryString["search"], IDLoaiDT = Request.QueryString["IDLoaiDT"], IDPPDT = Request.QueryString["IDPPDT"], IDNhomDT = Request.QueryString["IDNhomDT"], }))
                                 <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
@@ -150,11 +172,37 @@
 
 
 </div>
+<script>
+    document.getElementById('selectAll').addEventListener('change', function () {
+        // Lấy tất cả các checkbox có class là itemCheckbox
+        const checkboxes = document.querySelectorAll('.itemCheckbox');
 
+        // Nếu checkbox "Chọn Tất Cả" được chọn thì tất cả đều được chọn
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+
+    // Cập nhật trạng thái của "Chọn Tất Cả" khi bỏ chọn bất kỳ checkbox nào
+    document.querySelectorAll('.itemCheckbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            const selectAllCheckbox = document.getElementById('selectAll');
+            // Kiểm tra nếu có bất kỳ checkbox nào chưa chọn
+            selectAllCheckbox.checked = Array.from(document.querySelectorAll('.itemCheckbox'))
+                .every(item => item.checked);
+        });
+    });
+</script>
 <script type="text/javascript">
     //$(" #LVDTID").chosen({
     //    width: "100%"
     //});
+    function SubmitForm() {
+        const queryParams = window.location.search; // Lấy ?id=123&name=John
+        const form = document.getElementById("myForm");
+        form.action = "/PheDuyetPhieu/ProcessSelected" + queryParams;
+        form.submit();
+    }
     $(document).ready(function () {
         $('#addProductModal').on('hidden.bs.modal', function () {
             // Reset form fields

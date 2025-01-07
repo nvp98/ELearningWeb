@@ -40,5 +40,6 @@ namespace E_Learning.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SH_ChiTiet_NCDT> SH_ChiTiet_NCDT { get; set; }
         public virtual SH_PhanLoaiNCDT SH_PhanLoaiNCDT { get; set; }
+        public virtual NhanVien NhanVien { get; set; }
     }
 }

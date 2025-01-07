@@ -16,228 +16,288 @@
     var phongban = db.PhongBans.Where(x => x.IDPhongBan == ncdt.BoPhanLNC_ID).FirstOrDefault().TenPhongBan;
 }
 @{
-        ViewBag.Title = "PrintTestView";
-        Layout = null;
-    }
-<style>
-    body {
-        font-family: 'arialuni', sans-serif;
-    }
-</style>
-<div class="app-main__outer">
-    <div class="app-main__inner">
-        <div class="tab-content">
-            <div class="row">
-                <div class="card col-md-12">
+    ViewBag.Title = "PrintTestView";
+    Layout = null;
+}
 
-                    @* Code View *@
-                    <div class="HeadTest row">
-                        <div class="col-md-6" style="float: left; max-width: 300px; text-align: center; font-weight: bold; font-size: 1.2rem; text-transform: uppercase;">
-                            <img alt="Hòa Phát Dung Quất" src="~/Content/assets/images/logo-inverse.png" width="90%" />
-                            <div >Công ty Cổ phần Thép</div>
-                            <p>Hòa Phát Dung Quất</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Báo cáo</title>
+    <style>
+        body {
+            font-family: 'Times New Roman';
+        }
 
-                        </div>
-                        <div class="col-md-6" style="float:right;text-align:right; font-weight: bold; margin-left: auto;">
-                            <span>BM.13/QT.04</span>
-                            <p><span style="font-style:italic;">Ngày hiệu lực:</span> 01/12/2023</p>
-                        </div>
-                        <div class="col-md-12" style="padding-bottom: 1rem;">
-                            <p style="text-align:center; font-size: 1.5rem;font-weight:bold; text-transform:uppercase;">NHU CẦU ĐÀO TẠO NHÂN LỰC</p>
-                            <p style="text-align: center;"><span style="font-style:italic;">Quý:&nbsp;</span> @Quy  &nbsp; / &nbsp;  <span style="font-style:italic;">Năm:&nbsp;</span> @Nam  &nbsp; </p>
-                        </div>
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-                        <div class="col-md-12">
-                            <p>Kính gửi: @TrinhKy.TenTrinhKy</p>
-                            <p class="font-italic">– Căn cứ yêu cầu thực tế công việc của bộ phận;</p>
-                            <p class="font-italic">– Căn cứ vào trình độ năng lực của người lao động tại bộ phận.</p>
+        td {
+            border: 1px solid black;
+            padding: 5px;
+        }
 
-                        </div>
-                        <div class="col-md-12">
-                            <p> Bộ phận:&nbsp; @phongban &nbsp; đề xuất nhu cầu đào tạo của Bộ phận như sau:</p>
-                        </div>
-                        <div class="col-md-12 " style="overflow-x:auto">
-                            <table class="table table-bordered" style="width:150%">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th class="text-center" rowspan="2">STT</th>
-                                        <th class="text-center" colspan="2" style="width:150px">Thông tin khóa đào tạo</th>
-                                        <th class="text-center" colspan="2" style="width:150px">Thông tin học viên</th>
-                                        <th class="text-center" colspan="4" style="width:150px">Đơn vị đào tạo giảng viên</th>
-                                        <th class="text-center" rowspan="2" style="width:200px">Phương pháp đào tạo</th>
-                                        <th class="text-center" rowspan="2" style="width:100px">Lĩnh vực đào tạo</th>
-                                        <th class="text-center" rowspan="2" style="width:100px">
-                                            Thời gian bắt đầu đào tạo
-                                            (Tháng)
-                                        </th>
-                                        <th class="text-center" rowspan="2" style="width:100px">
-                                            Thời lượng đào tạo
-                                            dự kiến
-                                            (Giờ)
-                                        </th>
-                                        <th class="text-center" rowspan="2" style="width:150px">Địa điểm đào tạo dự kiến</th>
-                                        <th class="text-center" rowspan="2" width="150">Ghi chú</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-center">Nhóm năng lực</th>
-                                        <th class="text-center">Tên khóa đào tạo</th>
-                                        <th class="text-center">Đối tượng tham gia đào tạo</th>
-                                        <th class="text-center">Số lượng dự kiến (Người)</th>
-                                        <th class="text-center">Mã nhân viên</th>
-                                        <th class="text-center">Họ và tên</th>
-                                        <th class="text-center">Vị trí công việc</th>
-                                        <th class="text-center">
-                                            Đơn vị đào tạo/
-                                            Bộ phận
-                                        </th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    @{
-                                        int pageno = 1;
-                                        int itemperpage = 1;
-                                        int RowNo = ((pageno - 1) * itemperpage) + 1;
-                                        var noidungdt = db.NoiDungDTs.Where(x => x.IDND == Model.NoiDungDT_ID).FirstOrDefault();
-                                        var NhomNL = db.NhomNLKCCDs.Where(x => x.ID == Model.chiTietNhuCauDTTHView.Nhom_ID).FirstOrDefault();
-                                        var GiangVien = db.NhanViens.Where(x => x.ID == Model.chiTietNhuCauDTTHView.GiangVien_ID).FirstOrDefault();
-                                        var PPhapDT = db.SH_PhuongPhapDT.Where(x => x.ID == Model.PhuongPhapDT_ID).FirstOrDefault();
-                                        var LVDT = db.LinhVucDTs.Where(x => x.IDLVDT == noidungdt.LVDTID).FirstOrDefault();
-                                    }
-                                    <tr>
-                                        <td class="text-center"> @RowNo@{RowNo++;}</td>
-                                        <td> @(NhomNL?.NoiDung ?? "")</td>
-                                        <td>@Model.TenNoiDungDT</td>
-                                        <td>@Model.chiTietNhuCauDTTHView.DoiTuongDT</td>
-                                        <td class="text-center">@Model.chiTietNhuCauDTTHView.SoLuongNguoi</td>
-                                        @if (GiangVien == null)
-                                        {
-                                            <td></td>
-                                            <td>@Model.chiTietNhuCauDTTHView.TenGiangVien</td>
-                                        }
-                                        else
-                                        {
-                                            <td>@GiangVien.MaNV</td>
-                                            <td>@GiangVien.HoTen</td>
-                                        }
-
-                                        <td>@Model.chiTietNhuCauDTTHView.TenViTri</td>
-                                        <td>@Model.chiTietNhuCauDTTHView.DonViDT</td>
-                                        <td>@PPhapDT.TenPhuongPhapDT</td>
-                                        <td>@LVDT.TenLVDT</td>
-                                        <td>@Model.chiTietNhuCauDTTHView.ThoiGianDT</td>
-                                        <td>@Model.chiTietNhuCauDTTHView.ThoiLuong</td>
-                                        <td>@Model.chiTietNhuCauDTTHView.DiaDiemDT</td>
-                                        <td>@Model.chiTietNhuCauDTTHView.GhiChu</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-12 row flex-row-reverse">
-                            <div class="col-4"> <p class="font-italic">Quảng Ngãi, ngày @Model.NgayTao.Day tháng @Model.NgayTao.Month năm @Model.NgayTao.Year </p></div>
-                        </div>
-                        <div class="col-md-12 row" style="margin-bottom:50px">
-                            <div class="col text-center">
-                                <div class="font-weight-bold">B.GĐ</div>
-                                @if (CapBGD != null)
-                                {
-                                    var bgd = nhanvien.Where(x => x.ID == CapBGD.NguoiDuyet_ID).FirstOrDefault();
-                                    if (CapBGD.TinhTrangDuyet == 1 && bgd != null)
-                                    {
-                                        <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(bgd.ChuKy) ? "" : @Url.Content(bgd.ChuKy))" /></div>
-                                        <div class="font-weight-bold">@bgd.HoTen</div>
-                                    }
-                                    else if (CapBGD.TinhTrangDuyet == 0 && bgd != null)
-                                    {
-                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Chưa ký</div>
-                                        <div class="font-weight-bold">@bgd.HoTen</div>
-                                    }
-
-                                }
-                            </div>
-                            <div class="col text-center">
-                                <div class="font-weight-bold">P.NS</div>
-                                @if (CapPNS != null)
-                                {
-                                    var pns = nhanvien.Where(x => x.ID == CapPNS.NguoiDuyet_ID).FirstOrDefault();
-                                    if (CapPNS.TinhTrangDuyet == 1 && pns != null)
-                                    {
-                                        <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(pns.ChuKy) ? "" : @Url.Content(@pns.ChuKy))" /></div>
-                                        <div class="font-weight-bold">@pns.HoTen</div>
-                                    }
-                                    else if (CapPNS.TinhTrangDuyet == 0 && pns != null)
-                                    {
-                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Chưa ký</div>
-                                        <div class="font-weight-bold">@pns.HoTen</div>
-                                    }
-
-                                }
-                            </div>
-                            <div class="col text-center">
-                                <div class="font-weight-bold">P.CHN</div>
-                                @if (CapPCHN != null)
-                                {
-                                    var pns = nhanvien.Where(x => x.ID == CapPCHN.NguoiDuyet_ID).FirstOrDefault();
-                                    if (CapPCHN.TinhTrangDuyet == 1 && pns != null)
-                                    {
-                                        <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(pns.ChuKy) ? "" : @Url.Content(@pns.ChuKy))" /></div>
-                                        <div class="font-weight-bold">@pns.HoTen</div>
-                                    }
-                                    else if (CapPCHN.TinhTrangDuyet == 0 && pns != null)
-                                    {
-                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Chưa ký</div>
-                                        <div class="font-weight-bold">@pns.HoTen</div>
-                                    }
-
-                                }
-                            </div>
-                            <div class="col text-center">
-                                <div class="font-weight-bold">BP</div>
-                                @if (CapBP != null)
-                                {
-                                    var pns = nhanvien.Where(x => x.ID == CapBP.NguoiDuyet_ID).FirstOrDefault();
-                                    if (CapBP.TinhTrangDuyet == 1 && pns != null)
-                                    {
-                                        <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(pns.ChuKy) ? "" : @Url.Content(@pns.ChuKy))" /></div>
-                                        <div class="font-weight-bold">@pns.HoTen</div>
-                                    }
-                                    else if (CapBP.TinhTrangDuyet == 0 && pns != null)
-                                    {
-                                        <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Chưa ký</div>
-                                        <div class="font-weight-bold">@pns.HoTen</div>
-                                    }
-
-                                }
-
-                            </div>
-                        </div>
-                        <div id="list_vt" style="width:100%">
-                            <div style="margin-left:2%;">
-                                <p>
-                                    <b>
-                                        Ghi chú:
-                                    </b><br />
-                                    – Sau khi Nhu cầu đào tạo được phê duyệt không quá 02 ngày, đầu mối tại BP có nhu cầu đào tạo gửi email Nhu cầu đào tạo đến Nhân viên Nhân sự (chuyên trách BP), Nhân viên Đào tạo – P.NS, Kỹ thuật viên P.CHN hoặc chuyển tiếp văn bản qua hệ thống E–Office để nắm thông tin và phối hợp;<br />
-                                    – Kính gửi: Tùy vào các nội dung theo phân nhiệm, trình đến cấp phê duyệt phù hợp và có thể để trống hoặc xóa các thành phần còn lại. Chọn một trong ba theo phân nhiệm trình ký: Ban Giám đốc; Trưởng bộ phận; Phòng Nhân sự (chọn theo list tự động);<br />
-                                    – Bộ phận: Tùy vào nội dung đào tạo có thể là một hoặc nhiều BP khác nhau, trong đó cả Bộ phận đề nghị đào tạo và BP có địa điểm, giảng viên tổ chức đào tạo; <br />
-                                    – Nhóm năng lực: Chọn một trong ba nhóm năng lực: Năng lực chung; Năng lực Chuyên môn; Năng lực Quản lý (chọn theo list tự động); <br />
-                                    – Tên khóa đào tạo: Là tên của nội dung cần đào tạo, thể hiện ngắn gọn và nêu bật được nội dung cần đào tạo hoặc tên vị trí công việc cần đào tạo; <br />
-                                    – Đối tượng học viên: Ghi ngắn gọn các nhóm đối tượng học viên hoặc tên vị trí công việc; <br />
-                                    – Thông tin giảng viên: Nếu khóa đào tạo dùng giảng viên thuê ngoài thì ghi “Thuê ngoài” hoặc “Tên đơn vị/ đối tác" nếu đã xác định được đơn vị đào tạo; nếu Giảng viên nội bộ thì ghi đầy đủ thông tin; <br />
-                                    - Phương pháp đào tạo: Chỉ lập Nhu cầu đào tạo đối với phương pháp đào tạo: Mở lớp đào tạo tập trung; Hội thảo, trao đổi, chia sẻ kinh nghiệm (chọn theo list tự động). Nếu đào tạo theo Phương pháp Mở lớp đào tạo trên hệ thống E-Learning (cột thời lượng đào tạo là 01 giờ và cột ghi chú: Hệ thống E-Learning); <br />
-                                    – Lĩnh vực đào tạo: An toàn lao động theo luật định/ An toàn lao động khác/ Cơ khí/ Điện/ Công nghệ/ Nghiệp vụ khác; <br />
-                                    – Thời lượng đào tạo dự kiến: Số giờ để đào tạo hết nội dung chương trình đào tạo đối với một lượt đào tạo; <br />
-                                    – Địa điểm đào tạo: Ghi rõ cụ thể vị trí: Lý thuyết: Phòng họp/ Phòng giao ca … Thực hành: Khu vực làm việc của Tổ - Phân xưởng. Nếu địa điểm ngoài Công ty thì ghi rõ và đầy đủ địa điểm; <br />
-                                    – Đối với nhu cầu đào tạo mất phí, có sự tham gia của giảng viên bên ngoài hoặc phải cử CBNV đi đào tạo tại địa điểm bên ngoài Công ty: T/PBP, đơn vị đại diện các bên liên quan ký trình tới cấp BGĐ Công ty.<br />
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
+        th {
+            border: 1px solid black;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div style="display: flex; flex-wrap: wrap;">
+        <div style="width: 100%; padding-right: 15px; padding-left: 15px;position: relative; display: flex; flex-direction: column; min-width: 0; word-wrap: break-word; background-clip: border-box;  border-radius: 0.25rem; flex: 0 0 100%; max-width: 100%; ">
+            <div style="display: flex; flex-wrap: wrap; margin-right: -15px; margin-left: -15px;">
+                <div class="col-md-6" style="float: left; font-weight: bold;max-width:300px">
+                    <img alt="Hòa Phát Dung Quất" src="https://portal.hoaphatdungquat.vn/Content/assets/images/logo-inverse.png" width="200" />
+                    <p style="margin-bottom:0px;margin-top:0px">CÔNG TY CỔ PHẦN THÉP</p>
+                    <p style="margin-top:2px">HÒA PHÁT DUNG QUẤT</p>
                 </div>
+                <div class="col-md-6" style="float:right;text-align:right; font-weight: bold; margin-left: auto;">
+                    <span>BM.13/QT.04</span>
+                    <p style="margin-top: 2px; "><span style="font-style:italic;">Ngày hiệu lực:</span> 01/12/2023</p>
+                </div>
+                <div style="flex: 0 0 100%; max-width: 100%; ">
+                    <p style="text-align:center; font-weight:bold;font-size:18px;margin-bottom:0px">NHU CẦU ĐÀO TẠO NHÂN LỰC</p>
+                    <p style="margin: 2px 0px 0px 0px; text-align: center;font-size:12px "><span style="font-style:italic;">(Quý @Quy /Năm @Nam )</span></p>
+                </div>
+                <div style="flex: 0 0 100%; max-width: 100%; ">
+                    <p style="margin: 2px 0px 0px 0px; font-size: 14px ">Kính gửi: @TrinhKy.TenTrinhKy</p>
+                    <p style="font-style: italic; margin: 2px 0px 0px 0px; font-size: 14px">– Căn cứ yêu cầu thực tế công việc của bộ phận;</p>
+                    <p style="font-style: italic; margin: 2px 0px 0px 0px; font-size: 14px">– Căn cứ vào trình độ năng lực của người lao động tại bộ phận.</p>
+                </div>
+                <div class="col-md-12">
+                    <p style="font-size: 14px"> Bộ phận:&nbsp; @phongban  &nbsp; đề xuất nhu cầu đào tạo của Bộ phận như sau:</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div>
+        <table style="font-size:12px">
+            <thead>
+                <tr>
+                    <th class="text-center" style="border: 1px solid black; border-bottom: 0px !important; border-right: 0px !important " rowspan="2" width="80px">STT</th>
+                    <th class="text-center" style=" border: 1px solid black; border-bottom: 0px !important; border-right: 0px !important;text-align:center" colspan="2">Thông tin khóa đào tạo</th>
+                    <th class="text-center" colspan="2" style="border: 1px solid black; border-bottom: 0px !important; border-right: 0px !important; text-align: center">Thông tin học viên</th>
+                    <th class="text-center" colspan="4" style="border: 1px solid black; border-bottom: 0px !important; border-right: 0px !important; text-align: center">Đơn vị đào tạo giảng viên</th>
+                    <th class="text-center" rowspan="2" style="width: 200px; border: 1px solid black; border-bottom: 0px !important; border-right: 0px !important">Phương pháp đào tạo</th>
+                    <th class="text-center" rowspan="2" style="width: 150px; border: 1px solid black; border-bottom: 0px !important; border-right: 0px !important">Lĩnh vực đào tạo</th>
+                    <th class="text-center" rowspan="2" style="width: 150px; border: 1px solid black; border-bottom: 0px !important; border-right: 0px !important">
+                        Thời gian bắt đầu đào tạo
+                        (Tháng)
+                    </th>
+                    <th class="text-center" rowspan="2" style="width: 150px; border: 1px solid black; border-bottom: 0px !important; border-right: 0px !important">
+                        Thời lượng đào tạo
+                        dự kiến
+                        (Giờ)
+                    </th>
+                    <th class="text-center" rowspan="2" style="width: 150px; border: 1px solid black; border-bottom: 0px !important; border-right: 0px !important">Địa điểm đào tạo dự kiến</th>
+                    <th class="text-center" style="border: 1px solid black; border-bottom: 0px !important" rowspan="2" width="150">Ghi chú</th>
+                </tr>
+                <tr>
+                    <th class="text-center" style="border: 1px solid black; border-bottom: 0px !important; border-right: 0px !important" width="150px">Nhóm năng lực</th>
+                    <th class="text-center" style="border: 1px solid black; border-bottom: 0px !important; border-right: 0px !important" width="300px">Tên khóa đào tạo</th>
+                    <th class="text-center" style="border: 1px solid black; border-bottom: 0px !important; border-right: 0px !important" width="150px">Đối tượng tham gia đào tạo</th>
+                    <th class="text-center" style="border: 1px solid black; border-bottom: 0px !important; border-right: 0px !important" width="150px">Số lượng dự kiến (Người)</th>
+                    <th class="text-center" style="border: 1px solid black; border-bottom: 0px !important; border-right: 0px !important" width="200px">Mã nhân viên</th>
+                    <th class="text-center" style="border: 1px solid black; border-bottom: 0px !important; border-right: 0px !important" width="250px">Họ và tên</th>
+                    <th class="text-center" style="border: 1px solid black; border-bottom: 0px !important; border-right: 0px !important" width="150px">Vị trí công việc</th>
+                    <th class="text-center" style="border: 1px solid black; border-bottom: 0px !important; border-right: 0px !important" width="150px">
+                        Đơn vị đào tạo/
+                        Bộ phận
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @{
+                    var noidungdt = db.NoiDungDTs.Where(x => x.IDND == Model.NoiDungDT_ID).FirstOrDefault();
+                    var NhomNL = db.NhomNLKCCDs.Where(x => x.ID == Model.chiTietNhuCauDTTHView.Nhom_ID).FirstOrDefault();
+                    var GiangVien = db.NhanViens.Where(x => x.ID == Model.chiTietNhuCauDTTHView.GiangVien_ID).FirstOrDefault();
+                    var PPhapDT = db.SH_PhuongPhapDT.Where(x => x.ID == Model.PhuongPhapDT_ID).FirstOrDefault();
+                    var LVDT = db.LinhVucDTs.Where(x => x.IDLVDT == noidungdt.LVDTID).FirstOrDefault();
+                }
+                <tr>
+                    <td style="border: 1px solid black; border-right: 0px !important" class="text-center">1</td>
+                    <td style="border: 1px solid black; border-right: 0px !important"> @(NhomNL?.NoiDung ?? "")</td>
+                    <td style="border: 1px solid black; border-right: 0px !important">@Model.TenNoiDungDT</td>
+                    <td style="border: 1px solid black; border-right: 0px !important">@Model.chiTietNhuCauDTTHView.DoiTuongDT</td>
+                    <td style="border: 1px solid black; border-right: 0px !important;text-align:center" class="text-center">@Model.chiTietNhuCauDTTHView.SoLuongNguoi</td>
+                    @if (GiangVien == null)
+                    {
+                        <td style="border: 1px solid black; border-right: 0px !important"></td>
+                        <td style="border: 1px solid black; border-right: 0px !important">@Model.chiTietNhuCauDTTHView.TenGiangVien</td>
+                    }
+                    else
+                    {
+                        <td style="border: 1px solid black; border-right: 0px !important">@GiangVien.MaNV</td>
+                        <td style="border: 1px solid black; border-right: 0px !important">@GiangVien.HoTen</td>
+                    }
+
+                    <td style="border: 1px solid black; border-right: 0px !important">@Model.chiTietNhuCauDTTHView.TenViTri</td>
+                    <td style="border: 1px solid black; border-right: 0px !important">@Model.chiTietNhuCauDTTHView.DonViDT</td>
+                    <td style="border: 1px solid black; border-right: 0px !important">@PPhapDT.TenPhuongPhapDT</td>
+                    <td style="border: 1px solid black; border-right: 0px !important">@LVDT.TenLVDT</td>
+                    <td style="border: 1px solid black; border-right: 0px !important;text-align:center">@Model.chiTietNhuCauDTTHView.ThoiGianDT</td>
+                    <td style="border: 1px solid black; border-right: 0px !important;text-align: center">@Model.chiTietNhuCauDTTHView.ThoiLuong</td>
+                    <td style="border: 1px solid black; border-right: 0px !important">@Model.chiTietNhuCauDTTHView.DiaDiemDT</td>
+                    <td style="border: 1px solid black; ">@Model.chiTietNhuCauDTTHView.GhiChu</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="col-md-12" style="display: flex; flex-direction: row-reverse; float:right">
+        <div class="col-4"> <p style="font-style:italic;font-size:12px">Quảng Ngãi, ngày @Model.NgayTao.Day tháng @Model.NgayTao.Month năm @Model.NgayTao.Year </p></div>
+    </div>
+    <div style="flex: 0 0 100%; max-width: 100%; ">
+
+        <table style="border:0px">
+            <tr>
+                <th style="border:0px;text-align:center">B.GĐ</th>
+                <th style="border: 0px; text-align: center">P.NS</th>
+                <th style="border: 0px; text-align: center">P.CHN</th>
+                <th style="border: 0px; text-align: center">BP</th>
+            </tr>
+            <tr>
+                <td style="border: 0px; text-align: center;width:25%">
+                    @if (CapBGD != null)
+                    {
+                        var bgd = nhanvien.Where(x => x.ID == CapBGD.NguoiDuyet_ID).FirstOrDefault();
+                        if (CapBGD.TinhTrangDuyet == 1 && bgd != null)
+                        {
+                            //var lin = "https://elearning.hoaphatdungquat.vn/";
+                            //if (!string.IsNullOrEmpty(bgd.ChuKy))
+                            //{
+                            //    lin = lin + @bgd.ChuKy.TrimStart('~', '/');
+                            //}
+                            string absolutePath = Server.MapPath(bgd.ChuKy);
+                            <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@absolutePath" /></div>
+                            <div style="font-weight:bold">@bgd.HoTen</div>
+                        }
+                        else if (CapBGD.TinhTrangDuyet == 0 && bgd != null)
+                        {
+                            <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">@(Model.TinhTrang != 3? "Chưa ký":"")</div>
+                            <div style="font-weight:bold">@bgd.HoTen</div>
+                        }
+                        else if (CapBGD.TinhTrangDuyet == 2 && bgd != null)
+                        {
+                            <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Đã từ chối</div>
+                            <div style="font-weight:bold">@bgd.HoTen</div>
+                        }
+
+                    }
+                </td>
+                <td style="border: 0px; text-align: center;width:25%">
+                    @if (CapPNS != null)
+                    {
+                        var pns = nhanvien.Where(x => x.ID == CapPNS.NguoiDuyet_ID).FirstOrDefault();
+                        if (CapPNS.TinhTrangDuyet == 1 && pns != null)
+                        {
+                            //var lin = "https://elearning.hoaphatdungquat.vn/";
+                            //if (!string.IsNullOrEmpty(pns.ChuKy))
+                            //{
+                            //    lin = lin + @pns.ChuKy.TrimStart('~', '/');
+                            //}
+                            string absolutePath = Server.MapPath(pns.ChuKy);
+                            <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@absolutePath" /></div>
+                            <div style="font-weight:bold">@pns.HoTen</div>
+                        }
+                        else if (CapPNS.TinhTrangDuyet == 0 && pns != null)
+                        {
+                            <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">
+                                @(Model.TinhTrang != 3? "Chưa ký":"")
+                            </div>
+                            <div style="font-weight:bold">@pns.HoTen</div>
+                        }
+                        else if (CapPNS.TinhTrangDuyet == 2 && pns != null)
+                        {
+                            <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Đã từ chối</div>
+                            <div style="font-weight:bold">@pns.HoTen</div>
+                        }
+                    }
+                </td>
+                <td style="border: 0px; text-align: center; width: 25%">
+                    @if (CapPCHN != null)
+                    {
+                        var pns = nhanvien.Where(x => x.ID == CapPCHN.NguoiDuyet_ID).FirstOrDefault();
+                        if (CapPCHN.TinhTrangDuyet == 1 && pns != null)
+                        {
+                            //var lin = "https://elearning.hoaphatdungquat.vn/";
+                            //if (!string.IsNullOrEmpty(pns.ChuKy))
+                            //{
+                            //    lin = lin + @pns.ChuKy.TrimStart('~', '/');
+                            //}
+                            string absolutePath = Server.MapPath(pns.ChuKy);
+                            <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@absolutePath" /></div>
+                            <div style="font-weight:bold">@pns.HoTen</div>
+                        }
+                        else if (CapPCHN.TinhTrangDuyet == 0 && pns != null)
+                        {
+                            <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger"> @(Model.TinhTrang != 3? "Chưa ký":"")</div>
+                            <div style="font-weight:bold">@pns.HoTen</div>
+                        }
+                        else if (CapPCHN.TinhTrangDuyet == 2 && pns != null)
+                        {
+                            <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Đã từ chối</div>
+                            <div style="font-weight:bold">@pns.HoTen</div>
+                        }
+
+                    }
+                </td>
+                <td style="border: 0px; text-align: center; width: 25%">
+                    @if (CapBP != null)
+                    {
+                        var pns = nhanvien.Where(x => x.ID == CapBP.NguoiDuyet_ID).FirstOrDefault();
+                        if (CapBP.TinhTrangDuyet == 1 && pns != null)
+                        {
+                            string absolutePath = Server.MapPath(pns.ChuKy);
+                            <div style="height:50px"><img height="50" width="150" alt="Hòa Phát Dung Quất" src="@absolutePath" /></div>
+                            <div style="font-weight:bold">@pns.HoTen</div>
+                        }
+                        else if (CapBP.TinhTrangDuyet == 0 && pns != null)
+                        {
+                            <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">
+                                @(Model.TinhTrang != 3? "Chưa ký":"")
+                            </div>
+                            <div style="font-weight:bold">@pns.HoTen</div>
+                        }
+                        else if (CapBP.TinhTrangDuyet == 2 && pns != null)
+                        {
+                            <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Đã từ chối</div>
+                            <div style="font-weight:bold">@pns.HoTen</div>
+                        }
+                    }
+                </td>
+            </tr>
+        </table>
+        <div id="list_vt" style="width:100%">
+            <div style="margin-left:2%;">
+                <p style="font-size:10px">
+                    <b>
+                        Ghi chú:
+                    </b><br />
+                    – Sau khi Nhu cầu đào tạo được phê duyệt không quá 02 ngày, đầu mối tại BP có nhu cầu đào tạo gửi email Nhu cầu đào tạo đến Nhân viên Nhân sự (chuyên trách BP), Nhân viên Đào tạo – P.NS, Kỹ thuật viên P.CHN hoặc chuyển tiếp văn bản qua hệ thống E–Office để nắm thông tin và phối hợp;<br />
+                    – Kính gửi: Tùy vào các nội dung theo phân nhiệm, trình đến cấp phê duyệt phù hợp và có thể để trống hoặc xóa các thành phần còn lại. Chọn một trong ba theo phân nhiệm trình ký: Ban Giám đốc; Trưởng bộ phận; Phòng Nhân sự (chọn theo list tự động);<br />
+                    – Bộ phận: Tùy vào nội dung đào tạo có thể là một hoặc nhiều BP khác nhau, trong đó cả Bộ phận đề nghị đào tạo và BP có địa điểm, giảng viên tổ chức đào tạo; <br />
+                    – Nhóm năng lực: Chọn một trong ba nhóm năng lực: Năng lực chung; Năng lực Chuyên môn; Năng lực Quản lý (chọn theo list tự động); <br />
+                    – Tên khóa đào tạo: Là tên của nội dung cần đào tạo, thể hiện ngắn gọn và nêu bật được nội dung cần đào tạo hoặc tên vị trí công việc cần đào tạo; <br />
+                    – Đối tượng học viên: Ghi ngắn gọn các nhóm đối tượng học viên hoặc tên vị trí công việc; <br />
+                    – Thông tin giảng viên: Nếu khóa đào tạo dùng giảng viên thuê ngoài thì ghi “Thuê ngoài” hoặc “Tên đơn vị/ đối tác" nếu đã xác định được đơn vị đào tạo; nếu Giảng viên nội bộ thì ghi đầy đủ thông tin; <br />
+                    - Phương pháp đào tạo: Chỉ lập Nhu cầu đào tạo đối với phương pháp đào tạo: Mở lớp đào tạo tập trung; Hội thảo, trao đổi, chia sẻ kinh nghiệm (chọn theo list tự động). Nếu đào tạo theo Phương pháp Mở lớp đào tạo trên hệ thống E-Learning (cột thời lượng đào tạo là 01 giờ và cột ghi chú: Hệ thống E-Learning); <br />
+                    – Lĩnh vực đào tạo: An toàn lao động theo luật định/ An toàn lao động khác/ Cơ khí/ Điện/ Công nghệ/ Nghiệp vụ khác; <br />
+                    – Thời lượng đào tạo dự kiến: Số giờ để đào tạo hết nội dung chương trình đào tạo đối với một lượt đào tạo; <br />
+                    – Địa điểm đào tạo: Ghi rõ cụ thể vị trí: Lý thuyết: Phòng họp/ Phòng giao ca … Thực hành: Khu vực làm việc của Tổ - Phân xưởng. Nếu địa điểm ngoài Công ty thì ghi rõ và đầy đủ địa điểm; <br />
+                    – Đối với nhu cầu đào tạo mất phí, có sự tham gia của giảng viên bên ngoài hoặc phải cử CBNV đi đào tạo tại địa điểm bên ngoài Công ty: T/PBP, đơn vị đại diện các bên liên quan ký trình tới cấp BGĐ Công ty.<br />
+                </p>
             </div>
         </div>
 
     </div>
-</div>
+</body>
+</html>
 

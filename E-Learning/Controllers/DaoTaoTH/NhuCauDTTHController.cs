@@ -22,10 +22,15 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Web.UI.WebControls.WebParts;
 using iTextSharp.text;
-using iTextSharp.text.pdf;
-using iTextSharp.tool.xml;
 using Font = iTextSharp.text.Font;
 using System.Text;
+using iText.Html2pdf;
+using iText.Layout.Font;
+using iText.Signatures; // Nếu xử lý thêm ký số
+using Org.BouncyCastle.Crypto;
+using iText.Kernel.Pdf.Event;
+using iTextSharp.tool.xml.html;
+using ClosedXML.Excel;
 
 namespace E_Learning.Controllers.DaoTaoTH
 {
@@ -50,7 +55,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                               (IDLoaiDT == null || x.PhanLoaiNCDT_ID == IDLoaiDT))
                               join b in db.SH_ChiTiet_NCDT on a.ID equals b.NhuCauDT_ID
                               join c in db.PhongBans on a.BoPhanLNC_ID equals c.IDPhongBan into uli from c in uli.DefaultIfEmpty()
-                              join d in db.NhanViens.Where(x=>x.IDTinhTrangLV ==1) on a.NguoiTao_ID equals d.ID
+                              join d in db.NhanViens on b.GiangVien_ID equals d.ID into ulis from d in ulis.DefaultIfEmpty()
                               select new NhuCauDTTHView
                               {
                                  ID_NCDT = a.ID,
@@ -60,14 +65,26 @@ namespace E_Learning.Controllers.DaoTaoTH
                                  Nam =a.Nam,
                                  BoPhanLNC_ID = a.BoPhanLNC_ID,
                                  TenBoPhan_LNC = c.TenPhongBan,
-                                 NguoiTao = d.MaNV +"-" + d.HoTen,
+                                 NguoiTao = a.NhanVien.MaNV +"-" + a.NhanVien.HoTen,
                                  TinhTrang =a.TinhTrang,
                                  PhuongPhapDT_ID = a.PhuongPhapDT_ID,
                                  FileDinhKem = a.FileDinhKem,
                                  TenPPDT = db.SH_PhuongPhapDT.Where(x=>x.ID == a.PhuongPhapDT_ID).FirstOrDefault().TenPhuongPhapDT,
                                  chiTietNhuCauDTTHView = new ChiTietNhuCauDTTHView
                                   {
-                                      SoLuongNguoi = b.SoLuongNguoi
+                                      SoLuongNguoi = b.SoLuongNguoi,
+                                      GiangVien_ID = b.GiangVien_ID,
+                                      DiaDiemDT = b.DiaDiemDT,
+                                      GhiChu = b.GhiChu,
+                                      DonViDT =b.DonViDT,
+                                      ThoiLuong =b.ThoiLuong_DT,
+                                      ThoiGianDT =b.ThoiGian_DT,
+                                      TenGiangVien= b.GiangVien_ID != null? d.HoTen: b.GiangVien_HoTen,
+                                      TenViTri =b.GiangVien_Vitri,
+                                      DoiTuongDT =b.DoiTuongDT,
+                                      TenNhom = a.NoiDungDT.NhomNLKCCD.NoiDung,
+                                      TenLVDT=a.NoiDungDT.LinhVucDT.TenLVDT,
+                                      MaNV= d.MaNV,
                                   },
                                  PhanLoaiNCDT_ID = a.PhanLoaiNCDT_ID,
                                  ID_NguoiTao = (int)a.NguoiTao_ID
@@ -522,6 +539,13 @@ namespace E_Learning.Controllers.DaoTaoTH
             db.SH_ChiTiet_NCDT.Remove(chitiet);
             SH_NhuCauDT noiDungDT = db.SH_NhuCauDT.Find(id);
             db.SH_NhuCauDT.Remove(noiDungDT);
+            // cập nhật phân quyền ViTri_NDDT 
+            List<SH_ViTri_NDDT> lsvt = db.SH_ViTri_NDDT.Where(x => x.NCDT_ID == id).ToList();
+            foreach (var item in lsvt)
+            {
+                item.NCDT_ID = null;
+                db.SaveChanges();
+            }
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -1068,6 +1092,135 @@ namespace E_Learning.Controllers.DaoTaoTH
             return View(noiDungDTs);
         }
 
+        public ActionResult ExportToExcel()
+        {
+            var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
+            ViewBag.QUYENCN = ListQuyen;
+            var queryNC = db.SH_NhuCauDT.AsQueryable();
+            if (!ListQuyen.Contains(CONSTKEY.VIEW_ALL) && !ListQuyen.Contains(CONSTKEY.V_BP))
+            {
+                queryNC = queryNC.Where(x => x.NguoiTao_ID == MyAuthentication.ID);
+            }
+            else if (ListQuyen.Contains(CONSTKEY.V_BP))
+            {
+                queryNC = queryNC.Where(x => x.BoPhanLNC_ID == MyAuthentication.IDPhongban);
+            }
+            var data = (from a in queryNC
+                              join b in db.SH_ChiTiet_NCDT on a.ID equals b.NhuCauDT_ID
+                              join c in db.PhongBans on a.BoPhanLNC_ID equals c.IDPhongBan into uli
+                              from c in uli.DefaultIfEmpty()
+                              join d in db.NhanViens on b.GiangVien_ID equals d.ID into ulis
+                              from d in ulis.DefaultIfEmpty()
+                              select new NhuCauDTTHView
+                              {
+                                  ID_NCDT = a.ID,
+                                  NoiDungDT_ID = a.NoiDungDT_ID,
+                                  TenNoiDungDT = a.NoiDungDT.NoiDung,
+                                  Quy = a.Quy,
+                                  Nam = a.Nam,
+                                  BoPhanLNC_ID = a.BoPhanLNC_ID,
+                                  TenBoPhan_LNC = c.TenPhongBan,
+                                  NguoiTao = a.NhanVien.MaNV + "-" + a.NhanVien.HoTen,
+                                  TinhTrang = a.TinhTrang,
+                                  PhuongPhapDT_ID = a.PhuongPhapDT_ID,
+                                  FileDinhKem = a.FileDinhKem,
+                                  TenPPDT = db.SH_PhuongPhapDT.Where(x => x.ID == a.PhuongPhapDT_ID).FirstOrDefault().TenPhuongPhapDT,
+                                  TenLoai_NCDT = a.SH_PhanLoaiNCDT.TenLoaiNCDT,
+                                  chiTietNhuCauDTTHView = new ChiTietNhuCauDTTHView
+                                  {
+                                      SoLuongNguoi = b.SoLuongNguoi,
+                                      GiangVien_ID = b.GiangVien_ID,
+                                      DiaDiemDT = b.DiaDiemDT,
+                                      GhiChu = b.GhiChu,
+                                      DonViDT = b.DonViDT,
+                                      ThoiLuong = b.ThoiLuong_DT,
+                                      ThoiGianDT = b.ThoiGian_DT,
+                                      TenGiangVien = b.GiangVien_ID != null ? d.HoTen : b.GiangVien_HoTen,
+                                      TenViTri = b.GiangVien_Vitri,
+                                      DoiTuongDT = b.DoiTuongDT,
+                                      TenNhom = a.NoiDungDT.NhomNLKCCD.NoiDung,
+                                      TenLVDT = a.NoiDungDT.LinhVucDT.TenLVDT,
+                                      MaNV = d.MaNV,
+                                  },
+                                  PhanLoaiNCDT_ID = a.PhanLoaiNCDT_ID,
+                                  ID_NguoiTao = (int)a.NguoiTao_ID
+                              }).OrderBy(x => x.ID_NCDT).ToList();
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("NCĐT");
+                //Header
+                worksheet.Cell(1, 1).Value = "STT";
+                worksheet.Cell(1, 2).Value = "Tên khóa đào tạo";
+                worksheet.Cell(1, 3).Value = "Nhóm năng lực";
+                worksheet.Cell(1, 4).Value = "Quý đào tạo";
+                worksheet.Cell(1, 5).Value = "Bộ phận lập nhu cầu";
+                worksheet.Cell(1, 6).Value = "Đối tượng tham gia đào tạo";
+                worksheet.Cell(1, 7).Value = "Số lượng dự kiến (Người)";
+                worksheet.Cell(1, 8).Value = "Mã giảng viên";
+                worksheet.Cell(1, 9).Value = "Tên giảng viên";
+                worksheet.Cell(1, 10).Value = "Đơn vị giảng viên";
+                worksheet.Cell(1, 11).Value = "Phương pháp đào tạo";
+                worksheet.Cell(1, 12).Value = "Lĩnh vực đào tạo";
+                worksheet.Cell(1, 13).Value = "Thời gian bắt đầu đào tạo";
+                worksheet.Cell(1, 14).Value = "Thời lượng đào tạo dự kiến";
+                worksheet.Cell(1, 15).Value = "Địa điểm đào tạo dự kiến";
+                worksheet.Cell(1, 16).Value = "Người tạo";
+                worksheet.Cell(1, 17).Value = "Tình trạng";
+                worksheet.Cell(1, 18).Value = "Nhóm nhu cầu đào tạo";
+                worksheet.Cell(1, 19).Value = "Ghi chú";
+                //value
+                //worksheet.Cell(2, 1).Value = 1;
+                //worksheet.Cell(2, 2).Value = "John Doe";
+                //worksheet.Cell(2, 3).Value = 30;
+                int row = 2; int stt = 1;
+                foreach (var item in data)
+                {
+                    worksheet.Cell(row, 1).Value = stt;
+                    worksheet.Cell(row, 2).Value = item.TenNoiDungDT;
+                    worksheet.Cell(row, 3).Value = item.chiTietNhuCauDTTHView.TenNhom;
+                    worksheet.Cell(row, 4).Value = "'" + item.Quy +" / " + item.Nam;
+                    worksheet.Cell(row, 5).Value = item.TenBoPhan_LNC;
+                    worksheet.Cell(row, 6).Value = item.chiTietNhuCauDTTHView.DoiTuongDT;
+                    worksheet.Cell(row, 7).Value = item.chiTietNhuCauDTTHView.SoLuongNguoi;
+                    worksheet.Cell(row, 8).Value = item.chiTietNhuCauDTTHView.MaNV;
+                    worksheet.Cell(row, 9).Value = item.chiTietNhuCauDTTHView.TenGiangVien;
+                    worksheet.Cell(row, 10).Value = item.chiTietNhuCauDTTHView.TenViTri;
+                    worksheet.Cell(row, 11).Value = item.TenPPDT;
+                    worksheet.Cell(row, 12).Value = item.chiTietNhuCauDTTHView.TenLVDT;
+                    worksheet.Cell(row, 13).Value =  "Tháng " + item.chiTietNhuCauDTTHView.ThoiGianDT;
+                    worksheet.Cell(row, 14).Value = item.chiTietNhuCauDTTHView.ThoiLuong + " Giờ";
+                    worksheet.Cell(row, 15).Value = item.chiTietNhuCauDTTHView.DiaDiemDT;
+                    worksheet.Cell(row, 16).Value = item.NguoiTao;
+                    if(item.TinhTrang == 0)
+                    {
+                        worksheet.Cell(row, 17).Value = "Đang lưu";
+                    }
+                    else if(item.TinhTrang ==1)
+                    {
+                        worksheet.Cell(row, 17).Value = "Hoàn tất";
+                    }
+                    else if (item.TinhTrang ==2)
+                    {
+                        worksheet.Cell(row, 17).Value = "Đang trình ký";
+                    }
+                    else if(item.TinhTrang ==3)
+                    {
+                        worksheet.Cell(row, 17).Value = "Không phê duyệt";
+                    }
+                    worksheet.Cell(row, 18).Value = item.TenLoai_NCDT;
+                    worksheet.Cell(row, 19).Value = item.chiTietNhuCauDTTHView.GhiChu;
+                    row++; stt++;
+                }
+
+                var stream = new MemoryStream();
+                workbook.SaveAs(stream);
+                stream.Position = 0; // Reset con trỏ stream về đầu
+                string filename = "DanhSachNhuCauDaoTao_"+DateTime.Now.ToString("ddMMyyHHmmss") + ".xlsx";
+
+                return File(stream, System.Net.Mime.MediaTypeNames.Application.Octet, filename);
+            }
+        }
+
         public class PhuongPhapDTView
         {
             public int ID { get; set; }
@@ -1284,44 +1437,68 @@ namespace E_Learning.Controllers.DaoTaoTH
             string htmlContent = PdfHelper.RenderViewToString(this.ControllerContext, "ExportView", noiDungDTs);
 
             // Loại bỏ các thẻ head, meta, style trước khi truyền vào XMLWorker
-            htmlContent = htmlContent.Replace("<head>", "")
-                                      .Replace("</head>", "")
-                                      .Replace("<meta>", "")
-                                      .Replace("</meta>", "")
-                                      .Replace("<style>", "")
-                                      .Replace("</style>", "");
-
-
-            // Tạo PDF từ HTML
-            using (MemoryStream ms = new MemoryStream())
+            //htmlContent = htmlContent.Replace("<head>", "")
+            //                          .Replace("</head>", "")
+            //                          .Replace("<meta>", "")
+            //                          .Replace("</meta>", "")
+            //                          .Replace("<style>", "")
+            //                          .Replace("</style>", "");
+            
+            using (var memoryStream = new MemoryStream())
             {
-                Document pdfDoc = new Document(PageSize.A4.Rotate());
-                PdfWriter writer = PdfWriter.GetInstance(pdfDoc, ms);
-                pdfDoc.Open();
+                // Tạo tài liệu PDF
+                var document = new iTextSharp.text.Document(PageSize.A4.Rotate(), 30, 30, 30, 30);
+                PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
 
-                //// Khai báo font Unicode
-                //BaseFont baseFont = BaseFont.CreateFont(
-                //    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "arialuni.ttf"),
-                //    BaseFont.IDENTITY_H,
-                //    BaseFont.EMBEDDED
-                //);
-                //Font vietnameseFont = new Font(baseFont, 12, Font.NORMAL);
+                document.Open();
 
-                // Đảm bảo XMLWorkerHelper được sử dụng đúng cách
-                using (StringReader sr = new StringReader(htmlContent))
+                // Đăng ký font Unicode hỗ trợ tiếng Việt
+                var fontProvider = new XMLWorkerFontProvider(XMLWorkerFontProvider.DONTLOOKFORFONTS);
+                fontProvider.Register("C:/Windows/Fonts/times.ttf");     // Times New Roman Regular
+                fontProvider.Register("C:/Windows/Fonts/timesbd.ttf");   // Times New Roman Bold
+                fontProvider.Register("C:/Windows/Fonts/timesi.ttf");    // Times New Roman Italic
+                fontProvider.Register("C:/Windows/Fonts/timesbi.ttf");   // Times New Roman Bold Italic
+
+                // Cấu hình CSS Appliers sử dụng fontProvider
+                CssAppliers cssAppliers = new CssAppliersImpl(fontProvider);
+
+                // Chuyển chuỗi HTML thành MemoryStream
+                byte[] byteArray = Encoding.UTF8.GetBytes(htmlContent);
+
+                using (var sr = new MemoryStream(byteArray))
                 {
-                    // Đảm bảo bạn đã cài XML Worker
-                    XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
-                    //XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr, null, Encoding.UTF8, fontProvider);
+                    // Parse HTML sang PDF
+                    XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, sr, null, Encoding.UTF8, fontProvider);
                 }
 
-                pdfDoc.Close();
-
-                // Trả về PDF
-                return File(ms.ToArray(), "application/pdf", $"Report_{id}.pdf");
+                document.Close();
+                string filename = $"{"NCĐT_"+noiDungDTs.TenBoPhan_LNC+"_" + DateTime.Now.ToString("yyyyMMddHHmm")}.pdf";
+                // Lấy dữ liệu PDF và trả về file PDF
+                byte[] pdfData = memoryStream.ToArray();
+                return File(pdfData, "application/pdf", filename);
             }
+
         }
+        public string SavePdfToFile(byte[] pdfBytes, string folderPath, string fileName)
+        {
+            // Kiểm tra và tạo thư mục nếu chưa tồn tại
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
 
+            // Đường dẫn đầy đủ của file
+            var filePath = Path.Combine(folderPath, fileName);
 
+            // Lưu file từ mảng byte bằng FileStream
+            //File.WriteAllBytes(filePath, pdfBytes);
+            using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            {
+                stream.Write(pdfBytes, 0, pdfBytes.Length);
+            }
+
+            // Trả về đường dẫn tương đối hoặc URL để lưu vào database
+            return $"/pdfs/{fileName}"; // Nếu wwwroot/pdfs là thư mục lưu trữ công khai
+        }
     }
 }

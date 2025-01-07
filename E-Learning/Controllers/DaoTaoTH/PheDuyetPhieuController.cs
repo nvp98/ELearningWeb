@@ -4,10 +4,13 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
+using E_Learning.Common;
 using E_Learning.Models;
 using E_Learning.ModelsDTTH;
+using iTextSharp.text;
 using PagedList;
 
 namespace E_Learning.Controllers.DaoTaoTH
@@ -32,6 +35,14 @@ namespace E_Learning.Controllers.DaoTaoTH
             //    TempData["msgError"] = "<script>alert('Bạn không có quyền truy cập chức năng này');</script>";
             //    return RedirectToAction("", "Home");
             //}
+            // check chữ ký
+            var nhanvien = db.NhanViens.Where(x => x.ID == MyAuthentication.ID).FirstOrDefault();
+            if (string.IsNullOrEmpty(nhanvien.ChuKy))
+            {
+                TempData["msgSuccess"] = "<script>alert('Chưa có chữ ký vui lòng cập nhật chữ ký ');</script>";
+                return new RedirectResult("~/Login/CapNhatChuKy");
+            }
+
             var valuesToCheck = db.SH_NhuCauDT.Where(x=>x.TinhTrang != 0).Select(k => k.ID).ToList();
             var res = (from a in db.SH_KyDuyetNCDT.Where(x => x.NguoiDuyet_ID == MyAuthentication.ID && valuesToCheck.Contains((int)x.NCDT_ID))
                        select new SH_KyDuyetNCDTView
@@ -298,6 +309,51 @@ namespace E_Learning.Controllers.DaoTaoTH
                 return RedirectToAction("Index");
             }
             return View(sH_KyDuyetNCDT);
+        }
+
+        [HttpPost]
+        public ActionResult ProcessSelected(List<int> selectedItems)
+        {
+            if (selectedItems != null && selectedItems.Any())
+            {
+
+                //// Xử lý danh sách ID được chọn
+                foreach (var id in selectedItems)
+                {
+                    var sH_KyDuyetNCDT = db.SH_KyDuyetNCDT.Where(x => x.NCDT_ID == id && x.NguoiDuyet_ID == MyAuthentication.ID).ToList();
+                    if (sH_KyDuyetNCDT == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    if (sH_KyDuyetNCDT.Count() > 1)
+                    {
+                        foreach (var item in sH_KyDuyetNCDT)
+                        {
+                            item.NgayDuyet = DateTime.Now;
+                            item.TinhTrangDuyet = 1;
+                        }
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        var aa = sH_KyDuyetNCDT.FirstOrDefault();
+                        aa.NgayDuyet = DateTime.Now;
+                        aa.TinhTrangDuyet = 1;
+                        db.SaveChanges();
+                    }
+                    // kiểm tra và update SH_NCDT
+                    var checkDuyet = db.SH_KyDuyetNCDT.Where(x => x.NCDT_ID == id && x.TinhTrangDuyet != 1).ToList();
+                    if (checkDuyet.Count == 0)
+                    {
+                        var ncdt = db.SH_NhuCauDT.Where(x => x.ID == id).FirstOrDefault();
+                        ncdt.TinhTrang = 1;
+                        db.SaveChanges();
+                    }
+                }
+                //_context.SaveChanges();
+            }
+           
+            return RedirectToAction("Index_NCDT", "PheDuyetPhieu"); // Quay lại trang danh sách
         }
 
         // GET: PheDuyetPhieu/Delete/5

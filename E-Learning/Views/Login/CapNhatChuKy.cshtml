@@ -3,8 +3,18 @@
     ViewBag.Title = "ChangePassword";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
 <style>
-   /* #frmCheckPassword {
+    /* #frmCheckPassword {
         border-top: #F0F0F0 2px solid;
         background: #808080;
         padding: 10px;

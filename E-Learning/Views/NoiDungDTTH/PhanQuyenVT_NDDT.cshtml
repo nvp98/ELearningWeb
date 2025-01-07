@@ -146,11 +146,13 @@
             var idnd = $("#noidung" + iddex).val();
             $.get("/NoiDungDTTH/GetNDDT", { IDLoai: idk }, function (data1) {
                 $("#noidung_" + iddex).chosen();
+                $("#phuongphap1_" + iddex).empty();
+                $("#phuongphap2_" + iddex).empty();
                 if (data1[0] != null) {
                     $("#noidung_" + iddex).empty();
                     $("#noidung_" + iddex).append("<option value ='" + null + "'>" + "--Chọn Nội dung--" + "</option>");
                     $.each(data1, function (index, row) {
-                        $("#noidung_" + iddex).append("<option value ='" + row.IDND + "' selected>" + row.NoiDung + "</option>");
+                        $("#noidung_" + iddex).append("<option value ='" + row.IDND + "'>" + row.NoiDung + "</option>");
 
                     });
                     $("#noidung_" + iddex).trigger("chosen:updated");
@@ -178,8 +180,8 @@
                     $("#phuongphap2_" + iddex).empty();
                     //$("#phuongphap1_" + iddex).append("<option value ='" + row.IDND + "'>" + row.NoiDung + "</option>");
                     $.each(data1, function (index, row) {
-                        $("#phuongphap2_" + iddex).append("<option value ='" + row.ID + "' selected>" + row.TenPhuongPhapDT + "</option>");
-                        $("#phuongphap1_" + iddex).append("<option value ='" + row.ID + "' selected>" + row.TenPhuongPhapDT + "</option>");
+                        $("#phuongphap2_" + iddex).append("<option value ='" + row.ID + "'>" + row.TenPhuongPhapDT + "</option>");
+                        $("#phuongphap1_" + iddex).append("<option value ='" + row.ID + "'>" + row.TenPhuongPhapDT + "</option>");
 
                     });
 

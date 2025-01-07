@@ -57,7 +57,10 @@
             @*<form action="@Url.Action("XacNhanPhieu","PheDuyetPhieu",new {id = Model.ID_NCDT})" method="post">
             <button type="submit" id="" class="btn btn-success float-right ml-2"><i class="fa fa-check-square-o">&nbsp;</i>&nbsp;Xác nhận </button>
         </form>*@
-        @*<a href="@Url.Action("ExportViewToPdf", "NhuCauDTTH", new { id = Model.ID_NCDT })" target="_blank">Xuất PDF</a>*@
+            @if (Model.TinhTrang == 1)
+            {
+                <a class="btn btn-warning" href="@Url.Action("ExportViewToPdf", "NhuCauDTTH", new { id = Model.ID_NCDT })" target="_blank">Xuất PDF</a>
+            }
         </div>
 
         <div class="tab-content">

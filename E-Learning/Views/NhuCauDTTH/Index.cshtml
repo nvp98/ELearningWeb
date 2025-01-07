@@ -22,7 +22,96 @@
 {
     @Html.Raw(TempData["msgError"])
 }
-<div class="app-main__outer">
+
+
+
+@*<style>
+    a:hover {
+        cursor: pointer;
+    }
+
+    .table-responsive {
+        overflow-x: scroll;
+        overflow-y: scroll;
+        width: 100%;
+        height: 720px;
+    }
+
+    thead tr:nth-child(1) {
+        background: white;
+        position: sticky;
+        top: 0;
+        z-index: 2000;
+    }
+
+    .thead-fix {
+        background: white;
+        position: sticky;
+        top: 0;
+        left: 0;
+    }
+
+    .thead-fix-200 {
+        background: white;
+        position: sticky;
+        top: 0;
+        left: 70px;
+    }
+
+    table {
+        table-layout: fixed;
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+    }
+
+    tr {
+        border-top: 1px solid #ccc;
+    }
+
+    td, th {
+        vertical-align: top;
+        text-align: left;
+        width: 300px;
+        padding: 5px;
+    }
+
+    .fix:first-child {
+        left: 0;
+        width: 100px;
+        z-index: 200;
+    }
+
+    .fix-field {
+        left: 70px;
+        width: 100px;
+        z-index: 200;
+    }
+
+    .fix-field170 {
+        left: 170px;
+        width: 100px;
+        z-index: 200;
+    }
+
+    .fix-field270 {
+        left: 270px;
+        /*width: 100px;*/
+        z-index: 200;
+    }
+
+    .AliceBlue {
+        background-color: #F0F8FF;
+    }
+
+    .chosen-drop {
+        z-index: 5000 !important;
+    }
+</style>*@
+
+
+
+<div class="app-main__outer" style="overflow:hidden">
     <div class="app-main__inner">
 
         <div class="app-page-title">
@@ -40,44 +129,58 @@
                     </div>
                 </div>
                 @*<div class="col"><button type="button" id="btn-ExportLH" class="btn btn-success m-l-auto"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Danh sách NDĐT</button></div>*@
-                <div class="col float-right">
-                    @*<button type="button" id="btn-Export" class="btn btn-success float-right ml-2"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Export Danh sách NDĐT</button>
+            <div class="col float-right">
+                @*<button type="button" id="btn-Export" class="btn btn-success float-right ml-2"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Export Danh sách NDĐT</button>
+        <script>
+        //const urlParams = new URLSearchParams(window.location.search);
+        //const myParam = urlParams.get('IDLoaiDT');
+        //$('#btn-Export').click(function () {
+        //    window.location.href = "/NhuCauDTTH/ExportExcel?IDPhanLoaiDT=" + myParam;
+        //});
+        </script>*@
+                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EX))
+                {
+                    @*<div class="col-2" style="text-align: right;padding: 2%  2%  2% 0%; ">
+                        <form method="get" asp-controller="NhuCauDTTH" asp-action="ExportToExcel">
+                            <button type="submit" class="btn btn-primary">Download Excel</button>
+                        </form>
+                    </div>*@
+                    <div class="col-md-2">
+                        <a class="fa fa-file-excel float-right btn btn-warning m-1" title="Export dữ liệu" href="@Url.Action("ExportToExcel", "NhuCauDTTH")"
+                           onclick="return confirm('Export dữ liệu?')">
+                            &nbsp;Thống kê Nhu cầu đào tạo
+                        </a>
+                    </div>
+                }
+                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD))
+                {
+                    @*<button type="button" id="btn-Process" class="btn btn-success float-right ml-2"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Xử lý phân quyền vị trí </button>*@
+                    @*<span class="modal fade" id="ProcessModal" role="dialog" data-url='@Url.Action("Process", "NhuCauDTTH",new {IDPhanLoaiDT = Request.QueryString["IDLoaiDT"]})'></span>
+            <script>
+            //$('#btn-Process').click(function () {
+            //    var url = $('#ProcessModal').data('url');
+            //    $.get(url, function (data) {
+            //        $("#ProcessModal").html(data);
+            //        $("#ModalTitle").html("Thêm mới danh sách");
+            //        $("#ProcessModal").modal('show');
+            //    });
+            //});
+            </script>*@
+                    @*<button type="button" id="btn-Import" class="btn btn-success float-right ml-2"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Nhập Danh sách </button>
+            <span class="modal fade" id="ImportModal" role="dialog" data-url='@Url.Action("ImportExcel", "NhuCauDTTH")'></span>*@
+                    @*<script>
+            //$('#btn-Import').click(function () {
+            //    var url = $('#ImportModal').data('url');
+            //    $.get(url, function (data) {
+            //        $("#ImportModal").html(data);
+            //        $("#ModalTitle").html("Thêm mới danh sách");
+            //        $("#ImportModal").modal('show');
+            //    });
+            //});
+            </script>*@
+                    <button type="button" id="btn-add" class="btn btn-primary float-right"><i class="fa fa-plus">&nbsp;</i>&nbsp;Lập nhu cầu đào tạo </button>
+                    <div class="modal fade" id="AddModal" role="dialog" data-url='@Url.Action("Create","NhuCauDTTH",new {IDLoaiDT = Request.QueryString["IDLoaiDT"] })'></div>
                     <script>
-                    //const urlParams = new URLSearchParams(window.location.search);
-                    //const myParam = urlParams.get('IDLoaiDT');
-                    //$('#btn-Export').click(function () {
-                    //    window.location.href = "/NhuCauDTTH/ExportExcel?IDPhanLoaiDT=" + myParam;
-                    //});
-                    </script>*@
-                    @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD))
-                    {
-                        @*<button type="button" id="btn-Process" class="btn btn-success float-right ml-2"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Xử lý phân quyền vị trí </button>*@
-                        @*<span class="modal fade" id="ProcessModal" role="dialog" data-url='@Url.Action("Process", "NhuCauDTTH",new {IDPhanLoaiDT = Request.QueryString["IDLoaiDT"]})'></span>
-                        <script>
-                        //$('#btn-Process').click(function () {
-                        //    var url = $('#ProcessModal').data('url');
-                        //    $.get(url, function (data) {
-                        //        $("#ProcessModal").html(data);
-                        //        $("#ModalTitle").html("Thêm mới danh sách");
-                        //        $("#ProcessModal").modal('show');
-                        //    });
-                        //});
-                        </script>*@
-                        @*<button type="button" id="btn-Import" class="btn btn-success float-right ml-2"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Nhập Danh sách </button>
-                        <span class="modal fade" id="ImportModal" role="dialog" data-url='@Url.Action("ImportExcel", "NhuCauDTTH")'></span>*@
-                        @*<script>
-                        //$('#btn-Import').click(function () {
-                        //    var url = $('#ImportModal').data('url');
-                        //    $.get(url, function (data) {
-                        //        $("#ImportModal").html(data);
-                        //        $("#ModalTitle").html("Thêm mới danh sách");
-                        //        $("#ImportModal").modal('show');
-                        //    });
-                        //});
-                        </script>*@
-                        <button type="button" id="btn-add" class="btn btn-primary float-right"><i class="fa fa-plus">&nbsp;</i>&nbsp;Lập nhu cầu đào tạo </button>
-                        <div class="modal fade" id="AddModal" role="dialog" data-url='@Url.Action("Create","NhuCauDTTH",new {IDLoaiDT = Request.QueryString["IDLoaiDT"] })'></div>
-                        <script>
                         $('#btn-add').click(function () {
                             var url = $('#AddModal').data('url');
                             //$.get(url, function (data) {
@@ -87,9 +190,9 @@
                             //});
                             window.location.href = url;
                         });
-                        </script>
-                    }
-                </div>
+                    </script>
+                }
+            </div>
             </div>
         </div>
 
@@ -151,15 +254,24 @@
                             <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th width="30px" style="vertical-align:middle">TT</th>
-                                        <th width="30px" style="vertical-align:middle">Thao tác</th>
-                                        <th class="text-center" width="300px" style="vertical-align:middle">Thông tin khóa đào tạo</th>
-                                        <th class="text-center" width="150px" style="vertical-align:middle">Phương pháp đào tạo</th>
+                                        <th style="width:70px" class="thead-fix" >TT</th>
+                                        <th style="width:100px;" class="thead-fix fix fix-field170" >Thao tác</th>
+                                        <th class="text-center thead-fix fix fix-field270" width="300" style="vertical-align: middle;">Tên khóa đào tạo</th>
+                                        <th class="text-center" width="150px" style="vertical-align:middle">Nhóm năng lực</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Quý đào tạo</th>
-                                        <th class="text-center" width="200px" style="vertical-align:middle">Bộ phận lập nhu cầu</th>
+                                        <th class="text-center" width="150px" style="vertical-align:middle">Bộ phận lập nhu cầu</th>
+                                        <th class="text-center" width="150px" style="vertical-align:middle">Đối tượng tham gia đào tạo</th>
+                                        <th class="text-center" style="vertical-align:middle">Số lượng dự kiến (Người)</th>
+                                        <th class="text-center" style="vertical-align:middle">Mã giảng viên</th>
+                                        <th class="text-center" width="300px" style="vertical-align:middle">Tên giảng viên</th>
+                                        <th class="text-center" width="150px" style="vertical-align:middle">Đơn vị giảng viên</th>
+                                        <th class="text-center" width="150px" style="vertical-align:middle">Phương pháp đào tạo</th>
+                                        <th class="text-center" width="150px" style="vertical-align:middle">Lĩnh vực đào tạo</th>
+                                        <th class="text-center" width="150px" style="vertical-align:middle">Thời gian bắt đầu đào tạo</th>
+                                        <th class="text-center" width="150px" style="vertical-align:middle">Thời lượng đào tạo dự kiến</th>
+                                        <th class="text-center" width="150px" style="vertical-align:middle">Địa điểm đào tạo dự kiến</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Người tạo</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Tình trạng</th>
-                                        @*<th class="text-center" width="150px" style="vertical-align:middle">Trình ký</th>*@
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -171,19 +283,15 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            <td class="text-center"> @RowNo@{RowNo++;}</td>
-                                            <td class="text-center" width="100">
-                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL))
+                                            <td class="text-center thead-fix tcustom"> @RowNo@{RowNo++;}</td>
+                                            <td class="text-center fix-field thead-fix" width="100">
+                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) || MyAuthentication.ID == item.ID_NguoiTao)
                                                 {
-                                                    if (item.TinhTrang == 0)
-                                                    {
-                                                        <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "NhuCauDTTH", new { id = item.ID_NCDT })"
-                                                           onclick="return confirm('Bạn muốn xóa : @item.TenNoiDungDT')">
-                                                        </a>
-                                                    }
-
+                                                    <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "NhuCauDTTH", new { id = item.ID_NCDT })"
+                                                       onclick="return confirm('Bạn muốn xóa : @item.TenNoiDungDT')">
+                                                    </a>
                                                 }
-                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
+                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT) || MyAuthentication.ID == item.ID_NguoiTao)
                                                 {
                                                     if (item.TinhTrang == 0 && MyAuthentication.ID == item.ID_NguoiTao)
                                                     {
@@ -193,12 +301,11 @@
                                                     {
                                                         <a id="btn-edit_@item.ID_NCDT" href="@Url.Action("Edit_View","NhuCauDTTH", new { id = item.ID_NCDT })" title="Edit" class="fa fa-eye icon_action"></a>
                                                     }
-
                                                 }
 
                                             </td>
 
-                                            <td class="">
+                                            <td class="fix-field270 thead-fix">
                                                 @if (item.TinhTrang == 0 && MyAuthentication.ID == item.ID_NguoiTao)
                                                 {
                                                     <a id="btn-edit_@item.ID_NCDT" href="@Url.Action("Edit","NhuCauDTTH", new { id = item.ID_NCDT })" title="Edit" class="">@item.TenNoiDungDT</a>
@@ -207,12 +314,20 @@
                                                 {
                                                     <a id="btn-edit_@item.ID_NCDT" href="@Url.Action("Edit_View","NhuCauDTTH", new { id = item.ID_NCDT })" title="Edit" class="">@item.TenNoiDungDT</a>
                                                 }
-
-
                                             </td>
-                                            <td class="">@item.TenPPDT</td>
+                                            <td>@item.chiTietNhuCauDTTHView.TenNhom</td>
                                             <td class="text-center">@item.Quy / @item.Nam</td>
                                             <td class="">@item.TenBoPhan_LNC</td>
+                                            <td>@item.chiTietNhuCauDTTHView.DoiTuongDT</td>
+                                            <td class="text-center">@item.chiTietNhuCauDTTHView.SoLuongNguoi</td>
+                                            <td>@item.chiTietNhuCauDTTHView.MaNV</td>
+                                            <td>@item.chiTietNhuCauDTTHView.TenGiangVien</td>
+                                            <td>@item.chiTietNhuCauDTTHView.DonViDT</td>
+                                            <td class="">@item.TenPPDT</td>
+                                            <td>@item.chiTietNhuCauDTTHView.TenLVDT</td>
+                                            <td class="text-center">Tháng @item.chiTietNhuCauDTTHView.ThoiGianDT</td>
+                                            <td class="text-center">@item.chiTietNhuCauDTTHView.ThoiLuong (Giờ)</td>
+                                            <td>@item.chiTietNhuCauDTTHView.DiaDiemDT</td>
                                             @*<td class="">@item.chiTietNhuCauDTTHView.SoLuongNguoi</td>*@
                                             <td class="">@item.NguoiTao</td>
                                             @if (item.TinhTrang == 0)

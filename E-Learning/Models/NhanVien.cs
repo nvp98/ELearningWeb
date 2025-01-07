@@ -18,6 +18,7 @@ namespace E_Learning.Models
         public NhanVien()
         {
             this.XNHocTap = new HashSet<XNHocTap>();
+            this.SH_NhuCauDT = new HashSet<SH_NhuCauDT>();
         }
     
         public int ID { get; set; }
@@ -45,5 +46,7 @@ namespace E_Learning.Models
         public virtual Vitri Vitri { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<XNHocTap> XNHocTap { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SH_NhuCauDT> SH_NhuCauDT { get; set; }
     }
 }

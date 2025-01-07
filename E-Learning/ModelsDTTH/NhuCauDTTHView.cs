@@ -61,6 +61,7 @@ namespace E_Learning.ModelsDTTH
         public string FileDinhKem { get; set; }
 
         public int? PhanLoaiNCDT_ID { get; set; }
+        public string TenLoai_NCDT { get; set; }
         public Nullable<int> PhuongPhapDT_ID { get; set; }
         public string TenPPDT { get; set; }
 
