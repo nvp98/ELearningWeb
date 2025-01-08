@@ -47,45 +47,45 @@ namespace E_Learning
                 {
                     if (IDND == null) IDND = 0;
 
-                    //var res = (from b in db_context.DeThis
-                    //           join nd in db_context.NoiDungDTs on b.IDND equals nd.IDND
-                    //           join nv in db_context.NhanViens on b.GVID equals nv.ID
-                    //           select new ManageTestExamValidation
-                    //           {
-                    //               IDDeThi = b.IDDeThi,
-                    //               MaDe = b.MaDe,
-                    //               TenDe = b.TenDe,
-                    //               DiemChuan = (double)b.DiemChuan,
-                    //               TongSoCau = (int)b.TongSoCau,
-                    //               ThoiGianLamBai = (int)b.ThoiGianLamBai,
-                    //               IDND = (int)b.IDND,
-                    //               TenND = nd.NoiDung,
-                    //               GVID = nv.ID,
-                    //               HoTen = nv.HoTen,
-                    //               IsGV = (bool)nv.IsGV
-                    //           }).OrderByDescending(x => x.IDDeThi).ToList();
-
-                    if (search == null) search = "";
-                    ViewBag.search = search;
-
-                    var res = (from b in db_context.NoiDungDT_ListContent(search)
+                    var res = (from b in db_context.DeThis.Where(x=> search == null || x.NoiDungDT.NoiDung.Contains(search))
                                join nd in db_context.NoiDungDTs on b.IDND equals nd.IDND
-                               join dt in db_context.DeThis on b.IDND equals dt.IDND
-                               join nv in db_context.NhanViens on dt.GVID equals nv.ID
+                               join nv in db_context.NhanViens on b.GVID equals nv.ID
                                select new ManageTestExamValidation
                                {
-                                   IDDeThi = dt.IDDeThi,
-                                   MaDe = dt.MaDe,
-                                   TenDe = dt.TenDe,
-                                   DiemChuan = (double)dt.DiemChuan,
-                                   TongSoCau = (int)dt.TongSoCau,
-                                   ThoiGianLamBai = (int)dt.ThoiGianLamBai,
+                                   IDDeThi = b.IDDeThi,
+                                   MaDe = b.MaDe,
+                                   TenDe = b.TenDe,
+                                   DiemChuan = (double)b.DiemChuan,
+                                   TongSoCau = (int)b.TongSoCau,
+                                   ThoiGianLamBai = (int)b.ThoiGianLamBai,
                                    IDND = (int)b.IDND,
                                    TenND = nd.NoiDung,
                                    GVID = nv.ID,
                                    HoTen = nv.HoTen,
                                    IsGV = (bool)nv.IsGV
                                }).OrderByDescending(x => x.IDDeThi).ToList();
+
+                    if (search == null) search = "";
+                    ViewBag.search = search;
+
+                    //var res = (from b in db_context.NoiDungDT_ListContent(search)
+                    //           join nd in db_context.NoiDungDTs on b.IDND equals nd.IDND
+                    //           join dt in db_context.DeThis on b.IDND equals dt.IDND
+                    //           join nv in db_context.NhanViens on dt.GVID equals nv.ID
+                    //           select new ManageTestExamValidation
+                    //           {
+                    //               IDDeThi = dt.IDDeThi,
+                    //               MaDe = dt.MaDe,
+                    //               TenDe = dt.TenDe,
+                    //               DiemChuan = (double)dt.DiemChuan,
+                    //               TongSoCau = (int)dt.TongSoCau,
+                    //               ThoiGianLamBai = (int)dt.ThoiGianLamBai,
+                    //               IDND = (int)b.IDND,
+                    //               TenND = nd.NoiDung,
+                    //               GVID = nv.ID,
+                    //               HoTen = nv.HoTen,
+                    //               IsGV = (bool)nv.IsGV
+                    //           }).OrderByDescending(x => x.IDDeThi).ToList();
                     //if (MyAuthentication.IDQuyen == 2 || MyAuthentication.IDQuyen == 3)
                     //{
                     //    res = res.Where(x => x.GVID == id ).ToList();
