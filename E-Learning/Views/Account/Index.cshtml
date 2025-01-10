@@ -64,9 +64,15 @@
                                 @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.SYC))
                                 {
                                     <a href="@Url.Action("Sync","EmployeeAPI")" class="btn btn-primary ml-2 pull-right"><i class="pe-7s-repeat">&nbsp;</i>&nbsp;Đồng bộ </a>
+                                   
+                                        <a class="fa fa-file-excel float-right btn btn-warning m-1" title="Export dữ liệu" href="@Url.Action("ExportToExcel", "Account")"
+                                           onclick="return confirm('Export dữ liệu?')">
+                                            &nbsp;Download nhân viên
+                                        </a>
+                                   
                                 }
-                                <div class="modal fade" id="myModal" role="dialog" data-url=''></div>
-                            </div>
+                            <div class="modal fade" id="myModal" role="dialog" data-url=''></div>
+                        </div>
                         </div>
                     </div>
                     <div class="card-body">

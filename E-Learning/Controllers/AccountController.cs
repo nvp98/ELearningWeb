@@ -9,6 +9,9 @@ using E_Learning.Common;
 using System.Text.RegularExpressions;
 using DocumentFormat.OpenXml.ExtendedProperties;
 using CrystalDecisions.ReportAppServer.DataDefModel;
+using ClosedXML.Excel;
+using E_Learning.ModelsDTTH;
+using System.IO;
 
 namespace E_Learning.Controllers
 {
@@ -299,6 +302,48 @@ namespace E_Learning.Controllers
             }
 
             return RedirectToAction("Index", "Account");
+        }
+
+        public ActionResult ExportToExcel()
+        {
+            var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
+            ViewBag.QUYENCN = ListQuyen;
+            var queryNC = db.NhanViens.Where(x=>x.IDTinhTrangLV ==1).AsQueryable();
+            var data = (from a in queryNC
+                        select new EmployeeValidation
+                        {
+                            ID = a.ID,
+                            HoTen = a.HoTen,
+                            MaNV = a.MaNV,
+                            PhongBan =a.PhongBan.TenPhongBan,
+                        }).ToList();
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("NhanVien");
+                //Header
+                worksheet.Cell(1, 1).Value = "STT";
+                worksheet.Cell(1, 2).Value = "Mã định danh";
+                worksheet.Cell(1, 3).Value = "Mã nhân viên";
+                worksheet.Cell(1, 4).Value = "Tên nhân viên";
+                worksheet.Cell(1, 5).Value = "Phòng ban";
+                int row = 2; int stt = 1;
+                foreach (var item in data)
+                {
+                    worksheet.Cell(row, 1).Value = stt;
+                    worksheet.Cell(row, 2).Value = item.ID;
+                    worksheet.Cell(row, 3).Value = item.MaNV;
+                    worksheet.Cell(row, 4).Value = item.HoTen;
+                    worksheet.Cell(row, 5).Value = item.PhongBan;
+                    row++; stt++;
+                }
+
+                var stream = new MemoryStream();
+                workbook.SaveAs(stream);
+                stream.Position = 0; // Reset con trỏ stream về đầu
+                string filename = "DanhSachNhanVien_" + DateTime.Now.ToString("ddMMyyHHmmss") + ".xlsx";
+
+                return File(stream, System.Net.Mime.MediaTypeNames.Application.Octet, filename);
+            }
         }
 
     }
