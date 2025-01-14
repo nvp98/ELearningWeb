@@ -47,6 +47,8 @@
 </style>
 @{
     ELEARNINGEntities db = new ELEARNINGEntities();
+    int idvt = (int)ViewBag.SLIDVT;
+    var listduyet = db.KNL_PheDuyetKNL.Where(x => x.ID_NguoiDuyet == MyAuthentication.ID && x.TinhTrang == 0 && x.IDVT == idvt).ToList();
 }
 
 <div class="app-main__outer">
@@ -62,14 +64,38 @@
                     <div>
                         Tạo mới Yêu cầu năng lực <br />
                         Lưu ý khi cập nhật nội dung KNL:
-                        <br /> - Tick chọn không đánh giá nếu bạn muốn xóa 1 dòng năng lực. 
-                       <br /> - Sửa nội dung sẽ thay đổi cả lịch sử đánh giá, nên chỉ sửa khi có thay đổi nhỏ, và thay đổi lớn về bản chất thì nên tạo năng lực mới (không sửa).
+                        <br /> - Tick chọn không đánh giá nếu bạn muốn xóa 1 dòng năng lực.
+                        <br /> - Sửa nội dung sẽ thay đổi cả lịch sử đánh giá, nên chỉ sửa khi có thay đổi nhỏ, và thay đổi lớn về bản chất thì nên tạo năng lực mới (không sửa).
                         <div class="page-title-subheading">
                         </div>
                     </div>
+
                 </div>
 
             </div>
+            @if (listduyet.Count == 0)
+            {
+                <div class="col-md-12">
+                    <button type="button" id="btn-trinhky" class="btn btn-success m-l-auto"><i class="fa fa-plane">&nbsp;</i>&nbsp;Trình ký Bảng Khung năng lực </button>
+                    <div class=" modal fade" id="myModaleTK" role="dialog" data-url='@Url.Action("TrinhKyBangKNL","FPosition",new {IDVT = ViewBag.SLIDVT,IDPB = ViewBag.PBIDD})'></div>
+                    <script type="text/javascript">
+                        $("#btn-trinhky").click(function () {
+                            var url = $('#myModaleTK').data('url');
+                            $.get(url, function (data) {
+                                $("#myModaleTK").html(data);
+                                $("#ModalTitle").html("Trình ký Bảng Khung năng lực");
+                                $("#myModaleTK").modal('show');
+                            });
+                        });
+                    </script>
+                </div>
+            }
+            @if (listduyet.Count != 0)
+            {
+                <a class="btn btn-primary fa fa-download" title="Dowload bảng KNL" href="@Url.Action("PheDuyetBangKNL", "FPosition" ,new {IDVT=ViewBag.SLIDVT} )">
+                    Phê duyệt Bảng KNL
+                </a>
+            }
         </div>
 
 
@@ -255,12 +281,16 @@
                                         {
                                             <input type="submit" value="Cập nhật" class="btn btn-primary pull-right " />
                                             <div class="btn btn-danger pull-right button_cancel mr-1">
-                                                <a class="text-light" title="Chi tiết" href="@Url.Action(" Index", "FPosition" )"
+                                                <a class="text-light" title="Chi tiết" href="@Url.Action("Index", "FPosition" )"
                                                    onclick="return confirm('Hủy cập nhật nội dung')">
                                                     Hủy
                                                 </a>
                                             </div>
                                         }
+
+
+                                       
+
                                     </div>
                                 </fieldset>
 

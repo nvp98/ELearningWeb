@@ -209,4 +209,19 @@ namespace E_Learning.Models
         public int[] Selected { get; set; }
         public int[] SelectedKN { get; set; }
     }
+    public class KNL_PheDuyetKNLView
+    {
+        public int ID { get; set; }
+        public Nullable<int> IDVT { get; set; }
+        public Nullable<int> IDPB { get; set; }
+        public string TenViTri { get; set; }
+        public Nullable<System.DateTime> NgayTrinhKy { get; set; }
+        public Nullable<int> ID_NguoiDuyet { get; set; }
+        public string HoTenNguoiDuyet { get; set; }
+        public Nullable<int> ID_NguoiTao { get; set; }
+        public string HoTenNguoiTao { get; set; }
+        public Nullable<System.DateTime> NgayDuyet { get; set; }
+        public string File_KNL { get; set; }
+        public Nullable<int> TinhTrang { get; set; }
+    }
 }

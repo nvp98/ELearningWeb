@@ -17,11 +17,11 @@ namespace E_Learning.Controllers.KNL
         ELEARNINGEntities db = new ELEARNINGEntities();
         public ActionResult Index(int? page, string search, int? IDPB)
         {
-            if (CheckDGiaNV() == 0)
-            {
-                TempData["msgError"] = "<script>alert('Bạn không có quyền truy cập chức năng này');</script>";
-                return RedirectToAction("", "Home");
-            }
+            //if (CheckDGiaNV() == 0)
+            //{
+            //    TempData["msgError"] = "<script>alert('Bạn không có quyền truy cập chức năng này');</script>";
+            //    return RedirectToAction("", "Home");
+            //}
             string manv = MyAuthentication.Username;
             int idpb = MyAuthentication.IDPhongban;
             int? IDVTKNL = MyAuthentication.IDVTKNL;
@@ -32,8 +32,10 @@ namespace E_Learning.Controllers.KNL
             var aa = db.KNL_NVKiemNhiem.Where(x => x.IDNV == nv.ID).ToList();
             var res = new List<FCheckValidation>();
             var resView = new List<FCheckValidation>();
+            // Đánh giá cá nhân
+            var resNV = new List<FCheckValidation>();
             if (vt == null && aa.Count == 0) res = new List<FCheckValidation>();
-            if (vt == null )
+            if (vt == null)
             {
                 //var aa = db.KNL_NVKiemNhiem.Where(x => x.IDNV == nv.ID).ToList();
                 if (aa.Count > 0)
@@ -41,48 +43,71 @@ namespace E_Learning.Controllers.KNL
                     foreach (var item in aa)
                     {
                         var vt1 = db.ViTriKNLs.Where(x => x.IDVT == item.IDVTKN).FirstOrDefault();
-                        if(vt1 != null)
+                        if (vt1 != null)
                         {
                             var res1 = getListUser(vt1, vt1.IDPB, nv);
                             var resV = getListUerView(vt1, vt1.IDPB, nv);
                             resView.AddRange(resV);
                             res.AddRange(res1);
                         }
-                        
+
                     }
                 }
                 res = res.DistinctBy(x => x.MaNV).ToList();
                 resView = resView.DistinctBy(x => x.MaNV).ToList();
+
             }
             else
             {
                 resView = getListUerView(vt, idpb, nv);
-                res = getListUser(vt, idpb,nv);
+                res = getListUser(vt, idpb, nv);
                 //var aa = db.KNL_NVKiemNhiem.Where(x=>x.IDNV ==nv.ID).ToList();
-                if (aa.Count>0)
+                if (aa.Count > 0)
                 {
-                    foreach(var item in aa)
+                    foreach (var item in aa)
                     {
                         var vt1 = db.ViTriKNLs.Where(x => x.IDVT == item.IDVTKN).FirstOrDefault();
-                        if(vt1 != null)
+                        if (vt1 != null)
                         {
                             var res1 = getListUser(vt1, vt1.IDPB, nv);
                             var resV = getListUerView(vt1, vt1.IDPB, nv);
                             resView.AddRange(resV);
                             res.AddRange(res1);
                         }
-                       
+
                     }
                 }
                 res = res.DistinctBy(x => x.MaNV).ToList();
                 resView = resView.DistinctBy(x => x.MaNV).ToList();
+                // Bổ sung Đánh giá cá nhân
+                resNV = (from a in db.NhanVien_SelectKQKNL(idpb).Where(x => x.ID == MyAuthentication.ID)
+                         select new FCheckValidation
+                         {
+                             MaNV = a.MaNV,
+                             IDNV = a.ID,
+                             IDVT = a.IDVT,
+                             TenVT = a.TenViTri,
+                             TenNV = a.HoTen,
+                             //IDNhom = b.IDNhom,
+                             //IDPX = b.IDPX,
+                             IDKip = a.IDKip,
+                             TenKip = a.TenKip,
+                             //MaViTri = a.MaViTri,
+                             fileBMTCV = a.FilePath,
+                             NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+                             TotalDat =  db.KNL_DocBangKNL.Where(x=>x.IDNV == a.ID && x.ID_ViTriKNL == a.IDVT).Count(),
+                             Total = db.KhungNangLucs.Where(x=>x.IDVT == a.IDVT && x.IsDanhGia ==1).Count()
+                         }).ToList();
             }
 
             ViewBag.ListUserView = resView;
+            //Bổ sung Đánh giá cá nhân
+            ViewBag.ListUserNV = resNV;
+
 
             //Session["ListUser"] = res;
             if (page == null) page = 1;
-            int pageSize = res.Count()>0?res.Count():50;
+            int pageSize = res.Count() > 0 ? res.Count() : 50;
             int pageNumber = (page ?? 1);
             return View(res.ToList().ToPagedList(pageNumber, pageSize));
         }
@@ -424,11 +449,14 @@ namespace E_Learning.Controllers.KNL
                           StrNgayDG = a.NgayDG != null ? a.NgayDG.Value.ToString("dd/MM/yyyy") : "",
                           OrderBy = a.OrderBy,
                           OrderByLoai = a.orByLoai,
-                          ColorKQ = a.DiemDG < a.DinhMuc ? "bg-danger" : "bg-success",
+                          //ColorKQ = a.DiemDG < a.DinhMuc ? "bg-danger" : "bg-success",
+                          ColorKQ = a.IDNVDG == MyAuthentication.ID? "bg-warning": a.DiemDG < a.DinhMuc ? "bg-danger" : "bg-success",
                           IDNVDG = a.IDNVDG,
                           TenNVDG = a.HoTen,
                           NgayCanhBao = a.DiemDG < a.DinhMuc ? (((DateTime)a.NgayDG).AddMonths(6) -DateTime.Now).Days : -1000,
                           NgayHanDG = a.DiemDG < a.DinhMuc ? ((DateTime)a.NgayDG).AddMonths(6): default(DateTime),
+                          DiemCBNVDG = db.KNL_KQ.Where(x=>x.IDNL == a.IDNL && x.IDNV == IDNV && x.IDNVDG == IDNV).LastOrDefault()?.DiemDG,
+                          NgayCBNVDG = db.KNL_KQ.Where(x => x.IDNL == a.IDNL && x.IDNV == IDNV && x.IDNVDG == IDNV).LastOrDefault()?.NgayDG
                       }).ToList().OrderBy(x => x.OrderBy);
 
             //var res = (from a in db.KhungNangLucs.Where(x => x.IDVT == nv.IDVT && (x.IDLoaiNL == 1 || x.IDLoaiNL == 2 || (x.IDLoaiNL != 1 && x.IDLoaiNL != 2 && x.IsDanhGia == 1)))
@@ -579,6 +607,95 @@ namespace E_Learning.Controllers.KNL
             }
 
             return RedirectToAction("Value", "FCheck", new { IDNV =ListKQ[0].IDNV ,dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) });
+        }
+
+        public ActionResult ReadKNL(int? IDNV)
+        {
+            if (IDNV == null) IDNV = 0;
+            var nv = (from a in db.NhanVien_selectByIDNV(IDNV)
+                      select new FCheckValidation
+                      {
+                          TenNV = a.HoTen,
+                          TenVT = a.TenViTri,
+                          IDVT = a.IDVT,
+                          IDNV = a.ID,
+                          IDPB = a.IDPB,
+                      }).FirstOrDefault();
+            ViewBag.TenNV = nv.TenNV ?? "";
+            ViewBag.TenVT = nv.TenVT ?? "";
+
+            var res = (from a in db.KNL_KQ_searchByIDNV(IDNV, DateTime.Now, nv.IDVT)
+                       join b in db.KNL_DocBangKNL on a.IDNL equals b.ID_NangLuc into uli from b in uli.DefaultIfEmpty()
+                       select new FValueValidation
+                       {
+                           IDNV = (int?)nv.IDNV ?? null,
+                           TenNV = nv.TenNV ?? "",
+                           IDNL = a.IDNL,
+                           TenNL = a.TenNL,
+                           IDLoaiNL = a.IDLoaiNL,
+                           TenLoaiNL = a.TenLoai,
+                           IDVT = a.IDVT,
+                           TenViTri = a.TenViTri,
+                           IDPB = a.IDPB,
+                           TenPhongBan = a.TenPhongBan,
+                           DinhMuc = a.IsDanhGia != 0 ? a.DinhMuc : 0,
+                           IsDanhGia = a.IsDanhGia,
+                           OrderBy = a.OrderBy,
+                           OrderByLoai = a.orByLoai,
+                           NgayCanhBao = a.DiemDG < a.DinhMuc ? (((DateTime)a.NgayDG).AddMonths(6) - DateTime.Now).Days : -1000,
+                           NgayHanDG = a.DiemDG < a.DinhMuc ? ((DateTime)a.NgayDG).AddMonths(6) : default(DateTime),
+                           CapNhatDG = b?.TinhTrang == 1?true:false,
+                       }).ToList().OrderBy(x => x.OrderBy);
+
+           
+            List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => x.IDVT == nv.IDVT && x.IDLoai != 1 && x.IDLoai != 2).OrderBy(x => x.OrderBy).ToList();
+            ViewBag.IDLoaiNL = new SelectList(loaiNL, "IDLoai", "TenLoai");
+
+            string manv = MyAuthentication.Username;
+            var nvndg = db.NhanViens.Where(x => x.MaNV == manv).FirstOrDefault();
+
+            var vt = db.ViTriKNLs.Where(x => x.IDVT == nvndg.IDVTKNL).FirstOrDefault();
+
+            return View(res.ToList());
+        }
+        [HttpPost]
+        public ActionResult ReadKNL(List<FValueValidation> ListKQ)
+        {
+            try
+            {
+                string manv = MyAuthentication.Username;
+                var nv = db.NhanViens.Where(x => x.MaNV == manv).FirstOrDefault();
+                foreach (var KQ in ListKQ)
+                {
+                    if (KQ.CapNhatDG) {
+                        var checkDoc = db.KNL_DocBangKNL.Where(x=>x.ID_NangLuc == KQ.IDNL && x.IDNV ==  KQ.IDNV).FirstOrDefault();
+                        if (checkDoc == null)
+                        {
+                            KNL_DocBangKNL a = new KNL_DocBangKNL()
+                            {
+                                IDNV = KQ.IDNV,
+                                ID_ViTriKNL = KQ.IDVT,
+                                ID_NangLuc = KQ.IDNL,
+                                NgayTao = DateTime.Now,
+                                IsDelete = false,
+                                TinhTrang = 1
+                            };
+                            db.KNL_DocBangKNL.Add(a);
+                            db.SaveChanges();
+                        }
+                    }
+
+                }
+
+                TempData["msgSuccess"] = "<script>alert('Cập nhập thành công');</script>";
+            }
+            catch (Exception e)
+            {
+
+                TempData["msgSuccess"] = "<script>alert('Cập nhập thất bại " + e.Message + " ');</script>";
+            }
+
+            return RedirectToAction("ReadKNL", "FCheck", new { IDNV = ListKQ[0].IDNV});
         }
 
         public string checkMVT2(string mvt)

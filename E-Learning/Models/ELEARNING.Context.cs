@@ -103,6 +103,8 @@ namespace E_Learning.Models
         public virtual DbSet<ViTriKNL> ViTriKNLs { get; set; }
         public virtual DbSet<XNHocTap> XNHocTaps { get; set; }
         public virtual DbSet<SH_KetQuaDaoTao> SH_KetQuaDaoTao { get; set; }
+        public virtual DbSet<KNL_PheDuyetKNL> KNL_PheDuyetKNL { get; set; }
+        public virtual DbSet<KNL_DocBangKNL> KNL_DocBangKNL { get; set; }
     
         public virtual int BaiThi_insert(Nullable<int> iDLH, Nullable<int> iDDeThi, Nullable<int> iDND, Nullable<int> iDNV, Nullable<int> iDPhongBan, Nullable<int> iDViTri, Nullable<double> diemSo, Nullable<System.DateTime> ngayThi, Nullable<bool> tinhTrang, Nullable<int> lanThi, ObjectParameter iDBaiThi)
         {

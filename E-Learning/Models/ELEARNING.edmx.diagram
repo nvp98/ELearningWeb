@@ -116,6 +116,10 @@
         <AssociationConnector Association="ELEARNINGModel.FK_NhuCauDT_PhanLoaiNCDT" ManuallyRouted="false" />
         <EntityTypeShape EntityType="ELEARNINGModel.SH_KetQuaDaoTao" Width="1.5" PointX="7.375" PointY="26.75" />
         <AssociationConnector Association="ELEARNINGModel.FK_SH_NhuCauDT_NhanVien" />
+        <EntityTypeShape EntityType="ELEARNINGModel.KNL_PheDuyetKNL" Width="1.5" PointX="20.375" PointY="26.75" />
+        <AssociationConnector Association="ELEARNINGModel.FK_KNL_PheDuyetKNL_NhanVien" />
+        <AssociationConnector Association="ELEARNINGModel.FK_KNL_PheDuyetKNL_NhanVien1" />
+        <EntityTypeShape EntityType="ELEARNINGModel.KNL_DocBangKNL" Width="1.5" PointX="22.375" PointY="26.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

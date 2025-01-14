@@ -32,6 +32,11 @@ using Syncfusion.CompoundFile.DocIO.Native;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using Org.BouncyCastle.Asn1.Ocsp;
 using System.Data.Entity;
+using E_Learning.Common;
+using E_Learning.ModelsDTTH;
+using iTextSharp.tool.xml.html;
+using System.Text;
+using iTextSharp.text.pdf.qrcode;
 
 namespace E_Learning.Controllers
 {
@@ -4601,6 +4606,469 @@ namespace E_Learning.Controllers
             //return RedirectToAction("ChangePosition", "FPosition", new { IDPB = urlParameters.Get("IDPB"), IDKhoi = urlParameters.Get("IDKhoi"), IDPX = urlParameters.Get("IDPX"), IDTo = urlParameters.Get("IDTo"), IDNhom = urlParameters.Get("IDNhom") });
         }
 
+        public ActionResult TrinhKyKNL()
+        {
+            int idpb = MyAuthentication.IDPhongban;
+            var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
+            if (!ListQuyen.Contains(CONSTKEY.U_KNL))
+            {
+                TempData["msgError"] = "<script>alert('Bạn không có quyền thực hiện chức năng này');</script>";
+                return RedirectToAction("", "Home");
+            }
+            db.Configuration.ProxyCreationEnabled = false;
 
+            List<PhongBan> dt = db.PhongBans.ToList();
+            if (ListQuyen.Contains(CONSTKEY.V_BP))
+            {
+                dt = dt.Where(x => x.IDPhongBan == idpb).ToList();
+            }
+            ViewBag.IDPB = new SelectList(dt, "IDPhongBan", "TenPhongBan");
+            // trình ký
+            var nhanvien = db.NhanViens.Where(x => x.IDTinhTrangLV == 1 && x.IDPhongBan == MyAuthentication.IDPhongban).Select(x => new EmployeeValidation { ID = x.ID, HoTen = x.MaNV + " - " + x.HoTen, IDPhongBan = (int)x.IDPhongBan }).ToList();
+            ViewBag.NguoiDuyet = new SelectList(nhanvien, "ID", "HoTen");
+
+            return PartialView();
+        }
+        [HttpPost]
+        public ActionResult TrinhKyKNL(ViTriKNLValidation _DO, FormCollection form)
+        {
+            try
+            {
+                int dtc = 0;
+                string msg = "";
+                var nguoiduyet = form.GetValue("NguoiDuyet");
+                if(nguoiduyet == null)
+                {
+                    TempData["msgSuccess"] = "<script>alert('Vui lòng chọn người duyệt KNL');</script>";
+                    return RedirectToAction("Index", "FPosition", new { IDPB = _DO.IDPB, IDNhom = _DO.IDNhom, IDTo = _DO.IDTo });
+                }
+                if(_DO.IDPB == null && _DO.IDNhom == null && _DO.IDTo == null)
+                {
+                    TempData["msgSuccess"] = "<script>alert('Vui lòng chọn ít nhất 1 Bộ phận/Xưởng/Tổ/Nhóm');</script>";
+                    return RedirectToAction("Index", "FPosition", new { IDPB = _DO.IDPB, IDNhom = _DO.IDNhom, IDTo = _DO.IDTo });
+                }
+                int IDNguoiDuyet = int.Parse(nguoiduyet.AttemptedValue.ToString());
+                if(_DO.IDPB != null && _DO.IDNhom != null)
+                {
+                    var lsVT = db.ViTriKNLs.Where(x => x.IDPB == _DO.IDPB && x.IDNhom == _DO.IDNhom && x.MaViTri != "TBP" && x.MaViTri != "PBP").ToList();
+                    foreach (var item in lsVT)
+                    {
+                        // xóa dữ liệu trùng trình ký trước chưa được duyệt
+                        var isDuplicate = db.KNL_PheDuyetKNL.Where(x => x.IDVT == item.IDVT && x.TinhTrang == 0).ToList();
+                        if (isDuplicate.Count != 0)
+                        {
+                            db.KNL_PheDuyetKNL.RemoveRange(isDuplicate);
+                            db.SaveChanges();
+                        }
+                        var a = new KNL_PheDuyetKNL()
+                        {
+                            IDVT = item.IDVT,
+                            ID_NguoiTao = MyAuthentication.ID,
+                            ID_NguoiDuyet = IDNguoiDuyet,
+                            NgayTrinhKy = DateTime.Now,
+                            TinhTrang = 0
+                        };
+                        db.KNL_PheDuyetKNL.Add(a);
+                        db.SaveChanges();
+                        dtc++;
+                    }
+
+                } else if (_DO.IDPB != null && _DO.IDTo != null)
+                {
+                    var lsVT = db.ViTriKNLs.Where(x => x.IDPB == _DO.IDPB && x.IDTo == _DO.IDTo && x.MaViTri != "TBP" && x.MaViTri != "PBP").ToList();
+                    foreach (var item in lsVT)
+                    {
+                        // xóa dữ liệu trình ký trước chưa được duyệt
+                        var isDuplicate = db.KNL_PheDuyetKNL.Where(x => x.IDVT == item.IDVT && x.TinhTrang == 0).ToList();
+                        if (isDuplicate.Count != 0)
+                        {
+                            db.KNL_PheDuyetKNL.RemoveRange(isDuplicate);
+                            db.SaveChanges();
+                        }
+                        var a = new KNL_PheDuyetKNL()
+                        {
+                            IDVT = item.IDVT,
+                            ID_NguoiTao = MyAuthentication.ID,
+                            ID_NguoiDuyet = IDNguoiDuyet,
+                            NgayTrinhKy = DateTime.Now,
+                            TinhTrang = 0
+                        };
+                        db.KNL_PheDuyetKNL.Add(a);
+                        db.SaveChanges();
+                        dtc++;
+                    }
+
+                }
+                else if (_DO.IDPB != null && _DO.IDPX != null)
+                {
+                    var lsVT = db.ViTriKNLs.Where(x => x.IDPB == _DO.IDPB && x.IDPX == _DO.IDPX && x.MaViTri != "TBP" && x.MaViTri != "PBP").ToList();
+                    foreach (var item in lsVT)
+                    {
+                        // xóa dữ liệu trình ký trước chưa được duyệt
+                        var isDuplicate = db.KNL_PheDuyetKNL.Where(x => x.IDVT == item.IDVT && x.TinhTrang == 0).ToList();
+                        if (isDuplicate.Count != 0)
+                        {
+                            db.KNL_PheDuyetKNL.RemoveRange(isDuplicate);
+                            db.SaveChanges();
+                        }
+                        var a = new KNL_PheDuyetKNL()
+                        {
+                            IDVT = item.IDVT,
+                            ID_NguoiDuyet = IDNguoiDuyet,
+                            ID_NguoiTao = MyAuthentication.ID,
+                            NgayTrinhKy = DateTime.Now,
+                            TinhTrang = 0
+                        };
+                        db.KNL_PheDuyetKNL.Add(a);
+                        db.SaveChanges();
+                        dtc++;
+                    }
+
+                } else if(_DO.IDPB != null)
+                {
+                    var lsVT = db.ViTriKNLs.Where(x => x.IDPB == _DO.IDPB && x.MaViTri != "TBP" && x.MaViTri != "PBP").ToList();
+                    foreach (var item in lsVT)
+                    {
+                        // xóa dữ liệu trình ký trước chưa được duyệt
+                        var isDuplicate = db.KNL_PheDuyetKNL.Where(x => x.IDVT == item.IDVT && x.TinhTrang == 0).ToList();
+                        if (isDuplicate.Count != 0)
+                        {
+                            db.KNL_PheDuyetKNL.RemoveRange(isDuplicate);
+                            db.SaveChanges();
+                        }
+                        var a = new KNL_PheDuyetKNL()
+                        {
+                            IDVT = item.IDVT,
+                            ID_NguoiTao = MyAuthentication.ID,
+                            ID_NguoiDuyet = IDNguoiDuyet,
+                            NgayTrinhKy = DateTime.Now,
+                            TinhTrang = 0
+                        };
+                        db.KNL_PheDuyetKNL.Add(a);
+                        db.SaveChanges();
+                        dtc++;
+                    }
+                }
+
+                if (dtc != 0)
+                {
+                    msg = "Đã trình ký " + dtc + " Vị trí";
+                }
+                TempData["msgSuccess"] = "<script>alert('" + msg + "');</script>";
+            }
+            catch (Exception e)
+            {
+                TempData["msgError"] = "<script>alert('Có lỗi khi thêm mới: " + e.Message + "');</script>";
+            }
+            //return View();
+            return RedirectToAction("Index", "FPosition", new { IDPB = _DO.IDPB, IDNhom = _DO.IDNhom, IDTo = _DO.IDTo });
+        }
+
+        public ActionResult TrinhKyBangKNL(int? IDVT ,int? IDPB)
+        {
+            int idpb = MyAuthentication.IDPhongban;
+            var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
+            if (!ListQuyen.Contains(CONSTKEY.U_KNL))
+            {
+                TempData["msgError"] = "<script>alert('Bạn không có quyền thực hiện chức năng này');</script>";
+                return RedirectToAction("", "Home");
+            }
+            db.Configuration.ProxyCreationEnabled = false;
+
+            ViewBag.IDPB = IDPB;
+            ViewBag.IDVT = IDVT;
+            // trình ký
+            var nhanvien = db.NhanViens.Where(x => x.IDTinhTrangLV == 1 && x.IDPhongBan == MyAuthentication.IDPhongban).Select(x => new EmployeeValidation { ID = x.ID, HoTen = x.MaNV + " - " + x.HoTen, IDPhongBan = (int)x.IDPhongBan }).ToList();
+            ViewBag.NguoiDuyet = new SelectList(nhanvien, "ID", "HoTen");
+
+            return PartialView();
+        }
+        [HttpPost]
+        public ActionResult TrinhKyBangKNL(ViTriKNLValidation _DO, FormCollection form)
+        {
+            try
+            {
+                int dtc = 0;
+                string msg = "";
+                var nguoiduyet = form.GetValue("NguoiDuyet");
+                if (nguoiduyet == null)
+                {
+                    TempData["msgSuccess"] = "<script>alert('Vui lòng chọn người duyệt KNL');</script>";
+                    return RedirectToAction("CreateKNL", "FPosition", new { id = _DO.IDVT, IDPB = _DO.IDPB });
+                }
+                //if (_DO.IDPB == null && _DO.IDNhom == null && _DO.IDTo == null)
+                //{
+                //    TempData["msgSuccess"] = "<script>alert('Vui lòng chọn ít nhất 1 Bộ phận/Xưởng/Tổ/Nhóm');</script>";
+                //    return RedirectToAction("Index", "FPosition", new { IDPB = _DO.IDPB, IDNhom = _DO.IDNhom, IDTo = _DO.IDTo });
+                //}
+                int IDNguoiDuyet = int.Parse(nguoiduyet.AttemptedValue.ToString());
+                if (_DO.IDVT != 0)
+                {
+                    var lsVT = db.ViTriKNLs.Where(x => x.IDVT == _DO.IDVT).FirstOrDefault();
+                    // xóa dữ liệu trùng trình ký trước chưa được duyệt
+                    var isDuplicate = db.KNL_PheDuyetKNL.Where(x => x.IDVT == lsVT.IDVT && x.TinhTrang == 0).ToList();
+                    if (isDuplicate.Count != 0)
+                    {
+                        db.KNL_PheDuyetKNL.RemoveRange(isDuplicate);
+                        db.SaveChanges();
+                    }
+                    var a = new KNL_PheDuyetKNL()
+                    {
+                        IDVT = _DO.IDVT,
+                        ID_NguoiTao = MyAuthentication.ID,
+                        ID_NguoiDuyet = IDNguoiDuyet,
+                        NgayTrinhKy = DateTime.Now,
+                        TinhTrang = 0
+                    };
+                    db.KNL_PheDuyetKNL.Add(a);
+                    db.SaveChanges();
+                    dtc++;
+
+                }
+
+                if (dtc != 0)
+                {
+                    msg = "Đã trình ký " + dtc + " Vị trí";
+                }
+                TempData["msgSuccess"] = "<script>alert('" + msg + "');</script>";
+            }
+            catch (Exception e)
+            {
+                TempData["msgError"] = "<script>alert('Có lỗi khi thêm mới: " + e.Message + "');</script>";
+            }
+            //return View();
+            return RedirectToAction("CreateKNL", "FPosition", new { id = _DO.IDVT, IDPB = _DO.IDPB });
+        }
+
+        public ActionResult HistoryBangKNL(int? page, int? IDVT)
+        {
+            //var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
+            //ViewBag.QUYENCN = ListQuyen;
+            //if (!ListQuyen.Contains(CONSTKEY.V))
+            //{
+            //    TempData["msgError"] = "<script>alert('Bạn không có quyền truy cập chức năng này');</script>";
+            //    return RedirectToAction("", "Home");
+            //}
+            var vt = db.ViTriKNLs.Where(x => x.IDVT == IDVT).FirstOrDefault();
+            ViewBag.ViTri = vt.TenViTri;
+            int idpb = MyAuthentication.IDPhongban;
+            var manv = MyAuthentication.Username;
+
+            var res = (from a in db.KNL_PheDuyetKNL.Where(x=>x.IDVT == IDVT)
+                       select new KNL_PheDuyetKNLView
+                       {
+                           ID = a.ID,
+                           IDVT = IDVT,
+                           TenViTri = vt.TenViTri,
+                           ID_NguoiDuyet = a.ID_NguoiDuyet,
+                           HoTenNguoiDuyet = a.NhanVien.MaNV +" - "+ a.NhanVien.HoTen,
+                           NgayDuyet = a.NgayDuyet,
+                           NgayTrinhKy =a.NgayTrinhKy,
+                           TinhTrang = a.TinhTrang,
+                           File_KNL=a.File_KNL
+                       }).ToList();
+
+            if (page == null) page = 1;
+            int pageSize = 50;
+            int pageNumber = (page ?? 1);
+            return View(res.ToList().ToPagedList(pageNumber, pageSize));
+        }
+        public ActionResult PheDuyetKNL(int? page)
+        {
+            //var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
+            //ViewBag.QUYENCN = ListQuyen;
+            //if (!ListQuyen.Contains(CONSTKEY.V))
+            //{
+            //    TempData["msgError"] = "<script>alert('Bạn không có quyền truy cập chức năng này');</script>";
+            //    return RedirectToAction("", "Home");
+            //}
+            // check chữ ký
+            var nhanvien = db.NhanViens.Where(x => x.ID == MyAuthentication.ID).FirstOrDefault();
+            if (string.IsNullOrEmpty(nhanvien.ChuKy))
+            {
+                TempData["msgSuccess"] = "<script>alert('Chưa có chữ ký vui lòng cập nhật chữ ký ');</script>";
+                return new RedirectResult("~/Login/CapNhatChuKy");
+            }
+            int idpb = MyAuthentication.IDPhongban;
+            var manv = MyAuthentication.Username;
+
+            var res = (from a in db.KNL_PheDuyetKNL.Where(x => x.ID_NguoiDuyet == MyAuthentication.ID)
+                       join b in db.ViTriKNLs on a.IDVT equals b.IDVT
+                       select new KNL_PheDuyetKNLView
+                       {
+                           ID = a.ID,
+                           IDVT = b.IDVT,
+                           TenViTri = b.TenViTri,
+                           ID_NguoiDuyet = a.ID_NguoiDuyet,
+                           HoTenNguoiDuyet = a.NhanVien.MaNV + " - " + a.NhanVien.HoTen,
+                           ID_NguoiTao = a.ID_NguoiTao,
+                           HoTenNguoiTao = a.NhanVien1.MaNV + " - " + a.NhanVien1.HoTen,
+                           NgayDuyet = a.NgayDuyet,
+                           NgayTrinhKy = a.NgayTrinhKy,
+                           TinhTrang = a.TinhTrang,
+                           File_KNL = a.File_KNL,
+                           IDPB = b.IDPB
+                       }).OrderByDescending(x=>x.NgayTrinhKy).ToList();
+
+            if (page == null) page = 1;
+            int pageSize = 100;
+            int pageNumber = (page ?? 1);
+            return View(res.ToList().ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult PheDuyetAll()
+        {
+
+            int idpb = MyAuthentication.IDPhongban;
+            var manv = MyAuthentication.Username;
+            var listduyet = db.KNL_PheDuyetKNL.Where(x => x.ID_NguoiDuyet == MyAuthentication.ID && x.TinhTrang == 0).ToList();
+            if(listduyet.Count == 0)
+            {
+                TempData["msgSuccess"] = "<script>alert('Không tồn tại dữ liệu phê duyệt');</script>";
+                return RedirectToAction("PheDuyetKNL", "FPosition");
+            }
+            foreach(var item in listduyet)
+            {
+                item.NgayDuyet = DateTime.Now;
+                item.TinhTrang = 1;
+                string filepath = ExportViewToPdf(item.ID, item.IDVT);
+                if(filepath != null)
+                {
+                    item.File_KNL = filepath;
+                }
+                db.SaveChanges();
+            }
+
+            TempData["msgSuccess"] = "<script>alert('Thành công');</script>";
+            return RedirectToAction("PheDuyetKNL", "FPosition");
+        }
+
+        public ActionResult PheDuyetBangKNL(int? IDVT)
+        {
+
+            int idpb = MyAuthentication.IDPhongban;
+            var manv = MyAuthentication.Username;
+            var listduyet = db.KNL_PheDuyetKNL.Where(x => x.ID_NguoiDuyet == MyAuthentication.ID && x.TinhTrang == 0 && x.IDVT == IDVT).ToList();
+            if (listduyet.Count == 0)
+            {
+                TempData["msgSuccess"] = "<script>alert('Không tồn tại dữ liệu phê duyệt');</script>";
+                return RedirectToAction("PheDuyetKNL", "FPosition");
+            }
+            foreach (var item in listduyet)
+            {
+                item.NgayDuyet = DateTime.Now;
+                item.TinhTrang = 1;
+                string filepath = ExportViewToPdf(item.ID, item.IDVT);
+                if (filepath != null)
+                {
+                    item.File_KNL = filepath;
+                }
+                db.SaveChanges();
+            }
+
+            TempData["msgSuccess"] = "<script>alert('Thành công');</script>";
+            return RedirectToAction("PheDuyetKNL", "FPosition");
+        }
+
+        public string ExportViewToPdf(int id,int? IDVT)
+        {
+
+            // Lấy dữ liệu từ cơ sở dữ liệu (ví dụ)
+            var vt = db.VitriKNL_searchByIDVT(IDVT).FirstOrDefault();
+            ViewBag.TenViTri = vt?.TenViTri ?? "";
+            ViewBag.IDVT = IDVT;
+            ViewBag.TenPB = vt?.TenPhongBan ?? "";
+            ViewBag.ID = id;
+
+            var res = (from a in db.KhungNangLuc_SearchByIDVT(IDVT)
+                       select new FValueValidation
+                       {
+                           IDNL = a.IDNL,
+                           TenNL = a.TenNL,
+                           IDLoaiNL = a.IDLoaiNL,
+                           IDVT = a.IDVT,
+                           TenViTri = a.TenViTri,
+                           IDPB = a.IDPB,
+                           DinhMuc = a.IsDanhGia != 0 ? a.DinhMuc : 0,
+                           IsDanhGia = a.IsDanhGia,
+                       }).ToList().OrderBy(x => x.OrderBy);
+
+            List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => x.IDVT == IDVT && x.IDLoai != 1 && x.IDLoai != 2).OrderBy(x => x.OrderBy).ToList();
+            ViewBag.IDLoaiNL = new SelectList(loaiNL, "IDLoai", "TenLoai");
+
+            // Kết xuất View thành HTML
+            string htmlContent = PdfHelper.RenderViewToString(this.ControllerContext, "ExportView", res.ToList());
+
+            // Loại bỏ các thẻ head, meta, style trước khi truyền vào XMLWorker
+            //htmlContent = htmlContent.Replace("<head>", "")
+            //                          .Replace("</head>", "")
+            //                          .Replace("<meta>", "")
+            //                          .Replace("</meta>", "")
+            //                          .Replace("<style>", "")
+            //                          .Replace("</style>", "");
+
+            using (var memoryStream = new MemoryStream())
+            {
+                // Tạo tài liệu PDF
+                var document = new iTextSharp.text.Document(PageSize.A4, 30, 30, 30, 30);
+                PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
+
+                document.Open();
+
+                // Đăng ký font Unicode hỗ trợ tiếng Việt
+                var fontProvider = new XMLWorkerFontProvider(XMLWorkerFontProvider.DONTLOOKFORFONTS);
+                fontProvider.Register("C:/Windows/Fonts/times.ttf");     // Times New Roman Regular
+                fontProvider.Register("C:/Windows/Fonts/timesbd.ttf");   // Times New Roman Bold
+                fontProvider.Register("C:/Windows/Fonts/timesi.ttf");    // Times New Roman Italic
+                fontProvider.Register("C:/Windows/Fonts/timesbi.ttf");   // Times New Roman Bold Italic
+
+                // Cấu hình CSS Appliers sử dụng fontProvider
+                CssAppliers cssAppliers = new CssAppliersImpl(fontProvider);
+
+                // Chuyển chuỗi HTML thành MemoryStream
+                byte[] byteArray = Encoding.UTF8.GetBytes(htmlContent);
+
+                using (var sr = new MemoryStream(byteArray))
+                {
+                    // Parse HTML sang PDF
+                    XMLWorkerHelper.GetInstance().ParseXHtml(writer, document, sr, null, Encoding.UTF8, fontProvider);
+                }
+
+                document.Close();
+                string filename = $"{"KhungNangLuc_" +  vt?.MaViTri + "_" + DateTime.Now.ToString("yyyyMMddHHmm")}.pdf";
+                var folderPath = Server.MapPath("~/FileKNL/");
+
+                // Lưu file vào server và trả về path
+
+                byte[] pdfData = memoryStream.ToArray();
+                string pathsave = SavePdfToFile(pdfData, folderPath, filename);
+                return pathsave;
+                //return NoContent();
+                //return File(pdfData, "application/pdf", filename);
+            }
+
+        }
+        public string SavePdfToFile(byte[] pdfBytes, string folderPath, string fileName)
+        {
+            // Kiểm tra và tạo thư mục nếu chưa tồn tại
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            // Đường dẫn đầy đủ của file
+            var filePath = Path.Combine(folderPath, fileName);
+
+            // Lưu file từ mảng byte bằng FileStream
+            //File.WriteAllBytes(filePath, pdfBytes);
+            using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            {
+                stream.Write(pdfBytes, 0, pdfBytes.Length);
+            }
+
+            // Trả về đường dẫn tương đối hoặc URL để lưu vào database
+            return $"/FileKNL/{fileName}"; // Nếu wwwroot/pdfs là thư mục lưu trữ công khai
+        }
+       
     }
 }
