@@ -165,35 +165,66 @@
                                     Lớp học của bạn
                                 </a>
                             </li>
-                            @*@if (E_Learning.Models.MyAuthentication.IDQuyen == 1)
-        {
-
-        }*@
                             <li>
                                 <a href="@Url.Action("Index","ListTestQT", new {IDNV = E_Learning.Models.MyAuthentication.ID,IDVTKNL=E_Learning.Models.MyAuthentication.IDVTKNL})">
                                     <i class="metismenu-icon pe-7s-share font-weight-bold"></i>
                                     QT/HD Công việc của bạn
                                 </a>
                             </li>
-                            @if (checkDGNV == 1)
+                            @*@if (checkDGNV == 1 || true)
                             {
                                 <li>
-                                    @*<a href="@Url.Action("Index","FCheck")">
-                    <i class="metismenu-icon pe-7s-news-paper">
-                    </i>Đánh giá nhân viên
-                </a>*@
                                     <a title="Cập nhật KNL" href="@Url.Action("Index","FCheck")"
                                        onclick="return confirm('Cần kiểm tra để đảm bảo Vị trí đánh giá trong danh sách đúng với thực tế trước khi thực hiện đánh giá')">
                                         <i class="metismenu-icon pe-7s-news-paper font-weight-bold">
-                                        </i>Đánh giá nhân viên
+                                        </i>Đánh giá Khung Năng lực
                                     </a>
                                 </li>
-                            }
+                            }*@
+                            <li>
+                                <a title="Cập nhật KNL" href="@Url.Action("Index","FCheck")"
+                                   onclick="return confirm('Cần kiểm tra để đảm bảo Vị trí đánh giá trong danh sách đúng với thực tế trước khi thực hiện đánh giá')">
+                                    <i class="metismenu-icon pe-7s-news-paper font-weight-bold">
+                                    </i>Đánh giá Khung Năng lực
+                                </a>
+                            </li>
                             <li>
                                 <a href="@Url.Action("Index","FResult",new { IDNV = @E_Learning.Models.MyAuthentication.ID,begind = new DateTime(DateTime.Now.Year, 1, 1),endd =new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)})">
                                     <i class="metismenu-icon  pe-7s-diskette font-weight-bold">
                                     </i>Kết quả đánh giá KNL
                                 </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="metismenu-icon pe-7s-display1 font-weight-bold"></i>
+                                    Ký duyệt online
+                                </a>
+                                <ul id="NCDT">
+                                    <li>
+                                        <a href="@Url.Action("Index_NCDT", "PheDuyetPhieu")" class="font-size-md font-weight-bold ">
+                                            <i class="pe-7s-users"></i>
+                                            &nbsp;&nbsp;Nhu cầu đào tạo
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("PheDuyetKNL", "FPosition")" class="font-size-md font-weight-bold ">
+                                            <i class="pe-7s-users"></i>
+                                            &nbsp;&nbsp;Khung năng lực
+                                        </a>
+                                    </li>
+                                    @*<li>
+                    <a href="@Url.Action("Index", "PheDuyetPhieu",new {LoaiKyDuyet = 2})" class="font-size-md font-weight-bold ">
+                        <i class="pe-7s-users"></i>
+                        &nbsp;&nbsp;Tổ chức đào tạo
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "PheDuyetPhieu",new {LoaiKyDuyet = 3})" class="font-size-md font-weight-bold ">
+                        <i class="pe-7s-users"></i>
+                        &nbsp;&nbsp;Kế hoạch đào tạo
+                    </a>
+                </li>*@
+                                </ul>
                             </li>
                             <li class="app-sidebar__heading">Thủ tục đào tạo</li>
                             @if (ListControll.Contains("NoiDungDTTH"))
@@ -226,32 +257,7 @@
                                 </li>
                             }
 
-                            <li>
-                                <a href="">
-                                    <i class="metismenu-icon pe-7s-display1 font-weight-bold"></i>
-                                    Ký duyệt online
-                                </a>
-                                <ul id="NCDT">
-                                    <li>
-                                        <a href="@Url.Action("Index_NCDT", "PheDuyetPhieu")" class="font-size-md font-weight-bold ">
-                                            <i class="pe-7s-users"></i>
-                                            &nbsp;&nbsp;Nhu cầu đào tạo
-                                        </a>
-                                    </li>
-                                    @*<li>
-                                        <a href="@Url.Action("Index", "PheDuyetPhieu",new {LoaiKyDuyet = 2})" class="font-size-md font-weight-bold ">
-                                            <i class="pe-7s-users"></i>
-                                            &nbsp;&nbsp;Tổ chức đào tạo
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("Index", "PheDuyetPhieu",new {LoaiKyDuyet = 3})" class="font-size-md font-weight-bold ">
-                                            <i class="pe-7s-users"></i>
-                                            &nbsp;&nbsp;Kế hoạch đào tạo
-                                        </a>
-                                    </li>*@
-                                </ul>
-                            </li>
+
 
                             <li class="app-sidebar__heading">Bảng tin</li>
                             <li>

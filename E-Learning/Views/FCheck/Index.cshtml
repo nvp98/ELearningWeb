@@ -21,6 +21,9 @@
 {
     @Html.Raw(TempData["msgError"])
 }
+@{
+    var checkDGNV = new E_Learning.Controllers.KNL.FCheckController().CheckDGiaNV();
+}
 
 <style type="text/css">
     a:hover {
@@ -48,180 +51,276 @@
             </div>
         </div>
 
-
-
         <div class="card mb-4">
             <!--<div class="card-header">
 
-                <div class="col-md-9">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="row">-->
-                                @*@Html.DropDownList("IDPB", null, "--Bộ Phận--", new { id = "IDPB", @class = "form-control marginTB5", @style = "width:100%", })*@
-                            <!--</div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">-->
+            @*@Html.DropDownList("IDPB", null, "--Bộ Phận--", new { id = "IDPB", @class = "form-control marginTB5", @style = "width:100%", })*@
+            <!--</div>
 
-                        </div>
+        </div>
 
-                        <div class="col-md-2">-->
-                            @*<div class="input-group-btn"><button class="btn btn-primary marginTB5" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button></div>*@
-                        <!--</div>
+        <div class="col-md-2">-->
+            @*<div class="input-group-btn"><button class="btn btn-primary marginTB5" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button></div>*@
+            <!--</div>
+                </div>
+            </div>
+
+        </div>-->
+            <div class="card-header " style="border:none;">
+                <div class="font-italic text-danger"><p>Lưu ý: Cá nhân tự thực hiện đánh giá Khung năng lực cá nhân theo định kỳ </p></div>
+            </div>
+            <div class="card-body" style="padding-top:0">
+                <div class="card-header" style="background-color: azure">
+                    <i class="header-icon lnr-gift icon-gradient bg-grow-early"> </i>Đánh giá khung năng lực cá nhân
+                </div>
+
+                <div class="table-responsive mt-2">
+                    <table class="table table-bordered table-hover" id="table2" width="100%" cellpadding="0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center" width="30px">STT</th>
+                                <th class="text-center">Mã nhân viên</th>
+                                <th class="text-center">Họ tên</th>
+                                <th class="text-center">Kíp</th>
+                                <th class="text-center">Vị trí đánh giá</th>
+                                <th class="text-center">BMTCV</th>
+                                <th class="text-center">Ngày tự đánh giá gần nhất</th>
+                                <th class="text-center">Ngày kiểm duyệt gần nhất</th>
+                                <th class="text-center ">Kết quả đọc bảng KNL</th>
+                                <th class="text-center ">Tự Đánh giá</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*@{
+                                int pageno = (int)Model.PageNumber;
+                                int itemperpage = (int)Model.PageSize;
+                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                            }*@
+                            @foreach (var item in ViewBag.ListUserNV)
+                            {
+                                <tr>
+                                    <td class="text-center"> 1 </td>
+                                    <td class="">@item.MaNV</td>
+                                    <td class="">@item.TenNV</td>
+                                    <td class="">@item.TenKip</td>
+                                    <td>@item.TenVT</td>
+                                    <td class="text-center">
+                                        <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                                    </td>
+                                    <td class="text-center">@item.NgayDG</td>
+                                    <td class="text-center">@item.NgayDG</td>
+                                    <td class="text-center">
+                                        <a class="text-danger font-weight-bold" title="Đánh giá" href="@Url.Action("ReadKNL", "FCheck", new { IDNV = item.IDNV })"
+                                           onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
+                                            @item.TotalDat / @item.Total
+                                        </a>
+                                    </td>
+                                    @if (item.TotalDat >= item.Total)
+                                    {
+                                        <td class="text-center p-0">
+                                            <a class="fa fa-check-square-o fa-2x" title="Đánh giá" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
+                                               onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
+                                            </a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+
+
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+
+        @if (checkDGNV != 0)
+        {
+            <div class="card mb-4">
+                <!--<div class="card-header">
+
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">-->
+                @*@Html.DropDownList("IDPB", null, "--Bộ Phận--", new { id = "IDPB", @class = "form-control marginTB5", @style = "width:100%", })*@
+                <!--</div>
+
+            </div>
+
+            <div class="col-md-2">-->
+                @*<div class="input-group-btn"><button class="btn btn-primary marginTB5" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button></div>*@
+                <!--</div>
                     </div>
                 </div>
 
             </div>-->
-             <div class="card-header " style="border:none;">
+                <div class="card-header " style="border:none;">
                     <div class="font-italic text-danger"><p>Lưu ý: Cần kiểm tra để đảm bảo <strong style="color: rgba(13, 27, 62, 0.7)"> Vị trí đánh giá</strong> trong danh sách đúng với thực tế trước khi thực hiện đánh giá </p></div>
-             </div>
-            <div class="card-body" style="padding-top:0">
-                <div class="card-header" style="background-color: azure">
-                    <i class="header-icon lnr-gift icon-gradient bg-grow-early"> </i>Danh sách đánh giá trực tiếp
                 </div>
-               
-                <div class="table-responsive mt-2">
-                    <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
-                        <thead class="thead-light">
-                            <tr>
-                                <th class="text-center" width="30px">STT</th>
-                                <th class="text-center">Mã nhân viên</th>
-                                <th class="text-center">Họ tên</th>
-                                <th class="text-center">Kíp</th>
-                                <th class="text-center">Vị trí đánh giá</th>
-                                <th class="text-center">BMTCV</th>
-                                <th class="text-center">Ngày đánh giá gần nhất</th>
+                <div class="card-body" style="padding-top:0">
+                    <div class="card-header" style="background-color: azure">
+                        <i class="header-icon lnr-gift icon-gradient bg-grow-early"> </i>Danh sách đánh giá trực tiếp
+                    </div>
 
-                                <th class="text-center ">Đánh giá</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                int pageno = (int)Model.PageNumber;
-                                int itemperpage = (int)Model.PageSize;
-                                int RowNo = ((pageno - 1) * itemperpage) + 1;
-                            }
-                            @foreach (var item in Model)
-                            {
+                    <div class="table-responsive mt-2">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead class="thead-light">
                                 <tr>
-                                    <td class="text-center"> @RowNo@{RowNo++;}</td>
-                                    <td class="">@item.MaNV</td>
-                                    <td class="">@item.TenNV</td>
-                                    <td class="">@item.TenKip</td>
-                                    <td>@item.TenVT</td>
-                                    <td class="text-center">
-                                        <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
-                                    </td>
-                                    <td class="text-center">@item.NgayDG</td>
-                                    <td class="text-center p-0">
-                                        <a class="fa fa-check-square-o fa-2x" title="Đánh giá" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
-                                           onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
-                                        </a>
-                                    </td>
-                                    @*<td class="text-center">
-                                @if (ViewBag.DELETE == 1)
-                                {
-                                    <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "FDepartment", new { id = item.IDVT })"
-                                       onclick="return confirm('Bạn muốn xóa : @item.TenPhongBan')">
-                                    </a>
-                                }
-                                @if (ViewBag.EDIT == 1)
-                                {
-                                    <a id="btn-edit_@item.IDVT" title="Sửa" class="fa fa-edit icon_action "></a>
-                                    <div class=" modal fade" id="myModale_@item.IDVT" role="dialog" data-url='@Url.Action("Edit","FDepartment", new { id = item.IDVT })'></div>
-                                    <script type="text/javascript">
-                                        $("#btn-edit_@item.IDVT").click(function () {
-                                            var url = $('#myModale_@item.IDVT').data('url');
-                                            $.get(url, function (data) {
-                                                $("#myModale_@item.IDVT").html(data);
-                                                $("#ModalTitle").html("Cập nhật Vị trí");
-                                                $("#myModale_@item.IDVT").modal('show');
-                                                });
-                                            });
-                                    </script>
-                                }
+                                    <th class="text-center" width="30px">STT</th>
+                                    <th class="text-center">Mã nhân viên</th>
+                                    <th class="text-center">Họ tên</th>
+                                    <th class="text-center">Kíp</th>
+                                    <th class="text-center">Vị trí đánh giá</th>
+                                    <th class="text-center">BMTCV</th>
+                                    <th class="text-center">Ngày đánh giá gần nhất</th>
 
-                            </td>*@
+                                    <th class="text-center ">Đánh giá</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int pageno = (int)Model.PageNumber;
+                                    int itemperpage = (int)Model.PageSize;
+                                    int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center"> @RowNo@{RowNo++;}</td>
+                                        <td class="">@item.MaNV</td>
+                                        <td class="">@item.TenNV</td>
+                                        <td class="">@item.TenKip</td>
+                                        <td>@item.TenVT</td>
+                                        <td class="text-center">
+                                            <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                                        </td>
+                                        <td class="text-center">@item.NgayDG</td>
+                                        <td class="text-center p-0">
+                                            <a class="fa fa-check-square-o fa-2x" title="Đánh giá" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
+                                               onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
+                                            </a>
+                                        </td>
+                                        @*<td class="text-center">
+                                            @if (ViewBag.DELETE == 1)
+                                            {
+                                                <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "FDepartment", new { id = item.IDVT })"
+                                                   onclick="return confirm('Bạn muốn xóa : @item.TenPhongBan')">
+                                                </a>
+                                            }
+                                            @if (ViewBag.EDIT == 1)
+                                            {
+                                                <a id="btn-edit_@item.IDVT" title="Sửa" class="fa fa-edit icon_action "></a>
+                                                <div class=" modal fade" id="myModale_@item.IDVT" role="dialog" data-url='@Url.Action("Edit","FDepartment", new { id = item.IDVT })'></div>
+                                                <script type="text/javascript">
+                                                    $("#btn-edit_@item.IDVT").click(function () {
+                                                        var url = $('#myModale_@item.IDVT').data('url');
+                                                        $.get(url, function (data) {
+                                                            $("#myModale_@item.IDVT").html(data);
+                                                            $("#ModalTitle").html("Cập nhật Vị trí");
+                                                            $("#myModale_@item.IDVT").modal('show');
+                                                            });
+                                                        });
+                                                </script>
+                                            }
+
+                                        </td>*@
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="card-header" style="background-color: azure">
+                        <i class="header-icon lnr-gift icon-gradient bg-grow-early"> </i>Kiểm duyệt kết quả đánh giá
+                    </div>
+                    <div class="table-responsive mt-2">
+                        <table class="table table-bordered table-hover" id="table1" width="100%" cellpadding="0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="text-center" width="30px">STT</th>
+                                    <th class="text-center">Mã nhân viên</th>
+                                    <th class="text-center">Họ tên</th>
+                                    <th class="text-center">Kíp</th>
+                                    <th class="text-center">Vị trí đánh giá</th>
+                                    <th class="text-center">BMTCV</th>
+                                    <th class="text-center">Ngày đánh giá gần nhất</th>
+
+                                    <th class="text-center ">Xem xét</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    //int pageno = (int)Model.PageNumber;
+                                    //int itemperpage = (int)Model.PageSize;
+                                    int RowNo1 = 1;
+                                }
+                                @foreach (var item in ViewBag.ListUserView)
+                                {
+                                    <tr>
+                                        <td class="text-center"> @RowNo1@{RowNo1++;}</td>
+                                        <td class="">@item.MaNV</td>
+                                        <td class="">@item.TenNV</td>
+                                        <td class="">@item.TenKip</td>
+                                        <td>@item.TenVT</td>
+                                        <td class="text-center">
+                                            <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                                        </td>
+                                        <td class="text-center">@item.NgayDG</td>
+                                        <td class="text-center p-0">
+                                            <a class="fa fa-check-square-o fa-2x" title="Xem xét" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
+                                               onclick="return confirm('Bạn muốn xem lại : @item.TenNV')">
+                                            </a>
+                                        </td>
+                                        @*<td class="text-center">
+                                            @if (ViewBag.DELETE == 1)
+                                            {
+                                                <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "FDepartment", new { id = item.IDVT })"
+                                                   onclick="return confirm('Bạn muốn xóa : @item.TenPhongBan')">
+                                                </a>
+                                            }
+                                            @if (ViewBag.EDIT == 1)
+                                            {
+                                                <a id="btn-edit_@item.IDVT" title="Sửa" class="fa fa-edit icon_action "></a>
+                                                <div class=" modal fade" id="myModale_@item.IDVT" role="dialog" data-url='@Url.Action("Edit","FDepartment", new { id = item.IDVT })'></div>
+                                                <script type="text/javascript">
+                                                    $("#btn-edit_@item.IDVT").click(function () {
+                                                        var url = $('#myModale_@item.IDVT').data('url');
+                                                        $.get(url, function (data) {
+                                                            $("#myModale_@item.IDVT").html(data);
+                                                            $("#ModalTitle").html("Cập nhật Vị trí");
+                                                            $("#myModale_@item.IDVT").modal('show');
+                                                            });
+                                                        });
+                                                </script>
+                                            }
+
+                                        </td>*@
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+        }
 
-            
-        </div>
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="card-header" style="background-color: azure">
-                    <i class="header-icon lnr-gift icon-gradient bg-grow-early"> </i>Kiểm duyệt kết quả đánh giá
-                </div>
-                <div class="table-responsive mt-2">
-                    <table class="table table-bordered table-hover" id="table1" width="100%" cellpadding="0">
-                        <thead class="thead-light">
-                            <tr>
-                                <th class="text-center" width="30px">STT</th>
-                                <th class="text-center">Mã nhân viên</th>
-                                <th class="text-center">Họ tên</th>
-                                <th class="text-center">Kíp</th>
-                                <th class="text-center">Vị trí đánh giá</th>
-                                <th class="text-center">BMTCV</th>
-                                <th class="text-center">Ngày đánh giá gần nhất</th>
-
-                                <th class="text-center ">Xem xét</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                //int pageno = (int)Model.PageNumber;
-                                //int itemperpage = (int)Model.PageSize;
-                                int RowNo1 = 1;
-                            }
-                            @foreach (var item in ViewBag.ListUserView)
-                            {
-                                <tr>
-                                    <td class="text-center"> @RowNo1@{RowNo1++;}</td>
-                                    <td class="">@item.MaNV</td>
-                                    <td class="">@item.TenNV</td>
-                                    <td class="">@item.TenKip</td>
-                                    <td>@item.TenVT</td>
-                                    <td class="text-center">
-                                        <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
-                                    </td>
-                                    <td class="text-center">@item.NgayDG</td>
-                                    <td class="text-center p-0">
-                                        <a class="fa fa-check-square-o fa-2x" title="Xem xét" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
-                                           onclick="return confirm('Bạn muốn xem lại : @item.TenNV')">
-                                        </a>
-                                    </td>
-                                    @*<td class="text-center">
-                                @if (ViewBag.DELETE == 1)
-                                {
-                                    <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "FDepartment", new { id = item.IDVT })"
-                                       onclick="return confirm('Bạn muốn xóa : @item.TenPhongBan')">
-                                    </a>
-                                }
-                                @if (ViewBag.EDIT == 1)
-                                {
-                                    <a id="btn-edit_@item.IDVT" title="Sửa" class="fa fa-edit icon_action "></a>
-                                    <div class=" modal fade" id="myModale_@item.IDVT" role="dialog" data-url='@Url.Action("Edit","FDepartment", new { id = item.IDVT })'></div>
-                                    <script type="text/javascript">
-                                        $("#btn-edit_@item.IDVT").click(function () {
-                                            var url = $('#myModale_@item.IDVT').data('url');
-                                            $.get(url, function (data) {
-                                                $("#myModale_@item.IDVT").html(data);
-                                                $("#ModalTitle").html("Cập nhật Vị trí");
-                                                $("#myModale_@item.IDVT").modal('show');
-                                                });
-                                            });
-                                    </script>
-                                }
-
-                            </td>*@
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
 
 
     </div>
@@ -285,6 +384,16 @@
             "pageLength": 10,
             "lengthChange": false,
             "info": false
+        });
+        $('#table2').DataTable({
+            "pageLength": 10,
+            "lengthChange": false,
+            "info": false
+            columnDefs: [{
+                "targets": [4],
+                "searchable": false,
+                "visible": true
+            }]
         });
     });
 </script>

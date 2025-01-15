@@ -34,6 +34,7 @@ namespace E_Learning.Models
         public int? TotalChuaDG { get; set; }
         public int? TotalQTHD { get; set; }
         public int? TotalHTQTHD { get; set; }
+        public string NgayTuDG { get; set; }
 
     }
 
@@ -67,6 +68,10 @@ namespace E_Learning.Models
         public Nullable<int> OrderBy { get; set; }
         public Nullable<int> OrderByLoai { get; set; }
         public bool CapNhatDG { get; set; }
+        public Nullable<int> DiemCBNVDG { get; set; }
+        public Nullable<int> DiemDGLan1 { get; set; }
+        public Nullable<int> DiemPheDuyetDG { get; set; }
+        public DateTime? NgayCBNVDG { get; set; }
     }
 
 

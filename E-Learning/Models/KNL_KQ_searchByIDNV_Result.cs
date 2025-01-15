@@ -37,5 +37,7 @@ namespace E_Learning.Models
         public Nullable<int> orByLoai { get; set; }
         public string TenPhongBan { get; set; }
         public string MaPB { get; set; }
+        public Nullable<int> DiemTuDG { get; set; }
+        public Nullable<System.DateTime> NgayTuDG { get; set; }
     }
 }
