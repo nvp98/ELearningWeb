@@ -170,12 +170,12 @@
                                                                             <td class="text-center"> @(b+1)</td>
                                                                             <td class="">@Model[i].TenNL</td>
                                                                             <td class="text-center">@Model[i].DinhMuc</td>
-                                                                            <td>
+                                                                            <td class="text-center font-weight-bold @(Model[i].DiemCBNVDG != null?"text-danger":"")">
                                                                                 @Model[i].DiemCBNVDG
                                                                             </td>
                                                                             @if (@Model[i].NgayCBNVDG != null)
                                                                             {
-                                                                                <td>
+                                                                                <td class="text-danger">
                                                                                     @(((DateTime)Model[i].NgayCBNVDG).ToString("dd/MM/yyyy"))
                                                                                 </td>
                                                                             }
@@ -183,8 +183,19 @@
                                                                             {
                                                                                 <td></td>
                                                                             }
-                                                                            <td></td>
-                                                                            <td></td>
+                                                                            <td class="text-center font-weight-bold @(Model[i].DiemCBNVDG != null?"text-success":"")">
+                                                                                @Model[i].DiemDG
+                                                                            </td>
+                                                                            @if (@Model[i].StrNgayDG != null)
+                                                                            {
+                                                                                <td class="text-success">
+                                                                                    @Model[i].StrNgayDG
+                                                                                </td>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <td></td>
+                                                                            }
                                                                             <td class="text-center @(@Model[i].DinhMuc == 0 ? "bg-secondary" :"bg-clor")">@Html.RadioButtonFor(m => m[i].DiemDG, 0, new { disabled = "disabled" }) </td>
                                                                             <td class="text-center @(@Model[i].DinhMuc == 1 ? "bg-secondary" : (@Model[i].DiemDG ==1?Model[i].ColorKQ:"bg-clor"))">@Html.RadioButtonFor(m => m[i].DiemDG, 1) </td>
                                                                             <td class="text-center @(@Model[i].DinhMuc == 2 ? "bg-secondary" : (@Model[i].DiemDG ==2?Model[i].ColorKQ:"bg-clor"))">@Html.RadioButtonFor(m => m[i].DiemDG, 2) </td>
@@ -235,7 +246,7 @@
                                                                             <td class="text-center"> @(b+1)</td>
                                                                             <td class="">@Model[i].TenNL</td>
                                                                             <td class="text-center">@Model[i].DinhMuc</td>
-                                                                            <td>
+                                                                            <td class="text-center @(Model[i].DiemCBNVDG != null?"bg-warning":"")">
                                                                                 @Model[i].DiemCBNVDG
                                                                             </td>
                                                                             @if (@Model[i].NgayCBNVDG != null)
@@ -248,8 +259,12 @@
                                                                             {
                                                                                 <td></td>
                                                                             }
-                                                                            <td></td>
-                                                                            <td></td>
+                                                                            <td class="text-center font-weight-bold @(Model[i].DiemDG != null?"text-success":"")">
+                                                                                @Model[i].DiemDG
+                                                                            </td>
+                                                                            <td class="text-success">
+                                                                                @Model[i].StrNgayDG
+                                                                            </td>
                                                                             <td class="text-center @(@Model[i].DinhMuc == 0 ? "bg-secondary" :"bg-clor")">@Html.RadioButtonFor(m => m[i].DiemDG, 0, new { disabled = "disabled" }) </td>
                                                                             <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 1, new { disabled = "disabled" }) </td>
                                                                             <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 2, new { disabled = "disabled" }) </td>
@@ -295,7 +310,7 @@
                                                                                 <td class="text-center "> @(a+1)</td>
                                                                                 <td class="">@Model[i].TenNL</td>
                                                                                 <td class="text-center">@Model[i].DinhMuc</td>
-                                                                                <td>
+                                                                                <td class="text-center @(Model[i].DiemCBNVDG != null?"bg-warning":"")">
                                                                                     @Model[i].DiemCBNVDG
                                                                                 </td>
                                                                                 @if (@Model[i].NgayCBNVDG != null)
@@ -308,8 +323,12 @@
                                                                                 {
                                                                                     <td></td>
                                                                                 }
-                                                                                <td></td>
-                                                                                <td></td>
+                                                                                <td class="text-center font-weight-bold @(Model[i].DiemDG != null?"text-success":"")">
+                                                                                    @Model[i].DiemDG
+                                                                                </td>
+                                                                                <td class="text-success">
+                                                                                    @Model[i].StrNgayDG
+                                                                                </td>
                                                                                 <td class="text-center @(@Model[i].DinhMuc == 0 ? "bg-secondary" :"bg-clor")">@Html.RadioButtonFor(m => m[i].DiemDG, 0, new { disabled = "disabled" }) </td>
                                                                                 <td class="text-center @(@Model[i].DinhMuc == 1 ? "bg-secondary" :(@Model[i].DiemDG ==1?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 1) </td>
                                                                                 <td class="text-center @(@Model[i].DinhMuc == 2 ? "bg-secondary" : (@Model[i].DiemDG ==2?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 2) </td>
@@ -379,7 +398,7 @@
                                                                             <td class="text-center"> @(c+1)</td>
                                                                             <td class="">@Model[i].TenNL</td>
                                                                             <td class="text-center">@Model[i].DinhMuc</td>
-                                                                            <td>
+                                                                            <td class="text-center @(Model[i].DiemCBNVDG != null?"bg-warning":"")">
                                                                                 @Model[i].DiemCBNVDG
                                                                             </td>
                                                                             @if (@Model[i].NgayCBNVDG != null)
@@ -392,8 +411,12 @@
                                                                             {
                                                                                 <td></td>
                                                                             }
-                                                                            <td></td>
-                                                                            <td></td>
+                                                                            <td class="text-center font-weight-bold @(Model[i].DiemDG != null?"text-success":"")">
+                                                                                @Model[i].DiemDG
+                                                                            </td>
+                                                                            <td class="text-success">
+                                                                                @Model[i].StrNgayDG
+                                                                            </td>
                                                                             <td class="text-center @(@Model[i].DinhMuc == 0 ? "bg-secondary" :"bg-clor")">@Html.RadioButtonFor(m => m[i].DiemDG, 0, new { disabled = "disabled" }) </td>
                                                                             <td class="text-center @(@Model[i].DinhMuc == 1 ? "bg-secondary" : (@Model[i].DiemDG ==1?Model[i].ColorKQ:"bg-clor"))">@Html.RadioButtonFor(m => m[i].DiemDG, 1) </td>
                                                                             <td class="text-center @(@Model[i].DinhMuc == 2 ? "bg-secondary" : (@Model[i].DiemDG ==2?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 2) </td>
@@ -443,7 +466,7 @@
                                                                             <td class="text-center"> @(c+1)</td>
                                                                             <td class="">@Model[i].TenNL</td>
                                                                             <td class="text-center">@Model[i].DinhMuc</td>
-                                                                            <td>
+                                                                            <td class="text-center @(Model[i].DiemCBNVDG != null?"bg-warning":"")">
                                                                                 @Model[i].DiemCBNVDG
                                                                             </td>
                                                                             @if (Model[i].NgayCBNVDG != null)
@@ -453,8 +476,12 @@
                                                                                 </td>
                                                                             }
 
-                                                                            <td></td>
-                                                                            <td></td>
+                                                                            <td class="text-center font-weight-bold @(Model[i].DiemDG != null?"text-success":"")">
+                                                                                @Model[i].DiemDG
+                                                                            </td>
+                                                                            <td class="text-success">
+                                                                                @Model[i].StrNgayDG
+                                                                            </td>
                                                                             <td class="text-center @(@Model[i].DinhMuc == 0 ? "bg-secondary" :"bg-clor")">@Html.RadioButtonFor(m => m[i].DiemDG, 0, new { disabled = "disabled" }) </td>
                                                                             <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 1, new { disabled = "disabled" }) </td>
                                                                             <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 2, new { disabled = "disabled" }) </td>

@@ -237,6 +237,8 @@
           <Property Name="DiemDM" Type="int" />
           <Property Name="KQID" Type="int" />
           <Property Name="VTID" Type="int" />
+          <Property Name="DiemTuDG" Type="int" />
+          <Property Name="NgayTuDG" Type="date" />
         </EntityType>
         <EntityType Name="KNL_Khoi">
           <Key>
@@ -1653,6 +1655,8 @@
           <Parameter Name="DiemDM" Type="int" Mode="In" />
           <Parameter Name="VTID" Type="int" Mode="In" />
           <Parameter Name="Note" Type="nvarchar" Mode="In" />
+          <Parameter Name="DiemTuDG" Type="int" Mode="In" />
+          <Parameter Name="NgayTuDG" Type="date" Mode="In" />
         </Function>
         <Function Name="KNL_KQ_searchByIDNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDNL" Type="int" Mode="In" />
@@ -1686,6 +1690,11 @@
           <Parameter Name="DiemDM" Type="int" Mode="In" />
           <Parameter Name="VTID" Type="int" Mode="In" />
           <Parameter Name="Note" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="KNL_KQ_update_TuDG" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDKQ" Type="int" Mode="In" />
+          <Parameter Name="DiemTuDG" Type="int" Mode="In" />
+          <Parameter Name="NgayTuDG" Type="date" Mode="In" />
         </Function>
         <Function Name="KNL_LSDG_insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDNV" Type="int" Mode="In" />
@@ -2947,6 +2956,8 @@
           <Property Name="KQID" Type="Int32" />
           <Property Name="VTID" Type="Int32" />
           <NavigationProperty Name="KhungNangLuc" Relationship="Self.FK_KNL_KQ_KhungNangLuc" FromRole="KNL_KQ" ToRole="KhungNangLuc" />
+          <Property Name="DiemTuDG" Type="Int32" />
+          <Property Name="NgayTuDG" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="KNL_Khoi">
           <Key>
@@ -4574,6 +4585,8 @@
             <Parameter Name="DiemDM" Mode="In" Type="Int32" />
             <Parameter Name="VTID" Mode="In" Type="Int32" />
             <Parameter Name="Note" Mode="In" Type="String" />
+            <Parameter Name="DiemTuDG" Mode="In" Type="Int32" />
+            <Parameter Name="NgayTuDG" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="KNL_KQ_searchByIDNL" ReturnType="Collection(ELEARNINGModel.KNL_KQ_searchByIDNL_Result)">
             <Parameter Name="IDNL" Mode="In" Type="Int32" />
@@ -5497,6 +5510,11 @@
             <End Role="KNL_PheDuyetKNL" EntitySet="KNL_PheDuyetKNL" />
           </AssociationSet>
           <EntitySet Name="KNL_DocBangKNL" EntityType="ELEARNINGModel.KNL_DocBangKNL" />
+          <FunctionImport Name="KNL_KQ_update_TuDG">
+            <Parameter Name="IDKQ" Mode="In" Type="Int32" />
+            <Parameter Name="DiemTuDG" Mode="In" Type="Int32" />
+            <Parameter Name="NgayTuDG" Mode="In" Type="DateTime" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="CauHoi_DeThi_list_Result">
           <Property Type="Int32" Name="IDCH" Nullable="false" />
@@ -5664,6 +5682,8 @@
           <Property Type="Int32" Name="orByLoai" Nullable="true" />
           <Property Type="String" Name="TenPhongBan" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="MaPB" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="DiemTuDG" Nullable="true" />
+          <Property Type="DateTime" Name="NgayTuDG" Nullable="true" />
         </ComplexType>
         <ComplexType Name="KNL_KQ_Select_Result">
           <Property Type="Int32" Name="IDKQ" Nullable="false" />
@@ -5683,6 +5703,8 @@
           <Property Type="Int32" Name="IsDanhGia" Nullable="true" />
           <Property Type="Int32" Name="DinhMuc" Nullable="true" />
           <Property Type="Int32" Name="OrderBy" Nullable="true" />
+          <Property Type="Int32" Name="DiemTuDG" Nullable="true" />
+          <Property Type="DateTime" Name="NgayTuDG" Nullable="true" />
         </ComplexType>
         <ComplexType Name="KNL_KQ_SelectDDG_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -6494,6 +6516,8 @@
           <EntitySetMapping Name="KNL_KQ">
             <EntityTypeMapping TypeName="ELEARNINGModel.KNL_KQ">
               <MappingFragment StoreEntitySet="KNL_KQ">
+                <ScalarProperty Name="NgayTuDG" ColumnName="NgayTuDG" />
+                <ScalarProperty Name="DiemTuDG" ColumnName="DiemTuDG" />
                 <ScalarProperty Name="IDKQ" ColumnName="IDKQ" />
                 <ScalarProperty Name="IDNV" ColumnName="IDNV" />
                 <ScalarProperty Name="IDNL" ColumnName="IDNL" />
@@ -7424,6 +7448,8 @@
                 <ScalarProperty Name="orByLoai" ColumnName="orByLoai" />
                 <ScalarProperty Name="TenPhongBan" ColumnName="TenPhongBan" />
                 <ScalarProperty Name="MaPB" ColumnName="MaPB" />
+                <ScalarProperty Name="DiemTuDG" ColumnName="DiemTuDG" />
+                <ScalarProperty Name="NgayTuDG" ColumnName="NgayTuDG" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7447,6 +7473,8 @@
                 <ScalarProperty Name="IsDanhGia" ColumnName="IsDanhGia" />
                 <ScalarProperty Name="DinhMuc" ColumnName="DinhMuc" />
                 <ScalarProperty Name="OrderBy" ColumnName="OrderBy" />
+                <ScalarProperty Name="DiemTuDG" ColumnName="DiemTuDG" />
+                <ScalarProperty Name="NgayTuDG" ColumnName="NgayTuDG" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -8243,6 +8271,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="KNL_KQ_update_TuDG" FunctionName="ELEARNINGModel.Store.KNL_KQ_update_TuDG" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

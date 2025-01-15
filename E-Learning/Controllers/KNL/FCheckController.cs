@@ -96,7 +96,7 @@ namespace E_Learning.Controllers.KNL
                              fileBMTCV = a.FilePath,
                              NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
                              TotalDat =  db.KNL_DocBangKNL.Where(x=>x.IDNV == a.ID && x.ID_ViTriKNL == a.IDVT).Count(),
-                             Total = db.KhungNangLucs.Where(x=>x.IDVT == a.IDVT && x.IsDanhGia ==1).Count()
+                             Total = db.KhungNangLucs.Where(x=>x.IDVT == a.IDVT && x.IsDanhGia ==1).Count(),
                          }).ToList();
             }
 
@@ -201,7 +201,7 @@ namespace E_Learning.Controllers.KNL
                             TenKip = a.TenKip,
                             //MaViTri = a.MaViTri,
                             fileBMTCV = a.FilePath,
-                            NgayDG =a?.NgayDG != null? String.Format("{0:dd/MM/yyyy}", a?.NgayDG):""
+                            NgayDG =a?.NgayDG != null? String.Format("{0:dd/MM/yyyy}", a?.NgayDG):"",
                         }).ToList();
             //foreach (var item in res1)
             //{
@@ -421,7 +421,7 @@ namespace E_Learning.Controllers.KNL
                     foreach (var KQ in Fnew)
                     {
                         var aa = kqt.Where(x => x.IDNL == KQ.IDNL).FirstOrDefault();
-                        if (aa != null) db.KNL_KQ_insert(aa.IDNV, aa.IDNL, aa.IDNVDG, aa.DiemDG, dt, aa.NgayDG, CheckKQID(aa.DiemDG, aa.DinhMuc, aa.IsDanhGia), KQ.DinhMuc, KQ.IDVT, aa.Note);
+                        if (aa != null) db.KNL_KQ_insert(aa.IDNV, aa.IDNL, aa.IDNVDG, aa.DiemDG, dt, aa.NgayDG, CheckKQID(aa.DiemDG, aa.DinhMuc, aa.IsDanhGia), KQ.DinhMuc, KQ.IDVT, aa.Note,null,null);
                     }
                 }
             }
@@ -455,8 +455,8 @@ namespace E_Learning.Controllers.KNL
                           TenNVDG = a.HoTen,
                           NgayCanhBao = a.DiemDG < a.DinhMuc ? (((DateTime)a.NgayDG).AddMonths(6) -DateTime.Now).Days : -1000,
                           NgayHanDG = a.DiemDG < a.DinhMuc ? ((DateTime)a.NgayDG).AddMonths(6): default(DateTime),
-                          DiemCBNVDG = db.KNL_KQ.Where(x=>x.IDNL == a.IDNL && x.IDNV == IDNV && x.IDNVDG == IDNV).LastOrDefault()?.DiemDG,
-                          NgayCBNVDG = db.KNL_KQ.Where(x => x.IDNL == a.IDNL && x.IDNV == IDNV && x.IDNVDG == IDNV).LastOrDefault()?.NgayDG
+                          DiemCBNVDG = a.DiemTuDG,
+                          NgayCBNVDG = a.NgayTuDG
                       }).ToList().OrderBy(x => x.OrderBy);
 
             //var res = (from a in db.KhungNangLucs.Where(x => x.IDVT == nv.IDVT && (x.IDLoaiNL == 1 || x.IDLoaiNL == 2 || (x.IDLoaiNL != 1 && x.IDLoaiNL != 2 && x.IsDanhGia == 1)))
@@ -531,6 +531,7 @@ namespace E_Learning.Controllers.KNL
             {
                 string manv = MyAuthentication.Username;
                 var nv = db.NhanViens.Where(x => x.MaNV == manv).FirstOrDefault();
+
                 foreach (var KQ in ListKQ)
                 {
                     var firstDayOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
@@ -540,11 +541,18 @@ namespace E_Learning.Controllers.KNL
                     {
                         if (idkq == 0)
                         {
-                            db.KNL_KQ_insert(KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null,CheckKQID(KQ.DiemDG,KQ.DinhMuc,KQ.IsDanhGia),KQ.DinhMuc,KQ.IDVT, null);
+                            db.KNL_KQ_insert(KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null,CheckKQID(KQ.DiemDG,KQ.DinhMuc,KQ.IsDanhGia),KQ.DinhMuc,KQ.IDVT, null, null, null);
                         }
                         else if (diemkq != KQ.DiemDG)
                         {
-                            db.KNL_KQ_update(KQ.IDKQ, KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, null);
+                            if(KQ.IDNV == nv.ID)
+                            {
+                                db.KNL_KQ_update_TuDG(KQ.IDKQ, null, null);
+                            }
+                            else {
+                                db.KNL_KQ_update(KQ.IDKQ, KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, null);
+                            }
+                            
                         }
                     }
                     else
@@ -553,11 +561,20 @@ namespace E_Learning.Controllers.KNL
                         {
                             if(KQ.DiemDG != null && KQ.DiemDG != 0)
                             {
-                                db.KNL_KQ_insert(KQ.IDNV, KQ.IDNL, nv.ID, KQ.DiemDG, KQ.ThangDG, DateTime.Now, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, KQ.Note);
+                                if(KQ.IDNV == nv.ID)
+                                {
+                                    db.KNL_KQ_insert(KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, DateTime.Now, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, KQ.Note,KQ.DiemDG,DateTime.Now);
+                                }
+                                else
+                                {
+                                    db.KNL_KQ_insert(KQ.IDNV, KQ.IDNL, nv.ID, KQ.DiemDG, KQ.ThangDG, DateTime.Now, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, KQ.Note,null,null);
+                                }
+                                //db.KNL_KQ_insert(KQ.IDNV, KQ.IDNL, nv.ID, KQ.DiemDG, KQ.ThangDG, DateTime.Now, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, KQ.Note);
                             }
                             else
                             {
-                                db.KNL_KQ_insert(KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, null);
+                                db.KNL_KQ_insert(KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, null, null, null);
+                                //db.KNL_KQ_insert(KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, null);
                             }
 
                         }
@@ -565,16 +582,32 @@ namespace E_Learning.Controllers.KNL
                         {
                             if (KQ.DiemDG != null && KQ.DiemDG != 0)
                             {
-                                db.KNL_KQ_update(KQ.IDKQ, KQ.IDNV, KQ.IDNL, nv.ID, KQ.DiemDG, KQ.ThangDG, DateTime.Now, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, KQ.Note);
+                                if(KQ.IDNV == nv.ID)
+                                {
+                                    db.KNL_KQ_update_TuDG(KQ.IDKQ, KQ.DiemDG, DateTime.Now);
+                                }
+                                else
+                                {
+                                    db.KNL_KQ_update(KQ.IDKQ, KQ.IDNV, KQ.IDNL, nv.ID, KQ.DiemDG, KQ.ThangDG, DateTime.Now, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, KQ.Note);
+                                }
+                                
                             }
                             else
                             {
-                                db.KNL_KQ_update(KQ.IDKQ, KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, null);
+                                if(KQ.IDNV == nv.ID)
+                                {
+                                    db.KNL_KQ_update_TuDG(KQ.IDKQ, null, null);
+                                }
+                                else db.KNL_KQ_update(KQ.IDKQ, KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, null);
                             }
                         }
                         else if(diemkq == KQ.DiemDG && KQ.CapNhatDG == true)
                         {
-                            db.KNL_KQ_update(KQ.IDKQ, KQ.IDNV, KQ.IDNL, nv.ID, KQ.DiemDG, KQ.ThangDG, DateTime.Now, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, KQ.Note);
+                            if(KQ.IDNV == nv.ID)
+                            {
+                                db.KNL_KQ_update_TuDG(KQ.IDKQ, KQ.DiemDG, DateTime.Now);
+                            }
+                            else db.KNL_KQ_update(KQ.IDKQ, KQ.IDNV, KQ.IDNL, nv.ID, KQ.DiemDG, KQ.ThangDG, DateTime.Now, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, KQ.Note);
                         }
                     }
                     
@@ -732,7 +765,7 @@ namespace E_Learning.Controllers.KNL
 
         public int GetIDKQuaKNL(DateTime? dateDG, int? IDNV, int? IDNL)
         {
-            var model = db.KNL_KQ.Where(x => x.ThangDG == dateDG && x.IDNL == IDNL && x.IDNV == IDNV).FirstOrDefault();
+            var model = db.KNL_KQ.Where(x => x.ThangDG == dateDG && x.IDNL == IDNL && x.IDNV == IDNV ).FirstOrDefault();
             if (model == null)
                 return 0;
             return model.IDKQ;

@@ -105,7 +105,7 @@ namespace E_Learning.Models
         public virtual DbSet<SH_KetQuaDaoTao> SH_KetQuaDaoTao { get; set; }
         public virtual DbSet<KNL_PheDuyetKNL> KNL_PheDuyetKNL { get; set; }
         public virtual DbSet<KNL_DocBangKNL> KNL_DocBangKNL { get; set; }
-    
+
         public virtual int BaiThi_insert(Nullable<int> iDLH, Nullable<int> iDDeThi, Nullable<int> iDND, Nullable<int> iDNV, Nullable<int> iDPhongBan, Nullable<int> iDViTri, Nullable<double> diemSo, Nullable<System.DateTime> ngayThi, Nullable<bool> tinhTrang, Nullable<int> lanThi, ObjectParameter iDBaiThi)
         {
             var iDLHParameter = iDLH.HasValue ?
@@ -1248,7 +1248,7 @@ namespace E_Learning.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_KQ_delete", iDKQParameter);
         }
     
-        public virtual int KNL_KQ_insert(Nullable<int> iDNV, Nullable<int> iDNL, Nullable<int> iDNVDG, Nullable<int> diemDG, Nullable<System.DateTime> thangDG, Nullable<System.DateTime> ngayDG, Nullable<int> kQID, Nullable<int> diemDM, Nullable<int> vTID, string note)
+        public virtual int KNL_KQ_insert(Nullable<int> iDNV, Nullable<int> iDNL, Nullable<int> iDNVDG, Nullable<int> diemDG, Nullable<System.DateTime> thangDG, Nullable<System.DateTime> ngayDG, Nullable<int> kQID, Nullable<int> diemDM, Nullable<int> vTID, string note, Nullable<int> diemTuDG, Nullable<System.DateTime> ngayTuDG)
         {
             var iDNVParameter = iDNV.HasValue ?
                 new ObjectParameter("IDNV", iDNV) :
@@ -1290,7 +1290,15 @@ namespace E_Learning.Models
                 new ObjectParameter("Note", note) :
                 new ObjectParameter("Note", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_KQ_insert", iDNVParameter, iDNLParameter, iDNVDGParameter, diemDGParameter, thangDGParameter, ngayDGParameter, kQIDParameter, diemDMParameter, vTIDParameter, noteParameter);
+            var diemTuDGParameter = diemTuDG.HasValue ?
+                new ObjectParameter("DiemTuDG", diemTuDG) :
+                new ObjectParameter("DiemTuDG", typeof(int));
+    
+            var ngayTuDGParameter = ngayTuDG.HasValue ?
+                new ObjectParameter("NgayTuDG", ngayTuDG) :
+                new ObjectParameter("NgayTuDG", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_KQ_insert", iDNVParameter, iDNLParameter, iDNVDGParameter, diemDGParameter, thangDGParameter, ngayDGParameter, kQIDParameter, diemDMParameter, vTIDParameter, noteParameter, diemTuDGParameter, ngayTuDGParameter);
         }
     
         public virtual ObjectResult<KNL_KQ_searchByIDNL_Result> KNL_KQ_searchByIDNL(Nullable<int> iDNL, Nullable<System.DateTime> thangDG)
@@ -4465,6 +4473,23 @@ namespace E_Learning.Models
                 new ObjectParameter("VTID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("XNHocTap_update", iDHTParameter, nVIDParameter, lHIDParameter, ngayTGParameter, ngayHTParameter, xNTGParameter, xNHTParameter, pBIDParameter, vTIDParameter);
+        }
+    
+        public virtual int KNL_KQ_update_TuDG(Nullable<int> iDKQ, Nullable<int> diemTuDG, Nullable<System.DateTime> ngayTuDG)
+        {
+            var iDKQParameter = iDKQ.HasValue ?
+                new ObjectParameter("IDKQ", iDKQ) :
+                new ObjectParameter("IDKQ", typeof(int));
+    
+            var diemTuDGParameter = diemTuDG.HasValue ?
+                new ObjectParameter("DiemTuDG", diemTuDG) :
+                new ObjectParameter("DiemTuDG", typeof(int));
+    
+            var ngayTuDGParameter = ngayTuDG.HasValue ?
+                new ObjectParameter("NgayTuDG", ngayTuDG) :
+                new ObjectParameter("NgayTuDG", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_KQ_update_TuDG", iDKQParameter, diemTuDGParameter, ngayTuDGParameter);
         }
     }
 }

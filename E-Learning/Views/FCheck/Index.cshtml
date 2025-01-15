@@ -119,11 +119,19 @@
                                             @item.TotalDat / @item.Total
                                         </a>
                                     </td>
-                                    <td class="text-center p-0">
-                                        <a class="fa fa-check-square-o fa-2x" title="Đánh giá" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
-                                           onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
-                                        </a>
-                                    </td>
+                                    @if (item.TotalDat >= item.Total)
+                                    {
+                                        <td class="text-center p-0">
+                                            <a class="fa fa-check-square-o fa-2x" title="Đánh giá" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
+                                               onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
+                                            </a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+
 
                                 </tr>
                             }

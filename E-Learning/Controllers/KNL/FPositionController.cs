@@ -4943,6 +4943,36 @@ namespace E_Learning.Controllers
             return RedirectToAction("PheDuyetKNL", "FPosition");
         }
 
+        [HttpPost]
+        public ActionResult ProcessSelected(List<int> selectedItems)
+        {
+            if (selectedItems != null && selectedItems.Any())
+            {
+
+                //// Xử lý danh sách ID được chọn
+                foreach (var id in selectedItems)
+                {
+                    var sH_KyDuyetNCDT = db.KNL_PheDuyetKNL.Where(x => x.IDVT == id && x.ID_NguoiDuyet == MyAuthentication.ID && x.TinhTrang == 0).FirstOrDefault();
+                    if (sH_KyDuyetNCDT == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    sH_KyDuyetNCDT.NgayDuyet = DateTime.Now;
+                    sH_KyDuyetNCDT.TinhTrang = 1;
+                    string filepath = ExportViewToPdf(sH_KyDuyetNCDT.ID, sH_KyDuyetNCDT.IDVT);
+                    if (filepath != null)
+                    {
+                        sH_KyDuyetNCDT.File_KNL = filepath;
+                    }
+                    db.SaveChanges();
+                }
+                //_context.SaveChanges();
+            }
+
+            TempData["msgSuccess"] = "<script>alert('Thành công');</script>";
+            return RedirectToAction("PheDuyetKNL", "FPosition");
+        }
+
         public ActionResult PheDuyetBangKNL(int? IDVT)
         {
 
