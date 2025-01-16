@@ -53,7 +53,32 @@
     .table-responsive::-webkit-scrollbar {
         width: 2px;
     }*/
+    /* Bao bọc bảng trong một container có cuộn */
+    .answer {
+        max-height: 800px; /* Chiều cao tối đa của bảng */
+        overflow-y: auto; /* Cho phép cuộn dọc */
+        border: 1px solid #ddd; /* Tạo viền để phân biệt vùng bảng */
+    }
 
+    /* Thiết lập cho bảng */
+    table {
+        width: 100%; /* Chiếm toàn bộ chiều rộng container */
+        border-collapse: collapse; /* Loại bỏ khoảng cách giữa các ô */
+    }
+
+    th, td {
+        padding: 10px; /* Khoảng cách bên trong ô */
+        border: 1px solid #ddd; /* Viền giữa các ô */
+        text-align: left; /* Căn lề trái */
+    }
+
+    /* Giữ tiêu đề cố định */
+    .stic {
+        position: sticky; /* Cố định tiêu đề */
+        top: 0; /* Vị trí cách trên cùng container */
+        background-color: #f4f4f4; /* Màu nền cho header */
+        /*z-index: 1000;*/ /* Đảm bảo header nằm trên nội dung */
+    }
 </style>
 
 <div class="app-main__outer">
@@ -104,7 +129,7 @@
                             </span>
 
                         </div>
-                        <div class="font-italic text-danger font-size-lg mb-0">Lưu ý: Màu vàng là kết quả đánh giá của cá nhân gần nhất</div>
+                        @*<div class="font-italic text-danger font-size-lg mb-0">Lưu ý: Màu vàng là kết quả đánh giá của cá nhân gần nhất</div>*@
 
 
                         <div class="card-body">
@@ -116,7 +141,7 @@
                                             <div class="ablock">
                                                 <div class="answer">
                                                     <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
-                                                        <thread>
+                                                        <thead class="stic">
                                                             <tr>
                                                                 <th rowspan="2">STT</th>
                                                                 <th rowspan="2" class="text-center">Yêu Cầu Năng Lực</th>
@@ -124,6 +149,11 @@
                                                                 <th colspan="2" class="text-center font-weight-bold">CBNV Tự đánh giá</th>
                                                                 <th colspan="2" class="text-center font-weight-bold">Kiểm duyệt đánh giá</th>
                                                                 <th colspan="8" class="text-center font-weight-bold">Chọn mức độ đạt được của nhân viên</th>
+                                                                <th rowspan="2" class="text-center">Ngày cập nhật</th>
+                                                                <th rowspan="2" class="text-center">Người đánh giá</th>
+                                                                <th rowspan="2" class="text-center">Ngày đến hạn đánh giá lại</th>
+                                                                <th rowspan="2" class="text-center">Hạn đánh giá lại</th>
+                                                                <th rowspan="2" class="text-center" width="100px">Ghi chú</th>
                                                             </tr>
                                                             <tr>
                                                                 <th class=" text-center">Kết quả</th>
@@ -138,13 +168,9 @@
                                                                 <th class="text-center">5</th>
                                                                 <th class="text-center">6</th>
                                                                 <th class=" text-center">Đánh giá lại mức cũ</th>
-                                                                <th class="text-center">Ngày cập nhật</th>
-                                                                <th class="text-center">Người đánh giá</th>
-                                                                <th class="text-center">Ngày đến hạn đánh giá lại</th>
-                                                                <th class="text-center">Hạn đánh giá lại</th>
-                                                                <th class="text-center" width="100px">Ghi chú</th>
+                                                               
                                                             </tr>
-                                                        </thread>
+                                                        </thead>
 
                                                         <tbody>
                                                             <tr><th colspan="10" class="font-weight-bold font-size-lg">I. Năng lực chung</th></tr>

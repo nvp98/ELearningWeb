@@ -23,5 +23,6 @@ namespace E_Learning.Models
         public string TenViTri { get; set; }
         public string FilePath { get; set; }
         public Nullable<System.DateTime> NgayDG { get; set; }
+        public Nullable<System.DateTime> NgayTuDG { get; set; }
     }
 }

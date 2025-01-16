@@ -90,7 +90,7 @@
                                 <th class="text-center">BMTCV</th>
                                 <th class="text-center">Ngày tự đánh giá gần nhất</th>
                                 <th class="text-center">Ngày kiểm duyệt gần nhất</th>
-                                <th class="text-center ">Kết quả đọc bảng KNL</th>
+                                <th class="text-center ">Kết quả phổ biến KNL</th>
                                 <th class="text-center ">Tự Đánh giá</th>
                             </tr>
                         </thead>
@@ -111,12 +111,15 @@
                                     <td class="text-center">
                                         <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
                                     </td>
-                                    <td class="text-center">@item.NgayDG</td>
+                                    <td class="text-center">@item.NgayTuDG</td>
                                     <td class="text-center">@item.NgayDG</td>
                                     <td class="text-center">
-                                        <a class="text-danger font-weight-bold" title="Đánh giá" href="@Url.Action("ReadKNL", "FCheck", new { IDNV = item.IDNV })"
-                                           onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
+                                        <a class="text-danger font-weight-bold" title="Đọc bảng KNL" href="@Url.Action("ReadKNL", "FCheck", new { IDNV = item.IDNV })"
+                                           onclick="return confirm('Bạn muốn đọc bảng KNL : @item.TenNV')">
                                             @item.TotalDat / @item.Total
+                                        </a>
+                                        <a class="fa fa-file" title="Đọc bảng KNL" href="@Url.Action("ReadKNL", "FCheck", new { IDNV = item.IDNV })"
+                                           onclick="return confirm('Bạn muốn đọc bảng KNL : @item.TenNV')">
                                         </a>
                                     </td>
                                     @if (item.TotalDat >= item.Total)

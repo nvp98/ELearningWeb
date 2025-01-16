@@ -270,6 +270,7 @@
           <Property Name="KDGia" Type="int" />
           <Property Name="CHUADG" Type="int" />
           <Property Name="TONGNL" Type="int" />
+          <Property Name="NgayTuDGGN" Type="date" />
         </EntityType>
         <EntityType Name="KNL_NVKiemNhiem">
           <Key>
@@ -1707,6 +1708,7 @@
           <Parameter Name="KDGia" Type="int" Mode="In" />
           <Parameter Name="CHUADG" Type="int" Mode="In" />
           <Parameter Name="TONGNL" Type="int" Mode="In" />
+          <Parameter Name="NgayTuDGGN" Type="date" Mode="In" />
         </Function>
         <Function Name="KNL_LSDG_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDNV" Type="int" Mode="In" />
@@ -1724,6 +1726,7 @@
           <Parameter Name="KDGia" Type="int" Mode="In" />
           <Parameter Name="CHUADG" Type="int" Mode="In" />
           <Parameter Name="TONGNL" Type="int" Mode="In" />
+          <Parameter Name="NgayTuDGGN" Type="date" Mode="In" />
         </Function>
         <Function Name="KNL_Quyen_insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TenQuyen" Type="nvarchar" Mode="In" />
@@ -2989,6 +2992,7 @@
           <Property Name="KDGia" Type="Int32" />
           <Property Name="CHUADG" Type="Int32" />
           <Property Name="TONGNL" Type="Int32" />
+          <Property Name="NgayTuDGGN" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="KNL_NVKiemNhiem">
           <Key>
@@ -4632,6 +4636,7 @@
             <Parameter Name="KDGia" Mode="In" Type="Int32" />
             <Parameter Name="CHUADG" Mode="In" Type="Int32" />
             <Parameter Name="TONGNL" Mode="In" Type="Int32" />
+            <Parameter Name="NgayTuDGGN" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="KNL_LSDG_Select" ReturnType="Collection(ELEARNINGModel.KNL_LSDG_Select_Result)">
             <Parameter Name="IDNV" Mode="In" Type="Int32" />
@@ -4649,6 +4654,7 @@
             <Parameter Name="KDGia" Mode="In" Type="Int32" />
             <Parameter Name="CHUADG" Mode="In" Type="Int32" />
             <Parameter Name="TONGNL" Mode="In" Type="Int32" />
+            <Parameter Name="NgayTuDGGN" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="KNL_Quyen_insert">
           <Parameter Name="TenQuyen" Mode="In" Type="String" />
@@ -5776,6 +5782,7 @@
           <Property Type="String" Name="TenViTri" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="FilePath" Nullable="true" />
           <Property Type="String" Name="TenVTKNL" Nullable="false" MaxLength="724" />
+          <Property Type="DateTime" Name="NgayTuDGGN" Nullable="true" />
         </ComplexType>
         <ComplexType Name="KNLDGiaTC_select_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -5923,6 +5930,7 @@
           <Property Type="String" Name="TenViTri" Nullable="false" MaxLength="724" />
           <Property Type="String" Name="FilePath" Nullable="true" />
           <Property Type="DateTime" Name="NgayDG" Nullable="true" />
+          <Property Type="DateTime" Name="NgayTuDG" Nullable="true" />
         </ComplexType>
         <ComplexType Name="NoiDungDT_ListContent_Result">
           <Property Type="Int32" Name="IDND" Nullable="false" />
@@ -6552,6 +6560,7 @@
           <EntitySetMapping Name="KNL_LSDG">
             <EntityTypeMapping TypeName="ELEARNINGModel.KNL_LSDG">
               <MappingFragment StoreEntitySet="KNL_LSDG">
+                <ScalarProperty Name="NgayTuDGGN" ColumnName="NgayTuDGGN" />
                 <ScalarProperty Name="IDLS" ColumnName="IDLS" />
                 <ScalarProperty Name="NVID" ColumnName="NVID" />
                 <ScalarProperty Name="VTID" ColumnName="VTID" />
@@ -7564,6 +7573,7 @@
                 <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
                 <ScalarProperty Name="FilePath" ColumnName="FilePath" />
                 <ScalarProperty Name="TenVTKNL" ColumnName="TenVTKNL" />
+                <ScalarProperty Name="NgayTuDGGN" ColumnName="NgayTuDGGN" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7783,6 +7793,7 @@
                 <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
                 <ScalarProperty Name="FilePath" ColumnName="FilePath" />
                 <ScalarProperty Name="NgayDG" ColumnName="NgayDG" />
+                <ScalarProperty Name="NgayTuDG" ColumnName="NgayTuDG" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

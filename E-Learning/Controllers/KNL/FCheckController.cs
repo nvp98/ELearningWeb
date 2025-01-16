@@ -97,6 +97,7 @@ namespace E_Learning.Controllers.KNL
                              NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
                              TotalDat =  db.KNL_DocBangKNL.Where(x=>x.IDNV == a.ID && x.ID_ViTriKNL == a.IDVT).Count(),
                              Total = db.KhungNangLucs.Where(x=>x.IDVT == a.IDVT && x.IsDanhGia ==1).Count(),
+                             NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
                          }).ToList();
             }
 
@@ -453,8 +454,8 @@ namespace E_Learning.Controllers.KNL
                           ColorKQ = a.IDNVDG == MyAuthentication.ID? "bg-warning": a.DiemDG < a.DinhMuc ? "bg-danger" : "bg-success",
                           IDNVDG = a.IDNVDG,
                           TenNVDG = a.HoTen,
-                          NgayCanhBao = a.DiemDG < a.DinhMuc ? (((DateTime)a.NgayDG).AddMonths(6) -DateTime.Now).Days : -1000,
-                          NgayHanDG = a.DiemDG < a.DinhMuc ? ((DateTime)a.NgayDG).AddMonths(6): default(DateTime),
+                          NgayCanhBao = a.DiemDG < a.DinhMuc ? (((DateTime)a.NgayDG).AddMonths(3) -DateTime.Now).Days : -1000,
+                          NgayHanDG = a.DiemDG < a.DinhMuc ? ((DateTime)a.NgayDG).AddMonths(3): default(DateTime),
                           DiemCBNVDG = a.DiemTuDG,
                           NgayCBNVDG = a.NgayTuDG
                       }).ToList().OrderBy(x => x.OrderBy);
@@ -624,11 +625,27 @@ namespace E_Learning.Controllers.KNL
                 int? TONGNL = CountSLDG(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, null);
                 if (GtriLS == null)
                 {
-                    db.KNL_LSDG_insert(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, DateTime.Now, DAT, KDAT, VUOT, KDGIA, CHUADG, TONGNL);
+                    if(nvdg.IDNV == nv.ID)
+                    {
+                        db.KNL_LSDG_insert(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, null, DAT, KDAT, VUOT, KDGIA, CHUADG, TONGNL,DateTime.Now);
+                    }
+                    else
+                    {
+                        db.KNL_LSDG_insert(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, DateTime.Now, DAT, KDAT, VUOT, KDGIA, CHUADG, TONGNL,null);
+                    }
+                    
                 }
                 else
                 {
-                    db.KNL_LSDG_update(GtriLS.IDLS,nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, DateTime.Now, DAT, KDAT, VUOT, KDGIA, CHUADG, TONGNL);
+                    if(nvdg.IDNV == nv.ID)
+                    {
+                        db.KNL_LSDG_update(GtriLS.IDLS, nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, GtriLS.NgayDGGN, DAT, KDAT, VUOT, KDGIA, CHUADG, TONGNL,DateTime.Now);
+                    }
+                    else
+                    {
+                        db.KNL_LSDG_update(GtriLS.IDLS, nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, DateTime.Now, DAT, KDAT, VUOT, KDGIA, CHUADG, TONGNL, GtriLS.NgayTuDGGN);
+                    }
+                   
                 }
 
                 TempData["msgSuccess"] = "<script>alert('Cập nhập thành công');</script>";

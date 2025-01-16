@@ -1416,7 +1416,7 @@ namespace E_Learning.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_KQ_update", iDKQParameter, iDNVParameter, iDNLParameter, iDNVDGParameter, diemDGParameter, thangDGParameter, ngayDGParameter, kQIDParameter, diemDMParameter, vTIDParameter, noteParameter);
         }
     
-        public virtual int KNL_LSDG_insert(Nullable<int> iDNV, Nullable<int> vTID, Nullable<System.DateTime> thangDG, Nullable<System.DateTime> ngayDGGN, Nullable<int> dAT, Nullable<int> kDAT, Nullable<int> vUOT, Nullable<int> kDGia, Nullable<int> cHUADG, Nullable<int> tONGNL)
+        public virtual int KNL_LSDG_insert(Nullable<int> iDNV, Nullable<int> vTID, Nullable<System.DateTime> thangDG, Nullable<System.DateTime> ngayDGGN, Nullable<int> dAT, Nullable<int> kDAT, Nullable<int> vUOT, Nullable<int> kDGia, Nullable<int> cHUADG, Nullable<int> tONGNL, Nullable<System.DateTime> ngayTuDGGN)
         {
             var iDNVParameter = iDNV.HasValue ?
                 new ObjectParameter("IDNV", iDNV) :
@@ -1458,7 +1458,11 @@ namespace E_Learning.Models
                 new ObjectParameter("TONGNL", tONGNL) :
                 new ObjectParameter("TONGNL", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_LSDG_insert", iDNVParameter, vTIDParameter, thangDGParameter, ngayDGGNParameter, dATParameter, kDATParameter, vUOTParameter, kDGiaParameter, cHUADGParameter, tONGNLParameter);
+            var ngayTuDGGNParameter = ngayTuDGGN.HasValue ?
+                new ObjectParameter("NgayTuDGGN", ngayTuDGGN) :
+                new ObjectParameter("NgayTuDGGN", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_LSDG_insert", iDNVParameter, vTIDParameter, thangDGParameter, ngayDGGNParameter, dATParameter, kDATParameter, vUOTParameter, kDGiaParameter, cHUADGParameter, tONGNLParameter, ngayTuDGGNParameter);
         }
     
         public virtual ObjectResult<KNL_LSDG_Select_Result> KNL_LSDG_Select(Nullable<int> iDNV, Nullable<System.DateTime> thangDG)
@@ -1474,7 +1478,7 @@ namespace E_Learning.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<KNL_LSDG_Select_Result>("KNL_LSDG_Select", iDNVParameter, thangDGParameter);
         }
     
-        public virtual int KNL_LSDG_update(Nullable<int> iDLS, Nullable<int> iDNV, Nullable<int> vTID, Nullable<System.DateTime> thangDG, Nullable<System.DateTime> ngayDGGN, Nullable<int> dAT, Nullable<int> kDAT, Nullable<int> vUOT, Nullable<int> kDGia, Nullable<int> cHUADG, Nullable<int> tONGNL)
+        public virtual int KNL_LSDG_update(Nullable<int> iDLS, Nullable<int> iDNV, Nullable<int> vTID, Nullable<System.DateTime> thangDG, Nullable<System.DateTime> ngayDGGN, Nullable<int> dAT, Nullable<int> kDAT, Nullable<int> vUOT, Nullable<int> kDGia, Nullable<int> cHUADG, Nullable<int> tONGNL, Nullable<System.DateTime> ngayTuDGGN)
         {
             var iDLSParameter = iDLS.HasValue ?
                 new ObjectParameter("IDLS", iDLS) :
@@ -1520,7 +1524,11 @@ namespace E_Learning.Models
                 new ObjectParameter("TONGNL", tONGNL) :
                 new ObjectParameter("TONGNL", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_LSDG_update", iDLSParameter, iDNVParameter, vTIDParameter, thangDGParameter, ngayDGGNParameter, dATParameter, kDATParameter, vUOTParameter, kDGiaParameter, cHUADGParameter, tONGNLParameter);
+            var ngayTuDGGNParameter = ngayTuDGGN.HasValue ?
+                new ObjectParameter("NgayTuDGGN", ngayTuDGGN) :
+                new ObjectParameter("NgayTuDGGN", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_LSDG_update", iDLSParameter, iDNVParameter, vTIDParameter, thangDGParameter, ngayDGGNParameter, dATParameter, kDATParameter, vUOTParameter, kDGiaParameter, cHUADGParameter, tONGNLParameter, ngayTuDGGNParameter);
         }
     
         public virtual int KNL_Quyen_insert(string tenQuyen)

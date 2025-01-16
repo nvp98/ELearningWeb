@@ -4866,7 +4866,7 @@ namespace E_Learning.Controllers
                            NgayTrinhKy =a.NgayTrinhKy,
                            TinhTrang = a.TinhTrang,
                            File_KNL=a.File_KNL
-                       }).ToList();
+                       }).OrderByDescending(x=>x.NgayTrinhKy).ToList();
 
             if (page == null) page = 1;
             int pageSize = 50;
@@ -4908,7 +4908,7 @@ namespace E_Learning.Controllers
                            TinhTrang = a.TinhTrang,
                            File_KNL = a.File_KNL,
                            IDPB = b.IDPB
-                       }).OrderByDescending(x=>x.NgayTrinhKy).ToList();
+                       }).OrderByDescending(x=>x.NgayTrinhKy).OrderBy(x=>x.TinhTrang).ToList();
 
             if (page == null) page = 1;
             int pageSize = 100;

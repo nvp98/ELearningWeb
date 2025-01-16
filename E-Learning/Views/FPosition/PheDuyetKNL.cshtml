@@ -85,6 +85,7 @@
                                     <th class="text-center" width="50px" style="vertical-align:middle;background-color: #f7f7f7;">
                                         <input type="checkbox" id="selectAll" /> Chọn Tất Cả<br />
                                     </th>
+                                    <th class="text-center">Thao tác</th>
                                     <th class="text-center">Tên vị trí</th>
                                     <th class="text-center">Người trình ký</th>
                                     <th class="text-center">Ngày trình ký</th>
@@ -116,11 +117,17 @@
                                             </td>
 
                                         }
+                                        <td class="text-center">
+                                            <a class="fa fa-eye" title="Xem bảng khung năng lực" href="@Url.Action("CreateKNL", "FPosition", new { id = item.IDVT, IDPB = item.IDPB })"
+                                               onclick="return confirm('Cập nhật nội dung: @item.TenViTri')">
+                                            </a>
+                                        </td>
                                         <td class="">
-                                            <a class="" title="Cập nhật khung năng lực" href="@Url.Action("CreateKNL", "FPosition", new { id = item.IDVT, IDPB = item.IDPB })"
+                                            @item.TenViTri
+                                            @*<a class="" title="Cập nhật khung năng lực" href="@Url.Action("CreateKNL", "FPosition", new { id = item.IDVT, IDPB = item.IDPB })"
                                                onclick="return confirm('Cập nhật nội dung: @item.TenViTri')">
                                                 @item.TenViTri
-                                            </a>
+                                            </a>*@
                                         </td>
                                         <td class="">@item.HoTenNguoiTao</td>
                                         <td class="">@item.NgayTrinhKy.Value.ToString("dd-MM-yyyy HH:mm:ss")</td>
