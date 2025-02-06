@@ -851,6 +851,8 @@
     <Content Include="Views\FPosition\ExportView.cshtml" />
     <Content Include="Views\FPosition\TrinhKyBangKNL.cshtml" />
     <Content Include="Views\FCheck\ReadKNL.cshtml" />
+    <Content Include="Views\FPosition\UpdateDuyetKNL.cshtml" />
+    <Content Include="Views\FPosition\UpdateBangKNL.cshtml" />
     <None Include="Views\Shared\LayoutAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>

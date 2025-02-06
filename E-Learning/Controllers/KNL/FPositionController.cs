@@ -1635,11 +1635,11 @@ namespace E_Learning.Controllers
                                     {
                                         var a = db.LoaiKNLs.Where(x => x.IDLoai == data.IDLoaiNL).FirstOrDefault();
                                         int? b = GetIDLoaiNL(a.TenLoai, i);
-                                        db.KhungNangLuc_insert(data.TenNL, b, i, vtN.IDPB, data.DinhMuc, data.IsDanhGia, data.OrderBy);
+                                        db.KhungNangLuc_insert(data.TenNL, b, i, vtN.IDPB, data.DinhMuc, data.IsDanhGia, data.OrderBy,null);
                                     }
                                     else
                                     {
-                                        db.KhungNangLuc_insert(data.TenNL, data.IDLoaiNL, i, vtN.IDPB, data.DinhMuc, data.IsDanhGia, data.OrderBy);
+                                        db.KhungNangLuc_insert(data.TenNL, data.IDLoaiNL, i, vtN.IDPB, data.DinhMuc, data.IsDanhGia, data.OrderBy,null);
                                     }
 
                                 }
@@ -1679,11 +1679,11 @@ namespace E_Learning.Controllers
                                 {
                                     var a = db.LoaiKNLs.Where(x => x.IDLoai == data.IDLoaiNL).FirstOrDefault();
                                     int? b = GetIDLoaiNL(a.TenLoai, i);
-                                    db.KhungNangLuc_insert(data.TenNL, b, i, vtN.IDPB, data.DinhMuc, data.IsDanhGia, data.OrderBy);
+                                    db.KhungNangLuc_insert(data.TenNL, b, i, vtN.IDPB, data.DinhMuc, data.IsDanhGia, data.OrderBy,null);
                                 }
                                 else
                                 {
-                                    db.KhungNangLuc_insert(data.TenNL, data.IDLoaiNL, i, vtN.IDPB, data.DinhMuc, data.IsDanhGia, data.OrderBy);
+                                    db.KhungNangLuc_insert(data.TenNL, data.IDLoaiNL, i, vtN.IDPB, data.DinhMuc, data.IsDanhGia, data.OrderBy,null);
                                 }
 
                             }
@@ -1999,7 +1999,7 @@ namespace E_Learning.Controllers
                     {
                         if (K.IDNL != 0)
                         {
-                            var a = db.KhungNangLuc_update(K.IDNL, K.TenNL, K.IDLoaiNL, null, 0, null, null,null);
+                            var a = db.KhungNangLuc_update(K.IDNL, K.TenNL, K.IDLoaiNL, null, 0, null, null,null,null);
                         }
 
                     }
@@ -2010,7 +2010,7 @@ namespace E_Learning.Controllers
                 {
                     if (item.NLuc != null)
                     {
-                        var aa = db.KhungNangLuc_insert(item.NLuc, 1, null, 0, null, null,1);
+                        var aa = db.KhungNangLuc_insert(item.NLuc, 1, null, 0, null, null,1,null);
                     }
                 }
 
@@ -2018,7 +2018,7 @@ namespace E_Learning.Controllers
                 {
                     if (item.NLuc != null)
                     {
-                        var aa = db.KhungNangLuc_insert(item.NLuc, 2, null, 0, null, null,1);
+                        var aa = db.KhungNangLuc_insert(item.NLuc, 2, null, 0, null, null,1,null);
                     }
                 }
 
@@ -2042,7 +2042,7 @@ namespace E_Learning.Controllers
                 TempData["msgError"] = "<script>alert('Bạn không có quyền thực hiện chức năng này');</script>";
                 return RedirectToAction("", "Home");
             }
-            var def = (from a in db.KhungNangLucs.Where(x => x.IDPB == 0)
+            var def = (from a in db.KhungNangLucs.Where(x => x.IDPB == 0 && x.IsDuyet == null)
                        join b in db.LoaiKNLs
                         on a.IDLoaiNL equals b.IDLoai
                        select new KhungNangLucValidation
@@ -2060,18 +2060,18 @@ namespace E_Learning.Controllers
                            DanhGia = a.IsDanhGia == 1 ? false : true,
                        }).ToList();
 
-            var chqly = db.KhungNangLucs.Where(x => x.IDVT == id && (x.IDLoaiNL == 1 || x.IDLoaiNL == 2)).ToList();
+            var chqly = db.KhungNangLucs.Where(x => x.IDVT == id && (x.IDLoaiNL == 1 || x.IDLoaiNL == 2) && x.IsDuyet == null).ToList();
             if (chqly.Count == 0)
             {
                 foreach (var item in def)
                 {
                     if (item.TenNL != null && item.IDLoaiNL == 1)
                     {
-                        var aa = db.KhungNangLuc_insert(item.TenNL, 1, id, IDPB, null, 1,1);
+                        var aa = db.KhungNangLuc_insert(item.TenNL, 1, id, IDPB, null, 1,1,null);
                     }
                     else if (item.TenNL != null && item.IDLoaiNL == 2)
                     {
-                        var aa = db.KhungNangLuc_insert(item.TenNL, 2, id, IDPB, null, 1,1);
+                        var aa = db.KhungNangLuc_insert(item.TenNL, 2, id, IDPB, null, 1,1,null);
                     }
                 }
             }
@@ -2085,16 +2085,16 @@ namespace E_Learning.Controllers
                 {
                     if (item.TenNL != null && item.IDLoaiNL == 1)
                     {
-                        var aa = db.KhungNangLuc_insert(item.TenNL, 1, id, IDPB, null, 1,1);
+                        var aa = db.KhungNangLuc_insert(item.TenNL, 1, id, IDPB, null, 1,1,null);
                     }
                     else if (item.TenNL != null && item.IDLoaiNL == 2)
                     {
-                        var aa = db.KhungNangLuc_insert(item.TenNL, 2, id, IDPB, null, 1,1);
+                        var aa = db.KhungNangLuc_insert(item.TenNL, 2, id, IDPB, null, 1,1,null);
                     }
                 }
             }
 
-            var res = (from a in db.KhungNangLucs.Where(x=>x.IDVT ==id)
+            var res = (from a in db.KhungNangLucs.Where(x=>x.IDVT ==id && x.IsDuyet == null)
                       join b in db.LoaiKNLs
                        on a.IDLoaiNL equals b.IDLoai
                       join c in db.ViTriKNLs
@@ -2239,7 +2239,7 @@ namespace E_Learning.Controllers
                     {
                         if(K.IDNL != 0)
                         {
-                            var a = db.KhungNangLuc_update(K.IDNL, K.TenNL, K.IDLoaiNL, K.IDVT, K.IDPB, ToNullableInt(K.DinhMuc.ToString()), GetDanhGia(K.DanhGia.ToString()), K.OrderBy);
+                            var a = db.KhungNangLuc_update(K.IDNL, K.TenNL, K.IDLoaiNL, K.IDVT, K.IDPB, ToNullableInt(K.DinhMuc.ToString()), GetDanhGia(K.DanhGia.ToString()), K.OrderBy,null);
                         }
 
                     }
@@ -2250,7 +2250,7 @@ namespace E_Learning.Controllers
                 {
                     if (item.NLuc != null && pb != null && vt != null)
                     {
-                        var aa = db.KhungNangLuc_insert(item.NLuc, ToNullableInt(item.IDLoai), vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia),1);
+                        var aa = db.KhungNangLuc_insert(item.NLuc, ToNullableInt(item.IDLoai), vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia),1,null);
                     }
                 }
 
@@ -2258,7 +2258,7 @@ namespace E_Learning.Controllers
                 {
                     if (item.NLuc != null && pb != null && vt != null)
                     {
-                        var aa = db.KhungNangLuc_insert(item.NLuc, 1, vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia),1);
+                        var aa = db.KhungNangLuc_insert(item.NLuc, 1, vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia),1,null);
                     }
                 }
 
@@ -2266,14 +2266,14 @@ namespace E_Learning.Controllers
                 {
                     if (item.NLuc != null && pb != null && vt != null)
                     {
-                        var aa = db.KhungNangLuc_insert(item.NLuc, 2, vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia),1);
+                        var aa = db.KhungNangLuc_insert(item.NLuc, 2, vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia),1,null);
                     }
                 }
                 foreach (var item in ListCmonNew)
                 {
                     if (item.NLuc != null && pb != null && vt != null)
                     {
-                        var aa = db.KhungNangLuc_insert(item.NLuc, ToNullableInt(item.IDLoai), vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia),1);
+                        var aa = db.KhungNangLuc_insert(item.NLuc, ToNullableInt(item.IDLoai), vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia),1,null);
                     }
                 }
 
@@ -2288,6 +2288,423 @@ namespace E_Learning.Controllers
             return RedirectToAction("CreateKNL", "FPosition", new { id = collection["IDVT"], IDPB = collection["IDPB"] });
         }
 
+        public ActionResult UpdateDuyetKNL(int id, int? IDPB, int? IdDuyet)
+        {
+            var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
+            ViewBag.QUYENCN = ListQuyen;
+            //if (!ListQuyen.Contains(CONSTKEY.ED_KNL))
+            //{
+            //    TempData["msgError"] = "<script>alert('Bạn không có quyền thực hiện chức năng này');</script>";
+            //    return RedirectToAction("", "Home");
+            //}
+
+
+            var res = (from a in db.KhungNangLucs.Where(x => x.IDVT == id && x.IsDuyet == 1)
+                       join b in db.LoaiKNLs
+                        on a.IDLoaiNL equals b.IDLoai
+                       join c in db.ViTriKNLs
+                       on a.IDVT equals c.IDVT
+                       join d in db.PhongBans
+                       on a.IDPB equals d.IDPhongBan
+                       select new KhungNangLucValidation
+                       {
+                           IDNL = a.IDNL,
+                           TenNL = a.TenNL,
+                           IDLoaiNL = a.IDLoaiNL,
+                           TenLoaiNL = b.TenLoai,
+                           IDVT = a.IDVT,
+                           TenViTri = c.TenViTri,
+                           IDPB = a.IDPB,
+                           TenPhongBan = d.TenPhongBan,
+                           DinhMuc = a.DinhMuc,
+                           IsDanhGia = a.IsDanhGia,
+                           DanhGia = a.IsDanhGia == 1 ? false : true,
+                           OrderBy = a.OrderBy,
+                           OrderByLoai = b.OrderBy
+                       }).ToList().OrderBy(x => x.OrderBy);
+            KhungNangLucValidation DO = new KhungNangLucValidation();
+
+            //if (res.Count > 0)
+            //{
+            foreach (var c in res)
+            {
+                DO.IDVT = c.IDVT;
+                DO.IDPB = c.IDPB;
+                DO.TenViTri = c.TenViTri;
+                DO.TenPhongBan = c.TenPhongBan;
+                DO.TenNL = c.TenNL;
+                DO.IsDanhGia = c.IsDanhGia;
+                DO.DanhGia = c.DanhGia;
+                DO.DinhMuc = c.DinhMuc;
+                DO.OrderBy = c.OrderBy;
+                DO.OrderByLoai = c.OrderByLoai;
+            }
+            //int idpb = MyAuthentication.IDPhongban;
+            db.Configuration.ProxyCreationEnabled = false;
+            List<PhongBan> dt = db.PhongBans.Where(x => x.IDPhongBan == IDPB).ToList();
+            ViewBag.IDPB = new SelectList(dt, "IDPhongBan", "TenPhongBan");
+
+            var vt = (from a in db.ViTriKNLs.Where(x => x.IDVT == id)
+                      join e in db.KNL_PhanXuong
+                      on a.IDPX equals e.ID into ul
+                      from e in ul.DefaultIfEmpty()
+                      join f in db.KNL_Nhom
+                      on a.IDNhom equals f.IDNhom into uls
+                      from f in uls.DefaultIfEmpty()
+                      join g in db.KNL_To
+                      on a.IDTo equals g.IDTo into ulk
+                      from g in ulk.DefaultIfEmpty()
+                      select new ViTriKNLValidation
+                      {
+                          IDVT = a.IDVT,
+                          TenViTri = a.TenViTri + "-" + g.TenTo + "-" + f.TenNhom + "-" + e.TenPX,
+                          IDNhom = a.IDNhom,
+                          IDTo = a.IDTo,
+                          MaViTri = a.MaViTri,
+                          IDPX = a.IDPX
+                      }).ToList();
+
+            //ViewBag.IDKNL = new SelectList(kvt, "IDVT", "TenViTri", id);
+
+            //List<ViTriKNL> vt = db.ViTriKNLs.Where(x=>x.IDVT ==id).ToList();
+            ViewBag.IDVT = new SelectList(vt, "IDVT", "TenViTri");
+            List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => x.IDVT == id && x.IDLoai != 1 && x.IDLoai != 2).OrderBy(x => x.OrderBy).ToList();
+            ViewBag.IDLoaiNL = new SelectList(loaiNL, "IDLoai", "TenLoai");
+            ViewBag.SLIDVT = id;
+            ViewBag.PBIDD = IDPB;
+            ViewBag.IDDuyet = IdDuyet;
+
+            //}
+            //else
+            //{
+            //    return HttpNotFound();
+            //}
+            return View(res.ToList());
+        }
+        [HttpPost]
+        public ActionResult UpdateDuyetKNL(FormCollection collection, List<KhungNangLucValidation> ListKNL)
+        {
+
+            try
+            {
+
+                var pb = ToNullableInt(collection["IDPB"]);
+                var vt = ToNullableInt(collection["IDVT"]);
+                var idduyet = ToNullableInt(collection["IDDuyet"]);
+                var Item = new List<KeyValuePair<string, string>>();
+                var ListChung = new List<AddNL>();
+                var ListQly = new List<AddNL>();
+                var ListLoaiUpdate = new List<AddNL>();
+                var ListCmonNew = new List<AddNL>();
+
+                List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => x.IDVT == vt && x.IDLoai != 1 && x.IDLoai != 2).ToList();
+                foreach (var loai in loaiNL)
+                {
+                    var u = collection["Loai_" + loai.IDLoai];
+                    int orDer = ToNullableInt(collection["OrderLoai_" + loai.IDLoai]) ?? 1;
+                    var up = db.LoaiKNL_update(loai.IDLoai, u, vt, orDer);
+                }
+                foreach (var key in collection.AllKeys)
+                {
+
+                    Item.Add(new KeyValuePair<string, string>(key, collection[key]));
+                    if (key.Split('_')[0] == "nlchung")
+                    {
+                        ListChung.Add(new AddNL() { NLuc = collection[key], DinhMuc = collection["dmchung_" + key.Split('_')[1]], IsDanhGia = collection["IsDanhGiachung_" + key.Split('_')[1]].Split(',')[0] });
+                    }
+                    if (key.Split('_')[0] == "nlqly")
+                    {
+                        ListQly.Add(new AddNL() { NLuc = collection[key], DinhMuc = collection["dmqly_" + key.Split('_')[1]], IsDanhGia = collection["IsDanhGiaqly_" + key.Split('_')[1]].Split(',')[0] });
+                    }
+                    if (key.Split('_')[0] == "nlLoai")
+                    {
+                        ListLoaiUpdate.Add(new AddNL() { NLuc = collection[key], DinhMuc = collection["dmLoai_" + key.Split('_')[1] + "_cmonLoai_" + key.Split('_')[3]], IsDanhGia = collection["IsDanhGiaLoai_" + key.Split('_')[1] + "_cmonLoai_" + key.Split('_')[3]].Split(',')[0], IDLoai = key.Split('_')[3].ToString() });
+                    }
+                    if (key.Split('_')[0] == "nlcmon" && key.Split('_')[2] == "cmon")
+                    {
+                        var aa = collection["loai_cmon_" + key.Split('_')[3]];
+                        int idloai = GetIDLoaiNL(aa, vt);
+                        if (idloai == 0)
+                        {
+                            var am = db.LoaiKNL_insert(aa, vt, 1);
+                            idloai = GetIDLoaiNL(aa.ToString(), vt);
+
+                        }
+                        var dmNL = collection["dmcmon_" + key.Split('_')[1] + "_cmon_" + key.Split('_')[3]];
+                        var isdg = collection["IsDanhGiacmon_" + key.Split('_')[1] + "_cmon_" + key.Split('_')[3]].Split(',')[0];
+
+                        ListCmonNew.Add(new AddNL() { NLuc = collection[key], DinhMuc = dmNL, IsDanhGia = isdg, IDLoai = idloai.ToString() });
+                    }
+
+                }
+                //var addChung = Item.Where(x => x.Key.Split('_')[0] == "nlchung").ToList();
+                if (ListKNL?.Count > 0 && ListKNL != null)
+                {
+
+                    foreach (var K in ListKNL)
+                    {
+                        if (K.IDNL != 0)
+                        {
+                            var a = db.KhungNangLuc_update(K.IDNL, K.TenNL, K.IDLoaiNL, K.IDVT, K.IDPB, ToNullableInt(K.DinhMuc.ToString()), GetDanhGia(K.DanhGia.ToString()), K.OrderBy, 1);
+                        }
+
+                    }
+                }
+
+
+                foreach (var item in ListLoaiUpdate)
+                {
+                    if (item.NLuc != null && pb != null && vt != null)
+                    {
+                        var aa = db.KhungNangLuc_insert(item.NLuc, ToNullableInt(item.IDLoai), vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia), 1, 1);
+                    }
+                }
+
+                foreach (var item in ListChung)
+                {
+                    if (item.NLuc != null && pb != null && vt != null)
+                    {
+                        var aa = db.KhungNangLuc_insert(item.NLuc, 1, vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia), 1, 1);
+                    }
+                }
+
+                foreach (var item in ListQly)
+                {
+                    if (item.NLuc != null && pb != null && vt != null)
+                    {
+                        var aa = db.KhungNangLuc_insert(item.NLuc, 2, vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia), 1, 1);
+                    }
+                }
+                foreach (var item in ListCmonNew)
+                {
+                    if (item.NLuc != null && pb != null && vt != null)
+                    {
+                        var aa = db.KhungNangLuc_insert(item.NLuc, ToNullableInt(item.IDLoai), vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia), 1, 1);
+                    }
+                }
+
+                // luu lại file pdf
+                KNL_PheDuyetKNL pheduyet = db.KNL_PheDuyetKNL.Where(x => x.ID == idduyet).FirstOrDefault();
+                string filepath = ExportViewToPdf(pheduyet.ID, vt);
+                if (filepath != null)
+                {
+                    pheduyet.File_KNL = filepath;
+                }
+                db.SaveChanges();
+
+                //db.VitriKNL_insert(_DO.TenViTri,_DO.IDPB);
+                TempData["msgSuccess"] = "<script>alert('Cập nhật thành công');</script>";
+            }
+            catch (Exception e)
+            {
+                TempData["msgError"] = "<script>alert('Có lỗi khi thêm mới: " + e.Message + "');</script>";
+            }
+            return RedirectToAction("UpdateDuyetKNL", "FPosition", new { id = collection["IDVT"], IDPB = collection["IDPB"], IdDuyet = collection["IDDuyet"] });
+        }
+
+        public ActionResult UpdateBangKNL(int id, int? IDPB)
+        {
+            var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
+            ViewBag.QUYENCN = ListQuyen;
+            //if (!ListQuyen.Contains(CONSTKEY.ED_KNL))
+            //{
+            //    TempData["msgError"] = "<script>alert('Bạn không có quyền thực hiện chức năng này');</script>";
+            //    return RedirectToAction("", "Home");
+            //}
+
+            var res = (from a in db.KhungNangLucs.Where(x => x.IDVT == id && x.IsDuyet == 0)
+                       join b in db.LoaiKNLs
+                        on a.IDLoaiNL equals b.IDLoai
+                       join c in db.ViTriKNLs
+                       on a.IDVT equals c.IDVT
+                       join d in db.PhongBans
+                       on a.IDPB equals d.IDPhongBan
+                       select new KhungNangLucValidation
+                       {
+                           IDNL = a.IDNL,
+                           TenNL = a.TenNL,
+                           IDLoaiNL = a.IDLoaiNL,
+                           TenLoaiNL = b.TenLoai,
+                           IDVT = a.IDVT,
+                           TenViTri = c.TenViTri,
+                           IDPB = a.IDPB,
+                           TenPhongBan = d.TenPhongBan,
+                           DinhMuc = a.DinhMuc,
+                           IsDanhGia = a.IsDanhGia,
+                           DanhGia = a.IsDanhGia == 1 ? false : true,
+                           OrderBy = a.OrderBy,
+                           OrderByLoai = b.OrderBy
+                       }).ToList().OrderBy(x => x.OrderBy);
+            KhungNangLucValidation DO = new KhungNangLucValidation();
+
+            //if (res.Count > 0)
+            //{
+            foreach (var c in res)
+            {
+                DO.IDVT = c.IDVT;
+                DO.IDPB = c.IDPB;
+                DO.TenViTri = c.TenViTri;
+                DO.TenPhongBan = c.TenPhongBan;
+                DO.TenNL = c.TenNL;
+                DO.IsDanhGia = c.IsDanhGia;
+                DO.DanhGia = c.DanhGia;
+                DO.DinhMuc = c.DinhMuc;
+                DO.OrderBy = c.OrderBy;
+                DO.OrderByLoai = c.OrderByLoai;
+            }
+            //int idpb = MyAuthentication.IDPhongban;
+            db.Configuration.ProxyCreationEnabled = false;
+            List<PhongBan> dt = db.PhongBans.Where(x => x.IDPhongBan == IDPB).ToList();
+            ViewBag.IDPB = new SelectList(dt, "IDPhongBan", "TenPhongBan");
+
+            var vt = (from a in db.ViTriKNLs.Where(x => x.IDVT == id)
+                      join e in db.KNL_PhanXuong
+                      on a.IDPX equals e.ID into ul
+                      from e in ul.DefaultIfEmpty()
+                      join f in db.KNL_Nhom
+                      on a.IDNhom equals f.IDNhom into uls
+                      from f in uls.DefaultIfEmpty()
+                      join g in db.KNL_To
+                      on a.IDTo equals g.IDTo into ulk
+                      from g in ulk.DefaultIfEmpty()
+                      select new ViTriKNLValidation
+                      {
+                          IDVT = a.IDVT,
+                          TenViTri = a.TenViTri + "-" + g.TenTo + "-" + f.TenNhom + "-" + e.TenPX,
+                          IDNhom = a.IDNhom,
+                          IDTo = a.IDTo,
+                          MaViTri = a.MaViTri,
+                          IDPX = a.IDPX
+                      }).ToList();
+
+            //ViewBag.IDKNL = new SelectList(kvt, "IDVT", "TenViTri", id);
+
+            //List<ViTriKNL> vt = db.ViTriKNLs.Where(x=>x.IDVT ==id).ToList();
+            ViewBag.IDVT = new SelectList(vt, "IDVT", "TenViTri");
+            List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => x.IDVT == id && x.IDLoai != 1 && x.IDLoai != 2).OrderBy(x => x.OrderBy).ToList();
+            ViewBag.IDLoaiNL = new SelectList(loaiNL, "IDLoai", "TenLoai");
+            ViewBag.SLIDVT = id;
+            ViewBag.PBIDD = IDPB;
+
+
+            //}
+            //else
+            //{
+            //    return HttpNotFound();
+            //}
+            return View(res.ToList());
+        }
+        [HttpPost]
+        public ActionResult UpdateBangKNL(FormCollection collection, List<KhungNangLucValidation> ListKNL)
+        {
+
+            try
+            {
+
+                var pb = ToNullableInt(collection["IDPB"]);
+                var vt = ToNullableInt(collection["IDVT"]);
+                var Item = new List<KeyValuePair<string, string>>();
+                var ListChung = new List<AddNL>();
+                var ListQly = new List<AddNL>();
+                var ListLoaiUpdate = new List<AddNL>();
+                var ListCmonNew = new List<AddNL>();
+
+                List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => x.IDVT == vt && x.IDLoai != 1 && x.IDLoai != 2).ToList();
+                foreach (var loai in loaiNL)
+                {
+                    var u = collection["Loai_" + loai.IDLoai];
+                    int orDer = ToNullableInt(collection["OrderLoai_" + loai.IDLoai]) ?? 1;
+                    var up = db.LoaiKNL_update(loai.IDLoai, u, vt, orDer);
+                }
+                foreach (var key in collection.AllKeys)
+                {
+
+                    Item.Add(new KeyValuePair<string, string>(key, collection[key]));
+                    if (key.Split('_')[0] == "nlchung")
+                    {
+                        ListChung.Add(new AddNL() { NLuc = collection[key], DinhMuc = collection["dmchung_" + key.Split('_')[1]], IsDanhGia = collection["IsDanhGiachung_" + key.Split('_')[1]].Split(',')[0] });
+                    }
+                    if (key.Split('_')[0] == "nlqly")
+                    {
+                        ListQly.Add(new AddNL() { NLuc = collection[key], DinhMuc = collection["dmqly_" + key.Split('_')[1]], IsDanhGia = collection["IsDanhGiaqly_" + key.Split('_')[1]].Split(',')[0] });
+                    }
+                    if (key.Split('_')[0] == "nlLoai")
+                    {
+                        ListLoaiUpdate.Add(new AddNL() { NLuc = collection[key], DinhMuc = collection["dmLoai_" + key.Split('_')[1] + "_cmonLoai_" + key.Split('_')[3]], IsDanhGia = collection["IsDanhGiaLoai_" + key.Split('_')[1] + "_cmonLoai_" + key.Split('_')[3]].Split(',')[0], IDLoai = key.Split('_')[3].ToString() });
+                    }
+                    if (key.Split('_')[0] == "nlcmon" && key.Split('_')[2] == "cmon")
+                    {
+                        var aa = collection["loai_cmon_" + key.Split('_')[3]];
+                        int idloai = GetIDLoaiNL(aa, vt);
+                        if (idloai == 0)
+                        {
+                            var am = db.LoaiKNL_insert(aa, vt, 1);
+                            idloai = GetIDLoaiNL(aa.ToString(), vt);
+
+                        }
+                        var dmNL = collection["dmcmon_" + key.Split('_')[1] + "_cmon_" + key.Split('_')[3]];
+                        var isdg = collection["IsDanhGiacmon_" + key.Split('_')[1] + "_cmon_" + key.Split('_')[3]].Split(',')[0];
+
+                        ListCmonNew.Add(new AddNL() { NLuc = collection[key], DinhMuc = dmNL, IsDanhGia = isdg, IDLoai = idloai.ToString() });
+                    }
+
+                }
+                //var addChung = Item.Where(x => x.Key.Split('_')[0] == "nlchung").ToList();
+                if (ListKNL?.Count > 0 && ListKNL != null)
+                {
+
+                    foreach (var K in ListKNL)
+                    {
+                        if (K.IDNL != 0)
+                        {
+                            var a = db.KhungNangLuc_update(K.IDNL, K.TenNL, K.IDLoaiNL, K.IDVT, K.IDPB, ToNullableInt(K.DinhMuc.ToString()), GetDanhGia(K.DanhGia.ToString()), K.OrderBy, 0);
+                        }
+
+                    }
+                }
+
+
+                foreach (var item in ListLoaiUpdate)
+                {
+                    if (item.NLuc != null && pb != null && vt != null)
+                    {
+                        var aa = db.KhungNangLuc_insert(item.NLuc, ToNullableInt(item.IDLoai), vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia), 1, 0);
+                    }
+                }
+
+                foreach (var item in ListChung)
+                {
+                    if (item.NLuc != null && pb != null && vt != null)
+                    {
+                        var aa = db.KhungNangLuc_insert(item.NLuc, 1, vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia), 1, 0);
+                    }
+                }
+
+                foreach (var item in ListQly)
+                {
+                    if (item.NLuc != null && pb != null && vt != null)
+                    {
+                        var aa = db.KhungNangLuc_insert(item.NLuc, 2, vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia), 1, 0);
+                    }
+                }
+                foreach (var item in ListCmonNew)
+                {
+                    if (item.NLuc != null && pb != null && vt != null)
+                    {
+                        var aa = db.KhungNangLuc_insert(item.NLuc, ToNullableInt(item.IDLoai), vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia), 1, 0);
+                    }
+                }
+
+
+                //db.VitriKNL_insert(_DO.TenViTri,_DO.IDPB);
+                TempData["msgSuccess"] = "<script>alert('Cập nhật thành công');</script>";
+            }
+            catch (Exception e)
+            {
+                TempData["msgError"] = "<script>alert('Có lỗi khi thêm mới: " + e.Message + "');</script>";
+            }
+            return RedirectToAction("UpdateBangKNL", "FPosition", new { id = collection["IDVT"], IDPB = collection["IDPB"] });
+        }
         public ActionResult CreateVTKNL(int? IDPB)
         {
             int idpb = MyAuthentication.IDPhongban;
@@ -4670,10 +5087,30 @@ namespace E_Learning.Controllers
                         };
                         db.KNL_PheDuyetKNL.Add(a);
                         db.SaveChanges();
+                        // update đọc bảng KNL Delete
+                        db.Database.ExecuteSqlCommand("DELETE FROM KNL_DocBangKNL WHERE ID_ViTriKNL = {0}", item.IDVT);
+                        // Cập nhật lại trạng thái phê duyệt năng lực
+                        var knl = db.KhungNangLuc_SearchByIDVT(item.IDVT).ToList();
+                        var knl1 = knl.Where(x => x.IsDuyet == 1).ToList();
+                        var knl12 = knl.Where(x => x.IsDuyet == null).ToList();
+                        var Knlxoa = knl.Where(x => x.IsDuyet == 0).ToList();
+                        foreach (var nl in knl1) // cập nhật bảng knl đã ký trước đó về bảng cũ
+                        {
+                            db.KhungNangLuc_update(nl.IDNL, nl.TenNL, nl.IDLoaiNL, nl.IDVT, nl.IDPB, nl.DinhMuc, nl.IsDanhGia, nl.OrderBy, 2);
+                        }
+                        foreach (var nl in knl12) // tạo bảng lưu knl trình ký
+                        {
+                            db.KhungNangLuc_insert(nl.TenNL, nl.IDLoaiNL, nl.IDVT, nl.IDPB, nl.DinhMuc, nl.IsDanhGia, nl.OrderBy, 0);
+                        }
+                        foreach (var nl in Knlxoa) // xóa KNL đang lưu
+                        {
+                            db.KhungNangLuc_delete(nl.IDNL);
+                        }
                         dtc++;
                     }
 
-                } else if (_DO.IDPB != null && _DO.IDTo != null)
+                } 
+                else if (_DO.IDPB != null && _DO.IDTo != null)
                 {
                     var lsVT = db.ViTriKNLs.Where(x => x.IDPB == _DO.IDPB && x.IDTo == _DO.IDTo && x.MaViTri != "TBP" && x.MaViTri != "PBP").ToList();
                     foreach (var item in lsVT)
@@ -4695,6 +5132,23 @@ namespace E_Learning.Controllers
                         };
                         db.KNL_PheDuyetKNL.Add(a);
                         db.SaveChanges();
+                        // Cập nhật lại trạng thái phê duyệt năng lực
+                        var knl = db.KhungNangLuc_SearchByIDVT(item.IDVT).ToList();
+                        var knl1 = knl.Where(x => x.IsDuyet == 1).ToList();
+                        var knl12 = knl.Where(x => x.IsDuyet == null).ToList();
+                        var Knlxoa = knl.Where(x => x.IsDuyet == 0).ToList();
+                        foreach (var nl in knl1) // cập nhật bảng knl đã ký trước đó về bảng cũ
+                        {
+                            db.KhungNangLuc_update(nl.IDNL, nl.TenNL, nl.IDLoaiNL, nl.IDVT, nl.IDPB, nl.DinhMuc, nl.IsDanhGia, nl.OrderBy, 2);
+                        }
+                        foreach (var nl in knl12) // tạo bảng lưu knl trình ký
+                        {
+                            db.KhungNangLuc_insert(nl.TenNL, nl.IDLoaiNL, nl.IDVT, nl.IDPB, nl.DinhMuc, nl.IsDanhGia, nl.OrderBy, 0);
+                        }
+                        foreach (var nl in Knlxoa) // xóa KNL đang lưu
+                        {
+                            db.KhungNangLuc_delete(nl.IDNL);
+                        }
                         dtc++;
                     }
 
@@ -4721,6 +5175,23 @@ namespace E_Learning.Controllers
                         };
                         db.KNL_PheDuyetKNL.Add(a);
                         db.SaveChanges();
+                        // Cập nhật lại trạng thái phê duyệt năng lực
+                        var knl = db.KhungNangLuc_SearchByIDVT(item.IDVT).ToList();
+                        var knl1 = knl.Where(x => x.IsDuyet == 1).ToList();
+                        var knl12 = knl.Where(x => x.IsDuyet == null).ToList();
+                        var Knlxoa = knl.Where(x => x.IsDuyet == 0).ToList();
+                        foreach (var nl in knl1) // cập nhật bảng knl đã ký trước đó về bảng cũ
+                        {
+                            db.KhungNangLuc_update(nl.IDNL, nl.TenNL, nl.IDLoaiNL, nl.IDVT, nl.IDPB, nl.DinhMuc, nl.IsDanhGia, nl.OrderBy, 2);
+                        }
+                        foreach (var nl in knl12) // tạo bảng lưu knl trình ký
+                        {
+                            db.KhungNangLuc_insert(nl.TenNL, nl.IDLoaiNL, nl.IDVT, nl.IDPB, nl.DinhMuc, nl.IsDanhGia, nl.OrderBy, 0);
+                        }
+                        foreach (var nl in Knlxoa) // xóa KNL đang lưu
+                        {
+                            db.KhungNangLuc_delete(nl.IDNL);
+                        }
                         dtc++;
                     }
 
@@ -4746,6 +5217,23 @@ namespace E_Learning.Controllers
                         };
                         db.KNL_PheDuyetKNL.Add(a);
                         db.SaveChanges();
+                        // Cập nhật lại trạng thái phê duyệt năng lực
+                        var knl = db.KhungNangLuc_SearchByIDVT(item.IDVT).ToList();
+                        var knl1 = knl.Where(x => x.IsDuyet == 1).ToList();
+                        var knl12 = knl.Where(x => x.IsDuyet == null).ToList();
+                        var Knlxoa = knl.Where(x => x.IsDuyet == 0).ToList();
+                        foreach (var nl in knl1) // cập nhật bảng knl đã ký trước đó về bảng cũ
+                        {
+                            db.KhungNangLuc_update(nl.IDNL, nl.TenNL, nl.IDLoaiNL, nl.IDVT, nl.IDPB, nl.DinhMuc, nl.IsDanhGia, nl.OrderBy, 2);
+                        }
+                        foreach (var nl in knl12) // tạo bảng lưu knl trình ký
+                        {
+                            db.KhungNangLuc_insert(nl.TenNL, nl.IDLoaiNL, nl.IDVT, nl.IDPB, nl.DinhMuc, nl.IsDanhGia, nl.OrderBy, 0);
+                        }
+                        foreach (var nl in Knlxoa) // xóa KNL đang lưu
+                        {
+                            db.KhungNangLuc_delete(nl.IDNL);
+                        }
                         dtc++;
                     }
                 }
@@ -4822,6 +5310,25 @@ namespace E_Learning.Controllers
                     };
                     db.KNL_PheDuyetKNL.Add(a);
                     db.SaveChanges();
+                    // Cập nhật lại trạng thái phê duyệt năng lực
+                    var knl = db.KhungNangLuc_SearchByIDVT(_DO.IDVT).ToList();
+                    var knl1 = knl.Where(x => x.IsDuyet == 1).ToList();
+                    var knl12 = knl.Where(x => x.IsDuyet == null).ToList();
+                    var Knlxoa = knl.Where(x => x.IsDuyet == 0).ToList();
+                    // update đọc bảng KNL Delete
+                    db.Database.ExecuteSqlCommand("DELETE FROM KNL_DocBangKNL WHERE ID_ViTriKNL = {0}", _DO.IDVT);
+                    foreach (var nl in knl1) // cập nhật bảng knl đã ký trước đó về bảng cũ
+                    {
+                        db.KhungNangLuc_update(nl.IDNL, nl.TenNL, nl.IDLoaiNL, nl.IDVT, nl.IDPB, nl.DinhMuc, nl.IsDanhGia, nl.OrderBy, 2);
+                    }
+                    foreach (var nl in knl12) // tạo bảng lưu knl trình ký
+                    {
+                        db.KhungNangLuc_insert( nl.TenNL, nl.IDLoaiNL, nl.IDVT, nl.IDPB, nl.DinhMuc, nl.IsDanhGia, nl.OrderBy, 0);
+                    }
+                    foreach (var nl in Knlxoa) // xóa KNL đang lưu
+                    {
+                        db.KhungNangLuc_delete(nl.IDNL);
+                    }
                     dtc++;
 
                 }
@@ -4894,6 +5401,9 @@ namespace E_Learning.Controllers
 
             var res = (from a in db.KNL_PheDuyetKNL.Where(x => x.ID_NguoiDuyet == MyAuthentication.ID)
                        join b in db.ViTriKNLs on a.IDVT equals b.IDVT
+                       let maxNgayTrinhKy = db.KNL_PheDuyetKNL
+                                 .Where(y => y.IDVT == a.IDVT && y.ID_NguoiDuyet == a.ID_NguoiDuyet)
+                                 .Max(y => y.NgayTrinhKy)
                        select new KNL_PheDuyetKNLView
                        {
                            ID = a.ID,
@@ -4907,8 +5417,9 @@ namespace E_Learning.Controllers
                            NgayTrinhKy = a.NgayTrinhKy,
                            TinhTrang = a.TinhTrang,
                            File_KNL = a.File_KNL,
-                           IDPB = b.IDPB
-                       }).OrderByDescending(x=>x.NgayTrinhKy).OrderBy(x=>x.TinhTrang).ToList();
+                           IDPB = b.IDPB,
+                           IsLatest = a.NgayTrinhKy == maxNgayTrinhKy // Đánh dấu bản ghi mới nhất
+                       }).OrderByDescending(x=>x.NgayTrinhKy).ThenBy(x => x.TinhTrang).ToList();
 
             if (page == null) page = 1;
             int pageSize = 100;
@@ -4931,8 +5442,15 @@ namespace E_Learning.Controllers
             {
                 item.NgayDuyet = DateTime.Now;
                 item.TinhTrang = 1;
+              
+                // thêm bảng KNL ký vào table KhungNangLuc
+                var knl = db.KhungNangLuc_SearchByIDVT(item.IDVT).Where(x => x.IsDuyet == 0).ToList();
+                foreach (var nl in knl)
+                {
+                    db.KhungNangLuc_update(nl.IDNL, nl.TenNL, nl.IDLoaiNL, nl.IDVT, nl.IDPB, nl.DinhMuc, nl.IsDanhGia, nl.OrderBy, 1);
+                }
                 string filepath = ExportViewToPdf(item.ID, item.IDVT);
-                if(filepath != null)
+                if (filepath != null)
                 {
                     item.File_KNL = filepath;
                 }
@@ -4959,6 +5477,13 @@ namespace E_Learning.Controllers
                     }
                     sH_KyDuyetNCDT.NgayDuyet = DateTime.Now;
                     sH_KyDuyetNCDT.TinhTrang = 1;
+                   
+                    // thêm bảng KNL ký vào table KhungNangLuc
+                    var knl = db.KhungNangLuc_SearchByIDVT(id).Where(x => x.IsDuyet == 0).ToList();
+                    foreach (var nl in knl)
+                    {
+                        db.KhungNangLuc_update(nl.IDNL, nl.TenNL, nl.IDLoaiNL, nl.IDVT, nl.IDPB, nl.DinhMuc, nl.IsDanhGia, nl.OrderBy, 1);
+                    }
                     string filepath = ExportViewToPdf(sH_KyDuyetNCDT.ID, sH_KyDuyetNCDT.IDVT);
                     if (filepath != null)
                     {
@@ -4988,7 +5513,14 @@ namespace E_Learning.Controllers
             {
                 item.NgayDuyet = DateTime.Now;
                 item.TinhTrang = 1;
-                string filepath = ExportViewToPdf(item.ID, item.IDVT);
+               
+                // thêm bảng KNL ký vào table KhungNangLuc
+                var knl = db.KhungNangLuc_SearchByIDVT(IDVT).Where(x=>x.IsDuyet ==0).ToList();
+                foreach (var nl in knl)
+                {
+                    db.KhungNangLuc_update(nl.IDNL,nl.TenNL,nl.IDLoaiNL,nl.IDVT,nl.IDPB,nl.DinhMuc,nl.IsDanhGia,nl.OrderBy,1);
+                }
+                string filepath = ExportViewToPdf(item.ID, IDVT);
                 if (filepath != null)
                 {
                     item.File_KNL = filepath;
@@ -5021,7 +5553,8 @@ namespace E_Learning.Controllers
                            IDPB = a.IDPB,
                            DinhMuc = a.IsDanhGia != 0 ? a.DinhMuc : 0,
                            IsDanhGia = a.IsDanhGia,
-                       }).ToList().OrderBy(x => x.OrderBy);
+                           IsDuyet = a.IsDuyet
+                       }).Where(x=>x.IsDuyet == 1).ToList().OrderBy(x => x.OrderBy);
 
             List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => x.IDVT == IDVT && x.IDLoai != 1 && x.IDLoai != 2).OrderBy(x => x.OrderBy).ToList();
             ViewBag.IDLoaiNL = new SelectList(loaiNL, "IDLoai", "TenLoai");

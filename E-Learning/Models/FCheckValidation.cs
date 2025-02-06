@@ -72,6 +72,7 @@ namespace E_Learning.Models
         public Nullable<int> DiemDGLan1 { get; set; }
         public Nullable<int> DiemPheDuyetDG { get; set; }
         public DateTime? NgayCBNVDG { get; set; }
+        public int? IsDuyet { get; set; }
     }
 
 

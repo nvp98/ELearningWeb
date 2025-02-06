@@ -1151,7 +1151,7 @@ namespace E_Learning.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KhungNangLuc_delete_VT", iDVTParameter);
         }
     
-        public virtual int KhungNangLuc_insert(string tenNL, Nullable<int> iDLoaiNL, Nullable<int> iDVT, Nullable<int> iDPB, Nullable<int> dinhMuc, Nullable<int> isDanhGia, Nullable<int> orderBy)
+        public virtual int KhungNangLuc_insert(string tenNL, Nullable<int> iDLoaiNL, Nullable<int> iDVT, Nullable<int> iDPB, Nullable<int> dinhMuc, Nullable<int> isDanhGia, Nullable<int> orderBy, Nullable<int> isDuyet)
         {
             var tenNLParameter = tenNL != null ?
                 new ObjectParameter("TenNL", tenNL) :
@@ -1181,7 +1181,11 @@ namespace E_Learning.Models
                 new ObjectParameter("OrderBy", orderBy) :
                 new ObjectParameter("OrderBy", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KhungNangLuc_insert", tenNLParameter, iDLoaiNLParameter, iDVTParameter, iDPBParameter, dinhMucParameter, isDanhGiaParameter, orderByParameter);
+            var isDuyetParameter = isDuyet.HasValue ?
+                new ObjectParameter("IsDuyet", isDuyet) :
+                new ObjectParameter("IsDuyet", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KhungNangLuc_insert", tenNLParameter, iDLoaiNLParameter, iDVTParameter, iDPBParameter, dinhMucParameter, isDanhGiaParameter, orderByParameter, isDuyetParameter);
         }
     
         public virtual ObjectResult<KhungNangLuc_searchByIDNL_Result> KhungNangLuc_searchByIDNL(Nullable<int> iDNL)
@@ -1202,7 +1206,7 @@ namespace E_Learning.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<KhungNangLuc_SearchByIDVT_Result>("KhungNangLuc_SearchByIDVT", iDVTParameter);
         }
     
-        public virtual int KhungNangLuc_update(Nullable<int> iDNL, string tenNL, Nullable<int> iDLoaiNL, Nullable<int> iDVT, Nullable<int> iDPB, Nullable<int> dinhMuc, Nullable<int> isDanhGia, Nullable<int> orderBy)
+        public virtual int KhungNangLuc_update(Nullable<int> iDNL, string tenNL, Nullable<int> iDLoaiNL, Nullable<int> iDVT, Nullable<int> iDPB, Nullable<int> dinhMuc, Nullable<int> isDanhGia, Nullable<int> orderBy, Nullable<int> isDuyet)
         {
             var iDNLParameter = iDNL.HasValue ?
                 new ObjectParameter("IDNL", iDNL) :
@@ -1236,7 +1240,11 @@ namespace E_Learning.Models
                 new ObjectParameter("OrderBy", orderBy) :
                 new ObjectParameter("OrderBy", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KhungNangLuc_update", iDNLParameter, tenNLParameter, iDLoaiNLParameter, iDVTParameter, iDPBParameter, dinhMucParameter, isDanhGiaParameter, orderByParameter);
+            var isDuyetParameter = isDuyet.HasValue ?
+                new ObjectParameter("IsDuyet", isDuyet) :
+                new ObjectParameter("IsDuyet", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KhungNangLuc_update", iDNLParameter, tenNLParameter, iDLoaiNLParameter, iDVTParameter, iDPBParameter, dinhMucParameter, isDanhGiaParameter, orderByParameter, isDuyetParameter);
         }
     
         public virtual int KNL_KQ_delete(Nullable<int> iDKQ)

@@ -28,6 +28,7 @@ namespace E_Learning.Models
         public Nullable<int> DinhMuc { get; set; }
         public Nullable<int> IsDanhGia { get; set; }
         public Nullable<int> OrderBy { get; set; }
+        public Nullable<int> IsDuyet { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<KNL_KQ> KNL_KQ { get; set; }

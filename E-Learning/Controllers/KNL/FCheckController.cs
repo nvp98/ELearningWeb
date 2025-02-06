@@ -96,7 +96,7 @@ namespace E_Learning.Controllers.KNL
                              fileBMTCV = a.FilePath,
                              NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
                              TotalDat =  db.KNL_DocBangKNL.Where(x=>x.IDNV == a.ID && x.ID_ViTriKNL == a.IDVT).Count(),
-                             Total = db.KhungNangLucs.Where(x=>x.IDVT == a.IDVT && x.IsDanhGia ==1).Count(),
+                             Total = db.KhungNangLucs.Where(x=>x.IDVT == a.IDVT && x.IsDanhGia ==1 && x.IsDuyet == 1).Count(),
                              NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
                          }).ToList();
             }
@@ -203,6 +203,7 @@ namespace E_Learning.Controllers.KNL
                             //MaViTri = a.MaViTri,
                             fileBMTCV = a.FilePath,
                             NgayDG =a?.NgayDG != null? String.Format("{0:dd/MM/yyyy}", a?.NgayDG):"",
+                            Total = db.KhungNangLucs.Where(x=>x.IsDuyet == 1 && x.IDVT == a.IDVT).FirstOrDefault() != null?1:0
                         }).ToList();
             //foreach (var item in res1)
             //{
@@ -321,7 +322,8 @@ namespace E_Learning.Controllers.KNL
                             TenKip = a.TenKip,
                             //MaViTri = a.MaViTri,
                             fileBMTCV = a.FilePath,
-                            NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : ""
+                            NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+                            Total = db.KhungNangLucs.Where(x => x.IsDuyet == 1 && x.IDVT == a.IDVT).FirstOrDefault() != null ? 1 : 0
                         }).ToList();
 
             //foreach (var item in res1)
@@ -416,7 +418,7 @@ namespace E_Learning.Controllers.KNL
                 //var kqt = db.KNL_KQ.Where(x => x.IDNV == IDNV && x.ThangDG == a).ToList();
                 var kqt = db.KNL_KQ_Select(IDNV, a).ToList();
                 //var Fnew = db.KhungNangLucs.Where(x => x.IDVT == nv.IDVT && (x.IDLoaiNL == 1 || x.IDLoaiNL == 2 || (x.IDLoaiNL != 1 && x.IDLoaiNL != 2 && x.IsDanhGia == 1))).ToList();
-                var Fnew = db.KhungNangLuc_SearchByIDVT(nv.IDVT).Where(x => x.IDLoaiNL == 1 || x.IDLoaiNL == 2 || (x.IDLoaiNL != 1 && x.IDLoaiNL != 2 && x.IsDanhGia == 1)).ToList();
+                var Fnew = db.KhungNangLuc_SearchByIDVT(nv.IDVT).Where(x => x.IsDuyet ==1 && (x.IDLoaiNL == 1 || x.IDLoaiNL == 2 || (x.IDLoaiNL != 1 && x.IDLoaiNL != 2 && x.IsDanhGia == 1))).ToList();
                 if (kqt.Count > 0 && Fnew.Count > 0)
                 {
                     foreach (var KQ in Fnew)
@@ -427,7 +429,7 @@ namespace E_Learning.Controllers.KNL
                 }
             }
 
-            var res = (from a in db.KNL_KQ_searchByIDNV(IDNV, dt, nv.IDVT)
+            var res = (from a in db.KNL_KQ_searchByIDNV(IDNV, dt, nv.IDVT).Where(x =>x.IsDuyet ==1)
                       select new FValueValidation
                       {
                           IDNV = (int?)nv.IDNV ?? null,
@@ -454,8 +456,8 @@ namespace E_Learning.Controllers.KNL
                           ColorKQ = a.IDNVDG == MyAuthentication.ID? "bg-warning": a.DiemDG < a.DinhMuc ? "bg-danger" : "bg-success",
                           IDNVDG = a.IDNVDG,
                           TenNVDG = a.HoTen,
-                          NgayCanhBao = a.DiemDG < a.DinhMuc ? (((DateTime)a.NgayDG).AddMonths(3) -DateTime.Now).Days : -1000,
-                          NgayHanDG = a.DiemDG < a.DinhMuc ? ((DateTime)a.NgayDG).AddMonths(3): default(DateTime),
+                          NgayCanhBao = a.DiemDG < a.DinhMuc ? (((DateTime)a.NgayDG).AddMonths(3) -DateTime.Now).Days : a.DiemDG >= a.DinhMuc? (((DateTime)a.NgayDG).AddMonths(6) - DateTime.Now).Days : - 1000,
+                          NgayHanDG = a.DiemDG < a.DinhMuc ? ((DateTime)a.NgayDG).AddMonths(3): a.DiemDG >= a.DinhMuc? ((DateTime)a.NgayDG).AddMonths(6) : default(DateTime),
                           DiemCBNVDG = a.DiemTuDG,
                           NgayCBNVDG = a.NgayTuDG
                       }).ToList().OrderBy(x => x.OrderBy);
@@ -564,7 +566,7 @@ namespace E_Learning.Controllers.KNL
                             {
                                 if(KQ.IDNV == nv.ID)
                                 {
-                                    db.KNL_KQ_insert(KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, DateTime.Now, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, KQ.Note,KQ.DiemDG,DateTime.Now);
+                                    db.KNL_KQ_insert(KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, KQ.Note,KQ.DiemDG,DateTime.Now);
                                 }
                                 else
                                 {
@@ -617,17 +619,35 @@ namespace E_Learning.Controllers.KNL
                 // cập nhật lịch sử
                 var nvdg = ListKQ.FirstOrDefault();
                 var GtriLS = db.KNL_LSDG.Where(x=>x.NVID ==nvdg.IDNV && x.ThangDG ==nvdg.ThangDG && x.VTID == nvdg.IDVT).FirstOrDefault();
-                int? DAT = CountSLDG(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, 1);
-                int? KDAT = CountSLDG(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, 2);
-                int? VUOT = CountSLDG(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, 3);
-                int? KDGIA = CountSLDG(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, 4);
-                int? CHUADG = CountSLDG(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, 5);
-                int? TONGNL = CountSLDG(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, null);
+                int? TONGNL = ListKQ.Count();
+               
+                int? DAT = ListKQ.Where(x=>x.DiemDG == x.DinhMuc).Count();
+                int? KDAT = ListKQ.Where(x => x.DiemDG < x.DinhMuc).Count();
+                int? VUOT = ListKQ.Where(x => x.DiemDG > x.DinhMuc).Count();
+                int? KDGIA = ListKQ.Where(x => x.IsDanhGia == 0).Count();
+                int? CHUADG = TONGNL - (DAT + KDAT + VUOT + KDGIA);
+                int? DATTu = ListKQ.Where(x => x.DiemDG == x.DinhMuc || x.DiemCBNVDG == x.DinhMuc).Count();
+                int? KDATTu = ListKQ.Where(x => x.DiemDG < x.DinhMuc || x.DiemCBNVDG < x.DinhMuc).Count();
+                int? VUOTTu = ListKQ.Where(x => x.DiemDG > x.DinhMuc || x.DiemCBNVDG > x.DinhMuc).Count();
+                int? KDGIATu = KDGIA;
+                int? CHUADGTu = TONGNL - (DATTu + KDATTu + VUOTTu + KDGIATu);
+
                 if (GtriLS == null)
                 {
                     if(nvdg.IDNV == nv.ID)
                     {
-                        db.KNL_LSDG_insert(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, null, DAT, KDAT, VUOT, KDGIA, CHUADG, TONGNL,DateTime.Now);
+                        db.KNL_LSDG_insert(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, null, 0, 0, 0, 0, 0, TONGNL,DateTime.Now);
+                        var a = db.KNL_LSDG.Where(x=>x.NVID == nvdg.IDNV && x.ThangDG == nvdg.ThangDG && x.VTID == nvdg.IDVT).FirstOrDefault();
+                        if(a != null)
+                        {
+                            a.DATTUDG = DATTu;
+                            a.KDATTUDG = KDATTu;
+                            a.VUOTTUDG = VUOTTu;
+                            a.KDGiaTuDG = KDGIATu;
+                            a.CHUADGTuDG = CHUADGTu;
+                            
+                        }   
+                        db.SaveChanges();
                     }
                     else
                     {
@@ -639,7 +659,17 @@ namespace E_Learning.Controllers.KNL
                 {
                     if(nvdg.IDNV == nv.ID)
                     {
-                        db.KNL_LSDG_update(GtriLS.IDLS, nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, GtriLS.NgayDGGN, DAT, KDAT, VUOT, KDGIA, CHUADG, TONGNL,DateTime.Now);
+                        //db.KNL_LSDG_update(GtriLS.IDLS, nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, GtriLS.NgayDGGN, DAT, KDAT, VUOT, KDGIA, CHUADG, TONGNL,DateTime.Now);
+                        var a = db.KNL_LSDG.Where(x => x.IDLS == GtriLS.IDLS).FirstOrDefault();
+                        if (a != null)
+                        {
+                            a.DATTUDG = DATTu;
+                            a.KDATTUDG = KDATTu;
+                            a.VUOTTUDG = VUOTTu;
+                            a.KDGiaTuDG = KDGIATu;
+                            a.CHUADGTuDG = CHUADGTu;
+                        }
+                        db.SaveChanges();
                     }
                     else
                     {
@@ -674,7 +704,7 @@ namespace E_Learning.Controllers.KNL
             ViewBag.TenNV = nv.TenNV ?? "";
             ViewBag.TenVT = nv.TenVT ?? "";
 
-            var res = (from a in db.KNL_KQ_searchByIDNV(IDNV, DateTime.Now, nv.IDVT)
+            var res = (from a in db.KNL_KQ_searchByIDNV(IDNV, DateTime.Now, nv.IDVT).Where(x=>x.IsDuyet == 1)
                        join b in db.KNL_DocBangKNL on a.IDNL equals b.ID_NangLuc into uli from b in uli.DefaultIfEmpty()
                        select new FValueValidation
                        {

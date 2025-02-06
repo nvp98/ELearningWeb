@@ -74,6 +74,11 @@ namespace E_Learning.Controllers.KNL
                     TotalKDat = 0, 
                     TotalKDGia = 0,
                     TotalChuaDGia = 0,
+                    TotalDatTu = 0,
+                    TotalVuotTu = 0,
+                    TotalKDatTu = 0,
+                    TotalKDGiaTu = 0,
+                    TotalChuaDGiaTu = 0,
                     IDVT = 0,
                     //FilePath = kqThang?.FirstOrDefault().FilePath,
                     //TenViTri = kqThang?.FirstOrDefault().TenViTri,
@@ -89,6 +94,11 @@ namespace E_Learning.Controllers.KNL
                     a.IDVT = kqThang?.FirstOrDefault().VTID;
                     a.FilePath = kqThang?.FirstOrDefault().FilePath;
                     a.TenViTri = kqThang?.FirstOrDefault().TenViTri;
+                    a.TotalDatTu = kqThang?.FirstOrDefault().DATTUDG;
+                    a.TotalVuotTu = kqThang?.FirstOrDefault().VUOTTUDG;
+                    a.TotalKDatTu = kqThang?.FirstOrDefault().KDATTUDG;
+                    a.TotalKDGiaTu = kqThang?.FirstOrDefault().KDGiaTuDG;
+                    a.TotalChuaDGiaTu = kqThang?.FirstOrDefault().CHUADGTuDG;
                 }
                 KQua.Add(a);
             }
@@ -111,7 +121,7 @@ namespace E_Learning.Controllers.KNL
             ViewBag.TenVT = nv.TenVT ?? "";
             ViewBag.ThangDG = (DateTime?)dt ?? default(DateTime);
 
-            var res = (from a in db.KNL_KQ_searchByIDNV(IDNV, dt, IDVT)
+            var res = (from a in db.KNL_KQ_searchByIDNV(IDNV, dt, IDVT).Where(x=>x.ThangDG == dt && x.IDNV != x.IDNVDG)
                        select new FValueValidation
                        {
                            IDNV = (int?)nv.IDNV ?? null,

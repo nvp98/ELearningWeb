@@ -223,5 +223,6 @@ namespace E_Learning.Models
         public Nullable<System.DateTime> NgayDuyet { get; set; }
         public string File_KNL { get; set; }
         public Nullable<int> TinhTrang { get; set; }
+        public bool IsLatest { get; set; }
     }
 }

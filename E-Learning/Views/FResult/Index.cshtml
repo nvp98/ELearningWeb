@@ -82,17 +82,27 @@
                         <thead class="thead-light">
                             <tr>
                                 @*<th class="text-center" width="30px">STT</th>*@
-                                <th class="text-center">Tháng Đánh giá</th>
-                                <th class="text-center"> Tổng NL</th>
+                                <th rowspan="2" class="text-center">Tháng Đánh giá</th>
+                                <th rowspan="2" class="text-center"> Tổng NL</th>
+                                <th colspan="5" class="text-center">CBNV Tự đánh giá</th>
+                                <th colspan="5" class="text-center">Kiểm duyệt kết quả</th>
+                                <th rowspan="2" class="text-center">Vị trí đánh giá</th>
+                                <th rowspan="2" class="text-center">BMTCV</th>
+                                <th rowspan="2" class="text-center">Kết quả</th>
+                            </tr>
+                            <tr>
                                 <th class="text-center"> Không đạt</th>
                                 <th class="text-center"> Đạt </th>
                                 <th class="text-center"> Vượt yêu cầu</th>
                                 <th class="text-center"> Chưa đánh giá</th>
                                 <th class="text-center"> Không đánh giá</th>
-                                <th class="text-center">Vị trí đánh giá</th>
-                                <th class="text-center">BMTCV</th>
+                                <th class="text-center"> Không đạt</th>
+                                <th class="text-center"> Đạt </th>
+                                <th class="text-center"> Vượt yêu cầu</th>
+                                <th class="text-center"> Chưa đánh giá</th>
+                                <th class="text-center"> Không đánh giá</th>
 
-                                <th class="text-center">Kết quả</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -107,11 +117,19 @@
                                     @*<td class="text-center"> @RowNo@{RowNo++;}</td>*@
                                     <td class="font-weight-bold text-center">@item.DGThang</td>
                                     <td class="text-center font-weight-bold">@item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalKDatTu / @item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalDatTu / @item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalVuotTu /@item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalChuaDGiaTu / @item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalKDGiaTu / @item.Total</td>
+
                                     <td class="text-center font-weight-bold">@item.TotalKDat / @item.Total</td>
                                     <td class="text-center font-weight-bold">@item.TotalDat / @item.Total</td>
                                     <td class="text-center font-weight-bold">@item.TotalVuot /@item.Total</td>
                                     <td class="text-center font-weight-bold">@item.TotalChuaDGia / @item.Total</td>
                                     <td class="text-center font-weight-bold">@item.TotalKDGia / @item.Total</td>
+
+
                                     <td class="text-center font-weight-bold">@item.TenViTri</td>
                                     <td class="text-center">
                                         @if (item.Total > 0)

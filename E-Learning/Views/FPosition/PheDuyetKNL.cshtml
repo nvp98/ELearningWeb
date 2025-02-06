@@ -22,6 +22,11 @@
     @Html.Raw(TempData["msgError"])
 }
 
+@{
+    ELEARNINGEntities db = new ELEARNINGEntities();
+    var listPheDuyet = db.KNL_PheDuyetKNL.Where(x => x.TinhTrang == 0).ToList();
+}
+
 <style type="text/css">
     a:hover {
         cursor: pointer;
@@ -69,10 +74,10 @@
                     <button type="submit" class="btn btn-primary" style="margin-right:8px" onclick="SubmitForm()">Phê duyệt</button>
                 </div>
                 @*<div class="row">
-                    <a class="btn btn-primary fa fa-download" title="Dowload bảng KNL" href="@Url.Action("PheDuyetAll", "FPosition")">
-                        Phê duyệt tất cả
-                    </a>
-                </div>*@
+                        <a class="btn btn-primary fa fa-download" title="Dowload bảng KNL" href="@Url.Action("PheDuyetAll", "FPosition")">
+                            Phê duyệt tất cả
+                        </a>
+                    </div>*@
 
             </div>
             <div class="card-body">
@@ -103,6 +108,7 @@
                                 }
                                 @foreach (var item in Model)
                                 {
+                                    var checkduyet = listPheDuyet.Where(x => x.IDVT == item.IDVT).FirstOrDefault();
                                     <tr>
                                         <td class="text-center"> @RowNo@{RowNo++;}</td>
                                         @if (item.TinhTrang == 0)
@@ -117,11 +123,28 @@
                                             </td>
 
                                         }
-                                        <td class="text-center">
-                                            <a class="fa fa-eye" title="Xem bảng khung năng lực" href="@Url.Action("CreateKNL", "FPosition", new { id = item.IDVT, IDPB = item.IDPB })"
-                                               onclick="return confirm('Cập nhật nội dung: @item.TenViTri')">
-                                            </a>
-                                        </td>
+                                        @if (item.TinhTrang == 1 && item.IsLatest)
+                                        {
+                                            <td class="text-center">
+                                                <a class="fa fa-list" title="Xem bảng khung năng lực" href="@Url.Action("UpdateDuyetKNL", "FPosition", new { id = item.IDVT, IDPB = item.IDPB, IdDuyet = item.ID })"
+                                                   onclick="return confirm('Cập nhật nội dung: @item.TenViTri')">
+                                                </a>
+                                            </td>
+                                        }
+                                        else if (item.TinhTrang == 0)
+                                        {
+                                            <td class="text-center">
+                                                <a class="fa fa-edit" title="Xem bảng khung năng lực" href="@Url.Action("UpdateBangKNL", "FPosition", new { id = item.IDVT, IDPB = item.IDPB })"
+                                                   onclick="return confirm('Cập nhật nội dung: @item.TenViTri')">
+                                                </a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-center">
+                                            </td>
+                                        }
+
                                         <td class="">
                                             @item.TenViTri
                                             @*<a class="" title="Cập nhật khung năng lực" href="@Url.Action("CreateKNL", "FPosition", new { id = item.IDVT, IDPB = item.IDPB })"
@@ -165,7 +188,7 @@
                             </tbody>
                         </table>
                     </form>
-                    
+
                     <div class="pager">
                         @Html.PagedListPager(Model, page => Url.Action("PheDuyetKNL", "FPosition", new { page, IDVT = Request.QueryString["IDVT"] }))
                         <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>

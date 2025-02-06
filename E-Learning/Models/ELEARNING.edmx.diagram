@@ -32,7 +32,6 @@
         <EntityTypeShape EntityType="ELEARNINGModel.KNL_PhanXuong" Width="1.5" PointX="22.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.KNL_Quyen" Width="1.5" PointX="2.75" PointY="22.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.KNL_To" Width="1.5" PointX="22.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ELEARNINGModel.KhungNangLuc" Width="1.5" PointX="17.75" PointY="6.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.LinhVucDT" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.ListController" Width="1.5" PointX="22.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.LoaiKNL" Width="1.5" PointX="12.75" PointY="22.75" IsExpanded="true" />
@@ -89,7 +88,6 @@
         <AssociationConnector Association="ELEARNINGModel.FK_KCCD_CTBaiThi_KCCD_BaiThi" ManuallyRouted="false" />
         <AssociationConnector Association="ELEARNINGModel.FK_KCCD_CauHoi_KCCD_DeThi" ManuallyRouted="false" />
         <AssociationConnector Association="ELEARNINGModel.FK_KCCD_CTBaiThi_KCCD_CauHoi" ManuallyRouted="false" />
-        <AssociationConnector Association="ELEARNINGModel.FK_KNL_KQ_KhungNangLuc" ManuallyRouted="false" />
         <AssociationConnector Association="ELEARNINGModel.FK_NoiDungDT_LinhVucDT" ManuallyRouted="false" />
         <AssociationConnector Association="ELEARNINGModel.FK_LopHoc_NoiDungDT" ManuallyRouted="false" />
         <AssociationConnector Association="ELEARNINGModel.FK_XNHocTap_LopHoc" ManuallyRouted="false" />
@@ -120,6 +118,8 @@
         <AssociationConnector Association="ELEARNINGModel.FK_KNL_PheDuyetKNL_NhanVien" />
         <AssociationConnector Association="ELEARNINGModel.FK_KNL_PheDuyetKNL_NhanVien1" />
         <EntityTypeShape EntityType="ELEARNINGModel.KNL_DocBangKNL" Width="1.5" PointX="22.375" PointY="26.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.KhungNangLuc" Width="1.5" PointX="17.75" PointY="6.375" />
+        <AssociationConnector Association="ELEARNINGModel.FK_KNL_KQ_KhungNangLuc" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -22,5 +22,6 @@ namespace E_Learning.Models
         public Nullable<int> OrderBy { get; set; }
         public string TenNL { get; set; }
         public string TenViTri { get; set; }
+        public Nullable<int> IsDuyet { get; set; }
     }
 }

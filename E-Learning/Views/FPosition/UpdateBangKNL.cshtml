@@ -71,31 +71,13 @@
                     </div>
 
                 </div>
-
             </div>
-            @if (listduyet.Count == 0 || true)
-            {
-                <div class="col-md-12">
-                    <button type="button" id="btn-trinhky" class="btn btn-success m-l-auto"><i class="fa fa-plane">&nbsp;</i>&nbsp;Trình ký Bảng Khung năng lực </button>
-                    <div class=" modal fade" id="myModaleTK" role="dialog" data-url='@Url.Action("TrinhKyBangKNL","FPosition",new {IDVT = ViewBag.SLIDVT,IDPB = ViewBag.PBIDD})'></div>
-                    <script type="text/javascript">
-                        $("#btn-trinhky").click(function () {
-                            var url = $('#myModaleTK').data('url');
-                            $.get(url, function (data) {
-                                $("#myModaleTK").html(data);
-                                $("#ModalTitle").html("Trình ký Bảng Khung năng lực");
-                                $("#myModaleTK").modal('show');
-                            });
-                        });
-                    </script>
-                </div>
-            }
-            @*@if (listduyet.Count != 0)
+            @if (listduyet.Count != 0)
             {
                 <a class="btn btn-primary fa fa-download" title="Dowload bảng KNL" href="@Url.Action("PheDuyetBangKNL", "FPosition" ,new {IDVT=ViewBag.SLIDVT} )">
                     Phê duyệt Bảng KNL
                 </a>
-            }*@
+            }
         </div>
 
 
@@ -105,8 +87,12 @@
 
             </div>
             <div class="card-body">
-                @using (Html.BeginForm("CreateKNL", "FPosition", FormMethod.Post))
+                @using (Html.BeginForm("UpdateBangKNL", "FPosition", FormMethod.Post))
                 {
+
+                    <div class="btn-margin-top text-center ">
+                        <input type="submit" value="Cập nhật" class="btn btn-success pull-right " />
+                    </div>
                     @Html.AntiForgeryToken()
                     <div class="" id="formF">
                         <div class="modal-content">
@@ -181,12 +167,10 @@
                                                             var a = db.LoaiKNLs.Where(x => x.IDLoai == b).FirstOrDefault().OrderBy;
                                                             <tr class="text-center">
                                                                 <th class="small font-weight-bold">
-                                                                    @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.D_KNL))
-                                                                    {
-                                                                        <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("DeleteLoaiKNL", "FPosition", new { id = @item.Value,IDVT =@ViewBag.SLIDVT,IDPB =@ViewBag.PBIDD })"
-                                                                           onclick="return confirm('Bạn muốn Xóa loại Vị trí: ')">
-                                                                        </a>
-                                                                    }
+
+                                                                    <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("DeleteLoaiKNL", "FPosition", new { id = @item.Value,IDVT =@ViewBag.SLIDVT,IDPB =@ViewBag.PBIDD })"
+                                                                       onclick="return confirm('Bạn muốn Xóa loại Vị trí: ')">
+                                                                    </a>
 
                                                                     Chuyên môn
                                                                 </th>
@@ -209,12 +193,9 @@
                                                                     @Html.HiddenFor(m => m[i].IDVT)
                                                                     <tr>
                                                                         <td class="text-center">
-                                                                            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.D_KNL))
-                                                                            {
-                                                                                <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("DeleteKNL", "FPosition" , new { id=Model[i].IDNL,idvt =Model[i].IDVT,IDPB =Model[i].IDPB })"
-                                                                                   onclick="return confirm('Bạn muốn Cập nhật Vị trí: @Model[i].IDNL ')">
-                                                                                </a>
-                                                                            }
+                                                                            <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action(" DeleteKNL", "FPosition" , new { id=Model[i].IDNL,idvt =Model[i].IDVT,IDPB =Model[i].IDPB })"
+                                                                               onclick="return confirm('Bạn muốn Cập nhật Vị trí: @Model[i].IDNL ')">
+                                                                            </a>
                                                                         </td>
                                                                         <td class="">
                                                                             @Html.TextAreaFor(m => m[i].TenNL, new { @class = "form-control", @rows = 1, placeholder = "Yêu cầu năng lực", })
@@ -269,29 +250,14 @@
                                                             }
                                                         }
                                                         @*<tr id="qly"><th colspan="4" class="font-weight-bold font-size-lg"><button id="add-qly" type="button" class="btn btn-light border border-white"><i class="fas fa-plus"></i></button></th></tr>*@
-                                                        <tr id="qly"><th colspan="5" class="font-weight-bold font-size-lg"><button id="add-qly" type="button" class="btn btn-light border border-white"><i class="fas fa-plus"></i></button></th></tr>
+                                                        <tr id="qly"><th colspan="4" class="font-weight-bold font-size-lg"><button id="add-qly" type="button" class="btn btn-light border border-white"><i class="fas fa-plus"></i></button></th></tr>
+                                                        
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="btn-margin-top text-center ">
-                                        @if (MyAuthentication.IDQuyen != 9 && MyAuthentication.IDQuyen != 10)
-                                        {
-                                            <input type="submit" value="Cập nhật" class="btn btn-primary pull-right " />
-                                            <div class="btn btn-danger pull-right button_cancel mr-1">
-                                                <a class="text-light" title="Chi tiết" href="@Url.Action("Index", "FPosition" )"
-                                                   onclick="return confirm('Hủy cập nhật nội dung')">
-                                                    Hủy
-                                                </a>
-                                            </div>
-                                        }
-
-
-                                       
-
-                                    </div>
                                 </fieldset>
 
                             </div>
@@ -451,6 +417,7 @@
 </div>
 
 @*<script src="~/Content/Chonse/chosen.jquery.js"></script>*@
+<script src="~/Content/Chonse/chosen.jquery.js"></script>
 <script src="~/Content/Chonse/chosen.jquery.js"></script>
 <script src="~/Content/Chonse/chosen.jquery.js"></script>
 <script type="text/javascript">

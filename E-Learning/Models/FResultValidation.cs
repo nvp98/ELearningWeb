@@ -17,7 +17,14 @@ namespace E_Learning.Models
         public int? TotalDat { get; set; }
         public int? TotalKDat { get; set; }
         public int? TotalKDGia { get; set; }
-        public int? TotalChuaDGia { get; set; } 
+        public int? TotalChuaDGia { get; set; }
+
+        public int? TotalVuotTu { get; set; }
+        public int? TotalDatTu { get; set; }
+        public int? TotalKDatTu { get; set; }
+        public int? TotalKDGiaTu { get; set; }
+        public int? TotalChuaDGiaTu { get; set; }
+
         public int? IDVT { get; set; }
         public string FilePath { get; set; }
         public string TenViTri { get; set; }

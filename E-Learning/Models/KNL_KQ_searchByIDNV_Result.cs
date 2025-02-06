@@ -39,5 +39,6 @@ namespace E_Learning.Models
         public string MaPB { get; set; }
         public Nullable<int> DiemTuDG { get; set; }
         public Nullable<System.DateTime> NgayTuDG { get; set; }
+        public Nullable<int> IsDuyet { get; set; }
     }
 }
