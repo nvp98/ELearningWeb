@@ -11,12 +11,12 @@ using System.Web.Mvc;
 
 namespace E_Learning.Controllers.QTTC
 {
-    public class FDirectorsController : Controller
+    public class FFactoryQTTCController : Controller
     {
         ELEARNINGEntities db = new ELEARNINGEntities();
         int Idquyen = MyAuthentication.IDQuyen;
-        String ControllerName = "FDirectors";
-        // GET: FDirectors
+        String ControllerName = "FFactoryQTTC";
+        // GET: FFactoryQTTC
         public ActionResult Index(int? page, string search, int? IDDVTC)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
@@ -31,7 +31,7 @@ namespace E_Learning.Controllers.QTTC
             ViewBag.search = search;
             if (IDDVTC == null) IDDVTC = 0;
 
-            var res = (from a in db.DV_CapC2
+            var res = (from a in db.DV_CapC6
                        select new DVTCValidation
                        {
                            IDDVTC = a.ID,
@@ -40,7 +40,7 @@ namespace E_Learning.Controllers.QTTC
                            TrangThai = (long)a.TrangThai
                        }).ToList();
 
-            List<DV_CapC2> dt = db.DV_CapC2.ToList();
+            List<DV_CapC6> dt = db.DV_CapC6.ToList();
             ViewBag.IDDVTC = new SelectList(dt, "ID", "TenDVTC");
             if (IDDVTC != 0) res = res.Where(x => x.IDDVTC == IDDVTC).ToList();
             if (page == null) page = 1;
@@ -58,14 +58,14 @@ namespace E_Learning.Controllers.QTTC
             }
             db.Configuration.ProxyCreationEnabled = false;
 
-            List<DV_CapC2> dt = db.DV_CapC2.ToList();
+            List<DV_CapC6> dt = db.DV_CapC6.ToList();
             ViewBag.IDDVTC = new SelectList(dt, "ID", "TenDVTC");
 
             return PartialView();
         }
         public int GetIDDVTC(string TenDVTC)
         {
-            var model = db.DV_CapC2.Where(x => x.TenDVTC == TenDVTC).SingleOrDefault();
+            var model = db.DV_CapC6.Where(x => x.TenDVTC == TenDVTC).SingleOrDefault();
             if (model == null)
                 return 0;
             return model.ID;
@@ -78,7 +78,7 @@ namespace E_Learning.Controllers.QTTC
             {
                 if (_DO.TenDVTC != null && GetIDDVTC(_DO.TenDVTC.Trim()) == 0)
                 {
-                    var aa = db.Cap2_insert_KNL(_DO.MaDVTC, _DO.TenDVTC);
+                    var aa = db.Cap6_insert_KNL(_DO.MaDVTC, _DO.TenDVTC);
                 }
 
                 TempData["msgSuccess"] = "<script>alert('Thêm mới thành công');</script>";
@@ -88,7 +88,7 @@ namespace E_Learning.Controllers.QTTC
                 TempData["msgError"] = "<script>alert('Có lỗi khi thêm mới: " + e.Message + "');</script>";
             }
 
-            return RedirectToAction("Index", "FDirectors");
+            return RedirectToAction("Index", "FFactoryQTTC");
         }
         public ActionResult Edit(int id)
         {
@@ -98,7 +98,7 @@ namespace E_Learning.Controllers.QTTC
                 TempData["msgError"] = "<script>alert('Bạn không có quyền thực hiện chức năng này');</script>";
                 return RedirectToAction("", "Home");
             }
-            var res = (from a in db.DV_CapC2.Where(x => x.ID == id)
+            var res = (from a in db.DV_CapC6.Where(x => x.ID == id)
                        select new DVTCValidation
                        {
                            IDDVTC = a.ID,
@@ -119,7 +119,7 @@ namespace E_Learning.Controllers.QTTC
                 }
 
                 db.Configuration.ProxyCreationEnabled = false;
-                List<DV_CapC2> dt = db.DV_CapC2.ToList();
+                List<DV_CapC6> dt = db.DV_CapC6.ToList();
             }
             else
             {
@@ -133,7 +133,7 @@ namespace E_Learning.Controllers.QTTC
             try
             {
 
-                db.Cap2_update_KNL(_DO.IDDVTC, _DO.MaDVTC, _DO.TenDVTC, 1);
+                db.Cap6_update_KNL(_DO.IDDVTC, _DO.MaDVTC, _DO.TenDVTC, 1);
 
                 TempData["msgSuccess"] = "<script>alert('Cập nhật thành công');</script>";
 
@@ -144,19 +144,19 @@ namespace E_Learning.Controllers.QTTC
                 TempData["msgSuccess"] = "<script>alert('Cập nhật thất bại " + e.Message + " ');</script>";
             }
 
-            return RedirectToAction("Index", "FDirectors");
+            return RedirectToAction("Index", "FFactoryQTTC");
         }
         public ActionResult Delete(int id)
         {
             try
             {
-                db.Cap2_delete_KNL(id);
+                db.Cap6_delete_KNL(id);
             }
             catch (Exception e)
             {
                 TempData["msgError"] = "<script>alert('Xóa dữ liệu thất bại');</script>";
             }
-            return RedirectToAction("Index", "FDirectors");
+            return RedirectToAction("Index", "FFactoryQTTC");
         }
 
         public int GetIDController(string TenController)
@@ -195,7 +195,7 @@ namespace E_Learning.Controllers.QTTC
             {
                 TempData["msgError"] = "<script>alert('Có lỗi khi đồng bộ dữ liệu: " + e.Message + "');</script>";
             }
-            return RedirectToAction("Index", "FDirectors");
+            return RedirectToAction("Index", "FFactoryQTTC");
         }
         [HttpPost]
         public ActionResult ImportExcel(ImportExcelModel fileObj)
@@ -225,7 +225,7 @@ namespace E_Learning.Controllers.QTTC
                                 string maDVTC = worksheet.Cells[row, 2].Value?.ToString().Trim();
                                 string tenDVTC = worksheet.Cells[row, 3].Value?.ToString().Trim();
 
-                                db.Cap2_insert_KNL(maDVTC, tenDVTC);
+                                db.Cap6_insert_KNL(maDVTC, tenDVTC);
                             }
                         }
                     }

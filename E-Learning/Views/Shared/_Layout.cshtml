@@ -172,15 +172,15 @@
                                 </a>
                             </li>
                             @*@if (checkDGNV == 1 || true)
-                            {
-                                <li>
-                                    <a title="Cập nhật KNL" href="@Url.Action("Index","FCheck")"
-                                        onclick="return confirm('Cần kiểm tra để đảm bảo Vị trí đánh giá trong danh sách đúng với thực tế trước khi thực hiện đánh giá')">
-                                        <i class="metismenu-icon pe-7s-news-paper font-weight-bold">
-                                        </i>Đánh giá Khung Năng lực
-                                    </a>
-                                </li>
-                            }*@
+        {
+            <li>
+                <a title="Cập nhật KNL" href="@Url.Action("Index","FCheck")"
+                    onclick="return confirm('Cần kiểm tra để đảm bảo Vị trí đánh giá trong danh sách đúng với thực tế trước khi thực hiện đánh giá')">
+                    <i class="metismenu-icon pe-7s-news-paper font-weight-bold">
+                    </i>Đánh giá Khung Năng lực
+                </a>
+            </li>
+        }*@
                             <li>
                                 <a title="Cập nhật KNL" href="@Url.Action("Index","FCheck")"
                                    onclick="return confirm('Cần kiểm tra để đảm bảo Vị trí đánh giá trong danh sách đúng với thực tế trước khi thực hiện đánh giá')">
@@ -421,6 +421,68 @@
                                             <a href="@Url.Action("Index","FNest")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FNest" ? "mm-active" : "")">
                                                 <i class=" pe-7s-tools">
                                                 </i>&nbsp;&nbsp;Danh sách Tổ
+                                            </a>
+                                        </li>
+                                        showQuanTriKNL = 1;
+                                    }
+                                </ul>
+                            </li>
+                            <li class=" @((new List<String> { "FDirectors", "FBlockQTTC", "FFactoryQTTC","FGroupQTTC","FNestQTTC" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
+                                @if ((new List<String> { "FDirectors", "FBlockQTTC", "FFactoryQTTC", "FGroupQTTC", "FNestQTTC" }).Any(x => ListControll.Contains(x)))
+                                {
+                                    <a href="#" id="IDTK" class="">
+                                        <i class="metismenu-icon pe-7s-tools font-weight-bold">
+                                        </i>Quản trị tổ chức
+                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                    </a>
+                                }
+                                <ul id="LSTK">
+                                    @if (ListControll.Contains("FDirectors"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index","FDirectors")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FDirectors" ? "mm-active" : "")">
+                                                <i class=" pe-7s-tools">
+                                                </i>&nbsp;&nbsp;C2: BGĐ Công ty
+                                            </a>
+                                        </li>
+                                        showQuanTriKNL = 1;
+                                    }
+                                    @if (ListControll.Contains("FBlockQTTC"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index","FBlockQTTC")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FBlockQTTC" ? "mm-active" : "")">
+                                                <i class=" pe-7s-target">
+                                                </i>&nbsp;&nbsp;C4: Phòng ban/Bộ phận
+                                            </a>
+                                        </li>
+                                        showQuanTriKNL = 1;
+                                    }
+                                    @if (ListControll.Contains("FFactoryQTTC"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index","FFactoryQTTC")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FFactoryQTTC" ? "mm-active" : "")">
+                                                <i class=" pe-7s-browser">
+                                                </i>&nbsp;&nbsp;C6: Xưởng
+                                            </a>
+                                        </li>
+                                        showQuanTriKNL = 1;
+                                    }
+                                    @if (ListControll.Contains("FGroupQTTC"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index","FGroupQTTC")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FGroupQTTC" ? "mm-active" : "")">
+                                                <i class=" pe-7s-tools">
+                                                </i>&nbsp;&nbsp;C7: Đội
+                                            </a>
+                                        </li>
+                                        showQuanTriKNL = 1;
+                                    }
+                                    @if (ListControll.Contains("FNestQTTC"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index","FNestQTTC")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FNestQTTC" ? "mm-active" : "")">
+                                                <i class=" pe-7s-tools">
+                                                </i>&nbsp;&nbsp;C9: Tổ
                                             </a>
                                         </li>
                                         showQuanTriKNL = 1;
