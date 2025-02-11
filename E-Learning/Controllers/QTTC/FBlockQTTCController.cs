@@ -216,7 +216,7 @@ namespace E_Learning.Controllers.QTTC
                     fileObj.FileExcel.InputStream.CopyTo(stream);
                     using (var package = new ExcelPackage(stream))
                     {
-                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[4];
                         int rowCount = worksheet.Dimension.Rows;
 
                         {
