@@ -128,6 +128,60 @@
           <Property Name="NVDG" Type="nvarchar" MaxLength="10" />
           <Property Name="IDKNL" Type="int" />
         </EntityType>
+        <EntityType Name="DV_CapC1">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaDVTC" Type="nvarchar" MaxLength="33" />
+          <Property Name="TenDVTC" Type="nvarchar" MaxLength="200" />
+          <Property Name="TrangThai" Type="int" />
+        </EntityType>
+        <EntityType Name="DV_CapC2">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaDVTC" Type="nvarchar" MaxLength="33" />
+          <Property Name="TenDVTC" Type="nvarchar" MaxLength="200" />
+          <Property Name="TrangThai" Type="int" />
+        </EntityType>
+        <EntityType Name="DV_CapC4">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaDVTC" Type="nvarchar" MaxLength="33" />
+          <Property Name="TenDVTC" Type="nvarchar" MaxLength="200" />
+          <Property Name="TrangThai" Type="int" />
+        </EntityType>
+        <EntityType Name="DV_CapC6">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaDVTC" Type="nvarchar" MaxLength="33" />
+          <Property Name="TenDVTC" Type="nvarchar" MaxLength="200" />
+          <Property Name="TrangThai" Type="int" />
+        </EntityType>
+        <EntityType Name="DV_CapC7">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaDVTC" Type="nvarchar" MaxLength="33" />
+          <Property Name="TenDVTC" Type="nvarchar" MaxLength="200" />
+          <Property Name="TrangThai" Type="int" />
+        </EntityType>
+        <EntityType Name="DV_CapC9">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaDVTC" Type="nvarchar" MaxLength="33" />
+          <Property Name="TenDVTC" Type="nvarchar" MaxLength="200" />
+          <Property Name="TrangThai" Type="int" />
+        </EntityType>
         <EntityType Name="HDSD">
           <Key>
             <PropertyRef Name="ID" />
@@ -186,6 +240,20 @@
           <Property Name="DiemChuan" Type="float" />
           <Property Name="KCCDID" Type="int" />
         </EntityType>
+        <EntityType Name="KhungNangLuc">
+          <Key>
+            <PropertyRef Name="IDNL" />
+          </Key>
+          <Property Name="IDNL" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenNL" Type="nvarchar(max)" />
+          <Property Name="IDLoaiNL" Type="int" />
+          <Property Name="IDVT" Type="int" />
+          <Property Name="IDPB" Type="int" />
+          <Property Name="DinhMuc" Type="int" />
+          <Property Name="IsDanhGia" Type="int" />
+          <Property Name="OrderBy" Type="int" />
+          <Property Name="IsDuyet" Type="int" />
+        </EntityType>
         <EntityType Name="Kip">
           <Key>
             <PropertyRef Name="IDKip" />
@@ -222,6 +290,14 @@
           <Property Name="NgayTao" Type="datetime" />
           <Property Name="IsDelete" Type="bit" />
         </EntityType>
+        <EntityType Name="KNL_Khoi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaKhoi" Type="nvarchar" MaxLength="30" />
+          <Property Name="TenKhoi" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="KNL_KQ">
           <Key>
             <PropertyRef Name="IDKQ" />
@@ -239,14 +315,6 @@
           <Property Name="VTID" Type="int" />
           <Property Name="DiemTuDG" Type="int" />
           <Property Name="NgayTuDG" Type="date" />
-        </EntityType>
-        <EntityType Name="KNL_Khoi">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MaKhoi" Type="nvarchar" MaxLength="30" />
-          <Property Name="TenKhoi" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="KNL_LoaiKQ">
           <Key>
@@ -277,14 +345,6 @@
           <Property Name="KDGiaTuDG" Type="int" />
           <Property Name="CHUADGTuDG" Type="int" />
         </EntityType>
-        <EntityType Name="KNL_NVKiemNhiem">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IDNV" Type="int" />
-          <Property Name="IDVTKN" Type="int" />
-        </EntityType>
         <EntityType Name="KNL_Nhom">
           <Key>
             <PropertyRef Name="IDNhom" />
@@ -295,6 +355,14 @@
           <Property Name="IDPhongBan" Type="int" />
           <Property Name="IDPhanXuong" Type="int" />
           <Property Name="IDKhoi" Type="int" />
+        </EntityType>
+        <EntityType Name="KNL_NVKiemNhiem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDNV" Type="int" />
+          <Property Name="IDVTKN" Type="int" />
         </EntityType>
         <EntityType Name="KNL_PhanXuong">
           <Key>
@@ -337,20 +405,6 @@
           <Property Name="IDPhanXuong" Type="int" />
           <Property Name="IDKhoi" Type="int" />
         </EntityType>
-        <EntityType Name="KhungNangLuc">
-          <Key>
-            <PropertyRef Name="IDNL" />
-          </Key>
-          <Property Name="IDNL" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TenNL" Type="nvarchar(max)" />
-          <Property Name="IDLoaiNL" Type="int" />
-          <Property Name="IDVT" Type="int" />
-          <Property Name="IDPB" Type="int" />
-          <Property Name="DinhMuc" Type="int" />
-          <Property Name="IsDanhGia" Type="int" />
-          <Property Name="OrderBy" Type="int" />
-          <Property Name="IsDuyet" Type="int" />
-        </EntityType>
         <EntityType Name="LinhVucDT">
           <Key>
             <PropertyRef Name="IDLVDT" />
@@ -392,6 +446,37 @@
           <Property Name="GVID" Type="int" />
           <Property Name="IDDeThi" Type="int" />
           <Property Name="ToChucThi" Type="bit" />
+        </EntityType>
+        <EntityType Name="NhanVien">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaNV" Type="varchar" MaxLength="10" />
+          <Property Name="MatKhau" Type="nvarchar" MaxLength="50" />
+          <Property Name="HoTen" Type="nvarchar" MaxLength="50" />
+          <Property Name="HoTenKhongDau" Type="nvarchar" MaxLength="50" />
+          <Property Name="NgaySinh" Type="date" />
+          <Property Name="DiaChi" Type="nvarchar" MaxLength="150" />
+          <Property Name="DienThoai" Type="varchar" MaxLength="11" />
+          <Property Name="NgayVaoLam" Type="date" />
+          <Property Name="IDPhongBan" Type="int" />
+          <Property Name="IDTinhTrangLV" Type="int" />
+          <Property Name="IDViTri" Type="int" />
+          <Property Name="IsGV" Type="bit" />
+          <Property Name="IDQuyen" Type="int" />
+          <Property Name="IDVTKNL" Type="int" />
+          <Property Name="IDQuyenKNL" Type="int" />
+          <Property Name="MaViTri" Type="varchar" MaxLength="50" />
+          <Property Name="IDKip" Type="int" />
+          <Property Name="ChuKy" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="NhomNLKCCD">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NoiDung" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="NoiDungDT">
           <Key>
@@ -454,37 +539,6 @@
           <Property Name="NgayTG" Type="date" />
           <Property Name="NgayHT" Type="date" />
           <Property Name="TinhTrang" Type="int" />
-        </EntityType>
-        <EntityType Name="NhanVien">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MaNV" Type="varchar" MaxLength="10" />
-          <Property Name="MatKhau" Type="nvarchar" MaxLength="50" />
-          <Property Name="HoTen" Type="nvarchar" MaxLength="50" />
-          <Property Name="HoTenKhongDau" Type="nvarchar" MaxLength="50" />
-          <Property Name="NgaySinh" Type="date" />
-          <Property Name="DiaChi" Type="nvarchar" MaxLength="150" />
-          <Property Name="DienThoai" Type="varchar" MaxLength="11" />
-          <Property Name="NgayVaoLam" Type="date" />
-          <Property Name="IDPhongBan" Type="int" />
-          <Property Name="IDTinhTrangLV" Type="int" />
-          <Property Name="IDViTri" Type="int" />
-          <Property Name="IsGV" Type="bit" />
-          <Property Name="IDQuyen" Type="int" />
-          <Property Name="IDVTKNL" Type="int" />
-          <Property Name="IDQuyenKNL" Type="int" />
-          <Property Name="MaViTri" Type="varchar" MaxLength="50" />
-          <Property Name="IDKip" Type="int" />
-          <Property Name="ChuKy" Type="nvarchar" MaxLength="100" />
-        </EntityType>
-        <EntityType Name="NhomNLKCCD">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NoiDung" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="PhanQuyenHT">
           <Key>
@@ -804,16 +858,6 @@
           <Property Name="NCDT_ID" Type="int" />
           <Property Name="TinhTrang_NCDT" Type="int" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="TB_KyLuat">
           <Key>
             <PropertyRef Name="ID" />
@@ -824,13 +868,6 @@
           <Property Name="TB_Nam" Type="int" />
           <Property Name="TB_File" Type="nvarchar(max)" />
         </EntityType>
-        <EntityType Name="TinhTrangLV">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="TinhTrangLV" Type="nvarchar" MaxLength="50" />
-        </EntityType>
         <EntityType Name="ThongBao">
           <Key>
             <PropertyRef Name="ID" />
@@ -839,6 +876,13 @@
           <Property Name="NoiDungTB" Type="nvarchar(max)" />
           <Property Name="NgayTB" Type="date" />
           <Property Name="TinhTrang" Type="int" />
+        </EntityType>
+        <EntityType Name="TinhTrangLV">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="TinhTrangLV" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Vitri">
           <Key>
@@ -1021,6 +1065,66 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_NhanVien_PhongBan">
+          <End Role="PhongBan" Type="Self.PhongBan" Multiplicity="0..1" />
+          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhongBan">
+              <PropertyRef Name="IDPhongBan" />
+            </Principal>
+            <Dependent Role="NhanVien">
+              <PropertyRef Name="IDPhongBan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NhanVien_TinhTrangLV">
+          <End Role="TinhTrangLV" Type="Self.TinhTrangLV" Multiplicity="0..1" />
+          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TinhTrangLV">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NhanVien">
+              <PropertyRef Name="IDTinhTrangLV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NhanVien_Vitri">
+          <End Role="Vitri" Type="Self.Vitri" Multiplicity="0..1" />
+          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vitri">
+              <PropertyRef Name="IDViTri" />
+            </Principal>
+            <Dependent Role="NhanVien">
+              <PropertyRef Name="IDViTri" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NhuCauDT_NoiDungDT">
+          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="0..1" />
+          <End Role="SH_NhuCauDT" Type="Self.SH_NhuCauDT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NoiDungDT">
+              <PropertyRef Name="IDND" />
+            </Principal>
+            <Dependent Role="SH_NhuCauDT">
+              <PropertyRef Name="NoiDungDT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NhuCauDT_PhanLoaiNCDT">
+          <End Role="SH_PhanLoaiNCDT" Type="Self.SH_PhanLoaiNCDT" Multiplicity="0..1" />
+          <End Role="SH_NhuCauDT" Type="Self.SH_NhuCauDT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SH_PhanLoaiNCDT">
+              <PropertyRef Name="IDLoai" />
+            </Principal>
+            <Dependent Role="SH_NhuCauDT">
+              <PropertyRef Name="PhanLoaiNCDT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_NoiDungDT_LinhVucDT">
           <End Role="LinhVucDT" Type="Self.LinhVucDT" Multiplicity="0..1" />
           <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="*" />
@@ -1090,66 +1194,6 @@
             </Principal>
             <Dependent Role="NoiDungDTKCCD">
               <PropertyRef Name="NhomNLID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NhanVien_PhongBan">
-          <End Role="PhongBan" Type="Self.PhongBan" Multiplicity="0..1" />
-          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PhongBan">
-              <PropertyRef Name="IDPhongBan" />
-            </Principal>
-            <Dependent Role="NhanVien">
-              <PropertyRef Name="IDPhongBan" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NhanVien_TinhTrangLV">
-          <End Role="TinhTrangLV" Type="Self.TinhTrangLV" Multiplicity="0..1" />
-          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TinhTrangLV">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="NhanVien">
-              <PropertyRef Name="IDTinhTrangLV" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NhanVien_Vitri">
-          <End Role="Vitri" Type="Self.Vitri" Multiplicity="0..1" />
-          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vitri">
-              <PropertyRef Name="IDViTri" />
-            </Principal>
-            <Dependent Role="NhanVien">
-              <PropertyRef Name="IDViTri" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NhuCauDT_NoiDungDT">
-          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="0..1" />
-          <End Role="SH_NhuCauDT" Type="Self.SH_NhuCauDT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NoiDungDT">
-              <PropertyRef Name="IDND" />
-            </Principal>
-            <Dependent Role="SH_NhuCauDT">
-              <PropertyRef Name="NoiDungDT_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NhuCauDT_PhanLoaiNCDT">
-          <End Role="SH_PhanLoaiNCDT" Type="Self.SH_PhanLoaiNCDT" Multiplicity="0..1" />
-          <End Role="SH_NhuCauDT" Type="Self.SH_NhuCauDT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SH_PhanLoaiNCDT">
-              <PropertyRef Name="IDLoai" />
-            </Principal>
-            <Dependent Role="SH_NhuCauDT">
-              <PropertyRef Name="PhanLoaiNCDT_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1339,6 +1383,71 @@
           <Parameter Name="TinhTrang" Type="bit" Mode="In" />
           <Parameter Name="IDBaiThi" Type="int" Mode="In" />
         </Function>
+        <Function Name="Cap2_delete_KNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Cap2_insert_KNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaDVTC" Type="nvarchar" Mode="In" />
+          <Parameter Name="TenDVTC" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="Cap2_update_KNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="MaDVTC" Type="nvarchar" Mode="In" />
+          <Parameter Name="TenDVTC" Type="nvarchar" Mode="In" />
+          <Parameter Name="TrangThai" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Cap4_delete_KNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Cap4_insert_KNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaDVTC" Type="nvarchar" Mode="In" />
+          <Parameter Name="TenDVTC" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="Cap4_update_KNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="MaDVTC" Type="nvarchar" Mode="In" />
+          <Parameter Name="TenDVTC" Type="nvarchar" Mode="In" />
+          <Parameter Name="TrangThai" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Cap6_delete_KNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Cap6_insert_KNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaDVTC" Type="nvarchar" Mode="In" />
+          <Parameter Name="TenDVTC" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="Cap6_update_KNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="MaDVTC" Type="nvarchar" Mode="In" />
+          <Parameter Name="TenDVTC" Type="nvarchar" Mode="In" />
+          <Parameter Name="TrangThai" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Cap7_delete_KNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Cap7_insert_KNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaDVTC" Type="nvarchar" Mode="In" />
+          <Parameter Name="TenDVTC" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="Cap7_update_KNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="MaDVTC" Type="nvarchar" Mode="In" />
+          <Parameter Name="TenDVTC" Type="nvarchar" Mode="In" />
+          <Parameter Name="TrangThai" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Cap9_delete_KNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Cap9_insert_KNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaDVTC" Type="nvarchar" Mode="In" />
+          <Parameter Name="TenDVTC" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="Cap9_update_KNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="MaDVTC" Type="nvarchar" Mode="In" />
+          <Parameter Name="TenDVTC" Type="nvarchar" Mode="In" />
+          <Parameter Name="TrangThai" Type="int" Mode="In" />
+        </Function>
         <Function Name="CauHoi_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDCH" Type="int" Mode="In" />
         </Function>
@@ -1513,7 +1622,6 @@
           <Parameter Name="NVDG" Type="nvarchar" Mode="In" />
           <Parameter Name="IDKNL" Type="int" Mode="In" />
         </Function>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="HDSD_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
@@ -2350,36 +2458,6 @@
           <Parameter Name="IDQuyenCN" Type="int" Mode="In" />
           <Parameter Name="isActive" Type="int" Mode="In" />
         </Function>
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="TaiKhoan_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
@@ -2511,36 +2589,42 @@
           <EntitySet Name="DeThi" EntityType="Self.DeThi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DinhBienVT" EntityType="Self.DinhBienVT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DSachDG" EntityType="Self.DSachDG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DV_CapC1" EntityType="Self.DV_CapC1" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DV_CapC2" EntityType="Self.DV_CapC2" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DV_CapC4" EntityType="Self.DV_CapC4" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DV_CapC6" EntityType="Self.DV_CapC6" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DV_CapC7" EntityType="Self.DV_CapC7" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DV_CapC9" EntityType="Self.DV_CapC9" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HDSD" EntityType="Self.HDSD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KCCD_BaiThi" EntityType="Self.KCCD_BaiThi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KCCD_CauHoi" EntityType="Self.KCCD_CauHoi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KCCD_CTBaiThi" EntityType="Self.KCCD_CTBaiThi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KCCD_DeThi" EntityType="Self.KCCD_DeThi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KhungNangLuc" EntityType="Self.KhungNangLuc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kip" EntityType="Self.Kip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_DG" EntityType="Self.KNL_DG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_DGiaTC" EntityType="Self.KNL_DGiaTC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_DocBangKNL" EntityType="Self.KNL_DocBangKNL" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="KNL_KQ" EntityType="Self.KNL_KQ" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_Khoi" EntityType="Self.KNL_Khoi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KNL_KQ" EntityType="Self.KNL_KQ" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_LoaiKQ" EntityType="Self.KNL_LoaiKQ" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_LSDG" EntityType="Self.KNL_LSDG" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="KNL_NVKiemNhiem" EntityType="Self.KNL_NVKiemNhiem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_Nhom" EntityType="Self.KNL_Nhom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KNL_NVKiemNhiem" EntityType="Self.KNL_NVKiemNhiem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_PhanXuong" EntityType="Self.KNL_PhanXuong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_PheDuyetKNL" EntityType="Self.KNL_PheDuyetKNL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_Quyen" EntityType="Self.KNL_Quyen" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_To" EntityType="Self.KNL_To" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="KhungNangLuc" EntityType="Self.KhungNangLuc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LinhVucDT" EntityType="Self.LinhVucDT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ListController" EntityType="Self.ListController" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoaiKNL" EntityType="Self.LoaiKNL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LopHoc" EntityType="Self.LopHoc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NhanVien" EntityType="Self.NhanVien" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NhomNLKCCD" EntityType="Self.NhomNLKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NoiDungDT" EntityType="Self.NoiDungDT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NoiDungDTKCCD" EntityType="Self.NoiDungDTKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NQ_Chuong" EntityType="Self.NQ_Chuong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NQ_KetQua" EntityType="Self.NQ_KetQua" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="NhanVien" EntityType="Self.NhanVien" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="NhomNLKCCD" EntityType="Self.NhomNLKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhanQuyenHT" EntityType="Self.PhanQuyenHT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhieuXacNhanKCCD" EntityType="Self.PhieuXacNhanKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhongBan" EntityType="Self.PhongBan" Schema="dbo" store:Type="Tables" />
@@ -2572,10 +2656,9 @@
           <EntitySet Name="SH_QuyDaoTao" EntityType="Self.SH_QuyDaoTao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SH_TrinhKy" EntityType="Self.SH_TrinhKy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SH_ViTri_NDDT" EntityType="Self.SH_ViTri_NDDT" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TB_KyLuat" EntityType="Self.TB_KyLuat" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TinhTrangLV" EntityType="Self.TinhTrangLV" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThongBao" EntityType="Self.ThongBao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TinhTrangLV" EntityType="Self.TinhTrangLV" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vitri" EntityType="Self.Vitri" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ViTriKNL" EntityType="Self.ViTriKNL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="XNHocTap" EntityType="Self.XNHocTap" Schema="dbo" store:Type="Tables" />
@@ -2627,6 +2710,26 @@
             <End Role="NoiDungDT" EntitySet="NoiDungDT" />
             <End Role="LopHoc" EntitySet="LopHoc" />
           </AssociationSet>
+          <AssociationSet Name="FK_NhanVien_PhongBan" Association="Self.FK_NhanVien_PhongBan">
+            <End Role="PhongBan" EntitySet="PhongBan" />
+            <End Role="NhanVien" EntitySet="NhanVien" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NhanVien_TinhTrangLV" Association="Self.FK_NhanVien_TinhTrangLV">
+            <End Role="TinhTrangLV" EntitySet="TinhTrangLV" />
+            <End Role="NhanVien" EntitySet="NhanVien" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NhanVien_Vitri" Association="Self.FK_NhanVien_Vitri">
+            <End Role="Vitri" EntitySet="Vitri" />
+            <End Role="NhanVien" EntitySet="NhanVien" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NhuCauDT_NoiDungDT" Association="Self.FK_NhuCauDT_NoiDungDT">
+            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
+            <End Role="SH_NhuCauDT" EntitySet="SH_NhuCauDT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NhuCauDT_PhanLoaiNCDT" Association="Self.FK_NhuCauDT_PhanLoaiNCDT">
+            <End Role="SH_PhanLoaiNCDT" EntitySet="SH_PhanLoaiNCDT" />
+            <End Role="SH_NhuCauDT" EntitySet="SH_NhuCauDT" />
+          </AssociationSet>
           <AssociationSet Name="FK_NoiDungDT_LinhVucDT" Association="Self.FK_NoiDungDT_LinhVucDT">
             <End Role="LinhVucDT" EntitySet="LinhVucDT" />
             <End Role="NoiDungDT" EntitySet="NoiDungDT" />
@@ -2650,26 +2753,6 @@
           <AssociationSet Name="FK_NoiDungDTKCCD_NhomNLKCCD" Association="Self.FK_NoiDungDTKCCD_NhomNLKCCD">
             <End Role="NhomNLKCCD" EntitySet="NhomNLKCCD" />
             <End Role="NoiDungDTKCCD" EntitySet="NoiDungDTKCCD" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NhanVien_PhongBan" Association="Self.FK_NhanVien_PhongBan">
-            <End Role="PhongBan" EntitySet="PhongBan" />
-            <End Role="NhanVien" EntitySet="NhanVien" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NhanVien_TinhTrangLV" Association="Self.FK_NhanVien_TinhTrangLV">
-            <End Role="TinhTrangLV" EntitySet="TinhTrangLV" />
-            <End Role="NhanVien" EntitySet="NhanVien" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NhanVien_Vitri" Association="Self.FK_NhanVien_Vitri">
-            <End Role="Vitri" EntitySet="Vitri" />
-            <End Role="NhanVien" EntitySet="NhanVien" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NhuCauDT_NoiDungDT" Association="Self.FK_NhuCauDT_NoiDungDT">
-            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
-            <End Role="SH_NhuCauDT" EntitySet="SH_NhuCauDT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NhuCauDT_PhanLoaiNCDT" Association="Self.FK_NhuCauDT_PhanLoaiNCDT">
-            <End Role="SH_PhanLoaiNCDT" EntitySet="SH_PhanLoaiNCDT" />
-            <End Role="SH_NhuCauDT" EntitySet="SH_NhuCauDT" />
           </AssociationSet>
           <AssociationSet Name="FK_PhieuXacNhanKCCD_DeNghiKCCD" Association="Self.FK_PhieuXacNhanKCCD_DeNghiKCCD">
             <End Role="DeNghiKCCD" EntitySet="DeNghiKCCD" />
@@ -3551,16 +3634,7 @@
           <Property Name="NCDT_ID" Type="Int32" />
           <Property Name="TinhTrang_NCDT" Type="Int32" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
+        
         <EntityType Name="TB_KyLuat">
           <Key>
             <PropertyRef Name="ID" />
@@ -4092,7 +4166,6 @@
           <EntitySet Name="SH_QuyDaoTao" EntityType="Self.SH_QuyDaoTao" />
           <EntitySet Name="SH_TrinhKy" EntityType="Self.SH_TrinhKy" />
           <EntitySet Name="SH_ViTri_NDDT" EntityType="Self.SH_ViTri_NDDT" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="TB_KyLuat" EntityType="Self.TB_KyLuat" />
           <EntitySet Name="TinhTrangLV" EntityType="Self.TinhTrangLV" />
           <EntitySet Name="ThongBao" EntityType="Self.ThongBao" />
@@ -5510,6 +5583,77 @@
             <End Role="KhungNangLuc" EntitySet="KhungNangLuc" />
             <End Role="KNL_KQ" EntitySet="KNL_KQ" />
           </AssociationSet>
+          <EntitySet Name="DV_CapC1" EntityType="ELEARNINGModel.DV_CapC1" />
+          <EntitySet Name="DV_CapC2" EntityType="ELEARNINGModel.DV_CapC2" />
+          <EntitySet Name="DV_CapC4" EntityType="ELEARNINGModel.DV_CapC4" />
+          <EntitySet Name="DV_CapC6" EntityType="ELEARNINGModel.DV_CapC6" />
+          <EntitySet Name="DV_CapC7" EntityType="ELEARNINGModel.DV_CapC7" />
+          <EntitySet Name="DV_CapC9" EntityType="ELEARNINGModel.DV_CapC9" />
+          <FunctionImport Name="Cap2_insert_KNL">
+            <Parameter Name="MaDVTC" Mode="In" Type="String" />
+            <Parameter Name="TenDVTC" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Cap2_delete_KNL">
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Cap2_update_KNL">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="MaDVTC" Mode="In" Type="String" />
+            <Parameter Name="TenDVTC" Mode="In" Type="String" />
+            <Parameter Name="TrangThai" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Cap4_delete_KNL">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Cap4_insert_KNL">
+            <Parameter Name="MaDVTC" Mode="In" Type="String" />
+            <Parameter Name="TenDVTC" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Cap4_update_KNL">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="MaDVTC" Mode="In" Type="String" />
+            <Parameter Name="TenDVTC" Mode="In" Type="String" />
+            <Parameter Name="TrangThai" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Cap6_delete_KNL">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Cap6_insert_KNL">
+            <Parameter Name="MaDVTC" Mode="In" Type="String" />
+            <Parameter Name="TenDVTC" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Cap6_update_KNL">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="MaDVTC" Mode="In" Type="String" />
+            <Parameter Name="TenDVTC" Mode="In" Type="String" />
+            <Parameter Name="TrangThai" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Cap7_delete_KNL">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Cap7_insert_KNL">
+            <Parameter Name="MaDVTC" Mode="In" Type="String" />
+            <Parameter Name="TenDVTC" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Cap7_update_KNL">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="MaDVTC" Mode="In" Type="String" />
+            <Parameter Name="TenDVTC" Mode="In" Type="String" />
+            <Parameter Name="TrangThai" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Cap9_delete_KNL">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Cap9_insert_KNL">
+            <Parameter Name="MaDVTC" Mode="In" Type="String" />
+            <Parameter Name="TenDVTC" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Cap9_update_KNL">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="MaDVTC" Mode="In" Type="String" />
+            <Parameter Name="TenDVTC" Mode="In" Type="String" />
+            <Parameter Name="TrangThai" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="CauHoi_DeThi_list_Result">
           <Property Type="Int32" Name="IDCH" Nullable="false" />
@@ -6315,6 +6459,60 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DV_CapC1">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaDVTC" Type="String" MaxLength="33" FixedLength="false" Unicode="true" />
+          <Property Name="TenDVTC" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TrangThai" Type="Int32" />
+        </EntityType>
+        <EntityType Name="DV_CapC2">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaDVTC" Type="String" MaxLength="33" FixedLength="false" Unicode="true" />
+          <Property Name="TenDVTC" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TrangThai" Type="Int32" />
+        </EntityType>
+        <EntityType Name="DV_CapC4">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaDVTC" Type="String" MaxLength="33" FixedLength="false" Unicode="true" />
+          <Property Name="TenDVTC" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TrangThai" Type="Int32" />
+        </EntityType>
+        <EntityType Name="DV_CapC6">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaDVTC" Type="String" MaxLength="33" FixedLength="false" Unicode="true" />
+          <Property Name="TenDVTC" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TrangThai" Type="Int32" />
+        </EntityType>
+        <EntityType Name="DV_CapC7">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaDVTC" Type="String" MaxLength="33" FixedLength="false" Unicode="true" />
+          <Property Name="TenDVTC" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TrangThai" Type="Int32" />
+        </EntityType>
+        <EntityType Name="DV_CapC9">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaDVTC" Type="String" MaxLength="33" FixedLength="false" Unicode="true" />
+          <Property Name="TenDVTC" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TrangThai" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7137,17 +7335,6 @@
                 <ScalarProperty Name="PhuongPhapDT_ID" ColumnName="PhuongPhapDT_ID" />
                 <ScalarProperty Name="NCDT_ID" ColumnName="NCDT_ID" />
                 <ScalarProperty Name="TinhTrang_NCDT" ColumnName="TinhTrang_NCDT" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="ELEARNINGModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -8091,30 +8278,6 @@
           <FunctionImportMapping FunctionImportName="QuyenDetails_insert" FunctionName="ELEARNINGModel.Store.QuyenDetails_insert" />
           <FunctionImportMapping FunctionImportName="QuyenDetails_isActive" FunctionName="ELEARNINGModel.Store.QuyenDetails_isActive" />
           <FunctionImportMapping FunctionImportName="QuyenDetails_update" FunctionName="ELEARNINGModel.Store.QuyenDetails_update" />
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="ELEARNINGModel.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="ELEARNINGModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="ELEARNINGModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="ELEARNINGModel.Store.sp_helpdiagramdefinition">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ELEARNINGModel.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="ELEARNINGModel.Store.sp_helpdiagrams">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ELEARNINGModel.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="ELEARNINGModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="ELEARNINGModel.Store.sp_upgraddiagrams" />
           <FunctionImportMapping FunctionImportName="TaiKhoan_ID" FunctionName="ELEARNINGModel.Store.TaiKhoan_ID">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ELEARNINGModel.TaiKhoan_ID_Result">
@@ -8319,6 +8482,81 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DV_CapC1">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DV_CapC1">
+              <MappingFragment StoreEntitySet="DV_CapC1">
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="TenDVTC" ColumnName="TenDVTC" />
+                <ScalarProperty Name="MaDVTC" ColumnName="MaDVTC" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DV_CapC2">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DV_CapC2">
+              <MappingFragment StoreEntitySet="DV_CapC2">
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="TenDVTC" ColumnName="TenDVTC" />
+                <ScalarProperty Name="MaDVTC" ColumnName="MaDVTC" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DV_CapC4">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DV_CapC4">
+              <MappingFragment StoreEntitySet="DV_CapC4">
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="TenDVTC" ColumnName="TenDVTC" />
+                <ScalarProperty Name="MaDVTC" ColumnName="MaDVTC" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DV_CapC6">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DV_CapC6">
+              <MappingFragment StoreEntitySet="DV_CapC6">
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="TenDVTC" ColumnName="TenDVTC" />
+                <ScalarProperty Name="MaDVTC" ColumnName="MaDVTC" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DV_CapC7">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DV_CapC7">
+              <MappingFragment StoreEntitySet="DV_CapC7">
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="TenDVTC" ColumnName="TenDVTC" />
+                <ScalarProperty Name="MaDVTC" ColumnName="MaDVTC" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DV_CapC9">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DV_CapC9">
+              <MappingFragment StoreEntitySet="DV_CapC9">
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="TenDVTC" ColumnName="TenDVTC" />
+                <ScalarProperty Name="MaDVTC" ColumnName="MaDVTC" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Cap2_insert_KNL" FunctionName="ELEARNINGModel.Store.Cap2_insert_KNL" />
+          <FunctionImportMapping FunctionImportName="Cap2_delete_KNL" FunctionName="ELEARNINGModel.Store.Cap2_delete_KNL" />
+          <FunctionImportMapping FunctionImportName="Cap2_update_KNL" FunctionName="ELEARNINGModel.Store.Cap2_update_KNL" />
+          <FunctionImportMapping FunctionImportName="Cap4_delete_KNL" FunctionName="ELEARNINGModel.Store.Cap4_delete_KNL" />
+          <FunctionImportMapping FunctionImportName="Cap4_insert_KNL" FunctionName="ELEARNINGModel.Store.Cap4_insert_KNL" />
+          <FunctionImportMapping FunctionImportName="Cap4_update_KNL" FunctionName="ELEARNINGModel.Store.Cap4_update_KNL" />
+          <FunctionImportMapping FunctionImportName="Cap6_delete_KNL" FunctionName="ELEARNINGModel.Store.Cap6_delete_KNL" />
+          <FunctionImportMapping FunctionImportName="Cap6_insert_KNL" FunctionName="ELEARNINGModel.Store.Cap6_insert_KNL" />
+          <FunctionImportMapping FunctionImportName="Cap6_update_KNL" FunctionName="ELEARNINGModel.Store.Cap6_update_KNL" />
+          <FunctionImportMapping FunctionImportName="Cap7_delete_KNL" FunctionName="ELEARNINGModel.Store.Cap7_delete_KNL" />
+          <FunctionImportMapping FunctionImportName="Cap7_insert_KNL" FunctionName="ELEARNINGModel.Store.Cap7_insert_KNL" />
+          <FunctionImportMapping FunctionImportName="Cap7_update_KNL" FunctionName="ELEARNINGModel.Store.Cap7_update_KNL" />
+          <FunctionImportMapping FunctionImportName="Cap9_delete_KNL" FunctionName="ELEARNINGModel.Store.Cap9_delete_KNL" />
+          <FunctionImportMapping FunctionImportName="Cap9_insert_KNL" FunctionName="ELEARNINGModel.Store.Cap9_insert_KNL" />
+          <FunctionImportMapping FunctionImportName="Cap9_update_KNL" FunctionName="ELEARNINGModel.Store.Cap9_update_KNL" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

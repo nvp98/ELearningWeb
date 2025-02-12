@@ -120,6 +120,12 @@
         <EntityTypeShape EntityType="ELEARNINGModel.KNL_DocBangKNL" Width="1.5" PointX="22.375" PointY="26.75" />
         <EntityTypeShape EntityType="ELEARNINGModel.KhungNangLuc" Width="1.5" PointX="17.75" PointY="6.375" />
         <AssociationConnector Association="ELEARNINGModel.FK_KNL_KQ_KhungNangLuc" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DV_CapC1" Width="1.5" PointX="24.375" PointY="26.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DV_CapC2" Width="1.5" PointX="26.375" PointY="26.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DV_CapC4" Width="1.5" PointX="27.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DV_CapC6" Width="1.5" PointX="27.375" PointY="3.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DV_CapC7" Width="1.5" PointX="27.375" PointY="6.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DV_CapC9" Width="1.5" PointX="9.375" PointY="27.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
