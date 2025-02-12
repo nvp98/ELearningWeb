@@ -209,6 +209,8 @@ namespace E_Learning.Controllers.QTTC
                 return Json(new { message = "Vui lòng chọn file Excel!" });
             }
 
+            List<DV_CapC4> dt = db.DV_CapC4.ToList();
+
             try
             {
                 using (var stream = new MemoryStream())
@@ -225,7 +227,14 @@ namespace E_Learning.Controllers.QTTC
                                 string maDVTC = worksheet.Cells[row, 2].Value?.ToString().Trim();
                                 string tenDVTC = worksheet.Cells[row, 3].Value?.ToString().Trim();
 
-                                db.Cap4_insert_KNL(maDVTC, tenDVTC);
+                                if (!dt.Any(d => d.MaDVTC == maDVTC))
+                                {
+                                    db.Cap4_insert_KNL(maDVTC, tenDVTC);
+                                } else
+                                {
+                                    int id = dt.Find(item => item.MaDVTC == maDVTC).ID;
+                                    db.Cap4_update_KNL(id, maDVTC, tenDVTC, 1);
+                                }
                             }
                         }
                     }
