@@ -65,10 +65,12 @@ namespace E_Learning.Controllers.QTTC
         }
         public int GetIDDVTC(string TenDVTC)
         {
-            var model = db.DV_CapC4.Where(x => x.TenDVTC == TenDVTC).SingleOrDefault();
-            if (model == null)
+            if (string.IsNullOrWhiteSpace(TenDVTC))
                 return 0;
-            return model.ID;
+
+            var model = db.DV_CapC4.FirstOrDefault(x => x.TenDVTC == TenDVTC);
+
+            return model?.ID ?? 0;
         }
 
         [HttpPost]
@@ -77,20 +79,23 @@ namespace E_Learning.Controllers.QTTC
             List<DV_CapC4> dt = db.DV_CapC4.ToList();
             try
             {
-                if (_DO.TenDVTC != null && GetIDDVTC(_DO.TenDVTC.Trim()) == 0)
+                if (!string.IsNullOrWhiteSpace(_DO.MaDVTC) && !string.IsNullOrWhiteSpace(_DO.TenDVTC) && GetIDDVTC(_DO.TenDVTC.Trim()) == 0)
                 {
                     if (!dt.Any(d => d.MaDVTC == _DO.MaDVTC))
                     {
-                        db.Cap4_insert_KNL(_DO.MaDVTC, _DO.TenDVTC);
+                        db.Cap4_insert_KNL(_DO.MaDVTC.Trim(), _DO.TenDVTC.Trim());
                     }
                     else
                     {
                         int id = dt.Find(item => item.MaDVTC == _DO.MaDVTC).ID;
-                        db.Cap4_update_KNL(id, _DO.MaDVTC, _DO.TenDVTC, 1);
+                        db.Cap4_update_KNL(id, _DO.MaDVTC.Trim(), _DO.TenDVTC.Trim(), 1);
                     }
+                    TempData["msgSuccess"] = "<script>alert('Thêm mới thành công');</script>";
                 }
-
-                TempData["msgSuccess"] = "<script>alert('Thêm mới thành công');</script>";
+                else
+                {
+                    TempData["msgSuccess"] = "<script>alert('Mã ĐVTC và Tên ĐVTC không được để trống');</script>";
+                }
             }
             catch (Exception e)
             {
@@ -142,7 +147,7 @@ namespace E_Learning.Controllers.QTTC
             try
             {
 
-                db.Cap4_update_KNL(_DO.IDDVTC, _DO.MaDVTC, _DO.TenDVTC, 1);
+                db.Cap4_update_KNL(_DO.IDDVTC, _DO.MaDVTC.Trim(), _DO.TenDVTC.Trim(), 1);
 
                 TempData["msgSuccess"] = "<script>alert('Cập nhật thành công');</script>";
 
