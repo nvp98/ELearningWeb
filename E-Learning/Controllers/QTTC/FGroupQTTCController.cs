@@ -74,11 +74,20 @@ namespace E_Learning.Controllers.QTTC
         [HttpPost]
         public ActionResult Create(DVTCValidation _DO)
         {
+            List<DV_CapC7> dt = db.DV_CapC7.ToList();
             try
             {
                 if (_DO.TenDVTC != null && GetIDDVTC(_DO.TenDVTC.Trim()) == 0)
                 {
-                    var aa = db.Cap7_insert_KNL(_DO.MaDVTC, _DO.TenDVTC);
+                    if (!dt.Any(d => d.MaDVTC == _DO.MaDVTC))
+                    {
+                        db.Cap7_insert_KNL(_DO.MaDVTC, _DO.TenDVTC);
+                    }
+                    else
+                    {
+                        int id = dt.Find(item => item.MaDVTC == _DO.MaDVTC).ID;
+                        db.Cap7_update_KNL(id, _DO.MaDVTC, _DO.TenDVTC, 1);
+                    }
                 }
 
                 TempData["msgSuccess"] = "<script>alert('Thêm mới thành công');</script>";
