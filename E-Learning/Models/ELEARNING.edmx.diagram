@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8433435975d2447e84d44091b52f6908" Name="Diagram1" ZoomLevel="72">
+      <Diagram DiagramId="8433435975d2447e84d44091b52f6908" Name="Diagram1" ZoomLevel="79">
         <EntityTypeShape EntityType="ELEARNINGModel.BaiThi" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.CauHoi" Width="1.5" PointX="8.25" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.CauHoiDeThi" Width="1.5" PointX="10.5" PointY="5.875" IsExpanded="true" />
@@ -120,13 +120,6 @@
         <EntityTypeShape EntityType="ELEARNINGModel.KNL_DocBangKNL" Width="1.5" PointX="22.375" PointY="26.75" />
         <EntityTypeShape EntityType="ELEARNINGModel.KhungNangLuc" Width="1.5" PointX="17.75" PointY="6.375" />
         <AssociationConnector Association="ELEARNINGModel.FK_KNL_KQ_KhungNangLuc" />
-        <EntityTypeShape EntityType="ELEARNINGModel.SH_ChiTietCTDT" Width="1.5" PointX="11" PointY="5.25" />
-        <EntityTypeShape EntityType="ELEARNINGModel.SH_KyDuyetCTDT" Width="1.5" PointX="24.375" PointY="32.5" />
-        <EntityTypeShape EntityType="ELEARNINGModel.SH_ChuongTrinhDT" Width="1.5" PointX="13.25" PointY="0.75" />
-        <AssociationConnector Association="ELEARNINGModel.FK_SH_ChuongTrinhDT_NoiDungDT" />
-        <AssociationConnector Association="ELEARNINGModel.FK_SH_ChuongTrinhDT_NhanVien" />
-        <AssociationConnector Association="ELEARNINGModel.FK_SH_ChuongTrinhDT_PhongBan" />
-        <AssociationConnector Association="ELEARNINGModel.FK_SH_ChiTietCTDT_SH_ChuongTrinhDT" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
