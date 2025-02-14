@@ -120,7 +120,14 @@
         <EntityTypeShape EntityType="ELEARNINGModel.KNL_DocBangKNL" Width="1.5" PointX="22.375" PointY="26.75" />
         <EntityTypeShape EntityType="ELEARNINGModel.KhungNangLuc" Width="1.5" PointX="17.75" PointY="6.375" />
         <AssociationConnector Association="ELEARNINGModel.FK_KNL_KQ_KhungNangLuc" />
-      </Diagram>
+        <EntityTypeShape EntityType="ELEARNINGModel.SH_ChiTietCTDT" Width="1.5" PointX="11" PointY="5.25" />
+        <EntityTypeShape EntityType="ELEARNINGModel.SH_KyDuyetCTDT" Width="1.5" PointX="24.375" PointY="32.5" />
+        <EntityTypeShape EntityType="ELEARNINGModel.SH_ChuongTrinhDT" Width="1.5" PointX="13.25" PointY="0.75" />
+        <AssociationConnector Association="ELEARNINGModel.FK_SH_ChuongTrinhDT_NoiDungDT" />
+        <AssociationConnector Association="ELEARNINGModel.FK_SH_ChuongTrinhDT_NhanVien" />
+        <AssociationConnector Association="ELEARNINGModel.FK_SH_ChuongTrinhDT_PhongBan" />
+        <AssociationConnector Association="ELEARNINGModel.FK_SH_ChiTietCTDT_SH_ChuongTrinhDT" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
