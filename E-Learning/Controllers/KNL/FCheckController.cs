@@ -379,7 +379,7 @@ namespace E_Learning.Controllers.KNL
             return res;
         }
 
-        public ActionResult Value(int? IDNV, DateTime dt)
+        public ActionResult Value(int? IDNV, DateTime dt,string capDG)
         {
             if(IDNV ==null) IDNV = 0;
             var nv = (from a in db.NhanVien_selectByIDNV(IDNV)
@@ -409,7 +409,7 @@ namespace E_Learning.Controllers.KNL
                     }
                 }
             }
-            if (kqprev.Count == 0)
+            else if (kqprev.Count == 0)
             {
                 //var ngay = db.KNL_KQ.Where(x => x.IDNV == IDNV).OrderByDescending(i => i.NgayDG).FirstOrDefault();
                 var ngay = db.KNL_KQ_SelectNV(IDNV).FirstOrDefault();
@@ -424,7 +424,18 @@ namespace E_Learning.Controllers.KNL
                     foreach (var KQ in Fnew)
                     {
                         var aa = kqt.Where(x => x.IDNL == KQ.IDNL).FirstOrDefault();
-                        if (aa != null) db.KNL_KQ_insert(aa.IDNV, aa.IDNL, aa.IDNVDG, aa.DiemDG, dt, aa.NgayDG, CheckKQID(aa.DiemDG, aa.DinhMuc, aa.IsDanhGia), KQ.DinhMuc, KQ.IDVT, aa.Note,null,null);
+                        if (aa != null)
+                        {
+                            db.KNL_KQ_insert(aa.IDNV, aa.IDNL, aa.IDNVDG, aa.DiemDG, dt, aa.NgayDG, CheckKQID(aa.DiemDG, aa.DinhMuc, aa.IsDanhGia), KQ.DinhMuc, KQ.IDVT, aa.Note, null, null);
+                            var kqua = db.KNL_KQ.Where(x => x.IDNV == aa.IDNV && x.IDNL == aa.IDNL && x.ThangDG == dt).FirstOrDefault();
+                            kqua.DiemTuDG = aa.DiemTuDG;
+                            kqua.NgayTuDG = aa.NgayTuDG;
+                            kqua.IDNguoiDG_Lan1 = aa.IDNguoiDG_Lan1;
+                            kqua.DiemDG_Lan1 = aa.DiemDG_Lan1;
+                            kqua.NgayDG_Lan1 = aa.NgayDG_Lan1;
+                            db.SaveChanges();
+                        }    
+                        
                     }
                 }
             }
@@ -444,7 +455,7 @@ namespace E_Learning.Controllers.KNL
                           TenPhongBan = a.TenPhongBan,
                           DinhMuc = a.IsDanhGia != 0 ? a.DinhMuc : 0,
                           IsDanhGia = a.IsDanhGia,
-                          DiemDG = a.DiemDG,
+                          DiemDG = capDG =="1"?a.DiemDG_Lan1:a.IDNV == MyAuthentication.ID?a.DiemTuDG: a.DiemDG,
                           IDKQ = (int?)a.IDKQ ?? null,
                           Note = a.Note,
                           ThangDG = (DateTime?)dt ?? default(DateTime),
@@ -459,7 +470,11 @@ namespace E_Learning.Controllers.KNL
                           NgayCanhBao = a.DiemDG < a.DinhMuc ? (((DateTime)a.NgayDG).AddMonths(3) -DateTime.Now).Days : a.DiemDG >= a.DinhMuc? (((DateTime)a.NgayDG).AddMonths(6) - DateTime.Now).Days : - 1000,
                           NgayHanDG = a.DiemDG < a.DinhMuc ? ((DateTime)a.NgayDG).AddMonths(3): a.DiemDG >= a.DinhMuc? ((DateTime)a.NgayDG).AddMonths(6) : default(DateTime),
                           DiemCBNVDG = a.DiemTuDG,
-                          NgayCBNVDG = a.NgayTuDG
+                          NgayCBNVDG = a.NgayTuDG,
+                          DiemDGLan1 = a.DiemDG_Lan1,
+                          NgayDGLan1 = a.NgayDG_Lan1,
+                          DiemDuyetDG = a.DiemDG,
+                          capDG = capDG
                       }).ToList().OrderBy(x => x.OrderBy);
 
             //var res = (from a in db.KhungNangLucs.Where(x => x.IDVT == nv.IDVT && (x.IDLoaiNL == 1 || x.IDLoaiNL == 2 || (x.IDLoaiNL != 1 && x.IDLoaiNL != 2 && x.IsDanhGia == 1)))
@@ -540,37 +555,83 @@ namespace E_Learning.Controllers.KNL
                     var firstDayOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
                     int idkq = GetIDKQuaKNL(KQ.ThangDG, KQ.IDNV, KQ.IDNL);
                     var diemkq = GetDiemKQuaKNL(KQ.ThangDG, KQ.IDNV, KQ.IDNL, KQ.Note);
-                    if((KQ.IDLoaiNL ==1 || KQ.IDLoaiNL ==2 )&& KQ.IsDanhGia == 0)
+                    if(KQ.IsDanhGia == 0) // Không đánh giá NL này
                     {
                         if (idkq == 0)
                         {
-                            db.KNL_KQ_insert(KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null,CheckKQID(KQ.DiemDG,KQ.DinhMuc,KQ.IsDanhGia),KQ.DinhMuc,KQ.IDVT, null, null, null);
+                            db.KNL_KQ_insert(KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, null, null, null);
                         }
-                        else if (diemkq != KQ.DiemDG)
+                        else // cập nhật các giá trị về null nếu có
                         {
-                            if(KQ.IDNV == nv.ID)
-                            {
-                                db.KNL_KQ_update_TuDG(KQ.IDKQ, null, null);
-                            }
-                            else {
-                                db.KNL_KQ_update(KQ.IDKQ, KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, null);
-                            }
-                            
+                            var KNLKQ = db.KNL_KQ.Where(x => x.IDKQ == KQ.IDKQ).FirstOrDefault();
+                            KNLKQ.IDNVDG = null;
+                            KNLKQ.DiemDG = null;
+                            KNLKQ.NgayDG = null;
+                            KNLKQ.Note = null;
+                            KNLKQ.DiemTuDG = null;
+                            KNLKQ.NgayTuDG = null;
+                            KNLKQ.IDNguoiDG_Lan1 = null;
+                            KNLKQ.DiemDG_Lan1 = null;
+                            KNLKQ.NgayDG_Lan1 = null;
+                            db.SaveChanges();
                         }
+                        //else if (diemkq != KQ.DiemDG)
+                        //{
+                        //    if (KQ.IDNV == nv.ID)
+                        //    {
+                        //        db.KNL_KQ_update_TuDG(KQ.IDKQ, null, null);
+                        //    }
+                        //    else if(KQ.capDG =="1") // đánh giá lần 1
+                        //    {
+                        //        var KNLKQ = db.KNL_KQ.Where(x => x.IDKQ == KQ.IDKQ).FirstOrDefault();
+                        //        //KNLKQ.
+                        //    }    
+                        //    else
+                        //    {
+                        //        db.KNL_KQ_update(KQ.IDKQ, KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, null);
+                        //    }
+
+                        //}
+
                     }
-                    else
+                    else // các NL được đánh giá
                     {
-                        if (idkq == 0)
+                        if (idkq == 0) // chưa có thêm mới
                         {
-                            if(KQ.DiemDG != null && KQ.DiemDG != 0)
+                            if(KQ.DiemDG != null && KQ.DiemDG != 0) // có điểm đánh giá
                             {
-                                if(KQ.IDNV == nv.ID)
+                                if(KQ.IDNV == nv.ID) // tự đánh giá
                                 {
                                     db.KNL_KQ_insert(KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, KQ.Note,KQ.DiemDG,DateTime.Now);
                                 }
-                                else
+                                else if (KQ.capDG =="1") // đánh giá lần 1
+                                {
+                                    var danhgia = new KNL_KQ()
+                                    {
+                                        IDNV = KQ.IDNV,
+                                        IDNL = KQ.IDNL,
+                                        IDNVDG = nv.ID,
+                                        DiemDG = KQ.DiemDG,
+                                        ThangDG = KQ.ThangDG,
+                                        NgayDG = DateTime.Now,
+                                        Note = KQ.Note,
+                                        DiemDM = KQ.DinhMuc,
+                                        KQID = CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia),
+                                        VTID = KQ.IDVT,
+                                        NgayTuDG = null,
+                                        DiemTuDG = null,
+                                        IDNguoiDG_Lan1 = nv.ID,
+                                        DiemDG_Lan1 = KQ.DiemDG,
+                                        NgayDG_Lan1 = DateTime.Now
+                                    };
+                                    db.KNL_KQ.Add(danhgia);
+                                    db.SaveChanges();
+                                }
+                                else // kiểm duyệt kết quả
                                 {
                                     db.KNL_KQ_insert(KQ.IDNV, KQ.IDNL, nv.ID, KQ.DiemDG, KQ.ThangDG, DateTime.Now, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, KQ.Note,null,null);
+                                    //var kqua = db.KNL_KQ.Where(x => x.IDNV == KQ.IDNV && x.IDNL == KQ.IDNL && x.ThangDG == KQ.ThangDG).FirstOrDefault();
+                                    //kqua.
                                 }
                                 //db.KNL_KQ_insert(KQ.IDNV, KQ.IDNL, nv.ID, KQ.DiemDG, KQ.ThangDG, DateTime.Now, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, KQ.Note);
                             }
@@ -581,15 +642,31 @@ namespace E_Learning.Controllers.KNL
                             }
 
                         }
-                        else if (diemkq != KQ.DiemDG)
+                        else if (diemkq != KQ.DiemDG) // đã có dữ liệu đánh giá điểm khác điểm cũ
                         {
                             if (KQ.DiemDG != null && KQ.DiemDG != 0)
                             {
-                                if(KQ.IDNV == nv.ID)
+                                if(KQ.IDNV == nv.ID) // tự đánh giá
                                 {
                                     db.KNL_KQ_update_TuDG(KQ.IDKQ, KQ.DiemDG, DateTime.Now);
                                 }
-                                else
+                                else if (KQ.capDG == "1") // đánh giá lần 1
+                                {
+                                    var danhgia = db.KNL_KQ.Where(x=>x.IDKQ == KQ.IDKQ).FirstOrDefault();
+                                    danhgia.DiemDM = KQ.DinhMuc;
+                                    danhgia.VTID = KQ.IDVT;
+                                    danhgia.KQID = CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia);
+
+                                    //danhgia.IDNVDG = nv.ID;
+                                    //danhgia.DiemDG = KQ.DiemDG;
+                                    //danhgia.NgayDG = DateTime.Now;
+                                    //danhgia.Note = KQ.Note;
+                                    danhgia.IDNguoiDG_Lan1 = nv.ID;
+                                    danhgia.DiemDG_Lan1 = KQ.DiemDG;
+                                    danhgia.NgayDG_Lan1 = DateTime.Now;
+                                    db.SaveChanges();
+                                }
+                                else // kiểm duyệt kết quả
                                 {
                                     db.KNL_KQ_update(KQ.IDKQ, KQ.IDNV, KQ.IDNL, nv.ID, KQ.DiemDG, KQ.ThangDG, DateTime.Now, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, KQ.Note);
                                 }
@@ -601,14 +678,46 @@ namespace E_Learning.Controllers.KNL
                                 {
                                     db.KNL_KQ_update_TuDG(KQ.IDKQ, null, null);
                                 }
+                                else if (KQ.capDG == "1") // đánh giá lần 1
+                                {
+                                    var danhgia = db.KNL_KQ.Where(x => x.IDKQ == KQ.IDKQ).FirstOrDefault();
+                                    danhgia.DiemDM = KQ.DinhMuc;
+                                    danhgia.VTID = KQ.IDVT;
+                                    danhgia.KQID = CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia);
+
+                                    danhgia.IDNVDG = null;
+                                    danhgia.DiemDG = null;
+                                    danhgia.NgayDG = null;
+                                    danhgia.Note = null;
+                                    danhgia.IDNguoiDG_Lan1 = null;
+                                    danhgia.DiemDG_Lan1 = null;
+                                    danhgia.NgayDG_Lan1 = null;
+                                    db.SaveChanges();
+                                }
                                 else db.KNL_KQ_update(KQ.IDKQ, KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, null);
                             }
                         }
-                        else if(diemkq == KQ.DiemDG && KQ.CapNhatDG == true)
+                        else if(diemkq == KQ.DiemDG && KQ.CapNhatDG == true) // tích chọn cập nhật điểm đang có
                         {
                             if(KQ.IDNV == nv.ID)
                             {
                                 db.KNL_KQ_update_TuDG(KQ.IDKQ, KQ.DiemDG, DateTime.Now);
+                            }
+                            else if (KQ.capDG == "1") // đánh giá lần 1
+                            {
+                                var danhgia = db.KNL_KQ.Where(x => x.IDKQ == KQ.IDKQ).FirstOrDefault();
+                                danhgia.DiemDM = KQ.DinhMuc;
+                                danhgia.VTID = KQ.IDVT;
+                                danhgia.KQID = CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia);
+
+                                //danhgia.IDNVDG = nv.ID;
+                                //danhgia.DiemDG = KQ.DiemDG;
+                                //danhgia.NgayDG = DateTime.Now;
+                                //danhgia.Note = KQ.Note;
+                                danhgia.IDNguoiDG_Lan1 = nv.ID;
+                                danhgia.DiemDG_Lan1 = KQ.DiemDG;
+                                danhgia.NgayDG_Lan1 = DateTime.Now;
+                                db.SaveChanges();
                             }
                             else db.KNL_KQ_update(KQ.IDKQ, KQ.IDNV, KQ.IDNL, nv.ID, KQ.DiemDG, KQ.ThangDG, DateTime.Now, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, KQ.Note);
                         }
@@ -631,10 +740,16 @@ namespace E_Learning.Controllers.KNL
                 int? VUOTTu = ListKQ.Where(x => x.DiemDG > x.DinhMuc || x.DiemCBNVDG > x.DinhMuc).Count();
                 int? KDGIATu = KDGIA;
                 int? CHUADGTu = TONGNL - (DATTu + KDATTu + VUOTTu + KDGIATu);
+                // đánh giá lần 1
+                int? DATLan1 = ListKQ.Where(x => x.DiemDG == x.DinhMuc || x.DiemDGLan1 == x.DinhMuc).Count();
+                int? KDATLan1 = ListKQ.Where(x => x.DiemDG < x.DinhMuc || x.DiemDGLan1 < x.DinhMuc).Count();
+                int? VUOTLan1 = ListKQ.Where(x => x.DiemDG > x.DinhMuc || x.DiemDGLan1 > x.DinhMuc).Count();
+                int? KDGIALan1 = KDGIA;
+                int? CHUADGLan1 = TONGNL - (DATLan1 + KDATLan1 + VUOTLan1 + KDGIALan1);
 
                 if (GtriLS == null)
                 {
-                    if(nvdg.IDNV == nv.ID)
+                    if(nvdg.IDNV == nv.ID) // tự đánh giá
                     {
                         db.KNL_LSDG_insert(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, null, 0, 0, 0, 0, 0, TONGNL,DateTime.Now);
                         var a = db.KNL_LSDG.Where(x=>x.NVID == nvdg.IDNV && x.ThangDG == nvdg.ThangDG && x.VTID == nvdg.IDVT).FirstOrDefault();
@@ -649,13 +764,28 @@ namespace E_Learning.Controllers.KNL
                         }   
                         db.SaveChanges();
                     }
+                    else if (ListKQ[0].capDG =="1") // đánh giá lần 1
+                    {
+                        db.KNL_LSDG_insert(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, null, 0, 0, 0, 0, 0, TONGNL, DateTime.Now);
+                        var a = db.KNL_LSDG.Where(x => x.NVID == nvdg.IDNV && x.ThangDG == nvdg.ThangDG && x.VTID == nvdg.IDVT).FirstOrDefault();
+                        if (a != null)
+                        {
+                            a.DATTUDGLan1 = DATLan1;
+                            a.KDATTUDGLan1 = KDATLan1;
+                            a.VUOTTUDGLan1 = VUOTLan1;
+                            a.KDGiaTuDGLan1 = KDGIALan1;
+                            a.CHUADGTuDGLan1 = KDGIALan1;
+                            a.NgayDGGNLan1 = DateTime.Now;
+                        }
+                        db.SaveChanges();
+                    }
                     else
                     {
                         db.KNL_LSDG_insert(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, DateTime.Now, DAT, KDAT, VUOT, KDGIA, CHUADG, TONGNL,null);
                     }
                     
                 }
-                else
+                else // update LSDGia
                 {
                     if(nvdg.IDNV == nv.ID)
                     {
@@ -668,6 +798,20 @@ namespace E_Learning.Controllers.KNL
                             a.VUOTTUDG = VUOTTu;
                             a.KDGiaTuDG = KDGIATu;
                             a.CHUADGTuDG = CHUADGTu;
+                        }
+                        db.SaveChanges();
+                    }
+                    else if (ListKQ[0].capDG == "1") // đánh giá lần 1
+                    {
+                        var a = db.KNL_LSDG.Where(x => x.IDLS == GtriLS.IDLS).FirstOrDefault();
+                        if (a != null)
+                        {
+                            a.DATTUDGLan1 = DATLan1;
+                            a.KDATTUDGLan1 = KDATLan1;
+                            a.VUOTTUDGLan1 = VUOTLan1;
+                            a.KDGiaTuDGLan1 = KDGIALan1;
+                            a.CHUADGTuDGLan1 = KDGIALan1;
+                            a.NgayDGGNLan1 = DateTime.Now;
                         }
                         db.SaveChanges();
                     }
@@ -686,7 +830,7 @@ namespace E_Learning.Controllers.KNL
                 TempData["msgSuccess"] = "<script>alert('Cập nhập thất bại " + e.Message + " ');</script>";
             }
 
-            return RedirectToAction("Value", "FCheck", new { IDNV =ListKQ[0].IDNV ,dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) });
+            return RedirectToAction("Value", "FCheck", new { IDNV =ListKQ[0].IDNV ,dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1), capDG = ListKQ[0].capDG });
         }
 
         public ActionResult ReadKNL(int? IDNV)

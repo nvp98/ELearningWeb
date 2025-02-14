@@ -79,6 +79,11 @@ namespace E_Learning.Controllers.KNL
                     TotalKDatTu = 0,
                     TotalKDGiaTu = 0,
                     TotalChuaDGiaTu = 0,
+                    TotalDatTuLan1 = 0,
+                    TotalVuotTuLan1 = 0,
+                    TotalKDatTuLan1 = 0,
+                    TotalKDGiaTuLan1 = 0,
+                    TotalChuaDGiaTuLan1 = 0,
                     IDVT = 0,
                     //FilePath = kqThang?.FirstOrDefault().FilePath,
                     //TenViTri = kqThang?.FirstOrDefault().TenViTri,
@@ -99,6 +104,13 @@ namespace E_Learning.Controllers.KNL
                     a.TotalKDatTu = kqThang?.FirstOrDefault().KDATTUDG;
                     a.TotalKDGiaTu = kqThang?.FirstOrDefault().KDGiaTuDG;
                     a.TotalChuaDGiaTu = kqThang?.FirstOrDefault().CHUADGTuDG;
+
+                    a.TotalDatTuLan1 = kqThang?.FirstOrDefault().DATTUDGLan1;
+                    a.TotalVuotTuLan1 = kqThang?.FirstOrDefault().VUOTTUDGLan1;
+                    a.TotalKDatTuLan1 = kqThang?.FirstOrDefault().KDATTUDGLan1;
+                    a.TotalKDGiaTuLan1 = kqThang?.FirstOrDefault().KDGiaTuDGLan1;
+                    a.TotalChuaDGiaTuLan1 = kqThang?.FirstOrDefault().CHUADGTuDGLan1;
+
                 }
                 KQua.Add(a);
             }

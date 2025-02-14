@@ -147,6 +147,7 @@
                                                                 <th rowspan="2" class="text-center">Yêu Cầu Năng Lực</th>
                                                                 <th rowspan="2" class="text-center">Mức cần đạt được</th>
                                                                 <th colspan="2" class="text-center font-weight-bold">CBNV Tự đánh giá</th>
+                                                                <th colspan="2" class="text-center font-weight-bold">Đánh giá lần 1</th>
                                                                 <th colspan="2" class="text-center font-weight-bold">Kiểm duyệt đánh giá</th>
                                                                 <th colspan="8" class="text-center font-weight-bold">Chọn mức độ đạt được của nhân viên</th>
                                                                 <th rowspan="2" class="text-center">Ngày cập nhật</th>
@@ -160,6 +161,8 @@
                                                                 <th class="text-center">Ngày đánh giá</th>
                                                                 <th class=" text-center">Kết quả</th>
                                                                 <th class="text-center">Ngày đánh giá</th>
+                                                                <th class=" text-center">Kết quả</th>
+                                                                <th class="text-center">Ngày đánh giá</th>
                                                                 <th class=" text-center">Không đánh giá</th>
                                                                 <th class="text-center">1</th>
                                                                 <th class="text-center">2</th>
@@ -168,7 +171,7 @@
                                                                 <th class="text-center">5</th>
                                                                 <th class="text-center">6</th>
                                                                 <th class=" text-center">Đánh giá lại mức cũ</th>
-                                                               
+
                                                             </tr>
                                                         </thead>
 
@@ -189,6 +192,8 @@
                                                                 @Html.HiddenFor(m => m[i].IsDanhGia)
                                                                 @Html.HiddenFor(m => m[i].DinhMuc)
                                                                 @Html.HiddenFor(m => m[i].DiemCBNVDG)
+                                                                @Html.HiddenFor(m => m[i].DiemDGLan1)
+                                                                @Html.HiddenFor(m => m[i].capDG)
                                                                 if (Model[i].IDLoaiNL == 1)
                                                                 {
                                                                     if (Model[i].IsDanhGia == 1)
@@ -197,7 +202,7 @@
                                                                             <td class="text-center"> @(b+1)</td>
                                                                             <td class="">@Model[i].TenNL</td>
                                                                             <td class="text-center">@Model[i].DinhMuc</td>
-                                                                            <td class="text-center font-weight-bold @(Model[i].DiemCBNVDG != null?"text-danger":"")">
+                                                                            <td class="text-center font-weight-bold @(Model[i].DiemCBNVDG > Model[i].DinhMuc ?"bg-success":Model[i].DiemCBNVDG < Model[i].DinhMuc ?"bg-warning":"")">
                                                                                 @Model[i].DiemCBNVDG
                                                                             </td>
                                                                             @if (@Model[i].NgayCBNVDG != null)
@@ -210,8 +215,22 @@
                                                                             {
                                                                                 <td></td>
                                                                             }
+                                                                            <td class="text-center @(Model[i].DiemCBNVDG > Model[i].DinhMuc ?"bg-success":Model[i].DiemCBNVDG < Model[i].DinhMuc ?"bg-warning":"")">
+                                                                                @Model[i].DiemDGLan1
+                                                                            </td>
+                                                                            @if (@Model[i].NgayDGLan1 != null)
+                                                                            {
+                                                                                <td>
+                                                                                    @(((DateTime)Model[i].NgayDGLan1).ToString("dd/MM/yyyy"))
+                                                                                </td>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <td></td>
+                                                                            }
+
                                                                             <td class="text-center font-weight-bold @(Model[i].DiemCBNVDG != null?"text-success":"")">
-                                                                                @Model[i].DiemDG
+                                                                                @Model[i].DiemDuyetDG
                                                                             </td>
                                                                             @if (@Model[i].StrNgayDG != null)
                                                                             {
@@ -273,7 +292,7 @@
                                                                             <td class="text-center"> @(b+1)</td>
                                                                             <td class="">@Model[i].TenNL</td>
                                                                             <td class="text-center">@Model[i].DinhMuc</td>
-                                                                            <td class="text-center @(Model[i].DiemCBNVDG != null?"bg-warning":"")">
+                                                                            <td class="text-center @(Model[i].DiemCBNVDG > Model[i].DinhMuc ?"bg-success":Model[i].DiemCBNVDG < Model[i].DinhMuc ?"bg-warning":"")">
                                                                                 @Model[i].DiemCBNVDG
                                                                             </td>
                                                                             @if (@Model[i].NgayCBNVDG != null)
@@ -332,13 +351,15 @@
                                                                         @Html.HiddenFor(m => m[i].IsDanhGia)
                                                                         @Html.HiddenFor(m => m[i].DinhMuc)
                                                                         @Html.HiddenFor(m => m[i].DiemCBNVDG)
+                                                                        @Html.HiddenFor(m => m[i].DiemDGLan1)
+                                                                        @Html.HiddenFor(m => m[i].capDG)
                                                                         if (Model[i].IDLoaiNL != 1 && Model[i].IDLoaiNL != 2)
                                                                         {
                                                                             <tr>
                                                                                 <td class="text-center "> @(a+1)</td>
                                                                                 <td class="">@Model[i].TenNL</td>
                                                                                 <td class="text-center">@Model[i].DinhMuc</td>
-                                                                                <td class="text-center @(Model[i].DiemCBNVDG != null?"bg-warning":"")">
+                                                                                <td class="text-center @(Model[i].DiemCBNVDG > Model[i].DinhMuc ?"bg-success":Model[i].DiemCBNVDG < Model[i].DinhMuc ?"bg-warning":"")">
                                                                                     @Model[i].DiemCBNVDG
                                                                                 </td>
                                                                                 @if (@Model[i].NgayCBNVDG != null)
@@ -351,8 +372,23 @@
                                                                                 {
                                                                                     <td></td>
                                                                                 }
+
+                                                                                <td class="text-center @(Model[i].DiemCBNVDG > Model[i].DinhMuc ?"bg-success":Model[i].DiemCBNVDG < Model[i].DinhMuc ?"bg-warning":"")">
+                                                                                    @Model[i].DiemDGLan1
+                                                                                </td>
+                                                                                @if (@Model[i].NgayDGLan1 != null)
+                                                                                {
+                                                                                    <td>
+                                                                                        @(((DateTime)Model[i].NgayDGLan1).ToString("dd/MM/yyyy"))
+                                                                                    </td>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <td></td>
+                                                                                }
+
                                                                                 <td class="text-center font-weight-bold @(Model[i].DiemDG != null?"text-success":"")">
-                                                                                    @Model[i].DiemDG
+                                                                                    @Model[i].DiemDuyetDG
                                                                                 </td>
                                                                                 <td class="text-success">
                                                                                     @Model[i].StrNgayDG
@@ -419,6 +455,8 @@
                                                                 @Html.HiddenFor(m => m[i].IsDanhGia)
                                                                 @Html.HiddenFor(m => m[i].DinhMuc)
                                                                 @Html.HiddenFor(m => m[i].DiemCBNVDG)
+                                                                @Html.HiddenFor(m => m[i].DiemDGLan1)
+                                                                @Html.HiddenFor(m => m[i].capDG)
                                                                 if (Model[i].IDLoaiNL == 2)
                                                                 {
                                                                     if (Model[i].IsDanhGia == 1)
@@ -427,7 +465,7 @@
                                                                             <td class="text-center"> @(c+1)</td>
                                                                             <td class="">@Model[i].TenNL</td>
                                                                             <td class="text-center">@Model[i].DinhMuc</td>
-                                                                            <td class="text-center @(Model[i].DiemCBNVDG != null?"bg-warning":"")">
+                                                                            <td class="text-center @(Model[i].DiemCBNVDG > Model[i].DinhMuc ?"bg-success":Model[i].DiemCBNVDG < Model[i].DinhMuc ?"bg-warning":"")">
                                                                                 @Model[i].DiemCBNVDG
                                                                             </td>
                                                                             @if (@Model[i].NgayCBNVDG != null)
@@ -440,8 +478,23 @@
                                                                             {
                                                                                 <td></td>
                                                                             }
+
+                                                                            <td class="text-center @(Model[i].DiemCBNVDG > Model[i].DinhMuc ?"bg-success":Model[i].DiemCBNVDG < Model[i].DinhMuc ?"bg-warning":"")">
+                                                                                @Model[i].DiemDGLan1
+                                                                            </td>
+                                                                            @if (@Model[i].NgayDGLan1 != null)
+                                                                            {
+                                                                                <td>
+                                                                                    @(((DateTime)Model[i].NgayDGLan1).ToString("dd/MM/yyyy"))
+                                                                                </td>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <td></td>
+                                                                            }
+
                                                                             <td class="text-center font-weight-bold @(Model[i].DiemDG != null?"text-success":"")">
-                                                                                @Model[i].DiemDG
+                                                                                @Model[i].DiemDuyetDG
                                                                             </td>
                                                                             <td class="text-success">
                                                                                 @Model[i].StrNgayDG

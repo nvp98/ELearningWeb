@@ -28,6 +28,7 @@ namespace E_Learning.Models
         public Nullable<int> IDND { get; set; }
         public Nullable<int> GVID { get; set; }
         public Nullable<int> TongSoCau { get; set; }
+        public Nullable<int> CTDT_ID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CauHoiDeThi> CauHoiDeThi { get; set; }

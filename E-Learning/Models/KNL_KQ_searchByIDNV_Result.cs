@@ -40,5 +40,8 @@ namespace E_Learning.Models
         public Nullable<int> DiemTuDG { get; set; }
         public Nullable<System.DateTime> NgayTuDG { get; set; }
         public Nullable<int> IsDuyet { get; set; }
+        public Nullable<int> DiemDG_Lan1 { get; set; }
+        public Nullable<System.DateTime> NgayDG_Lan1 { get; set; }
+        public Nullable<int> IDNguoiDG_Lan1 { get; set; }
     }
 }
