@@ -117,15 +117,18 @@
                                     <td class="text-center">@item.NgayTuDG</td>
                                     <td class="text-center">@item.NgayDG</td>
                                     <td class="text-center">
-                                        <a class="text-danger font-weight-bold" title="Đọc bảng KNL" href="@Url.Action("ReadKNL", "FCheck", new { IDNV = item.IDNV })"
-                                           onclick="return confirm('Bạn muốn đọc bảng KNL : @item.TenNV')">
-                                            @item.TotalDat / @item.Total
-                                        </a>
-                                        <a class="fa fa-file" title="Đọc bảng KNL" href="@Url.Action("ReadKNL", "FCheck", new { IDNV = item.IDNV })"
-                                           onclick="return confirm('Bạn muốn đọc bảng KNL : @item.TenNV')">
-                                        </a>
+                                        @if (checkduyet == null)
+                                        {
+                                            <a class="text-danger font-weight-bold" title="Đọc bảng KNL" href="@Url.Action("ReadKNL", "FCheck", new { IDNV = item.IDNV })"
+                                               onclick="return confirm('Bạn muốn đọc bảng KNL : @item.TenNV')">
+                                                @item.TotalDat / @item.Total
+                                            </a>
+                                            <a class="fa fa-file" title="Đọc bảng KNL" href="@Url.Action("ReadKNL", "FCheck", new { IDNV = item.IDNV })"
+                                               onclick="return confirm('Bạn muốn đọc bảng KNL : @item.TenNV')">
+                                            </a>
+                                        }
                                     </td>
-                                    @if (checkduyet == null)
+                                    @if (checkduyet == null && item.TotalDat >= item.Total)
                                     {
                                         <td class="text-center p-0">
                                             <a class="fa fa-check-square-o fa-2x" title="Đánh giá" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
@@ -133,9 +136,13 @@
                                             </a>
                                         </td>
                                     }
-                                    else
+                                    else if(checkduyet != null)
                                     {
                                         <td class="text-danger">Bảng KNL chưa duyệt</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
                                     }
 
 
@@ -191,8 +198,8 @@
                                     <th class="text-center">Vị trí đánh giá</th>
                                     <th class="text-center">BMTCV</th>
                                     <th class="text-center">Ngày đánh giá gần nhất</th>
-
-                                    <th class="text-center ">Đánh giá</th>
+                                    <th class="text-center ">Đánh giá lần 1</th>
+                                    <th class="text-center ">Kiểm duyệt kết quả</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -213,16 +220,23 @@
                                             <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
                                         </td>
                                         <td class="text-center">@item.NgayDG</td>
+
                                         @if (item.Total == 1)
                                         {
                                             <td class="text-center p-0">
-                                                <a class="fa fa-check-square-o fa-2x" title="Đánh giá" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
-                                                   onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
+                                                <a class="fa fa-check-square-o" title="Đánh giá lần 1" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1),capDG ="1" })"
+                                                   onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">Đánh giá lần 1
+                                                </a>
+                                            </td>
+                                            <td class="text-center p-0">
+                                                <a class="fa fa-check-square-o " title="Đánh giá" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
+                                                   onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">Kiểm duyệt
                                                 </a>
                                             </td>
                                         }
                                         else
                                         {
+                                            <td></td>
                                             <td class="text-danger">Bảng KNL chưa duyệt</td>
                                         }
                                         @*<td class="text-center">
@@ -274,8 +288,8 @@
                                     <th class="text-center">Vị trí đánh giá</th>
                                     <th class="text-center">BMTCV</th>
                                     <th class="text-center">Ngày đánh giá gần nhất</th>
-
-                                    <th class="text-center ">Xem xét</th>
+                                    <th class="text-center ">Đánh giá lần 1</th>
+                                    <th class="text-center ">Kiểm duyệt kết quả</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -296,16 +310,24 @@
                                             <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
                                         </td>
                                         <td class="text-center">@item.NgayDG</td>
+                                        <td></td>
                                         @if (item.Total == 1)
                                         {
                                             <td class="text-center p-0">
-                                                <a class="fa fa-check-square-o fa-2x" title="Xem xét" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
-                                                   onclick="return confirm('Bạn muốn xem lại : @item.TenNV')">
+                                                <a class="fa fa-check-square-o " title="Đánh giá lần 1" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1),capDG ="1" })"
+                                                   onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
+                                                    Đánh giá lần 1
+                                                </a>
+                                            </td>
+                                            <td class="text-center p-0">
+                                                <a class="fa fa-check-square-o " title="Đánh giá" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
+                                                   onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">Kiểm duyệt
                                                 </a>
                                             </td>
                                         }
                                         else
                                         {
+                                            <td></td>
                                             <td class="text-danger">Bảng KNL chưa duyệt</td>
                                         }
 

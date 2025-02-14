@@ -104,6 +104,7 @@
           <Property Name="IDND" Type="int" />
           <Property Name="GVID" Type="int" />
           <Property Name="TongSoCau" Type="int" />
+          <Property Name="CTDT_ID" Type="int" />
         </EntityType>
         <EntityType Name="DinhBienVT">
           <Key>
@@ -239,6 +240,9 @@
           <Property Name="VTID" Type="int" />
           <Property Name="DiemTuDG" Type="int" />
           <Property Name="NgayTuDG" Type="date" />
+          <Property Name="IDNguoiDG_Lan1" Type="int" />
+          <Property Name="DiemDG_Lan1" Type="int" />
+          <Property Name="NgayDG_Lan1" Type="date" />
         </EntityType>
         <EntityType Name="KNL_Khoi">
           <Key>
@@ -276,6 +280,12 @@
           <Property Name="VUOTTUDG" Type="int" />
           <Property Name="KDGiaTuDG" Type="int" />
           <Property Name="CHUADGTuDG" Type="int" />
+          <Property Name="DATTUDGLan1" Type="int" />
+          <Property Name="KDATTUDGLan1" Type="int" />
+          <Property Name="VUOTTUDGLan1" Type="int" />
+          <Property Name="KDGiaTuDGLan1" Type="int" />
+          <Property Name="CHUADGTuDGLan1" Type="int" />
+          <Property Name="NgayDGGNLan1" Type="date" />
         </EntityType>
         <EntityType Name="KNL_NVKiemNhiem">
           <Key>
@@ -970,18 +980,6 @@
             </Principal>
             <Dependent Role="KCCD_CTBaiThi">
               <PropertyRef Name="IDCauHoi" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_KNL_KQ_KhungNangLuc">
-          <End Role="KhungNangLuc" Type="Self.KhungNangLuc" Multiplicity="0..1" />
-          <End Role="KNL_KQ" Type="Self.KNL_KQ" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="KhungNangLuc">
-              <PropertyRef Name="IDNL" />
-            </Principal>
-            <Dependent Role="KNL_KQ">
-              <PropertyRef Name="IDNL" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2611,10 +2609,6 @@
             <End Role="KCCD_CauHoi" EntitySet="KCCD_CauHoi" />
             <End Role="KCCD_CTBaiThi" EntitySet="KCCD_CTBaiThi" />
           </AssociationSet>
-          <AssociationSet Name="FK_KNL_KQ_KhungNangLuc" Association="Self.FK_KNL_KQ_KhungNangLuc">
-            <End Role="KhungNangLuc" EntitySet="KhungNangLuc" />
-            <End Role="KNL_KQ" EntitySet="KNL_KQ" />
-          </AssociationSet>
           <AssociationSet Name="FK_KNL_PheDuyetKNL_NhanVien" Association="Self.FK_KNL_PheDuyetKNL_NhanVien">
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="KNL_PheDuyetKNL" EntitySet="KNL_PheDuyetKNL" />
@@ -2839,6 +2833,7 @@
           <Property Name="TongSoCau" Type="Int32" />
           <NavigationProperty Name="CauHoiDeThi" Relationship="Self.FK_CauHoiDeThi_DeThi" FromRole="DeThi" ToRole="CauHoiDeThi" />
           <NavigationProperty Name="NoiDungDT" Relationship="Self.FK_DeThi_NoiDungDT" FromRole="DeThi" ToRole="NoiDungDT" />
+          <Property Name="CTDT_ID" Type="Int32" />
         </EntityType>
         <EntityType Name="DinhBienVT">
           <Key>
@@ -2951,25 +2946,6 @@
           <Property Name="IDVTDGTT" Type="Int32" />
           <Property Name="IDVTDGTC" Type="Int32" />
         </EntityType>
-        <EntityType Name="KNL_KQ">
-          <Key>
-            <PropertyRef Name="IDKQ" />
-          </Key>
-          <Property Name="IDKQ" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IDNV" Type="Int32" />
-          <Property Name="IDNL" Type="Int32" />
-          <Property Name="IDNVDG" Type="Int32" />
-          <Property Name="DiemDG" Type="Int32" />
-          <Property Name="ThangDG" Type="DateTime" Precision="0" />
-          <Property Name="NgayDG" Type="DateTime" Precision="0" />
-          <Property Name="Note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DiemDM" Type="Int32" />
-          <Property Name="KQID" Type="Int32" />
-          <Property Name="VTID" Type="Int32" />
-          <Property Name="DiemTuDG" Type="Int32" />
-          <Property Name="NgayTuDG" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="KhungNangLuc" Relationship="ELEARNINGModel.FK_KNL_KQ_KhungNangLuc" FromRole="KNL_KQ" ToRole="KhungNangLuc" />
-        </EntityType>
         <EntityType Name="KNL_Khoi">
           <Key>
             <PropertyRef Name="ID" />
@@ -2984,28 +2960,6 @@
           </Key>
           <Property Name="IDKQ" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TenKQ" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="KNL_LSDG">
-          <Key>
-            <PropertyRef Name="IDLS" />
-          </Key>
-          <Property Name="IDLS" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NVID" Type="Int32" />
-          <Property Name="VTID" Type="Int32" />
-          <Property Name="ThangDG" Type="DateTime" Precision="0" />
-          <Property Name="NgayDGGN" Type="DateTime" Precision="0" />
-          <Property Name="DAT" Type="Int32" />
-          <Property Name="KDAT" Type="Int32" />
-          <Property Name="VUOT" Type="Int32" />
-          <Property Name="KDGia" Type="Int32" />
-          <Property Name="CHUADG" Type="Int32" />
-          <Property Name="TONGNL" Type="Int32" />
-          <Property Name="NgayTuDGGN" Type="DateTime" Precision="0" />
-          <Property Name="DATTUDG" Type="Int32" />
-          <Property Name="KDATTUDG" Type="Int32" />
-          <Property Name="VUOTTUDG" Type="Int32" />
-          <Property Name="KDGiaTuDG" Type="Int32" />
-          <Property Name="CHUADGTuDG" Type="Int32" />
         </EntityType>
         <EntityType Name="KNL_NVKiemNhiem">
           <Key>
@@ -4043,10 +3997,8 @@
           <EntitySet Name="Kip" EntityType="Self.Kip" />
           <EntitySet Name="KNL_DG" EntityType="Self.KNL_DG" />
           <EntitySet Name="KNL_DGiaTC" EntityType="Self.KNL_DGiaTC" />
-          <EntitySet Name="KNL_KQ" EntityType="Self.KNL_KQ" />
           <EntitySet Name="KNL_Khoi" EntityType="Self.KNL_Khoi" />
           <EntitySet Name="KNL_LoaiKQ" EntityType="Self.KNL_LoaiKQ" />
-          <EntitySet Name="KNL_LSDG" EntityType="Self.KNL_LSDG" />
           <EntitySet Name="KNL_NVKiemNhiem" EntityType="Self.KNL_NVKiemNhiem" />
           <EntitySet Name="KNL_Nhom" EntityType="Self.KNL_Nhom" />
           <EntitySet Name="KNL_PhanXuong" EntityType="Self.KNL_PhanXuong" />
@@ -5506,10 +5458,8 @@
             <Parameter Name="NgayTuDG" Mode="In" Type="DateTime" />
           </FunctionImport>
           <EntitySet Name="KhungNangLuc" EntityType="ELEARNINGModel.KhungNangLuc" />
-          <AssociationSet Name="FK_KNL_KQ_KhungNangLuc" Association="ELEARNINGModel.FK_KNL_KQ_KhungNangLuc">
-            <End Role="KhungNangLuc" EntitySet="KhungNangLuc" />
-            <End Role="KNL_KQ" EntitySet="KNL_KQ" />
-          </AssociationSet>
+          <EntitySet Name="KNL_KQ" EntityType="ELEARNINGModel.KNL_KQ" />
+          <EntitySet Name="KNL_LSDG" EntityType="ELEARNINGModel.KNL_LSDG" />
         </EntityContainer>
         <ComplexType Name="CauHoi_DeThi_list_Result">
           <Property Type="Int32" Name="IDCH" Nullable="false" />
@@ -5681,6 +5631,9 @@
           <Property Type="Int32" Name="DiemTuDG" Nullable="true" />
           <Property Type="DateTime" Name="NgayTuDG" Nullable="true" />
           <Property Type="Int32" Name="IsDuyet" Nullable="true" />
+          <Property Type="Int32" Name="DiemDG_Lan1" Nullable="true" />
+          <Property Type="DateTime" Name="NgayDG_Lan1" Nullable="true" />
+          <Property Type="Int32" Name="IDNguoiDG_Lan1" Nullable="true" />
         </ComplexType>
         <ComplexType Name="KNL_KQ_Select_Result">
           <Property Type="Int32" Name="IDKQ" Nullable="false" />
@@ -5702,6 +5655,9 @@
           <Property Type="Int32" Name="OrderBy" Nullable="true" />
           <Property Type="Int32" Name="DiemTuDG" Nullable="true" />
           <Property Type="DateTime" Name="NgayTuDG" Nullable="true" />
+          <Property Type="Int32" Name="IDNguoiDG_Lan1" Nullable="true" />
+          <Property Type="Int32" Name="DiemDG_Lan1" Nullable="true" />
+          <Property Type="DateTime" Name="NgayDG_Lan1" Nullable="true" />
         </ComplexType>
         <ComplexType Name="KNL_KQ_SelectDDG_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -5779,6 +5735,12 @@
           <Property Type="Int32" Name="VUOTTUDG" Nullable="true" />
           <Property Type="Int32" Name="KDGiaTuDG" Nullable="true" />
           <Property Type="Int32" Name="CHUADGTuDG" Nullable="true" />
+          <Property Type="Int32" Name="DATTUDGLan1" Nullable="true" />
+          <Property Type="Int32" Name="KDATTUDGLan1" Nullable="true" />
+          <Property Type="Int32" Name="VUOTTUDGLan1" Nullable="true" />
+          <Property Type="Int32" Name="KDGiaTuDGLan1" Nullable="true" />
+          <Property Type="Int32" Name="CHUADGTuDGLan1" Nullable="true" />
+          <Property Type="DateTime" Name="NgayDGGNLan1" Nullable="true" />
         </ComplexType>
         <ComplexType Name="KNLDGiaTC_select_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -6301,20 +6263,56 @@
           <Property Name="IsDanhGia" Type="Int32" />
           <Property Name="OrderBy" Type="Int32" />
           <Property Name="IsDuyet" Type="Int32" />
-          <NavigationProperty Name="KNL_KQ" Relationship="ELEARNINGModel.FK_KNL_KQ_KhungNangLuc" FromRole="KhungNangLuc" ToRole="KNL_KQ" />
         </EntityType>
-        <Association Name="FK_KNL_KQ_KhungNangLuc">
-          <End Type="ELEARNINGModel.KhungNangLuc" Role="KhungNangLuc" Multiplicity="0..1" />
-          <End Type="ELEARNINGModel.KNL_KQ" Role="KNL_KQ" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="KhungNangLuc">
-              <PropertyRef Name="IDNL" />
-            </Principal>
-            <Dependent Role="KNL_KQ">
-              <PropertyRef Name="IDNL" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityType Name="KNL_KQ">
+          <Key>
+            <PropertyRef Name="IDKQ" />
+          </Key>
+          <Property Name="IDKQ" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDNV" Type="Int32" />
+          <Property Name="IDNL" Type="Int32" />
+          <Property Name="IDNVDG" Type="Int32" />
+          <Property Name="DiemDG" Type="Int32" />
+          <Property Name="ThangDG" Type="DateTime" Precision="0" />
+          <Property Name="NgayDG" Type="DateTime" Precision="0" />
+          <Property Name="Note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DiemDM" Type="Int32" />
+          <Property Name="KQID" Type="Int32" />
+          <Property Name="VTID" Type="Int32" />
+          <Property Name="DiemTuDG" Type="Int32" />
+          <Property Name="NgayTuDG" Type="DateTime" Precision="0" />
+          <Property Name="IDNguoiDG_Lan1" Type="Int32" />
+          <Property Name="DiemDG_Lan1" Type="Int32" />
+          <Property Name="NgayDG_Lan1" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="KNL_LSDG">
+          <Key>
+            <PropertyRef Name="IDLS" />
+          </Key>
+          <Property Name="IDLS" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NVID" Type="Int32" />
+          <Property Name="VTID" Type="Int32" />
+          <Property Name="ThangDG" Type="DateTime" Precision="0" />
+          <Property Name="NgayDGGN" Type="DateTime" Precision="0" />
+          <Property Name="DAT" Type="Int32" />
+          <Property Name="KDAT" Type="Int32" />
+          <Property Name="VUOT" Type="Int32" />
+          <Property Name="KDGia" Type="Int32" />
+          <Property Name="CHUADG" Type="Int32" />
+          <Property Name="TONGNL" Type="Int32" />
+          <Property Name="NgayTuDGGN" Type="DateTime" Precision="0" />
+          <Property Name="DATTUDG" Type="Int32" />
+          <Property Name="KDATTUDG" Type="Int32" />
+          <Property Name="VUOTTUDG" Type="Int32" />
+          <Property Name="KDGiaTuDG" Type="Int32" />
+          <Property Name="CHUADGTuDG" Type="Int32" />
+          <Property Name="DATTUDGLan1" Type="Int32" />
+          <Property Name="KDATTUDGLan1" Type="Int32" />
+          <Property Name="VUOTTUDGLan1" Type="Int32" />
+          <Property Name="KDGiaTuDGLan1" Type="Int32" />
+          <Property Name="CHUADGTuDGLan1" Type="Int32" />
+          <Property Name="NgayDGGNLan1" Type="DateTime" Precision="0" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6418,6 +6416,7 @@
           <EntitySetMapping Name="DeThi">
             <EntityTypeMapping TypeName="ELEARNINGModel.DeThi">
               <MappingFragment StoreEntitySet="DeThi">
+                <ScalarProperty Name="CTDT_ID" ColumnName="CTDT_ID" />
                 <ScalarProperty Name="IDDeThi" ColumnName="IDDeThi" />
                 <ScalarProperty Name="MaDe" ColumnName="MaDe" />
                 <ScalarProperty Name="TenDe" ColumnName="TenDe" />
@@ -6544,25 +6543,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="KNL_KQ">
-            <EntityTypeMapping TypeName="ELEARNINGModel.KNL_KQ">
-              <MappingFragment StoreEntitySet="KNL_KQ">
-                <ScalarProperty Name="NgayTuDG" ColumnName="NgayTuDG" />
-                <ScalarProperty Name="DiemTuDG" ColumnName="DiemTuDG" />
-                <ScalarProperty Name="IDKQ" ColumnName="IDKQ" />
-                <ScalarProperty Name="IDNV" ColumnName="IDNV" />
-                <ScalarProperty Name="IDNL" ColumnName="IDNL" />
-                <ScalarProperty Name="IDNVDG" ColumnName="IDNVDG" />
-                <ScalarProperty Name="DiemDG" ColumnName="DiemDG" />
-                <ScalarProperty Name="ThangDG" ColumnName="ThangDG" />
-                <ScalarProperty Name="NgayDG" ColumnName="NgayDG" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
-                <ScalarProperty Name="DiemDM" ColumnName="DiemDM" />
-                <ScalarProperty Name="KQID" ColumnName="KQID" />
-                <ScalarProperty Name="VTID" ColumnName="VTID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="KNL_Khoi">
             <EntityTypeMapping TypeName="ELEARNINGModel.KNL_Khoi">
               <MappingFragment StoreEntitySet="KNL_Khoi">
@@ -6577,29 +6557,6 @@
               <MappingFragment StoreEntitySet="KNL_LoaiKQ">
                 <ScalarProperty Name="IDKQ" ColumnName="IDKQ" />
                 <ScalarProperty Name="TenKQ" ColumnName="TenKQ" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="KNL_LSDG">
-            <EntityTypeMapping TypeName="ELEARNINGModel.KNL_LSDG">
-              <MappingFragment StoreEntitySet="KNL_LSDG">
-                <ScalarProperty Name="CHUADGTuDG" ColumnName="CHUADGTuDG" />
-                <ScalarProperty Name="KDGiaTuDG" ColumnName="KDGiaTuDG" />
-                <ScalarProperty Name="VUOTTUDG" ColumnName="VUOTTUDG" />
-                <ScalarProperty Name="KDATTUDG" ColumnName="KDATTUDG" />
-                <ScalarProperty Name="DATTUDG" ColumnName="DATTUDG" />
-                <ScalarProperty Name="NgayTuDGGN" ColumnName="NgayTuDGGN" />
-                <ScalarProperty Name="IDLS" ColumnName="IDLS" />
-                <ScalarProperty Name="NVID" ColumnName="NVID" />
-                <ScalarProperty Name="VTID" ColumnName="VTID" />
-                <ScalarProperty Name="ThangDG" ColumnName="ThangDG" />
-                <ScalarProperty Name="NgayDGGN" ColumnName="NgayDGGN" />
-                <ScalarProperty Name="DAT" ColumnName="DAT" />
-                <ScalarProperty Name="KDAT" ColumnName="KDAT" />
-                <ScalarProperty Name="VUOT" ColumnName="VUOT" />
-                <ScalarProperty Name="KDGia" ColumnName="KDGia" />
-                <ScalarProperty Name="CHUADG" ColumnName="CHUADG" />
-                <ScalarProperty Name="TONGNL" ColumnName="TONGNL" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -7475,6 +7432,9 @@
                 <ScalarProperty Name="DiemTuDG" ColumnName="DiemTuDG" />
                 <ScalarProperty Name="NgayTuDG" ColumnName="NgayTuDG" />
                 <ScalarProperty Name="IsDuyet" ColumnName="IsDuyet" />
+                <ScalarProperty Name="DiemDG_Lan1" ColumnName="DiemDG_Lan1" />
+                <ScalarProperty Name="NgayDG_Lan1" ColumnName="NgayDG_Lan1" />
+                <ScalarProperty Name="IDNguoiDG_Lan1" ColumnName="IDNguoiDG_Lan1" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7500,6 +7460,9 @@
                 <ScalarProperty Name="OrderBy" ColumnName="OrderBy" />
                 <ScalarProperty Name="DiemTuDG" ColumnName="DiemTuDG" />
                 <ScalarProperty Name="NgayTuDG" ColumnName="NgayTuDG" />
+                <ScalarProperty Name="IDNguoiDG_Lan1" ColumnName="IDNguoiDG_Lan1" />
+                <ScalarProperty Name="DiemDG_Lan1" ColumnName="DiemDG_Lan1" />
+                <ScalarProperty Name="NgayDG_Lan1" ColumnName="NgayDG_Lan1" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7595,6 +7558,12 @@
                 <ScalarProperty Name="VUOTTUDG" ColumnName="VUOTTUDG" />
                 <ScalarProperty Name="KDGiaTuDG" ColumnName="KDGiaTuDG" />
                 <ScalarProperty Name="CHUADGTuDG" ColumnName="CHUADGTuDG" />
+                <ScalarProperty Name="DATTUDGLan1" ColumnName="DATTUDGLan1" />
+                <ScalarProperty Name="KDATTUDGLan1" ColumnName="KDATTUDGLan1" />
+                <ScalarProperty Name="VUOTTUDGLan1" ColumnName="VUOTTUDGLan1" />
+                <ScalarProperty Name="KDGiaTuDGLan1" ColumnName="KDGiaTuDGLan1" />
+                <ScalarProperty Name="CHUADGTuDGLan1" ColumnName="CHUADGTuDGLan1" />
+                <ScalarProperty Name="NgayDGGNLan1" ColumnName="NgayDGGNLan1" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -8316,6 +8285,57 @@
                 <ScalarProperty Name="IDLoaiNL" ColumnName="IDLoaiNL" />
                 <ScalarProperty Name="TenNL" ColumnName="TenNL" />
                 <ScalarProperty Name="IDNL" ColumnName="IDNL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KNL_KQ">
+            <EntityTypeMapping TypeName="ELEARNINGModel.KNL_KQ">
+              <MappingFragment StoreEntitySet="KNL_KQ">
+                <ScalarProperty Name="NgayDG_Lan1" ColumnName="NgayDG_Lan1" />
+                <ScalarProperty Name="DiemDG_Lan1" ColumnName="DiemDG_Lan1" />
+                <ScalarProperty Name="IDNguoiDG_Lan1" ColumnName="IDNguoiDG_Lan1" />
+                <ScalarProperty Name="NgayTuDG" ColumnName="NgayTuDG" />
+                <ScalarProperty Name="DiemTuDG" ColumnName="DiemTuDG" />
+                <ScalarProperty Name="VTID" ColumnName="VTID" />
+                <ScalarProperty Name="KQID" ColumnName="KQID" />
+                <ScalarProperty Name="DiemDM" ColumnName="DiemDM" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="NgayDG" ColumnName="NgayDG" />
+                <ScalarProperty Name="ThangDG" ColumnName="ThangDG" />
+                <ScalarProperty Name="DiemDG" ColumnName="DiemDG" />
+                <ScalarProperty Name="IDNVDG" ColumnName="IDNVDG" />
+                <ScalarProperty Name="IDNL" ColumnName="IDNL" />
+                <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+                <ScalarProperty Name="IDKQ" ColumnName="IDKQ" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KNL_LSDG">
+            <EntityTypeMapping TypeName="ELEARNINGModel.KNL_LSDG">
+              <MappingFragment StoreEntitySet="KNL_LSDG">
+                <ScalarProperty Name="NgayDGGNLan1" ColumnName="NgayDGGNLan1" />
+                <ScalarProperty Name="CHUADGTuDGLan1" ColumnName="CHUADGTuDGLan1" />
+                <ScalarProperty Name="KDGiaTuDGLan1" ColumnName="KDGiaTuDGLan1" />
+                <ScalarProperty Name="VUOTTUDGLan1" ColumnName="VUOTTUDGLan1" />
+                <ScalarProperty Name="KDATTUDGLan1" ColumnName="KDATTUDGLan1" />
+                <ScalarProperty Name="DATTUDGLan1" ColumnName="DATTUDGLan1" />
+                <ScalarProperty Name="CHUADGTuDG" ColumnName="CHUADGTuDG" />
+                <ScalarProperty Name="KDGiaTuDG" ColumnName="KDGiaTuDG" />
+                <ScalarProperty Name="VUOTTUDG" ColumnName="VUOTTUDG" />
+                <ScalarProperty Name="KDATTUDG" ColumnName="KDATTUDG" />
+                <ScalarProperty Name="DATTUDG" ColumnName="DATTUDG" />
+                <ScalarProperty Name="NgayTuDGGN" ColumnName="NgayTuDGGN" />
+                <ScalarProperty Name="TONGNL" ColumnName="TONGNL" />
+                <ScalarProperty Name="CHUADG" ColumnName="CHUADG" />
+                <ScalarProperty Name="KDGia" ColumnName="KDGia" />
+                <ScalarProperty Name="VUOT" ColumnName="VUOT" />
+                <ScalarProperty Name="KDAT" ColumnName="KDAT" />
+                <ScalarProperty Name="DAT" ColumnName="DAT" />
+                <ScalarProperty Name="NgayDGGN" ColumnName="NgayDGGN" />
+                <ScalarProperty Name="ThangDG" ColumnName="ThangDG" />
+                <ScalarProperty Name="VTID" ColumnName="VTID" />
+                <ScalarProperty Name="NVID" ColumnName="NVID" />
+                <ScalarProperty Name="IDLS" ColumnName="IDLS" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
