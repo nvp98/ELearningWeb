@@ -464,7 +464,7 @@ namespace E_Learning.Controllers.KNL
                           OrderBy = a.OrderBy,
                           OrderByLoai = a.orByLoai,
                           //ColorKQ = a.DiemDG < a.DinhMuc ? "bg-danger" : "bg-success",
-                          ColorKQ = a.IDNVDG == MyAuthentication.ID? "bg-warning": a.DiemDG < a.DinhMuc ? "bg-danger" : "bg-success",
+                          ColorKQ = "bg-light",
                           IDNVDG = a.IDNVDG,
                           TenNVDG = a.HoTen,
                           NgayCanhBao = a.DiemDG < a.DinhMuc ? (((DateTime)a.NgayDG).AddMonths(3) -DateTime.Now).Days : a.DiemDG >= a.DinhMuc? (((DateTime)a.NgayDG).AddMonths(6) - DateTime.Now).Days : - 1000,
