@@ -95,7 +95,6 @@ namespace E_Learning.Models
         public virtual DbSet<SH_QuyDaoTao> SH_QuyDaoTao { get; set; }
         public virtual DbSet<SH_TrinhKy> SH_TrinhKy { get; set; }
         public virtual DbSet<SH_ViTri_NDDT> SH_ViTri_NDDT { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TB_KyLuat> TB_KyLuat { get; set; }
         public virtual DbSet<TinhTrangLV> TinhTrangLV { get; set; }
         public virtual DbSet<ThongBao> ThongBaos { get; set; }
@@ -166,6 +165,221 @@ namespace E_Learning.Models
                 new ObjectParameter("IDBaiThi", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaiThi_Update", diemSoParameter, tinhTrangParameter, iDBaiThiParameter);
+        }
+    
+        public virtual int Cap2_delete_KNL(Nullable<int> iD)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap2_delete_KNL", iDParameter);
+        }
+    
+        public virtual int Cap2_insert_KNL(string maDVTC, string tenDVTC)
+        {
+            var maDVTCParameter = maDVTC != null ?
+                new ObjectParameter("MaDVTC", maDVTC) :
+                new ObjectParameter("MaDVTC", typeof(string));
+    
+            var tenDVTCParameter = tenDVTC != null ?
+                new ObjectParameter("TenDVTC", tenDVTC) :
+                new ObjectParameter("TenDVTC", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap2_insert_KNL", maDVTCParameter, tenDVTCParameter);
+        }
+    
+        public virtual int Cap2_update_KNL(Nullable<int> iD, string maDVTC, string tenDVTC, Nullable<int> trangThai)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            var maDVTCParameter = maDVTC != null ?
+                new ObjectParameter("MaDVTC", maDVTC) :
+                new ObjectParameter("MaDVTC", typeof(string));
+    
+            var tenDVTCParameter = tenDVTC != null ?
+                new ObjectParameter("TenDVTC", tenDVTC) :
+                new ObjectParameter("TenDVTC", typeof(string));
+    
+            var trangThaiParameter = trangThai.HasValue ?
+                new ObjectParameter("TrangThai", trangThai) :
+                new ObjectParameter("TrangThai", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap2_update_KNL", iDParameter, maDVTCParameter, tenDVTCParameter, trangThaiParameter);
+        }
+    
+        public virtual int Cap4_delete_KNL(Nullable<int> iD)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap4_delete_KNL", iDParameter);
+        }
+    
+        public virtual int Cap4_insert_KNL(string maDVTC, string tenDVTC)
+        {
+            var maDVTCParameter = maDVTC != null ?
+                new ObjectParameter("MaDVTC", maDVTC) :
+                new ObjectParameter("MaDVTC", typeof(string));
+    
+            var tenDVTCParameter = tenDVTC != null ?
+                new ObjectParameter("TenDVTC", tenDVTC) :
+                new ObjectParameter("TenDVTC", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap4_insert_KNL", maDVTCParameter, tenDVTCParameter);
+        }
+    
+        public virtual int Cap4_update_KNL(Nullable<int> iD, string maDVTC, string tenDVTC, Nullable<int> trangThai)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            var maDVTCParameter = maDVTC != null ?
+                new ObjectParameter("MaDVTC", maDVTC) :
+                new ObjectParameter("MaDVTC", typeof(string));
+    
+            var tenDVTCParameter = tenDVTC != null ?
+                new ObjectParameter("TenDVTC", tenDVTC) :
+                new ObjectParameter("TenDVTC", typeof(string));
+    
+            var trangThaiParameter = trangThai.HasValue ?
+                new ObjectParameter("TrangThai", trangThai) :
+                new ObjectParameter("TrangThai", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap4_update_KNL", iDParameter, maDVTCParameter, tenDVTCParameter, trangThaiParameter);
+        }
+    
+        public virtual int Cap6_delete_KNL(Nullable<int> iD)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap6_delete_KNL", iDParameter);
+        }
+    
+        public virtual int Cap6_insert_KNL(string maDVTC, string tenDVTC)
+        {
+            var maDVTCParameter = maDVTC != null ?
+                new ObjectParameter("MaDVTC", maDVTC) :
+                new ObjectParameter("MaDVTC", typeof(string));
+    
+            var tenDVTCParameter = tenDVTC != null ?
+                new ObjectParameter("TenDVTC", tenDVTC) :
+                new ObjectParameter("TenDVTC", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap6_insert_KNL", maDVTCParameter, tenDVTCParameter);
+        }
+    
+        public virtual int Cap6_update_KNL(Nullable<int> iD, string maDVTC, string tenDVTC, Nullable<int> trangThai)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            var maDVTCParameter = maDVTC != null ?
+                new ObjectParameter("MaDVTC", maDVTC) :
+                new ObjectParameter("MaDVTC", typeof(string));
+    
+            var tenDVTCParameter = tenDVTC != null ?
+                new ObjectParameter("TenDVTC", tenDVTC) :
+                new ObjectParameter("TenDVTC", typeof(string));
+    
+            var trangThaiParameter = trangThai.HasValue ?
+                new ObjectParameter("TrangThai", trangThai) :
+                new ObjectParameter("TrangThai", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap6_update_KNL", iDParameter, maDVTCParameter, tenDVTCParameter, trangThaiParameter);
+        }
+    
+        public virtual int Cap7_delete_KNL(Nullable<int> iD)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap7_delete_KNL", iDParameter);
+        }
+    
+        public virtual int Cap7_insert_KNL(string maDVTC, string tenDVTC)
+        {
+            var maDVTCParameter = maDVTC != null ?
+                new ObjectParameter("MaDVTC", maDVTC) :
+                new ObjectParameter("MaDVTC", typeof(string));
+    
+            var tenDVTCParameter = tenDVTC != null ?
+                new ObjectParameter("TenDVTC", tenDVTC) :
+                new ObjectParameter("TenDVTC", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap7_insert_KNL", maDVTCParameter, tenDVTCParameter);
+        }
+    
+        public virtual int Cap7_update_KNL(Nullable<int> iD, string maDVTC, string tenDVTC, Nullable<int> trangThai)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            var maDVTCParameter = maDVTC != null ?
+                new ObjectParameter("MaDVTC", maDVTC) :
+                new ObjectParameter("MaDVTC", typeof(string));
+    
+            var tenDVTCParameter = tenDVTC != null ?
+                new ObjectParameter("TenDVTC", tenDVTC) :
+                new ObjectParameter("TenDVTC", typeof(string));
+    
+            var trangThaiParameter = trangThai.HasValue ?
+                new ObjectParameter("TrangThai", trangThai) :
+                new ObjectParameter("TrangThai", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap7_update_KNL", iDParameter, maDVTCParameter, tenDVTCParameter, trangThaiParameter);
+        }
+    
+        public virtual int Cap9_delete_KNL(Nullable<int> iD)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap9_delete_KNL", iDParameter);
+        }
+    
+        public virtual int Cap9_insert_KNL(string maDVTC, string tenDVTC)
+        {
+            var maDVTCParameter = maDVTC != null ?
+                new ObjectParameter("MaDVTC", maDVTC) :
+                new ObjectParameter("MaDVTC", typeof(string));
+    
+            var tenDVTCParameter = tenDVTC != null ?
+                new ObjectParameter("TenDVTC", tenDVTC) :
+                new ObjectParameter("TenDVTC", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap9_insert_KNL", maDVTCParameter, tenDVTCParameter);
+        }
+    
+        public virtual int Cap9_update_KNL(Nullable<int> iD, string maDVTC, string tenDVTC, Nullable<int> trangThai)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            var maDVTCParameter = maDVTC != null ?
+                new ObjectParameter("MaDVTC", maDVTC) :
+                new ObjectParameter("MaDVTC", typeof(string));
+    
+            var tenDVTCParameter = tenDVTC != null ?
+                new ObjectParameter("TenDVTC", tenDVTC) :
+                new ObjectParameter("TenDVTC", typeof(string));
+    
+            var trangThaiParameter = trangThai.HasValue ?
+                new ObjectParameter("TrangThai", trangThai) :
+                new ObjectParameter("TrangThai", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap9_update_KNL", iDParameter, maDVTCParameter, tenDVTCParameter, trangThaiParameter);
         }
     
         public virtual int CauHoi_delete(Nullable<int> iDCH)
@@ -1151,6 +1365,11 @@ namespace E_Learning.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KhungNangLuc_delete_VT", iDVTParameter);
         }
     
+        public virtual int KhungNangLuc_DongBoDuLieu()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KhungNangLuc_DongBoDuLieu");
+        }
+    
         public virtual int KhungNangLuc_insert(string tenNL, Nullable<int> iDLoaiNL, Nullable<int> iDVT, Nullable<int> iDPB, Nullable<int> dinhMuc, Nullable<int> isDanhGia, Nullable<int> orderBy, Nullable<int> isDuyet)
         {
             var tenNLParameter = tenNL != null ?
@@ -1422,6 +1641,23 @@ namespace E_Learning.Models
                 new ObjectParameter("Note", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_KQ_update", iDKQParameter, iDNVParameter, iDNLParameter, iDNVDGParameter, diemDGParameter, thangDGParameter, ngayDGParameter, kQIDParameter, diemDMParameter, vTIDParameter, noteParameter);
+        }
+    
+        public virtual int KNL_KQ_update_TuDG(Nullable<int> iDKQ, Nullable<int> diemTuDG, Nullable<System.DateTime> ngayTuDG)
+        {
+            var iDKQParameter = iDKQ.HasValue ?
+                new ObjectParameter("IDKQ", iDKQ) :
+                new ObjectParameter("IDKQ", typeof(int));
+    
+            var diemTuDGParameter = diemTuDG.HasValue ?
+                new ObjectParameter("DiemTuDG", diemTuDG) :
+                new ObjectParameter("DiemTuDG", typeof(int));
+    
+            var ngayTuDGParameter = ngayTuDG.HasValue ?
+                new ObjectParameter("NgayTuDG", ngayTuDG) :
+                new ObjectParameter("NgayTuDG", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_KQ_update_TuDG", iDKQParameter, diemTuDGParameter, ngayTuDGParameter);
         }
     
         public virtual int KNL_LSDG_insert(Nullable<int> iDNV, Nullable<int> vTID, Nullable<System.DateTime> thangDG, Nullable<System.DateTime> ngayDGGN, Nullable<int> dAT, Nullable<int> kDAT, Nullable<int> vUOT, Nullable<int> kDGia, Nullable<int> cHUADG, Nullable<int> tONGNL, Nullable<System.DateTime> ngayTuDGGN)
@@ -2229,6 +2465,23 @@ namespace E_Learning.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Nhanvien_update_API", maNVParameter, diaChiParameter, dienThoaiParameter, iDPhongBanParameter, iDTinhTrangLVParameter, iDViTriParameter, maViTriParameter, iDKipParameter);
         }
     
+        public virtual int Nhanvien_update_HoTen(string maNV, string hoTen, string hoTenKhongDau)
+        {
+            var maNVParameter = maNV != null ?
+                new ObjectParameter("MaNV", maNV) :
+                new ObjectParameter("MaNV", typeof(string));
+    
+            var hoTenParameter = hoTen != null ?
+                new ObjectParameter("HoTen", hoTen) :
+                new ObjectParameter("HoTen", typeof(string));
+    
+            var hoTenKhongDauParameter = hoTenKhongDau != null ?
+                new ObjectParameter("HoTenKhongDau", hoTenKhongDau) :
+                new ObjectParameter("HoTenKhongDau", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Nhanvien_update_HoTen", maNVParameter, hoTenParameter, hoTenKhongDauParameter);
+        }
+    
         public virtual int Nhanvien_update_IDKNL(string maNV, Nullable<int> iDVTKNL)
         {
             var maNVParameter = maNV != null ?
@@ -2266,213 +2519,6 @@ namespace E_Learning.Models
                 new ObjectParameter("IDQuyenKNL", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Nhanvien_update_QuyenKNL", maNVParameter, iDQuyenKNLParameter);
-        }
-    
-        public virtual int NhuCauDT_delete(Nullable<int> iD)
-        {
-            var iDParameter = iD.HasValue ?
-                new ObjectParameter("ID", iD) :
-                new ObjectParameter("ID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NhuCauDT_delete", iDParameter);
-        }
-    
-        public virtual int NhuCauDT_insert(Nullable<int> nam, Nullable<int> quy, string nguoiNhan, Nullable<int> boPhanLNC_ID, Nullable<int> noiDung_ID, string doiTuongDT, Nullable<int> soLuongNguoi, Nullable<int> giangVien_ID, string viTri, Nullable<int> boPhan_ID, string donViDT, Nullable<int> thangDT, Nullable<int> thoiLuong, string diaDiemDT, string ghiChu, Nullable<int> loaiNCDT_ID, Nullable<System.DateTime> ngayTao, Nullable<int> tinhTrang, string fileDinhKem, Nullable<int> dinhKy_ID, string lyDo_NhacLai, Nullable<int> loaiNhacLai_ID, Nullable<int> phuongPhapDT_ID, ObjectParameter iDNhuCau)
-        {
-            var namParameter = nam.HasValue ?
-                new ObjectParameter("Nam", nam) :
-                new ObjectParameter("Nam", typeof(int));
-    
-            var quyParameter = quy.HasValue ?
-                new ObjectParameter("Quy", quy) :
-                new ObjectParameter("Quy", typeof(int));
-    
-            var nguoiNhanParameter = nguoiNhan != null ?
-                new ObjectParameter("NguoiNhan", nguoiNhan) :
-                new ObjectParameter("NguoiNhan", typeof(string));
-    
-            var boPhanLNC_IDParameter = boPhanLNC_ID.HasValue ?
-                new ObjectParameter("BoPhanLNC_ID", boPhanLNC_ID) :
-                new ObjectParameter("BoPhanLNC_ID", typeof(int));
-    
-            var noiDung_IDParameter = noiDung_ID.HasValue ?
-                new ObjectParameter("NoiDung_ID", noiDung_ID) :
-                new ObjectParameter("NoiDung_ID", typeof(int));
-    
-            var doiTuongDTParameter = doiTuongDT != null ?
-                new ObjectParameter("DoiTuongDT", doiTuongDT) :
-                new ObjectParameter("DoiTuongDT", typeof(string));
-    
-            var soLuongNguoiParameter = soLuongNguoi.HasValue ?
-                new ObjectParameter("SoLuongNguoi", soLuongNguoi) :
-                new ObjectParameter("SoLuongNguoi", typeof(int));
-    
-            var giangVien_IDParameter = giangVien_ID.HasValue ?
-                new ObjectParameter("GiangVien_ID", giangVien_ID) :
-                new ObjectParameter("GiangVien_ID", typeof(int));
-    
-            var viTriParameter = viTri != null ?
-                new ObjectParameter("ViTri", viTri) :
-                new ObjectParameter("ViTri", typeof(string));
-    
-            var boPhan_IDParameter = boPhan_ID.HasValue ?
-                new ObjectParameter("BoPhan_ID", boPhan_ID) :
-                new ObjectParameter("BoPhan_ID", typeof(int));
-    
-            var donViDTParameter = donViDT != null ?
-                new ObjectParameter("DonViDT", donViDT) :
-                new ObjectParameter("DonViDT", typeof(string));
-    
-            var thangDTParameter = thangDT.HasValue ?
-                new ObjectParameter("ThangDT", thangDT) :
-                new ObjectParameter("ThangDT", typeof(int));
-    
-            var thoiLuongParameter = thoiLuong.HasValue ?
-                new ObjectParameter("ThoiLuong", thoiLuong) :
-                new ObjectParameter("ThoiLuong", typeof(int));
-    
-            var diaDiemDTParameter = diaDiemDT != null ?
-                new ObjectParameter("DiaDiemDT", diaDiemDT) :
-                new ObjectParameter("DiaDiemDT", typeof(string));
-    
-            var ghiChuParameter = ghiChu != null ?
-                new ObjectParameter("GhiChu", ghiChu) :
-                new ObjectParameter("GhiChu", typeof(string));
-    
-            var loaiNCDT_IDParameter = loaiNCDT_ID.HasValue ?
-                new ObjectParameter("LoaiNCDT_ID", loaiNCDT_ID) :
-                new ObjectParameter("LoaiNCDT_ID", typeof(int));
-    
-            var ngayTaoParameter = ngayTao.HasValue ?
-                new ObjectParameter("NgayTao", ngayTao) :
-                new ObjectParameter("NgayTao", typeof(System.DateTime));
-    
-            var tinhTrangParameter = tinhTrang.HasValue ?
-                new ObjectParameter("TinhTrang", tinhTrang) :
-                new ObjectParameter("TinhTrang", typeof(int));
-    
-            var fileDinhKemParameter = fileDinhKem != null ?
-                new ObjectParameter("FileDinhKem", fileDinhKem) :
-                new ObjectParameter("FileDinhKem", typeof(string));
-    
-            var dinhKy_IDParameter = dinhKy_ID.HasValue ?
-                new ObjectParameter("DinhKy_ID", dinhKy_ID) :
-                new ObjectParameter("DinhKy_ID", typeof(int));
-    
-            var lyDo_NhacLaiParameter = lyDo_NhacLai != null ?
-                new ObjectParameter("LyDo_NhacLai", lyDo_NhacLai) :
-                new ObjectParameter("LyDo_NhacLai", typeof(string));
-    
-            var loaiNhacLai_IDParameter = loaiNhacLai_ID.HasValue ?
-                new ObjectParameter("LoaiNhacLai_ID", loaiNhacLai_ID) :
-                new ObjectParameter("LoaiNhacLai_ID", typeof(int));
-    
-            var phuongPhapDT_IDParameter = phuongPhapDT_ID.HasValue ?
-                new ObjectParameter("PhuongPhapDT_ID", phuongPhapDT_ID) :
-                new ObjectParameter("PhuongPhapDT_ID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NhuCauDT_insert", namParameter, quyParameter, nguoiNhanParameter, boPhanLNC_IDParameter, noiDung_IDParameter, doiTuongDTParameter, soLuongNguoiParameter, giangVien_IDParameter, viTriParameter, boPhan_IDParameter, donViDTParameter, thangDTParameter, thoiLuongParameter, diaDiemDTParameter, ghiChuParameter, loaiNCDT_IDParameter, ngayTaoParameter, tinhTrangParameter, fileDinhKemParameter, dinhKy_IDParameter, lyDo_NhacLaiParameter, loaiNhacLai_IDParameter, phuongPhapDT_IDParameter, iDNhuCau);
-        }
-    
-        public virtual int NhuCauDT_Update(Nullable<int> iD, Nullable<int> nam, Nullable<int> quy, string nguoiNhan, Nullable<int> boPhanLNC_ID, Nullable<int> noiDung_ID, string doiTuongDT, Nullable<int> soLuongNguoi, Nullable<int> giangVien_ID, string viTri, Nullable<int> boPhan_ID, string donViDT, Nullable<int> thangDT, Nullable<int> thoiLuong, string diaDiemDT, string ghiChu, Nullable<int> loaiNCDT_ID, Nullable<System.DateTime> ngayTao, Nullable<int> tinhTrang, string fileDinhKem, Nullable<int> dinhKy_ID, string lyDo_NhacLai, Nullable<int> loaiNhacLai_ID, Nullable<int> phuongPhapDT_ID)
-        {
-            var iDParameter = iD.HasValue ?
-                new ObjectParameter("ID", iD) :
-                new ObjectParameter("ID", typeof(int));
-    
-            var namParameter = nam.HasValue ?
-                new ObjectParameter("Nam", nam) :
-                new ObjectParameter("Nam", typeof(int));
-    
-            var quyParameter = quy.HasValue ?
-                new ObjectParameter("Quy", quy) :
-                new ObjectParameter("Quy", typeof(int));
-    
-            var nguoiNhanParameter = nguoiNhan != null ?
-                new ObjectParameter("NguoiNhan", nguoiNhan) :
-                new ObjectParameter("NguoiNhan", typeof(string));
-    
-            var boPhanLNC_IDParameter = boPhanLNC_ID.HasValue ?
-                new ObjectParameter("BoPhanLNC_ID", boPhanLNC_ID) :
-                new ObjectParameter("BoPhanLNC_ID", typeof(int));
-    
-            var noiDung_IDParameter = noiDung_ID.HasValue ?
-                new ObjectParameter("NoiDung_ID", noiDung_ID) :
-                new ObjectParameter("NoiDung_ID", typeof(int));
-    
-            var doiTuongDTParameter = doiTuongDT != null ?
-                new ObjectParameter("DoiTuongDT", doiTuongDT) :
-                new ObjectParameter("DoiTuongDT", typeof(string));
-    
-            var soLuongNguoiParameter = soLuongNguoi.HasValue ?
-                new ObjectParameter("SoLuongNguoi", soLuongNguoi) :
-                new ObjectParameter("SoLuongNguoi", typeof(int));
-    
-            var giangVien_IDParameter = giangVien_ID.HasValue ?
-                new ObjectParameter("GiangVien_ID", giangVien_ID) :
-                new ObjectParameter("GiangVien_ID", typeof(int));
-    
-            var viTriParameter = viTri != null ?
-                new ObjectParameter("ViTri", viTri) :
-                new ObjectParameter("ViTri", typeof(string));
-    
-            var boPhan_IDParameter = boPhan_ID.HasValue ?
-                new ObjectParameter("BoPhan_ID", boPhan_ID) :
-                new ObjectParameter("BoPhan_ID", typeof(int));
-    
-            var donViDTParameter = donViDT != null ?
-                new ObjectParameter("DonViDT", donViDT) :
-                new ObjectParameter("DonViDT", typeof(string));
-    
-            var thangDTParameter = thangDT.HasValue ?
-                new ObjectParameter("ThangDT", thangDT) :
-                new ObjectParameter("ThangDT", typeof(int));
-    
-            var thoiLuongParameter = thoiLuong.HasValue ?
-                new ObjectParameter("ThoiLuong", thoiLuong) :
-                new ObjectParameter("ThoiLuong", typeof(int));
-    
-            var diaDiemDTParameter = diaDiemDT != null ?
-                new ObjectParameter("DiaDiemDT", diaDiemDT) :
-                new ObjectParameter("DiaDiemDT", typeof(string));
-    
-            var ghiChuParameter = ghiChu != null ?
-                new ObjectParameter("GhiChu", ghiChu) :
-                new ObjectParameter("GhiChu", typeof(string));
-    
-            var loaiNCDT_IDParameter = loaiNCDT_ID.HasValue ?
-                new ObjectParameter("LoaiNCDT_ID", loaiNCDT_ID) :
-                new ObjectParameter("LoaiNCDT_ID", typeof(int));
-    
-            var ngayTaoParameter = ngayTao.HasValue ?
-                new ObjectParameter("NgayTao", ngayTao) :
-                new ObjectParameter("NgayTao", typeof(System.DateTime));
-    
-            var tinhTrangParameter = tinhTrang.HasValue ?
-                new ObjectParameter("TinhTrang", tinhTrang) :
-                new ObjectParameter("TinhTrang", typeof(int));
-    
-            var fileDinhKemParameter = fileDinhKem != null ?
-                new ObjectParameter("FileDinhKem", fileDinhKem) :
-                new ObjectParameter("FileDinhKem", typeof(string));
-    
-            var dinhKy_IDParameter = dinhKy_ID.HasValue ?
-                new ObjectParameter("DinhKy_ID", dinhKy_ID) :
-                new ObjectParameter("DinhKy_ID", typeof(int));
-    
-            var lyDo_NhacLaiParameter = lyDo_NhacLai != null ?
-                new ObjectParameter("LyDo_NhacLai", lyDo_NhacLai) :
-                new ObjectParameter("LyDo_NhacLai", typeof(string));
-    
-            var loaiNhacLai_IDParameter = loaiNhacLai_ID.HasValue ?
-                new ObjectParameter("LoaiNhacLai_ID", loaiNhacLai_ID) :
-                new ObjectParameter("LoaiNhacLai_ID", typeof(int));
-    
-            var phuongPhapDT_IDParameter = phuongPhapDT_ID.HasValue ?
-                new ObjectParameter("PhuongPhapDT_ID", phuongPhapDT_ID) :
-                new ObjectParameter("PhuongPhapDT_ID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NhuCauDT_Update", iDParameter, namParameter, quyParameter, nguoiNhanParameter, boPhanLNC_IDParameter, noiDung_IDParameter, doiTuongDTParameter, soLuongNguoiParameter, giangVien_IDParameter, viTriParameter, boPhan_IDParameter, donViDTParameter, thangDTParameter, thoiLuongParameter, diaDiemDTParameter, ghiChuParameter, loaiNCDT_IDParameter, ngayTaoParameter, tinhTrangParameter, fileDinhKemParameter, dinhKy_IDParameter, lyDo_NhacLaiParameter, loaiNhacLai_IDParameter, phuongPhapDT_IDParameter);
         }
     
         public virtual int NoiDungDT_delete(Nullable<int> iDND)
@@ -2764,85 +2810,6 @@ namespace E_Learning.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NoiDungDTKCCD_update", iDParameter, tenNDParameter, nhomNLIDParameter, lVDTIDParameter, phongBanIDParameter, ngayTaoParameter);
         }
     
-        public virtual int NoiDungDTTH_delete(Nullable<int> iD)
-        {
-            var iDParameter = iD.HasValue ?
-                new ObjectParameter("ID", iD) :
-                new ObjectParameter("ID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NoiDungDTTH_delete", iDParameter);
-        }
-    
-        public virtual int NoiDungDTTH_insert(string noiDung, Nullable<int> iDNguonGV, Nullable<int> iDHoatDongDT, Nullable<int> iDLVDT, Nullable<int> iDPPDT, Nullable<int> iDNhomNL, Nullable<int> tacGia, Nullable<int> iDPhanLoaiDT)
-        {
-            var noiDungParameter = noiDung != null ?
-                new ObjectParameter("NoiDung", noiDung) :
-                new ObjectParameter("NoiDung", typeof(string));
-    
-            var iDNguonGVParameter = iDNguonGV.HasValue ?
-                new ObjectParameter("IDNguonGV", iDNguonGV) :
-                new ObjectParameter("IDNguonGV", typeof(int));
-    
-            var iDHoatDongDTParameter = iDHoatDongDT.HasValue ?
-                new ObjectParameter("IDHoatDongDT", iDHoatDongDT) :
-                new ObjectParameter("IDHoatDongDT", typeof(int));
-    
-            var iDLVDTParameter = iDLVDT.HasValue ?
-                new ObjectParameter("IDLVDT", iDLVDT) :
-                new ObjectParameter("IDLVDT", typeof(int));
-    
-            var iDPPDTParameter = iDPPDT.HasValue ?
-                new ObjectParameter("IDPPDT", iDPPDT) :
-                new ObjectParameter("IDPPDT", typeof(int));
-    
-            var iDNhomNLParameter = iDNhomNL.HasValue ?
-                new ObjectParameter("IDNhomNL", iDNhomNL) :
-                new ObjectParameter("IDNhomNL", typeof(int));
-    
-            var tacGiaParameter = tacGia.HasValue ?
-                new ObjectParameter("TacGia", tacGia) :
-                new ObjectParameter("TacGia", typeof(int));
-    
-            var iDPhanLoaiDTParameter = iDPhanLoaiDT.HasValue ?
-                new ObjectParameter("IDPhanLoaiDT", iDPhanLoaiDT) :
-                new ObjectParameter("IDPhanLoaiDT", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NoiDungDTTH_insert", noiDungParameter, iDNguonGVParameter, iDHoatDongDTParameter, iDLVDTParameter, iDPPDTParameter, iDNhomNLParameter, tacGiaParameter, iDPhanLoaiDTParameter);
-        }
-    
-        public virtual int NoiDungDTTH_Update(Nullable<int> iD, string tenNDDT, Nullable<int> iDNguonGV, Nullable<int> iDPhanLoaiDT, Nullable<int> iDLVDT, Nullable<int> iDPPDT, Nullable<int> iDNhomNL)
-        {
-            var iDParameter = iD.HasValue ?
-                new ObjectParameter("ID", iD) :
-                new ObjectParameter("ID", typeof(int));
-    
-            var tenNDDTParameter = tenNDDT != null ?
-                new ObjectParameter("TenNDDT", tenNDDT) :
-                new ObjectParameter("TenNDDT", typeof(string));
-    
-            var iDNguonGVParameter = iDNguonGV.HasValue ?
-                new ObjectParameter("IDNguonGV", iDNguonGV) :
-                new ObjectParameter("IDNguonGV", typeof(int));
-    
-            var iDPhanLoaiDTParameter = iDPhanLoaiDT.HasValue ?
-                new ObjectParameter("IDPhanLoaiDT", iDPhanLoaiDT) :
-                new ObjectParameter("IDPhanLoaiDT", typeof(int));
-    
-            var iDLVDTParameter = iDLVDT.HasValue ?
-                new ObjectParameter("IDLVDT", iDLVDT) :
-                new ObjectParameter("IDLVDT", typeof(int));
-    
-            var iDPPDTParameter = iDPPDT.HasValue ?
-                new ObjectParameter("IDPPDT", iDPPDT) :
-                new ObjectParameter("IDPPDT", typeof(int));
-    
-            var iDNhomNLParameter = iDNhomNL.HasValue ?
-                new ObjectParameter("IDNhomNL", iDNhomNL) :
-                new ObjectParameter("IDNhomNL", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NoiDungDTTH_Update", iDParameter, tenNDDTParameter, iDNguonGVParameter, iDPhanLoaiDTParameter, iDLVDTParameter, iDPPDTParameter, iDNhomNLParameter);
-        }
-    
         public virtual int NQ_KetQua__insert(Nullable<int> nDDTID, Nullable<int> xNTG, Nullable<int> xNHT, Nullable<int> xNHTFile, Nullable<int> iDNV, Nullable<System.DateTime> ngayTG, Nullable<System.DateTime> ngayHT, Nullable<int> tinhTrang)
         {
             var nDDTIDParameter = nDDTID.HasValue ?
@@ -2921,19 +2888,6 @@ namespace E_Learning.Models
                 new ObjectParameter("XNHTFile", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NQ_KetQua_UpdateXNFile", iDParameter, xNHTFileParameter);
-        }
-    
-        public virtual int PhanQuyen_ViTri_NCDT_insert(Nullable<int> nhuCauDT_ID, Nullable<int> viTriKNL_ID)
-        {
-            var nhuCauDT_IDParameter = nhuCauDT_ID.HasValue ?
-                new ObjectParameter("NhuCauDT_ID", nhuCauDT_ID) :
-                new ObjectParameter("NhuCauDT_ID", typeof(int));
-    
-            var viTriKNL_IDParameter = viTriKNL_ID.HasValue ?
-                new ObjectParameter("ViTriKNL_ID", viTriKNL_ID) :
-                new ObjectParameter("ViTriKNL_ID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PhanQuyen_ViTri_NCDT_insert", nhuCauDT_IDParameter, viTriKNL_IDParameter);
         }
     
         public virtual int PhieuXacNhanKCCD_delete(Nullable<int> iD)
@@ -4489,23 +4443,6 @@ namespace E_Learning.Models
                 new ObjectParameter("VTID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("XNHocTap_update", iDHTParameter, nVIDParameter, lHIDParameter, ngayTGParameter, ngayHTParameter, xNTGParameter, xNHTParameter, pBIDParameter, vTIDParameter);
-        }
-    
-        public virtual int KNL_KQ_update_TuDG(Nullable<int> iDKQ, Nullable<int> diemTuDG, Nullable<System.DateTime> ngayTuDG)
-        {
-            var iDKQParameter = iDKQ.HasValue ?
-                new ObjectParameter("IDKQ", iDKQ) :
-                new ObjectParameter("IDKQ", typeof(int));
-    
-            var diemTuDGParameter = diemTuDG.HasValue ?
-                new ObjectParameter("DiemTuDG", diemTuDG) :
-                new ObjectParameter("DiemTuDG", typeof(int));
-    
-            var ngayTuDGParameter = ngayTuDG.HasValue ?
-                new ObjectParameter("NgayTuDG", ngayTuDG) :
-                new ObjectParameter("NgayTuDG", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_KQ_update_TuDG", iDKQParameter, diemTuDGParameter, ngayTuDGParameter);
         }
     }
 }

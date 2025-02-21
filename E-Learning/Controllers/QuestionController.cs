@@ -344,6 +344,13 @@ namespace E_Learning.Controllers
 
             return RedirectToAction("Index", "Question");
         }
-
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db_context.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

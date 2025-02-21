@@ -21,5 +21,6 @@ namespace E_Learning.Models
         public Nullable<int> IDND { get; set; }
         public Nullable<int> GVID { get; set; }
         public Nullable<int> TongSoCau { get; set; }
+        public Nullable<int> CTDT_ID { get; set; }
     }
 }

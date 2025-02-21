@@ -24,7 +24,7 @@ namespace E_Learning.Models
         public Nullable<int> PBID { get; set; }
         public Nullable<int> VTID { get; set; }
     
-        public virtual LopHoc LopHoc { get; set; }
         public virtual NhanVien NhanVien { get; set; }
+        public virtual LopHoc LopHoc { get; set; }
     }
 }

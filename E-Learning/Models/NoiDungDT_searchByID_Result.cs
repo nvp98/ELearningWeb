@@ -32,5 +32,6 @@ namespace E_Learning.Models
         public Nullable<int> IDNhomNL { get; set; }
         public Nullable<int> IDPhanLoaiDT { get; set; }
         public Nullable<int> LoaiNCDT_ID { get; set; }
+        public Nullable<bool> IsDelete { get; set; }
     }
 }

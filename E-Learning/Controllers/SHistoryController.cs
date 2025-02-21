@@ -136,5 +136,14 @@ namespace E_Learning.Controllers
                 return RedirectToAction("", "Login");
             }
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db_context.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

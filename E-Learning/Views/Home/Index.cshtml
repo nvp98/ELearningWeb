@@ -143,7 +143,7 @@
         Response.Redirect("~/Login");
     }
     ELEARNINGEntities db = new ELEARNINGEntities();
-    var nhanvien = db.NhanViens.Where(x => x.ID == MyAuthentication.ID).FirstOrDefault();
+    var nhanvien = db.NhanViens.AsNoTracking().Where(x => x.ID == MyAuthentication.ID).FirstOrDefault();
     if (nhanvien == null) { Response.Redirect("~/Login"); }
     var lophocGV = db.LopHocs.Where(x => x.GVID == nhanvien.ID).ToList();
     var nddt = db.NoiDungDTs.ToList();
@@ -156,18 +156,18 @@
                   }).ToList();
     float? sogioDTGV = nddtGV?.Sum(x => x.ThoiLuongDT.GetValueOrDefault())/60 ?? 0;
 
-    var tongsoLH = db.XNHocTaps.Where(x => x.NVID == nhanvien.ID).ToList();
+    var tongsoLH = db.XNHocTaps.AsNoTracking().Where(x => x.NVID == nhanvien.ID).ToList();
     int LHTG = tongsoLH.Where(x => x.XNTG == true).Count();
     int LHHT = tongsoLH.Where(x => x.XNHT == true).Count();
     int LHChuaHT = tongsoLH.Where(x => x.XNTG == false).Count();
-    var baithi = db.BaiThis.Where(x => x.IDNV == nhanvien.ID).ToList();
+    var baithi = db.BaiThis.AsNoTracking().Where(x => x.IDNV == nhanvien.ID).ToList();
     int baithiHT = baithi.Where(x => x.TinhTrang == true).Count();
     //List<BaiThi> baithiLoc = baithi.GroupBy(p => p.IDND).ToList();
 
-    var qthd = db.QT_BaiKiemTra.Where(x => x.IDNV == nhanvien.ID).ToList();
+    var qthd = db.QT_BaiKiemTra.AsNoTracking().Where(x => x.IDNV == nhanvien.ID).ToList();
     int SL_QTHDHT = qthd.Where(x => x.TinhTrang == 1).Count();
     // Nội quy lao động
-    var nqld = db.NQ_KetQua.Where(x => x.IDNV == nhanvien.ID).ToList();
+    var nqld = db.NQ_KetQua.AsNoTracking().Where(x => x.IDNV == nhanvien.ID).ToList();
     int nqld_ht = nqld.Where(x => x.TinhTrang == 1).Count();
 
     var Listsogio = (from a in nddt

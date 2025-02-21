@@ -81,7 +81,14 @@ namespace E_Learning.Controllers
 
             return RedirectToAction("Index", "EClassroom");
         }
-
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db_context.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
     }
 }

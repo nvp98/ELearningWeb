@@ -174,5 +174,14 @@ namespace E_Learning.Controllers.KNL
                 yield return day;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
     }
 }

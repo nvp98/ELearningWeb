@@ -27,5 +27,14 @@ namespace E_Learning.Controllers
 
             return View(res);
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db_context.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

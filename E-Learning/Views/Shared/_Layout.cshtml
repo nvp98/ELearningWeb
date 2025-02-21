@@ -31,7 +31,7 @@
         int Idquyen = E_Learning.Models.MyAuthentication.IDQuyen;
         var ListControll = new E_Learning.Controllers.HomeController().GetPermisionControll(Idquyen);
         var ListQFPosition = new E_Learning.Controllers.HomeController().GetPermisionCN(Idquyen, "FPosition");
-        var checkDGNV = new E_Learning.Controllers.KNL.FCheckController().CheckDGiaNV();
+        //var checkDGNV = new E_Learning.Controllers.KNL.FCheckController().CheckDGiaNV();
         var checkAppro = new E_Learning.Controllers.KCCD.SuggestKCCDController().CheckApprove();
         var dsloaiNCDT = new E_Learning.Controllers.DaoTaoTH.NhuCauDTTHController().GetDSLoaiNCDT();
         var showQuanTriKNL = 0;

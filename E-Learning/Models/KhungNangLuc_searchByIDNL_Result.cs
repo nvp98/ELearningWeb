@@ -21,5 +21,6 @@ namespace E_Learning.Models
         public Nullable<int> DinhMuc { get; set; }
         public Nullable<int> IsDanhGia { get; set; }
         public Nullable<int> OrderBy { get; set; }
+        public Nullable<int> IsDuyet { get; set; }
     }
 }

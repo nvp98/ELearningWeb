@@ -849,7 +849,14 @@ namespace E_Learning.Controllers
             return Json(DeThiList, JsonRequestBehavior.AllowGet);
         }
 
-
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db_context.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
 
     }

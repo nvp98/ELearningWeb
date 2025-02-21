@@ -128,7 +128,7 @@
                                             </a>
                                         }
                                     </td>
-                                    @if (checkduyet == null && item.TotalDat >= item.Total)
+                                    @if (checkduyet == null && item.TotalDat >= item.Total && item.Total != 0)
                                     {
                                         <td class="text-center p-0">
                                             <a class="fa fa-check-square-o fa-2x" title="Đánh giá" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"

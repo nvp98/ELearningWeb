@@ -5632,6 +5632,15 @@ namespace E_Learning.Controllers
             // Trả về đường dẫn tương đối hoặc URL để lưu vào database
             return $"/FileKNL/{fileName}"; // Nếu wwwroot/pdfs là thư mục lưu trữ công khai
         }
-       
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
     }
 }

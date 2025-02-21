@@ -75,5 +75,14 @@ namespace E_Learning.Controllers.KNL
             int pageNumber = (page ?? 1);
             return View(res.ToList().ToPagedList(pageNumber, pageSize));
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

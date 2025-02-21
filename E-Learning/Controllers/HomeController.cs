@@ -82,5 +82,14 @@ namespace E_Learning.Controllers
         {
             return new JsonResult { Data = "Success" };
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

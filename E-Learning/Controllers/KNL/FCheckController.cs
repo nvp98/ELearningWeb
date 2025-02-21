@@ -42,7 +42,7 @@ namespace E_Learning.Controllers.KNL
                 {
                     foreach (var item in aa)
                     {
-                        var vt1 = db.ViTriKNLs.Where(x => x.IDVT == item.IDVTKN).FirstOrDefault();
+                        var vt1 = db.ViTriKNLs.FirstOrDefault(x => x.IDVT == item.IDVTKN);
                         if (vt1 != null)
                         {
                             var res1 = getListUser(vt1, vt1.IDPB, nv);
@@ -66,7 +66,7 @@ namespace E_Learning.Controllers.KNL
                 {
                     foreach (var item in aa)
                     {
-                        var vt1 = db.ViTriKNLs.Where(x => x.IDVT == item.IDVTKN).FirstOrDefault();
+                        var vt1 = db.ViTriKNLs.FirstOrDefault(x => x.IDVT == item.IDVTKN);
                         if (vt1 != null)
                         {
                             var res1 = getListUser(vt1, vt1.IDPB, nv);
@@ -95,8 +95,8 @@ namespace E_Learning.Controllers.KNL
                              //MaViTri = a.MaViTri,
                              fileBMTCV = a.FilePath,
                              NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
-                             TotalDat =  db.KNL_DocBangKNL.Where(x=>x.IDNV == a.ID && x.ID_ViTriKNL == a.IDVT).Count(),
-                             Total = db.KhungNangLucs.Where(x=>x.IDVT == a.IDVT && x.IsDanhGia ==1 && x.IsDuyet == 1).Count(),
+                             TotalDat =  db.KNL_DocBangKNL.Count(x => x.IDNV == a.ID && x.ID_ViTriKNL == a.IDVT),
+                             Total = db.KhungNangLucs.Count(x => x.IDVT == a.IDVT && x.IsDanhGia == 1 && x.IsDuyet == 1),
                              NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
                          }).ToList();
             }
@@ -104,7 +104,6 @@ namespace E_Learning.Controllers.KNL
             ViewBag.ListUserView = resView;
             //Bổ sung Đánh giá cá nhân
             ViewBag.ListUserNV = resNV;
-
 
             //Session["ListUser"] = res;
             if (page == null) page = 1;
@@ -158,36 +157,6 @@ namespace E_Learning.Controllers.KNL
             var vt3 = checkMVT3(vt.MaViTri);
             var res = new List<FCheckValidation>();
             if(idpb ==null) idpb = 0;
-            //var res1 = (from a in db.NhanViens.Where(x => x.IDPhongBan == idpb)
-            //            join b in db.ViTriKNLs on a.IDVTKNL equals b.IDVT
-            //            join d in db.PhongBans
-            //            on b.IDPB equals d.IDPhongBan
-            //            join e in db.KNL_PhanXuong
-            //             on b.IDPX equals e.ID into ul
-            //            from e in ul.DefaultIfEmpty()
-            //            join f in db.KNL_Nhom
-            //            on b.IDNhom equals f.IDNhom into uls
-            //            from f in uls.DefaultIfEmpty()
-            //            join g in db.KNL_To
-            //            on b.IDTo equals g.IDTo into ulk
-            //            from g in ulk.DefaultIfEmpty()
-            //            join h in db.Kips
-            //            on a.IDKip equals h.IDKip into ulkh
-            //            from h in ulkh.DefaultIfEmpty()
-            //            select new FCheckValidation
-            //            {
-            //                MaNV = a.MaNV,
-            //                IDNV = a.ID,
-            //                IDVT = b.IDVT,
-            //                TenVT = b.TenViTri + "-" + f.TenNhom + "-" + g.TenTo + "-" + e.TenPX + "-" + d.MaPB,
-            //                TenNV = a.HoTen,
-            //                IDNhom = b.IDNhom,
-            //                IDPX = b.IDPX,
-            //                IDKip =a.IDKip,
-            //                TenKip = h.TenKip,
-            //                MaViTri =b.MaViTri,
-            //                fileBMTCV =b.FilePath
-            //            }).ToList();
             var res1 = (from a in db.NhanVien_SelectKQKNL(idpb)
                         select new FCheckValidation
                         {
@@ -203,13 +172,9 @@ namespace E_Learning.Controllers.KNL
                             //MaViTri = a.MaViTri,
                             fileBMTCV = a.FilePath,
                             NgayDG =a?.NgayDG != null? String.Format("{0:dd/MM/yyyy}", a?.NgayDG):"",
-                            Total = db.KhungNangLucs.Where(x=>x.IsDuyet == 1 && x.IDVT == a.IDVT).FirstOrDefault() != null?1:0
+                            Total = db.KhungNangLuc_SearchByIDVT(a.IDVT).FirstOrDefault(x => x.IsDuyet == 1) != null?1:0
                         }).ToList();
-            //foreach (var item in res1)
-            //{
-            //    var ngay = db.KNL_KQ.Where(x=>x.IDNV ==item.IDNV).OrderByDescending(i => i.NgayDG).FirstOrDefault();
-            //    item.NgayDG = ngay?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", ngay?.NgayDG) : "";
-            //}
+
             if (vt.IDNhom != null && vt2 == "PT")
             {
                 //res = res1.Where(x => x.IDNhom == vt.IDNhom && x.IDVT != vt.IDVT).ToList();
@@ -224,27 +189,7 @@ namespace E_Learning.Controllers.KNL
                        join b in db.ViTriKNLs.Where(x =>  x.IDTo == vt.IDTo) on a.IDVT equals b.IDVT
                        select a).ToList();
             }
-            //List<KNLDGiaTCValidation> lsVTTT = (from a in db.KNL_DGiaTC.Where(x => x.IDVT == vt.IDVT && x.IDVTDGTT != null)
-            //                                    join b in db.ViTriKNLs on a.IDVTDGTT equals b.IDVT
-            //                                    join e in db.KNL_PhanXuong
-            //                                    on b.IDPX equals e.ID into ul
-            //                                    from e in ul.DefaultIfEmpty()
-            //                                    join f in db.KNL_Nhom
-            //                                    on b.IDNhom equals f.IDNhom into uls
-            //                                    from f in uls.DefaultIfEmpty()
-            //                                    join g in db.KNL_To
-            //                                    on b.IDTo equals g.IDTo into ulk
-            //                                    from g in ulk.DefaultIfEmpty()
-            //                                    select new KNLDGiaTCValidation
-            //                                    {
-            //                                        ID = a.ID,
-            //                                        IDVT = (int)a.IDVT,
-            //                                        TenViTri = b.TenViTri + "-" + f.TenNhom + "-" + g.TenTo + "-" + e.TenPX,
-            //                                        MaViTri = b.MaViTri,
-            //                                        IDPB = b.IDPB,
-            //                                        IDVTDGTC = a.IDVTDGTC,
-            //                                        IDVTDGTT = a.IDVTDGTT
-            //                                    }).ToList();
+
             List<KNLDGiaTCValidation> lsVTTT = (from a in db.KNLDGiaTC_select(vt.IDVT).Where(x=> x.IDVTDGTT != null)
                                                 select new KNLDGiaTCValidation
                                                 {
@@ -277,36 +222,6 @@ namespace E_Learning.Controllers.KNL
             var vt3 = checkMVT3(vt.MaViTri);
             var res = new List<FCheckValidation>();
             if (idpb == null) idpb = 0;
-            //var res1 = (from a in db.NhanViens.Where(x => x.IDPhongBan == idpb)
-            //            join b in db.ViTriKNLs on a.IDVTKNL equals b.IDVT
-            //            join d in db.PhongBans
-            //            on b.IDPB equals d.IDPhongBan
-            //            join e in db.KNL_PhanXuong
-            //             on b.IDPX equals e.ID into ul
-            //            from e in ul.DefaultIfEmpty()
-            //            join f in db.KNL_Nhom
-            //            on b.IDNhom equals f.IDNhom into uls
-            //            from f in uls.DefaultIfEmpty()
-            //            join g in db.KNL_To
-            //            on b.IDTo equals g.IDTo into ulk
-            //            from g in ulk.DefaultIfEmpty()
-            //            join h in db.Kips
-            //            on a.IDKip equals h.IDKip into ulkh
-            //            from h in ulkh.DefaultIfEmpty()
-            //            select new FCheckValidation
-            //            {
-            //                MaNV = a.MaNV,
-            //                IDNV = a.ID,
-            //                IDVT = b.IDVT,
-            //                TenVT = b.TenViTri  + "-" + f.TenNhom + "-" + g.TenTo + "-" + e.TenPX + "-" + d.MaPB,
-            //                TenNV = a.HoTen,
-            //                IDNhom = b.IDNhom,
-            //                IDPX = b.IDPX,
-            //                IDKip = a.IDKip,
-            //                TenKip = h.TenKip,
-            //                MaViTri = b.MaViTri,
-            //                fileBMTCV = b.FilePath
-            //            }).ToList();
 
             var res1 = (from a in db.NhanVien_SelectKQKNL(idpb)
                         select new FCheckValidation
@@ -323,36 +238,9 @@ namespace E_Learning.Controllers.KNL
                             //MaViTri = a.MaViTri,
                             fileBMTCV = a.FilePath,
                             NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
-                            Total = db.KhungNangLucs.Where(x => x.IsDuyet == 1 && x.IDVT == a.IDVT).FirstOrDefault() != null ? 1 : 0
+                            Total = db.KhungNangLuc_SearchByIDVT(a.IDVT).FirstOrDefault(x=>x.IsDuyet == 1) != null ? 1 : 0
                         }).ToList();
-
-            //foreach (var item in res1)
-            //{
-            //    var ngay = db.KNL_KQ.Where(x => x.IDNV == item.IDNV).OrderByDescending(i => i.NgayDG).FirstOrDefault();
-            //    item.NgayDG = ngay?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", ngay?.NgayDG) : "";
-            //}
-
-            //List<KNLDGiaTCValidation> lsVTTC = (from a in db.KNL_DGiaTC.Where(x => x.IDVT == vt.IDVT && x.IDVTDGTC != null)
-            //                                    join b in db.ViTriKNLs on a.IDVTDGTC equals b.IDVT
-            //                                    join e in db.KNL_PhanXuong
-            //                                    on b.IDPX equals e.ID into ul
-            //                                    from e in ul.DefaultIfEmpty()
-            //                                    join f in db.KNL_Nhom
-            //                                    on b.IDNhom equals f.IDNhom into uls
-            //                                    from f in uls.DefaultIfEmpty()
-            //                                    join g in db.KNL_To
-            //                                    on b.IDTo equals g.IDTo into ulk
-            //                                    from g in ulk.DefaultIfEmpty()
-            //                                    select new KNLDGiaTCValidation
-            //                                    {
-            //                                        ID = a.ID,
-            //                                        IDVT = (int)a.IDVT,
-            //                                        TenViTri = b.TenViTri + "-" + f.TenNhom + "-" + g.TenTo + "-" + e.TenPX,
-            //                                        MaViTri = b.MaViTri,
-            //                                        IDPB = b.IDPB,
-            //                                        IDVTDGTC = a.IDVTDGTC,
-            //                                        IDVTDGTT = a.IDVTDGTT
-            //                                    }).ToList();
+ 
             List<KNLDGiaTCValidation> lsVTTC = (from a in db.KNLDGiaTC_select(vt.IDVT).Where(x => x.IDVTDGTC != null)
                                                 select new KNLDGiaTCValidation
                                                 {
@@ -423,11 +311,12 @@ namespace E_Learning.Controllers.KNL
                 {
                     foreach (var KQ in Fnew)
                     {
-                        var aa = kqt.Where(x => x.IDNL == KQ.IDNL).FirstOrDefault();
+                        var aa = kqt.FirstOrDefault(x => x.IDNL == KQ.IDNL);
                         if (aa != null)
                         {
                             db.KNL_KQ_insert(aa.IDNV, aa.IDNL, aa.IDNVDG, aa.DiemDG, dt, aa.NgayDG, CheckKQID(aa.DiemDG, aa.DinhMuc, aa.IsDanhGia), KQ.DinhMuc, KQ.IDVT, aa.Note, null, null);
-                            var kqua = db.KNL_KQ.Where(x => x.IDNV == aa.IDNV && x.IDNL == aa.IDNL && x.ThangDG == dt).FirstOrDefault();
+                            var knlkq = db.KNL_KQ_Select(aa.IDNV,dt).ToList();
+                            var kqua = knlkq.FirstOrDefault(x => x.IDNL == aa.IDNL);
                             kqua.DiemTuDG = aa.DiemTuDG;
                             kqua.NgayTuDG = aa.NgayTuDG;
                             kqua.IDNguoiDG_Lan1 = aa.IDNguoiDG_Lan1;
@@ -477,40 +366,6 @@ namespace E_Learning.Controllers.KNL
                           capDG = capDG
                       }).ToList().OrderBy(x => x.OrderBy);
 
-            //var res = (from a in db.KhungNangLucs.Where(x => x.IDVT == nv.IDVT && (x.IDLoaiNL == 1 || x.IDLoaiNL == 2 || (x.IDLoaiNL != 1 && x.IDLoaiNL != 2 && x.IsDanhGia == 1)))
-            //           join b in db.LoaiKNLs
-            //            on a.IDLoaiNL equals b.IDLoai
-            //           join c in db.ViTriKNLs
-            //           on a.IDVT equals c.IDVT
-            //           join d in db.PhongBans
-            //           on a.IDPB equals d.IDPhongBan
-            //           join e in db.KNL_KQ.Where(x => x.IDNV == IDNV && x.ThangDG == dt) on a.IDNL equals e.IDNL into ulk from e in ulk.DefaultIfEmpty()
-            //           join f in db.NhanViens on e.IDNVDG equals f.ID into ulks from f in ulks.DefaultIfEmpty()
-            //           select new FValueValidation
-            //           {
-            //               IDNV = (int?)nv.IDNV??null,
-            //               TenNV = nv.TenNV??"",
-            //               IDNL = a.IDNL,
-            //               TenNL = a.TenNL,
-            //               IDLoaiNL = a.IDLoaiNL,
-            //               TenLoaiNL = b.TenLoai,
-            //               IDVT = a.IDVT,
-            //               TenViTri = c.TenViTri,
-            //               IDPB = a.IDPB,
-            //               TenPhongBan = d.TenPhongBan,
-            //               DinhMuc = a.IsDanhGia != 0 ? a.DinhMuc : 0,
-            //               IsDanhGia = a.IsDanhGia,
-            //               DiemDG = e.DiemDG,
-            //               IDKQ = (int?)e.IDKQ??null,
-            //               Note = e.Note,
-            //               ThangDG = (DateTime?)dt ?? default(DateTime),
-            //               NgayDG = (DateTime?)e.NgayDG ?? default(DateTime),
-            //               OrderBy = a.OrderBy,
-            //               OrderByLoai = b.OrderBy,
-            //               ColorKQ = e.DiemDG < a.DinhMuc? "bg-danger": "bg-success",
-            //               IDNVDG = f.ID,
-            //               TenNVDG = f.HoTen
-            //           }).ToList().OrderBy(x => x.OrderBy);
             List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => x.IDVT == nv.IDVT && x.IDLoai != 1 && x.IDLoai != 2).OrderBy(x => x.OrderBy).ToList();
             ViewBag.IDLoaiNL = new SelectList(loaiNL, "IDLoai", "TenLoai");
 
@@ -563,7 +418,7 @@ namespace E_Learning.Controllers.KNL
                         }
                         else // cập nhật các giá trị về null nếu có
                         {
-                            var KNLKQ = db.KNL_KQ.Where(x => x.IDKQ == KQ.IDKQ).FirstOrDefault();
+                            var KNLKQ = db.KNL_KQ.Find(KQ.IDKQ);
                             KNLKQ.IDNVDG = null;
                             KNLKQ.DiemDG = null;
                             KNLKQ.NgayDG = null;
@@ -575,24 +430,7 @@ namespace E_Learning.Controllers.KNL
                             KNLKQ.NgayDG_Lan1 = null;
                             db.SaveChanges();
                         }
-                        //else if (diemkq != KQ.DiemDG)
-                        //{
-                        //    if (KQ.IDNV == nv.ID)
-                        //    {
-                        //        db.KNL_KQ_update_TuDG(KQ.IDKQ, null, null);
-                        //    }
-                        //    else if(KQ.capDG =="1") // đánh giá lần 1
-                        //    {
-                        //        var KNLKQ = db.KNL_KQ.Where(x => x.IDKQ == KQ.IDKQ).FirstOrDefault();
-                        //        //KNLKQ.
-                        //    }    
-                        //    else
-                        //    {
-                        //        db.KNL_KQ_update(KQ.IDKQ, KQ.IDNV, KQ.IDNL, null, null, KQ.ThangDG, null, CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia), KQ.DinhMuc, KQ.IDVT, null);
-                        //    }
-
-                        //}
-
+                       
                     }
                     else // các NL được đánh giá
                     {
@@ -652,7 +490,7 @@ namespace E_Learning.Controllers.KNL
                                 }
                                 else if (KQ.capDG == "1") // đánh giá lần 1
                                 {
-                                    var danhgia = db.KNL_KQ.Where(x=>x.IDKQ == KQ.IDKQ).FirstOrDefault();
+                                    var danhgia = db.KNL_KQ.Find(KQ.IDKQ);
                                     danhgia.DiemDM = KQ.DinhMuc;
                                     danhgia.VTID = KQ.IDVT;
                                     danhgia.KQID = CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia);
@@ -680,7 +518,7 @@ namespace E_Learning.Controllers.KNL
                                 }
                                 else if (KQ.capDG == "1") // đánh giá lần 1
                                 {
-                                    var danhgia = db.KNL_KQ.Where(x => x.IDKQ == KQ.IDKQ).FirstOrDefault();
+                                    var danhgia = db.KNL_KQ.Find(KQ.IDKQ);
                                     danhgia.DiemDM = KQ.DinhMuc;
                                     danhgia.VTID = KQ.IDVT;
                                     danhgia.KQID = CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia);
@@ -705,7 +543,7 @@ namespace E_Learning.Controllers.KNL
                             }
                             else if (KQ.capDG == "1") // đánh giá lần 1
                             {
-                                var danhgia = db.KNL_KQ.Where(x => x.IDKQ == KQ.IDKQ).FirstOrDefault();
+                                var danhgia = db.KNL_KQ.Find(KQ.IDKQ);
                                 danhgia.DiemDM = KQ.DinhMuc;
                                 danhgia.VTID = KQ.IDVT;
                                 danhgia.KQID = CheckKQID(KQ.DiemDG, KQ.DinhMuc, KQ.IsDanhGia);
@@ -727,7 +565,7 @@ namespace E_Learning.Controllers.KNL
                 }
                 // cập nhật lịch sử
                 var nvdg = ListKQ.FirstOrDefault();
-                var GtriLS = db.KNL_LSDG.Where(x=>x.NVID ==nvdg.IDNV && x.ThangDG ==nvdg.ThangDG && x.VTID == nvdg.IDVT).FirstOrDefault();
+                var GtriLS = db.KNL_LSDG.FirstOrDefault(x => x.NVID == nvdg.IDNV && x.ThangDG == nvdg.ThangDG && x.VTID == nvdg.IDVT);
                 int? TONGNL = ListKQ.Count();
                
                 int? DAT = ListKQ.Where(x=>x.DiemDG == x.DinhMuc).Count();
@@ -752,7 +590,7 @@ namespace E_Learning.Controllers.KNL
                     if(nvdg.IDNV == nv.ID) // tự đánh giá
                     {
                         db.KNL_LSDG_insert(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, null, 0, 0, 0, 0, 0, TONGNL,DateTime.Now);
-                        var a = db.KNL_LSDG.Where(x=>x.NVID == nvdg.IDNV && x.ThangDG == nvdg.ThangDG && x.VTID == nvdg.IDVT).FirstOrDefault();
+                        var a = db.KNL_LSDG.FirstOrDefault(x => x.NVID == nvdg.IDNV && x.ThangDG == nvdg.ThangDG && x.VTID == nvdg.IDVT);
                         if(a != null)
                         {
                             a.DATTUDG = DATTu;
@@ -767,7 +605,7 @@ namespace E_Learning.Controllers.KNL
                     else if (ListKQ[0].capDG =="1") // đánh giá lần 1
                     {
                         db.KNL_LSDG_insert(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, null, 0, 0, 0, 0, 0, TONGNL, DateTime.Now);
-                        var a = db.KNL_LSDG.Where(x => x.NVID == nvdg.IDNV && x.ThangDG == nvdg.ThangDG && x.VTID == nvdg.IDVT).FirstOrDefault();
+                        var a = db.KNL_LSDG.FirstOrDefault(x => x.NVID == nvdg.IDNV && x.ThangDG == nvdg.ThangDG && x.VTID == nvdg.IDVT);
                         if (a != null)
                         {
                             a.DATTUDGLan1 = DATLan1;
@@ -790,7 +628,7 @@ namespace E_Learning.Controllers.KNL
                     if(nvdg.IDNV == nv.ID)
                     {
                         //db.KNL_LSDG_update(GtriLS.IDLS, nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, GtriLS.NgayDGGN, DAT, KDAT, VUOT, KDGIA, CHUADG, TONGNL,DateTime.Now);
-                        var a = db.KNL_LSDG.Where(x => x.IDLS == GtriLS.IDLS).FirstOrDefault();
+                        var a = db.KNL_LSDG.FirstOrDefault(x => x.IDLS == GtriLS.IDLS);
                         if (a != null)
                         {
                             a.DATTUDG = DATTu;
@@ -803,7 +641,7 @@ namespace E_Learning.Controllers.KNL
                     }
                     else if (ListKQ[0].capDG == "1") // đánh giá lần 1
                     {
-                        var a = db.KNL_LSDG.Where(x => x.IDLS == GtriLS.IDLS).FirstOrDefault();
+                        var a = db.KNL_LSDG.FirstOrDefault(x => x.IDLS == GtriLS.IDLS);
                         if (a != null)
                         {
                             a.DATTUDGLan1 = DATLan1;
@@ -888,11 +726,11 @@ namespace E_Learning.Controllers.KNL
             try
             {
                 string manv = MyAuthentication.Username;
-                var nv = db.NhanViens.Where(x => x.MaNV == manv).FirstOrDefault();
+                var nv = db.NhanViens.FirstOrDefault(x => x.MaNV == manv);
                 foreach (var KQ in ListKQ)
                 {
                     if (KQ.CapNhatDG) {
-                        var checkDoc = db.KNL_DocBangKNL.Where(x=>x.ID_NangLuc == KQ.IDNL && x.IDNV ==  KQ.IDNV).FirstOrDefault();
+                        var checkDoc = db.KNL_DocBangKNL.FirstOrDefault(x => x.ID_NangLuc == KQ.IDNL && x.IDNV == KQ.IDNV);
                         if (checkDoc == null)
                         {
                             KNL_DocBangKNL a = new KNL_DocBangKNL()
@@ -948,25 +786,41 @@ namespace E_Learning.Controllers.KNL
 
         public int? CountSLDG(int? IDNV, int? IDVT, DateTime? ThangDG,int? KQID)
         {
-            if(KQID == null) return db.KNL_KQ.Where(x => x.IDNV == IDNV && x.VTID == IDVT && x.ThangDG == ThangDG).Count();
-            int? kq = db.KNL_KQ.Where(x=>x.IDNV ==IDNV && x.VTID ==IDVT && x.ThangDG == ThangDG && x.KQID == KQID).Count();
+            var knlkq = db.KNL_KQ_searchByIDNV(IDNV, ThangDG,IDVT).ToList();
+            if (KQID == null)
+            {
+               
+                return knlkq.Count(); 
+            }
+            int? kq = knlkq.Count(x => x.IDKQ == KQID);
             return kq;
         }
 
 
         public int GetIDKQuaKNL(DateTime? dateDG, int? IDNV, int? IDNL)
         {
-            var model = db.KNL_KQ.Where(x => x.ThangDG == dateDG && x.IDNL == IDNL && x.IDNV == IDNV ).FirstOrDefault();
+            var knlkq = db.KNL_KQ_searchByIDNL(IDNL,dateDG).ToList();
+            var model = knlkq.FirstOrDefault(x => x.IDNV == IDNV);
             if (model == null)
                 return 0;
             return model.IDKQ;
         }
         public int? GetDiemKQuaKNL(DateTime? dateDG, int? IDNV, int? IDNL, string note)
         {
-            var model = db.KNL_KQ.Where(x => x.ThangDG == dateDG && x.IDNL == IDNL && x.IDNV == IDNV && x.Note == note).FirstOrDefault();
+            var knlkq = db.KNL_KQ_searchByIDNL(IDNL, dateDG).ToList();
+            var model = knlkq.FirstOrDefault(x => x.IDNV == IDNV && x.Note == note);
             if (model == null)
                 return null;
             return model.DiemDG;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
     }
