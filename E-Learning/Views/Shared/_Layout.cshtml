@@ -436,58 +436,66 @@
                                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                                     </a>
                                 }
-                                <ul id="LSTK">
-                                    @if (ListControll.Contains("FDirectors"))
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Index","FDirectors")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FDirectors" ? "mm-active" : "")">
-                                                <i class=" pe-7s-tools">
-                                                </i>&nbsp;&nbsp;C2: BGĐ Công ty
-                                            </a>
-                                        </li>
-                                        showQuanTriKNL = 1;
-                                    }
-                                    @if (ListControll.Contains("FBlockQTTC"))
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Index","FBlockQTTC")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FBlockQTTC" ? "mm-active" : "")">
-                                                <i class=" pe-7s-target">
-                                                </i>&nbsp;&nbsp;C4: Phòng ban/Bộ phận
-                                            </a>
-                                        </li>
-                                        showQuanTriKNL = 1;
-                                    }
-                                    @if (ListControll.Contains("FFactoryQTTC"))
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Index","FFactoryQTTC")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FFactoryQTTC" ? "mm-active" : "")">
-                                                <i class=" pe-7s-browser">
-                                                </i>&nbsp;&nbsp;C6: Xưởng
-                                            </a>
-                                        </li>
-                                        showQuanTriKNL = 1;
-                                    }
-                                    @if (ListControll.Contains("FGroupQTTC"))
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Index","FGroupQTTC")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FGroupQTTC" ? "mm-active" : "")">
-                                                <i class=" pe-7s-tools">
-                                                </i>&nbsp;&nbsp;C7: Đội
-                                            </a>
-                                        </li>
-                                        showQuanTriKNL = 1;
-                                    }
-                                    @if (ListControll.Contains("FNestQTTC"))
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Index","FNestQTTC")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FNestQTTC" ? "mm-active" : "")">
-                                                <i class=" pe-7s-tools">
-                                                </i>&nbsp;&nbsp;C9: Tổ
-                                            </a>
-                                        </li>
-                                        showQuanTriKNL = 1;
-                                    }
-                                </ul>
+                            <ul id="LSTK">
+                                @if (ListControll.Contains("FDirectors"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index","FDirectors")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FDirectors" ? "mm-active" : "")">
+                                            <i class=" pe-7s-tools">
+                                            </i>&nbsp;&nbsp;C2: BGĐ Công ty
+                                        </a>
+                                    </li>
+                                    showQuanTriKNL = 1;
+                                }
+                                @if (ListControll.Contains("FBlockQTTC"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index","FBlockQTTC")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FBlockQTTC" ? "mm-active" : "")">
+                                            <i class=" pe-7s-target">
+                                            </i>&nbsp;&nbsp;C4: Phòng ban/Bộ phận
+                                        </a>
+                                    </li>
+                                    showQuanTriKNL = 1;
+                                }
+                                @if (ListControll.Contains("FFactoryQTTC"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index","FFactoryQTTC")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FFactoryQTTC" ? "mm-active" : "")">
+                                            <i class=" pe-7s-browser">
+                                            </i>&nbsp;&nbsp;C6: Xưởng
+                                        </a>
+                                    </li>
+                                    showQuanTriKNL = 1;
+                                }
+                                @if (ListControll.Contains("FGroupQTTC"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index","FGroupQTTC")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FGroupQTTC" ? "mm-active" : "")">
+                                            <i class=" pe-7s-tools">
+                                            </i>&nbsp;&nbsp;C7: Đội
+                                        </a>
+                                    </li>
+                                    showQuanTriKNL = 1;
+                                }
+                                @if (ListControll.Contains("FNestQTTC"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index","FNestQTTC")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FNestQTTC" ? "mm-active" : "")">
+                                            <i class=" pe-7s-tools">
+                                            </i>&nbsp;&nbsp;C9: Tổ
+                                        </a>
+                                    </li>
+                                    showQuanTriKNL = 1;
+                                    <li>
+                                        <a href="@Url.Action("Index","FVTCV")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FVTCV" ? "mm-active" : "")">
+                                            <i class=" pe-7s-tools">
+                                            </i>&nbsp;&nbsp;Vị trí công việc
+                                        </a>
+                                    </li>
+                                    showQuanTriKNL = 1;
+                                }
+
+                            </ul>
                             </li>
 
 

@@ -111,7 +111,8 @@ namespace E_Learning.Models
         public virtual DbSet<DV_CapC6> DV_CapC6 { get; set; }
         public virtual DbSet<DV_CapC7> DV_CapC7 { get; set; }
         public virtual DbSet<DV_CapC9> DV_CapC9 { get; set; }
-
+        public virtual DbSet<DV_ViTri> DV_ViTri { get; set; }
+    
         public virtual int BaiThi_insert(Nullable<int> iDLH, Nullable<int> iDDeThi, Nullable<int> iDND, Nullable<int> iDNV, Nullable<int> iDPhongBan, Nullable<int> iDViTri, Nullable<double> diemSo, Nullable<System.DateTime> ngayThi, Nullable<bool> tinhTrang, Nullable<int> lanThi, ObjectParameter iDBaiThi)
         {
             var iDLHParameter = iDLH.HasValue ?
@@ -4727,6 +4728,27 @@ namespace E_Learning.Models
                 new ObjectParameter("TrangThai", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap9_update_KNL", iDParameter, maDVTCParameter, tenDVTCParameter, trangThaiParameter);
+        }
+    
+        public virtual int DV_ViTri_Insert(string maViTri, string tenViTri, string capQuanLy, Nullable<int> trangThai)
+        {
+            var maViTriParameter = maViTri != null ?
+                new ObjectParameter("MaViTri", maViTri) :
+                new ObjectParameter("MaViTri", typeof(string));
+    
+            var tenViTriParameter = tenViTri != null ?
+                new ObjectParameter("TenViTri", tenViTri) :
+                new ObjectParameter("TenViTri", typeof(string));
+    
+            var capQuanLyParameter = capQuanLy != null ?
+                new ObjectParameter("CapQuanLy", capQuanLy) :
+                new ObjectParameter("CapQuanLy", typeof(string));
+    
+            var trangThaiParameter = trangThai.HasValue ?
+                new ObjectParameter("TrangThai", trangThai) :
+                new ObjectParameter("TrangThai", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DV_ViTri_Insert", maViTriParameter, tenViTriParameter, capQuanLyParameter, trangThaiParameter);
         }
     }
 }

@@ -182,6 +182,16 @@
           <Property Name="TenDVTC" Type="nvarchar" MaxLength="200" />
           <Property Name="TrangThai" Type="int" />
         </EntityType>
+        <EntityType Name="DV_ViTri">
+          <Key>
+            <PropertyRef Name="IDVT" />
+          </Key>
+          <Property Name="IDVT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaViTri" Type="nvarchar" MaxLength="50" />
+          <Property Name="TenViTri" Type="nvarchar" MaxLength="300" />
+          <Property Name="CapQuanLy" Type="nvarchar" MaxLength="10" />
+          <Property Name="TrangThai" Type="int" />
+        </EntityType>
         <EntityType Name="HDSD">
           <Key>
             <PropertyRef Name="ID" />
@@ -1622,6 +1632,12 @@
           <Parameter Name="NVDG" Type="nvarchar" Mode="In" />
           <Parameter Name="IDKNL" Type="int" Mode="In" />
         </Function>
+        <Function Name="DV_ViTri_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaViTri" Type="nvarchar" Mode="In" />
+          <Parameter Name="TenViTri" Type="nvarchar" Mode="In" />
+          <Parameter Name="CapQuanLy" Type="nvarchar" Mode="In" />
+          <Parameter Name="TrangThai" Type="int" Mode="In" />
+        </Function>
         <Function Name="HDSD_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
@@ -2595,6 +2611,7 @@
           <EntitySet Name="DV_CapC6" EntityType="Self.DV_CapC6" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DV_CapC7" EntityType="Self.DV_CapC7" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DV_CapC9" EntityType="Self.DV_CapC9" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DV_ViTri" EntityType="Self.DV_ViTri" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HDSD" EntityType="Self.HDSD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KCCD_BaiThi" EntityType="Self.KCCD_BaiThi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KCCD_CauHoi" EntityType="Self.KCCD_CauHoi" Schema="dbo" store:Type="Tables" />
@@ -5603,7 +5620,7 @@
             <Parameter Name="TrangThai" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Cap4_delete_KNL">
-            <Parameter Name="ID" Mode="In" Type="Int32" />
+          <Parameter Name="ID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Cap4_insert_KNL">
             <Parameter Name="MaDVTC" Mode="In" Type="String" />
@@ -5616,7 +5633,7 @@
             <Parameter Name="TrangThai" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Cap6_delete_KNL">
-            <Parameter Name="ID" Mode="In" Type="Int32" />
+          <Parameter Name="ID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Cap6_insert_KNL">
             <Parameter Name="MaDVTC" Mode="In" Type="String" />
@@ -5629,7 +5646,7 @@
             <Parameter Name="TrangThai" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Cap7_delete_KNL">
-            <Parameter Name="ID" Mode="In" Type="Int32" />
+          <Parameter Name="ID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Cap7_insert_KNL">
             <Parameter Name="MaDVTC" Mode="In" Type="String" />
@@ -5642,7 +5659,7 @@
             <Parameter Name="TrangThai" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Cap9_delete_KNL">
-            <Parameter Name="ID" Mode="In" Type="Int32" />
+          <Parameter Name="ID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Cap9_insert_KNL">
             <Parameter Name="MaDVTC" Mode="In" Type="String" />
@@ -5652,6 +5669,13 @@
             <Parameter Name="ID" Mode="In" Type="Int32" />
             <Parameter Name="MaDVTC" Mode="In" Type="String" />
             <Parameter Name="TenDVTC" Mode="In" Type="String" />
+            <Parameter Name="TrangThai" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="DV_ViTri" EntityType="ELEARNINGModel.DV_ViTri" />
+          <FunctionImport Name="DV_ViTri_Insert">
+            <Parameter Name="MaViTri" Mode="In" Type="String" />
+            <Parameter Name="TenViTri" Mode="In" Type="String" />
+            <Parameter Name="CapQuanLy" Mode="In" Type="String" />
             <Parameter Name="TrangThai" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
@@ -6511,6 +6535,16 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MaDVTC" Type="String" MaxLength="33" FixedLength="false" Unicode="true" />
           <Property Name="TenDVTC" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TrangThai" Type="Int32" />
+        </EntityType>
+        <EntityType Name="DV_ViTri">
+          <Key>
+            <PropertyRef Name="IDVT" />
+          </Key>
+          <Property Name="IDVT" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaViTri" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TenViTri" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="CapQuanLy" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="TrangThai" Type="Int32" />
         </EntityType>
       </Schema>
@@ -8557,6 +8591,18 @@
           <FunctionImportMapping FunctionImportName="Cap9_delete_KNL" FunctionName="ELEARNINGModel.Store.Cap9_delete_KNL" />
           <FunctionImportMapping FunctionImportName="Cap9_insert_KNL" FunctionName="ELEARNINGModel.Store.Cap9_insert_KNL" />
           <FunctionImportMapping FunctionImportName="Cap9_update_KNL" FunctionName="ELEARNINGModel.Store.Cap9_update_KNL" />
+          <EntitySetMapping Name="DV_ViTri">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DV_ViTri">
+              <MappingFragment StoreEntitySet="DV_ViTri">
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="CapQuanLy" ColumnName="CapQuanLy" />
+                <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+                <ScalarProperty Name="MaViTri" ColumnName="MaViTri" />
+                <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DV_ViTri_Insert" FunctionName="ELEARNINGModel.Store.DV_ViTri_Insert" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

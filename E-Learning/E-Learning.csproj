@@ -440,6 +440,7 @@
     <Compile Include="Controllers\QTTC\FBlockQTTCController.cs" />
     <Compile Include="Controllers\QTTC\FFactoryQTTCController.cs" />
     <Compile Include="Controllers\QTTC\FDirectorsController.cs" />
+    <Compile Include="Controllers\QTTC\FVTCVController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\STestController.cs" />
@@ -542,6 +543,9 @@
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DV_CapC9.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DV_ViTri.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EGuideValidation.cs" />
@@ -989,6 +993,7 @@
     <Content Include="Views\FNestQTTC\Create.cshtml" />
     <Content Include="Views\FNestQTTC\Edit.cshtml" />
     <Content Include="Views\FNestQTTC\Index.cshtml" />
+    <Content Include="Views\FVTCV\Index.cshtml" />
     <None Include="Views\Shared\LayoutAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
