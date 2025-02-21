@@ -470,7 +470,7 @@
 
                                     }
                                     <li>
-                                        <a href="@Url.Action("Index", "SuggestKCCD")" class="font-size-md font-weight-bold @(Context.Request.Path == "/SuggestKCCD" ? "mm-active" : "")">
+                                        <a href="@Url.Action("Index", "SuggestKCCD",new { IDPB = E_Learning.Models.MyAuthentication.IDPhongban})" class="font-size-md font-weight-bold @(Context.Request.Path == "/SuggestKCCD" ? "mm-active" : "")">
                                             <i class=" pe-7s-paper-plane">
                                             </i>&nbsp;&nbsp;Đề nghị KCCD
                                         </a>
@@ -510,7 +510,7 @@
                                     @if (ListControll.Contains("ResultQTHD"))
                                     {
                                         <li>
-                                            <a href="@Url.Action("ListNV", "ResultQTHD")" class="font-size-md font-weight-bold @(Context.Request.Path == "/ResultQTHD" ? "mm-active" : "")">
+                                            <a href="@Url.Action("ListNV", "ResultQTHD",new {IDPB = E_Learning.Models.MyAuthentication.IDPhongban})" class="font-size-md font-weight-bold @(Context.Request.Path == "/ResultQTHD" ? "mm-active" : "")">
                                                 <i class=" pe-7s-graph3">
                                                 </i>&nbsp;&nbsp;Kết quả QT/HD
                                             </a>

@@ -89,8 +89,8 @@ namespace E_Learning.Controllers.KCCD
                            HuongDan1 = a.HuongDan1,
                            HuongDan2 = a.HuongDan2,
                            TinhTrang = a.TinhTrang,
-                           SLHV = phieunx.Where(x => x.DeNghiDTID == a.ID).Count(),
-                           SLHVHT = phieunx.Where(x => x.DeNghiDTID == a.ID && x.IDTinhTrang != 0).Count(),
+                           SLHV = phieunx.Count(x => x.DeNghiDTID == a.ID),
+                           SLHVHT = phieunx.Count(x => x.DeNghiDTID == a.ID && x.IDTinhTrang != 0),
                            DeThiID =a.DeThiID,
                            isKiemTra =a.isKiemTra ==1?true:false,
                        }).ToList();
@@ -126,8 +126,8 @@ namespace E_Learning.Controllers.KCCD
                            HuongDan1 = a.HuongDan1,
                            HuongDan2 = a.HuongDan2,
                            TinhTrang = a.TinhTrang,
-                           SLHV = phieunx.Where(x => x.DeNghiDTID == a.ID).Count(),
-                           SLHVHT = phieunx.Where(x => x.DeNghiDTID == a.ID && x.IDTinhTrang != 0).Count(),
+                           SLHV = phieunx.Count(x => x.DeNghiDTID == a.ID),
+                           SLHVHT = phieunx.Count(x => x.DeNghiDTID == a.ID && x.IDTinhTrang != 0),
                            DeThiID = a.DeThiID,
                            isKiemTra = a.isKiemTra == 1 ? true : false,
                        }).ToList();
@@ -163,8 +163,8 @@ namespace E_Learning.Controllers.KCCD
                            HuongDan1 = a.HuongDan1,
                            HuongDan2 = a.HuongDan2,
                            TinhTrang = a.TinhTrang,
-                           SLHV = phieunx.Where(x => x.DeNghiDTID == a.ID).Count(),
-                           SLHVHT = phieunx.Where(x => x.DeNghiDTID == a.ID && x.IDTinhTrang != 0).Count(),
+                           SLHV = phieunx.Count(x => x.DeNghiDTID == a.ID),
+                           SLHVHT = phieunx.Count(x => x.DeNghiDTID == a.ID && x.IDTinhTrang != 0),
                            DeThiID = a.DeThiID,
                            isKiemTra = a.isKiemTra == 1 ? true : false,
                        }).ToList();
