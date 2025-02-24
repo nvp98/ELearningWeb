@@ -1632,9 +1632,19 @@
           <Parameter Name="NVDG" Type="nvarchar" Mode="In" />
           <Parameter Name="IDKNL" Type="int" Mode="In" />
         </Function>
+        <Function Name="DV_Vitri_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
         <Function Name="DV_ViTri_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="MaViTri" Type="nvarchar" Mode="In" />
           <Parameter Name="TenViTri" Type="nvarchar" Mode="In" />
+          <Parameter Name="CapQuanLy" Type="nvarchar" Mode="In" />
+          <Parameter Name="TrangThai" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DV_Vitri_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="MaDVTC" Type="nvarchar" Mode="In" />
+          <Parameter Name="TenDVTC" Type="nvarchar" Mode="In" />
           <Parameter Name="CapQuanLy" Type="nvarchar" Mode="In" />
           <Parameter Name="TrangThai" Type="int" Mode="In" />
         </Function>
@@ -5678,6 +5688,16 @@
             <Parameter Name="CapQuanLy" Mode="In" Type="String" />
             <Parameter Name="TrangThai" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="DV_Vitri_Delete">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DV_Vitri_Update">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="MaDVTC" Mode="In" Type="String" />
+            <Parameter Name="TenDVTC" Mode="In" Type="String" />
+            <Parameter Name="CapQuanLy" Mode="In" Type="String" />
+            <Parameter Name="TrangThai" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="CauHoi_DeThi_list_Result">
           <Property Type="Int32" Name="IDCH" Nullable="false" />
@@ -8603,6 +8623,8 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="DV_ViTri_Insert" FunctionName="ELEARNINGModel.Store.DV_ViTri_Insert" />
+          <FunctionImportMapping FunctionImportName="DV_Vitri_Delete" FunctionName="ELEARNINGModel.Store.DV_Vitri_Delete" />
+          <FunctionImportMapping FunctionImportName="DV_Vitri_Update" FunctionName="ELEARNINGModel.Store.DV_Vitri_Update" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

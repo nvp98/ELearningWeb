@@ -996,6 +996,7 @@
     <Content Include="Views\FNestQTTC\Index.cshtml" />
     <Content Include="Views\FVTCV\Index.cshtml" />
     <Content Include="Views\FVTCV\Create.cshtml" />
+    <Content Include="Views\FVTCV\Edit.cshtml" />
     <None Include="Views\Shared\LayoutAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>

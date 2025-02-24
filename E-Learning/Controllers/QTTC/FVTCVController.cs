@@ -108,6 +108,79 @@ namespace E_Learning.Controllers.QTTC
             return RedirectToAction("Index", "FVTCV");
         }
 
+        public ActionResult Edit(int id)
+        {
+            var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
+            if (!ListQuyen.Contains(CONSTKEY.EDIT))
+            {
+                TempData["msgError"] = "<script>alert('Bạn không có quyền thực hiện chức năng này');</script>";
+                return RedirectToAction("", "Home");
+            }
+            var res = (from a in db.DV_ViTri.Where(x => x.IDVT == id)
+                       select new VTCVValidation
+                       {
+                           IDVTCV = a.IDVT,
+                           MaVTCV = a.MaViTri,
+                           TenVTCV = a.TenViTri,
+                           CapQuanLy = a.CapQuanLy,
+                           TrangThai = (long)a.TrangThai
+                       }).ToList();
+            VTCVValidation DO = new VTCVValidation();
+
+            if (res.Count > 0)
+            {
+                foreach (var c in res)
+                {
+                    DO.IDVTCV = c.IDVTCV;
+                    DO.MaVTCV = c.MaVTCV;
+                    DO.TenVTCV = c.TenVTCV;
+                    DO.CapQuanLy = c.CapQuanLy;
+                    DO.TrangThai = c.TrangThai;
+                }
+
+                db.Configuration.ProxyCreationEnabled = false;
+                List<DV_ViTri> dt = db.DV_ViTri.ToList();
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+            return PartialView(DO);
+        }
+        [HttpPost]
+        public ActionResult Edit(VTCVValidation _DO)
+        {
+            try
+            {
+
+                List<DV_ViTri> dt = db.DV_ViTri.ToList();
+                DV_ViTri VTCVInDB = dt.Where(x => x.IDVT == _DO.IDVTCV).SingleOrDefault();
+                db.DV_Vitri_Update(_DO.IDVTCV, _DO.MaVTCV.Trim(), _DO.TenVTCV.Trim(), _DO.CapQuanLy.Trim(), VTCVInDB.TrangThai);
+
+                TempData["msgSuccess"] = "<script>alert('Cập nhật thành công');</script>";
+
+            }
+            catch (Exception e)
+            {
+
+                TempData["msgSuccess"] = "<script>alert('Cập nhật thất bại " + e.Message + " ');</script>";
+            }
+
+            return RedirectToAction("Index", "FVTCV");
+        }
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                db.DV_Vitri_Delete(id);
+            }
+            catch (Exception e)
+            {
+                TempData["msgError"] = "<script>alert('Xóa dữ liệu thất bại');</script>";
+            }
+            return RedirectToAction("Index", "FVTCV");
+        }
+
         [HttpPost]
         public ActionResult ImportExcel(ImportExcelModel fileObj)
         {

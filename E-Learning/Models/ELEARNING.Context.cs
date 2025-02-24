@@ -112,7 +112,7 @@ namespace E_Learning.Models
         public virtual DbSet<DV_CapC7> DV_CapC7 { get; set; }
         public virtual DbSet<DV_CapC9> DV_CapC9 { get; set; }
         public virtual DbSet<DV_ViTri> DV_ViTri { get; set; }
-    
+
         public virtual int BaiThi_insert(Nullable<int> iDLH, Nullable<int> iDDeThi, Nullable<int> iDND, Nullable<int> iDNV, Nullable<int> iDPhongBan, Nullable<int> iDViTri, Nullable<double> diemSo, Nullable<System.DateTime> ngayThi, Nullable<bool> tinhTrang, Nullable<int> lanThi, ObjectParameter iDBaiThi)
         {
             var iDLHParameter = iDLH.HasValue ?
@@ -4749,6 +4749,40 @@ namespace E_Learning.Models
                 new ObjectParameter("TrangThai", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DV_ViTri_Insert", maViTriParameter, tenViTriParameter, capQuanLyParameter, trangThaiParameter);
+        }
+    
+        public virtual int DV_Vitri_Delete(Nullable<int> iD)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DV_Vitri_Delete", iDParameter);
+        }
+    
+        public virtual int DV_Vitri_Update(Nullable<int> iD, string maDVTC, string tenDVTC, string capQuanLy, Nullable<int> trangThai)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            var maDVTCParameter = maDVTC != null ?
+                new ObjectParameter("MaDVTC", maDVTC) :
+                new ObjectParameter("MaDVTC", typeof(string));
+    
+            var tenDVTCParameter = tenDVTC != null ?
+                new ObjectParameter("TenDVTC", tenDVTC) :
+                new ObjectParameter("TenDVTC", typeof(string));
+    
+            var capQuanLyParameter = capQuanLy != null ?
+                new ObjectParameter("CapQuanLy", capQuanLy) :
+                new ObjectParameter("CapQuanLy", typeof(string));
+    
+            var trangThaiParameter = trangThai.HasValue ?
+                new ObjectParameter("TrangThai", trangThai) :
+                new ObjectParameter("TrangThai", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DV_Vitri_Update", iDParameter, maDVTCParameter, tenDVTCParameter, capQuanLyParameter, trangThaiParameter);
         }
     }
 }
