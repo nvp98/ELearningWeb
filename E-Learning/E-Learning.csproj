@@ -473,6 +473,7 @@
     <Compile Include="ModelsQTHD\NoiDungQTView.cs" />
     <Compile Include="ModelsQTHD\PhanQuyenQT.cs" />
     <Compile Include="ModelsQTTC\ImportExcelModel.cs" />
+    <Compile Include="ModelsQTTC\VTCVValidation.cs" />
     <Compile Include="Models\BaiThi.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
@@ -994,6 +995,7 @@
     <Content Include="Views\FNestQTTC\Edit.cshtml" />
     <Content Include="Views\FNestQTTC\Index.cshtml" />
     <Content Include="Views\FVTCV\Index.cshtml" />
+    <Content Include="Views\FVTCV\Create.cshtml" />
     <None Include="Views\Shared\LayoutAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
