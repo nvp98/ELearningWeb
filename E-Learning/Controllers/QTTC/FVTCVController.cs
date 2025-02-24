@@ -79,20 +79,20 @@ namespace E_Learning.Controllers.QTTC
         [HttpPost]
         public ActionResult Create(VTCVValidation _DO)
         {
-            List<DV_CapC2> dt = db.DV_CapC2.ToList();
+            List<DV_ViTri> dt = db.DV_ViTri.ToList();
             try
             {
                 if (!string.IsNullOrWhiteSpace(_DO.MaVTCV) && !string.IsNullOrWhiteSpace(_DO.TenVTCV) && GetIDDVTC(_DO.TenVTCV.Trim()) == 0)
                 {
-                    if (!dt.Any(d => d.MaDVTC == _DO.MaVTCV))
+                    if (!dt.Any(d => d.MaViTri == _DO.MaVTCV))
                     {
                         db.DV_ViTri_Insert(_DO.MaVTCV.Trim(), _DO.TenVTCV.Trim(), _DO.CapQuanLy, 1);
                     }
-                    //else
-                    //{
-                    //    int id = dt.Find(item => item.MaDVTC == _DO.MaVTCV).ID;
-                    //    db.Cap2_update_KNL(id, _DO.MaVTCV.Trim(), _DO.TenVTCV.Trim(), 1);
-                    //}
+                    else
+                    {
+                        DV_ViTri viTriInDB = dt.Find(item => item.MaViTri == _DO.MaVTCV);
+                        db.DV_Vitri_Update(viTriInDB.IDVT, _DO.MaVTCV.Trim(), _DO.TenVTCV.Trim(), _DO.CapQuanLy, viTriInDB.TrangThai);
+                    }
                     TempData["msgSuccess"] = "<script>alert('Thêm mới thành công');</script>";
                 }
                 else
@@ -218,11 +218,11 @@ namespace E_Learning.Controllers.QTTC
                                 {
                                     db.DV_ViTri_Insert(maVTCV, tenVTCV, capQuanLy, trangThaiInDb);
                                 }
-                                //else
-                                //{
-                                //    int id = dt.Find(item => item.MaDVTC == maVTCV).ID;
-                                //    db.Cap2_update_KNL(id, maVTCV, tenVTCV, 1);
-                                //}
+                                else
+                                {
+                                    int id = dt.Find(i => i.MaViTri == maVTCV).IDVT;
+                                    db.DV_Vitri_Update(id, maVTCV, tenVTCV, capQuanLy, trangThaiInDb);
+                                }
                             }
                         }
                     }
