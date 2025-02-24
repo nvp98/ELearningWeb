@@ -39,15 +39,20 @@ namespace E_Learning.Controllers.QTTC
                            TenVTCV = a.TenViTri,
                            CapQuanLy = a.CapQuanLy,
                            TrangThai = (long)a.TrangThai
-                       }).ToList();
+                       });
+
+            if (IDVTCV != 0)
+            {
+                res = res.Where(x => x.IDVTCV == IDVTCV);
+            }
 
             List<DV_ViTri> dt = db.DV_ViTri.ToList();
             ViewBag.IDVTCV = new SelectList(dt, "IDVT", "TenViTri");
-            if (IDVTCV != 0) res = res.Where(x => x.IDVTCV == IDVTCV).ToList();
+            // if (IDVTCV != 0) res = res.Where(x => x.IDVTCV == IDVTCV).ToList();
             if (page == null) page = 1;
-            int pageSize = res.Count();
+            int pageSize = 50;
             int pageNumber = (page ?? 1);
-            return View(res.ToList().ToPagedList(pageNumber, pageSize));
+            return View(res.OrderBy(x => x.IDVTCV).ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult Create()

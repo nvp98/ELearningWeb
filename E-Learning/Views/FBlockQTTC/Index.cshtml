@@ -150,8 +150,12 @@
                         </tbody>
                     </table>
                     <div class="pager">
-                        @Html.PagedListPager(Model, page => Url.Action("Index", "FBlockQTTC", new { page, IDDVTC = Request.QueryString["IDDVTC"] }))
-                        <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+                        @Html.PagedListPager(Model, page => Url.Action("Index", "FBlockQTTC",
+                            new { page, IDDVTC = Request.QueryString["IDDVTC"], search = ViewBag.search }))
+
+                        <span class="pageoff">
+                            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+                        </span>
                     </div>
                 </div>
 
