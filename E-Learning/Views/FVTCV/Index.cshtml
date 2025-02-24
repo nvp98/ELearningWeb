@@ -58,7 +58,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="row">
-                                @Html.DropDownList("IDVTCV", null, "--Vị trí công việc--", new { id = "TenViTri", @class = "form-control marginTB5", @style = "width:100%", })
+                                @Html.DropDownList("IDVTCV", null, "--Vị trí công việc--", new { id = "IDVTCV", @class = "form-control marginTB5", @style = "width:100%", })
                             </div>
 
                         </div>
@@ -224,11 +224,11 @@
         });
     });
 
-    $("#IDDVTC").chosen({
+    $("#IDVTCV").chosen({
         width: "100%"
     });
     $("#btn-search").on('click', function () {
-        window.location.href = '@Url.Action("Index", "FDirectors")?IDDVTC=' + $('#IDDVTC').val();
+        window.location.href = '@Url.Action("Index", "FVTCV")?IDVTCV=' + $('#IDVTCV').val();
     });
 </script>
 
