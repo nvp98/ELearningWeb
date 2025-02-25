@@ -17,10 +17,11 @@ namespace E_Learning.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NhanVien()
         {
-            this.XNHocTap = new HashSet<XNHocTap>();
-            this.SH_NhuCauDT = new HashSet<SH_NhuCauDT>();
             this.KNL_PheDuyetKNL = new HashSet<KNL_PheDuyetKNL>();
             this.KNL_PheDuyetKNL1 = new HashSet<KNL_PheDuyetKNL>();
+            this.SH_ChuongTrinhDT = new HashSet<SH_ChuongTrinhDT>();
+            this.SH_NhuCauDT = new HashSet<SH_NhuCauDT>();
+            this.XNHocTap = new HashSet<XNHocTap>();
         }
     
         public int ID { get; set; }
@@ -43,16 +44,18 @@ namespace E_Learning.Models
         public Nullable<int> IDKip { get; set; }
         public string ChuKy { get; set; }
     
-        public virtual PhongBan PhongBan { get; set; }
-        public virtual TinhTrangLV TinhTrangLV { get; set; }
-        public virtual Vitri Vitri { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<XNHocTap> XNHocTap { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SH_NhuCauDT> SH_NhuCauDT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<KNL_PheDuyetKNL> KNL_PheDuyetKNL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<KNL_PheDuyetKNL> KNL_PheDuyetKNL1 { get; set; }
+        public virtual PhongBan PhongBan { get; set; }
+        public virtual TinhTrangLV TinhTrangLV { get; set; }
+        public virtual Vitri Vitri { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SH_ChuongTrinhDT> SH_ChuongTrinhDT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SH_NhuCauDT> SH_NhuCauDT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<XNHocTap> XNHocTap { get; set; }
     }
 }

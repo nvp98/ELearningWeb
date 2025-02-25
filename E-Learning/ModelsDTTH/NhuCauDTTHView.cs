@@ -75,6 +75,8 @@ namespace E_Learning.ModelsDTTH
 
         public string DSNhanVien { get; set; }
         public string DSViTri { get; set; }
+        public int? SLCauHoi { get; set; }
+        public int? SLDeThi { get; set; }
 
         public ChiTietNhuCauDTTHView chiTietNhuCauDTTHView { get; set; }
         public CapDuyetView CapDuyetView { get; set; }    

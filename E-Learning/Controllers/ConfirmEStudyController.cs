@@ -117,8 +117,8 @@ namespace E_Learning.Controllers
                                      LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
                                      TenND = l.NoiDungDT.NoiDung,
                                      TLDT = (int)l.NoiDungDT.ThoiLuongDT,
-                                     NgayTG = (DateTime)h.NgayTG,
-                                     NgayHT = (DateTime)h.NgayHT,
+                                     NgayTG = (DateTime)(h.NgayTG?? default(DateTime)),
+                                     NgayHT = (DateTime)(h.NgayHT?? default(DateTime)),
                                      XNTG = (bool)h.XNTG,
                                      XNHT = (bool)h.XNHT,
                                  }).Where(x => x.LHID == id).ToList();
@@ -151,8 +151,8 @@ namespace E_Learning.Controllers
                                      LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
                                      TenND = l.NoiDungDT.NoiDung,
                                      TLDT = (int)l.NoiDungDT.ThoiLuongDT,
-                                     NgayTG = (DateTime)h.NgayTG,
-                                     NgayHT = (DateTime)h.NgayHT,
+                                     NgayTG = (DateTime)(h.NgayTG ?? default(DateTime)),
+                                     NgayHT = (DateTime)(h.NgayHT ?? default(DateTime)),
                                      XNTG = (bool)h.XNTG,
                                      XNHT = (bool)h.XNHT,
                                  }).Where(x => x.LHID == id).ToList();
@@ -182,8 +182,8 @@ namespace E_Learning.Controllers
                                      LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
                                      TenND = l.NoiDungDT.NoiDung,
                                      TLDT = (int)l.NoiDungDT.ThoiLuongDT,
-                                     NgayTG = (DateTime)h.NgayTG,
-                                     NgayHT = (DateTime)h.NgayHT,
+                                     NgayTG = (DateTime)(h.NgayTG ?? default(DateTime)),
+                                     NgayHT = (DateTime)(h.NgayHT ?? default(DateTime)),
                                      XNTG = (bool)h.XNTG,
                                      XNHT = (bool)h.XNHT,
                                  }).Where(x => x.LHID == id).ToList();

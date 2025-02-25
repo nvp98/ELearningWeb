@@ -254,8 +254,8 @@
                             <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th style="width:70px" class="thead-fix" >TT</th>
-                                        <th style="width:100px;" class="thead-fix fix fix-field170" >Thao tác</th>
+                                        <th style="width:70px" class="thead-fix">TT</th>
+                                        <th style="width:100px;" class="thead-fix fix fix-field170">Thao tác</th>
                                         <th class="text-center thead-fix fix fix-field270" width="300" style="vertical-align: middle;">Tên khóa đào tạo</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Nhóm năng lực</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Quý đào tạo</th>
@@ -272,6 +272,9 @@
                                         <th class="text-center" width="150px" style="vertical-align:middle">Địa điểm đào tạo dự kiến</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Người tạo</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Tình trạng</th>
+                                        <th>Câu hỏi đề thi</th>
+                                        <th>Lập CTĐT</th>
+                                        <th>Tổ chức đào tạo</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -349,7 +352,20 @@
                                                 <td class="text-center"> <button type="button" class="btn btn-danger" style="width:120px"> Không phê duyệt </button></td>
                                                 @*<td class="text-center"> <button type="button" class="btn btn-danger"> Hủy phiếu </button></td>*@
                                             }
-                                        </tr>
+                                            <td>
+                                                <a href="@Url.Action("Index","ManageTestExam",new {IDND = item.NoiDungDT_ID})">
+                                                    <i class="font-weight-bold"></i>
+                                                    @item.SLCauHoi (Câu hỏi) / @item.SLDeThi (Đề thi)
+                                                </a>
+                                               
+                                            </td>
+                                                <td>
+                                                    <a href="@Url.Action("Create","ChuongTrinhDTTH",new {ID_NCDT = item.ID_NCDT})">
+                                                        <i class="font-weight-bold"></i>
+                                                        Tạo CTĐT
+                                                    </a>
+                                                </td>
+                                            </tr>
                                     }
                                 </tbody>
                             </table>

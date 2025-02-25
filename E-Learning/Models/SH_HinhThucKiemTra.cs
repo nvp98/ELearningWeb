@@ -12,18 +12,9 @@ namespace E_Learning.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class KNL_PheDuyetKNL
+    public partial class SH_HinhThucKiemTra
     {
         public int ID { get; set; }
-        public Nullable<int> IDVT { get; set; }
-        public Nullable<System.DateTime> NgayTrinhKy { get; set; }
-        public Nullable<int> ID_NguoiTao { get; set; }
-        public Nullable<int> ID_NguoiDuyet { get; set; }
-        public Nullable<System.DateTime> NgayDuyet { get; set; }
-        public string File_KNL { get; set; }
-        public Nullable<int> TinhTrang { get; set; }
-    
-        public virtual NhanVien NhanVien { get; set; }
-        public virtual NhanVien NhanVien1 { get; set; }
+        public string HinhThucKiemTra { get; set; }
     }
 }

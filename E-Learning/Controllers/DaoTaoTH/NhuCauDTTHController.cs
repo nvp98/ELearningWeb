@@ -87,7 +87,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                       MaNV= d.MaNV,
                                   },
                                  PhanLoaiNCDT_ID = a.PhanLoaiNCDT_ID,
-                                 ID_NguoiTao = (int)a.NguoiTao_ID
+                                 ID_NguoiTao = (int)a.NguoiTao_ID,
+                                 SLCauHoi = db.CauHois.Where(x=>x.IDND == a.NoiDungDT_ID).Count(),
+                                 SLDeThi = db.DeThis.Where(x=>x.IDND == a.NoiDungDT_ID).Count()
                               }).OrderBy(x => x.ID_NCDT).ToList();
             if (!ListQuyen.Contains(CONSTKEY.VIEW_ALL) && !ListQuyen.Contains(CONSTKEY.V_BP)) noiDungDTs = noiDungDTs.Where(x => x.ID_NguoiTao == MyAuthentication.ID).ToList();
             else if (ListQuyen.Contains(CONSTKEY.V_BP)) noiDungDTs = noiDungDTs.Where(x => x.BoPhanLNC_ID == MyAuthentication.IDPhongban).ToList();

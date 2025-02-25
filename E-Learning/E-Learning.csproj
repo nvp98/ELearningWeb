@@ -296,9 +296,11 @@
     <Compile Include="Common\PdfHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConfirmEStudyController.cs" />
+    <Compile Include="Controllers\DaoTaoTH\ChuongTrinhDTTHController.cs" />
     <Compile Include="Controllers\DaoTaoTH\NhuCauDTTHController.cs" />
     <Compile Include="Controllers\DaoTaoTH\NoiDungDTTHController.cs" />
     <Compile Include="Controllers\DaoTaoTH\PheDuyetPhieuController.cs" />
+    <Compile Include="Controllers\DaoTaoTH\ToChucDTTHController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\DetailedFieldController.cs" />
     <Compile Include="Controllers\DinhBien\DinhBienController.cs" />
@@ -353,8 +355,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ModelsDTTH\ChuongTrinhDTTHView.cs" />
     <Compile Include="ModelsDTTH\NhuCauDTTHView.cs" />
     <Compile Include="ModelsDTTH\NoiDungDTTHView.cs" />
+    <Compile Include="ModelsDTTH\ToChucDTTHView.cs" />
     <Compile Include="ModelsDTTH\TrinhKyDTTHView.cs" />
     <Compile Include="ModelsKCCD\CauHoiKCCDView.cs" />
     <Compile Include="ModelsKCCD\ConfirmKCCDView.cs" />
@@ -695,16 +699,31 @@
     <Compile Include="Models\SH_CapKyDuyet.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SH_ChiTietCTDT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_ChiTietTCDT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SH_ChiTiet_NCDT.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SH_ChuongTrinhDT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SH_DinhKy.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_HinhThucKiemTra.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SH_HoatDongDT.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SH_KetQuaDaoTao.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SH_KyDuyetCTDT.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SH_KyDuyetNCDT.cs">
@@ -796,6 +815,7 @@
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ChuongTrinhDTService.cs" />
     <Content Include="Content\assets\images\imgElearning.jpg" />
     <Content Include="Models\ELEARNING.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -809,13 +829,6 @@
     </Content>
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\ManageClass\ExportProcess.cshtml" />
-    <EntityDeploy Include="Models\ELEARNING.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ELEARNING.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\ELEARNING.edmx.diagram">
-      <DependentUpon>ELEARNING.edmx</DependentUpon>
-    </Content>
     <Content Include="Views\NhuCauDTTH\Create.cshtml" />
     <Content Include="Views\NhuCauDTTH\Edit.cshtml" />
     <Content Include="Views\NhuCauDTTH\Index.cshtml" />
@@ -853,7 +866,26 @@
     <Content Include="Views\FCheck\ReadKNL.cshtml" />
     <Content Include="Views\FPosition\UpdateDuyetKNL.cshtml" />
     <Content Include="Views\FPosition\UpdateBangKNL.cshtml" />
+    <Content Include="Views\ChuongTrinhDTTH\Index.cshtml" />
+    <Content Include="Views\ChuongTrinhDTTH\Create.cshtml" />
+    <Content Include="Views\ChuongTrinhDTTH\Edit.cshtml" />
+    <Content Include="Views\ChuongTrinhDTTH\Question.cshtml" />
+    <Content Include="Views\ChuongTrinhDTTH\CreateNew.cshtml" />
+    <Content Include="Views\PheDuyetPhieu\Index_CTDT.cshtml" />
+    <Content Include="Views\ChuongTrinhDTTH\Edit_View.cshtml" />
+    <Content Include="Views\PheDuyetPhieu\XuLyPhieuCTDT.cshtml" />
+    <Content Include="Views\PheDuyetPhieu\Index_NDDT.cshtml" />
+    <Content Include="Views\PheDuyetPhieu\XuLyNDDT.cshtml" />
+    <EntityDeploy Include="Models\ELEARNING.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ELEARNING.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ELEARNING.edmx.diagram">
+      <DependentUpon>ELEARNING.edmx</DependentUpon>
+    </Content>
     <None Include="Views\Shared\LayoutAdmin.cshtml" />
+    <Content Include="Views\ToChucDTTH\Index.cshtml" />
+    <Content Include="Views\ToChucDTTH\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\all.css" />

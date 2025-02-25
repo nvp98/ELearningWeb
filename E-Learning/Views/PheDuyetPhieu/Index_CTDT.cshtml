@@ -1,0 +1,239 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.ModelsDTTH
+@using E_Learning.Models
+@model PagedList.IPagedList<SH_KyDuyetCTDTView>
+@using PagedList.Mvc
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-portfolio icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Phê duyệt Chương trình đào tạo
+                        <div class="page-title-subheading">
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="card col-lg-12">
+                    <div class="card-header">
+                        <div class="row">
+                            <button type="submit" class="btn btn-primary" style="margin-right:8px" onclick="SubmitForm()">Phê duyệt</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <form method="post" id="myForm">
+                                <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th width="30px" style="vertical-align:middle">TT</th>
+                                            <th class="text-center" width="50px" style="vertical-align:middle;background-color: #f7f7f7;">
+                                                <input type="checkbox" id="selectAll" /> Chọn Tất Cả<br />
+                                            </th>
+                                            <th class="text-center" width="300px" style="vertical-align:middle">Nội dung trích yếu</th>
+                                            <th class="text-center" width="300px" style="vertical-align:middle">Thông tin khóa đào tạo</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Quy trình</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Người Tạo</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Ngày tạo</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Người Kiểm tra</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Ngày kiểm tra</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">TPBP</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Ngày TPBP xử lý</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">PCHN</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Ngày PCHN Xử lý</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Tình trạng</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            int pageno = (int)Model.PageNumber;
+                                            int itemperpage = (int)Model.PageSize;
+                                            int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                        }
+                                        @foreach (var item in Model)
+                                        {
+                                            ELEARNINGEntities db = new ELEARNINGEntities();
+                                            //var NCDT = db.SH_NhuCauDT.Where(x => x.ID == item.NCDT_ID).FirstOrDefault();
+                                            //var NguoiTao = db.NhanViens.Where(x => x.ID == NCDT.NguoiTao_ID).FirstOrDefault();
+                                            <tr>
+                                                <td class="text-center"> @RowNo@{RowNo++;}</td>
+                                                @if (item.IsDuyet == 0 && item.ID_TinhTrangCTDT == 2)
+                                                {
+                                                    <td class="text-center">
+                                                        <input type="checkbox" class="itemCheckbox" name="selectedItems" value="@item.ID" />
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-center">
+                                                    </td>
+
+                                                }
+                                                <td>@item.NoiDungTrichYeu</td>
+                                                @if (item.ID_TinhTrangCTDT == 2)
+                                                {
+                                                    <td class=""> <a id="btn-edit_@item.ID" href="@Url.Action("XuLyPhieuCTDT","PheDuyetPhieu", new { id = item.ID_CTDT })" title="Edit" class="">@item.NoiDungCTDT</a></td>
+                                                }
+                                                else
+                                                {
+                                                    <td class=""> <a id="btn-edit_@item.ID" href="@Url.Action("Edit_View","ChuongTrinhDTTH", new { id = item.ID_CTDT })" title="Edit" class="">@item.NoiDungCTDT</a></td>
+                                                }
+
+                                                <td class="">Chương trình đào tạo</td>
+                                                <td class="">@item.TenNguoiTao</td>
+                                                @if (item.NgayTao != null)
+                                                {
+                                                    <td class="">@(((DateTime)item.NgayTao).ToString("dd/MM/yyyy HH:mm:ss"))</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class=""></td>
+                                                }
+                                                <td class="">@item.TenNguoiKiemTra</td>
+                                                @if (item.NgayKTDuyet != null)
+                                                {
+
+                                                    <td class="">@(((DateTime)item.NgayKTDuyet).ToString("dd/MM/yyyy HH:mm:ss"))</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-danger">Chưa xử lý</td>
+                                                }
+                                                <td class="">@item.TenTPBP</td>
+                                                @if (item.NgayTPBP != null)
+                                                {
+                                                    <td class="">@(((DateTime)item.NgayTPBP).ToString("dd/MM/yyyy HH:mm:ss"))</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-danger">Chưa xử lý</td>
+                                                }
+                                                <td class="">@item.TenPCHN</td>
+                                                @if (item.NgayPCHN != null)
+                                                {
+                                                    <td class="">@(((DateTime)item.NgayPCHN).ToString("dd/MM/yyyy HH:mm:ss"))</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-danger">Chưa xử lý</td>
+                                                }
+
+                                                @if (item.ID_TinhTrangCTDT == 2)
+                                                {
+                                                    <td class="text-center"> <button type="button" class="btn btn-warning"> Đang xử lý </button></td>
+                                                }
+                                                else if (item.ID_TinhTrangCTDT == 1)
+                                                {
+                                                    <td class="text-center"> <button type="button" class="btn btn-success"> Hoàn tất </button></td>
+                                                }
+                                                else if (item.ID_TinhTrangCTDT == 3)
+                                                {
+                                                    <td class="text-center"> <button type="button" class="btn btn-danger"> Không phê duyệt</button></td>
+                                                }
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </form>
+
+                            <div class="pager">
+                                @Html.PagedListPager(Model, page => Url.Action("Index_CTDT", "PheDuyetPhieu", new { page, IDLVDT = Request.QueryString["IDLVDT"], IDGV = Request.QueryString["IDGV"], search = Request.QueryString["search"], IDLoaiDT = Request.QueryString["IDLoaiDT"], IDPPDT = Request.QueryString["IDPPDT"], IDNhomDT = Request.QueryString["IDNhomDT"], }))
+                                <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script>
+    document.getElementById('selectAll').addEventListener('change', function () {
+        // Lấy tất cả các checkbox có class là itemCheckbox
+        const checkboxes = document.querySelectorAll('.itemCheckbox');
+
+        // Nếu checkbox "Chọn Tất Cả" được chọn thì tất cả đều được chọn
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+
+    // Cập nhật trạng thái của "Chọn Tất Cả" khi bỏ chọn bất kỳ checkbox nào
+    document.querySelectorAll('.itemCheckbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            const selectAllCheckbox = document.getElementById('selectAll');
+            // Kiểm tra nếu có bất kỳ checkbox nào chưa chọn
+            selectAllCheckbox.checked = Array.from(document.querySelectorAll('.itemCheckbox'))
+                .every(item => item.checked);
+        });
+    });
+</script>
+<script type="text/javascript">
+    //$(" #LVDTID").chosen({
+    //    width: "100%"
+    //});
+    function SubmitForm() {
+        const queryParams = window.location.search; // Lấy ?id=123&name=John
+        const form = document.getElementById("myForm");
+        form.action = "/PheDuyetPhieu/ProcessSelectedCTDT" + queryParams;
+        form.submit();
+    }
+    $(document).ready(function () {
+        $('#addProductModal').on('hidden.bs.modal', function () {
+            // Reset form fields
+            $('#addProductForm')[0].reset();
+        });
+    });
+    $("#LVDTID #LVDTID").chosen({
+        width: "100%"
+    });
+
+    $("#btn-search").on('click', function () {
+        var search = $('#txtsearch').val();
+        window.location.href = '@Url.Action("Index", "NoiDungDTTH")?search=' + search + "&IDLVDT=" + $('#LVDTID').val() + "&IDGV=" + $('#IDGV').val() + "&IDLoaiDT=" + $('#IDLoaiDT').val() + "&IDPPDT=" + $('#IDPPDT').val() + "&IDNhomDT=" + $('#IDNhomDT').val();
+    });
+</script>
+

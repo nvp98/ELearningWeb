@@ -1,4 +1,5 @@
-﻿using System;
+﻿using E_Learning.ModelsDTTH;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -60,6 +61,30 @@ namespace E_Learning.Models
         public int IDDeThi { get; set; }
 
         public string TenDeThi { get; set; }
+
+        public Nullable<int> NCDT_ID { get; set; }
+        public string TenNCDT { get; set; }
+        public Nullable<int> CTDT_ID { get; set; }
+        public string TenCTDT { get; set; }
+        public string NoiDungTrichYeu { get; set; }
+        public string DiaDiemDT { get; set; }
+        public string ThoiLuongDT { get; set; }
+        public Nullable<int> DonVi_GV { get; set; }
+        public Nullable<int> BoPhan_ID { get; set; }
+        public string TenBoPhan { get; set; }
+        public Nullable<int> NguoiTao_ID { get; set; }
+        public string TenNguoiTao { get; set; }
+        public Nullable<int> NguoiKiemTra_ID { get; set; }
+        public string TenNguoiKiemTra { get; set; }
+        public Nullable<int> TinhTrang { get; set; }
+        public Nullable<System.DateTime> NgayTao { get; set; }
+        public Nullable<System.DateTime> NgayKiemTra { get; set; }
+
+        public bool IsAll { get; set; }
+        public string DSNhanVien { get; set; }
+
+        public string DSHocVien { get; set; }
+        public ChiTietToChucDTTHView chiTietToChucDTTH { get; set; }
 
     }
 }

@@ -172,15 +172,15 @@
                                 </a>
                             </li>
                             @*@if (checkDGNV == 1 || true)
-                            {
-                                <li>
-                                    <a title="Cập nhật KNL" href="@Url.Action("Index","FCheck")"
-                                        onclick="return confirm('Cần kiểm tra để đảm bảo Vị trí đánh giá trong danh sách đúng với thực tế trước khi thực hiện đánh giá')">
-                                        <i class="metismenu-icon pe-7s-news-paper font-weight-bold">
-                                        </i>Đánh giá Khung Năng lực
-                                    </a>
-                                </li>
-                            }*@
+        {
+            <li>
+                <a title="Cập nhật KNL" href="@Url.Action("Index","FCheck")"
+                    onclick="return confirm('Cần kiểm tra để đảm bảo Vị trí đánh giá trong danh sách đúng với thực tế trước khi thực hiện đánh giá')">
+                    <i class="metismenu-icon pe-7s-news-paper font-weight-bold">
+                    </i>Đánh giá Khung Năng lực
+                </a>
+            </li>
+        }*@
                             <li>
                                 <a title="Cập nhật KNL" href="@Url.Action("Index","FCheck")"
                                    onclick="return confirm('Cần kiểm tra để đảm bảo Vị trí đánh giá trong danh sách đúng với thực tế trước khi thực hiện đánh giá')">
@@ -207,23 +207,36 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a href="@Url.Action("Index_CTDT", "PheDuyetPhieu")" class="font-size-md font-weight-bold ">
+                                            <i class="pe-7s-users"></i>
+                                            &nbsp;&nbsp;Chương trình đào tạo
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="@Url.Action("PheDuyetKNL", "FPosition")" class="font-size-md font-weight-bold ">
                                             <i class="pe-7s-users"></i>
                                             &nbsp;&nbsp;Khung năng lực
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="@Url.Action("Index_NDDT", "PheDuyetPhieu")" class="font-size-md font-weight-bold ">
+                                            <i class="pe-7s-users"></i>
+                                            &nbsp;&nbsp;Nội dung đào tạo
+                                        </a>
+                                    </li>
+
                                     @*<li>
-                    <a href="@Url.Action("Index", "PheDuyetPhieu",new {LoaiKyDuyet = 2})" class="font-size-md font-weight-bold ">
-                        <i class="pe-7s-users"></i>
-                        &nbsp;&nbsp;Tổ chức đào tạo
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("Index", "PheDuyetPhieu",new {LoaiKyDuyet = 3})" class="font-size-md font-weight-bold ">
-                        <i class="pe-7s-users"></i>
-                        &nbsp;&nbsp;Kế hoạch đào tạo
-                    </a>
-                </li>*@
+            <a href="@Url.Action("Index", "PheDuyetPhieu",new {LoaiKyDuyet = 2})" class="font-size-md font-weight-bold ">
+                <i class="pe-7s-users"></i>
+                &nbsp;&nbsp;Tổ chức đào tạo
+            </a>
+        </li>
+        <li>
+            <a href="@Url.Action("Index", "PheDuyetPhieu",new {LoaiKyDuyet = 3})" class="font-size-md font-weight-bold ">
+                <i class="pe-7s-users"></i>
+                &nbsp;&nbsp;Kế hoạch đào tạo
+            </a>
+        </li>*@
                                 </ul>
                             </li>
                             <li class="app-sidebar__heading">Thủ tục đào tạo</li>
@@ -257,7 +270,78 @@
                                 </li>
                             }
 
-
+                            <li>
+                                <a href="@Url.Action("Index","ChuongTrinhDTTH")">
+                                    <i class="metismenu-icon pe-7s-display1 font-weight-bold"></i>
+                                    Chương trình đào tạo
+                                </a>
+                            </li>
+                            <li class=" @((new List<String> { "ToChucDTTH" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
+                                <a href="">
+                                    <i class="metismenu-icon pe-7s-display1 font-weight-bold"></i>
+                                    Tổ chức và quản lý lớp
+                                </a>
+                                <ul id="NCDT">
+                                    <li>
+                                        <a href="">
+                                            <i class="metismenu-icon pe-7s-display1 font-weight-bold"></i>
+                                            Tổ chức đào tạo riêng BP
+                                        </a>
+                                        <ul id="NCDT">
+                                            <li>
+                                                <a href="@Url.Action("Index", "ToChucDTTH",new {PhanLoaiNCDT_ID =1,PhuongPhapDT_ID =1})" class="font-size-md font-weight-bold ">
+                                                    &nbsp;&nbsp;&nbsp; <i class="pe-7s-users"></i>
+                                                    &nbsp;&nbsp; Tổ chức đào tạo E-Learning
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Index", "NhuCauDTTH",new {IDLoaiDT =1})" class="font-size-md font-weight-bold ">
+                                                    &nbsp;&nbsp;&nbsp; <i class="pe-7s-users"></i>
+                                                    &nbsp;&nbsp; Tổ chức đào tạo tập trung
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Index", "NhuCauDTTH",new {IDLoaiDT =1})" class="font-size-md font-weight-bold ">
+                                                    &nbsp;&nbsp;&nbsp; <i class="pe-7s-users"></i>
+                                                    &nbsp;&nbsp; Tổ chức đào tạo HTTĐCSKN
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Index", "NhuCauDTTH",new {IDLoaiDT =1})" class="font-size-md font-weight-bold ">
+                                                    &nbsp;&nbsp;&nbsp; <i class="pe-7s-users"></i>
+                                                    &nbsp;&nbsp; Đề nghị KCCD
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index","NoiDungDTTH")">
+                                            <i class="metismenu-icon pe-7s-display1 font-weight-bold"></i>
+                                            Tổ chức đào tạo khác
+                                        </a>
+                                        <ul id="NCDT">
+                                            <li>
+                                                <a href="@Url.Action("Index", "NhuCauDTTH",new {IDLoaiDT =1})" class="font-size-md font-weight-bold ">
+                                                    &nbsp;&nbsp;&nbsp; <i class="pe-7s-users"></i>
+                                                    &nbsp;&nbsp; Tổ chức đào tạo tập trung
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Index", "NhuCauDTTH",new {IDLoaiDT =1})" class="font-size-md font-weight-bold ">
+                                                    &nbsp;&nbsp;&nbsp; <i class="pe-7s-users"></i>
+                                                    &nbsp;&nbsp; Tổ chức đào tạo HTTĐCSKN
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index","NoiDungDTTH")">
+                                            <i class="metismenu-icon pe-7s-display1 font-weight-bold"></i>
+                                            Tổ chức đào tạo thuê ngoài tốn phí
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
                             <li class="app-sidebar__heading">Bảng tin</li>
                             <li>

@@ -14,12 +14,6 @@ namespace E_Learning.Models
     
     public partial class KhungNangLuc
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public KhungNangLuc()
-        {
-            this.KNL_KQ = new HashSet<KNL_KQ>();
-        }
-    
         public int IDNL { get; set; }
         public string TenNL { get; set; }
         public Nullable<int> IDLoaiNL { get; set; }
@@ -29,8 +23,5 @@ namespace E_Learning.Models
         public Nullable<int> IsDanhGia { get; set; }
         public Nullable<int> OrderBy { get; set; }
         public Nullable<int> IsDuyet { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KNL_KQ> KNL_KQ { get; set; }
     }
 }
