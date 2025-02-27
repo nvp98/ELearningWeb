@@ -886,6 +886,7 @@
     <None Include="Views\Shared\LayoutAdmin.cshtml" />
     <Content Include="Views\ToChucDTTH\Index.cshtml" />
     <Content Include="Views\ToChucDTTH\Create.cshtml" />
+    <Content Include="Views\ToChucDTTH\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\all.css" />

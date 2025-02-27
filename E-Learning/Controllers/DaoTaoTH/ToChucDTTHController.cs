@@ -620,12 +620,10 @@ namespace E_Learning.Controllers.DaoTaoTH
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ManageClassValidation DTO, HttpPostedFileBase fileUpload, string action, int? PhuongPhapDT_ID, int? PhanLoaiNCDT_ID)
         {
-
             try
             {
                 if (ModelState.IsValid)
                 {
-
                     var lopHocExisting = db_context.LopHocs.Where(x => x.MaLH == DTO.MaLH).FirstOrDefault();
                     if (lopHocExisting != null)
                     {
@@ -639,7 +637,6 @@ namespace E_Learning.Controllers.DaoTaoTH
                         var nhuCauDT = db_context.SH_NhuCauDT.Where(x => x.ID == lopHocExisting.NCDT_ID).FirstOrDefault();
                         lopHocExisting.NDID = nhuCauDT.NoiDungDT_ID;
 
-                        // int IDGVCty = db_context.SH_ChiTietTCDT.Where(x => x.CTDT_ID == lopHocExisting.IDLH).SingleOrDefault().ID_GVCty.Value;
                         int IDGVCty = DTO.chiTietToChucDTTH.ID_GVCty.Value;
                         lopHocExisting.GVID = IDGVCty;
                         var chiTietTCDTInDB = db_context.SH_ChiTietTCDT.Where(x => x.CTDT_ID == lopHocExisting.IDLH).SingleOrDefault();
@@ -658,146 +655,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                         lopHocExisting.NgayTao = lopHocExisting.NgayTao;
                         lopHocExisting.IDDeThi = DTO.IDDeThi;
                     }
-
                     
-                    //// thêm học viên vào lớp
-                    //if (DTO.IsAll)
-                    //{
-                    //    var dsvt = db_context.SH_ViTri_NDDT.Where(x => x.NCDT_ID == DTO.NCDT_ID).ToList();
-                    //    foreach (var item in dsvt)
-                    //    {
-                    //        var nhanvien = db_context.NhanViens.Where(x => x.IDVTKNL == item.Vitri_ID && x.IDTinhTrangLV == 1).ToList();
-                    //        foreach (var item1 in nhanvien)
-                    //        {
-                    //            var checknv = db_context.XNHocTaps.Where(x => x.NVID == item1.ID && x.LHID == lophoc.IDLH).FirstOrDefault();
-                    //            if (checknv == null)
-                    //            {
-                    //                var XNHT = new XNHocTap()
-                    //                {
-                    //                    LHID = lophoc.IDLH,
-                    //                    NVID = item1.ID,
-                    //                    PBID = item1.IDPhongBan,
-                    //                    VTID = item1.IDViTri,
-                    //                    NgayTG = default,
-                    //                    NgayHT = default,
-                    //                    XNHT = false,
-                    //                    XNTG = false
-                    //                };
-                    //                db_context.XNHocTaps.Add(XNHT);
-                    //                db_context.SaveChanges();
-                    //            }
-                    //        }
-                    //    }
-                    //    var dsnv = db_context.SH_KetQuaDaoTao.Where(x => x.NCDT_ID == DTO.NCDT_ID).ToList();
-                    //    foreach (var item in dsnv)
-                    //    {
-                    //        var nhanvien = db_context.NhanViens.Where(x => x.ID == item.NhanVien_ID && x.IDTinhTrangLV == 1).FirstOrDefault();
-                    //        if (nhanvien != null)
-                    //        {
-                    //            var checknv = db_context.XNHocTaps.Where(x => x.NVID == nhanvien.ID && x.LHID == lophoc.IDLH).FirstOrDefault();
-                    //            if (checknv == null)
-                    //            {
-                    //                var XNHT = new XNHocTap()
-                    //                {
-                    //                    LHID = lophoc.IDLH,
-                    //                    NVID = nhanvien.ID,
-                    //                    PBID = nhanvien.IDPhongBan,
-                    //                    VTID = nhanvien.IDViTri,
-                    //                    NgayTG = default(DateTime),
-                    //                    NgayHT = default(DateTime),
-                    //                    XNHT = false,
-                    //                    XNTG = false
-                    //                };
-                    //                db_context.XNHocTaps.Add(XNHT);
-                    //                db_context.SaveChanges();
-                    //            }
-                    //        }
-
-                    //    }
-                    //}
-                    //// check ds học viên có học viên để mở lớp
-                    //if (!String.IsNullOrEmpty(DTO.DSHocVien))
-                    //{
-                    //    //Regex.Replace(_DO.NVDG, @"[^0-9a-zA-Z]+", " ");
-                    //    string tx = Regex.Replace(DTO.DSHocVien, @"[^0-9a-zA-Z]+", " ");
-                    //    string[] NVS = tx.Split(new char[] { ' ' });
-                    //    foreach (var item in NVS)
-                    //    {
-                    //        var aa = db_context.NhanViens.Where(x => x.MaNV == item).FirstOrDefault();
-                    //        if (aa != null)
-                    //        {
-                    //            var checktrung = db_context.XNHocTaps.Where(x => x.NVID == aa.ID && x.LHID == lophoc.IDLH).ToList();
-                    //            if (checktrung.Count() == 0)
-                    //            {
-                    //                var XNHT = new XNHocTap()
-                    //                {
-                    //                    LHID = lophoc.IDLH,
-                    //                    NVID = aa.ID,
-                    //                    PBID = aa.IDPhongBan,
-                    //                    VTID = aa.IDViTri,
-                    //                    NgayTG = default(DateTime),
-                    //                    NgayHT = default(DateTime),
-                    //                    XNHT = false,
-                    //                    XNTG = false
-                    //                };
-                    //                db_context.XNHocTaps.Add(XNHT);
-                    //                db_context.SaveChanges();
-                    //            }
-                    //        }
-                    //    }
-                    //    db_context.SaveChanges();
-                    //}
-                    //// thêm học viên từ DS excel
-                    //if (fileUpload != null && fileUpload.ContentLength > 0)
-                    //{
-                    //    //lưu câu hỏi
-                    //    Stream stream = fileUpload.InputStream;
-
-                    //    IExcelDataReader reader = null;
-                    //    if (fileUpload.FileName.EndsWith(".xls"))
-                    //    {
-                    //        reader = ExcelReaderFactory.CreateBinaryReader(stream);
-                    //    }
-                    //    else if (fileUpload.FileName.EndsWith(".xlsx"))
-                    //    {
-                    //        reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
-                    //    }
-                    //    else
-                    //    {
-                    //        TempData["msg"] = "<script>alert('Vui lòng chọn đúng định dạng file Excel');</script>";
-                    //        RedirectToAction("Index");
-                    //    }
-                    //    DataSet result = reader.AsDataSet();
-                    //    DataTable dt = result.Tables[0];
-                    //    reader.Close();
-
-                    //    for (int i = 1; i < dt.Rows.Count; i++)
-                    //    {
-                    //        string manv = dt.Rows[i][1].ToString().Trim();
-                    //        var nv = db_context.NhanViens.Where(x => x.MaNV == manv).FirstOrDefault();
-                    //        if (nv != null)
-                    //        {
-                    //            var checktrung = db_context.XNHocTaps.Where(x => x.NVID == nv.ID && x.LHID == lophoc.IDLH).ToList();
-                    //            if (checktrung.Count() == 0)
-                    //            {
-                    //                var XNHT = new XNHocTap()
-                    //                {
-                    //                    LHID = lophoc.IDLH,
-                    //                    NVID = nv.ID,
-                    //                    PBID = nv.IDPhongBan,
-                    //                    VTID = nv.IDViTri,
-                    //                    NgayTG = default(DateTime),
-                    //                    NgayHT = default(DateTime),
-                    //                    XNHT = false,
-                    //                    XNTG = false
-                    //                };
-                    //                db_context.XNHocTaps.Add(XNHT);
-                    //                db_context.SaveChanges();
-                    //            }
-                    //        }
-                    //    }
-                    //}
-
                     // Thêm thông tin trình ký
                     if (action == "Cập nhật")
                     {
@@ -807,7 +665,7 @@ namespace E_Learning.Controllers.DaoTaoTH
 
                     TempData["msgSuccess"] = "<script>alert('Cập nhật thành công ');</script>";
                     
-                    return RedirectToAction("Index", "ToChucDTTH");
+                    return RedirectToAction("Index", new { PhuongPhapDT_ID = PhuongPhapDT_ID, PhanLoaiNCDT_ID = PhanLoaiNCDT_ID });
                 }
             }
             catch (Exception ex)
@@ -816,6 +674,31 @@ namespace E_Learning.Controllers.DaoTaoTH
             }
             
             return RedirectToAction("Index", "ToChucDTTH");
+        }
+
+        public JsonResult CheckLSNV(int IDLH)
+        {
+            var ListNV = new List<EmployeeValidation>();
+
+            var XNHocTap = db_context.XNHocTaps.Where(x => x.LHID == IDLH).ToList();
+
+            if (XNHocTap.Any())
+            {
+                foreach (var item in XNHocTap)
+                {
+                    var nhanViens = db_context.NhanViens.Where(x => x.ID == item.NVID).ToList();
+                    foreach (var nv in nhanViens)
+                    {
+                        ListNV.Add(new EmployeeValidation
+                        {
+                            MaNV = nv.MaNV,
+                            HoTen = nv.MaNV + " - " + nv.HoTen
+                        });
+                    }
+                }
+            }
+
+            return Json(ListNV, JsonRequestBehavior.AllowGet);
         }
 
     }

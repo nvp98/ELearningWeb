@@ -188,6 +188,7 @@
 
 
                                                 <a title="DS Lớp" class="fa fa-list-alt" id="@item.IDLH" href="@Url.Action("Index" , "ConfirmEStudy" , new { id = @item.IDLH })"></a>
+                                                <a id="btn-edit_@item.IDLH" title="Sửa" class="fa fa-edit icon_action" href='@Url.Action("Edit","ToChucDTTH", new { PhuongPhapDT_ID = 1,PhanLoaiNCDT_ID = 1, IDLH = item.IDLH})'></a>
                                                 @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.VIEW_ALL))
                                                 {
                                                     <a title="DS Câu Hỏi" class="fa fa-file-text" id="@item.IDDeThi" href="@Url.Action("ViewQuestion" , "ManageTestExam" , new { id = @item.IDDeThi })"></a>
