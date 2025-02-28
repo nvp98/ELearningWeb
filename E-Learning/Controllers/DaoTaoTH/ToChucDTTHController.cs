@@ -654,12 +654,41 @@ namespace E_Learning.Controllers.DaoTaoTH
                         lopHocExisting.NguoiTao_ID = lopHocExisting.NguoiTao_ID;
                         lopHocExisting.NgayTao = lopHocExisting.NgayTao;
                         lopHocExisting.IDDeThi = DTO.IDDeThi;
+
+                        if (!String.IsNullOrEmpty(DTO.DSHocVien))
+                        {
+                            string tx = Regex.Replace(DTO.DSHocVien, @"[^0-9a-zA-Z]+", " ");
+                            string[] NVS = tx.Split(new char[] { ' ' });
+                            foreach (var item in NVS)
+                            {
+                                var nhanVien = db_context.NhanViens.Where(x => x.MaNV == item).FirstOrDefault();
+                                if (nhanVien != null)
+                                {
+                                    var checkDuplicate = db_context.XNHocTaps.Where(x => x.NVID == nhanVien.ID && x.LHID == lopHocExisting.IDLH).ToList();
+                                    if (checkDuplicate.Count() == 0)
+                                    {
+                                        var XNHT = new XNHocTap()
+                                        {
+                                            LHID = lopHocExisting.IDLH,
+                                            NVID = nhanVien.ID,
+                                            PBID = nhanVien.IDPhongBan,
+                                            VTID = nhanVien.IDViTri,
+                                            NgayTG = default(DateTime),
+                                            NgayHT = default(DateTime),
+                                            XNHT = false,
+                                            XNTG = false
+                                        };
+                                        db_context.XNHocTaps.Add(XNHT);
+                                    }
+                                }
+                            }
+                            db_context.SaveChanges();
+                        }
                     }
                     
                     // Thêm thông tin trình ký
                     if (action == "Cập nhật")
                     {
-                        lopHocExisting.TinhTrang = 0; // Đang lưu
                         db_context.SaveChanges();
                     }
 

@@ -330,17 +330,19 @@
 
                                         <script type="text/javascript">
                                             $(document).on("click", ".checkNV", function () {
-                                                /*var iddex = $(this).attr('id').split("_")[1];*/
                                                 $.get("/FPermision/CheckLSNV", { lsnv: $("#DSNhanVien").val() }, function (data) {
-                                                    if (data[0] != null) {
-                                                        $("#dsnv").empty();
-                                                        /*$("#dsnv").append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")*/
-                                                        $.each(data, function (index, row) {
-                                                            $("#dsnv").append("<div>" + row.HoTen + "</div>")
+                                                    if (data.length > 0) {
+                                                        let existingNV = new Set();
+                                                        $("#dsnv div").each(function () {
+                                                            existingNV.add($(this).attr("data-manv"));
                                                         });
 
-                                                    }
-                                                    else {
+                                                        $.each(data, function (index, row) {
+                                                            if (!existingNV.has(row.MaNV)) {
+                                                                $("#dsnv").append("<div data-manv='" + row.MaNV + "'>" + row.HoTen + "</div>");
+                                                            }
+                                                        });
+                                                    } else {
                                                         $("#dsnv").empty();
                                                     }
                                                 });
