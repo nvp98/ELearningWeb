@@ -701,5 +701,9 @@ namespace E_Learning.Controllers.DaoTaoTH
             return Json(ListNV, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult ViewEdit()
+        {
+            return View();
+        }
     }
 }

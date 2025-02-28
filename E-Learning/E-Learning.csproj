@@ -887,6 +887,7 @@
     <Content Include="Views\ToChucDTTH\Index.cshtml" />
     <Content Include="Views\ToChucDTTH\Create.cshtml" />
     <Content Include="Views\ToChucDTTH\Edit.cshtml" />
+    <Content Include="Views\ToChucDTTH\ViewEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\all.css" />
