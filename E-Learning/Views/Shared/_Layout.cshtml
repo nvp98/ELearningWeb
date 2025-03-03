@@ -172,15 +172,15 @@
                                 </a>
                             </li>
                             @*@if (checkDGNV == 1 || true)
-                            {
-                                <li>
-                                    <a title="Cập nhật KNL" href="@Url.Action("Index","FCheck")"
-                                        onclick="return confirm('Cần kiểm tra để đảm bảo Vị trí đánh giá trong danh sách đúng với thực tế trước khi thực hiện đánh giá')">
-                                        <i class="metismenu-icon pe-7s-news-paper font-weight-bold">
-                                        </i>Đánh giá Khung Năng lực
-                                    </a>
-                                </li>
-                            }*@
+        {
+            <li>
+                <a title="Cập nhật KNL" href="@Url.Action("Index","FCheck")"
+                    onclick="return confirm('Cần kiểm tra để đảm bảo Vị trí đánh giá trong danh sách đúng với thực tế trước khi thực hiện đánh giá')">
+                    <i class="metismenu-icon pe-7s-news-paper font-weight-bold">
+                    </i>Đánh giá Khung Năng lực
+                </a>
+            </li>
+        }*@
                             <li>
                                 <a title="Cập nhật KNL" href="@Url.Action("Index","FCheck")"
                                    onclick="return confirm('Cần kiểm tra để đảm bảo Vị trí đánh giá trong danh sách đúng với thực tế trước khi thực hiện đánh giá')">
@@ -617,6 +617,36 @@
                                             <a href="@Url.Action("Index", "ManageTestExam", new {IDND =1})" class=" font-weight-bold @(Context.Request.Path == "/ManageTestExam" ? "mm-active" : "")">
                                                 <i class=" pe-7s-graph3">
                                                 </i>&nbsp;&nbsp; Ngân hàng đề thi
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                            <li class=" @(Context.Request.Path == "/RewardContent" || Context.Request.Path == "/RewardType" ? "mm-active" : "")">
+                                @if ((new List<String> { "RewardContent", "RewardType" }).Any(x => ListControll.Contains(x)))
+                                {
+                                    <a href="#" id="IDTK" class="">
+                                        <i class="metismenu-icon pe-7s-photo-gallery font-weight-bold">
+                                        </i>Quản lý khen thưởng
+                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                    </a>
+                                }
+                                <ul id="LSTK">
+                                    @if (ListControll.Contains("RewardContent"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "RewardContent")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Question" ? "mm-active" : "")">
+                                                <i class=" pe-7s-note2">
+                                                </i>&nbsp;&nbsp; Nội dung khen thưởng
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (ListControll.Contains("RewardType"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "ManageTestExam", new {IDND =1})" class=" font-weight-bold @(Context.Request.Path == "/ManageTestExam" ? "mm-active" : "")">
+                                                <i class=" pe-7s-graph3">
+                                                </i>&nbsp;&nbsp; Loại khen thưởng
                                             </a>
                                         </li>
                                     }
