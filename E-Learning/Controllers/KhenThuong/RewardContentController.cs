@@ -29,7 +29,7 @@ namespace E_Learning.Controllers.KhenThuong
             if (IDND == null) IDND = 0;
 
             var res = (from a in db.KT_NoiDungThuong
-                       select new KhenThuongDTO
+                       select new NoiDungKhenThuongDTO
                        {
                            ID = a.ID,
                            IDLoaiKhenThuong = a.ID_LoaiKhenThuong != null ? (int)a.ID_LoaiKhenThuong : 0,
@@ -37,8 +37,11 @@ namespace E_Learning.Controllers.KhenThuong
                            SoQuyetDinh = a.SoQuyetDinh,
                            NgayQuyetDinh = (DateTime) a.NgayQuyetDinh,
                            GiaTriLamLoi = a.GiaTriLamLoi != null ? (decimal) a.GiaTriLamLoi : 0,
-                           TongTienThuong = a.TongTienThuong != null ? (decimal) a.TongTienThuong : 0
+                           TongTienThuong = a.TongTienThuong != null ? (decimal) a.TongTienThuong : 0,
+                           LoaiKhenThuong = db.KT_LoaiThuong.Where(x => x.ID_Loai == a.ID_LoaiKhenThuong).FirstOrDefault().TenLoaiThuong
                        });
+
+            if (IDND != 0) res = res.Where(a => a.ID == IDND);
 
             List<KT_NoiDungThuong> dt = db.KT_NoiDungThuong.ToList();
             // dropdown
@@ -67,7 +70,7 @@ namespace E_Learning.Controllers.KhenThuong
         }
 
         [HttpPost]
-        public ActionResult Create(KhenThuongDTO DTO)
+        public ActionResult Create(NoiDungKhenThuongDTO DTO)
         {
             try
             {
@@ -100,7 +103,7 @@ namespace E_Learning.Controllers.KhenThuong
                 return RedirectToAction("", "Home");
             }
             var data = db.KT_NoiDungThuong.Where(x => x.ID == id).SingleOrDefault();
-            var DTO = new KhenThuongDTO()
+            var DTO = new NoiDungKhenThuongDTO()
             {
                 NoiDungKhenThuong = data.NoiDungKhenThuong,
                 SoQuyetDinh = data.SoQuyetDinh,
@@ -114,7 +117,7 @@ namespace E_Learning.Controllers.KhenThuong
         }
 
         [HttpPost]
-        public ActionResult Edit(KhenThuongDTO DTO)
+        public ActionResult Edit(NoiDungKhenThuongDTO DTO)
         {
             try
             {

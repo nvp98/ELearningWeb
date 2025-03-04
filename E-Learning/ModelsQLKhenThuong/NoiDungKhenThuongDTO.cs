@@ -2,7 +2,7 @@
 
 namespace E_Learning.ModelsQLKhenThuong
 {
-    public class KhenThuongDTO
+    public class NoiDungKhenThuongDTO
     {
         public int ID { get; set; }
         public int IDLoaiKhenThuong { get; set; }
@@ -11,5 +11,6 @@ namespace E_Learning.ModelsQLKhenThuong
         public DateTime? NgayQuyetDinh { get; set; }
         public decimal GiaTriLamLoi { get; set; }
         public decimal TongTienThuong { get; set; }
+        public string LoaiKhenThuong { get; set; }
     }
 }
