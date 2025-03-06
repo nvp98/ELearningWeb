@@ -278,7 +278,12 @@
                                     Thông báo xử lý kỷ luật
                                 </a>
                             </li>
-
+                            <li>
+                                <a href="@Url.Action("Index","Honor")" target="_blank">
+                                    <i class="metismenu-icon pe-7s-ribbon font-weight-bold"></i>
+                                    Vinh danh cá nhân, tập thể
+                                </a>
+                            </li>
                             <li id="QuanTri" style="display: none" class="app-sidebar__heading">Quản trị</li>
                             <li class=" @((new List<String> { "Account", "FPermision", "Notification" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
                                 @if ((new List<String> { "Account", "FPermision", "Notification" }).Any(x => ListControll.Contains(x)))
