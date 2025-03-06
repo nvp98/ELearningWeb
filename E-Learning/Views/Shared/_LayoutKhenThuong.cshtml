@@ -150,13 +150,8 @@
         filter: none !important;
     }
 
-
-
-
-
-    /* Cấu trúc chung */
     #stats {
-        background: #f8fbff; /* Nền xanh da trời nhạt */
+        background: #f8fbff;
         padding: 50px 0;
         text-align: center;
     }
@@ -174,10 +169,10 @@
         width: 150px;
     }
 
-        .stats .stats-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
-        }
+    .stats .stats-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+    }
 
     .stats i {
         font-size: 40px;
@@ -197,7 +192,6 @@
         margin-top: 5px;
     }
 
-    /* Phần mô tả */
     #features {
         background: white;
         padding: 50px 0;
@@ -212,10 +206,10 @@
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-        .features .col-lg:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
-        }
+    .features .col-lg:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+    }
 
     .features h3 {
         font-size: 18px;
@@ -229,12 +223,9 @@
         color: #666;
         line-height: 1.6;
     }
-
-
-
-    /* Khung lớn màu trắng */
+    
     .testimonial-wrap {
-        background: #ffffff; /* Trắng */
+        background: #ffffff;
         border-radius: 12px;
         padding: 20px;
         box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
@@ -244,25 +235,46 @@
         transition: transform 0.3s ease-in-out;
     }
 
-    /* Khung nhỏ màu xanh da trời nhạt */
     .testimonial-item {
-        background: #e6f2ff; /* Xanh da trời nhạt */
+        background: #e6f2ff;
         border-radius: 12px;
         padding: 15px;
-        font-weight: 500; /* In đậm chữ hơn */
+        font-weight: 500;
     }
 
-    /* Chữ in đậm */
     h3, h4 {
-        font-weight: 700; /* In đậm hơn */
+        font-weight: 700;
     }
 
     .testimonial-wrap:hover {
         transform: translateY(-5px);
     }
 
+    .dropdown-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+        font-family: 'Arial', sans-serif;
+        font-size: 16px;
+    }
 
+    .dropdown-container label {
+        font-weight: bold;
+        color: #333;
+    }
 
+    .dropdown-filter {
+        padding: 8px 12px;
+/*        border: 2px solid #007bff;*/
+        border-radius: 8px;
+        background-color: white;
+        font-size: 16px;
+        color: #333;
+        cursor: pointer;
+        outline: none;
+        transition: all 0.3s ease;
+    }
 
 </style>
 
@@ -427,13 +439,13 @@
             <!-- Section Title -->
             <div class="container section-title" data-aos="fade-up">
                 <h2>Bảng thành tích tập thể</h2>
-                <div><span>Danh sách</span> <span class="description-title">Bộ phận/Nhà máy được khen thưởng</span></div>
+                <div><span>Danh sách</span> <span class="description-title">Đơn vị được khen thưởng</span></div>
             </div><!-- End Section Title -->
             <div class="container">
                 <figure class="highcharts-figure">
                     <div id="container"></div>
                     <p class="highcharts-description">
-                        Bảng tổng hợp dữ liệu thành tích đạt được của các tập thể BP/NM
+                        Bảng tổng hợp dữ liệu thành tích đạt được của các đơn vị
                     </p>
                 </figure>
             </div>
@@ -449,406 +461,471 @@
                 <div><span>Danh sách cá nhân</span> <span class="description-title">được khen thưởng</span></div>
             </div><!-- End Section Title -->
             <div class="container">
-                <table id="example" class="display" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th style="color: #00529C;">Họ và tên</th>
-                            <th style="color: #00529C;">Vị trí công việc</th>
-                            <th style="color: #00529C;">BP/NM</th>
-                            <th style="color: #00529C;">Thành tích</th>
-                            <th style="color: #00529C;">Loại hình thưởng</th>
-                            <th style="color: #00529C;">Giá trị thưởng</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Hà Văn Tân</td>
-                            <td>KTV Cơ khí</td>
-                            <td>NM.CĐ2</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>567,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn Luân</td>
-                            <td>KTV CNTT</td>
-                            <td>NM.TKVV</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>235,800</td>
-                        </tr>
-                        <tr>
-                            <td>Hà Văn Tân</td>
-                            <td>KTV Cơ khí</td>
-                            <td>NM.CĐ2</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>352,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn D</td>
-                            <td>KTV CNTT</td>
-                            <td>NM.TKVV</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>53,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn D</td>
-                            <td>KTV CNTT</td>
-                            <td>NM.TKVV</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>24,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>53,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>420,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Thị A</td>
-                            <td>KTV Cơ khí</td>
-                            <td>NM.TKVV</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>534,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn D</td>
-                            <td>KTV CNTT</td>
-                            <td>NM.TKVV</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>333,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn D</td>
-                            <td>KTV CNTT</td>
-                            <td>NM.TKVV</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>433,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>345,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>53,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>54,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>43,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>32,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>23,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>34,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>67,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>34,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>76,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>23,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>120,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>56,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>45,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>34,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>67,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>34,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>76,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>23,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>120,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>56,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>45,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>34,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>67,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>34,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>76,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>23,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>120,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>56,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>45,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>34,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>67,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>34,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>76,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>23,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>120,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>56,800</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn X</td>
-                            <td>KTV Cơ khí</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>45,800</td>
-                        </tr>
-                    </tbody>
+                <div class="dropdown-container">
+                    <div class="filter-container" style="display: flex; gap: 20px; align-items: center; ">
+                        <label for="filter-unit" style="display: flex; flex-direction: column; font-weight: bold; text-align: center;">Đơn vị:</label>
+                        <select id="filter-unit" class="dropdown-filter" style=" padding: 8px; width: 200px; border-radius: 8px; border: 1px solid #ccc;">
+                            <option value="">Tất cả</option>
+                        </select>
+                        <label style="display: flex; flex-direction: column; font-weight: bold; text-align: center;">Thành tích:</label>
+                        <select id="filter-achievement" class="dropdown-filter" style=" padding: 8px; width: 200px; border-radius: 8px; border: 1px solid #ccc;">
+                            <option value="">Tất cả</option>
+                        </select>
+                        <label style="display: flex; flex-direction: column; font-weight: bold; text-align: center;">Năm:</label>
+                        <select id="filter-year" class="dropdown-filter" style=" padding: 8px; width: 200px; border-radius: 8px; border: 1px solid #ccc;">
+                            <option value="">Tất cả</option>
+                        </select>
+                    </div>
+                </div>
+                    <table id="example" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th style="color: #00529C;">Họ và tên</th>
+                                <th style="color: #00529C;">Vị trí công việc</th>
+                                <th style="color: #00529C;">Đơn vị</th>
+                                <th style="color: #00529C;">Thành tích</th>
+                                <th style="color: #00529C;">Loại hình thưởng</th>
+                                <th style="color: #00529C;">Giá trị thưởng</th>
+                                <th style="color: #00529C;">Năm</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Hà Văn Tân</td>
+                                <td>KTV Cơ khí</td>
+                                <td>NM.CĐ2</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>567,800</td>
+                                <td>2025</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn Luân</td>
+                                <td>KTV CNTT</td>
+                                <td>NM.TKVV</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>235,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Hà Văn Tân</td>
+                                <td>KTV Cơ khí</td>
+                                <td>NM.CĐ2</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>352,800</td>
+                                <td>2025</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn D</td>
+                                <td>KTV CNTT</td>
+                                <td>NM.TKVV</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>53,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn D</td>
+                                <td>KTV CNTT</td>
+                                <td>NM.TKVV</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>24,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>53,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>420,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Thị A</td>
+                                <td>KTV Cơ khí</td>
+                                <td>NM.TKVV</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>534,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn D</td>
+                                <td>KTV CNTT</td>
+                                <td>NM.TKVV</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>333,800</td>
+                                <td>2025</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn D</td>
+                                <td>KTV CNTT</td>
+                                <td>NM.TKVV</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>433,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>345,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>53,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>54,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>43,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>32,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>23,800</td>
+                                <td>2025</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>34,800</td>
+                                <td>2025</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>67,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>34,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>76,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>23,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>120,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>56,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>45,800</td>
+                                <td>2021</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>34,800</td>
+                                <td>2021</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>67,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>34,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>76,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>23,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>120,800</td>
+                                <td>2021</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>56,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>45,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>34,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>67,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>34,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>76,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>23,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>120,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>56,800</td>
+                                <td>2021</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>45,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>34,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>67,800</td>
+                                <td>2021</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>34,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>76,800</td>
+                                <td>2025</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>23,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>120,800</td>
+                                <td>2025</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>56,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn X</td>
+                                <td>KTV Cơ khí</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>45,800</td>
+                                <td>2021</td>
+                            </tr>
+                        </tbody>
 
-                </table>
-            </div>
+                    </table>
+                </div>
             <div class="container" data-aos="fade-up" data-aos-delay="100">
 
                 <div class="swiper init-swiper">
@@ -968,13 +1045,22 @@
                 <h2>Bảng thành tích</h2>
                 <div><span>Biểu đồ thống kê</span> <span class="description-title"></span></div>
             </div><!-- End Section Title -->
-            
+
             <script src="https://code.highcharts.com/highcharts.js"></script>
             <script src="https://code.highcharts.com/modules/exporting.js"></script>
             <script src="https://code.highcharts.com/modules/export-data.js"></script>
             <script src="https://code.highcharts.com/modules/accessibility.js"></script>
             <div class="container">
                 <figure class="highcharts-figure">
+                    <div class="dropdown-container">
+                        <label for="filter">Chọn loại hiển thị:</label>
+                        <select id="filter" class="dropdown-filter">
+                            <option value="all">Tất cả</option>
+                            <option value="money">Theo số tiền thưởng</option>
+                            <option value="people">Theo số cá nhân/tập thể</option>
+                            <option value="content">Theo số nội dung</option>
+                        </select>
+                    </div>
                     <div id="container_chart"></div>
                     <p class="highcharts-description">
                         Biểu đồ thống kê tổng hợp
@@ -1033,10 +1119,6 @@
     <script src="~/Content/assets/scripts/khenthuong.js"></script>
 
     <script>
-        // Data retrieved from:
-        // - https://en.as.com/soccer/which-teams-have-won-the-premier-league-the-most-times-n/
-        // - https://www.statista.com/statistics/383679/fa-cup-wins-by-team/
-        // - https://www.uefa.com/uefachampionsleague/history/winners/
         Highcharts.chart('container', {
             chart: {
                 type: 'column'
@@ -1096,13 +1178,8 @@
     </script>
     <script>
         let toolbar = document.createElement('div');
-        toolbar.innerHTML = '<b>Bảng thành tích</b>';
+        //toolbar.innerHTML = '<b>Bảng thành tích</b>';
 
-        //new DataTable('#example', {
-        //    layout: {
-        //        topStart: toolbar
-        //    }
-        //});
         let table = new DataTable('#example', {
             responsive: true,
             paging: true,
@@ -1117,6 +1194,8 @@
                 lengthMenu: "Hiển thị _MENU_ dòng",
                 info: "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
                 infoFiltered: "(lọc từ tổng số _MAX_ mục)",
+                infoEmpty: "Hiển thị 0 đến 0 của 0 mục",
+                zeroRecords: "Không có dữ liệu",
                 paginate: {
                     first: "«",
                     last: "»",
@@ -1135,145 +1214,48 @@
 
     </script>
     <script>
-        Highcharts.chart('container_chart', {
-            //chart: {
-            //    type: 'bar'
-            //},
-            //title: {
-            //    text: 'Thống kê tổng hợp',
-            //    text: 'Biểu đồ thống kê tổng hợp'
-            //},
-            //subtitle: {
-            //    text: 'Nguồn: P.NS'
-            //},
-            //xAxis: {
-            //    categories: ['Đổi mới sáng tạo', 'Thành tích đạt được', 'Thưởng đưa hạng mục vào hoạt động'],
-            //    title: {
-            //        text: null
-            //    },
-            //    gridLineWidth: 1,
-            //    lineWidth: 0
-            //},
-            //yAxis: {
-            //    min: 0,
-            //    title: {
-            //        text: ' ',
-            //        align: 'high'
-            //    },
-            //    labels: {
-            //        overflow: 'justify'
-            //    },
-            //    gridLineWidth: 0
-            //},
-            //tooltip: {
-            //    valueSuffix: ' '
-            //},
-            //plotOptions: {
-            //    bar: {
-            //        borderRadius: '50%',
-            //        dataLabels: {
-            //            enabled: true
-            //        },
-            //        groupPadding: 0.1
-            //    }
-            //},
-            //legend: {
-            //    layout: 'vertical',
-            //    align: 'right',
-            //    verticalAlign: 'top',
-            //    x: -40,
-            //    y: 80,
-            //    floating: true,
-            //    borderWidth: 1,
-            //    backgroundColor:
-            //        Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-            //    shadow: true
-            //},
-            //credits: {
-            //    enabled: false
-            //},
-            //series: [{
-            //    name: 'Số nội dung được khen thưởng',
-            //    data: [632, 727, 3202]
-            //}, {
-            //    name: 'Tổng số tiền đã thưởng (triệu đồng)',
-            //    data: [814, 841, 3714]
-            //}, {
-            //    name: 'Tổng số cá nhân được xét thưởng',
-            //    data: [1393, 1031, 4695]
-            //}, {
-            //    name: 'Tổng số tập thể được xét thưởng',
-            //    data: [1198, 1331, 495]
-            //}]
+        $(document).ready(function () {
+            const rawSeries = [
+                { name: 'Tổng số tiền đã thưởng', type: 'column', data: [488600000, 1368000000, 254000000], yAxis: 0, visible: true },
+                { name: 'Tổng số cá nhân được xét thưởng', type: 'spline', data: [62, 32, 0], yAxis: 1, visible: true },
+                { name: 'Tổng số tập thể được xét thưởng', type: 'spline', data: [8, 29, 2], yAxis: 1, visible: true },
+                { name: 'Số nội dung được khen thưởng', type: 'spline', data: [49, 14, 5], yAxis: 1, visible: true }
+            ];
 
+            const chart = Highcharts.chart('container_chart', {
+                chart: { zoomType: 'xy' },
+                title: { text: 'Tổng hợp kết quả khen thưởng' },
+                xAxis: { categories: ['Đổi mới sáng tạo', 'Thành tích đạt được', 'Thưởng đưa hạng mục vào hoạt động'] },
+                yAxis: [
+                    { title: { text: 'Tổng số tiền đã thưởng (VND)' } },
+                    { opposite: true, title: { text: 'Số cá nhân/tập thể' } }
+                ],
+                series: rawSeries
+            });
 
-            //chart: {
-            //    type: 'column'
-            //},
-            //title: {
-            //    text: 'Tổng hợp kết quả khen thưởng'
-            //},
-            //xAxis: {
-            //    categories: ['Đổi mới sáng tạo', 'Thành tích đạt được', 'Thưởng đưa hạng mục vào hoạt động']
-            //},
-            //yAxis: {
-            //    title: {
-            //        text: 'Giá trị'
-            //    }
-            //},
-            //series: [{
-            //    name: 'Tổng số tiền đã thưởng',
-            //    data: [488600000, 1368000000, 254000000]
-            //}, {
-            //    name: 'Tổng số cá nhân được xét thưởng',
-            //    data: [62, 32, 0]
-            //}, {
-            //    name: 'Tổng số tập thể được xét thưởng',
-            //    data: [8, 29, 2]
-            //}]
+            // change event
+            $("#filter").change(function () {
+                let value = $(this).val();
 
+                chart.series.forEach(series => {
+                    series.setVisible(true, false);
+                });
 
-
-            chart: {
-                zoomType: 'xy'
-            },
-            title: {
-                text: 'Tổng hợp kết quả khen thưởng'
-            },
-            xAxis: {
-                categories: ['Đổi mới sáng tạo', 'Thành tích đạt được', 'Thưởng đưa hạng mục vào hoạt động']
-            },
-            yAxis: [{
-                title: {
-                    text: 'Tổng số tiền đã thưởng (VND)'
+                if (value === "money") {
+                    chart.series[1].setVisible(false, false);
+                    chart.series[2].setVisible(false, false);
+                    chart.series[3].setVisible(false, false);
+                } else if (value === "people") {
+                    chart.series[0].setVisible(false, false);
+                    chart.series[3].setVisible(false, false);
+                } else if (value === "content") {
+                    chart.series[0].setVisible(false, false);
+                    chart.series[1].setVisible(false, false);
+                    chart.series[2].setVisible(false, false);
                 }
-            }, {
-                opposite: true,
-                title: {
-                    text: 'Số cá nhân/tập thể'
-                }
-            }],
-            series: [{
-                name: 'Tổng số tiền đã thưởng',
-                type: 'column',
-                data: [488600000, 1368000000, 254000000],
-                yAxis: 0
-            }, {
-                name: 'Tổng số cá nhân được xét thưởng',
-                type: 'spline',
-                data: [62, 32, 0],
-                yAxis: 1
-            }, {
-                name: 'Tổng số tập thể được xét thưởng',
-                type: 'spline',
-                data: [8, 29, 2],
-                yAxis: 1
-            }, {
-                name: 'Số nội dung được khen thưởng',
-                type: 'spline',
-                data: [49, 14, 5],
-                yAxis: 1
-            }]
+
+                chart.redraw();
+            });
         });
 
     </script>
@@ -1283,6 +1265,37 @@
                 $("#menu .underline-hover").removeClass("active");
                 $(this).addClass("active");
             });
+
+            var table = $('#example').DataTable();
+
+            function populateFilter(selectId, columnIndex) {
+                var uniqueValues = [];
+                table.column(columnIndex).data().each(function (value) {
+                    if (uniqueValues.indexOf(value) === -1) {
+                        uniqueValues.push(value);
+                    }
+                });
+                uniqueValues.sort();
+                $.each(uniqueValues, function (i, value) {
+                    $(selectId).append('<option value="' + value + '">' + value + '</option>');
+                });
+            }
+
+            populateFilter('#filter-unit', 2);
+            populateFilter('#filter-achievement', 3);
+            populateFilter('#filter-year', 6);
+
+            $('.filter-container select').on('change', function () {
+                var unit = $('#filter-unit').val();
+                var achievement = $('#filter-achievement').val();
+                var year = $('#filter-year').val();
+
+                table.column(2).search(unit);
+                table.column(3).search(achievement);
+                table.column(6).search(year);
+                table.draw();
+            });
+
         });
 
     </script>
