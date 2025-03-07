@@ -282,6 +282,14 @@
         border: 1px solid #ccc;
     }
 
+    .highcharts-legend-item {
+        pointer-events: none;
+    }
+
+    .scrolled .header {
+        box-shadow: 1px 4px 10px 1px rgba(19, 18, 18, 0.65) !important;
+    }
+
 </style>
 
 <body class="index-page">
@@ -455,14 +463,14 @@
                 <figure class="highcharts-figure">
                     <div class="dropdown-container">
                         <div style="display: flex; gap: 20px; align-items: center; ">
-                            <select id="categoryFilter" style=" padding: 8px; width: 200px; border-radius: 8px; border: 1px solid #ccc;">
+                            <select id="categoryFilter" class="dropdown-filter" style=" padding: 8px; width: 200px; border-radius: 8px; border: 1px solid #ccc;">
                                 <option value="all">Tất cả hạng mục</option>
                                 <option value="Đổi mới sáng tạo">Đổi mới sáng tạo</option>
                                 <option value="Thành tích đạt được">Thành tích đạt được</option>
                                 <option value="Đưa hạng mục vào hoạt động">Đưa hạng mục vào hoạt động</option>
                             </select>
 
-                            <select id="unitFilter" style=" padding: 8px; width: 200px; border-radius: 8px; border: 1px solid #ccc;">
+                            <select id="unitFilter" class="dropdown-filter" style=" padding: 8px; width: 200px; border-radius: 8px; border: 1px solid #ccc;">
                                 <option value="all">Tất cả đơn vị</option>
                                 <option value="P. CNTT & CĐS">P. CNTT & CĐS</option>
                                 <option value="P. NS">P. NS</option>
@@ -547,7 +555,7 @@
                             <td>2025</td>
                         </tr>
                         <tr>
-                            <td>Nguyễn D</td>
+                            <td>Nguyễn Mạnh Dũng</td>
                             <td>KTV Cơ khí</td>
                             <td>NM.TKVV</td>
                             <td>Thưởng đưa hạng mục vào hoạt động</td>
@@ -556,7 +564,7 @@
                             <td>2024</td>
                         </tr>
                         <tr>
-                            <td>Nguyễn D</td>
+                            <td>Nguyễn Mạnh Dũng</td>
                             <td>KTV Cơ khí</td>
                             <td>NM.TKVV</td>
                             <td>Thành tích đạt được</td>
@@ -601,7 +609,7 @@
                             <td>2025</td>
                         </tr>
                         <tr>
-                            <td>Nguyễn D</td>
+                            <td>Nguyễn Mạnh Dũng</td>
                             <td>KTV Cơ khí</td>
                             <td>NM.TKVV</td>
                             <td>Thành tích đạt được</td>
@@ -817,7 +825,7 @@
                             <td>2022</td>
                         </tr>
                         <tr>
-                            <td>Nguyễn Văn Tèo</td>
+                            <td>Nguyễn Quang Tèo</td>
                             <td>KTV Cơ khí</td>
                             <td>NM.CĐ1</td>
                             <td>Thành tích đạt được</td>
@@ -1263,6 +1271,25 @@
                 });
 
                 renderChart(filteredSeries);
+
+                const chart = Highcharts.charts.find(chart => chart && chart.renderTo.id === 'container');
+
+                chart.series.forEach(series => {
+                    series.setVisible(true, false);
+                });
+
+                if (selectedCategory === "Đổi mới sáng tạo") {
+                    chart.series[1].setVisible(false, false);
+                    chart.series[2].setVisible(false, false);
+                } else if (selectedCategory === "Thành tích đạt được") {
+                    chart.series[0].setVisible(false, false);
+                    chart.series[2].setVisible(false, false);
+                } else if (selectedCategory === "Đưa hạng mục vào hoạt động") {
+                    chart.series[0].setVisible(false, false);
+                    chart.series[1].setVisible(false, false);
+                }
+
+                chart.redraw();
             }
 
             // init lại chart
