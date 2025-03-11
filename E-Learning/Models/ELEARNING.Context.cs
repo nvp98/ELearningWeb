@@ -95,6 +95,7 @@ namespace E_Learning.Models
         public virtual DbSet<SH_QuyDaoTao> SH_QuyDaoTao { get; set; }
         public virtual DbSet<SH_TrinhKy> SH_TrinhKy { get; set; }
         public virtual DbSet<SH_ViTri_NDDT> SH_ViTri_NDDT { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TB_KyLuat> TB_KyLuat { get; set; }
         public virtual DbSet<TinhTrangLV> TinhTrangLV { get; set; }
         public virtual DbSet<ThongBao> ThongBaos { get; set; }
@@ -108,6 +109,8 @@ namespace E_Learning.Models
         public virtual DbSet<SH_ChuongTrinhDT> SH_ChuongTrinhDT { get; set; }
         public virtual DbSet<SH_KyDuyetCTDT> SH_KyDuyetCTDT { get; set; }
         public virtual DbSet<SH_ChiTietTCDT> SH_ChiTietTCDT { get; set; }
+        public virtual DbSet<SH_FileScanHoSo> SH_FileScanHoSo { get; set; }
+        public virtual DbSet<SH_HoSoDaoTao> SH_HoSoDaoTao { get; set; }
 
         public virtual int BaiThi_insert(Nullable<int> iDLH, Nullable<int> iDDeThi, Nullable<int> iDND, Nullable<int> iDNV, Nullable<int> iDPhongBan, Nullable<int> iDViTri, Nullable<double> diemSo, Nullable<System.DateTime> ngayThi, Nullable<bool> tinhTrang, Nullable<int> lanThi, ObjectParameter iDBaiThi)
         {
@@ -169,221 +172,6 @@ namespace E_Learning.Models
                 new ObjectParameter("IDBaiThi", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BaiThi_Update", diemSoParameter, tinhTrangParameter, iDBaiThiParameter);
-        }
-    
-        public virtual int Cap2_delete_KNL(Nullable<int> iD)
-        {
-            var iDParameter = iD.HasValue ?
-                new ObjectParameter("ID", iD) :
-                new ObjectParameter("ID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap2_delete_KNL", iDParameter);
-        }
-    
-        public virtual int Cap2_insert_KNL(string maDVTC, string tenDVTC)
-        {
-            var maDVTCParameter = maDVTC != null ?
-                new ObjectParameter("MaDVTC", maDVTC) :
-                new ObjectParameter("MaDVTC", typeof(string));
-    
-            var tenDVTCParameter = tenDVTC != null ?
-                new ObjectParameter("TenDVTC", tenDVTC) :
-                new ObjectParameter("TenDVTC", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap2_insert_KNL", maDVTCParameter, tenDVTCParameter);
-        }
-    
-        public virtual int Cap2_update_KNL(Nullable<int> iD, string maDVTC, string tenDVTC, Nullable<int> trangThai)
-        {
-            var iDParameter = iD.HasValue ?
-                new ObjectParameter("ID", iD) :
-                new ObjectParameter("ID", typeof(int));
-    
-            var maDVTCParameter = maDVTC != null ?
-                new ObjectParameter("MaDVTC", maDVTC) :
-                new ObjectParameter("MaDVTC", typeof(string));
-    
-            var tenDVTCParameter = tenDVTC != null ?
-                new ObjectParameter("TenDVTC", tenDVTC) :
-                new ObjectParameter("TenDVTC", typeof(string));
-    
-            var trangThaiParameter = trangThai.HasValue ?
-                new ObjectParameter("TrangThai", trangThai) :
-                new ObjectParameter("TrangThai", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap2_update_KNL", iDParameter, maDVTCParameter, tenDVTCParameter, trangThaiParameter);
-        }
-    
-        public virtual int Cap4_delete_KNL(Nullable<int> iD)
-        {
-            var iDParameter = iD.HasValue ?
-                new ObjectParameter("ID", iD) :
-                new ObjectParameter("ID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap4_delete_KNL", iDParameter);
-        }
-    
-        public virtual int Cap4_insert_KNL(string maDVTC, string tenDVTC)
-        {
-            var maDVTCParameter = maDVTC != null ?
-                new ObjectParameter("MaDVTC", maDVTC) :
-                new ObjectParameter("MaDVTC", typeof(string));
-    
-            var tenDVTCParameter = tenDVTC != null ?
-                new ObjectParameter("TenDVTC", tenDVTC) :
-                new ObjectParameter("TenDVTC", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap4_insert_KNL", maDVTCParameter, tenDVTCParameter);
-        }
-    
-        public virtual int Cap4_update_KNL(Nullable<int> iD, string maDVTC, string tenDVTC, Nullable<int> trangThai)
-        {
-            var iDParameter = iD.HasValue ?
-                new ObjectParameter("ID", iD) :
-                new ObjectParameter("ID", typeof(int));
-    
-            var maDVTCParameter = maDVTC != null ?
-                new ObjectParameter("MaDVTC", maDVTC) :
-                new ObjectParameter("MaDVTC", typeof(string));
-    
-            var tenDVTCParameter = tenDVTC != null ?
-                new ObjectParameter("TenDVTC", tenDVTC) :
-                new ObjectParameter("TenDVTC", typeof(string));
-    
-            var trangThaiParameter = trangThai.HasValue ?
-                new ObjectParameter("TrangThai", trangThai) :
-                new ObjectParameter("TrangThai", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap4_update_KNL", iDParameter, maDVTCParameter, tenDVTCParameter, trangThaiParameter);
-        }
-    
-        public virtual int Cap6_delete_KNL(Nullable<int> iD)
-        {
-            var iDParameter = iD.HasValue ?
-                new ObjectParameter("ID", iD) :
-                new ObjectParameter("ID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap6_delete_KNL", iDParameter);
-        }
-    
-        public virtual int Cap6_insert_KNL(string maDVTC, string tenDVTC)
-        {
-            var maDVTCParameter = maDVTC != null ?
-                new ObjectParameter("MaDVTC", maDVTC) :
-                new ObjectParameter("MaDVTC", typeof(string));
-    
-            var tenDVTCParameter = tenDVTC != null ?
-                new ObjectParameter("TenDVTC", tenDVTC) :
-                new ObjectParameter("TenDVTC", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap6_insert_KNL", maDVTCParameter, tenDVTCParameter);
-        }
-    
-        public virtual int Cap6_update_KNL(Nullable<int> iD, string maDVTC, string tenDVTC, Nullable<int> trangThai)
-        {
-            var iDParameter = iD.HasValue ?
-                new ObjectParameter("ID", iD) :
-                new ObjectParameter("ID", typeof(int));
-    
-            var maDVTCParameter = maDVTC != null ?
-                new ObjectParameter("MaDVTC", maDVTC) :
-                new ObjectParameter("MaDVTC", typeof(string));
-    
-            var tenDVTCParameter = tenDVTC != null ?
-                new ObjectParameter("TenDVTC", tenDVTC) :
-                new ObjectParameter("TenDVTC", typeof(string));
-    
-            var trangThaiParameter = trangThai.HasValue ?
-                new ObjectParameter("TrangThai", trangThai) :
-                new ObjectParameter("TrangThai", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap6_update_KNL", iDParameter, maDVTCParameter, tenDVTCParameter, trangThaiParameter);
-        }
-    
-        public virtual int Cap7_delete_KNL(Nullable<int> iD)
-        {
-            var iDParameter = iD.HasValue ?
-                new ObjectParameter("ID", iD) :
-                new ObjectParameter("ID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap7_delete_KNL", iDParameter);
-        }
-    
-        public virtual int Cap7_insert_KNL(string maDVTC, string tenDVTC)
-        {
-            var maDVTCParameter = maDVTC != null ?
-                new ObjectParameter("MaDVTC", maDVTC) :
-                new ObjectParameter("MaDVTC", typeof(string));
-    
-            var tenDVTCParameter = tenDVTC != null ?
-                new ObjectParameter("TenDVTC", tenDVTC) :
-                new ObjectParameter("TenDVTC", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap7_insert_KNL", maDVTCParameter, tenDVTCParameter);
-        }
-    
-        public virtual int Cap7_update_KNL(Nullable<int> iD, string maDVTC, string tenDVTC, Nullable<int> trangThai)
-        {
-            var iDParameter = iD.HasValue ?
-                new ObjectParameter("ID", iD) :
-                new ObjectParameter("ID", typeof(int));
-    
-            var maDVTCParameter = maDVTC != null ?
-                new ObjectParameter("MaDVTC", maDVTC) :
-                new ObjectParameter("MaDVTC", typeof(string));
-    
-            var tenDVTCParameter = tenDVTC != null ?
-                new ObjectParameter("TenDVTC", tenDVTC) :
-                new ObjectParameter("TenDVTC", typeof(string));
-    
-            var trangThaiParameter = trangThai.HasValue ?
-                new ObjectParameter("TrangThai", trangThai) :
-                new ObjectParameter("TrangThai", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap7_update_KNL", iDParameter, maDVTCParameter, tenDVTCParameter, trangThaiParameter);
-        }
-    
-        public virtual int Cap9_delete_KNL(Nullable<int> iD)
-        {
-            var iDParameter = iD.HasValue ?
-                new ObjectParameter("ID", iD) :
-                new ObjectParameter("ID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap9_delete_KNL", iDParameter);
-        }
-    
-        public virtual int Cap9_insert_KNL(string maDVTC, string tenDVTC)
-        {
-            var maDVTCParameter = maDVTC != null ?
-                new ObjectParameter("MaDVTC", maDVTC) :
-                new ObjectParameter("MaDVTC", typeof(string));
-    
-            var tenDVTCParameter = tenDVTC != null ?
-                new ObjectParameter("TenDVTC", tenDVTC) :
-                new ObjectParameter("TenDVTC", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap9_insert_KNL", maDVTCParameter, tenDVTCParameter);
-        }
-    
-        public virtual int Cap9_update_KNL(Nullable<int> iD, string maDVTC, string tenDVTC, Nullable<int> trangThai)
-        {
-            var iDParameter = iD.HasValue ?
-                new ObjectParameter("ID", iD) :
-                new ObjectParameter("ID", typeof(int));
-    
-            var maDVTCParameter = maDVTC != null ?
-                new ObjectParameter("MaDVTC", maDVTC) :
-                new ObjectParameter("MaDVTC", typeof(string));
-    
-            var tenDVTCParameter = tenDVTC != null ?
-                new ObjectParameter("TenDVTC", tenDVTC) :
-                new ObjectParameter("TenDVTC", typeof(string));
-    
-            var trangThaiParameter = trangThai.HasValue ?
-                new ObjectParameter("TrangThai", trangThai) :
-                new ObjectParameter("TrangThai", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Cap9_update_KNL", iDParameter, maDVTCParameter, tenDVTCParameter, trangThaiParameter);
         }
     
         public virtual int CauHoi_delete(Nullable<int> iDCH)

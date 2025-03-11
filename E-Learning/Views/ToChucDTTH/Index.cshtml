@@ -22,7 +22,6 @@
 }
 
 
-
 <div class="app-main__outer">
     <div class="app-main__inner">
 
@@ -34,7 +33,7 @@
                         </i>
                     </div>
                     <div>
-                        Quản Lý Lớp Học
+                        Tổ chức đào tạo tổng hợp
                         <div class="page-title-subheading">
                         </div>
                     </div>
@@ -87,9 +86,9 @@
                         }
                         <button type="button" id="btn-Export" class="btn btn-success m-l-auto"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Biểu Mẫu DSHV</button>
                         <span class="modal fade" id="myModalimport" role="dialog" data-url='@Url.Action("ExportToExcel","ManageClass")'></span>
-                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD) || true)
+                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD) )
                         {
-                            <button type="button" id="btn-add" class="btn btn-primary m-l-auto"><i class="fa fa-plus">&nbsp;</i>&nbsp;Thêm mới </button>
+                            <button type="button" id="btn-add" class="btn btn-primary m-l-auto"><i class="fa fa-plus">&nbsp;</i>&nbsp;Lập tổ chức đào tạo </button>
                             <span class="modal fade" id="myModalAdd" role="dialog" data-url='@Url.Action("Create","ToChucDTTH", new { PhuongPhapDT_ID = (int)ViewBag.PhuongPhapDT_ID,PhanLoaiNCDT_ID = (int)ViewBag.PhanLoaiNCDT_ID})'></span>
                             <script>
                                 $('#btn-add').click(function () {
@@ -121,13 +120,11 @@
                                         <th class="text-center">Năm</th>
                                         <th class="text-center">TG Bắt Đầu</th>
                                         <th class="text-center">TG Kết Thúc</th>
-                                        <th class="text-center">Địa điểm đào tạo</th>
-                                        <th class="text-center">Thời lượng đào tạo</th>
+                                        @*<th class="text-center">Địa điểm đào tạo</th>*@
                                         <th class="text-center">Lĩnh Vực</th>
-                                        @*<th class="text-center">Nhóm Năng lực</th>*@
                                         <th class="text-center">Giảng viên</th>
                                         <th class="text-center">CTĐT</th>
-                                        <th class="text-center">Đề Thi</th>
+                                        @*<th class="text-center">Đề Thi</th>*@
                                         <th class="text-center">SL HT / TSL HV</th>
                                         <th class="text-center">Phòng Ban</th>
                                         <th class="text-center">Người lập</th>
@@ -155,13 +152,19 @@
                                             <td class="text-center">@item.NamDT</td>
                                             <td class="text-center">@item.TGBDLH.ToString("dd-MM-yyyy")</td>
                                             <td class="text-center">@item.TGKTLH.ToString("dd-MM-yyyy")</td>
-                                            <td class="text-center">@item.DiaDiemDT</td>
-                                            <td class="text-center">@item.ThoiLuongDT</td>
+                                            @*<td class="text-center">@item.DiaDiemDT</td>*@
+                                            @*<td class="text-center">@item.ThoiLuongDT</td>*@
                                             <td class="text-center">@item.LinhVuc</td>
                                             @*<td class="text-center"></td>*@
-                                            <td class="text-center"> </td>
-                                            <td></td>
-                                            <td></td>
+                                            <td class="text-center"> @item.TenGV</td>
+                                            <td>
+                                                @if (item.CTDT_ID != null)
+                                                {
+                                                    <a id="btn-edit_@item.CTDT_ID" href="@Url.Action("Edit_View","ChuongTrinhDTTH", new { id = item.CTDT_ID })" title="Edit" class="">Xem CTĐT</a>
+                                                }
+
+                                            </td>
+                                            @*<td></td>*@
                                             <td class="text-center">@item.SLHT / @item.TSLHV</td>
                                             <td class="text-center">@item.TenBoPhan</td>
                                             <td class="text-center">@item.TenNguoiTao</td>
@@ -184,37 +187,42 @@
                                                 <td class="text-center"> <button type="button" class="btn btn-danger" style="width:120px"> Không phê duyệt </button></td>
                                                 @*<td class="text-center"> <button type="button" class="btn btn-danger"> Hủy phiếu </button></td>*@
                                             }
-                                        <td class="text-center">
-
-
-                                            <a title="DS Lớp" class="fa fa-list-alt" id="@item.IDLH" href="@Url.Action("Index" , "ConfirmEStudy" , new { id = @item.IDLH })"></a>
-                                            <a id="btn-edit_@item.IDLH" title="Sửa" class="fa fa-edit icon_action" href='@Url.Action("Edit","ToChucDTTH", new { PhuongPhapDT_ID = 1,PhanLoaiNCDT_ID = 1, IDLH = item.IDLH})'></a>
-                                            <a id="btn-view_@item.IDLH" title="Xem" class="fa fa-eye" style="color: green;" href='@Url.Action("ViewEdit","ToChucDTTH")'></a>
-                                            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.VIEW_ALL))
+                                            else if (item.TinhTrang == 4)
                                             {
-                                                <a title="DS Câu Hỏi" class="fa fa-file-text" id="@item.IDDeThi" href="@Url.Action("ViewQuestion" , "ManageTestExam" , new { id = @item.IDDeThi })"></a>
+                                                <td class="text-center"> <button type="button" class="btn btn-primary" style="width:120px"> Đang trình hồ sơ </button></td>
+                                                @*<td class="text-center"> <button type="button" class="btn btn-danger"> Hủy phiếu </button></td>*@
+                                            }
+                                            else if (item.TinhTrang == 5)
+                                            {
+                                                <td class="text-center"> <button type="button" class="btn btn-success" style="width:120px"> Đã duyệt hồ sơ </button></td>
+                                                @*<td class="text-center"> <button type="button" class="btn btn-danger"> Hủy phiếu </button></td>*@
+                                            }
+                                            else if (item.TinhTrang == 6)
+                                            {
+                                                <td class="text-center"> <button type="button" class="btn btn-danger" style="width:120px"> Từ chối hồ sơ </button></td>
+                                                @*<td class="text-center"> <button type="button" class="btn btn-danger"> Hủy phiếu </button></td>*@
+                                            }
+                                        <td class="text-center">
+                                            @if (item.TinhTrang != 2 && item.TinhTrang != 0)
+                                            {
+                                                <a id="btn-edit_@item.IDLH" href="@Url.Action("ViewEdit","ToChucDTTH", new { IDLH = item.IDLH})" title="Edit" class="fa fa-eye"></a>
                                             }
 
-                                            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
-                                            {
+                                            <a title="DS Lớp" class="fa fa-list-alt" id="@item.IDLH" href="@Url.Action("XLHS" , "ToChucDTTH" , new { id = @item.IDLH })"></a>
 
-                                                <a id="btn-edit_@item.IDLH" title="Sửa" class="fa fa-edit icon_action"></a>
-                                                <div class="modal fade" id="myModale_@item.IDLH" role="dialog" data-url='@Url.Action("Edit","ManageClass", new { id = item.IDLH })'></div>
-                                                <script type="text/javascript">
-                                                    $("#btn-edit_@item.IDLH").click(function () {
-                                                        var url = $('#myModale_@item.IDLH').data('url');
-                                                        $.get(url, function (data) {
-                                                            $("#myModal").html(data);
-                                                            $("#ModalTitle").html("Cập nhật Lớp Học");
-                                                            $("#myModal").modal('show');
-                                                        });
-                                                    });
-                                                </script>
+                                            @*@if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.VIEW_ALL))
+                                            {
+                                                <a title="DS Câu Hỏi" class="fa fa-file-text" id="@item.IDDeThi" href="@Url.Action("ViewQuestion" , "ManageTestExam" , new { id = @item.IDDeThi })"></a>
+                                            }*@
+
+                                            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT) && item.TinhTrang != 5)
+                                            {
+                                                <a id="btn-edit_@item.IDLH" title="Sửa" class="fa fa-edit icon_action" href='@Url.Action("Edit","ToChucDTTH", new { PhuongPhapDT_ID = Request.QueryString["PhuongPhapDT_ID"],PhanLoaiNCDT_ID = Request.QueryString["PhanLoaiNCDT_ID"], IDLH = item.IDLH})'></a>
                                             }
                                             @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL))
                                             {
-                                                <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "ManageClass", new { id = item.IDLH })"
-                                                   onclick="return confirm('Bạn muốn xóa Lớp Học: @item.TenLH')"></a>
+                                                @*<a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "ManageClass", new { id = item.IDLH })"
+                                                   onclick="return confirm('Bạn muốn xóa Lớp Học: @item.TenLH')"></a>*@
                                             }
 
                                         </td>
@@ -223,7 +231,7 @@
                                 </tbody>
                             </table>
                             <div class="pager">
-                                @Html.PagedListPager(Model, page => Url.Action("Index", "ManageClass", new { page, IDLH = Request.QueryString["IDLH"], IDPB = Request.QueryString["IDPB"], IDND = Request.QueryString["IDND"] }))
+                                @Html.PagedListPager(Model, page => Url.Action("Index", "ToChucDTTH", new { page, IDLH = Request.QueryString["IDLH"], IDPB = Request.QueryString["IDPB"], IDND = Request.QueryString["IDND"] }))
                                 <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
                             </div>
                         </div>

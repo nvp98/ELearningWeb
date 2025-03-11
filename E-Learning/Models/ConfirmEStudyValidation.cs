@@ -1,4 +1,5 @@
-﻿using System;
+﻿using E_Learning.ModelsDTTH;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,7 +19,7 @@ namespace E_Learning.Models
         public string MaNV { get; set; }
 
         public string HoTenHV { get; set; }
-
+        public string BoPhan_TCĐT { get; set; }
         public string TenPB { get; set; }
 
         public string TenVT { get; set; }
@@ -41,9 +42,9 @@ namespace E_Learning.Models
 
         public DateTime NgayHT { get; set; }
 
-        public bool XNTG { get; set; }
+        public bool? XNTG { get; set; }
 
-        public bool XNHT { get; set; }
+        public bool? XNHT { get; set; }
 
         public int IDBaiThi { get; set; }
 
@@ -51,6 +52,20 @@ namespace E_Learning.Models
 
         public string PPDaoTao { get; set; }
         public int? IDPPDaoTao { get; set; } = null;
+
+        public double? DiemOnline { get; set; }  
+        public double? DiemLyThuyet { get; set;}
+        public double? DiemThucHanh { get; set; }
+        public double? DiemVanDap { get; set; }
+        public int? KetLuan { get; set; }
+        public int? IDND { get; set; }
+        public int? ID_PhuongPhapDT { get; set; }
+        public string LyDoKhongTGia { get; set; }
+        public int? TinhTrang { get; set; }
+        public int? ID_NguoiTao { get; set; }
+
+        public HoSoDaoTaoTH hosodaotao { get; set; }
+        public NoiDungDTTHView noidungdt { get; set; }
 
     }
 }

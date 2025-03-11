@@ -23,6 +23,15 @@ namespace E_Learning.Models
         public Nullable<bool> XNHT { get; set; }
         public Nullable<int> PBID { get; set; }
         public Nullable<int> VTID { get; set; }
+        public Nullable<double> DiemOnline { get; set; }
+        public Nullable<double> DiemLyThuyet { get; set; }
+        public Nullable<double> DiemThucHanh { get; set; }
+        public Nullable<double> DiemVanDap { get; set; }
+        public Nullable<int> KetLuan { get; set; }
+        public Nullable<int> IDND { get; set; }
+        public Nullable<int> ID_PhuongPhapDT { get; set; }
+        public string LyDoKhongTGia { get; set; }
+        public Nullable<int> TinhTrang { get; set; }
     
         public virtual NhanVien NhanVien { get; set; }
         public virtual LopHoc LopHoc { get; set; }

@@ -18,10 +18,13 @@ namespace E_Learning.ModelsDTTH
     {
         public int ID { get; set; }
         public Nullable<int> NCDT_ID { get; set; }
+        public Nullable<int> ID_Duyet { get; set; }
         public Nullable<int> NguoiDuyet_ID { get; set; }
         public Nullable<int> CapDuyet { get; set; }
         public Nullable<int> TinhTrangDuyet { get; set; }
         public DateTime? NgayDuyet { get; set; }
+        public string HoTen_NguoiTao { get; set; }
+        public DateTime? NgayTao { get; set; }
         public string GhiChu { get; set; }
     }
     public class CapDuyetView
@@ -43,6 +46,9 @@ namespace E_Learning.ModelsDTTH
         public Nullable<System.DateTime> NgayTao { get; set; }
         public Nullable<int> ID_NguoiKiemTra { get; set; }
         public string TenNguoiKiemTra { get; set; }
+        public Nullable<int> ID_NguoiDangNDDT { get; set; }
+        public string TenNguoiDangNDDT { get; set; }
+        public Nullable<System.DateTime> NgayDangNDDT { get; set; }
         public Nullable<System.DateTime> NgayKTDuyet { get; set; }
         public Nullable<int> ID_TPBP { get; set; }
         public string TenTPBP { get; set; }
@@ -55,6 +61,7 @@ namespace E_Learning.ModelsDTTH
         public string TenNguoiDuyetNDDT { get; set; }
         public Nullable<int> ID_TinhTrangCTDT { get; set; }
         public Nullable<int> IsDuyet { get; set; }
+        public Nullable<int> CapDuyet { get; set; }
         public NoiDungDT noidungdt { get; set; }
     }
 }

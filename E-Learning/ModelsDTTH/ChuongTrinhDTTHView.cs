@@ -14,6 +14,7 @@ namespace E_Learning.ModelsDTTH
         public Nullable<int> ThoiLuongDT { get; set; }
         public string FileDinhKem { get; set; }
         public Nullable<int> IDPhuongPhapDT { get; set; }
+        public Nullable<int> IDNhomNDDT { get; set; }
         public string TenPPDT { get; set; }
         public Nullable<int> IDPhongBan { get; set; }
         public string TenPhongBan { get; set; }
@@ -47,5 +48,7 @@ namespace E_Learning.ModelsDTTH
         public int? ThoiGianLamBai { get; set; }
         public int? TongSoCau { get; set; }
         public HttpPostedFileBase FileDeThi { get; set; }
+        public HttpPostedFileBase FileScanDeThi { get; set; }
+        public string fileDe { get; set; }
     }
 }

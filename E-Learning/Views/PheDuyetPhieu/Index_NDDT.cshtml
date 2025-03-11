@@ -64,7 +64,9 @@
                                         <th class="text-center" width="300px" style="vertical-align:middle">Lĩnh vực đào tạo</th>
                                         <th class="text-center" width="300px" style="vertical-align:middle">Nhóm năng lực</th>
                                         <th class="text-center" width="300px" style="vertical-align:middle">Link Video NDĐT</th>
-                                        <th class="text-center" width="150px" style="vertical-align:middle">P.NS xác nhận</th>
+                                        <th class="text-center" width="150px" style="vertical-align:middle">P.NS đăng nội dung</th>
+                                        <th class="text-center" width="150px" style="vertical-align:middle">Ngày đăng nội dung</th>
+                                        <th class="text-center" width="150px" style="vertical-align:middle">P.CHN xác nhận</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Ngày xác nhận</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Tác giả xác nhận</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Tình trạng</th>
@@ -86,9 +88,18 @@
                                             @if (item.noidungdt.IsDelete == true)
                                             {
                                                 <td class="text-center">
-                                                    <button id="btn-edit_@item.ID_CTDT" data-url='@Url.Action("XuLyNDDT","PheDuyetPhieu", new { id = item.ID_CTDT })' class="btn btn-success">Duyệt NDĐT</button>
+                                                    <button id="btn-edit_@item.ID_CTDT" data-url='@Url.Action("XuLyNDDT","PheDuyetPhieu", new { id = item.ID_CTDT })' class="btn btn-success">
+                                                        @if (item.CapDuyet == 1)
+                                                        {
+                                                            <span>P.NS Đăng nội dung</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>Duyệt NDĐT</span>
+                                                        }
+                                                    </button>
                                                     @*<a id="btn-edit_@item.noidungdt.IDND" title="Sửa" class="fa fa-edit icon_action"></a>*@
-                                                    <div class="modal fade modalEdit" id="myModale_@item.ID_CTDT" role="dialog" data-url='@Url.Action("XuLyNDDT","PheDuyetPhieu", new { id = item.ID_CTDT })'></div>
+                                                    <div class="modal fade modalEdit" id="myModale_@item.ID_CTDT" role="dialog" data-url='@Url.Action("XuLyNDDT","PheDuyetPhieu", new { id = item.ID_CTDT, capduyet =item.CapDuyet })'></div>
                                                     <script type="text/javascript">
                                                         $("#btn-edit_@item.ID_CTDT").click(function () {
                                                             var element = $('#myModale_@item.ID_CTDT');
@@ -118,10 +129,19 @@
                                                     <a href="@item.noidungdt.VideoND" target="_blank">Xem Video</a>
                                                 }
                                             </td>
+                                            <td class="">@item.TenNguoiDangNDDT</td>
+                                            @if (item.NgayDangNDDT != null)
+                                            {
+                                                <td class="">@(((DateTime)item.NgayDangNDDT).ToString("dd/MM/yyyy HH:mm:ss"))</td>
+                                            }
+                                            else
+                                            {
+                                                <td class=""></td>
+                                            }
                                             <td class="">@item.TenNguoiDuyetNDDT</td>
                                             @if (item.NgayDuyetNDDT != null)
                                             {
-                                                <td class="">@(((DateTime)item.NgayTao).ToString("dd/MM/yyyy HH:mm:ss"))</td>
+                                                <td class="">@(((DateTime)item.NgayDuyetNDDT).ToString("dd/MM/yyyy HH:mm:ss"))</td>
                                             }
                                             else
                                             {
@@ -135,7 +155,7 @@
                                             }
                                             else
                                             {
-                                                <td class="text-danger">Chưa xử lý</td>
+                                                <td class="text-danger">Chưa hoàn thành</td>
                                             }
                                         </tr>
                                     }

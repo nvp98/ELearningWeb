@@ -1,0 +1,217 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.ModelsDTTH
+@using E_Learning.Models
+@model PagedList.IPagedList<HoSoDaoTaoTH>
+@using PagedList.Mvc
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-portfolio icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Hồ sơ đào tạo
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                    <div>
+                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EX))
+                        {
+                            <div class="col-md-6">
+
+
+                            </div>
+                            <button type="button" id="btn-Import" class="btn btn-success m-l-auto"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Thống kê Dữ liệu đào tạo </button>
+                            <script>
+                                $('#btn-Import').click(function () {
+                                    var url = $('#myModalimport').data('url');
+                                    $.get(url, function (data) {
+                                        $("#myModalimport").html(data);
+                                        $("#ModalTitle").html("Thêm mới danh sách học viên");
+                                        $("#myModalimport").modal('show');
+                                    });
+                                });
+                            </script>
+                        }
+                    </div>
+
+                </div>
+                <div class="modal fade" id="myModalimport" role="dialog" data-url='@Url.Action("ExportProcess", "HoSoDTTH" )'></div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="card col-lg-12">
+                    <div class="card-header">
+
+                        <div class="col-md-4">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="120px" class="text-center">Thao tác</th>
+                                        <th width="30px" class="text-center">STT</th>
+                                        <th class="text-center">Tên lớp học</th>
+                                        <th class="text-center">Nội dung đào tạo</th>
+                                        <th class="text-center">Trích yếu nội dung</th>
+                                        <th class="text-center">Quý</th>
+                                        <th class="text-center">Năm</th>
+                                        <th class="text-center">TG Bắt đầu</th>
+                                        <th class="text-center">TG Kết thúc</th>
+                                        <th class="text-center">Lĩnh vực</th>
+                                        <th class="text-center">Giảng viên</th>
+                                        <th class="text-center">Phòng ban</th>
+                                        <th class="text-center">Người lập</th>
+                                        <th class="text-center">Người kiểm tra</th>
+                                        <th class="text-center">Người nộp hồ sơ</th>
+                                        <th class="text-center">Ngày nộp hồ sơ</th>
+                                        <th class="text-center">Người xử lý hồ sơ</th>
+                                        <th class="text-center">Ngày xử lý hồ sơ</th>
+                                        <th class="text-center">Tình trạng hồ sơ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int pageno = (int)Model.PageNumber;
+                                        int itemperpage = (int)Model.PageSize;
+                                        int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                    }
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td class="text-center">
+                                                <a id="btn-edit_@item.LHID" href="@Url.Action("ViewEdit","HoSoDTTH", new { IDLH = item.LHID})" title="Edit" class="fa fa-check-square-o"></a>
+                                                <a title="DS Lớp" class="fa fa-list-alt" id="@item.LHID" href="@Url.Action("XLHS" , "ToChucDTTH" , new { id = @item.LHID })"></a>
+                                            </td>
+                                            <td class="text-center"> @RowNo@{RowNo++;}</td>
+                                            <td><a id="btn-edit_@item.LHID" href="@Url.Action("ViewEdit","HoSoDTTH", new { IDLH = item.LHID})" title="Edit" class="">@item.TenLopHoc</a>  </td>
+                                            <td>@item.manageClassValidation.TenND</td>
+                                            <td>@item.manageClassValidation.NoiDungTrichYeu</td>
+                                            <td>@item.manageClassValidation.QuyDT</td>
+                                            <td>@item.manageClassValidation.NamDT</td>
+                                            <td class="text-center">@item.manageClassValidation.TGBDLH.ToString("dd-MM-yyyy")</td>
+                                            <td class="text-center">@item.manageClassValidation.TGKTLH.ToString("dd-MM-yyyy")</td>
+                                            <td>@item.manageClassValidation.LinhVuc</td>
+                                            <td>@item.manageClassValidation.TenGV</td>
+                                            <td>@item.manageClassValidation.TenPhongBan</td>
+                                            <td>@item.manageClassValidation.TenNguoiTao</td>
+                                            <td>@item.manageClassValidation.TenNguoiKiemTra</td>
+                                            <td>@item.TenNguoiNop</td>
+                                            @if (item.NgayNopHS != null)
+                                            {
+                                                <td>@item.NgayNopHS.Value.ToString("dd/MM/yyyy")</td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+
+                                            <td class="text-center">@item.TenNguoiXuLy</td>
+                                            @if (item.NgayXuLy != null)
+                                            {
+                                                <td>@item.NgayXuLy.Value.ToString("dd/MM/yyyy")</td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+
+                                            @if (item.TinhTrang == 1)
+                                            {
+                                                <td class="text-center"> <button type="button" class="btn btn-success" style="width:120px"> Hoàn tất hồ sơ </button></td>
+                                            }
+                                            else if (item.TinhTrang == 0)
+                                            {
+                                                <td class="text-center"> <button type="button" class="btn btn-warning" style="width:120px"> Hồ sơ chờ xử lý </button></td>
+                                            }
+                                            else if (item.TinhTrang == 2)
+                                            {
+                                                <td class="text-center"> <button type="button" class="btn btn-danger" style="width:120px"> Không duyệt </button></td>
+                                            }
+
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="pager">
+                                @Html.PagedListPager(Model, page => Url.Action("Index", "HoSoDTTH", new { page, IDLH = Request.QueryString["IDLH"], IDPB = Request.QueryString["IDPB"], IDND = Request.QueryString["IDND"] }))
+                                <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script type="text/javascript">
+
+    $('#btn-process').click(function () {
+        var url = $('#myModalProcess').data('url');
+        $.get(url, function (data) {
+            $("#myModalProcess").html(data);
+            $("#ModalTitle").html("Xử lý dữ liệu");
+            $("#myModalProcess").modal('show');
+        });
+    });
+
+    $('#btn-Export').click(function () {
+        window.location.href = "/ManageClass/ExportToExcel";
+    });
+
+    $('#btn-ExportLH').click(function () {
+        window.location.href = "/ManageClass/ExportToExcelLH";
+    });
+
+    $("#IDPB,#IDLH,#IDND").chosen({
+        width: "100%"
+    });
+       $("#btn-search").on('click', function () {
+           window.location.href = '@Url.Action("Index", "ManageClass")?IDPB=' + $('#IDPB').val() + '&IDLH=' + $('#IDLH').val() + '&IDND=' + $('#IDND').val();
+    });
+</script>
+

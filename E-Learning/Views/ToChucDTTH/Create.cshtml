@@ -102,359 +102,389 @@
                             <div style=" margin: 1% 0% 1% 3%;">
                                 <h6>
                                     @*<b>Kính gửi:</b> - @Html.DropDownList("DSNguoiNhan", null, new { id = "NguoiNhan", @class = "", @style = "", }).<br />
-        – Căn cứ yêu cầu thực tế công việc của bộ phận; <br />
-        – Căn cứ vào trình độ năng lực của người lao động tại bộ phận.<br />*@
+                    – Căn cứ yêu cầu thực tế công việc của bộ phận; <br />
+                    – Căn cứ vào trình độ năng lực của người lao động tại bộ phận.<br />*@
                                     <span class="row">  Bộ phận:&nbsp; <div class="col-md-2" style="margin:-5px">  @Html.DropDownListFor(m => m.BoPhan_ID, (SelectList)ViewBag.IDPhongBan, new { id = "BoPhanLNC_ID", @class = "form-control marginTB5", @style = "width:100%", })</div>  &nbsp; lập tổ chức thực hiện đào tạo như sau:</span>
                                 </h6>
                             </div>
 
                             @Html.AntiForgeryToken()
                             @Html.Hidden("PhanLoaiNCDT_ID", (int)ViewBag.LoaiNCDT)
-                    <fieldset id="SubmitForm">
-                        <div class="row border border-light rounded bg-light">
-                            <div class="font-weight-bold col-12 text-danger">THÔNG TIN KHÓA ĐÀO TẠO</div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="mb-1 font-weight-bold">Mã lớp học<span class="text-danger">(*)</span></label>
-                                    @Html.TextBox("MaLH", null, new { @class = "form-control", @readonly = "true" })
-                                    @Html.ValidationMessageFor(model => model.MaLH, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                            @Html.Hidden("PhuongPhapDT_ID", (int)ViewBag.PhuongPhapDT_ID)
+                            <fieldset id="SubmitForm">
+                                <div class="row border border-light rounded bg-light">
+                                    <div class="font-weight-bold col-12 text-danger">THÔNG TIN KHÓA ĐÀO TẠO</div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mb-1 font-weight-bold">Mã lớp học<span class="text-danger">(*)</span></label>
+                                            @Html.TextBox("MaLH", null, new { @class = "form-control", @readonly = "true" })
+                                            @Html.ValidationMessageFor(model => model.MaLH, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="mb-1 font-weight-bold">Tên Lớp Học<span class="text-danger">(*)</span></label>
-                                    @Html.EditorFor(model => model.TenLH, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên Lớp Học", @id = "TenLH", required = "required" } })
-                                    @Html.ValidationMessageFor(model => model.TenLH, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mb-1 font-weight-bold">Tên Lớp Học<span class="text-danger">(*)</span></label>
+                                            @Html.EditorFor(model => model.TenLH, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên Lớp Học", @id = "TenLH", required = "required" } })
+                                            @Html.ValidationMessageFor(model => model.TenLH, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
 
-                            @* Test *@
+                                    @* Test *@
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="mb-1 font-weight-bold">Nhu cầu đào tạo<span class="text-danger">(*)</span></label>
-                                    @Html.DropDownListFor(model => model.NCDT_ID, ViewBag.NCDT_ID as SelectList, "--Nhu cầu đào tạo--", new { @id = "NCDT_ID", @class = "form-control", required = "required" })
-                                </div>
-                            </div>
-                            <script>
-                                $("#NCDT_ID").on("change", function () {
-                                    //$.get("/ToChucDTTH/GetDSHocVien", { ID_NCDT: $("#NCDT_ID").val() }, function (data1) {
-                                    //    if (data1[0] != null) {
-                                    //        $("#listVT").empty();
-                                    //        //$("#IDPPDT").append("<option value ='" + null + "'>" + "--Phương pháp Đào tạo--" + "</option>");
-                                    //        $.each(data1, function (index, row) {
-                                    //            $("#listVT").append(`<tr>
-                                    //            <th style="vertical-align:middle">${row.HoTen} </th>
-                                    //            <th style="vertical-align:middle">
-                                    //                <label>
-                                    //                    <input type="checkbox" name="SelectedItems" checked value="${row.ID}">
-                                    //                </label>
-                                    //            </th>
-                                    //        </tr>`);
-                                    //        });
-                                    //    }
-                                    //    else {
-                                    //        $("#listVT").empty();
-                                    //    }
-                                    //});
-                                    $.get("/ToChucDTTH/GetSLHocVien", { ID_NCDT: $("#NCDT_ID").val() }, function (data1) {
-                                        if (data1 != null) {
-                                            $("#listVT").empty();
-                                            //$("#IDPPDT").append("<option value ='" + null + "'>" + "--Phương pháp Đào tạo--" + "</option>");
-                                            $("#listVT").append(`
-                                                <div style="">Có ${data1} Học viên theo NCĐT </div>
-                                            `);
-                                        }
-                                        else {
-                                            $("#listVT").empty();
-                                        }
-                                    });
-                                    $.get("/ToChucDTTH/GetCTDT", { ID_NCDT: $("#NCDT_ID").val() }, function (data1) {
-                                        //$("#CTDT_ID").chosen();
-                                        if (data1[0] != null) {
-                                            $("#CTDT_ID").empty();
-                                            $("#CTDT_ID").append("<option value ='" + null + "'>" + "--Chương trình Đào tạo--" + "</option>");
-                                            $.each(data1, function (index, row) {
-                                                $("#CTDT_ID").append("<option value ='" + row.IDCTDT + "'>" + row.NoiDungTrichYeu + "</option>")
-                                            });
-                                            //$("#CTDT_ID").trigger("chosen:updated");
-                                            //$("#NoiDung_ID").chosen("update");
-                                        }
-                                        else {
-                                            $("#CTDT_ID").empty(); // Xóa tất cả các mục
-                                            $("#CTDT_ID").append('<option value="">Không có dữ liệu</option>'); // Thêm mục placeholder
-                                            //$("#CTDT_ID").trigger("chosen:updated");
-                                            //$("#NoiDung_ID").empty();
-                                            //$("#NoiDung_ID").append("<option value ='" + null + "'>" + "--Nội dung Đào tạo--" + "</option>");
-                                            //$("#NoiDung_ID").chosen("update");
-                                        }
-
-                                    });
-                                    $.get("/ToChucDTTH/GetDeThi", { ID_NCDT: $("#NCDT_ID").val() }, function (data) {
-                                        $("#IDDeThi").empty();
-                                        $.each(data, function (index, row) {
-                                            $("#IDDeThi").append("<option value ='" + row.ID + "'>" + "Điểm chuẩn: " + row.DiemChuan + "-" + row.TenDeThi + "</option>")
-                                        });
-                                    });
-                                })
-                            </script>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="mb-1 font-weight-bold">Trích yếu nội dung đào tạo<span class="text-danger">(*)</span></label>
-                                    @Html.EditorFor(model => model.NoiDungTrichYeu, new { htmlAttributes = new { @class = "form-control", placeholder = "Nội dung trích yếu", @id = "NoiDungTrichYeu" } })
-                                    @Html.ValidationMessageFor(model => model.NoiDungTrichYeu, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="mb-1 font-weight-bold">Thời gian Bắt Đầu<span class="text-danger">(*)</span></label>
-                                    @Html.EditorFor(model => model.TGBDLH, new { @value = DateTime.Today, htmlAttributes = new { @class = "form-control", placeholder = "Chọn ngày", @id = "TGBDLH", @type = "date", required = "required" } })
-                                    @Html.ValidationMessageFor(model => model.TGBDLH, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="mb-1 font-weight-bold">Thời Gian Kết Thúc<span class="text-danger">(*)</span></label>
-                                    @Html.EditorFor(model => model.TGKTLH, new { @value = DateTime.Today, htmlAttributes = new { @class = "form-control", placeholder = "Chọn ngày", @id = "TGKTLH", @type = "date", required = "required" } })
-                                    @Html.ValidationMessageFor(model => model.TGKTLH, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-
-                        </div>
-                        <div class="row border border-light rounded mt-2">
-                            <div class="font-weight-bold col-12 text-danger">THÔNG TIN ĐÀO TẠO<span class="text-danger">(*)</span></div>
-                            <table class="table table-bordered table-striped table-hover" cellspacing="0">
-                                <tbody>
-                                    <tr>
-                                        <td>Thời lượng đào tạo(Giờ)</td>
-                                        <td>
-                                            @Html.TextBoxFor(model => model.ThoiLuongDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "ThoiLuongDT", @type = "number", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.ThoiLuongDT, "", new { @class = "text-danger" })
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Địa điểm đào tạo</td>
-                                        <td>
-                                            @Html.TextAreaFor(model => model.DiaDiemDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "DiaDiemDT", required = "required" })
-                                            @Html.ValidationMessageFor(model => model.DiaDiemDT, "", new { @class = "text-danger" })
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="row border border-light rounded mt-2">
-                            <div class="font-weight-bold col-12 text-danger">ĐƠN VỊ ĐÀO TẠO/GIẢNG VIÊN</div>
-                            @if ((int)ViewBag.LoaiHinh_DT == 1)
-                            {
-                                <div class="form-group col-md-12">
-                                    <label class=" mb-1 font-weight-bold">Mã nhân viên - Họ và tên giảng viên (Nội bộ)<span class="text-danger">(*)</span></label>
-                                    @Html.DropDownListFor(m => m.chiTietToChucDTTH.ID_GVCty, (SelectList)ViewBag.ID_NhanVien, "-- Chọn nhân viên --", new { id = "ID_GVCty", @class = "form-control marginTB5", @style = "width:100%", })
-                                    @Html.ValidationMessageFor(model => model.chiTietToChucDTTH.ID_GVCty, "", new { @class = "text-danger", })
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="form-group col-md-4">
-                                    <label class=" mb-1 font-weight-bold">Họ tên giảng viên</label>
-                                    @Html.TextBoxFor(model => model.chiTietToChucDTTH.HoTenGV, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "TenGV", })
-                                    @Html.ValidationMessageFor(model => model.chiTietToChucDTTH.HoTenGV, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class=" mb-1 font-weight-bold">Vị trí công việc</label>
-                                    @Html.TextBoxFor(model => model.chiTietToChucDTTH.ViTriCV_GV, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "ViTriCV_GV", })
-                                    @Html.ValidationMessageFor(model => model.chiTietToChucDTTH.ViTriCV_GV, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class=" mb-1 font-weight-bold">Đơn vị đào tạo thuê ngoài<span class="text-danger">(*)</span></label>
-                                    @Html.TextBoxFor(model => model.chiTietToChucDTTH.DonVi_GV, new { @class = "form-control ", @rows = 1, placeholder = "Đơn vị đào tạo", @id = "DonVi_GV", })
-                                    @Html.ValidationMessageFor(model => model.chiTietToChucDTTH.DonVi_GV, "", new { @class = "text-danger" })
-                                </div>
-                            }
-                        </div>
-
-                        <div class="row border border-light rounded mt-2">
-                            <div class="font-weight-bold col-12 text-danger">CHƯƠNG TRÌNH ĐÀO TẠO</div>
-                            <div class="col-12">Chương trình đào tạo<span class="text-danger">(*)</span></div>
-                            <input type="radio" name="IsCoCTDT" value="1" class="custom-radio" style="margin-bottom: 8px;" required> <label>CTĐT xây dựng mới</label>&nbsp;&nbsp;&nbsp;
-                            <input type="radio" name="IsCoCTDT" value="2" class="custom-radio" style="margin-bottom: 8px;"> <label>CTĐT đã sẵn có</label>&nbsp;&nbsp;&nbsp;
-
-                            @if ((int)ViewBag.PhuongPhapDT_ID == 2) // ĐT tập trung bắt buộc
-                            {
-                                <div class="form-group col-md-12">
-                                    <label class=" mb-1 font-weight-bold">Chương trình đào tạo<span class="text-danger">(*)</span></label>
-                                    @Html.DropDownListFor(m => m.CTDT_ID, (SelectList)ViewBag.ID_NhanVien, "-- Chọn CTĐT --", new { id = "CTDT_ID", @class = "form-control marginTB5", @style = "width:100%", })
-                                    @Html.ValidationMessageFor(model => model.CTDT_ID, "", new { @class = "text-danger", })
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="form-group col-md-12">
-                                    <label class=" mb-1 font-weight-bold">Chương trình đào tạo<span class="text-danger">(*)</span></label>
-                                    @Html.DropDownListFor(m => m.CTDT_ID, (SelectList)ViewBag.ID_NhanVien, "-- Chọn CTĐT --", new { id = "CTDT_ID", @class = "form-control marginTB5", @style = "width:100%", })
-                                    @Html.ValidationMessageFor(model => model.CTDT_ID, "", new { @class = "text-danger", })
-                                </div>
-                            }
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class=" mb-1 font-weight-bold">Đề Thi<span class="text-danger">(*)</span></label>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mb-1 font-weight-bold">Nhu cầu đào tạo<span class="text-danger">(*)</span></label>
+                                            @Html.DropDownListFor(model => model.NCDT_ID, ViewBag.NCDT_ID as SelectList, "--Nhu cầu đào tạo--", new { @id = "NCDT_ID", @class = "form-control", required = "required" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mb-1 font-weight-bold">Trích yếu nội dung đào tạo<span class="text-danger">(*)</span></label>
+                                            @Html.EditorFor(model => model.NoiDungTrichYeu, new { htmlAttributes = new { @class = "form-control", placeholder = "Nội dung trích yếu", @id = "NoiDungTrichYeu" } })
+                                            @Html.ValidationMessageFor(model => model.NoiDungTrichYeu, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
                                     <script>
-                                        //$(document).ready(function () {
-                                        //    $("#NDID").change(function () {
-                                        //        $.get("/ToChucDTTH/GetDeThi", { ID_NCDT: $("#NDID").val() }, function (data) {
-                                        //            $("#IDDeThi").empty();
-                                        //            $.each(data, function (index, row) {
-                                        //                $("#IDDeThi").append("<option value ='" + row.IDDeThi + "'>" + "Điểm chuẩn: " + row.DiemChuan + "-" + row.TenDe + "</option>")
-                                        //            });
-                                        //        });
-                                        //    })
-                                        //});
-                                    </script>
-                                    @Html.DropDownListFor(model => model.IDDeThi, new SelectList(" "), "--Chọn Đề Thi--", new { @class = "form-control", id = "IDDeThi" })
-                                    @Html.ValidationMessageFor(model => model.IDDeThi, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row border border-light rounded mt-2">
-                            <div class="font-weight-bold col-12 text-danger">DANH SÁCH HỌC VIÊN</div>
-                            <div class="row col-12 border border-light rounded mt-2 table-responsive1" id="listVT">
-                                @*<table class="table table-bordered  table-striped table-hover" cellspacing="0">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th style="vertical-align:middle">Số lượng HV theo NCĐT</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="listVT">
-                                    </tbody>
-                                </table>*@
-                            </div>
-                            <label class="mb-1 font-weight-bold text-left">Tích chọn đào tạo theo NCĐT</label>
-                            @Html.CheckBoxFor(m => m.IsAll, new { @class = "form-control", id = "IsAll", @checked = "checked" })
-
-                            <div class="row col-md-12">
-                                <div class=" col-md-12 mb-1" style="display:grid">
-                                    <label class="mb-1 font-weight-bold text-left">Danh sách Mã nhân viên (Bổ sung)</label>
-                                    @Html.TextAreaFor(model => model.DSHocVien, new { @class = "form-control", @rows = 2, placeholder = "Nhập danh sách nhân viên", @id = "DSNhanVien", })
-                                    @Html.ValidationMessageFor(model => model.DSHocVien, "", new { @class = "text-danger" })
-                                </div>
-
-                                <div id="checkNV" class="btn btn-primary form-group checkNV m-auto ">
-                                    Check
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="col-md-12 overflow-auto border border-success rounded text-left mt-1" style="display: grid; min-height: 40px; max-height: 70px; margin: 0 auto;margin-bottom:10px" id="dsnv">
-                                    </div>
-                                </div>
-
-                                <script type="text/javascript">
-                                    $(document).on("click", ".checkNV", function () {
-                                        /*var iddex = $(this).attr('id').split("_")[1];*/
-                                        $.get("/FPermision/CheckLSNV", { lsnv: $("#DSNhanVien").val() }, function (data) {
-                                            if (data[0] != null) {
-                                                $("#dsnv").empty();
-                                                /*$("#dsnv").append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")*/
-                                                $.each(data, function (index, row) {
-                                                    $("#dsnv").append("<div>" + row.HoTen + "</div>")
-                                                });
-
-                                            }
-                                            else {
-                                                $("#dsnv").empty();
-                                            }
-                                        });
-                                        //$.get("/NoiDungDTTH/CheckViTri", { dsnd: $("#DSViTri").val() }, function (data) {
-                                        //    if (data[0] != null) {
-                                        //        $("#dsvt").empty();
-                                        //        /*$("#dsnv").append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")*/
-                                        //        $.each(data, function (index, row) {
-                                        //            $("#dsvt").append("<div>" + row.TenViTri + "</div>")
-                                        //        });
-
-                                        //    }
-                                        //    else {
-                                        //        $("#dsvt").empty();
-                                        //    }
-                                        //});
-                                    });
-                                </script>
-
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="mb-1 font-weight-bold text-left">Tải lên Danh sách Học viên (Bổ sung)</label>
-                                    <div class="row col-md-12">
-                                        <input type="file" id="fileUpload" name="fileUpload" class="form-control col-md-6" />
-                                        <button class="btn btn-success ml-2" onclick="uploadFile()" type="button">Check File</button>
-                                    </div>
-                                    <div id="tableContainer" class="col-md-12">
-                                        <table id="excelTable" border="1"></table>
-                                    </div>
-                                </div>
-                                <script>
-                                    function uploadFile() {
-                                        let fileInput = document.getElementById("fileUpload");
-
-                                        if (!fileInput || !fileInput.files.length) {
-                                            alert("Vui lòng chọn một file trước khi upload!");
-                                            return;
-                                        }
-
-                                        let file = fileInput.files[0];
-                                        let formData = new FormData();
-                                        formData.append("file", file);
-                                        let id = $('#NCDT_ID').val();
-                                        fetch(`/ToChucDTTH/UploadExcel?NCDT_ID=${id}`, {
-                                            method: "POST",
-                                            body: formData
-                                        })
-                                            .then(response => response.json())
-                                            .then(data => displayTable(data))
-                                            .catch(error => console.error("Lỗi:", error));
-                                    }
-
-                                    // Hiển thị dữ liệu JSON lên bảng
-                                    function displayTable(data) {
-                                        let table = document.getElementById("excelTable");
-                                        table.innerHTML = "";
-
-                                        data.forEach(row => {
-                                            let tr = document.createElement("tr");
-                                            row.forEach(cell => {
-                                                let td = document.createElement("td");
-                                                td.textContent = cell;
-                                                tr.appendChild(td);
+                                        $("#NCDT_ID").on("change", function () {
+                                            //$.get("/ToChucDTTH/GetDSHocVien", { ID_NCDT: $("#NCDT_ID").val() }, function (data1) {
+                                            //    if (data1[0] != null) {
+                                            //        $("#listVT").empty();
+                                            //        //$("#IDPPDT").append("<option value ='" + null + "'>" + "--Phương pháp Đào tạo--" + "</option>");
+                                            //        $.each(data1, function (index, row) {
+                                            //            $("#listVT").append(`<tr>
+                                            //            <th style="vertical-align:middle">${row.HoTen} </th>
+                                            //            <th style="vertical-align:middle">
+                                            //                <label>
+                                            //                    <input type="checkbox" name="SelectedItems" checked value="${row.ID}">
+                                            //                </label>
+                                            //            </th>
+                                            //        </tr>`);
+                                            //        });
+                                            //    }
+                                            //    else {
+                                            //        $("#listVT").empty();
+                                            //    }
+                                            //});
+                                            $.get("/ToChucDTTH/GetSLHocVien", { ID_NCDT: $("#NCDT_ID").val() }, function (data1) {
+                                                if (data1 != null) {
+                                                    $("#listVT").empty();
+                                                    //$("#IDPPDT").append("<option value ='" + null + "'>" + "--Phương pháp Đào tạo--" + "</option>");
+                                                    $("#listVT").append(`
+                                                                                                                                            <div style="">Có ${data1} Học viên theo NCĐT </div>
+                                                                                                                                        `);
+                                                }
+                                                else {
+                                                    $("#listVT").empty();
+                                                }
                                             });
-                                            table.appendChild(tr);
-                                        });
+                                            $.get("/ToChucDTTH/GetCTDT", { ID_NCDT: $("#NCDT_ID").val() }, function (data1) {
+                                                //$("#CTDT_ID").chosen();
+                                                if (data1 != null) {
+                                                    $("#CTDT_ID").empty();
+                                                    $("#CTDT_ID").append("<option value =''>" + "--Chương trình Đào tạo--" + "</option>");
+                                                    $.each(data1, function (index, row) {
+                                                        $("#CTDT_ID").append("<option value ='" + row.IDCTDT + "'>" + row.NoiDungTrichYeu + " - Tên chương trình: " + row.TenChuongTrinhDT + "</option>")
+                                                    });
+                                                    //$("#CTDT_ID").trigger("chosen:updated");
+                                                    //$("#NoiDung_ID").chosen("update");
+                                                }
+                                                else {
+                                                    $("#CTDT_ID").empty(); // Xóa tất cả các mục
+                                                    $("#CTDT_ID").append('<option value="">Không có dữ liệu</option>'); // Thêm mục placeholder
+                                                    //$("#CTDT_ID").trigger("chosen:updated");
+                                                    //$("#NoiDung_ID").empty();
+                                                    //$("#NoiDung_ID").append("<option value ='" + null + "'>" + "--Nội dung Đào tạo--" + "</option>");
+                                                    //$("#NoiDung_ID").chosen("update");
+                                                }
+
+                                            });
+                                            $.get("/ToChucDTTH/GetDeThi", { ID_NCDT: $("#NCDT_ID").val() }, function (data) {
+                                                $("#IDDeThi").empty();
+                                                $.each(data, function (index, row) {
+                                                    $("#IDDeThi").append("<option value ='" + row.ID + "'>" + "Điểm chuẩn: " + row.DiemChuan + "-" + row.TenDeThi + "</option>")
+                                                });
+                                            });
+
+                                            $.get("/ToChucDTTH/GetChiTietNoiDungDT", { NCDT_ID: $("#NCDT_ID").val() }, function (data1) {
+                                                if (data1 != null) {
+                                                    $("#ID_NhomNL").empty();
+                                                    $("#ID_LVDT").empty();
+                                                    $("#ID_NhomNL").append("<option value ='" + data1.IDNhomNL + "'>" + data1.TenNhomNL + "</option>");
+                                                    $("#ID_LVDT").append("<option value ='" + data1.LVDTID + "'>" + data1.TenLVDT + "</option>");
+                                                }
+                                            });
+
+                                        })
+                                    </script>
+
+                                    <div class="form-group col-md-6  " style="display:grid">
+                                        <label class="mb-1 font-weight-bold">Nhóm năng lực đào tạo<span class="text-danger">(*)</span></label>
+                                        @Html.DropDownListFor(m => m.ID_NhomNL, (SelectList)ViewBag.NhomNLID, "--Nhóm Năng lực--", new { id = "ID_NhomNL", @class = "form-control marginTB5", @style = "width:100%", })
+                                        @Html.ValidationMessageFor(model => model.ID_NhomNL, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-md-6  " style="display:grid">
+                                        <label class="mb-1 font-weight-bold">Lĩnh vực đào tạo<span class="text-danger">(*)</span></label>
+                                        @Html.DropDownListFor(m => m.ID_LVDT, (SelectList)ViewBag.LVDTID, "--Lĩnh vực đào tạo--", new { id = "ID_LVDT", @class = "form-control marginTB5", @style = "width:100%" })
+                                        @Html.ValidationMessageFor(model => model.ID_LVDT, "", new { @class = "text-danger" })
+                                    </div>
+
+
+
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mb-1 font-weight-bold">Thời gian Bắt Đầu<span class="text-danger">(*)</span></label>
+                                            @Html.EditorFor(model => model.TGBDLH, new { @value = DateTime.Today, htmlAttributes = new { @class = "form-control", placeholder = "Chọn ngày", @id = "TGBDLH", @type = "date", required = "required" } })
+                                            @Html.ValidationMessageFor(model => model.TGBDLH, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mb-1 font-weight-bold">Thời Gian Kết Thúc<span class="text-danger">(*)</span></label>
+                                            @Html.EditorFor(model => model.TGKTLH, new { @value = DateTime.Today, htmlAttributes = new { @class = "form-control", placeholder = "Chọn ngày", @id = "TGKTLH", @type = "date", required = "required" } })
+                                            @Html.ValidationMessageFor(model => model.TGKTLH, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="row border border-light rounded mt-2">
+                                    <div class="font-weight-bold col-12 text-danger">THÔNG TIN ĐÀO TẠO<span class="text-danger">(*)</span></div>
+                                    <table class="table table-bordered table-striped table-hover" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td>Thời lượng đào tạo(Giờ)</td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.ThoiLuongDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "ThoiLuongDT", @type = "number", required = "required" })
+                                                    @Html.ValidationMessageFor(model => model.ThoiLuongDT, "", new { @class = "text-danger" })
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Địa điểm đào tạo</td>
+                                                <td>
+                                                    @Html.TextAreaFor(model => model.DiaDiemDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "DiaDiemDT", required = "required" })
+                                                    @Html.ValidationMessageFor(model => model.DiaDiemDT, "", new { @class = "text-danger" })
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row border border-light rounded mt-2">
+                                    <div class="font-weight-bold col-12 text-danger">ĐƠN VỊ ĐÀO TẠO/GIẢNG VIÊN</div>
+                                    <div class="form-group col-md-12">
+                                        <label class=" mb-1 font-weight-bold">Mã nhân viên - Họ và tên giảng viên (Nội bộ)<span class="text-danger">(*)</span></label>
+                                        @Html.DropDownListFor(m => m.chiTietToChucDTTH.ID_GVCty, (SelectList)ViewBag.ID_NhanVien, "-- Chọn nhân viên --", new { id = "ID_GVCty", @class = "form-control marginTB5", @style = "width:100%", })
+                                        @Html.ValidationMessageFor(model => model.chiTietToChucDTTH.ID_GVCty, "", new { @class = "text-danger", })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class=" mb-1 font-weight-bold">Họ tên giảng viên</label>
+                                        @Html.TextBoxFor(model => model.chiTietToChucDTTH.HoTenGV, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "TenGV", })
+                                        @Html.ValidationMessageFor(model => model.chiTietToChucDTTH.HoTenGV, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class=" mb-1 font-weight-bold">Vị trí công việc</label>
+                                        @Html.TextBoxFor(model => model.chiTietToChucDTTH.ViTriCV_GV, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "ViTriCV_GV", })
+                                        @Html.ValidationMessageFor(model => model.chiTietToChucDTTH.ViTriCV_GV, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class=" mb-1 font-weight-bold">Đơn vị đào tạo<span class="text-danger">(*)</span></label>
+                                        @Html.TextBoxFor(model => model.chiTietToChucDTTH.DonVi_GV, new { @class = "form-control ", @rows = 1, placeholder = "Đơn vị đào tạo", @id = "DonVi_GV", })
+                                        @Html.ValidationMessageFor(model => model.chiTietToChucDTTH.DonVi_GV, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row border border-light rounded mt-2">
+                                    <div class="font-weight-bold col-12 text-danger">CHƯƠNG TRÌNH ĐÀO TẠO</div>
+                                    <div class="col-12">Chương trình đào tạo<span class="text-danger">(*)</span></div>
+                                    <input type="radio" name="IsCoCTDT" value="1" class="custom-radio" style="margin-bottom: 8px;" required> <label>CTĐT xây dựng mới</label>&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name="IsCoCTDT" value="2" class="custom-radio" style="margin-bottom: 8px;"> <label>CTĐT đã sẵn có</label>&nbsp;&nbsp;&nbsp;
+
+                                    @if ((int)ViewBag.PhuongPhapDT_ID == 2) // ĐT tập trung bắt buộc
+                                    {
+                                        <div class="form-group col-md-12">
+                                            <label class=" mb-1 font-weight-bold">Chương trình đào tạo<span class="text-danger">(*)</span></label>
+                                            @Html.DropDownListFor(m => m.CTDT_ID, new SelectList(new List<SelectListItem>(), "Value", "Text"), "-- Chọn CTĐT --", new { id = "CTDT_ID", @class = "form-control marginTB5", @style = "width:100%", required = "required" })
+                                            @Html.ValidationMessageFor(model => model.CTDT_ID, "", new { @class = "text-danger", })
+                                        </div>
                                     }
-                                </script>
-                            </div>
-                        </div>
+                                    else
+                                    {
+                                        <div class="form-group col-md-12">
+                                            <label class=" mb-1 font-weight-bold">Chương trình đào tạo<span class="text-danger">(*)</span></label>
+                                            @Html.DropDownListFor(m => m.CTDT_ID, new SelectList(new List<SelectListItem>(), "Value", "Text"), "-- Chọn CTĐT --", new { id = "CTDT_ID", @class = "form-control marginTB5", @style = "width:100%", })
+                                            @Html.ValidationMessageFor(model => model.CTDT_ID, "", new { @class = "text-danger", })
+                                        </div>
+                                    }
+                                    <script>
+                                        $("#CTDT_ID").on("change", function () {
+                                            $.get("/ToChucDTTH/GetDeThiCTDT", { ID_CTDT: $("#CTDT_ID").val(), ID_NCDT: $("#NCDT_ID").val() }, function (data) {
+                                                $("#IDDeThi").empty();
+                                                $.each(data, function (index, row) {
+                                                    $("#IDDeThi").append("<option value ='" + row.ID + "'>" + "Điểm chuẩn: " + row.DiemChuan + "-" + row.TenDeThi + "</option>")
+                                                });
+                                            });
 
-                        <div class="row border border-light rounded mt-2">
-                            <div class="font-weight-bold col-12 text-danger">THÔNG TIN PHÊ DUYỆT<span class="text-danger">(*)</span></div>
-                            <table class="table table-bordered table-striped table-hover" cellspacing="0">
-                                <tbody>
-                                    <tr>
-                                        <td width="300"><div class=" col-12 ">Người kiểm tra :</div></td>
-                                        <td> @Html.DropDownListFor(m => m.NguoiKiemTra_ID, (SelectList)ViewBag.ID_NguoiKiemTra, "-- Chọn nhân viên --", new { id = "NguoiKiemTra_ID", @class = "form-control marginTB5", @style = "width:100%" })</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                        })
+                                    </script>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class=" mb-1 font-weight-bold">Đề Thi<span class="text-danger">(*)</span></label>
+                                            <script>
+                                                //$(document).ready(function () {
+                                                //    $("#NDID").change(function () {
+                                                //        $.get("/ToChucDTTH/GetDeThi", { ID_NCDT: $("#NDID").val() }, function (data) {
+                                                //            $("#IDDeThi").empty();
+                                                //            $.each(data, function (index, row) {
+                                                //                $("#IDDeThi").append("<option value ='" + row.IDDeThi + "'>" + "Điểm chuẩn: " + row.DiemChuan + "-" + row.TenDe + "</option>")
+                                                //            });
+                                                //        });
+                                                //    })
+                                                //});
+                                            </script>
+                                            @Html.DropDownListFor(model => model.IDDeThi, new SelectList(" "), "--Chọn Đề Thi--", new { @class = "form-control", id = "IDDeThi" })
+                                            @Html.ValidationMessageFor(model => model.IDDeThi, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row border border-light rounded mt-2">
+                                    <div class="font-weight-bold col-12 text-danger">DANH SÁCH HỌC VIÊN</div>
+                                    <div class="row col-12 border border-light rounded mt-2 table-responsive1" id="listVT">
+                                        @*<table class="table table-bordered  table-striped table-hover" cellspacing="0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th style="vertical-align:middle">Số lượng HV theo NCĐT</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listVT">
+                            </tbody>
+                        </table>*@
+                                    </div>
+                                    <label class="mb-1 font-weight-bold text-left">Tích chọn đào tạo theo NCĐT</label>
+                                    @Html.CheckBoxFor(m => m.IsAll, new { @class = "form-control", id = "IsAll", @checked = "checked" })
+
+                                    <div class="row col-md-12">
+                                        <div class=" col-md-12 mb-1" style="display:grid">
+                                            <label class="mb-1 font-weight-bold text-left">Danh sách Mã nhân viên (Bổ sung)</label>
+                                            @Html.TextAreaFor(model => model.DSHocVien, new { @class = "form-control", @rows = 2, placeholder = "Nhập danh sách nhân viên", @id = "DSNhanVien", })
+                                            @Html.ValidationMessageFor(model => model.DSHocVien, "", new { @class = "text-danger" })
+                                        </div>
+
+                                        <div id="checkNV" class="btn btn-primary form-group checkNV m-auto ">
+                                            Check
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-12 overflow-auto border border-success rounded text-left mt-1" style="display: grid; min-height: 40px; max-height: 70px; margin: 0 auto;margin-bottom:10px" id="dsnv">
+                                            </div>
+                                        </div>
+
+                                        <script type="text/javascript">
+                                            $(document).on("click", ".checkNV", function () {
+                                                /*var iddex = $(this).attr('id').split("_")[1];*/
+                                                $.get("/FPermision/CheckLSNV", { lsnv: $("#DSNhanVien").val() }, function (data) {
+                                                    if (data[0] != null) {
+                                                        $("#dsnv").empty();
+                                                        /*$("#dsnv").append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")*/
+                                                        $.each(data, function (index, row) {
+                                                            $("#dsnv").append("<div>" + row.HoTen + "</div>")
+                                                        });
+
+                                                    }
+                                                    else {
+                                                        $("#dsnv").empty();
+                                                    }
+                                                });
+                                                //$.get("/NoiDungDTTH/CheckViTri", { dsnd: $("#DSViTri").val() }, function (data) {
+                                                //    if (data[0] != null) {
+                                                //        $("#dsvt").empty();
+                                                //        /*$("#dsnv").append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")*/
+                                                //        $.each(data, function (index, row) {
+                                                //            $("#dsvt").append("<div>" + row.TenViTri + "</div>")
+                                                //        });
+
+                                                //    }
+                                                //    else {
+                                                //        $("#dsvt").empty();
+                                                //    }
+                                                //});
+                                            });
+                                        </script>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="mb-1 font-weight-bold text-left">Tải lên Danh sách Học viên (Bổ sung)</label>
+                                            <div class="row col-md-12">
+                                                <input type="file" id="fileUpload" name="fileUpload" class="form-control col-md-6" />
+                                                <button class="btn btn-success ml-2" onclick="uploadFile()" type="button">Check File</button>
+                                            </div>
+                                            <div id="tableContainer" class="col-md-12">
+                                                <table id="excelTable" border="1"></table>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            function uploadFile() {
+                                                let fileInput = document.getElementById("fileUpload");
+
+                                                if (!fileInput || !fileInput.files.length) {
+                                                    alert("Vui lòng chọn một file trước khi upload!");
+                                                    return;
+                                                }
+
+                                                let file = fileInput.files[0];
+                                                let formData = new FormData();
+                                                formData.append("file", file);
+                                                let id = $('#NCDT_ID').val();
+                                                fetch(`/ToChucDTTH/UploadExcel?NCDT_ID=${id}`, {
+                                                    method: "POST",
+                                                    body: formData
+                                                })
+                                                    .then(response => response.json())
+                                                    .then(data => displayTable(data))
+                                                    .catch(error => console.error("Lỗi:", error));
+                                            }
+
+                                            // Hiển thị dữ liệu JSON lên bảng
+                                            function displayTable(data) {
+                                                let table = document.getElementById("excelTable");
+                                                table.innerHTML = "";
+
+                                                data.forEach(row => {
+                                                    let tr = document.createElement("tr");
+                                                    row.forEach(cell => {
+                                                        let td = document.createElement("td");
+                                                        td.textContent = cell;
+                                                        tr.appendChild(td);
+                                                    });
+                                                    table.appendChild(tr);
+                                                });
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
+
+                                <div class="row border border-light rounded mt-2">
+                                    <div class="font-weight-bold col-12 text-danger">THÔNG TIN PHÊ DUYỆT<span class="text-danger">(*)</span></div>
+                                    <table class="table table-bordered table-striped table-hover" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td width="300"><div class=" col-12 ">Người kiểm tra :</div></td>
+                                                <td> @Html.DropDownListFor(m => m.NguoiKiemTra_ID, (SelectList)ViewBag.ID_NguoiKiemTra, "-- Chọn nhân viên --", new { id = "NguoiKiemTra_ID", @class = "form-control marginTB5", @style = "width:100%" })</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
 
 
-                        
-                        @*<div class="btn-margin-top text-center">
-                            <input type="submit" value="Xác nhận" id="btnSubmit" class="btn btn-success button_submit" />
 
-                        </div>*@
-                    </fieldset>
+                                @*<div class="btn-margin-top text-center">
+                    <input type="submit" value="Xác nhận" id="btnSubmit" class="btn btn-success button_submit" />
+
+                </div>*@
+                            </fieldset>
                         }
                     </div>
                 </div>
@@ -536,7 +566,13 @@
                 alert("Vui lòng chọn đủ cấp duyệt.");
                 isValid = false;
             }
-
+            // kiểm tra nhân viên
+            const IDGV = $('#ID_GVCty').val();
+            const hoten = $("#HoTenGV").val();
+            if ((IDGV == "null" || !IDGV) && (hoten == "" || !hoten)) {
+                alert("Vui lòng bổ sung thông tin giáo viên.");
+                isValid = false;
+            }
             //// Kiểm tra mật khẩu
             //const password = $('#password').val();
             //if (password.length < 6) {

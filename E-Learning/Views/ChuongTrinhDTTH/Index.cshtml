@@ -49,7 +49,7 @@
         //    window.location.href = "/NhuCauDTTH/ExportExcel?IDPhanLoaiDT=" + myParam;
         //});
         </script>*@
-                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EX) || true)
+                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EX) )
                 {
                     @*<div class="col-2" style="text-align: right;padding: 2%  2%  2% 0%; ">
                 <form method="get" asp-controller="NhuCauDTTH" asp-action="ExportToExcel">
@@ -63,7 +63,7 @@
                         </a>
                     </div>
                 }
-                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD) || true)
+                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD) )
                 {
                     @*<button type="button" id="btn-Process" class="btn btn-success float-right ml-2"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Xử lý phân quyền vị trí </button>*@
                     @*<span class="modal fade" id="ProcessModal" role="dialog" data-url='@Url.Action("Process", "NhuCauDTTH",new {IDPhanLoaiDT = Request.QueryString["IDLoaiDT"]})'></span>
@@ -182,7 +182,7 @@
                                         <th width="100px" class="text-center">Thao tác</th>
                                         <th class="text-center">Nội dung trích yếu</th>
                                         <th class="text-center">Nội Dung Đào Tạo</th>
-                                        <th class="text-center" width="100">Phương pháp đào tạo</th>
+                                        @*<th class="text-center" width="100">Phương pháp đào tạo</th>*@
                                         <th class="text-center">Bộ phận</th>
                                         <th class="text-center">File CTĐT</th>
                                         <th class="text-center">Thời lượng ĐT</th>
@@ -206,13 +206,13 @@
                                         <tr>
                                             <td class="text-center"> @RowNo@{RowNo++;}</td>
                                             <td class="text-center">
-                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) || true)
+                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) )
                                                 {
                                                     <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "ChuongTrinhDTTH", new { id = item.IDCTDT })"
                                                        onclick="return confirm('Bạn muốn xóa : @item.TenChuongTrinhDT')">
                                                     </a>
                                                 }
-                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT) || true)
+                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT) )
                                                 {
                                                     <a id="btn-edit_@item.IDCTDT" title="Sửa" class="fa fa-edit icon_action"></a>
                                                     <div class="modal fade modalEdit" id="myModale_@item.IDCTDT" role="dialog" data-url='@Url.Action("Edit","ChuongTrinhDTTH", new { id = item.IDCTDT })'></div>
@@ -257,7 +257,7 @@
                                                 @* <a class="fa btn text-danger" id="btn-pq_@item.IDND" href="@Url.Action("DS_ViTri","NoiDungDTTH", new {IDND = item.IDND })" title="Chi tiết vị trí">@item.SLViTri Vị trí</a>*@
                                             </td>
                                             <td class="text-center">@item.TenNoiDungDT</td>
-                                            <td>@item.TenPPDT</td>
+                                            @*<td>@item.TenPPDT</td>*@
                                             <td>@item.TenPhongBan</td>
                                             <td>
                                                 @if (item.FileCTDT != null)

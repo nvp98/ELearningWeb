@@ -87,10 +87,13 @@
                                         {
                                             <div class="col-md-6 col-xl-3">
                                                 <div class="card mb-3">
+                                                    @if (item.ImageLH != null)
+                                                    {
+                                                        <div class="text-white">
+                                                            <img src="@item.ImageLH" style="width:100%">
+                                                        </div>
+                                                    }
 
-                                                    <div class="text-white">
-                                                        <img src="@item.ImageLH" style="width:100%">
-                                                    </div>
 
                                                     <div class="widget-content">
 
@@ -126,8 +129,6 @@
                                                                         @(string.Format("{0}", Math.Round(Math.Abs(((Convert.ToDateTime(@item.TGKTLH) - DateTime.Now).TotalDays)+1)).ToString()))
                                                                     </span>
                                                                     ngày !
-
-
                                                                 </p>
                                                             </div>
                                                             <div class="widget-content-wrapper" style="padding: .5rem 0;">

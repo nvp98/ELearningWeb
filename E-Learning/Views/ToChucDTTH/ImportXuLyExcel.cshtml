@@ -1,0 +1,168 @@
+﻿@model E_Learning.ModelsDTTH.HoSoDaoTaoTH
+
+@{ 
+    var lophoc = ViewBag.LopHoc as E_Learning.Models.LopHoc;
+}
+
+@using (Html.BeginForm("ImportXuLyExcel", "ToChucDTTH", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <fieldset id="SubmitForm">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="mb-1">Ngày bắt đầu thực tế</label>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.NgayBDThucTe, new { htmlAttributes = new { @class = "form-control", @type = "date", required = "required" } })
+                                @Html.ValidationMessageFor(model => model.NgayBDThucTe, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="mb-1">Ngày kết thúc thực tế</label>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.NgayKTThucTe, new { htmlAttributes = new { @class = "form-control", @type = "date", required = "required" } })
+                                @Html.ValidationMessageFor(model => model.NgayKTThucTe, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class=" mb-1 font-weight-bold">Thời lượng đào tạo</label>
+                            @Html.TextBoxFor(model => model.ThoiLuongDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "ThoiLuongDT",@type="number", required = "required" })
+                            @Html.ValidationMessageFor(model => model.ThoiLuongDT, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-12 " style="display:grid">
+                            <label class="mb-1 font-weight-bold">Giảng viên nội bộ<span class="text-danger">(*)</span></label>
+                            @Html.DropDownListFor(m => m.ID_GiangVien, (SelectList)ViewBag.GiangVien, "--Giảng viên nội bộ--", new { id = "ID_GiangVien", @class = "form-control marginTB5", @style = "width:100%" })
+                            @Html.ValidationMessageFor(model => model.ID_GiangVien, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class=" mb-1 font-weight-bold">Tên giảng viên (thuê ngoài)</label>
+                            @Html.TextBoxFor(model => model.HoTenGV, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "HoTenGV" })
+                            @Html.ValidationMessageFor(model => model.HoTenGV, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class=" mb-1 font-weight-bold">Mã giảng viên (thuê ngoài) </label>
+                            @Html.TextBoxFor(model => model.MaGiangVien, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "MaGiangVien" })
+                            @Html.ValidationMessageFor(model => model.MaGiangVien, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class=" mb-1 font-weight-bold">Đơn vị (thuê ngoài)</label>
+                            @Html.TextBoxFor(model => model.DonViGV, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "DonViGV" })
+                            @Html.ValidationMessageFor(model => model.DonViGV, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputLastName">Tải lên Danh Sách Học Viên Đã xử lý dữ liệu</label>
+                            <input type="file" id="FileUpload" name="FileUpload" class="form-control" onchange="checkfile(this);" required />
+                        </div>
+
+
+                        <div class=" mt-2">
+                            <div class="font-weight-bold col-12 text-danger">Tải các file đính kèm hồ sơ<span class="text-danger">(*)</span></div>
+                            <table class="table table-bordered table-striped table-hover" id="dataTable" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>File đính kèm</th>
+                                        <th>Tên file</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @*@Html.HiddenFor(m => Model.fileScanHoSoViews[0].ID)*@
+                                    <tr class="data-row">
+                                        <td><input type="file" name="fileScanHoSoViews[0].FileDinhKem" class="form-control"></td>
+                                        <td><input type="text" name="fileScanHoSoViews[0].TenFile" class="form-control"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button type="button" id="addRow" class="btn btn-success">+</button>
+
+                            <script>
+                                $(document).ready(function () {
+                                    let rowIndex = 1; // Biến đếm index để tránh trùng tên field
+
+                                    // Thêm dòng mới
+                                    $("#addRow").click(function () {
+                                        let newRow = $(".data-row:first").clone(); // Clone dòng đầu tiên
+                                        newRow.find("input").val(""); // Xóa dữ liệu cũ
+                                        /*newRow.find(".removeRow").show(); // Hiển thị nút Xóa*/
+
+                                        // Cập nhật index cho các name
+                                        newRow.find("input").each(function () {
+                                            let nameAttr = $(this).attr("name");
+                                            nameAttr = nameAttr.replace(/\d+/, rowIndex); // Thay số cũ bằng index mới
+                                            $(this).attr("name", nameAttr);
+                                            $(this).removeAttr("required").val("");
+                                        });
+
+                                        $("#dataTable tbody").append(newRow); // Thêm vào bảng
+                                        rowIndex++;
+                                    });
+                                    // Xóa dòng
+                                    $(document).on("click", ".removeRow", function () {
+                                        $(this).closest("tr").remove();
+                                    });
+                                });
+                            </script>
+
+                        </div>
+
+
+                        @*<div class="form-group">
+            <input type="submit" value="Import" id="btnSubmit" class="btn btn-primary" />
+        </div>*@
+                        <div class="btn-margin-top  mt-2 m-auto">
+                            <input type="submit" value="Nộp hồ sơ" class="btn btn-primary button_submit " />
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $("#ID_GiangVien").chosen({
+        width: "100%"
+    });
+
+    function checkfile(sender) {
+        var validExts = new Array(".xlsx", ".xls");
+        var fileExt = sender.value;
+        fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+        if (validExts.indexOf(fileExt) < 0) {
+            alert("Vui lòng chọn file Excel: " +
+                validExts.toString() + "");
+            $('#FileUpload').val() = '';
+            return false;
+        }
+        else { return true; }
+    };
+
+    $("#btnSubmit").on('click', function () {
+        var file = $('#FileUpload').val();
+        if (file.length == 0) {
+            alert('Vui lòng chọn file Import.');
+            return false;
+        } else {
+            var validExts = new Array(".xlsx", ".xls");
+            var fileExt = file;
+            fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+            if (validExts.indexOf(fileExt) < 0) {
+                alert("Vui lòng chọn file Excel: " +
+                    validExts.toString() + "");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    });
+</script>
+
+

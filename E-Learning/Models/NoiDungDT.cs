@@ -18,9 +18,9 @@ namespace E_Learning.Models
         public NoiDungDT()
         {
             this.DeThi = new HashSet<DeThi>();
-            this.LopHoc = new HashSet<LopHoc>();
             this.SH_NhuCauDT = new HashSet<SH_NhuCauDT>();
             this.SH_ChuongTrinhDT = new HashSet<SH_ChuongTrinhDT>();
+            this.LopHoc = new HashSet<LopHoc>();
         }
     
         public int IDND { get; set; }
@@ -47,8 +47,6 @@ namespace E_Learning.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DeThi> DeThi { get; set; }
         public virtual LinhVucDT LinhVucDT { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LopHoc> LopHoc { get; set; }
         public virtual NhomNLKCCD NhomNLKCCD { get; set; }
         public virtual SH_HoatDongDT SH_HoatDongDT { get; set; }
         public virtual SH_NguonGV SH_NguonGV { get; set; }
@@ -57,5 +55,7 @@ namespace E_Learning.Models
         public virtual ICollection<SH_NhuCauDT> SH_NhuCauDT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SH_ChuongTrinhDT> SH_ChuongTrinhDT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LopHoc> LopHoc { get; set; }
     }
 }

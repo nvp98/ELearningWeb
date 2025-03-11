@@ -67,13 +67,13 @@
                         </div>
                         @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD))
                         {
-                            <div class="clo-md-3 m-l-auto">
+                            @*<div class="clo-md-3 m-l-auto">
                                 <button type="button" id="btn-Import" class="btn btn-primary m-l-auto"><i class="fa fa-upload">&nbsp;</i>&nbsp;Upload </button>
                                 <div class="modal fade" id="myModalimport" role="dialog" data-url='@Url.Action("ImportExcel", "Question", new { id = @Url.RequestContext.RouteData.Values["id"] })'></div>
 
                                 <button type="button" id="btn-add" class="btn btn-primary m-l-auto"><i class="fa fa-plus">&nbsp;</i>&nbsp;Thêm mới </button>
                                 <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create", "Question", new { id = @Url.RequestContext.RouteData.Values["id"] })'></div>
-                            </div>
+                            </div>*@
 
 
                         }

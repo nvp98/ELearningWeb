@@ -164,7 +164,9 @@ namespace E_Learning.Services
                     ID_PCHN = chuongtrinh.sH_KyDuyetCTDTs.ID_PCHN,
                     NgayPCHN = null,
                     ID_NguoiDuyetNDDT = chuongtrinh.sH_KyDuyetCTDTs.ID_NguoiDuyetNDDT,
-                    NgayDuyetNDDT = null
+                    NgayDuyetNDDT = null,
+                    ID_NguoiDangNDDT = chuongtrinh.sH_KyDuyetCTDTs.ID_NguoiDangNDDT,
+                    NgayDangNDDT = null
                 };
 
                 _context.SH_KyDuyetCTDT.Add(parent);

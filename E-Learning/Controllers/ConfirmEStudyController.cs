@@ -57,139 +57,169 @@ namespace E_Learning.Controllers
             return View(GetlistConfirmEStudy(id, IDPhongBan, search).ToPagedList(pageNumber, pageSize));
         }
 
-        List<ConfirmEStudyValidation> GetlistConfirmEStudy(int? id, int? IDPhongBan, string search)
+        List<ConfirmEStudyValidation> GetlistConfirmEStudy(int id, int? IDPhongBan, string search)
         {
-            if (IDPhongBan == null) IDPhongBan = 0;
-            if (search == "")
-            {
-                if (IDPhongBan != 0)
-                {
-                    var model = (from h in db_context.XNHocTaps.Where(x => x.NhanVien.IDPhongBan == IDPhongBan)
-                                 join l in db_context.LopHocs on h.LHID equals l.IDLH
-                                 join n in db_context.NhanViens on h.NVID equals n.ID
-                                 join p in db_context.PhongBans on h.PBID equals p.IDPhongBan
-                                 join v in db_context.Vitris on h.VTID equals v.IDViTri
-                                 select new ConfirmEStudyValidation()
-                                 {
-                                     IDHT = h.IDHT,
-                                     PBID = (int)h.PBID,
-                                     NVID = n.ID,
-                                     MaNV = n.MaNV,
-                                     HoTenHV = n.HoTen,
-                                     TenPB = p.TenPhongBan,
-                                     VTID = (int)h.VTID,
-                                     TenVT = v.TenViTri,
-                                     LHID = l.IDLH,
-                                     TenLH = l.TenLH,
-                                     TGBDLH = (DateTime)l.TGBDLH,
-                                     TGKTLH = (DateTime)l.TGKTLH,
-                                     LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
-                                     TenND = l.NoiDungDT.NoiDung,
-                                     TLDT = (int)l.NoiDungDT.ThoiLuongDT,
-                                     NgayTG = (DateTime)h.NgayTG,
-                                     NgayHT = (DateTime)h.NgayHT,
-                                     XNTG = (bool)h.XNTG,
-                                     XNHT = (bool)h.XNHT,
-                                 }).Where(x => x.LHID == id).ToList();
-                    return model.ToList();
-                }
-                else
-                {
-                    var model = (from h in db_context.XNHocTaps
-                                 join l in db_context.LopHocs on h.LHID equals l.IDLH
-                                 join n in db_context.NhanViens on h.NVID equals n.ID
-                                 join p in db_context.PhongBans on h.PBID equals p.IDPhongBan
-                                 join v in db_context.Vitris on h.VTID equals v.IDViTri
-                                 select new ConfirmEStudyValidation()
-                                 {
-                                     IDHT = h.IDHT,
-                                     PBID = (int)h.PBID,
-                                     NVID = n.ID,
-                                     MaNV = n.MaNV,
-                                     HoTenHV = n.HoTen,
-                                     TenPB = p.TenPhongBan,
-                                     VTID = (int)h.VTID,
-                                     TenVT = v.TenViTri,
-                                     LHID = l.IDLH,
-                                     TenLH = l.TenLH,
-                                     TGBDLH = (DateTime)l.TGBDLH,
-                                     TGKTLH = (DateTime)l.TGKTLH,
-                                     LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
-                                     TenND = l.NoiDungDT.NoiDung,
-                                     TLDT = (int)l.NoiDungDT.ThoiLuongDT,
-                                     NgayTG = (DateTime)(h.NgayTG?? default(DateTime)),
-                                     NgayHT = (DateTime)(h.NgayHT?? default(DateTime)),
-                                     XNTG = (bool)h.XNTG,
-                                     XNHT = (bool)h.XNHT,
-                                 }).Where(x => x.LHID == id).ToList();
-                    return model.ToList();
-                }
-            }
-            else
-            {
-                if (IDPhongBan != 0)
-                {
-                    var model = (from h in db_context.XNHocTaps.Where(x => x.NhanVien.IDPhongBan == IDPhongBan && (x.NhanVien.MaNV.Contains(search) || x.NhanVien.HoTen.Contains(search)))
-                                 join l in db_context.LopHocs on h.LHID equals l.IDLH
-                                 join n in db_context.NhanViens on h.NVID equals n.ID
-                                 join p in db_context.PhongBans on h.PBID equals p.IDPhongBan
-                                 join v in db_context.Vitris on h.VTID equals v.IDViTri
-                                 select new ConfirmEStudyValidation()
-                                 {
-                                     IDHT = h.IDHT,
-                                     PBID = (int)h.PBID,
-                                     NVID = n.ID,
-                                     MaNV = n.MaNV,
-                                     HoTenHV = n.HoTen,
-                                     TenPB = p.TenPhongBan,
-                                     VTID = (int)h.VTID,
-                                     TenVT = v.TenViTri,
-                                     LHID = l.IDLH,
-                                     TenLH = l.TenLH,
-                                     TGBDLH = (DateTime)l.TGBDLH,
-                                     TGKTLH = (DateTime)l.TGKTLH,
-                                     LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
-                                     TenND = l.NoiDungDT.NoiDung,
-                                     TLDT = (int)l.NoiDungDT.ThoiLuongDT,
-                                     NgayTG = (DateTime)(h.NgayTG ?? default(DateTime)),
-                                     NgayHT = (DateTime)(h.NgayHT ?? default(DateTime)),
-                                     XNTG = (bool)h.XNTG,
-                                     XNHT = (bool)h.XNHT,
-                                 }).Where(x => x.LHID == id).ToList();
-                    return model.ToList();
-                }
-                else
-                {
-                    var model = (from h in db_context.XNHocTaps.Where(x => x.NhanVien.MaNV.Contains(search) || x.NhanVien.HoTen.Contains(search))
-                                 join l in db_context.LopHocs on h.LHID equals l.IDLH
-                                 join n in db_context.NhanViens on h.NVID equals n.ID
-                                 join p in db_context.PhongBans on h.PBID equals p.IDPhongBan
-                                 join v in db_context.Vitris on h.VTID equals v.IDViTri
-                                 select new ConfirmEStudyValidation()
-                                 {
-                                     IDHT = h.IDHT,
-                                     PBID = (int)h.PBID,
-                                     NVID = n.ID,
-                                     MaNV = n.MaNV,
-                                     HoTenHV = n.HoTen,
-                                     TenPB = p.TenPhongBan,
-                                     VTID = (int)h.VTID,
-                                     TenVT = v.TenViTri,
-                                     LHID = l.IDLH,
-                                     TenLH = l.TenLH,
-                                     TGBDLH = (DateTime)l.TGBDLH,
-                                     TGKTLH = (DateTime)l.TGKTLH,
-                                     LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
-                                     TenND = l.NoiDungDT.NoiDung,
-                                     TLDT = (int)l.NoiDungDT.ThoiLuongDT,
-                                     NgayTG = (DateTime)(h.NgayTG ?? default(DateTime)),
-                                     NgayHT = (DateTime)(h.NgayHT ?? default(DateTime)),
-                                     XNTG = (bool)h.XNTG,
-                                     XNHT = (bool)h.XNHT,
-                                 }).Where(x => x.LHID == id).ToList();
-                    return model.ToList();
-                }
-            }
+
+            var model = (from h in db_context.XNHocTaps.Where(x => x.LHID == id && (search == "" || search == null || x.NhanVien.MaNV.Contains(search)) && (IDPhongBan == 0 || IDPhongBan == null || x.PBID == IDPhongBan))
+                         join l in db_context.LopHocs on h.LHID equals l.IDLH
+                         join n in db_context.NhanViens on h.NVID equals n.ID
+                         join p in db_context.PhongBans on h.PBID equals p.IDPhongBan
+                         join v in db_context.Vitris on h.VTID equals v.IDViTri
+                         select new ConfirmEStudyValidation()
+                         {
+                             IDHT = h.IDHT,
+                             PBID = (int)h.PBID,
+                             NVID = n.ID,
+                             MaNV = n.MaNV,
+                             HoTenHV = n.HoTen,
+                             TenPB = p.TenPhongBan,
+                             VTID = (int)h.VTID,
+                             TenVT = v.TenViTri,
+                             LHID = l.IDLH,
+                             TenLH = l.TenLH,
+                             TGBDLH = (DateTime)l.TGBDLH,
+                             TGKTLH = (DateTime)l.TGKTLH,
+                             LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
+                             TenND = l.NoiDungDT.NoiDung,
+                             TLDT = l.NoiDungDT.ThoiLuongDT ?? 0,
+                             NgayTG = (DateTime)(h.NgayTG?? default(DateTime)),
+                             NgayHT = (DateTime)(h.NgayHT?? default(DateTime)),
+                             XNTG = (bool)h.XNTG,
+                             XNHT = (bool)h.XNHT,
+                         }).ToList();
+            return model.ToList();
+
+            //if (IDPhongBan == null) IDPhongBan = 0;
+            //if (search == "")
+            //{
+            //    if (IDPhongBan != 0)
+            //    {
+            //        var model = (from h in db_context.XNHocTaps.Where(x => x.NhanVien.IDPhongBan == IDPhongBan)
+            //                     join l in db_context.LopHocs on h.LHID equals l.IDLH
+            //                     join n in db_context.NhanViens on h.NVID equals n.ID
+            //                     join p in db_context.PhongBans on h.PBID equals p.IDPhongBan
+            //                     join v in db_context.Vitris on h.VTID equals v.IDViTri
+            //                     select new ConfirmEStudyValidation()
+            //                     {
+            //                         IDHT = h.IDHT,
+            //                         PBID = (int)h.PBID,
+            //                         NVID = n.ID,
+            //                         MaNV = n.MaNV,
+            //                         HoTenHV = n.HoTen,
+            //                         TenPB = p.TenPhongBan,
+            //                         VTID = (int)h.VTID,
+            //                         TenVT = v.TenViTri,
+            //                         LHID = l.IDLH,
+            //                         TenLH = l.TenLH,
+            //                         TGBDLH = (DateTime)l.TGBDLH,
+            //                         TGKTLH = (DateTime)l.TGKTLH,
+            //                         LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
+            //                         TenND = l.NoiDungDT.NoiDung,
+            //                         TLDT = (int)l.NoiDungDT.ThoiLuongDT,
+            //                         NgayTG = (DateTime)h.NgayTG,
+            //                         NgayHT = (DateTime)h.NgayHT,
+            //                         XNTG = (bool)h.XNTG,
+            //                         XNHT = (bool)h.XNHT,
+            //                     }).Where(x => x.LHID == id).ToList();
+            //        return model.ToList();
+            //    }
+            //    else
+            //    {
+            //        var model = (from h in db_context.XNHocTap_searchByID(id)
+            //                     join l in db_context.LopHocs on h.LHID equals l.IDLH
+            //                     join n in db_context.NhanViens on h.NVID equals n.ID
+            //                     join p in db_context.PhongBans on h.PBID equals p.IDPhongBan
+            //                     join v in db_context.Vitris on h.VTID equals v.IDViTri
+            //                     select new ConfirmEStudyValidation()
+            //                     {
+            //                         IDHT = h.IDHT,
+            //                         PBID = (int)h.PBID,
+            //                         NVID = n.ID,
+            //                         MaNV = n.MaNV,
+            //                         HoTenHV = n.HoTen,
+            //                         TenPB = p.TenPhongBan,
+            //                         VTID = (int)h.VTID,
+            //                         TenVT = v.TenViTri,
+            //                         LHID = l.IDLH,
+            //                         TenLH = l.TenLH,
+            //                         TGBDLH = (DateTime)l.TGBDLH,
+            //                         TGKTLH = (DateTime)l.TGKTLH,
+            //                         LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
+            //                         TenND = l.NoiDungDT.NoiDung,
+            //                         TLDT = (int)l.NoiDungDT.ThoiLuongDT,
+            //                         NgayTG = (DateTime)(h.NgayTG?? default(DateTime)),
+            //                         NgayHT = (DateTime)(h.NgayHT?? default(DateTime)),
+            //                         XNTG = (bool)h.XNTG,
+            //                         XNHT = (bool)h.XNHT,
+            //                     }).ToList();
+            //        return model.ToList();
+            //    }
+            //}
+            //else
+            //{
+            //    if (IDPhongBan != 0)
+            //    {
+            //        var model = (from h in db_context.XNHocTaps.Where(x => x.NhanVien.IDPhongBan == IDPhongBan && (x.NhanVien.MaNV.Contains(search) || x.NhanVien.HoTen.Contains(search)))
+            //                     join l in db_context.LopHocs on h.LHID equals l.IDLH
+            //                     join n in db_context.NhanViens on h.NVID equals n.ID
+            //                     join p in db_context.PhongBans on h.PBID equals p.IDPhongBan
+            //                     join v in db_context.Vitris on h.VTID equals v.IDViTri
+            //                     select new ConfirmEStudyValidation()
+            //                     {
+            //                         IDHT = h.IDHT,
+            //                         PBID = (int)h.PBID,
+            //                         NVID = n.ID,
+            //                         MaNV = n.MaNV,
+            //                         HoTenHV = n.HoTen,
+            //                         TenPB = p.TenPhongBan,
+            //                         VTID = (int)h.VTID,
+            //                         TenVT = v.TenViTri,
+            //                         LHID = l.IDLH,
+            //                         TenLH = l.TenLH,
+            //                         TGBDLH = (DateTime)l.TGBDLH,
+            //                         TGKTLH = (DateTime)l.TGKTLH,
+            //                         LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
+            //                         TenND = l.NoiDungDT.NoiDung,
+            //                         TLDT = (int)l.NoiDungDT.ThoiLuongDT,
+            //                         NgayTG = (DateTime)(h.NgayTG ?? default(DateTime)),
+            //                         NgayHT = (DateTime)(h.NgayHT ?? default(DateTime)),
+            //                         XNTG = (bool)h.XNTG,
+            //                         XNHT = (bool)h.XNHT,
+            //                     }).Where(x => x.LHID == id).ToList();
+            //        return model.ToList();
+            //    }
+            //    else
+            //    {
+            //        var model = (from h in db_context.XNHocTaps.Where(x => x.NhanVien.MaNV.Contains(search) || x.NhanVien.HoTen.Contains(search))
+            //                     join l in db_context.LopHocs on h.LHID equals l.IDLH
+            //                     join n in db_context.NhanViens on h.NVID equals n.ID
+            //                     join p in db_context.PhongBans on h.PBID equals p.IDPhongBan
+            //                     join v in db_context.Vitris on h.VTID equals v.IDViTri
+            //                     select new ConfirmEStudyValidation()
+            //                     {
+            //                         IDHT = h.IDHT,
+            //                         PBID = (int)h.PBID,
+            //                         NVID = n.ID,
+            //                         MaNV = n.MaNV,
+            //                         HoTenHV = n.HoTen,
+            //                         TenPB = p.TenPhongBan,
+            //                         VTID = (int)h.VTID,
+            //                         TenVT = v.TenViTri,
+            //                         LHID = l.IDLH,
+            //                         TenLH = l.TenLH,
+            //                         TGBDLH = (DateTime)l.TGBDLH,
+            //                         TGKTLH = (DateTime)l.TGKTLH,
+            //                         LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
+            //                         TenND = l.NoiDungDT.NoiDung,
+            //                         TLDT = (int)l.NoiDungDT.ThoiLuongDT,
+            //                         NgayTG = (DateTime)(h.NgayTG ?? default(DateTime)),
+            //                         NgayHT = (DateTime)(h.NgayHT ?? default(DateTime)),
+            //                         XNTG = (bool)h.XNTG,
+            //                         XNHT = (bool)h.XNHT,
+            //                     }).Where(x => x.LHID == id).ToList();
+            //        return model.ToList();
+            //    }
+            //}
         }
 
 

@@ -45,7 +45,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             //          .ToList();
             var noiDung = (from a in db.NoiDungDTs.Where(x => x.isNQ == null 
                               && (search == null || x.NoiDung.Contains(search)) 
-                              && (IDLoaiDT == null || x.IDPhanLoaiDT == IDLoaiDT))
+                              && (IDLoaiDT == null || x.IDPhanLoaiDT == IDLoaiDT) && x.IsDelete ==false)
                               join d in db.SH_PhuongPhapDT
                               on a.IDPhuongPhapDT equals d.ID into uli
                               from d in uli.DefaultIfEmpty()
@@ -304,6 +304,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             {
                 pp = pp.Where(x => x.ID == nd.IDPhuongPhapDT).ToList();
             }
+           
             ViewBag.PhuongPhapDT_ID = new SelectList(pp, "ID", "TenPhuongPhapDT");
 
             List<SH_DinhKy> dk = db.SH_DinhKy.ToList();
@@ -901,7 +902,12 @@ namespace E_Learning.Controllers.DaoTaoTH
             {
                 pp = pp.Where(x=>x.ID == nd.IDPhuongPhapDT).ToList();
             }
+            else
+            {
+                pp = pp.Where(x=>x.ID != 1).ToList();
+            }
             ViewBag.PhuongPhapDT_ID = new SelectList(pp, "ID", "TenPhuongPhapDT");
+            ViewBag.PhuongPhapDT_ID2 = new SelectList(pp, "ID", "TenPhuongPhapDT");
 
             //List<SH_DinhKy> dk = db.SH_DinhKy.ToList();
             //ViewBag.DinhKy_ID = new SelectList(dk, "MaDK", "DKNhacLai");
@@ -923,7 +929,7 @@ namespace E_Learning.Controllers.DaoTaoTH
         }
 
         [HttpPost]
-        public ActionResult AddViTri(SH_ViTri_NDDTView _DO)
+        public ActionResult AddViTri(SH_ViTri_NDDTView _DO, FormCollection form)
         {
             try
             {
@@ -932,6 +938,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                     //Regex.Replace(_DO.NVDG, @"[^0-9a-zA-Z]+", " ");
                     string tx = Regex.Replace(_DO.IDVTCopy, @"[^0-9a-zA-Z]+", " ");
                     string[] NVS = tx.Split(new char[] { ' ' });
+                    var selectedItems = form["PhuongPhapDT_ID2"];
 
                     foreach (var item in NVS)
                     {
@@ -953,6 +960,20 @@ namespace E_Learning.Controllers.DaoTaoTH
                                     // Thực hiện lưu thay đổi vào cơ sở dữ liệu
                                     db.SaveChanges();
                                 }
+                                int pp = int.Parse(selectedItems);
+                                if(pp > 0) {
+                                    bool isDuplicate2 = db.SH_ViTri_NDDT.Any(u => u.NoiDungDT_ID == _DO.NoiDungDT_ID && u.Vitri_ID == intValue && u.PhuongPhapDT_ID == pp);
+                                    if (!isDuplicate2)
+                                    {
+                                        // Thêm một bản ghi mới
+                                        var newRecord = new SH_ViTri_NDDT { NoiDungDT_ID = _DO.NoiDungDT_ID, Vitri_ID = intValue, PhuongPhapDT_ID = pp };
+                                        db.SH_ViTri_NDDT.Add(newRecord);
+
+                                        // Thực hiện lưu thay đổi vào cơ sở dữ liệu
+                                        db.SaveChanges();
+                                    }
+                                }
+                               
                             }
                             
                         }

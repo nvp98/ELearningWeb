@@ -73,12 +73,17 @@ namespace E_Learning.Models
         public Nullable<int> BoPhan_ID { get; set; }
         public string TenBoPhan { get; set; }
         public Nullable<int> NguoiTao_ID { get; set; }
+
+        public Nullable<int> ID_NhomNL { get; set; }
+        public Nullable<int> ID_LVDT { get; set; }
         public string TenNguoiTao { get; set; }
         public Nullable<int> NguoiKiemTra_ID { get; set; }
         public string TenNguoiKiemTra { get; set; }
         public Nullable<int> TinhTrang { get; set; }
         public Nullable<System.DateTime> NgayTao { get; set; }
         public Nullable<System.DateTime> NgayKiemTra { get; set; }
+
+        public Nullable<int> IsCoCTDT { get; set; }
 
         public bool IsAll { get; set; }
         public string DSNhanVien { get; set; }

@@ -41,16 +41,13 @@
     <div class="app-main__inner">
         <div class="tab-content">
             <div class="row">
-                @if (Model.NguoiKiemTra_ID == E_Learning.Models.MyAuthentication.ID && Model.NgayKiemTra == null)
-                {
-                    <span class="m-l-auto"></span>
-                    <form action="@Url.Action("XacNhanPhieuTCDT","PheDuyetPhieu",new {id = Model.IDLH})" method="post">
-                        <button type="submit" id="" class="btn btn-success float-right ml-2"><i class="fa fa-check-square-o">&nbsp;</i>&nbsp;Xác nhận </button>
-                    </form>
-                    <form action="@Url.Action("KhongXacNhanPhieuTCDT","PheDuyetPhieu",new {id = Model.IDLH})" method="post">
-                        <button type="submit" id="" class="btn btn-danger float-right ml-2"><i class="fa fa-refresh">&nbsp;</i>&nbsp;Từ chối </button>
-                    </form>
-                }
+                <span class="m-l-auto"></span>
+                <form action="@Url.Action("KhongXacNhanHS","HoSoDTTH",new {id = Model.IDLH})" method="post">
+                    <button type="submit" id="" class="btn btn-danger float-right ml-2"><i class="fa fa-refresh">&nbsp;</i>&nbsp;Không xác nhận </button>
+                </form>
+                <form action="@Url.Action("XacNhanHS","HoSoDTTH",new {id = Model.IDLH})" method="post">
+                    <button type="submit" id="" class="btn btn-success float-right ml-2"><i class="fa fa-check-square-o">&nbsp;</i>&nbsp;Xác nhận </button>
+                </form>
             </div>
             <div class="row">
                 <div class="card col-md-12">
@@ -92,22 +89,22 @@
                         </div>
 
                         <div class="col-md-12 row" style="padding-left: 20px;">
-                             
+
                             <div class="col-2">+ Giảng viên 1: Mã nhân viên: @Model.chiTietToChucDTTH.MaNV_GV</div>
                             <div class="col-6">Họ và tên: @Model.chiTietToChucDTTH.HoTenGV</div>
                         </div>
                         <div class="col-md-12 row" style="padding-left: 40px;">
-                            
+
                             <div class="col-2">Vị trí công việc: @Model.chiTietToChucDTTH.ViTriCV_GV</div>
                             <div class="col-6"> Bộ phận: @Model.chiTietToChucDTTH.DonVi_GV</div>
                         </div>
 
                         @*<div class="col-md-12" style="padding-left: 20px;">
-                            + Giảng viên 2: Mã nhân viên: ..................................................... Họ và tên: .....................................................
-                        </div>
-                        <div class="col-md-12" style="padding-left: 40px;">
-                            Vị trí công việc: ..................................................... Bộ phận: .....................................................
-                        </div>*@
+                                + Giảng viên 2: Mã nhân viên: ..................................................... Họ và tên: .....................................................
+                            </div>
+                            <div class="col-md-12" style="padding-left: 40px;">
+                                Vị trí công việc: ..................................................... Bộ phận: .....................................................
+                            </div>*@
 
                         <div class="col-md-12 font-weight-bold">
                             – Chương trình đào tạo:
@@ -195,39 +192,39 @@
                             }
                         </table>
                         <div>&nbsp;</div>
-                    &nbsp;&nbsp;
-                    <div style="width: 100%; text-align: right; font-style: italic;">
-                        Quảng Ngãi, ngày ...... tháng ...... năm .........
-                    </div>
+                        &nbsp;&nbsp;
+                        <div style="width: 100%; text-align: right; font-style: italic;">
+                            Quảng Ngãi, ngày ...... tháng ...... năm .........
+                        </div>
 
-                    <div style="width: 100%; display: flex; justify-content: space-between; font-weight: bold; margin-top: 20px;">
-                        <div style="text-align: center; width: 50%;">
-                            NGƯỜI KIỂM TRA
-                            <div class="font-weight-bold">
-                                @nguoikiemtra.HoTen
+                        <div style="width: 100%; display: flex; justify-content: space-between; font-weight: bold; margin-top: 20px;">
+                            <div style="text-align: center; width: 50%;">
+                                NGƯỜI KIỂM TRA
+                                <div class="font-weight-bold">
+                                    @nguoikiemtra.HoTen
+                                </div>
+                            </div>
+                            <div style="text-align: center; width: 50%;">
+                                NGƯỜI LẬP
+                                <div class="font-weight-bold">
+                                    @nguoitao.HoTen
+                                </div>
                             </div>
                         </div>
-                        <div style="text-align: center; width: 50%;">
-                            NGƯỜI LẬP
-                            <div class="font-weight-bold">
-                                @nguoitao.HoTen
-                            </div>
+                        <br><br>
+                        <div style="margin-top: 20px; font-style: italic; font-weight: bold;">
+                            Ghi chú:
                         </div>
-                    </div>
-                    <br><br>
-                    <div style="margin-top: 20px; font-style: italic; font-weight: bold;">
-                        Ghi chú:
-                    </div>
-                    <ul style="margin-top: 5px; padding-left: 20px; font-style: italic;">
-                        <li>
-                            Sau khi đào tạo, giảng viên hoàn thiện các nội dung còn thiếu của biểu mẫu này và ký tên xác nhận.
-                            Giảng viên chịu trách nhiệm về tính chính xác các thông tin như: Thời gian đào tạo thực tế, kết quả đào tạo của học viên…;
-                        </li>
-                        <li>Người lập: Có thể là giảng viên của khóa đào tạo hoặc người được bộ phận phân công, từ cấp KTV trở lên;</li>
-                    </ul>
+                        <ul style="margin-top: 5px; padding-left: 20px; font-style: italic;">
+                            <li>
+                                Sau khi đào tạo, giảng viên hoàn thiện các nội dung còn thiếu của biểu mẫu này và ký tên xác nhận.
+                                Giảng viên chịu trách nhiệm về tính chính xác các thông tin như: Thời gian đào tạo thực tế, kết quả đào tạo của học viên…;
+                            </li>
+                            <li>Người lập: Có thể là giảng viên của khóa đào tạo hoặc người được bộ phận phân công, từ cấp KTV trở lên;</li>
+                        </ul>
 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>

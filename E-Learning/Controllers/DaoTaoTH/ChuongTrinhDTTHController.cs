@@ -32,16 +32,15 @@ namespace E_Learning.Controllers.DaoTaoTH
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             ViewBag.QUYENCN = ListQuyen;
-            //if (!ListQuyen.Contains(CONSTKEY.V))
-            //{
-            //    TempData["msgError"] = "<script>alert('Bạn không có quyền truy cập chức năng này');</script>";
-            //    return RedirectToAction("", "Home");
-            //}
+            if (!ListQuyen.Contains(CONSTKEY.V))
+            {
+                TempData["msgError"] = "<script>alert('Bạn không có quyền truy cập chức năng này');</script>";
+                return RedirectToAction("", "Home");
+            }
             var noiDungDTs = (from a in db.SH_ChuongTrinhDT.Where(x =>
                               //&& (search == null || x.NoiDung.Contains(search))
                               (IDPhuongPhapDT == null || x.IDPhuongPhapDT == IDPhuongPhapDT) &&
                               (ID_NoiDungDT == null || x.ID_NoiDungDT == ID_NoiDungDT))
-                              join b in db.SH_PhuongPhapDT on a.IDPhuongPhapDT equals b.ID
                               select new ChuongTrinhDTTHView
                               {
                                   IDCTDT = a.IDCTDT,
@@ -50,7 +49,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                                   ThoiLuongDT = a.ThoiLuongDT,
                                   FileDinhKem = a.FileDinhKem,
                                   IDPhuongPhapDT = a.IDPhuongPhapDT,
-                                  TenPPDT = b.TenPhuongPhapDT,
+                                  //TenPPDT = b.TenPhuongPhapDT,
                                   IDPhongBan =a.IDPhongBan,
                                   TenPhongBan = a.PhongBan.TenPhongBan,
                                   IsDelete = a.IsDelete,
@@ -67,9 +66,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                   TenLVDT =a.NoiDungDT.LinhVucDT.TenLVDT,
                                   TinhTrang = a.TinhTrang
                               }).OrderBy(x => x.NgayTao).ToList();
-            //if (!ListQuyen.Contains(CONSTKEY.VIEW_ALL) && !ListQuyen.Contains(CONSTKEY.V_BP)) noiDungDTs = noiDungDTs.Where(x => x.ID_NguoiTao == MyAuthentication.ID).ToList();
-            //else if (ListQuyen.Contains(CONSTKEY.V_BP)) noiDungDTs = noiDungDTs.Where(x => x.BoPhanLNC_ID == MyAuthentication.IDPhongban).ToList();
-            
+            if (!ListQuyen.Contains(CONSTKEY.VIEW_ALL) && !ListQuyen.Contains(CONSTKEY.V_BP)) noiDungDTs = noiDungDTs.Where(x => x.ID_NguoiTao == MyAuthentication.ID).ToList();
+            else if (ListQuyen.Contains(CONSTKEY.V_BP)) noiDungDTs = noiDungDTs.Where(x => x.IDPhongBan == MyAuthentication.IDPhongban).ToList();
+
             ViewBag.ID_NoiDungDT = new SelectList(db.NoiDungDTs, "IDND", "NoiDung", ID_NoiDungDT);
 
             if (page == null) page = 1;
@@ -92,6 +91,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             ViewBag.LVDTID = new SelectList(db.LinhVucDTs.ToList(), "IDLVDT", "TenLVDT",ncdt?.NoiDungDT.LVDTID);
             //var ppdt = db.SH_PhuongPhapDT.ToList();
             ViewBag.PhuongPhapDT_ID = new SelectList(db.SH_PhuongPhapDT.Where(x=>x.ID == 2 || x.ID ==3 ), "ID", "TenPhuongPhapDT",ncdt?.PhuongPhapDT_ID);
+            ViewBag.PhanLoaiNDDT = new SelectList(db.SH_PhanLoaiNDDT.ToList(), "ID", "TenPhanLoaiDT");
 
             // trình ký
             var nhanvien = db.NhanViens.Where(x => x.IDTinhTrangLV == 1).Select(x => new EmployeeValidation { ID = x.ID, HoTen = x.MaNV + " - " + x.HoTen, IDPhongBan = (int)x.IDPhongBan }).ToList();
@@ -171,7 +171,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                         foreach (var item in chuongtrinh.cauHoiDeThiCTDTTHs)
                         {
                             
-                            if(item.TenDeThi == null || item.MaDeThi == null || item.FileDeThi == null || item.DiemChuan == null)
+                            if(item.TenDeThi == null && item.MaDeThi == null && item.FileDeThi == null && item.FileScanDeThi == null && item.DiemChuan == null )
                             {
                                 continue;
                             }
@@ -187,77 +187,115 @@ namespace E_Learning.Controllers.DaoTaoTH
                                 CTDT_ID = chuongtrinhnew.IDCTDT,
                                 IDND = chuongtrinhnew.ID_NoiDungDT
                             };
-                            db.DeThis.Add(dethi);
-                            db.SaveChanges();
-                            //lưu câu hỏi
-                            Stream stream = item.FileDeThi.InputStream;
+                           
 
-                            IExcelDataReader reader = null;
-                            if (item.FileDeThi.FileName.EndsWith(".xls"))
+                            if (item.MaDeThi == "DETHIGIAY" && item.FileScanDeThi != null)
                             {
-                                reader = ExcelReaderFactory.CreateBinaryReader(stream);
-                            }
-                            else if (item.FileDeThi.FileName.EndsWith(".xlsx"))
-                            {
-                                reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+                                string fileDeThi = null;
+                                string path = Server.MapPath("~/FileCTDTTH/");
+                                if (!Directory.Exists(path))
+                                {
+                                    Directory.CreateDirectory(path);
+                                }
+                                //Use Namespace called :  System.IO  
+                                string FileName = item.FileScanDeThi.FileName;
+                                string FileNameSave = DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Path.GetFileNameWithoutExtension(FileName);
+                                //To Get File Extension  
+                                string FileExtension = item.FileScanDeThi != null ? Path.GetExtension(FileName) : "";
+                                //Add Current Date To Attached File Name  
+                                if (FileExtension != ".pdf")
+                                {
+                                    //TempData["msgError"] = "<script>alert('Vui lòng chọn đúng định dạng file PDF');</script>";
+                                    //return View();
+                                }
+                                else
+                                {
+                                    if (item.FileScanDeThi != null)
+                                    {
+                                        FileNameSave = FileNameSave.Trim() + FileExtension;
+                                        item.FileScanDeThi.SaveAs(path + FileNameSave);
+                                        fileDeThi = "~/FileCTDTTH/" + FileNameSave;
+                                    }
+                                }
+                                dethi.FileDeThi = fileDeThi;
+                                db.DeThis.Add(dethi);
+                                db.SaveChanges();
                             }
                             else
                             {
-                                TempData["msg"] = "<script>alert('Vui lòng chọn đúng định dạng file Excel');</script>";
-                                RedirectToAction("Index");
-                            }
-                            DataSet result = reader.AsDataSet();
-                            DataTable dt = result.Tables[0];
-                            reader.Close();
-
-                            for (int i = 5; i < dt.Rows.Count; i++)
-                            {
-                                string NoiDungCH = dt.Rows[i][1].ToString().Trim();
-
-                                string DapAnA = dt.Rows[i][2].ToString().Trim();
-
-                                string DapAnB = dt.Rows[i][3].ToString().Trim();
-
-                                string DapAnC = dt.Rows[i][4].ToString().Trim();
-
-                                string DapAnD = dt.Rows[i][5].ToString().Trim();
-
-                                string DapAnDung = dt.Rows[i][6].ToString().Trim();
-                                if (DapAnDung == "A" || DapAnDung == "a")
-                                {
-                                    DapAnDung = "1";
-                                }
-                                else if (DapAnDung == "B" || DapAnDung == "b")
-                                {
-                                    DapAnDung = "2";
-                                }
-                                else if (DapAnDung == "C" || DapAnDung == "c")
-                                {
-                                    DapAnDung = "3";
-                                }
-                                else if (DapAnDung == "D" || DapAnDung == "d")
-                                {
-                                    DapAnDung = "4";
-                                }
-                                // db.CauHoi_insert(NoiDungCH, DapAnA, DapAnB, DapAnC, DapAnD, Convert.ToInt32(DapAnDung), chuongtrinhnew.ID_NoiDungDT, MyAuthentication.ID);
-                                var ch = new CauHoi()
-                                {
-                                    NoiDungCH = NoiDungCH,
-                                    DapAnA = DapAnA,
-                                    DapAnB = DapAnB,
-                                    DapAnC = DapAnC,
-                                    DapAnD = DapAnD,
-                                    IDDAĐung = Convert.ToInt32(DapAnDung),
-                                    IDND = chuongtrinhnew.ID_NoiDungDT,
-                                    GVID = MyAuthentication.ID
-                                };
-                                db.CauHois.Add(ch);
+                                db.DeThis.Add(dethi);
                                 db.SaveChanges();
-                                // lưu câu hỏi đề thi
-                                string ketQua = (10 / (dt.Rows.Count - 5)).ToString("F1");
-                                double diemso = 10 / (dt.Rows.Count - 5);
-                                db.CauHoiDeThi_insert(ch.IDCH, dethi.IDDeThi, double.Parse(ketQua));
+                                //lưu câu hỏi
+                                Stream stream = item.FileDeThi.InputStream;
+
+                                IExcelDataReader reader = null;
+                                if (item.FileDeThi.FileName.EndsWith(".xls"))
+                                {
+                                    reader = ExcelReaderFactory.CreateBinaryReader(stream);
+                                }
+                                else if (item.FileDeThi.FileName.EndsWith(".xlsx"))
+                                {
+                                    reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+                                }
+                                else
+                                {
+                                    TempData["msg"] = "<script>alert('Vui lòng chọn đúng định dạng file Excel');</script>";
+                                    RedirectToAction("Index");
+                                }
+                                DataSet result = reader.AsDataSet();
+                                DataTable dt = result.Tables[0];
+                                reader.Close();
+
+                                for (int i = 5; i < dt.Rows.Count; i++)
+                                {
+                                    string NoiDungCH = dt.Rows[i][1].ToString().Trim();
+
+                                    string DapAnA = dt.Rows[i][2].ToString().Trim();
+
+                                    string DapAnB = dt.Rows[i][3].ToString().Trim();
+
+                                    string DapAnC = dt.Rows[i][4].ToString().Trim();
+
+                                    string DapAnD = dt.Rows[i][5].ToString().Trim();
+
+                                    string DapAnDung = dt.Rows[i][6].ToString().Trim();
+                                    if (DapAnDung == "A" || DapAnDung == "a")
+                                    {
+                                        DapAnDung = "1";
+                                    }
+                                    else if (DapAnDung == "B" || DapAnDung == "b")
+                                    {
+                                        DapAnDung = "2";
+                                    }
+                                    else if (DapAnDung == "C" || DapAnDung == "c")
+                                    {
+                                        DapAnDung = "3";
+                                    }
+                                    else if (DapAnDung == "D" || DapAnDung == "d")
+                                    {
+                                        DapAnDung = "4";
+                                    }
+                                    // db.CauHoi_insert(NoiDungCH, DapAnA, DapAnB, DapAnC, DapAnD, Convert.ToInt32(DapAnDung), chuongtrinhnew.ID_NoiDungDT, MyAuthentication.ID);
+                                    var ch = new CauHoi()
+                                    {
+                                        NoiDungCH = NoiDungCH,
+                                        DapAnA = DapAnA,
+                                        DapAnB = DapAnB,
+                                        DapAnC = DapAnC,
+                                        DapAnD = DapAnD,
+                                        IDDAĐung = Convert.ToInt32(DapAnDung),
+                                        IDND = chuongtrinhnew.ID_NoiDungDT,
+                                        GVID = MyAuthentication.ID
+                                    };
+                                    db.CauHois.Add(ch);
+                                    db.SaveChanges();
+                                    // lưu câu hỏi đề thi
+                                    string ketQua = (10 / (dt.Rows.Count - 5)).ToString("F1");
+                                    double diemso = 10 / (dt.Rows.Count - 5);
+                                    db.CauHoiDeThi_insert(ch.IDCH, dethi.IDDeThi, double.Parse(ketQua));
+                                }
                             }
+                           
                         }
                     }
                     // Thêm thông tin trình ký
@@ -288,13 +326,13 @@ namespace E_Learning.Controllers.DaoTaoTH
             //ViewBag.IDPPDT = new SelectList(db.SH_PhuongPhapDT, "ID", "TenPhuongPhapDT");
             ViewBag.IDPhongBan = new SelectList(db.PhongBans.Where(x => x.IDPhongBan == IDPB), "IDPhongBan", "TenPhongBan", IDPB);
 
-            ViewBag.IDNoiDungDT = new SelectList(db.NoiDungDTs.Where(x => x.IDPhuongPhapDT == 2 || x.IDPhuongPhapDT == 3).ToList(), "IDND", "NoiDung");
+            //ViewBag.IDNoiDungDT = new SelectList(db.NoiDungDTs.Where(x => x.IDPhuongPhapDT == 2 || x.IDPhuongPhapDT == 3).ToList(), "IDND", "NoiDung");
             ViewBag.NhomNLID = new SelectList(db.NhomNLKCCDs.ToList(), "ID", "NoiDung");
             ViewBag.LVDTID = new SelectList(db.LinhVucDTs.ToList(), "IDLVDT", "TenLVDT");
             ViewBag.IDNguonGV = new SelectList(db.SH_NguonGV.ToList(), "ID", "TenNguonGV");
             ViewBag.IDHoatDongDT = new SelectList(db.SH_HoatDongDT.ToList(), "ID", "TenHoatDong");
             ViewBag.IDPhanLoaiDT = new SelectList(db.SH_PhanLoaiNDDT.ToList(), "ID", "TenPhanLoaiDT");
-            ViewBag.PhuongPhapDT_ID = new SelectList(db.SH_PhuongPhapDT.Where(x => x.ID == 2 || x.ID == 3), "ID", "TenPhuongPhapDT");
+            ViewBag.PhuongPhapDT_ID = new SelectList(db.SH_PhuongPhapDT.Where(x => x.ID == 1), "ID", "TenPhuongPhapDT");
 
             // trình ký
             var nhanvien = db.NhanViens.Where(x => x.IDTinhTrangLV == 1).Select(x => new EmployeeValidation { ID = x.ID, HoTen = x.MaNV + " - " + x.HoTen, IDPhongBan = (int)x.IDPhongBan }).ToList();
@@ -523,6 +561,8 @@ namespace E_Learning.Controllers.DaoTaoTH
             }),
             "Value",
             "Text", chuongtrinh.ID_NoiDungDT);
+            var noidung = db.NoiDungDTs.Where(x => x.IDND == chuongtrinh.ID_NoiDungDT).FirstOrDefault();
+            ViewBag.PhanLoaiNDDT = new SelectList(db.SH_PhanLoaiNDDT.ToList(), "ID", "TenPhanLoaiDT", noidung.IDPhanLoaiDT);
             ViewBag.NhomNLID = new SelectList(db.NhomNLKCCDs.ToList(), "ID", "NoiDung", chuongtrinh.NoiDungDT.IDNhomNL);
             ViewBag.LVDTID = new SelectList(db.LinhVucDTs.ToList(), "IDLVDT", "TenLVDT", chuongtrinh?.NoiDungDT.LVDTID);
 
@@ -539,7 +579,6 @@ namespace E_Learning.Controllers.DaoTaoTH
             ViewBag.ID_PCHN = new SelectList(nhanvien, "ID", "HoTen",trinhky.ID_PCHN);
 
             var noiDungDTs = (from a in db.SH_ChuongTrinhDT.Where(x => x.IDCTDT == id)
-                              join b in db.SH_PhuongPhapDT on a.IDPhuongPhapDT equals b.ID
                               select new ChuongTrinhDTTHView
                               {
                                   IDCTDT = a.IDCTDT,
@@ -548,7 +587,6 @@ namespace E_Learning.Controllers.DaoTaoTH
                                   ThoiLuongDT = a.ThoiLuongDT,
                                   FileDinhKem = a.FileDinhKem,
                                   IDPhuongPhapDT = a.IDPhuongPhapDT,
-                                  TenPPDT = b.TenPhuongPhapDT,
                                   IDPhongBan = a.IDPhongBan,
                                   TenPhongBan = a.PhongBan.TenPhongBan,
                                   IsDelete = a.IsDelete,
@@ -572,7 +610,8 @@ namespace E_Learning.Controllers.DaoTaoTH
                                       TenDeThi = d.TenDe,
                                       DiemChuan = d.DiemChuan,
                                       ThoiGianLamBai = d.ThoiGianLamBai,
-                                      TongSoCau =d.TongSoCau
+                                      TongSoCau =d.TongSoCau,
+                                      fileDe = d.FileDeThi
                                   }).ToList(),
                               }).OrderBy(x => x.NgayTao).FirstOrDefault();
 
@@ -623,23 +662,28 @@ namespace E_Learning.Controllers.DaoTaoTH
                     chuongtrinh.TenChuongTrinhDT = nddt.NoiDung;
                     SH_ChuongTrinhDT chuongtrinhupdate = _chuongtrinhDTService.CapNhatChuongTrinhDT(chuongtrinh);
 
+
                     // Thêm Câu hỏi đề thi vào
                     if (chuongtrinh.cauHoiDeThiCTDTTHs.Count != 0)
                     {
                         foreach (var item in chuongtrinh.cauHoiDeThiCTDTTHs)
                         {
-                            if(item.TenDeThi == null && item.MaDeThi == null && item.FileDeThi == null && item.DiemChuan == null && item.ID != 0) // xóa bộ đề thi
+                            if(item.TenDeThi == null && item.MaDeThi == null && item.FileDeThi == null && item.FileScanDeThi == null && item.DiemChuan == null && item.ID != 0) // xóa bộ đề thi
                             {
                                 var ch = db.CauHoiDeThis.Where(x => x.IDDeThi == item.ID).ToList();
-                                foreach (var item1 in ch)
+                                if(ch.Count > 0)
                                 {
-                                    var h = db.CauHois.Where(x => x.IDCH == item1.IDCauHoi).FirstOrDefault();
-                                    db.CauHois.Remove(h);
+                                    foreach (var item1 in ch)
+                                    {
+                                        var h = db.CauHois.Where(x => x.IDCH == item1.IDCauHoi).FirstOrDefault();
+                                        db.CauHois.Remove(h);
+                                    }
+                                    db.CauHoiDeThis.RemoveRange(ch);
+                                    var det = db.DeThis.Where(x => x.IDDeThi == item.ID).FirstOrDefault();
+                                    db.DeThis.Remove(det);
+                                    db.SaveChanges();
                                 }
-                                db.CauHoiDeThis.RemoveRange(ch);
-                                var det = db.DeThis.Where(x => x.IDDeThi == item.ID).FirstOrDefault();
-                                db.DeThis.Remove(det);
-                                db.SaveChanges();
+                                
                             }
                             else if(item.ID != 0 ) // cập nhật lại đề thi
                             {
@@ -650,6 +694,38 @@ namespace E_Learning.Controllers.DaoTaoTH
                                 det.DiemChuan = item.DiemChuan;
                                 det.ThoiGianLamBai = item.ThoiGianLamBai;
                                 det.TongSoCau = item.TongSoCau;
+                                // cập nhật đề thi giấy
+                                if (item.MaDeThi == "DETHIGIAY" && item.FileScanDeThi != null)
+                                {
+                                    string fileDeThi = null;
+                                    string path = Server.MapPath("~/FileCTDTTH/");
+                                    if (!Directory.Exists(path))
+                                    {
+                                        Directory.CreateDirectory(path);
+                                    }
+                                    //Use Namespace called :  System.IO  
+                                    string FileName = item.FileScanDeThi.FileName;
+                                    string FileNameSave = DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Path.GetFileNameWithoutExtension(FileName);
+                                    //To Get File Extension  
+                                    string FileExtension = item.FileScanDeThi != null ? Path.GetExtension(FileName) : "";
+                                    //Add Current Date To Attached File Name  
+                                    if (FileExtension != ".pdf")
+                                    {
+                                        //TempData["msgError"] = "<script>alert('Vui lòng chọn đúng định dạng file PDF');</script>";
+                                        //return View();
+                                    }
+                                    else
+                                    {
+                                        if (item.FileScanDeThi != null)
+                                        {
+                                            FileNameSave = FileNameSave.Trim() + FileExtension;
+                                            item.FileScanDeThi.SaveAs(path + FileNameSave);
+                                            fileDeThi = "~/FileCTDTTH/" + FileNameSave;
+                                        }
+                                    }
+                                    det.FileDeThi = fileDeThi;
+                                    db.SaveChanges();
+                                }
                                 if (item.FileDeThi != null) // cập nhật lại bộ câu hỏi mới cho đề thi
                                 {
                                     // xóa CauHoiDeThi cũ
@@ -732,6 +808,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                                 {
                                     continue;
                                 }
+
                                 // lưu đề thi vào
                                 var dethi = new DeThi()
                                 {
@@ -744,77 +821,115 @@ namespace E_Learning.Controllers.DaoTaoTH
                                     CTDT_ID = chuongtrinh.IDCTDT,
                                     IDND = chuongtrinh.ID_NoiDungDT
                                 };
-                                db.DeThis.Add(dethi);
-                                db.SaveChanges();
-                                //lưu câu hỏi
-                                Stream stream = item.FileDeThi.InputStream;
+                               
 
-                                IExcelDataReader reader = null;
-                                if (item.FileDeThi.FileName.EndsWith(".xls"))
+                                if (item.MaDeThi == "DETHIGIAY" && item.FileScanDeThi != null)
                                 {
-                                    reader = ExcelReaderFactory.CreateBinaryReader(stream);
-                                }
-                                else if (item.FileDeThi.FileName.EndsWith(".xlsx"))
-                                {
-                                    reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+                                    string fileDeThi = null;
+                                    string path = Server.MapPath("~/FileCTDTTH/");
+                                    if (!Directory.Exists(path))
+                                    {
+                                        Directory.CreateDirectory(path);
+                                    }
+                                    //Use Namespace called :  System.IO  
+                                    string FileName = item.FileScanDeThi.FileName;
+                                    string FileNameSave = DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Path.GetFileNameWithoutExtension(FileName);
+                                    //To Get File Extension  
+                                    string FileExtension = item.FileScanDeThi != null ? Path.GetExtension(FileName) : "";
+                                    //Add Current Date To Attached File Name  
+                                    if (FileExtension != ".pdf")
+                                    {
+                                        //TempData["msgError"] = "<script>alert('Vui lòng chọn đúng định dạng file PDF');</script>";
+                                        //return View();
+                                    }
+                                    else
+                                    {
+                                        if (item.FileScanDeThi != null)
+                                        {
+                                            FileNameSave = FileNameSave.Trim() + FileExtension;
+                                            item.FileScanDeThi.SaveAs(path + FileNameSave);
+                                            fileDeThi = "~/FileCTDTTH/" + FileNameSave;
+                                        }
+                                    }
+                                    dethi.FileDeThi = fileDeThi;
+                                    db.DeThis.Add(dethi);
+                                    db.SaveChanges();
                                 }
                                 else
                                 {
-                                    TempData["msg"] = "<script>alert('Vui lòng chọn đúng định dạng file Excel');</script>";
-                                    RedirectToAction("Index");
-                                }
-                                DataSet result = reader.AsDataSet();
-                                DataTable dt = result.Tables[0];
-                                reader.Close();
-
-                                for (int i = 5; i < dt.Rows.Count; i++)
-                                {
-                                    string NoiDungCH = dt.Rows[i][1].ToString().Trim();
-
-                                    string DapAnA = dt.Rows[i][2].ToString().Trim();
-
-                                    string DapAnB = dt.Rows[i][3].ToString().Trim();
-
-                                    string DapAnC = dt.Rows[i][4].ToString().Trim();
-
-                                    string DapAnD = dt.Rows[i][5].ToString().Trim();
-
-                                    string DapAnDung = dt.Rows[i][6].ToString().Trim();
-                                    if (DapAnDung == "A" || DapAnDung == "a")
-                                    {
-                                        DapAnDung = "1";
-                                    }
-                                    else if (DapAnDung == "B" || DapAnDung == "b")
-                                    {
-                                        DapAnDung = "2";
-                                    }
-                                    else if (DapAnDung == "C" || DapAnDung == "c")
-                                    {
-                                        DapAnDung = "3";
-                                    }
-                                    else if (DapAnDung == "D" || DapAnDung == "d")
-                                    {
-                                        DapAnDung = "4";
-                                    }
-                                    // db.CauHoi_insert(NoiDungCH, DapAnA, DapAnB, DapAnC, DapAnD, Convert.ToInt32(DapAnDung), chuongtrinhnew.ID_NoiDungDT, MyAuthentication.ID);
-                                    var ch = new CauHoi()
-                                    {
-                                        NoiDungCH = NoiDungCH,
-                                        DapAnA = DapAnA,
-                                        DapAnB = DapAnB,
-                                        DapAnC = DapAnC,
-                                        DapAnD = DapAnD,
-                                        IDDAĐung = Convert.ToInt32(DapAnDung),
-                                        IDND = chuongtrinh.ID_NoiDungDT,
-                                        GVID = MyAuthentication.ID
-                                    };
-                                    db.CauHois.Add(ch);
+                                    db.DeThis.Add(dethi);
                                     db.SaveChanges();
-                                    // lưu câu hỏi đề thi
-                                    string ketQua = (10 / (dt.Rows.Count - 5)).ToString("F1");
-                                    double diemso = 10 / (dt.Rows.Count - 5);
-                                    db.CauHoiDeThi_insert(ch.IDCH, dethi.IDDeThi, double.Parse(ketQua));
+                                    //lưu câu hỏi
+                                    Stream stream = item.FileDeThi.InputStream;
+
+                                    IExcelDataReader reader = null;
+                                    if (item.FileDeThi.FileName.EndsWith(".xls"))
+                                    {
+                                        reader = ExcelReaderFactory.CreateBinaryReader(stream);
+                                    }
+                                    else if (item.FileDeThi.FileName.EndsWith(".xlsx"))
+                                    {
+                                        reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+                                    }
+                                    else
+                                    {
+                                        TempData["msg"] = "<script>alert('Vui lòng chọn đúng định dạng file Excel');</script>";
+                                        RedirectToAction("Index");
+                                    }
+                                    DataSet result = reader.AsDataSet();
+                                    DataTable dt = result.Tables[0];
+                                    reader.Close();
+
+                                    for (int i = 5; i < dt.Rows.Count; i++)
+                                    {
+                                        string NoiDungCH = dt.Rows[i][1].ToString().Trim();
+
+                                        string DapAnA = dt.Rows[i][2].ToString().Trim();
+
+                                        string DapAnB = dt.Rows[i][3].ToString().Trim();
+
+                                        string DapAnC = dt.Rows[i][4].ToString().Trim();
+
+                                        string DapAnD = dt.Rows[i][5].ToString().Trim();
+
+                                        string DapAnDung = dt.Rows[i][6].ToString().Trim();
+                                        if (DapAnDung == "A" || DapAnDung == "a")
+                                        {
+                                            DapAnDung = "1";
+                                        }
+                                        else if (DapAnDung == "B" || DapAnDung == "b")
+                                        {
+                                            DapAnDung = "2";
+                                        }
+                                        else if (DapAnDung == "C" || DapAnDung == "c")
+                                        {
+                                            DapAnDung = "3";
+                                        }
+                                        else if (DapAnDung == "D" || DapAnDung == "d")
+                                        {
+                                            DapAnDung = "4";
+                                        }
+                                        // db.CauHoi_insert(NoiDungCH, DapAnA, DapAnB, DapAnC, DapAnD, Convert.ToInt32(DapAnDung), chuongtrinhnew.ID_NoiDungDT, MyAuthentication.ID);
+                                        var ch = new CauHoi()
+                                        {
+                                            NoiDungCH = NoiDungCH,
+                                            DapAnA = DapAnA,
+                                            DapAnB = DapAnB,
+                                            DapAnC = DapAnC,
+                                            DapAnD = DapAnD,
+                                            IDDAĐung = Convert.ToInt32(DapAnDung),
+                                            IDND = chuongtrinh.ID_NoiDungDT,
+                                            GVID = MyAuthentication.ID
+                                        };
+                                        db.CauHois.Add(ch);
+                                        db.SaveChanges();
+                                        // lưu câu hỏi đề thi
+                                        string ketQua = (10 / (dt.Rows.Count - 5)).ToString("F1");
+                                        double diemso = 10 / (dt.Rows.Count - 5);
+                                        db.CauHoiDeThi_insert(ch.IDCH, dethi.IDDeThi, double.Parse(ketQua));
+                                    }
                                 }
+                                
                             }
 
                             // Thêm thông tin trình ký
@@ -888,7 +1003,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             ViewBag.ID_PCHN = new SelectList(nhanvien, "ID", "HoTen", trinhky.ID_PCHN);
 
             var noiDungDTs = (from a in db.SH_ChuongTrinhDT.Where(x => x.IDCTDT == id)
-                              join b in db.SH_PhuongPhapDT on a.IDPhuongPhapDT equals b.ID
+                              //join b in db.SH_PhuongPhapDT on a.IDPhuongPhapDT equals b.ID
                               select new ChuongTrinhDTTHView
                               {
                                   IDCTDT = a.IDCTDT,
@@ -896,8 +1011,8 @@ namespace E_Learning.Controllers.DaoTaoTH
                                   NoiDungTrichYeu = a.NoiDungTrichYeu,
                                   ThoiLuongDT = a.ThoiLuongDT,
                                   FileDinhKem = a.FileDinhKem,
-                                  IDPhuongPhapDT = a.IDPhuongPhapDT,
-                                  TenPPDT = b.TenPhuongPhapDT,
+                                  //IDPhuongPhapDT = a.IDPhuongPhapDT,
+                                  //TenPPDT = b.TenPhuongPhapDT,
                                   IDPhongBan = a.IDPhongBan,
                                   TenPhongBan = a.PhongBan.TenPhongBan,
                                   IsDelete = a.IsDelete,
@@ -960,14 +1075,14 @@ namespace E_Learning.Controllers.DaoTaoTH
         }
 
 
-        public JsonResult GetDSNoiDungDT(int? PhuongPhapDT_ID)
+        public JsonResult GetDSNoiDungDT(int? NhomNDDT_ID)
         {
             //var lsIDLoaiND = new List<int?> { 6, 7, 8 }; // list ID PhanLoaiNDDT thuê ngoài được lượt bỏ
             db.Configuration.ProxyCreationEnabled = false;
             var ls = new List<NoiDungDTTHView>();
-            if (PhuongPhapDT_ID != null)
+            if (NhomNDDT_ID != null)
             {
-                ls = (from a in db.NoiDungDTs.Where(x=>x.IDPhuongPhapDT == PhuongPhapDT_ID)
+                ls = (from a in db.NoiDungDTs.Where(x=>x.IDPhanLoaiDT == NhomNDDT_ID)
                       select new NoiDungDTTHView()
                       {
                           IDND = a.IDND,
