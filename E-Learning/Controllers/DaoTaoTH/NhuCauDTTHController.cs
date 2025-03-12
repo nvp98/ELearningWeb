@@ -31,6 +31,7 @@ using Org.BouncyCastle.Crypto;
 using iText.Kernel.Pdf.Event;
 using iTextSharp.tool.xml.html;
 using ClosedXML.Excel;
+using ClosedXML;
 
 namespace E_Learning.Controllers.DaoTaoTH
 {
@@ -87,7 +88,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                       MaNV= d.MaNV,
                                   },
                                  PhanLoaiNCDT_ID = a.PhanLoaiNCDT_ID,
-                                 ID_NguoiTao = (int)a.NguoiTao_ID
+                                 ID_NguoiTao = (int)a.NguoiTao_ID,
+                                 SLCauHoi = db.CauHois.Where(x=>x.IDND == a.NoiDungDT_ID).Count(),
+                                 SLDeThi = db.DeThis.Where(x=>x.IDND == a.NoiDungDT_ID).Count()
                               }).OrderBy(x => x.ID_NCDT).ToList();
             if (!ListQuyen.Contains(CONSTKEY.VIEW_ALL) && !ListQuyen.Contains(CONSTKEY.V_BP)) noiDungDTs = noiDungDTs.Where(x => x.ID_NguoiTao == MyAuthentication.ID).ToList();
             else if (ListQuyen.Contains(CONSTKEY.V_BP)) noiDungDTs = noiDungDTs.Where(x => x.BoPhanLNC_ID == MyAuthentication.IDPhongban).ToList();
@@ -292,7 +295,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                         {
                             //Regex.Replace(_DO.NVDG, @"[^0-9a-zA-Z]+", " ");
                             string tx = Regex.Replace(nhucau.DSViTri, @"[^0-9a-zA-Z]+", " ");
-                            string[] NVS = tx.Split(new char[] { ' ' });
+                            string[] NVS = tx.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                             foreach (var item in NVS)
                             {
                                 int idvt = int.Parse(item);
@@ -353,10 +356,12 @@ namespace E_Learning.Controllers.DaoTaoTH
                         //BoPhanDT_ID = gv.IDPhongBan
                     };
                    var loai =  db.SH_PhanLoaiNCDT.Where(x => x.IDLoai == nhucau.PhanLoaiNCDT_ID).FirstOrDefault().LoaiHinhDT_ID;
-                    if(loai == 1)
+                    if(gv != null)
                     {
                         child.DonViDT = gv?.PhongBan.TenPhongBan;
                         child.GiangVien_Vitri = gv?.Vitri.TenViTri;
+                        child.GiangVien_HoTen = gv.HoTen;
+                        child.GiangVien_ID = gv.ID;
                     }
                     db.SH_ChiTiet_NCDT.Add(child);
                     db.SaveChanges();
@@ -709,10 +714,12 @@ namespace E_Learning.Controllers.DaoTaoTH
                     // check nhân viên
                     var gv = db.NhanViens.Where(x => x.ID == nhucau.chiTietNhuCauDTTHView.GiangVien_ID).FirstOrDefault();
                     var loai = db.SH_PhanLoaiNCDT.Where(x => x.IDLoai == nhucau.PhanLoaiNCDT_ID).FirstOrDefault().LoaiHinhDT_ID;
-                    if (loai == 1)
+                    if (gv != null)
                     {
                         chitietNCDT.DonViDT = gv?.PhongBan.TenPhongBan;
                         chitietNCDT.GiangVien_Vitri = gv?.Vitri.TenViTri;
+                        chitietNCDT.GiangVien_HoTen = gv.HoTen;
+                        chitietNCDT.GiangVien_ID = gv.ID;
                     }
                     db.SaveChanges();
 
@@ -1268,7 +1275,7 @@ namespace E_Learning.Controllers.DaoTaoTH
         }
         public List<SH_PhanLoaiNCDT> GetDSLoaiNCDT()
         {
-            var mulQuyen = db.SH_PhanLoaiNCDT.Where(x=>x.IDLoai ==1 || x.IDLoai ==3).ToList();
+            var mulQuyen = db.SH_PhanLoaiNCDT.Where(x=>x.IDLoai ==1 || x.IDLoai ==3).ToList();  // NCĐT nội bộ và NCĐT khác
             return mulQuyen;
         }
 

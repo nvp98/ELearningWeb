@@ -36,10 +36,10 @@ namespace E_Learning.Models
         public string GhiChu { get; set; }
     
         public virtual NoiDungDT NoiDungDT { get; set; }
+        public virtual NhanVien NhanVien { get; set; }
         public virtual PhongBan PhongBan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SH_ChiTiet_NCDT> SH_ChiTiet_NCDT { get; set; }
         public virtual SH_PhanLoaiNCDT SH_PhanLoaiNCDT { get; set; }
-        public virtual NhanVien NhanVien { get; set; }
     }
 }

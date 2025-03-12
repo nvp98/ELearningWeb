@@ -24,9 +24,6 @@ namespace E_Learning.Models
         public Nullable<int> KDGia { get; set; }
         public Nullable<int> CHUADG { get; set; }
         public Nullable<int> TONGNL { get; set; }
-        public string TenViTri { get; set; }
-        public string FilePath { get; set; }
-        public string TenVTKNL { get; set; }
         public Nullable<System.DateTime> NgayTuDGGN { get; set; }
         public Nullable<int> DATTUDG { get; set; }
         public Nullable<int> KDATTUDG { get; set; }
@@ -39,5 +36,8 @@ namespace E_Learning.Models
         public Nullable<int> KDGiaTuDGLan1 { get; set; }
         public Nullable<int> CHUADGTuDGLan1 { get; set; }
         public Nullable<System.DateTime> NgayDGGNLan1 { get; set; }
+        public string TenViTri { get; set; }
+        public string FilePath { get; set; }
+        public string TenVTKNL { get; set; }
     }
 }

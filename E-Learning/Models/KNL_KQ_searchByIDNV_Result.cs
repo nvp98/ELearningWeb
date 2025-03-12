@@ -21,6 +21,7 @@ namespace E_Learning.Models
         public Nullable<int> DinhMuc { get; set; }
         public Nullable<int> IsDanhGia { get; set; }
         public Nullable<int> OrderBy { get; set; }
+        public Nullable<int> IsDuyet { get; set; }
         public string TenViTri { get; set; }
         public string MaViTri { get; set; }
         public string FilePath { get; set; }
@@ -31,17 +32,16 @@ namespace E_Learning.Models
         public Nullable<System.DateTime> ThangDG { get; set; }
         public Nullable<System.DateTime> NgayDG { get; set; }
         public string Note { get; set; }
+        public Nullable<int> DiemTuDG { get; set; }
+        public Nullable<System.DateTime> NgayTuDG { get; set; }
+        public Nullable<int> DiemDG_Lan1 { get; set; }
+        public Nullable<System.DateTime> NgayDG_Lan1 { get; set; }
+        public Nullable<int> IDNguoiDG_Lan1 { get; set; }
         public string HoTen { get; set; }
         public Nullable<int> IDVTKNL { get; set; }
         public string TenLoai { get; set; }
         public Nullable<int> orByLoai { get; set; }
         public string TenPhongBan { get; set; }
         public string MaPB { get; set; }
-        public Nullable<int> DiemTuDG { get; set; }
-        public Nullable<System.DateTime> NgayTuDG { get; set; }
-        public Nullable<int> IsDuyet { get; set; }
-        public Nullable<int> DiemDG_Lan1 { get; set; }
-        public Nullable<System.DateTime> NgayDG_Lan1 { get; set; }
-        public Nullable<int> IDNguoiDG_Lan1 { get; set; }
     }
 }

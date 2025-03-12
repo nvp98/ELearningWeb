@@ -79,6 +79,190 @@ namespace E_Learning.Controllers.DaoTaoTH
             return View(res.ToList().ToPagedList(pageNumber, pageSize));
         }
 
+        public ActionResult Index_CTDT(int? page)
+        {
+            var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
+            ViewBag.QUYENCN = ListQuyen;
+            //if (!ListQuyen.Contains(CONSTKEY.V))
+            //{
+            //    TempData["msgError"] = "<script>alert('Bạn không có quyền truy cập chức năng này');</script>";
+            //    return RedirectToAction("", "Home");
+            //}
+            // check chữ ký
+            var nhanvien = db.NhanViens.Where(x => x.ID == MyAuthentication.ID).FirstOrDefault();
+            if (string.IsNullOrEmpty(nhanvien.ChuKy))
+            {
+                TempData["msgSuccess"] = "<script>alert('Chưa có chữ ký vui lòng cập nhật chữ ký ');</script>";
+                return new RedirectResult("~/Login/CapNhatChuKy");
+            }
+
+            var valuesToCheck = db.SH_ChuongTrinhDT.Where(x => (x.TinhTrang == 2 || x.TinhTrang == 1 || x.TinhTrang ==3 )).Select(k => k.IDCTDT).ToList();
+            var res = (from a in db.SH_KyDuyetCTDT.Where(x => (x.ID_NguoiKiemTra == MyAuthentication.ID ||x.ID_TPBP == MyAuthentication.ID || x.ID_PCHN == MyAuthentication.ID) && valuesToCheck.Contains((int)x.ID_CTDT) && (x.ID_NguoiDuyetNDDT == null||(x.NgayDuyetNDDT != null && x.ID_NguoiDuyetNDDT != null)))
+                       select new SH_KyDuyetCTDTView
+                       {
+                           ID = a.ID,
+                           ID_NguoiTao = a.ID_NguoiTao,
+                           NgayTao = a.NgayTao,
+                           ID_NguoiKiemTra = a.ID_NguoiKiemTra,
+                           NgayKTDuyet = a.NgayKTDuyet,
+                           ID_TPBP = a.ID_TPBP,
+                           NgayTPBP = a.NgayTPBP,
+                           ID_PCHN = a.ID_PCHN,
+                           NgayPCHN = a.NgayPCHN,
+                           ID_NguoiDuyetNDDT = a.ID_NguoiDuyetNDDT,
+                           NgayDuyetNDDT= a.NgayDuyetNDDT,
+                           ID_CTDT = a.ID_CTDT,
+                           NoiDungCTDT = db.SH_ChuongTrinhDT.Where(x=>x.IDCTDT == a.ID_CTDT).FirstOrDefault().TenChuongTrinhDT,
+                           NoiDungTrichYeu = db.SH_ChuongTrinhDT.Where(x => x.IDCTDT == a.ID_CTDT).FirstOrDefault().NoiDungTrichYeu,
+                           ID_TinhTrangCTDT = db.SH_ChuongTrinhDT.Where(x=>x.IDCTDT == a.ID_CTDT).FirstOrDefault().TinhTrang,
+                           IsDuyet =0
+                       }).OrderByDescending(x => x.NgayTao).ToList();
+            int IDNV = MyAuthentication.ID;
+            foreach (var item in res)
+            {
+                if (item.ID_NguoiKiemTra == IDNV)
+                {
+                    var nv = db.NhanViens.Select(x => new { x.ID, x.HoTen, x.MaNV }).ToList();
+                    item.TenNguoiTao = db.NhanViens.Where(x => x.ID == item.ID_NguoiTao).FirstOrDefault().HoTen;
+                    item.TenNguoiKiemTra = nv.Where(x => x.ID == item.ID_NguoiKiemTra).FirstOrDefault().MaNV + "-" + nv.Where(x => x.ID == item.ID_NguoiKiemTra).FirstOrDefault().HoTen;
+                    item.TenTPBP = nv.Where(x => x.ID == item.ID_TPBP).FirstOrDefault()?.MaNV + "-" + nv.Where(x => x.ID == item.ID_TPBP).FirstOrDefault()?.HoTen;
+                    item.TenPCHN = nv.Where(x => x.ID == item.ID_PCHN).FirstOrDefault()?.MaNV + "-" + nv.Where(x => x.ID == item.ID_PCHN).FirstOrDefault()?.HoTen;
+                    if (item.NgayKTDuyet != null)
+                    {
+                        item.IsDuyet = 1;
+                    }
+                    else item.IsDuyet = 0;
+                }
+                else if (item.ID_TPBP == IDNV && item.NgayKTDuyet != null)
+                {
+                    var nv = db.NhanViens.Select(x => new { x.ID, x.HoTen,x.MaNV }).ToList();
+                    item.TenNguoiTao = nv.Where(x => x.ID == item.ID_NguoiTao).FirstOrDefault().MaNV +"-" + nv.Where(x => x.ID == item.ID_NguoiTao).FirstOrDefault().HoTen;
+                    item.TenNguoiKiemTra = nv.Where(x => x.ID == item.ID_NguoiKiemTra).FirstOrDefault().MaNV + "-" + nv.Where(x => x.ID == item.ID_NguoiKiemTra).FirstOrDefault().HoTen;
+                    item.TenTPBP = nv.Where(x => x.ID == item.ID_TPBP).FirstOrDefault()?.MaNV + "-" + nv.Where(x => x.ID == item.ID_TPBP).FirstOrDefault()?.HoTen;
+                    item.TenPCHN = nv.Where(x => x.ID == item.ID_PCHN).FirstOrDefault()?.MaNV + "-" + nv.Where(x => x.ID == item.ID_PCHN).FirstOrDefault()?.HoTen;
+                    item.IsDuyet = 1;
+                    if (item.NgayTPBP != null)
+                    {
+                        item.IsDuyet = 1;
+                    }
+                    else item.IsDuyet = 0;
+                }
+                else if (item.ID_PCHN == IDNV && (item.NgayKTDuyet != null && item.NgayTPBP != null))
+                {
+                    var nv = db.NhanViens.Select(x => new { x.ID, x.HoTen, x.MaNV }).ToList();
+                    item.TenNguoiTao = nv.Where(x => x.ID == item.ID_NguoiTao).FirstOrDefault().MaNV + "-" + nv.Where(x => x.ID == item.ID_NguoiTao).FirstOrDefault().HoTen;
+                    item.TenNguoiKiemTra = nv.Where(x => x.ID == item.ID_NguoiKiemTra).FirstOrDefault().MaNV + "-" + nv.Where(x => x.ID == item.ID_NguoiKiemTra).FirstOrDefault().HoTen;
+                    item.TenTPBP = nv.Where(x => x.ID == item.ID_TPBP).FirstOrDefault()?.MaNV + "-" + nv.Where(x => x.ID == item.ID_TPBP).FirstOrDefault()?.HoTen;
+                    item.TenPCHN = nv.Where(x => x.ID == item.ID_PCHN).FirstOrDefault()?.MaNV + "-" + nv.Where(x => x.ID == item.ID_PCHN).FirstOrDefault()?.HoTen;
+                    if (item.NgayPCHN != null)
+                    {
+                        item.IsDuyet = 1;
+                    }
+                    else item.IsDuyet = 0;
+                }
+                else
+                {
+                    res = res.Where(x=>x.ID != item.ID).ToList();
+                };
+            }
+            if (page == null) page = 1;
+            int pageSize = 100;
+            int pageNumber = (page ?? 1);
+            return View(res.ToList().ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult Index_NDDT(int? page)
+        {
+            var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
+            ViewBag.QUYENCN = ListQuyen;
+            //if (!ListQuyen.Contains(CONSTKEY.V))
+            //{
+            //    TempData["msgError"] = "<script>alert('Bạn không có quyền truy cập chức năng này');</script>";
+            //    return RedirectToAction("", "Home");
+            //}
+            // check chữ ký
+            var nhanvien = db.NhanViens.Where(x => x.ID == MyAuthentication.ID).FirstOrDefault();
+            if (string.IsNullOrEmpty(nhanvien.ChuKy))
+            {
+                TempData["msgSuccess"] = "<script>alert('Chưa có chữ ký vui lòng cập nhật chữ ký ');</script>";
+                return new RedirectResult("~/Login/CapNhatChuKy");
+            }
+
+            var valuesToCheck = db.SH_ChuongTrinhDT.Where(x => x.NoiDungDT.IsDelete == true && x.TinhTrang ==2).Select(k => k.IDCTDT).ToList();
+            var res = (from a in db.SH_KyDuyetCTDT.Where(x => ((x.ID_NguoiDuyetNDDT == MyAuthentication.ID && x.NgayDangNDDT != null) ||(x.ID_NguoiTao == MyAuthentication.ID &&x.NgayDuyetNDDT != null) || x.ID_NguoiDangNDDT == MyAuthentication.ID) && valuesToCheck.Contains((int)x.ID_CTDT))
+                       join b in db.SH_ChuongTrinhDT on a.ID_CTDT equals b.IDCTDT
+                       join c in db.NoiDungDTs on b.ID_NoiDungDT equals c.IDND
+                       select new SH_KyDuyetCTDTView
+                       {
+                           ID = a.ID,
+                           ID_NguoiTao = a.ID_NguoiTao,
+                           NgayTao = a.NgayTao,
+                           TenNguoiTao = db.NhanViens.Where(x=>x.ID == a.ID_NguoiTao).Select(x => x.HoTen).FirstOrDefault(),
+                           ID_NguoiKiemTra = a.ID_NguoiKiemTra,
+                           NgayKTDuyet = a.NgayKTDuyet,
+                           ID_TPBP = a.ID_TPBP,
+                           NgayTPBP = a.NgayTPBP,
+                           ID_PCHN = a.ID_PCHN,
+                           NgayPCHN = a.NgayPCHN,
+                           ID_NguoiDuyetNDDT = a.ID_NguoiDuyetNDDT,
+                           TenNguoiDuyetNDDT = db.NhanViens.Where(x => x.ID == a.ID_NguoiDuyetNDDT).Select(x=>x.HoTen).FirstOrDefault(),
+                           NgayDuyetNDDT = a.NgayDuyetNDDT,
+                           ID_CTDT = a.ID_CTDT,
+                           NoiDungCTDT = b.TenChuongTrinhDT,
+                           NoiDungTrichYeu = b.NoiDungTrichYeu,
+                           ID_TinhTrangCTDT = b.TinhTrang,
+                           noidungdt = c,
+                           IsDuyet = 0,
+                           ID_NguoiDangNDDT = a.ID_NguoiDangNDDT,
+                           NgayDangNDDT = a.NgayDangNDDT,
+                           TenNguoiDangNDDT = db.NhanViens.Where(x => x.ID == a.ID_NguoiDangNDDT).Select(x => x.HoTen).FirstOrDefault(),
+                           CapDuyet = a.ID_NguoiDangNDDT == MyAuthentication.ID?1:2
+                       }).OrderByDescending(x => x.NgayTao).ToList();
+            int IDNV = MyAuthentication.ID;
+            if (page == null) page = 1;
+            int pageSize = 100;
+            int pageNumber = (page ?? 1);
+            return View(res.ToList().ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult Index_TCDT(int? page)
+        {
+            var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
+            ViewBag.QUYENCN = ListQuyen;
+            //if (!ListQuyen.Contains(CONSTKEY.V))
+            //{
+            //    TempData["msgError"] = "<script>alert('Bạn không có quyền truy cập chức năng này');</script>";
+            //    return RedirectToAction("", "Home");
+            //}
+            // check chữ ký
+            var nhanvien = db.NhanViens.Where(x => x.ID == MyAuthentication.ID).FirstOrDefault();
+            if (string.IsNullOrEmpty(nhanvien.ChuKy))
+            {
+                TempData["msgSuccess"] = "<script>alert('Chưa có chữ ký vui lòng cập nhật chữ ký ');</script>";
+                return new RedirectResult("~/Login/CapNhatChuKy");
+            }
+            var res = (from a in db.LopHocs.Where(x => x.NguoiKiemTra_ID == MyAuthentication.ID && x.TinhTrang != 0)
+                       join b in db.NhanViens on a.NguoiTao_ID equals b.ID
+                       select new SH_KyDuyetNCDTView
+                       {
+                           ID = a.IDLH,
+                           //CapDuyet = a.CapDuyet,
+                           NguoiDuyet_ID = a.NguoiKiemTra_ID,
+                           //GhiChu = a.GhiChu,
+                           //NCDT_ID = a.NCDT_ID,
+                           ID_Duyet = a.IDLH,
+                           NgayDuyet = a.NgayKiemTra,
+                           TinhTrangDuyet = a.NgayKiemTra != null?1:0,
+                           HoTen_NguoiTao = b.MaNV +" - " + b.HoTen,
+                           NgayTao = a.NgayTao
+                       }).OrderByDescending(x => x.NgayTao).ToList();
+
+            if (page == null) page = 1;
+            int pageSize = 100;
+            int pageNumber = (page ?? 1);
+            return View(res.ToList().ToPagedList(pageNumber, pageSize));
+        }
+
         public ActionResult XuLyPhieuNCDT(int? id)
         {
             if (id == null)
@@ -175,6 +359,161 @@ namespace E_Learning.Controllers.DaoTaoTH
             return View(noiDungDTs);
         }
 
+        public ActionResult XuLyPhieuCTDT(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SH_ChuongTrinhDT chuongtrinh = db.SH_ChuongTrinhDT.Find(id);
+            if (chuongtrinh == null)
+            {
+                return HttpNotFound();
+            }
+            var IDPB = MyAuthentication.IDPhongban;
+            ViewBag.IDPhongBan = new SelectList(db.PhongBans.Where(x => x.IDPhongBan == IDPB), "IDPhongBan", "TenPhongBan", IDPB);
+            //ViewBag.IDNoiDungDT = new SelectList(db.NoiDungDTs.Where(x=>x.IDND == nhuCauDT.NoiDungDT_ID), "IDND", "NoiDung",nhuCauDT.NoiDungDT_ID);
+            ViewBag.IDNoiDungDT = new SelectList(db.NoiDungDTs.Where(x => x.IDND == chuongtrinh.ID_NoiDungDT).Select(x => new
+            {
+                Value = x.IDND,
+                Text = x.IDND + " - " + db.SH_PhanLoaiNDDT.Where(a => x.IDND == chuongtrinh.ID_NoiDungDT).FirstOrDefault().TenPhanLoaiDT + " - " + x.NoiDung // Concatenate fields here
+            }),
+            "Value",
+            "Text", chuongtrinh.ID_NoiDungDT);
+            ViewBag.NhomNLID = new SelectList(db.NhomNLKCCDs.ToList(), "ID", "NoiDung", chuongtrinh.NoiDungDT.IDNhomNL);
+            ViewBag.LVDTID = new SelectList(db.LinhVucDTs.ToList(), "IDLVDT", "TenLVDT", chuongtrinh?.NoiDungDT.LVDTID);
+
+            ViewBag.PhuongPhapDT_ID = new SelectList(db.SH_PhuongPhapDT.Where(x => x.ID == chuongtrinh.IDPhuongPhapDT), "ID", "TenPhuongPhapDT", chuongtrinh.IDPhuongPhapDT);
+            var nv2 = db.NhanViens.Where(x => x.IDTinhTrangLV == 1 && x.IDPhongBan == IDPB).Select(x => new EmployeeValidation { ID = x.ID, HoTen = x.MaNV + " - " + x.HoTen + "-" + x.Vitri.TenViTri }).ToList();
+            //ViewBag.Selec = new SelectList(nv2, "ID", "HoTen", nhuCauDT.SH_ChiTiet_NCDT.FirstOrDefault().GiangVien_ID);
+
+            // trình ký
+            var trinhky = db.SH_KyDuyetCTDT.Where(x => x.ID_CTDT == chuongtrinh.IDCTDT).FirstOrDefault();
+            var nhanvien = db.NhanViens.Where(x => x.IDTinhTrangLV == 1).Select(x => new EmployeeValidation { ID = x.ID, HoTen = x.MaNV + " - " + x.HoTen, IDPhongBan = (int)x.IDPhongBan }).ToList();
+
+            ViewBag.ID_NguoiKiemTra = new SelectList(nhanvien.Where(x => x.IDPhongBan == MyAuthentication.IDPhongban), "ID", "HoTen", trinhky.ID_NguoiKiemTra);
+            ViewBag.ID_TPBP = new SelectList(nhanvien.Where(x => x.IDPhongBan == MyAuthentication.IDPhongban), "ID", "HoTen", trinhky.ID_TPBP);
+            ViewBag.ID_PCHN = new SelectList(nhanvien, "ID", "HoTen", trinhky.ID_PCHN);
+
+            var noiDungDTs = (from a in db.SH_ChuongTrinhDT.Where(x => x.IDCTDT == id)
+                              //join b in db.SH_PhuongPhapDT on a.IDPhuongPhapDT equals b.ID
+                              select new ChuongTrinhDTTHView
+                              {
+                                  IDCTDT = a.IDCTDT,
+                                  TenChuongTrinhDT = a.TenChuongTrinhDT,
+                                  NoiDungTrichYeu = a.NoiDungTrichYeu,
+                                  ThoiLuongDT = a.ThoiLuongDT,
+                                  FileDinhKem = a.FileDinhKem,
+                                  IDPhuongPhapDT = a.IDPhuongPhapDT,
+                                  //TenPPDT = b.TenPhuongPhapDT,
+                                  IDPhongBan = a.IDPhongBan,
+                                  TenPhongBan = a.PhongBan.TenPhongBan,
+                                  IsDelete = a.IsDelete,
+                                  FileCTDT = a.FileCTDT,
+                                  IDKiemTra = a.IDKiemTra,
+                                  DoiTuongDT = a.DoiTuongDT,
+                                  ID_NguoiTao = a.ID_NguoiTao,
+                                  HoTen_NT = a.NhanVien.HoTen,
+                                  MaNhanVien_NT = a.NhanVien.MaNV,
+                                  ID_NoiDungDT = a.ID_NoiDungDT,
+                                  TenNoiDungDT = a.NoiDungDT.NoiDung,
+                                  NgayTao = a.NgayTao,
+                                  TenNhomNL = a.NoiDungDT.NhomNLKCCD.NoiDung,
+                                  TenLVDT = a.NoiDungDT.LinhVucDT.TenLVDT,
+                                  TinhTrang = a.TinhTrang,
+                                  sH_ChiTietCTDTs = db.SH_ChiTietCTDT.Where(x => x.ID_ChuongTrinhDT == id).ToList(),
+                                  cauHoiDeThiCTDTTHs = (from d in db.DeThis.Where(x => x.CTDT_ID == id)
+                                                        select new CauHoiDeThiCTDTTH
+                                                        {
+                                                            ID = d.IDDeThi,
+                                                            MaDeThi = d.MaDe,
+                                                            TenDeThi = d.TenDe,
+                                                            DiemChuan = d.DiemChuan,
+                                                            ThoiGianLamBai = d.ThoiGianLamBai,
+                                                            TongSoCau = d.TongSoCau
+                                                        }).ToList(),
+                                  sH_KyDuyetCTDTs = db.SH_KyDuyetCTDT.Where(x => x.ID_CTDT == id).FirstOrDefault()
+                              }).OrderBy(x => x.NgayTao).FirstOrDefault();
+
+            return View(noiDungDTs);
+        }
+        public ActionResult XuLyNDDT(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SH_ChuongTrinhDT chuongtrinh = db.SH_ChuongTrinhDT.Where(x=>x.IDCTDT == id).FirstOrDefault();
+            ViewBag.ID_ChuongtrinhDT = id;
+            NoiDungDT noiDungDT = db.NoiDungDTs.Find(chuongtrinh.ID_NoiDungDT);
+            if (noiDungDT == null)
+            {
+                return HttpNotFound();
+            }
+            //ViewBag.LVDTID = new SelectList(db.LinhVucDTs, "IDLVDT", "TenLVDT", noiDungDT.LVDTID);
+            ViewBag.LVDTID = new SelectList(db.LinhVucDTs, "IDLVDT", "TenLVDT", noiDungDT.LVDTID);
+            ViewBag.IDNguonGV = new SelectList(db.SH_NguonGV, "ID", "TenNguonGV", noiDungDT.IDNguonGV);
+            ViewBag.IDPhanLoaiDT = new SelectList(db.SH_PhanLoaiNDDT, "ID", "TenPhanLoaiDT", noiDungDT.IDPhanLoaiDT);
+            ViewBag.IDPPDT = new SelectList(db.SH_PhuongPhapDT, "ID", "TenPhuongPhapDT", noiDungDT.IDPhuongPhapDT);
+            ViewBag.IDNhomNL = new SelectList(db.NhomNLKCCDs, "ID", "NoiDung", noiDungDT.IDNhomNL);
+            ViewBag.IDHoatDongDT = new SelectList(db.SH_HoatDongDT, "ID", "TenHoatDong", noiDungDT.IDHoatDongDT);
+            ViewBag.IDPhuongPhapDT = new SelectList(db.SH_PhuongPhapDT, "ID", "TenPhuongPhapDT", noiDungDT.IDHoatDongDT);
+            return PartialView(noiDungDT);
+        }
+
+        // POST: NoiDungDTTH/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult XuLyNDDT(NoiDungDT noiDungDT,int? ID_CTDT, int? capduyet)
+        {
+            if (ModelState.IsValid)
+            {
+                var kyduyet = db.SH_KyDuyetCTDT.Where(x => x.ID_CTDT == ID_CTDT).FirstOrDefault();
+                var existingRecord = db.NoiDungDTs.Find(noiDungDT.IDND); // Tìm bản ghi hiện có dựa vào khóa chính
+                if (existingRecord != null)
+                {
+                    // Cập nhật từng trường nếu nó khác null
+                    if (noiDungDT.NoiDung != null)
+                        existingRecord.NoiDung = noiDungDT.NoiDung;
+
+                    if (noiDungDT.VideoND != null)
+                        existingRecord.VideoND = noiDungDT.VideoND;
+
+                    if (noiDungDT.ImageND != null)
+                        existingRecord.ImageND = noiDungDT.ImageND;
+                    if (noiDungDT.FileDinhKem != null)
+                        existingRecord.FileDinhKem = noiDungDT.FileDinhKem;
+                    existingRecord.LVDTID = noiDungDT.LVDTID;
+                    existingRecord.IDNguonGV = noiDungDT.IDNguonGV;
+                    existingRecord.IDHoatDongDT = noiDungDT.IDHoatDongDT;
+                    existingRecord.IDNhomNL = noiDungDT.IDNhomNL;
+                    existingRecord.IDPhuongPhapDT = noiDungDT.IDPhuongPhapDT;
+                    existingRecord.IDPhanLoaiDT = noiDungDT.IDPhanLoaiDT;
+                    // Thêm logic cho các trường khác nếu cần
+                    db.SaveChanges(); // Lưu thay đổi
+                }
+                if (kyduyet.ID_NguoiDuyetNDDT == MyAuthentication.ID)
+                {
+                    // xử lý xác nhận PNS xác nhận NDDT
+                    kyduyet.NgayDuyetNDDT = DateTime.Now;
+                    // Tác giả xác nhận nội dung
+                    //existingRecord.IsDelete = false;
+                    db.SaveChanges();
+                }
+                if(kyduyet.ID_NguoiDangNDDT == MyAuthentication.ID)
+                {
+                    kyduyet.NgayDangNDDT = DateTime.Now;
+                    db.SaveChanges();
+                }
+                TempData["msgSuccess"] = "<script>alert('Thành công ');</script>";
+                return RedirectToAction("Index_NDDT");
+            }
+            ViewBag.LVDTID = new SelectList(db.LinhVucDTs, "IDLVDT", "TenLVDT", noiDungDT.LVDTID);
+            return RedirectToAction("Index_NDDT");
+        }
+
         public ActionResult XacNhanPhieu(int? id)
         {
             if (id == null)
@@ -240,6 +579,132 @@ namespace E_Learning.Controllers.DaoTaoTH
             }
             TempData["msgSuccess"] = "<script>alert('Xác nhận thành công ');</script>";
             return RedirectToAction("Index_NCDT", "PheDuyetPhieu");
+        }
+
+        public ActionResult XacNhanPhieuCTDT(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            int IDNV = MyAuthentication.ID;
+            var chuongtrinh = db.SH_ChuongTrinhDT.Where(x => x.IDCTDT == id).FirstOrDefault();
+            var sH_KyDuyetCTDT = db.SH_KyDuyetCTDT.Where(x => x.ID_CTDT == chuongtrinh.IDCTDT).FirstOrDefault();
+            var nddt = db.NoiDungDTs.FirstOrDefault(x => x.IDND == chuongtrinh.ID_NoiDungDT);
+            if (sH_KyDuyetCTDT.ID_NguoiKiemTra == IDNV)
+            {
+                sH_KyDuyetCTDT.NgayKTDuyet = DateTime.Now;
+                db.SaveChanges();
+            }
+            if (sH_KyDuyetCTDT.ID_TPBP == IDNV)
+            {
+                sH_KyDuyetCTDT.NgayTPBP = DateTime.Now;
+                db.SaveChanges();
+            }
+            if (sH_KyDuyetCTDT.ID_PCHN == IDNV)
+            {
+                sH_KyDuyetCTDT.NgayPCHN = DateTime.Now;
+                db.SaveChanges();
+            }
+            if ((sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.ID_PCHN == null)
+               || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN == null)
+               || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.ID_PCHN != null)
+               || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN != null)
+                ) // Hoàn thành
+            {
+                nddt.IsDelete = false;
+                chuongtrinh.TinhTrang = 1;
+                db.SaveChanges();
+            }
+
+            if ((sH_KyDuyetCTDT.NgayKTDuyet == null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN == null)
+              || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN == null)
+              || (sH_KyDuyetCTDT.NgayKTDuyet == null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN != null)
+              || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN != null)
+               ) // Hoàn thành
+            {
+                nddt.IsDelete = false;
+                chuongtrinh.TinhTrang = 1;
+
+                db.SaveChanges();
+            }
+            if ((sH_KyDuyetCTDT.NgayKTDuyet == null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.ID_PCHN != null)
+               || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.ID_PCHN != null)
+               || (sH_KyDuyetCTDT.NgayKTDuyet == null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN != null)
+               || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN != null)
+                ) // Hoàn thành
+            {
+                nddt.IsDelete = false;
+                chuongtrinh.TinhTrang = 1;
+                db.SaveChanges();
+            }
+
+
+            TempData["msgSuccess"] = "<script>alert('Xác nhận thành công ');</script>";
+            return RedirectToAction("Index_CTDT", "PheDuyetPhieu");
+        }
+
+
+        public ActionResult KhongXacNhanPhieuCTDT(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            int IDNV = MyAuthentication.ID;
+            var chuongtrinh = db.SH_ChuongTrinhDT.Where(x => x.IDCTDT == id).FirstOrDefault();
+            var sH_KyDuyetCTDT = db.SH_KyDuyetCTDT.Where(x => x.ID == chuongtrinh.IDCTDT).FirstOrDefault();
+            chuongtrinh.TinhTrang = 3;// không duyệt 
+            db.SaveChanges();
+
+            TempData["msgSuccess"] = "<script>alert('Xác nhận thành công ');</script>";
+            return RedirectToAction("Index_CTDT", "PheDuyetPhieu");
+        }
+
+        public ActionResult XacNhanPhieuTCDT(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            int IDNV = MyAuthentication.ID;
+            var lophoc = db.LopHocs.Where(x => x.IDLH == id).FirstOrDefault();
+            lophoc.NgayKiemTra = DateTime.Now;
+            lophoc.TinhTrang = 1;
+            // set tinh trạng XNHT
+            var listXNHT = db.XNHocTaps.Where(x=>x.LHID == id).ToList();
+            foreach (var item in listXNHT)
+            {
+                item.TinhTrang = 1;
+            }
+
+            db.SaveChanges();
+
+            TempData["msgSuccess"] = "<script>alert('Xác nhận thành công ');</script>";
+            return RedirectToAction("Index_TCDT", "PheDuyetPhieu");
+        }
+
+        public ActionResult KhongXacNhanPhieuTCDT(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            int IDNV = MyAuthentication.ID;
+            var lophoc = db.LopHocs.Where(x => x.IDLH == id).FirstOrDefault();
+            lophoc.NgayKiemTra = DateTime.Now;
+            lophoc.TinhTrang = 1;
+            // set tinh trạng XNHT
+            var listXNHT = db.XNHocTaps.Where(x => x.LHID == id).ToList();
+            foreach (var item in listXNHT)
+            {
+                item.TinhTrang = 3; // từ chối
+            }
+
+            db.SaveChanges();
+
+            TempData["msgSuccess"] = "<script>alert('Từ chối thành công ');</script>";
+            return RedirectToAction("Index_TCDT", "PheDuyetPhieu");
         }
 
         // GET: PheDuyetPhieu/Details/5
@@ -352,8 +817,92 @@ namespace E_Learning.Controllers.DaoTaoTH
                 }
                 //_context.SaveChanges();
             }
-           
+            TempData["msgSuccess"] = "<script>alert('Phê duyệt thành công ');</script>";
             return RedirectToAction("Index_NCDT", "PheDuyetPhieu"); // Quay lại trang danh sách
+        }
+
+        [HttpPost]
+        public ActionResult ProcessSelectedCTDT(List<int> selectedItems)
+        {
+            if (selectedItems != null && selectedItems.Any())
+            {
+                int IDNV = MyAuthentication.ID;
+                //// Xử lý danh sách ID được chọn
+                foreach (var id in selectedItems)
+                {
+                    var sH_KyDuyetCTDT = db.SH_KyDuyetCTDT.Where(x => x.ID == id).FirstOrDefault();
+                    var chuongtrinh = db.SH_ChuongTrinhDT.Where(x => x.IDCTDT == sH_KyDuyetCTDT.ID_CTDT).FirstOrDefault();
+                    var nddt = db.NoiDungDTs.FirstOrDefault(x=>x.IDND == chuongtrinh.ID_NoiDungDT);    
+                    if (sH_KyDuyetCTDT.ID_NguoiKiemTra == IDNV)
+                    {
+                        sH_KyDuyetCTDT.NgayKTDuyet = DateTime.Now;
+                        db.SaveChanges();
+                    }
+                    if (sH_KyDuyetCTDT.ID_TPBP == IDNV)
+                    {
+                        sH_KyDuyetCTDT.NgayTPBP = DateTime.Now;
+                        db.SaveChanges();
+                    }
+                    if (sH_KyDuyetCTDT.ID_PCHN == IDNV)
+                    {
+                        sH_KyDuyetCTDT.NgayPCHN = DateTime.Now;
+                        db.SaveChanges();
+                    }
+                    if ((sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.ID_PCHN == null)
+                || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN == null)
+                || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.ID_PCHN != null)
+                || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN != null)
+                 ) // Hoàn thành
+                    {
+                        nddt.IsDelete = false;
+                        chuongtrinh.TinhTrang = 1;
+                        db.SaveChanges();
+                    }
+
+                    if ((sH_KyDuyetCTDT.NgayKTDuyet == null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN == null)
+                      || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN == null)
+                      || (sH_KyDuyetCTDT.NgayKTDuyet == null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN != null)
+                      || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN != null)
+                       ) // Hoàn thành
+                    {
+                        nddt.IsDelete = false;
+                        chuongtrinh.TinhTrang = 1;
+                        
+                        db.SaveChanges();
+                    }
+                    if ((sH_KyDuyetCTDT.NgayKTDuyet == null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.ID_PCHN != null)
+                       || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.ID_PCHN != null)
+                       || (sH_KyDuyetCTDT.NgayKTDuyet == null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN != null)
+                       || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN != null)
+                        ) // Hoàn thành
+                    {
+                        nddt.IsDelete = false;
+                        chuongtrinh.TinhTrang = 1;
+                        db.SaveChanges();
+                    }
+                }
+            }
+            TempData["msgSuccess"] = "<script>alert('Phê duyệt thành công ');</script>";
+            return RedirectToAction("Index_CTDT", "PheDuyetPhieu"); // Quay lại trang danh sách
+        }
+
+        [HttpPost]
+        public ActionResult ProcessSelectedTCDT(List<int> selectedItems)
+        {
+            if (selectedItems != null && selectedItems.Any())
+            {
+                int IDNV = MyAuthentication.ID;
+                //// Xử lý danh sách ID được chọn
+                foreach (var id in selectedItems)
+                {
+                    var sH_KyDuyetCTDT = db.LopHocs.Where(x => x.IDLH == id).FirstOrDefault();
+                    sH_KyDuyetCTDT.NgayKiemTra = DateTime.Now;
+                    sH_KyDuyetCTDT.TinhTrang = 1;
+                    db.SaveChanges();
+                }
+            }
+            TempData["msgSuccess"] = "<script>alert('Phê duyệt thành công ');</script>";
+            return RedirectToAction("Index_TCDT", "PheDuyetPhieu"); // Quay lại trang danh sách
         }
 
         // GET: PheDuyetPhieu/Delete/5

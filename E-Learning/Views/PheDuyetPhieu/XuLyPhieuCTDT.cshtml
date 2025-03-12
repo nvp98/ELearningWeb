@@ -1,0 +1,599 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@model E_Learning.ModelsDTTH.ChuongTrinhDTTHView
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+@using E_Learning.Models;
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+<style>
+    /* Đặt chiều cao cố định và thêm cuộn dọc */
+    .table-responsive1 {
+        max-height: 300px; /* Thay đổi 300px thành chiều cao bạn muốn */
+        overflow-y: auto;
+    }
+
+    input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+    }
+</style>
+@{
+    ELEARNINGEntities db = new ELEARNINGEntities();
+    //var TrinhKy = db.SH_TrinhKy.Where(x => x.CapDuyet == Model.TrinhKy_ID).FirstOrDefault();
+    //var KyDuyetPhieu = db.SH_KyDuyetNCDT.Where(x => x.NCDT_ID == Model.ID_NCDT).ToList();
+    //var CapBP = KyDuyetPhieu.Where(x => x.CapDuyet == 1).FirstOrDefault();
+    //var CapPCHN = KyDuyetPhieu.Where(x => x.CapDuyet == 2).FirstOrDefault();
+    //var CapPNS = KyDuyetPhieu.Where(x => x.CapDuyet == 3).FirstOrDefault();
+    //var CapBGD = KyDuyetPhieu.Where(x => x.CapDuyet == 4).FirstOrDefault();
+    //var nhanvien = db.NhanViens.ToList();
+}
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div style="display: flex; margin-bottom: 5px; position:sticky;top:">
+            <span class="">
+
+            </span>
+            @* <span class="m-l-auto"><a class="btn btn-primary" href="@Url.Action("ExportToPdfsss","ConfirmEStudy")">&nbsp;In Phiếu </a></span>*@
+            @*<button type="button" id="btn-Import" class="btn btn-danger float-right ml-2"><i class="fa fa-refresh">&nbsp;</i>&nbsp;Không xác nhận </button>*@
+            <form action="@Url.Action("KhongXacNhanPhieuCTDT","PheDuyetPhieu",new {id = Model.IDCTDT})" method="post">
+                    <button type="submit" id="" class="btn btn-danger float-right ml-2"><i class="fa fa-refresh">&nbsp;</i>&nbsp;Không xác nhận </button>
+                </form>
+            <form action="@Url.Action("XacNhanPhieuCTDT","PheDuyetPhieu",new {id = Model.IDCTDT})" method="post">
+                    <button type="submit" id="" class="btn btn-success float-right ml-2"><i class="fa fa-check-square-o">&nbsp;</i>&nbsp;Xác nhận </button>
+                </form>
+            @*@if (Model.TinhTrang == 1)
+                {
+                    <a class="btn btn-warning" href="@Url.Action("ExportViewToPdf", "NhuCauDTTH", new { id = Model.ID_NCDT })" target="_blank">Xuất PDF</a>
+                }*@
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="card col-md-12">
+
+                    @* Code View *@
+                    <div class="HeadTest row">
+                        <div class="col-md-6" style="float: left; max-width: 300px; text-align: center; font-weight: bold; font-size: 1.2rem; text-transform: uppercase;">
+                            <img alt="Hòa Phát Dung Quất" src="~/Content/assets/images/logo-inverse.png" width="90%" />
+                            <span class="" style="">Công ty Cổ phần Thép</span>
+                            <p class="" style="">Hòa Phát Dung Quất</p>
+
+                        </div>
+                        <div class="col-md-6" style="float:right;text-align:right; font-weight: bold; margin-left: auto;">
+                            <span>BM.15/QT.04</span>
+                            <p><span style="font-style:italic;">Ngày hiệu lực:</span> 01/09/2024</p>
+                            <p><span style="font-style:italic;">Lần sửa đổi:</span> 02</p>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 1rem;">
+                            <p style="text-align:center; font-size: 1.5rem;font-weight:bold; text-transform:uppercase;">CHƯƠNG TRÌNH ĐÀO TẠO</p>
+                            <p style="text-align: center; font-style:italic">(Áp dụng cho phương pháp đào tạo Mở lớp đào tạo tập trung; Hội thảo, trao đổi, chia sẻ kinh nghiệm)</p>
+                        </div>
+
+                        <div class="col-md-12 row">
+                            <div class="col-2 font-weight-bold">Khóa đào tạo:</div>
+                            <div class="col-8">@Model.TenChuongTrinhDT</div>
+                        </div>
+                        <div class="col-md-12 row">
+                            <div class="col-2 font-weight-bold">Thời lượng đào tạo:</div>
+                            <div class="col-8">@Model.ThoiLuongDT</div>
+                        </div>
+                        <div class="col-md-12 row">
+                            <div class="col-2 font-weight-bold">Nhóm năng lực:</div>
+                            <div class="col-8">@Model.TenNhomNL</div>
+                        </div>
+                        <div class="col-md-12 row">
+                            <div class="col-2 font-weight-bold">Lĩnh vực đào tạo:</div>
+                            <div class="col-8">@Model.TenLVDT</div>
+                        </div>
+                        <div class="col-md-12 font-weight-bold">
+                            Người biên soạn:
+                        </div>
+                        <div class="col-md-12">
+                            Mã nhân viên: @Model.MaNhanVien_NT
+                        </div>
+                        <div class="col-md-12">
+                            Họ và tên: @Model.HoTen_NT
+                        </div>
+                        <div class="col-md-12">
+                            Vị trí công việc: @Model.MaNhanVien_NT
+                        </div>
+                        <div class="col-md-12">
+                            Đơn vị: @Model.TenPhongBan
+                        </div>
+                        <div class="col-md-12 row">
+                            <div class="col-4 font-weight-bold">Thời điểm biên soạn <br /> (theo ngày trình ký):</div>
+                            <div class="col-8">Ngày @Model.NgayTao.Value.ToString("dd") tháng @Model.NgayTao.Value.ToString("MM") năm @Model.NgayTao.Value.ToString("yyyy")</div>
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" colspan="2">Trách nhiệm</th>
+                                        <th class="text-center">Người biên soạn</th>
+                                        <th class="text-center">Người được T/PBP phân công</th>
+                                        <th class="text-center">T/PBP</th>
+                                        <th class="text-center">P.CHN</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        var nv = db.NhanViens.ToList();
+                                        var nguoitao = nv.Where(x => x.ID == Model.ID_NguoiTao).FirstOrDefault();
+                                        var nguoikiemtra = nv.Where(x => x.ID == Model.sH_KyDuyetCTDTs.ID_NguoiKiemTra).FirstOrDefault();
+                                        var tpbp = nv.Where(x => x.ID == Model.sH_KyDuyetCTDTs.ID_TPBP).FirstOrDefault();
+                                        var pchn = nv.Where(x => x.ID == Model.sH_KyDuyetCTDTs.ID_PCHN).FirstOrDefault();
+                                    }
+                                    <tr>
+                                        <td class="font-weight-bold text-center" width="70">1</td>
+                                        <td style="font-style:italic" width="70">Chữ ký, họ và tên</td>
+                                        <td class="text-center">
+                                            @if (nguoitao != null)
+                                            {
+                                                <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(nguoitao.ChuKy) ? "" : @Url.Content(nguoitao.ChuKy))" /></div>
+                                                <div class="font-weight-bold">@nguoitao.HoTen</div>
+                                            }
+
+                                        </td>
+                                        <td class="text-center">
+                                            @if (nguoikiemtra != null)
+                                            {
+                                                <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(nguoikiemtra.ChuKy) ? "" : @Url.Content(nguoikiemtra.ChuKy))" /></div>
+                                                <div class="font-weight-bold">@nguoikiemtra.HoTen</div>
+                                            }
+
+                                        </td>
+                                        <td class="text-center">
+                                            @if (tpbp != null)
+                                            {
+                                                <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(tpbp.ChuKy) ? "" : @Url.Content(tpbp.ChuKy))" /></div>
+                                                <div class="font-weight-bold">@tpbp.HoTen</div>
+                                            }
+
+                                        </td>
+                                        <td class="text-center">
+                                            @if (pchn != null)
+                                            {
+                                                <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(pchn.ChuKy) ? "" : @Url.Content(pchn.ChuKy))" /></div>
+                                                <div class="font-weight-bold">@pchn.HoTen</div>
+                                            }
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-12 font-weight-bold">
+                            1.Nội dung đào tạo:
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Thời gian (Giờ hoặc phút)</th>
+                                        <th class="text-center">Nội dung cần đào tạo</th>
+                                        <th class="text-center">Yêu cầu cần đạt được</th>
+                                        <th class="text-center">Ghi chú</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.sH_ChiTietCTDTs)
+                                    {
+                                        <tr>
+                                            <td class="font-weight-bold text-center">@item.ThoiGianDT (Giờ)</td>
+                                            <td class="text-center">
+                                                @item.NoiDungDT
+                                            </td>
+                                            <td class="text-center">
+                                                @item.YeuCau
+                                            </td>
+                                            <td class="text-center">
+                                                @item.GhiChu
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-12 font-weight-bold">
+                            2. Yêu cầu kiểm tra, sát hạch
+                        </div>
+                        <div class="col-md-12 font-weight-bold">
+                            2.1. Hình thức kiểm tra sát hạch (đánh dấu @("\u2713")):
+                        </div>
+                        <div class="col-md-12">
+                            &nbsp;&nbsp;&nbsp; - Bài tự luận: @(Model.IDKiemTra==1? "\u2611" : "\u2610")
+                            &nbsp;&nbsp;&nbsp; - Câu hỏi trắc nghiệm: @(Model.IDKiemTra==2? "\u2611" : "\u2610")
+                            &nbsp;&nbsp;&nbsp; - Thực hành: @(Model.IDKiemTra==3? "\u2611" : "\u2610")
+                            &nbsp;&nbsp;&nbsp; - Vấn đáp: @(Model.IDKiemTra==4? "\u2611" : "\u2610")
+                        </div>
+                        <div class="col-md-12 font-weight-bold">
+                            2.2. Yêu cầu kiểm tra, sát hạch:
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">STT</th>
+                                        <th class="text-center">Thời gian làm bài (phút)</th>
+                                        <th class="text-center">Nội dung</th>
+                                        <th class="text-center">Đáp án/Yêu cầu thực hiện</th>
+                                        <th class="text-center">Điểm (thang điểm 10)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{ int stt = 1;}
+                                    @foreach (var item in Model.cauHoiDeThiCTDTTHs)
+                                    {
+                                        int sttch = 1;
+                                        var dscauhoi = db.CauHoiDeThis.Where(x => x.IDDeThi == item.ID).ToList();
+                                        <tr>
+                                            <td class="font-weight-bold" colspan="5">Hình thức thi @stt</td>
+                                        </tr>
+                                        foreach (var ch in dscauhoi)
+                                        {
+                                            var chou = db.CauHois.Where(x => x.IDCH == ch.IDCauHoi).FirstOrDefault();
+                                            var thoigian = item.ThoiGianLamBai / dscauhoi.Count();
+                                            <tr>
+                                                <td class="text-center" width="50">@sttch</td>
+                                                <td class="text-center" width="70">@thoigian</td>
+                                                <td>
+                                                    <span class="font-weight-bold">@chou.NoiDungCH? <br /></span>
+                                                    @if (chou.DapAnA != "")
+                                                    {
+                                                        <span>A. @chou.DapAnA</span> <br />
+                                                    }
+                                                    @if (chou.DapAnB != "")
+                                                    {
+                                                        <span>B. @chou.DapAnB</span> <br />
+                                                    }
+                                                    @if (chou.DapAnC != "")
+                                                    {
+                                                        <span>C. @chou.DapAnC</span> <br />
+                                                    }
+                                                    @if (chou.DapAnD != "")
+                                                    {
+                                                        <span>D. @chou.DapAnD</span> <br />
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (chou.IDDAĐung == 1)
+                                                    {
+                                                        <span>Đáp án: A</span> <br />
+                                                    }
+                                                    else if (chou.IDDAĐung == 2)
+                                                    {
+                                                        <span>Đáp án: B</span> <br />
+                                                    }
+                                                    else if (chou.IDDAĐung == 3)
+                                                    {
+                                                        <span>Đáp án: C</span> <br />
+                                                    }
+                                                    else if (chou.IDDAĐung == 4)
+                                                    {
+                                                        <span>Đáp án: D</span> <br />
+                                                    }
+
+                                                </td>
+                                                <td class="text-center">@ch.Diem</td>
+                                            </tr>
+                                            sttch++;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        @*<div class="col-md-12 " style="overflow-x:auto">
+                                <table class="table table-bordered" style="width:150%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="text-center" rowspan="2">STT</th>
+                                            <th class="text-center" colspan="2" style="width:150px">Thông tin khóa đào tạo</th>
+                                            <th class="text-center" colspan="2" style="width:150px">Thông tin học viên</th>
+                                            <th class="text-center" colspan="4" style="width:150px">Đơn vị đào tạo giảng viên</th>
+                                            <th class="text-center" rowspan="2" style="width:200px">Phương pháp đào tạo</th>
+                                            <th class="text-center" rowspan="2" style="width:100px">Lĩnh vực đào tạo</th>
+                                            <th class="text-center" rowspan="2" style="width:100px">
+                                                Thời gian bắt đầu đào tạo
+                                                (Tháng)
+                                            </th>
+                                            <th class="text-center" rowspan="2" style="width:100px">
+                                                Thời lượng đào tạo
+                                                dự kiến
+                                                (Giờ)
+                                            </th>
+                                            <th class="text-center" rowspan="2" style="width:150px">Địa điểm đào tạo dự kiến</th>
+                                            <th class="text-center" rowspan="2" width="150">Ghi chú</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-center">Nhóm năng lực</th>
+                                            <th class="text-center">Tên khóa đào tạo</th>
+                                            <th class="text-center">Đối tượng tham gia đào tạo</th>
+                                            <th class="text-center">Số lượng dự kiến (Người)</th>
+                                            <th class="text-center">Mã nhân viên</th>
+                                            <th class="text-center">Họ và tên</th>
+                                            <th class="text-center">Vị trí công việc</th>
+                                            <th class="text-center">
+                                                Đơn vị đào tạo/
+                                                Bộ phận
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @{
+                                            int pageno = 1;
+                                            int itemperpage = 1;
+                                            int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                            var noidungdt = db.NoiDungDTs.Where(x => x.IDND == Model.NoiDungDT_ID).FirstOrDefault();
+                                            var NhomNL = db.NhomNLKCCDs.Where(x => x.ID == Model.chiTietNhuCauDTTHView.Nhom_ID).FirstOrDefault();
+                                            var GiangVien = db.NhanViens.Where(x => x.ID == Model.chiTietNhuCauDTTHView.GiangVien_ID).FirstOrDefault();
+                                            var PPhapDT = db.SH_PhuongPhapDT.Where(x => x.ID == Model.PhuongPhapDT_ID).FirstOrDefault();
+                                            var LVDT = db.LinhVucDTs.Where(x => x.IDLVDT == noidungdt.LVDTID).FirstOrDefault();
+                                        }
+                                        <tr>
+                                            <td class="text-center"> @RowNo@{RowNo++;}</td>
+                                            <td> @(NhomNL?.NoiDung ?? "")</td>
+                                            <td>@Model.TenNoiDungDT</td>
+                                            <td>@Model.chiTietNhuCauDTTHView.DoiTuongDT</td>
+                                            <td class="text-center">@Model.chiTietNhuCauDTTHView.SoLuongNguoi</td>
+                                            @if (GiangVien == null)
+                                            {
+                                                <td></td>
+                                                <td>@Model.chiTietNhuCauDTTHView.TenGiangVien</td>
+                                            }
+                                            else
+                                            {
+                                                <td>@GiangVien.MaNV</td>
+                                                <td>@GiangVien.HoTen</td>
+                                            }
+
+                                            <td>@Model.chiTietNhuCauDTTHView.TenViTri</td>
+                                            <td>@Model.chiTietNhuCauDTTHView.DonViDT</td>
+                                            <td>@PPhapDT.TenPhuongPhapDT</td>
+                                            <td>@LVDT.TenLVDT</td>
+                                            <td>@Model.chiTietNhuCauDTTHView.ThoiGianDT</td>
+                                            <td>@Model.chiTietNhuCauDTTHView.ThoiLuong</td>
+                                            <td>@Model.chiTietNhuCauDTTHView.DiaDiemDT</td>
+                                            <td>@Model.chiTietNhuCauDTTHView.GhiChu</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>*@
+                        @*<div class="col-md-12 row flex-row-reverse">
+                                <div class="col-4"> <p class="font-italic">Quảng Ngãi, ngày @Model.NgayTao.Day tháng @Model.NgayTao.Month năm @Model.NgayTao.Year </p></div>
+                            </div>*@
+                        @*<div class="col-md-12 row" style="margin-bottom:50px">
+                                <div class="col text-center">
+                                    <div class="font-weight-bold">B.GĐ</div>
+                                    @if (CapBGD != null)
+                                    {
+                                        var bgd = nhanvien.Where(x => x.ID == CapBGD.NguoiDuyet_ID).FirstOrDefault();
+                                        if (CapBGD.TinhTrangDuyet == 1 && bgd != null)
+                                        {
+                                            <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(bgd.ChuKy) ? "" : @Url.Content(bgd.ChuKy))" /></div>
+                                            <div class="font-weight-bold">@bgd.HoTen</div>
+                                        }
+                                        else if (CapBGD.TinhTrangDuyet == 0 && bgd != null)
+                                        {
+                                            <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">@(Model.TinhTrang != 3? "Chưa ký":"")</div>
+                                            <div class="font-weight-bold">@bgd.HoTen</div>
+                                        }
+                                        else if (CapBGD.TinhTrangDuyet == 2 && bgd != null)
+                                        {
+                                            <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Đã từ chối</div>
+                                            <div class="font-weight-bold">@bgd.HoTen</div>
+                                        }
+
+                                    }
+                                </div>
+                                <div class="col text-center">
+                                    <div class="font-weight-bold">P.NS</div>
+                                    @if (CapPNS != null)
+                                    {
+                                        var pns = nhanvien.Where(x => x.ID == CapPNS.NguoiDuyet_ID).FirstOrDefault();
+                                        if (CapPNS.TinhTrangDuyet == 1 && pns != null)
+                                        {
+                                            <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(pns.ChuKy) ? "" : @Url.Content(@pns.ChuKy))" /></div>
+                                            <div class="font-weight-bold">@pns.HoTen</div>
+                                        }
+                                        else if (CapPNS.TinhTrangDuyet == 0 && pns != null)
+                                        {
+                                            <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">
+                                                @(Model.TinhTrang != 3? "Chưa ký":"")
+                                            </div>
+                                            <div class="font-weight-bold">@pns.HoTen</div>
+                                        }
+                                        else if (CapPNS.TinhTrangDuyet == 2 && pns != null)
+                                        {
+                                            <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Đã từ chối</div>
+                                            <div class="font-weight-bold">@pns.HoTen</div>
+                                        }
+                                    }
+                                </div>
+                                <div class="col text-center">
+                                    <div class="font-weight-bold">P.CHN</div>
+                                    @if (CapPCHN != null)
+                                    {
+                                        var pns = nhanvien.Where(x => x.ID == CapPCHN.NguoiDuyet_ID).FirstOrDefault();
+                                        if (CapPCHN.TinhTrangDuyet == 1 && pns != null)
+                                        {
+                                            <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(pns.ChuKy) ? "" : @Url.Content(@pns.ChuKy))" /></div>
+                                            <div class="font-weight-bold">@pns.HoTen</div>
+                                        }
+                                        else if (CapPCHN.TinhTrangDuyet == 0 && pns != null)
+                                        {
+                                            <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger"> @(Model.TinhTrang != 3? "Chưa ký":"")</div>
+                                            <div class="font-weight-bold">@pns.HoTen</div>
+                                        }
+                                        else if (CapPCHN.TinhTrangDuyet == 2 && pns != null)
+                                        {
+                                            <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Đã từ chối</div>
+                                            <div class="font-weight-bold">@pns.HoTen</div>
+                                        }
+
+                                    }
+                                </div>
+                                <div class="col text-center">
+                                    <div class="font-weight-bold">BP</div>
+                                    @if (CapBP != null)
+                                    {
+                                        var pns = nhanvien.Where(x => x.ID == CapBP.NguoiDuyet_ID).FirstOrDefault();
+                                        if (CapBP.TinhTrangDuyet == 1 && pns != null)
+                                        {
+                                            <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(pns.ChuKy) ? "" : @Url.Content(@pns.ChuKy))" /></div>
+                                            <div class="font-weight-bold">@pns.HoTen</div>
+                                        }
+                                        else if (CapBP.TinhTrangDuyet == 0 && pns != null)
+                                        {
+                                            <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">
+                                                @(Model.TinhTrang != 3? "Chưa ký":"")
+                                            </div>
+                                            <div class="font-weight-bold">@pns.HoTen</div>
+                                        }
+                                        else if (CapBP.TinhTrangDuyet == 2 && pns != null)
+                                        {
+                                            <div style="height: 50px; display: flex; align-items: center; justify-content: center;" class="text-danger">Đã từ chối</div>
+                                            <div class="font-weight-bold">@pns.HoTen</div>
+                                        }
+                                    }
+
+                                </div>
+                            </div>*@
+                        <div id="list_vt" style="width:100%">
+                            <div style="margin-left:2%;">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $("#IDPhongBan").chosen({
+        width: "100%"
+    });
+    $("#NoiDung_ID").chosen({
+        width: "100%"
+    });
+    $(".ddlMultiSlectBox").chosen({
+        width: "100%"
+    });
+    $("#GiangVien_ID").chosen({
+        width: "100%"
+    });
+
+    $("#BPSD").chosen({
+        width: "100%"
+    });
+    $("#PCHN").chosen({
+        width: "100%"
+    });
+    $("#PNS").chosen({
+        width: "100%"
+    });
+    $("#BGD").chosen({
+        width: "100%"
+    });
+
+    $(document).ready(function () {
+        $('#myFormId').on('submit', function (event) {
+            //event.preventDefault(); // Ngăn form submit mặc định
+
+            // Biến để kiểm tra tình trạng form
+            let isValid = true;
+
+            // Kiểm tra tên
+            const name = $('#NoiDung_ID').val();
+            if (!name) {
+                alert("Vui lòng chọn nội dung.");
+                //$("#err-noidung").text("Vui lòng chọn nội dung đào tạo.").show();
+                //$("#username").addClass("error");
+                isValid = false;
+                //event.preventDefault(); // Ngăn form submit mặc định
+            }
+
+            // Kiểm tra phương pháp
+            const pp = $('#PhuongPhapDT_ID').val();
+            if (!pp) {
+                alert("Vui lòng chọn phương pháp.");
+                isValid = false;
+                //event.preventDefault(); // Ngăn form submit mặc định
+            }
+
+            if ($("input[name='SelectedItems']:checked").length == 0) {
+                alert("Vui lòng chọn ít nhất 1 vị trí cần đào tạo.");
+                isValid = false;
+                //event.preventDefault(); // Ngăn form submit mặc định
+            }
+
+            //// Kiểm tra mật khẩu
+            //const password = $('#password').val();
+            //if (password.length < 6) {
+            //    alert("Mật khẩu phải có ít nhất 6 ký tự.");
+            //    isValid = false;
+            //}
+
+            // Không hợp lệ thì dừng
+            if (!isValid) {
+                event.preventDefault();
+                //alert("Form hợp lệ và đã được gửi!");
+                // Thực hiện submit form nếu cần
+                //this.submit(); // Loại bỏ event.preventDefault() ở trên nếu muốn submit thực sự
+            }
+        });
+    });
+
+
+
+    $(document).ready(function () {
+        $("#NoiDung_ID, #PhuongPhapDT_ID").on("change", function () {
+            $.get("/NhuCauDTTH/GetDSViTri", { IDNoiDungDT: $("#NoiDung_ID").val(), PhuongPhapDT_ID: $("#PhuongPhapDT_ID").val() }, function (data1) {
+                if (data1[0] != null) {
+                    $("#listVT").empty();
+                    //$("#IDPPDT").append("<option value ='" + null + "'>" + "--Phương pháp Đào tạo--" + "</option>");
+                    $.each(data1, function (index, row) {
+                        $("#listVT").append(`<tr>
+                                                    <th style="vertical-align:middle">${row.TenViTri} </th>
+                                                    <th style="vertical-align:middle">
+                                                        <label>
+                                                            <input type="checkbox" name="SelectedItems" value="${row.ID}">
+                                                        </label>
+                                                    </th>
+                                                </tr>`);
+                    });
+                }
+                else {
+                    $("#listVT").empty();
+                }
+            });
+        })
+    })
+</script>
+
+
+
+
+
+
+
+

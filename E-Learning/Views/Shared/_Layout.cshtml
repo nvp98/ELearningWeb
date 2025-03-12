@@ -207,11 +207,30 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a href="@Url.Action("Index_CTDT", "PheDuyetPhieu")" class="font-size-md font-weight-bold ">
+                                            <i class="pe-7s-users"></i>
+                                            &nbsp;&nbsp;Chương trình đào tạo
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index_TCDT", "PheDuyetPhieu")" class="font-size-md font-weight-bold ">
+                                            <i class="pe-7s-users"></i>
+                                            &nbsp;&nbsp;Tổ chức đào tạo
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="@Url.Action("PheDuyetKNL", "FPosition")" class="font-size-md font-weight-bold ">
                                             <i class="pe-7s-users"></i>
                                             &nbsp;&nbsp;Khung năng lực
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="@Url.Action("Index_NDDT", "PheDuyetPhieu")" class="font-size-md font-weight-bold ">
+                                            <i class="pe-7s-users"></i>
+                                            &nbsp;&nbsp;Nội dung đào tạo
+                                        </a>
+                                    </li>
+
                                     @*<li>
                     <a href="@Url.Action("Index", "PheDuyetPhieu",new {LoaiKyDuyet = 2})" class="font-size-md font-weight-bold ">
                         <i class="pe-7s-users"></i>
@@ -231,7 +250,7 @@
                             {
                                 <li>
                                     <a href="@Url.Action("Index","NoiDungDTTH")">
-                                        <i class="metismenu-icon pe-7s-display1 font-weight-bold"></i>
+                                        <i class="metismenu-icon pe-7s-note2 font-weight-bold"></i>
                                         Nội dung đào tạo
                                     </a>
                                 </li>
@@ -240,7 +259,7 @@
                             {
                                 <li class=" @((new List<String> { "NhuCauDTTH" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
                                     <a href="">
-                                        <i class="metismenu-icon pe-7s-display1 font-weight-bold"></i>
+                                        <i class="metismenu-icon pe-7s-menu font-weight-bold"></i>
                                         Nhu cầu đào tạo
                                     </a>
                                     <ul id="NCDT">
@@ -248,7 +267,7 @@
                                         {
                                             <li>
                                                 <a href="@Url.Action("Index", "NhuCauDTTH",new {IDLoaiDT =item.IDLoai})" class="font-size-md font-weight-bold ">
-                                                    <i class="pe-7s-users"></i>
+                                                    <i class="pe-7s-albums"></i>
                                                     &nbsp;&nbsp;@item.TenLoaiNCDT
                                                 </a>
                                             </li>
@@ -257,6 +276,86 @@
                                 </li>
                             }
 
+
+                            @if (ListControll.Contains("ChuongTrinhDTTH"))
+                            {
+                                <li>
+                                    <a href="@Url.Action("Index","ChuongTrinhDTTH")">
+                                        <i class="metismenu-icon pe-7s-photo-gallery font-weight-bold"></i>
+                                        Chương trình đào tạo
+                                    </a>
+                                </li>
+                            }
+
+                            @if (ListControll.Contains("ToChucDTTH"))
+                            {
+
+                                <li class=" @((new List<String> { "ToChucDTTH" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
+                                    <a href="">
+                                        <i class="metismenu-icon pe-7s-box1 font-weight-bold"></i>
+                                        Tổ chức và quản lý lớp
+                                    </a>
+                                    <ul id="NCDT">
+                                        <li>
+                                            <a href="">
+                                                <i class="metismenu-icon pe-7s-display1 font-weight-bold"></i>
+                                                Tổ chức đào tạo riêng BP
+                                            </a>
+                                            <ul id="NCDT">
+                                                <li>
+                                                    <a href="@Url.Action("Index", "ToChucDTTH",new {PhanLoaiNCDT_ID =1,PhuongPhapDT_ID =1})" class="font-size-md font-weight-bold ">
+                                                        &nbsp;&nbsp;&nbsp; <i class="pe-7s-users"></i>
+                                                        &nbsp;&nbsp; Tổ chức đào tạo E-Learning
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "ToChucDTTH",new {PhanLoaiNCDT_ID =1,PhuongPhapDT_ID =2})" class="font-size-md font-weight-bold ">
+                                                        &nbsp;&nbsp;&nbsp; <i class="pe-7s-users"></i>
+                                                        &nbsp;&nbsp; Tổ chức đào tạo tập trung
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "ToChucDTTH",new {PhanLoaiNCDT_ID =1,PhuongPhapDT_ID =3})" class="font-size-md font-weight-bold ">
+                                                        &nbsp;&nbsp;&nbsp; <i class="pe-7s-users"></i>
+                                                        &nbsp;&nbsp; Tổ chức đào tạo HTTĐCSKN
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="">
+                                                <i class="metismenu-icon pe-7s-display1 font-weight-bold"></i>
+                                                Tổ chức đào tạo khác
+                                            </a>
+                                            <ul id="NCDT">
+                                                <li>
+                                                    <a href="@Url.Action("Index", "ToChucDTTH",new {PhanLoaiNCDT_ID =3,PhuongPhapDT_ID =2})" class="font-size-md font-weight-bold ">
+                                                        &nbsp;&nbsp;&nbsp; <i class="pe-7s-users"></i>
+                                                        &nbsp;&nbsp; Tổ chức đào tạo tập trung
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Index", "ToChucDTTH",new {PhanLoaiNCDT_ID =3,PhuongPhapDT_ID =3})" class="font-size-md font-weight-bold ">
+                                                        &nbsp;&nbsp;&nbsp; <i class="pe-7s-users"></i>
+                                                        &nbsp;&nbsp; Tổ chức đào tạo HTTĐCSKN
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+
+
+                            @if (ListControll.Contains("HoSoDTTH"))
+                            {
+                                <li>
+                                    <a href="@Url.Action("Index","HoSoDTTH")">
+                                        <i class="metismenu-icon pe-7s-ticket font-weight-bold"></i>
+                                        Hồ sơ đào tạo
+                                    </a>
+                                </li>
+                            }
 
 
                             <li class="app-sidebar__heading">Bảng tin</li>

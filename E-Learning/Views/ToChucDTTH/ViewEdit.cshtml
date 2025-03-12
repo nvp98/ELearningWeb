@@ -1,0 +1,233 @@
+﻿
+@{
+    ViewBag.Title = "ViewEdit";
+}
+
+@model E_Learning.Models.ManageClassValidation
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+<style>
+    .table-responsive1 {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+    }
+</style>
+
+@{
+    var NoiDung = ViewBag.NoiDung as E_Learning.Models.NoiDungDT;
+    var listHocVien = ViewBag.HocVien as List<E_Learning.Models.NhanVien>;
+    var nguoitao = ViewBag.NguoiTao as E_Learning.Models.NhanVien;
+    var nguoikiemtra = ViewBag.NguoiKiemTra as E_Learning.Models.NhanVien;
+}
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+        <div class="tab-content">
+            <div class="row">
+                @if (Model.NguoiKiemTra_ID == E_Learning.Models.MyAuthentication.ID && Model.NgayKiemTra == null)
+                {
+                    <span class="m-l-auto"></span>
+                    <form action="@Url.Action("XacNhanPhieuTCDT","PheDuyetPhieu",new {id = Model.IDLH})" method="post">
+                        <button type="submit" id="" class="btn btn-success float-right ml-2"><i class="fa fa-check-square-o">&nbsp;</i>&nbsp;Xác nhận </button>
+                    </form>
+                    <form action="@Url.Action("KhongXacNhanPhieuTCDT","PheDuyetPhieu",new {id = Model.IDLH})" method="post">
+                        <button type="submit" id="" class="btn btn-danger float-right ml-2"><i class="fa fa-refresh">&nbsp;</i>&nbsp;Từ chối </button>
+                    </form>
+                }
+            </div>
+            <div class="row">
+                <div class="card col-md-12">
+                    <div class="HeadTest row">
+                        <div class="col-md-6" style="float: left; max-width: 300px; text-align: center; font-weight: bold; font-size: 1.2rem; text-transform: uppercase;">
+                            <img alt="Hòa Phát Dung Quất" src="~/Content/assets/images/logo-inverse.png" />
+                            <span class="">Công ty Cổ phần Thép</span>
+                            <p class="">Hòa Phát Dung Quất</p>
+                        </div>
+                        <div class="col-md-6" style="float:right;text-align:right; font-weight: bold; margin-left: auto;">
+                            <span>BM.15/QT.04</span>
+                            <p><span style="font-style:italic;">Ngày hiệu lực:</span> 01/09/2024</p>
+                            <p><span style="font-style:italic;">Lần sửa đổi:</span> 01</p>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 1rem;">
+                            <p style="text-align:center; font-size: 1.5rem;font-weight:bold; text-transform:uppercase;">TỔ CHỨC THỰC HIỆN ĐÀO TẠO</p>
+                        </div>
+                        <div class="col-md-12 row">
+                            <div class="col-10"><em>Căn cứ vào nhu cầu và chương trình, nội dung đào tạo đã được phê duyệt.</em></div>
+                            <div class="col-10">Bộ phận:<span class="font-weight-bold">@ViewBag.BoPhan_ID</span> lập tổ chức thực hiện đào tạo như sau:</div>
+                        </div>
+                        <div class="col-md-12 row">
+                            <div class="col-2 font-weight-bold">- Khóa đào tạo: </div>
+                            <div class="col-8">@Model.TenLH</div>
+                        </div>
+                        <div class="col-md-12 row">
+                            <div class="col-6 font-weight-bold">- Thời gian dự kiến đào tạo: Từ @Model.TGBDLH.ToString("dd/MM/yyyy") đến @Model.TGKTLH.ToString("dd/MM/yyyy")</div>
+                            <div class="col-6 font-weight-bold"> – Thời lượng đào tạo: @Model.ThoiLuongDT Giờ</div>
+                        </div>
+                        <div class="col-md-12 row">
+                            <div class="col-6 font-weight-bold">- Lĩnh vực đào tạo: @NoiDung.LinhVucDT.TenLVDT</div>
+                            <div class="col-6 font-weight-bold">– Địa điểm đào tạo: @Model.DiaDiemDT</div>
+                        </div>
+                        <div class="col-md-12 row">
+                            <div class="col-6 font-weight-bold">- Nhóm năng lực: @NoiDung.NhomNLKCCD.NoiDung</div>
+                        </div>
+                        <div class="col-md-12 font-weight-bold">
+                            – Giảng viên đào tạo dự kiến:
+                        </div>
+
+                        <div class="col-md-12 row" style="padding-left: 20px;">
+                             
+                            <div class="col-2">+ Giảng viên 1: Mã nhân viên: @Model.chiTietToChucDTTH.MaNV_GV</div>
+                            <div class="col-6">Họ và tên: @Model.chiTietToChucDTTH.HoTenGV</div>
+                        </div>
+                        <div class="col-md-12 row" style="padding-left: 40px;">
+                            
+                            <div class="col-2">Vị trí công việc: @Model.chiTietToChucDTTH.ViTriCV_GV</div>
+                            <div class="col-6"> Bộ phận: @Model.chiTietToChucDTTH.DonVi_GV</div>
+                        </div>
+
+                        @*<div class="col-md-12" style="padding-left: 20px;">
+                            + Giảng viên 2: Mã nhân viên: ..................................................... Họ và tên: .....................................................
+                        </div>
+                        <div class="col-md-12" style="padding-left: 40px;">
+                            Vị trí công việc: ..................................................... Bộ phận: .....................................................
+                        </div>*@
+
+                        <div class="col-md-12 font-weight-bold">
+                            – Chương trình đào tạo:
+                        </div>
+
+                        <div class="col-md-12" style="padding-left: 20px;">
+                            + Xây dựng mới: <input type="checkbox">
+                        </div>
+                        <div class="col-md-12" style="padding-left: 20px;">
+                            + Sử dụng Chương trình đào tạo đã có sẵn: <input type="checkbox"> của tác giả:
+                        </div>
+
+                        <div class="col-md-12" style="padding-left: 40px;">
+                            Mã nhân viên: .....................................................
+                        </div>
+                        <div class="col-md-12" style="padding-left: 40px;">
+                            Họ và tên: .....................................................
+                        </div>
+                        <div class="col-md-12" style="padding-left: 40px;">
+                            Vị trí công việc: .....................................................
+                        </div>
+                        <div class="col-md-12" style="padding-left: 40px;">
+                            Bộ phận: .....................................................
+                        </div>
+                        <div class="col-md-12" style="padding-left: 40px;">
+                            Thời điểm biên soạn: Ngày ...... tháng ...... năm ......
+                        </div>
+                        <div class="col-md-12 font-weight-bold">
+                            – Danh sách và kết quả đào tạo của học viên:
+                        </div>
+
+                        <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; border-collapse: collapse; text-align: center; margin-left: 30px; margin-right: 30px;">
+                            <tr>
+                                <td rowspan="2"><strong>Lớp số:</strong></td>
+                                <td colspan="2"><strong>Thời gian đào tạo thực tế:</strong></td>
+                                <td rowspan="2"><strong>Giảng viên</strong></td>
+                                <td rowspan="2"><strong>Giảng viên ký tên:</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Từ......h......đến......h......ngày....../....../......</td>
+                                <td>Từ......h......đến......h......ngày....../....../......</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"></td>
+                                <td>Mã nhân viên: .................. Bộ phận: .................. Họ tên: .......................................</td>
+                            </tr>
+                        </table>
+
+                        <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; border-collapse: collapse; text-align: center; margin-top: 10px; margin-left: 30px; margin-right: 30px;">
+                            <tr>
+                                <th rowspan="2">STT</th>
+                                <th rowspan="2">Mã nhân viên</th>
+                                <th rowspan="2">Họ và tên</th>
+                                <th rowspan="2">Vị trí công việc</th>
+                                <th rowspan="2">Bộ phận</th>
+                                <th rowspan="2">Học viên ký tên</th>
+                                <th colspan="3">Kết quả</th>
+                                <th colspan="3">Kết luận</th>
+                            </tr>
+                            <tr>
+                                <th>Lý thuyết</th>
+                                <th>Thực hành</th>
+                                <th>Vấn đáp</th>
+                                <th>Đạt</th>
+                                <th>Không đạt</th>
+                                <th>Không tham gia</th>
+                            </tr>
+                            @{ int stt = 1;}
+                            @foreach (var item in listHocVien)
+                            {
+                                <tr>
+                                    <td>@stt</td>
+                                    <td>@item.MaNV</td>
+                                    <td class="text-left">@item.HoTen</td>
+                                    <td class="text-left">@item.Vitri.TenViTri</td>
+                                    <td>@item.PhongBan.TenPhongBan</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            }
+                        </table>
+                        <div>&nbsp;</div>
+                    &nbsp;&nbsp;
+                    <div style="width: 100%; text-align: right; font-style: italic;">
+                        Quảng Ngãi, ngày ...... tháng ...... năm .........
+                    </div>
+
+                    <div style="width: 100%; display: flex; justify-content: space-between; font-weight: bold; margin-top: 20px;">
+                        <div style="text-align: center; width: 50%;">
+                            NGƯỜI KIỂM TRA
+                            <div class="font-weight-bold">
+                                @nguoikiemtra.HoTen
+                            </div>
+                        </div>
+                        <div style="text-align: center; width: 50%;">
+                            NGƯỜI LẬP
+                            <div class="font-weight-bold">
+                                @nguoitao.HoTen
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div style="margin-top: 20px; font-style: italic; font-weight: bold;">
+                        Ghi chú:
+                    </div>
+                    <ul style="margin-top: 5px; padding-left: 20px; font-style: italic;">
+                        <li>
+                            Sau khi đào tạo, giảng viên hoàn thiện các nội dung còn thiếu của biểu mẫu này và ký tên xác nhận.
+                            Giảng viên chịu trách nhiệm về tính chính xác các thông tin như: Thời gian đào tạo thực tế, kết quả đào tạo của học viên…;
+                        </li>
+                        <li>Người lập: Có thể là giảng viên của khóa đào tạo hoặc người được bộ phận phân công, từ cấp KTV trở lên;</li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

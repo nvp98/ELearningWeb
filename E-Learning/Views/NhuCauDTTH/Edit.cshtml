@@ -267,46 +267,34 @@
                             </script>
                         }
 
-                        <div class="row border border-light rounded mt-2">
-                            <div class="font-weight-bold col-12 text-danger">ĐƠN VỊ ĐÀO TẠO/GIẢNG VIÊN</div>
-                            @if ((int)ViewBag.LoaiHinh_DT == 1)
-                            {
-
-                                <div class="form-group col-md-6">
-                                    <label class=" mb-1 font-weight-bold">Mã nhân viên - Họ và tên giảng viên (Nội bộ)<span class="text-danger">(*)</span></label>
-                                    @Html.DropDownListFor(m => m.chiTietNhuCauDTTHView.GiangVien_ID, (SelectList)ViewBag.Selec, "-- Chọn nhân viên --", new { id = "GiangVien_ID", @class = "form-control marginTB5", @style = "width:100%", })
-                                    @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.GiangVien_ID, "", new { @class = "text-danger", })
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label class=" mb-1 font-weight-bold">Vị trí công việc</label>
-                                    @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.TenViTri, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "TenViTri", })
-                                    @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.TenViTri, "", new { @class = "text-danger" })
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="form-group col-md-4">
-                                    <label class=" mb-1 font-weight-bold">Họ tên giảng viên</label>
-                                    @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.TenGiangVien, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "TenGiangVien", })
-                                    @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.TenGiangVien, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class=" mb-1 font-weight-bold">Vị trí công việc</label>
-                                    @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.TenViTri, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "TenViTri", })
-                                    @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.TenViTri, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label class=" mb-1 font-weight-bold">Đơn vị đào tạo thuê ngoài<span class="text-danger">(*)</span></label>
-                                    @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.DonViDT, new { @class = "form-control ", @rows = 1, placeholder = "Đơn vị đào tạo", @id = "DonViDT", })
-                                    @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.DonViDT, "", new { @class = "text-danger" })
-                                </div>
-                            }
-                            @*<div class="form-group col-md-4">
-                <label class=" mb-1 font-weight-bold">Vị trí công việc<span class="text-danger">(*)</span></label>
-                @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.TenViTri, new { @class = "form-control ", @rows = 1, placeholder = "Vị trí công việc", @id = "TenViTri", })
-                @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.TenViTri, "", new { @class = "text-danger" })
-            </div>*@
+                    <div class="row border border-light rounded mt-2">
+                        <div class="font-weight-bold col-12 text-danger">ĐƠN VỊ ĐÀO TẠO/GIẢNG VIÊN</div>
+                        <div class="form-group col-md-12">
+                            <label class=" mb-1 font-weight-bold">Mã nhân viên - Họ và tên giảng viên (Nội bộ)<span class="text-danger">(*)</span></label>
+                            @Html.DropDownListFor(m => m.chiTietNhuCauDTTHView.GiangVien_ID, (SelectList)ViewBag.Selec, "-- Chọn nhân viên --", new { id = "GiangVien_ID", @class = "form-control marginTB5", @style = "width:100%", })
+                            @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.GiangVien_ID, "", new { @class = "text-danger", })
                         </div>
+                        <div class="form-group col-md-4">
+                            <label class=" mb-1 font-weight-bold">Họ tên giảng viên</label>
+                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.TenGiangVien, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "TenGiangVien", })
+                            @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.TenGiangVien, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class=" mb-1 font-weight-bold">Vị trí công việc</label>
+                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.TenViTri, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "TenViTri", })
+                            @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.TenViTri, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class=" mb-1 font-weight-bold">Đơn vị đào tạo thuê ngoài<span class="text-danger">(*)</span></label>
+                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.DonViDT, new { @class = "form-control ", @rows = 1, placeholder = "Đơn vị đào tạo", @id = "DonViDT", })
+                            @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.DonViDT, "", new { @class = "text-danger" })
+                        </div>
+                        @*<div class="form-group col-md-4">
+            <label class=" mb-1 font-weight-bold">Vị trí công việc<span class="text-danger">(*)</span></label>
+            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.TenViTri, new { @class = "form-control ", @rows = 1, placeholder = "Vị trí công việc", @id = "TenViTri", })
+            @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.TenViTri, "", new { @class = "text-danger" })
+        </div>*@
+                    </div>
 
                         <div class="row border border-light rounded mt-2">
                             <div class="font-weight-bold col-12 text-danger">THÔNG TIN ĐÀO TẠO<span class="text-danger">(*)</span></div>
@@ -359,7 +347,7 @@
                         @if ((int)ViewBag.LoaiHinh_DT == 2)
                         {
                             <div class="row border border-light rounded mt-2">
-                                <div class="font-weight-bold col-12 text-danger">File Nhu cầu đào tạo (bản đã ký)<span class="text-danger">(*)</span></div>
+                                <div class="font-weight-bold col-12 text-danger">File Đính kèm</div>
 
 
                                 <div class="form-group col-md-12">

@@ -16,5 +16,6 @@ namespace E_Learning.Models
     {
         public int ID { get; set; }
         public string TenPhuongPhapDT { get; set; }
+        public string TenNgan { get; set; }
     }
 }

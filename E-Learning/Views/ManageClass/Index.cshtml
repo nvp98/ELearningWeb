@@ -87,7 +87,7 @@
                         }
                         <button type="button" id="btn-Export" class="btn btn-success m-l-auto"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Biểu Mẫu DSHV</button>
                         <span class="modal fade" id="myModalimport" role="dialog" data-url='@Url.Action("ExportToExcel","ManageClass")'></span>
-                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD))
+                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD) && false)
                         {
                             <button type="button" id="btn-add" class="btn btn-primary m-l-auto"><i class="fa fa-plus">&nbsp;</i>&nbsp;Thêm mới </button>
                             <span class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","ManageClass"@*, new { id = @Url.RequestContext.RouteData.Values["id"]}*@)'></span>

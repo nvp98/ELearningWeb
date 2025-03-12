@@ -18,6 +18,7 @@ namespace E_Learning.Models
         public PhongBan()
         {
             this.NhanVien = new HashSet<NhanVien>();
+            this.SH_ChuongTrinhDT = new HashSet<SH_ChuongTrinhDT>();
             this.SH_NhuCauDT = new HashSet<SH_NhuCauDT>();
         }
     
@@ -28,6 +29,8 @@ namespace E_Learning.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NhanVien> NhanVien { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SH_ChuongTrinhDT> SH_ChuongTrinhDT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SH_NhuCauDT> SH_NhuCauDT { get; set; }
     }

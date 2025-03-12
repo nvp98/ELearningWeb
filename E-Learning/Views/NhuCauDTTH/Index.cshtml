@@ -254,8 +254,9 @@
                             <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th style="width:70px" class="thead-fix" >TT</th>
-                                        <th style="width:100px;" class="thead-fix fix fix-field170" >Thao tác</th>
+                                        <th style="width:70px" class="thead-fix">TT</th>
+                                        <th style="width:100px;" class="thead-fix fix fix-field170">Thao tác</th>
+                                        <th style="width:100px;" class="thead-fix fix fix-field170">Mã NCĐT</th>
                                         <th class="text-center thead-fix fix fix-field270" width="300" style="vertical-align: middle;">Tên khóa đào tạo</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Nhóm năng lực</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Quý đào tạo</th>
@@ -272,6 +273,9 @@
                                         <th class="text-center" width="150px" style="vertical-align:middle">Địa điểm đào tạo dự kiến</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Người tạo</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Tình trạng</th>
+                                        <th>Câu hỏi đề thi</th>
+                                        @*<th>Lập CTĐT</th>*@
+                                        @*<th>Tổ chức đào tạo</th>*@
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -293,7 +297,7 @@
                                                 }
                                                 @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT) || MyAuthentication.ID == item.ID_NguoiTao)
                                                 {
-                                                    if (item.TinhTrang == 0 && MyAuthentication.ID == item.ID_NguoiTao)
+                                                    if (MyAuthentication.ID == item.ID_NguoiTao)
                                                     {
                                                         <a id="btn-edit_@item.ID_NCDT" href="@Url.Action("Edit","NhuCauDTTH", new { id = item.ID_NCDT })" title="Edit" class="fa fa-edit icon_action"></a>
                                                     }
@@ -304,7 +308,7 @@
                                                 }
 
                                             </td>
-
+                                            <td>@item.ID_NCDT</td>
                                             <td class="fix-field270 thead-fix">
                                                 @if (item.TinhTrang == 0 && MyAuthentication.ID == item.ID_NguoiTao)
                                                 {
@@ -349,7 +353,20 @@
                                                 <td class="text-center"> <button type="button" class="btn btn-danger" style="width:120px"> Không phê duyệt </button></td>
                                                 @*<td class="text-center"> <button type="button" class="btn btn-danger"> Hủy phiếu </button></td>*@
                                             }
-                                        </tr>
+                                            <td>
+                                                <a href="@Url.Action("Index","ManageTestExam",new {IDND = item.NoiDungDT_ID})">
+                                                    <i class="font-weight-bold"></i>
+                                                    @item.SLCauHoi (Câu hỏi) / @item.SLDeThi (Đề thi)
+                                                </a>
+                                               
+                                            </td>
+                                                @*<td>
+                                                    <a href="@Url.Action("Create","ChuongTrinhDTTH",new {ID_NCDT = item.ID_NCDT})">
+                                                        <i class="font-weight-bold"></i>
+                                                        Tạo CTĐT
+                                                    </a>
+                                                </td>*@
+                                            </tr>
                                     }
                                 </tbody>
                             </table>
