@@ -85,7 +85,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                                                  ID_NCDT = a.ID,
                                                  TenNoiDungDT = "Mã NCĐT: " + a.ID + " - " + a.NoiDungDT.NoiDung
                                              }).ToList();
-
+            var IDPB = res.BoPhan_ID;
             var data = new ManageClassValidation();
             if (res != null)
             {
@@ -107,6 +107,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                 data.NDID = (int)res.NDID;
                 data.NguoiTao_ID = res.NguoiTao_ID;
                 data.NgayKiemTra = res.NgayKiemTra;
+                data.TinhTrang = res.TinhTrang;
                 if (chitietGV != null)
                 {
                     data.chiTietToChucDTTH = new ChiTietToChucDTTHView()
@@ -120,9 +121,44 @@ namespace E_Learning.Controllers.DaoTaoTH
             }
 
             ViewBag.NCDT_DATA = new SelectList(ncdtData, "ID_NCDT", "TenNoiDungDT", data.NCDT_ID);
-            ViewBag.HocVien = (from a in db_context.XNHocTaps.Where(x => x.LHID == data.IDLH)
-                               join b in db_context.NhanViens on a.NVID equals b.ID
-                               select b).ToList();
+            //ViewBag.HocVien = (from a in  db_context.XNHocTaps.Where(x=>x.LHID == data.IDLH)
+            //                  join b in db_context.NhanViens on a.NVID equals b.ID 
+            //                  select b).ToList();
+
+            ViewBag.HocVien = (from h in db_context.XNHocTaps.Where(x => x.LHID == data.IDLH)
+                               join l in db_context.LopHocs on h.LHID equals l.IDLH
+                               join n in db_context.NhanViens on h.NVID equals n.ID
+                               join p in db_context.PhongBans on h.PBID equals p.IDPhongBan
+                               join v in db_context.Vitris on h.VTID equals v.IDViTri
+                               select new ConfirmEStudyValidation()
+                               {
+                                   IDHT = h.IDHT,
+                                   PBID = (int)h.PBID,
+                                   NVID = n.ID,
+                                   MaNV = n.MaNV,
+                                   HoTenHV = n.HoTen,
+                                   TenPB = p.TenPhongBan,
+                                   VTID = (int)h.VTID,
+                                   TenVT = v.TenViTri,
+                                   LHID = l.IDLH,
+                                   TenLH = l.TenLH,
+                                   TGBDLH = (DateTime)l.TGBDLH,
+                                   TGKTLH = (DateTime)l.TGKTLH,
+                                   LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
+                                   TenND = l.NoiDungDT.NoiDung,
+                                   TLDT = l.NoiDungDT.ThoiLuongDT ?? 0,
+                                   NgayTG = (DateTime)(h.NgayTG ?? default(DateTime)),
+                                   NgayHT = (DateTime)(h.NgayHT ?? default(DateTime)),
+                                   XNTG = (bool)h.XNTG,
+                                   XNHT = (bool)h.XNHT,
+                                   DiemOnline = h.DiemOnline,
+                                   DiemLyThuyet = h.DiemLyThuyet,
+                                   DiemThucHanh = h.DiemThucHanh,
+                                   DiemVanDap = h.DiemVanDap,
+                                   KetLuan = h.KetLuan,
+                                   LyDoKhongTGia = h.LyDoKhongTGia,
+                                   TinhTrang = h.TinhTrang,
+                               }).ToList();
 
 
             var listDeThi = new List<CauHoiDeThiCTDTTH>();
@@ -161,13 +197,30 @@ namespace E_Learning.Controllers.DaoTaoTH
             //ViewBag.LoaiHinh_DT = db_context.SH_PhanLoaiNCDT.Where(x => x.IDLoai == PhanLoaiNCDT_ID).FirstOrDefault().LoaiHinhDT_ID;
             ViewBag.ChuongTrinhDT_ID = new SelectList(db_context.SH_ChuongTrinhDT.Where(x => x.ID_NoiDungDT == data.NDID), "IDCTDT", "TenChuongTrinhDT", data.CTDT_ID);
 
-            var IDPB = MyAuthentication.IDPhongban;
+           
             ViewBag.Nam = db_context.SH_QuyDaoTao.First().AD_Nam;
             ViewBag.Quy = db_context.SH_QuyDaoTao.First().AD_Quy;
             ViewBag.BoPhan_ID = db_context.PhongBans.FirstOrDefault(x => x.IDPhongBan == IDPB).TenPhongBan;
             ViewBag.MaLH = data.MaLH;
 
             return View(data);
+        }
+
+        public ActionResult DSFileDinhKem(int? page, int? IDLH)
+        {
+            var data = (from a in db_context.SH_FileScanHoSo.Where(x => x.IDLH == IDLH) 
+                        select new FileScanHoSoView
+                        {
+                            ID = a.ID,
+                            IDLH= (int)a.IDLH,
+                            LinkFile = a.FileDinhKem,
+                            TenFile =a.TenFile
+                        }
+                        ).ToList();
+            if (page == null) page = 1;
+            int pageSize = 100;
+            int pageNumber = (page ?? 1);
+            return View(data.ToList().ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult XacNhanHS(int? id)

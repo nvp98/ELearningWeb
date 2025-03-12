@@ -111,6 +111,7 @@
                                             <td class="text-center">
                                                 <a id="btn-edit_@item.LHID" href="@Url.Action("ViewEdit","HoSoDTTH", new { IDLH = item.LHID})" title="Edit" class="fa fa-check-square-o"></a>
                                                 <a title="DS Lớp" class="fa fa-list-alt" id="@item.LHID" href="@Url.Action("XLHS" , "ToChucDTTH" , new { id = @item.LHID })"></a>
+                                                <a title="File đính kèm" target="_blank" href="@Url.Action("DSFileDinhKem","HoSoDTTH", new { IDLH = item.LHID})" class=" fa fa-file-alt"></a>
                                             </td>
                                             <td class="text-center"> @RowNo@{RowNo++;}</td>
                                             <td><a id="btn-edit_@item.LHID" href="@Url.Action("ViewEdit","HoSoDTTH", new { IDLH = item.LHID})" title="Edit" class="">@item.TenLopHoc</a>  </td>
@@ -122,7 +123,7 @@
                                             <td class="text-center">@item.manageClassValidation.TGKTLH.ToString("dd-MM-yyyy")</td>
                                             <td>@item.manageClassValidation.LinhVuc</td>
                                             <td>@item.manageClassValidation.TenGV</td>
-                                            <td>@item.manageClassValidation.TenPhongBan</td>
+                                            <td>@item.manageClassValidation.TenBoPhan</td>
                                             <td>@item.manageClassValidation.TenNguoiTao</td>
                                             <td>@item.manageClassValidation.TenNguoiKiemTra</td>
                                             <td>@item.TenNguoiNop</td>

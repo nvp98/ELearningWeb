@@ -32,7 +32,7 @@
 
 @{
     var NoiDung = ViewBag.NoiDung as E_Learning.Models.NoiDungDT;
-    var listHocVien = ViewBag.HocVien as List<E_Learning.Models.NhanVien>;
+    var listHocVien = ViewBag.HocVien as List<E_Learning.Models.ConfirmEStudyValidation>;
     var nguoitao = ViewBag.NguoiTao as E_Learning.Models.NhanVien;
     var nguoikiemtra = ViewBag.NguoiKiemTra as E_Learning.Models.NhanVien;
 }
@@ -181,16 +181,16 @@
                                 <tr>
                                     <td>@stt</td>
                                     <td>@item.MaNV</td>
-                                    <td class="text-left">@item.HoTen</td>
-                                    <td class="text-left">@item.Vitri.TenViTri</td>
-                                    <td>@item.PhongBan.TenPhongBan</td>
+                                    <td class="text-left">@item.HoTenHV</td>
+                                    <td class="text-left">@item.TenVT</td>
+                                    <td>@item.TenPB</td>
                                     <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>@(item.DiemOnline != null?item.DiemOnline.ToString() : item.DiemLyThuyet != null?item.DiemLyThuyet.ToString() : "")</td>
+                                    <td>@(item.DiemThucHanh != null?item.DiemThucHanh.ToString() : "")</td>
+                                    <td>@(item.DiemVanDap != null?item.DiemVanDap.ToString() : "")</td>
+                                    <td>@(item.KetLuan ==1?"X":"")</td>
+                                    <td>@(item.KetLuan ==2?"X":"")</td>
+                                    <td>@(item.KetLuan ==3?"X":"")</td>
                                 </tr>
                             }
                         </table>

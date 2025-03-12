@@ -112,8 +112,9 @@
                             {
                                 <button type="button" id="btn-Import" class="btn btn-success m-l-auto"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Nộp hồ sơ  </button>
 
-                                <a class="btn btn-primary" href="@Url.Action("ExportToExcel","ToChucDTTH", new {id = @Url.RequestContext.RouteData.Values["id"] })">&nbsp;Lấy dữ liệu lớp học</a>
+
                             }
+                            <a class="btn btn-primary" href="@Url.Action("ExportToExcel","ToChucDTTH", new {id = @Url.RequestContext.RouteData.Values["id"] })">&nbsp;Lấy dữ liệu lớp học</a>
                         </span>
                         <div class="modal fade" id="myModalimport" role="dialog" data-url='@Url.Action("ImportXuLyExcel", "ToChucDTTH", new { id = @Url.RequestContext.RouteData.Values["id"] })'></div>
                     </div>

@@ -32,7 +32,7 @@
 
 @{
     var NoiDung = ViewBag.NoiDung as E_Learning.Models.NoiDungDT;
-    var listHocVien = ViewBag.HocVien as List<E_Learning.Models.NhanVien>;
+    var listHocVien = ViewBag.HocVien as List<E_Learning.Models.ConfirmEStudyValidation>;
     var nguoitao = ViewBag.NguoiTao as E_Learning.Models.NhanVien;
     var nguoikiemtra = ViewBag.NguoiKiemTra as E_Learning.Models.NhanVien;
 }
@@ -40,15 +40,19 @@
 <div class="app-main__outer">
     <div class="app-main__inner">
         <div class="tab-content">
-            <div class="row">
-                <span class="m-l-auto"></span>
-                <form action="@Url.Action("KhongXacNhanHS","HoSoDTTH",new {id = Model.IDLH})" method="post">
-                    <button type="submit" id="" class="btn btn-danger float-right ml-2"><i class="fa fa-refresh">&nbsp;</i>&nbsp;Không xác nhận </button>
-                </form>
-                <form action="@Url.Action("XacNhanHS","HoSoDTTH",new {id = Model.IDLH})" method="post">
-                    <button type="submit" id="" class="btn btn-success float-right ml-2"><i class="fa fa-check-square-o">&nbsp;</i>&nbsp;Xác nhận </button>
-                </form>
-            </div>
+            @if (Model.TinhTrang == 4)
+            {
+                <div class="row">
+                    <span class="m-l-auto"></span>
+                    <form action="@Url.Action("KhongXacNhanHS","HoSoDTTH",new {id = Model.IDLH})" method="post">
+                        <button type="submit" id="" class="btn btn-danger float-right ml-2"><i class="fa fa-refresh">&nbsp;</i>&nbsp;Không xác nhận </button>
+                    </form>
+                    <form action="@Url.Action("XacNhanHS","HoSoDTTH",new {id = Model.IDLH})" method="post">
+                        <button type="submit" id="" class="btn btn-success float-right ml-2"><i class="fa fa-check-square-o">&nbsp;</i>&nbsp;Xác nhận </button>
+                    </form>
+                </div>
+            }
+        <a href="@Url.Action("DSFileDinhKem","HoSoDTTH", new { IDLH = Model.IDLH})" title="Edit" class="btn btn-primary fa fa-list">Xem danh sách file đính kèm</a>
             <div class="row">
                 <div class="card col-md-12">
                     <div class="HeadTest row">
@@ -100,11 +104,11 @@
                         </div>
 
                         @*<div class="col-md-12" style="padding-left: 20px;">
-                                + Giảng viên 2: Mã nhân viên: ..................................................... Họ và tên: .....................................................
-                            </div>
-                            <div class="col-md-12" style="padding-left: 40px;">
-                                Vị trí công việc: ..................................................... Bộ phận: .....................................................
-                            </div>*@
+                        + Giảng viên 2: Mã nhân viên: ..................................................... Họ và tên: .....................................................
+                    </div>
+                    <div class="col-md-12" style="padding-left: 40px;">
+                        Vị trí công việc: ..................................................... Bộ phận: .....................................................
+                    </div>*@
 
                         <div class="col-md-12 font-weight-bold">
                             – Chương trình đào tạo:
@@ -178,16 +182,16 @@
                                 <tr>
                                     <td>@stt</td>
                                     <td>@item.MaNV</td>
-                                    <td class="text-left">@item.HoTen</td>
-                                    <td class="text-left">@item.Vitri.TenViTri</td>
-                                    <td>@item.PhongBan.TenPhongBan</td>
+                                    <td class="text-left">@item.HoTenHV</td>
+                                    <td class="text-left">@item.TenVT</td>
+                                    <td>@item.TenPB</td>
                                     <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>@(item.DiemOnline != null?item.DiemOnline.ToString() : item.DiemLyThuyet != null?item.DiemLyThuyet.ToString(): "")</td>
+                                    <td>@(item.DiemThucHanh != null?item.DiemThucHanh.ToString():"")</td>
+                                    <td>@(item.DiemVanDap != null?item.DiemVanDap.ToString() : "")</td>
+                                    <td>@(item.KetLuan ==1?"X":"")</td>
+                                    <td>@(item.KetLuan ==2?"X":"")</td>
+                                    <td>@(item.KetLuan ==3?"X":"")</td>
                                 </tr>
                             }
                         </table>

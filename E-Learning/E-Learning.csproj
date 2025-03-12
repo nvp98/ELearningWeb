@@ -895,6 +895,7 @@
     <Content Include="Views\HoSoDTTH\Index.cshtml" />
     <Content Include="Views\HoSoDTTH\ViewEdit.cshtml" />
     <Content Include="Views\HoSoDTTH\ExportProcess.cshtml" />
+    <Content Include="Views\HoSoDTTH\DSFileDinhKem.cshtml" />
     <None Include="Views\Shared\LayoutAdmin.cshtml" />
     <Content Include="Views\ToChucDTTH\Index.cshtml" />
     <Content Include="Views\ToChucDTTH\Create.cshtml" />
