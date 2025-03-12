@@ -67,6 +67,8 @@ namespace E_Learning.Controllers.DaoTaoTH
                            DiaDiemDT =l.DiaDiemDT,
                            ThoiLuongDT =l.ThoiLuongDT,
                            NoiDungTrichYeu = l.NoiDungTrichYeu,
+                           NguoiTao_ID = l.NguoiTao_ID,
+
                            //GVID = g.ID,
                            //TenGV = g.HoTen,
                            //MaGV = g.MaNV,
@@ -605,15 +607,14 @@ namespace E_Learning.Controllers.DaoTaoTH
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
 
-            var res = db_context.LopHocs.Find(IDLH);
-            List<NhuCauDTTHView> ncdtData = (from a in db_context.SH_NhuCauDT.Where(x => (PhanLoaiNCDT_ID == null || x.PhanLoaiNCDT_ID == PhanLoaiNCDT_ID) 
-                                             && (PhuongPhapDT_ID == null || x.PhuongPhapDT_ID == PhuongPhapDT_ID) && x.BoPhanLNC_ID == MyAuthentication.IDPhongban)
+            var res = db_context.LopHocs.FirstOrDefault(x=>x.IDLH ==IDLH);
+            List<NhuCauDTTHView> ncdtData = (from a in db_context.SH_NhuCauDT.Where(x => x.ID == res.NCDT_ID)
                                    select new NhuCauDTTHView
                                    {
                                        ID_NCDT = a.ID,
                                        TenNoiDungDT = "Mã NCĐT: " + a.ID + " - " + a.NoiDungDT.NoiDung
                                    }).ToList();
-
+            var IDPB = res.BoPhan_ID;
             var data = new ManageClassValidation();
             if (res != null)
             {
@@ -627,6 +628,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                 data.ThoiLuongDT = res.ThoiLuongDT;
                 data.NCDT_ID = (int) res.NCDT_ID;
                 data.QuyDT = (int) res.QuyDT;
+                data.NamDT = (int) res.NamDT;
                 data.IDDeThi = (int) res.IDDeThi;
                 data.NguoiKiemTra_ID = res.NguoiKiemTra_ID;
                 data.IDLH = res.IDLH;
@@ -673,16 +675,16 @@ namespace E_Learning.Controllers.DaoTaoTH
             int IDGVCty = db_context.SH_ChiTietTCDT.Where(x => x.CTDT_ID == data.IDLH).SingleOrDefault()?.ID_GVCty??0;
 
             ViewBag.ID_NhanVien = new SelectList(listNhanVien, "ID", "HoTen", IDGVCty);
-            ViewBag.ID_NguoiKiemTra = new SelectList(listNhanVien.Where(x => x.IDPhongBan == MyAuthentication.IDPhongban), "ID", "HoTen", data.NguoiKiemTra_ID);
+            ViewBag.ID_NguoiKiemTra = new SelectList(listNhanVien.Where(x => x.IDPhongBan == IDPB), "ID", "HoTen", data.NguoiKiemTra_ID);
             ViewBag.PhuongPhapDT_ID = PhuongPhapDT_ID;
             ViewBag.PhanLoaiNCDT_ID = PhanLoaiNCDT_ID;
             ViewBag.LoaiNCDT = PhanLoaiNCDT_ID;
             ViewBag.LoaiHinh_DT = db_context.SH_PhanLoaiNCDT.Where(x => x.IDLoai == PhanLoaiNCDT_ID).FirstOrDefault().LoaiHinhDT_ID;
             ViewBag.ChuongTrinhDT_ID = new SelectList(db_context.SH_ChuongTrinhDT.Where(x=>x.ID_NoiDungDT == data.NDID), "IDCTDT", "TenChuongTrinhDT", data.CTDT_ID);
 
-            var IDPB = MyAuthentication.IDPhongban;
-            ViewBag.Nam = db_context.SH_QuyDaoTao.First().AD_Nam;
-            ViewBag.Quy = db_context.SH_QuyDaoTao.First().AD_Quy;
+           
+            ViewBag.Nam = res.NamDT;
+            ViewBag.Quy = res.QuyDT;
             ViewBag.BoPhan_ID = new SelectList(db_context.PhongBans.Where(x => x.IDPhongBan == IDPB), "IDPhongBan", "TenPhongBan", IDPB);
             ViewBag.MaLH = data.MaLH;
             
@@ -981,9 +983,44 @@ namespace E_Learning.Controllers.DaoTaoTH
             }
 
             ViewBag.NCDT_DATA = new SelectList(ncdtData, "ID_NCDT", "TenNoiDungDT", data.NCDT_ID);
-            ViewBag.HocVien = (from a in  db_context.XNHocTaps.Where(x=>x.LHID == data.IDLH)
-                              join b in db_context.NhanViens on a.NVID equals b.ID 
-                              select b).ToList();
+            //ViewBag.HocVien = (from a in  db_context.XNHocTaps.Where(x=>x.LHID == data.IDLH)
+            //                  join b in db_context.NhanViens on a.NVID equals b.ID 
+            //                  select b).ToList();
+
+            ViewBag.HocVien = (from h in db_context.XNHocTaps.Where(x => x.LHID == data.IDLH)
+                         join l in db_context.LopHocs on h.LHID equals l.IDLH
+                         join n in db_context.NhanViens on h.NVID equals n.ID
+                         join p in db_context.PhongBans on h.PBID equals p.IDPhongBan
+                         join v in db_context.Vitris on h.VTID equals v.IDViTri
+                         select new ConfirmEStudyValidation()
+                         {
+                             IDHT = h.IDHT,
+                             PBID = (int)h.PBID,
+                             NVID = n.ID,
+                             MaNV = n.MaNV,
+                             HoTenHV = n.HoTen,
+                             TenPB = p.TenPhongBan,
+                             VTID = (int)h.VTID,
+                             TenVT = v.TenViTri,
+                             LHID = l.IDLH,
+                             TenLH = l.TenLH,
+                             TGBDLH = (DateTime)l.TGBDLH,
+                             TGKTLH = (DateTime)l.TGKTLH,
+                             LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
+                             TenND = l.NoiDungDT.NoiDung,
+                             TLDT = l.NoiDungDT.ThoiLuongDT ?? 0,
+                             NgayTG = (DateTime)(h.NgayTG ?? default(DateTime)),
+                             NgayHT = (DateTime)(h.NgayHT ?? default(DateTime)),
+                             XNTG = (bool)h.XNTG,
+                             XNHT = (bool)h.XNHT,
+                             DiemOnline = h.DiemOnline,
+                             DiemLyThuyet = h.DiemLyThuyet,
+                             DiemThucHanh = h.DiemThucHanh,
+                             DiemVanDap = h.DiemVanDap,
+                             KetLuan = h.KetLuan,
+                             LyDoKhongTGia = h.LyDoKhongTGia,
+                             TinhTrang = h.TinhTrang,
+                         }).ToList();
 
 
             var listDeThi = new List<CauHoiDeThiCTDTTH>();

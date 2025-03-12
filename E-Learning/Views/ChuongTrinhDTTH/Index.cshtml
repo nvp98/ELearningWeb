@@ -206,13 +206,13 @@
                                         <tr>
                                             <td class="text-center"> @RowNo@{RowNo++;}</td>
                                             <td class="text-center">
-                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) )
+                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) && item.ID_NguoiTao == MyAuthentication.ID )
                                                 {
                                                     <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "ChuongTrinhDTTH", new { id = item.IDCTDT })"
                                                        onclick="return confirm('Bạn muốn xóa : @item.TenChuongTrinhDT')">
                                                     </a>
                                                 }
-                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT) )
+                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT) && item.ID_NguoiTao == MyAuthentication.ID)
                                                 {
                                                     <a id="btn-edit_@item.IDCTDT" title="Sửa" class="fa fa-edit icon_action"></a>
                                                     <div class="modal fade modalEdit" id="myModale_@item.IDCTDT" role="dialog" data-url='@Url.Action("Edit","ChuongTrinhDTTH", new { id = item.IDCTDT })'></div>

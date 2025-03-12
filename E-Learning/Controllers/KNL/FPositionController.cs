@@ -3395,6 +3395,7 @@ namespace E_Learning.Controllers
         }
         private List<ExportViTriKNL> GetViTriKNL()
         {
+            var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             //var listKNL = db.KhungNangLucs.ToList();
            
             var fir = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
@@ -3402,6 +3403,7 @@ namespace E_Learning.Controllers
             var KQKNLThang = db.KNL_KQ_SelectDDG().ToList();
 
             var listVT = db.ViTriKNLs.ToList();
+            if (ListQuyen.Contains(CONSTKEY.V_BP)) listVT = listVT.Where(x => x.IDPB == MyAuthentication.IDPhongban).ToList();
             var res = (from a in db.ViTriKNLs
                        join d in db.PhongBans
                        on a.IDPB equals d.IDPhongBan

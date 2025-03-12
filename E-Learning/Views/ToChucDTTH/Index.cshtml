@@ -215,11 +215,11 @@
                                                 <a title="DS Câu Hỏi" class="fa fa-file-text" id="@item.IDDeThi" href="@Url.Action("ViewQuestion" , "ManageTestExam" , new { id = @item.IDDeThi })"></a>
                                             }*@
 
-                                            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT) && item.TinhTrang != 5)
+                                            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT) && item.TinhTrang != 5 && item.NguoiTao_ID == MyAuthentication.ID)
                                             {
                                                 <a id="btn-edit_@item.IDLH" title="Sửa" class="fa fa-edit icon_action" href='@Url.Action("Edit","ToChucDTTH", new { PhuongPhapDT_ID = Request.QueryString["PhuongPhapDT_ID"],PhanLoaiNCDT_ID = Request.QueryString["PhanLoaiNCDT_ID"], IDLH = item.IDLH})'></a>
                                             }
-                                            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL))
+                                            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) && item.NguoiTao_ID == MyAuthentication.ID)
                                             {
                                                 @*<a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "ManageClass", new { id = item.IDLH })"
                                                    onclick="return confirm('Bạn muốn xóa Lớp Học: @item.TenLH')"></a>*@
