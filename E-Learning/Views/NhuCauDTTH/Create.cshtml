@@ -250,34 +250,34 @@
                                     <tr>
                                         <td>Đối tượng tham gia đào tạo</td>
                                         <td>
-                                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.DoiTuongDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "DoiTuongDT", })
+                                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.DoiTuongDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "DoiTuongDT", required = "required" })
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Tháng bắt đầu đào tạo(Tháng)</td>
                                         <td>
-                                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.ThoiGianDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "ThoiGianDT", @type = "number", })
+                                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.ThoiGianDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "ThoiGianDT", @type = "number", required = "required" })
                                             @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.ThoiGianDT, "", new { @class = "text-danger" })
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Định kỳ nhắc lại</td>
                                         <td>
-                                            @Html.DropDownListFor(m => m.MaDinhKy, (SelectList)ViewBag.IDDKNhacLai, "-- Định kỳ nhắc lại --", new { id = "MaDinhKy", @class = "form-control marginTB5", @style = "width:100%", })
+                                            @Html.DropDownListFor(m => m.MaDinhKy, (SelectList)ViewBag.IDDKNhacLai, "-- Định kỳ nhắc lại --", new { id = "MaDinhKy", @class = "form-control marginTB5", @style = "width:100%", required = "required" })
                                             @Html.ValidationMessageFor(model => model.MaDinhKy, "", new { @class = "text-danger" })
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Thời lượng đào tạo(Giờ)</td>
                                         <td>
-                                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.ThoiLuong, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "ThoiLuong", @type = "number", })
+                                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.ThoiLuong, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "ThoiLuong", @type = "number", required = "required" })
                                             @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.ThoiLuong, "", new { @class = "text-danger" })
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Địa điểm đào tạo</td>
                                         <td>
-                                            @Html.TextAreaFor(model => model.chiTietNhuCauDTTHView.DiaDiemDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "DiaDiemDT", })
+                                            @Html.TextAreaFor(model => model.chiTietNhuCauDTTHView.DiaDiemDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "DiaDiemDT", required = "required" })
                                             @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.DiaDiemDT, "", new { @class = "text-danger" })
                                         </td>
                                     </tr>

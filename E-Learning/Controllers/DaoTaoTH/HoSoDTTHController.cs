@@ -49,6 +49,8 @@ namespace E_Learning.Controllers.DaoTaoTH
                             ID_NguoiXuLy = a.ID_NguoiXuLy,
                             TenNguoiXuLy = d != null? string.Concat(d.MaNV, "-", d.HoTen):"",
                             NgayXuLy = a.NgayXuLy,
+                            NgayBDThucTe = a.NgayBDThucTe,
+                            NgayKTThucTe = a.NgayKTThucTe,
                             manageClassValidation = 
                             new ManageClassValidation()
                             {
@@ -70,6 +72,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                 TenDeThi = b.IDDeThi != null?db_context.DeThis.FirstOrDefault(x=>x.IDDeThi == b.IDDeThi).TenDe:""
                             }
                         }).ToList();
+            if (!ListQuyen.Contains(CONSTKEY.VIEW_ALL) && !ListQuyen.Contains(CONSTKEY.V_BP)) data = data.Where(x => x.ID_NguoiNopHS == MyAuthentication.ID).ToList();
+            else if (ListQuyen.Contains(CONSTKEY.V_BP)) data =  data.Where(x => x.manageClassValidation.BoPhan_ID == MyAuthentication.IDPhongban).ToList();
+
             if (page == null) page = 1;
             int pageSize = 100;
             int pageNumber = (page ?? 1);
@@ -79,7 +84,7 @@ namespace E_Learning.Controllers.DaoTaoTH
         public ActionResult ViewEdit(int? IDLH)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
-
+            ViewBag.QUYENCN = ListQuyen;
             var res = db_context.LopHocs.Find(IDLH);
             List<NhuCauDTTHView> ncdtData = (from a in db_context.SH_NhuCauDT.Where(x => x.ID == res.NCDT_ID)
                                              select new NhuCauDTTHView

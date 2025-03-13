@@ -142,7 +142,8 @@ namespace E_Learning.Controllers
                         TempData["msgSuccess"] = "<script>alert('Bài thi của bạn đạt số điểm là: " + diemso + ". Bạn cần tham gia thi lại');</script>";
                     }
                     // cập nhật lại điểm online
-                    var xnht = db_context.XNHocTaps.FirstOrDefault(x => x.LHID == ListQ[0].IDLH && x.NVID == MyAuthentication.ID);
+                    var IDLH = ListQ[0].IDLH;
+                    var xnht = db_context.XNHocTaps.FirstOrDefault(x => x.LHID == IDLH && x.NVID == MyAuthentication.ID);
                     if(xnht != null)xnht.DiemOnline = diemso;
                     db_context.SaveChanges();
                     

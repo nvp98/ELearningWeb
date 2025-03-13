@@ -86,8 +86,8 @@
                                         <th class="text-center">Đề thi</th>
                                         <th class="text-center">Quý</th>
                                         <th class="text-center">Năm</th>
-                                        <th class="text-center">TG Bắt đầu</th>
-                                        <th class="text-center">TG Kết thúc</th>
+                                        <th class="text-center">TG Bắt đầu thực tế</th>
+                                        <th class="text-center">TG Kết thúc thực tế</th>
                                         <th class="text-center">Lĩnh vực</th>
                                         <th class="text-center">Giảng viên</th>
                                         <th class="text-center">Phòng ban</th>
@@ -110,7 +110,7 @@
                                     {
                                         <tr>
                                             <td class="text-center">
-                                                <a id="btn-edit_@item.LHID" href="@Url.Action("ViewEdit","HoSoDTTH", new { IDLH = item.LHID})" title="Edit" class="fa fa-check-square-o"></a>
+                                                <a id="btn-edit_@item.LHID" href="@Url.Action("ViewEdit","HoSoDTTH", new { IDLH = item.LHID})" title="Edit" class="fa fa-refresh"></a>
                                                 <a title="DS Lớp" class="fa fa-list-alt" id="@item.LHID" href="@Url.Action("XLHS" , "ToChucDTTH" , new { id = @item.LHID })"></a>
                                                 <a title="File đính kèm" target="_blank" href="@Url.Action("DSFileDinhKem","HoSoDTTH", new { IDLH = item.LHID})" class=" fa fa-file-alt"></a>
                                                 <a title="DS Câu Hỏi" class="fa fa-question-circle" href="@Url.Action("Question" , "ChuongTrinhDTTH" , new { id = item.manageClassValidation.IDDeThi })"></a>
@@ -124,8 +124,8 @@
                                             </td>
                                             <td>@item.manageClassValidation.QuyDT</td>
                                             <td>@item.manageClassValidation.NamDT</td>
-                                            <td class="text-center">@item.manageClassValidation.TGBDLH.ToString("dd-MM-yyyy")</td>
-                                            <td class="text-center">@item.manageClassValidation.TGKTLH.ToString("dd-MM-yyyy")</td>
+                                            <td class="text-center">@item.NgayBDThucTe.Value.ToString("dd-MM-yyyy")</td>
+                                            <td class="text-center">@item.NgayBDThucTe.Value.ToString("dd-MM-yyyy")</td>
                                             <td>@item.manageClassValidation.LinhVuc</td>
                                             <td>@item.manageClassValidation.TenGV</td>
                                             <td>@item.manageClassValidation.TenBoPhan</td>

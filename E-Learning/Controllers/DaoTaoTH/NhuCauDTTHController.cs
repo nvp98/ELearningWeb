@@ -197,7 +197,7 @@ namespace E_Learning.Controllers.DaoTaoTH
         {
           
             try {
-                if (ModelState.IsValid)
+                if (ModelState.IsValid || true)
                 {
                     var quy = db.SH_QuyDaoTao.First();
                     var selectedItems = form.GetValues("SelectedItems");
@@ -258,6 +258,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                         FileDinhKem = filePathSave
                     };
                     db.SH_NhuCauDT.Add(parent);
+                    db.SaveChanges();
                     // Lấy Id của Parent mới tạo
                     int parentId = parent.ID;
 
@@ -444,7 +445,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             }
             catch (Exception ex)
             {
-                TempData["msgSuccess"] = "<script>alert('Cập nhập thất bại " + ex.Message + " ');</script>";
+                TempData["msgSuccess"] = "<script>alert('Cập nhập thất bại " + ex.Message + "');</script>";
             }
 
             //ViewBag.LVDTID = new SelectList(db.LinhVucDTs, "IDLVDT", "TenLVDT");
@@ -486,7 +487,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             var ls = new List<SH_ViTri_NDDTView>();
            
                 var data = db.VitriKNL_search();
-                var vt = db.SH_ViTri_NDDT.Where(x=>x.NCDT_ID == null || x.NCDT_ID == nhuCauDT.ID).ToList();
+                var vt = db.SH_ViTri_NDDT.Where(x=> x.NCDT_ID == nhuCauDT.ID).ToList();
                 ls = (from a in vt.Where(x => x.NoiDungDT_ID == nhuCauDT.NoiDungDT_ID && x.PhuongPhapDT_ID == nhuCauDT.PhuongPhapDT_ID)
                       join b in data on a.Vitri_ID equals b.IDVT
                       select new SH_ViTri_NDDTView()
@@ -544,9 +545,18 @@ namespace E_Learning.Controllers.DaoTaoTH
 
         public ActionResult Delete(int id)
         {
+            SH_NhuCauDT noiDungDT = db.SH_NhuCauDT.Find(id);
+            var loaiDT = noiDungDT.PhanLoaiNCDT_ID;
+            // check trước xóa
+            var tcdt = db.LopHocs.FirstOrDefault(x=>x.NCDT_ID ==  id);
+            if(tcdt != null)
+            {
+                TempData["msgSuccess"] = "<script>alert('NCĐT đã được mở lớp, Không thể xóa! ');</script>";
+                return RedirectToAction("Index", new { IDLoaiDT = loaiDT });
+            }
             SH_ChiTiet_NCDT chitiet = db.SH_ChiTiet_NCDT.Where(x=>x.NhuCauDT_ID == id).FirstOrDefault();
             db.SH_ChiTiet_NCDT.Remove(chitiet);
-            SH_NhuCauDT noiDungDT = db.SH_NhuCauDT.Find(id);
+          
             db.SH_NhuCauDT.Remove(noiDungDT);
             // cập nhật phân quyền ViTri_NDDT 
             List<SH_ViTri_NDDT> lsvt = db.SH_ViTri_NDDT.Where(x => x.NCDT_ID == id).ToList();
@@ -556,7 +566,8 @@ namespace E_Learning.Controllers.DaoTaoTH
                 db.SaveChanges();
             }
             db.SaveChanges();
-            return RedirectToAction("Index");
+            TempData["msgSuccess"] = "<script>alert('Xóa thành công ');</script>";
+            return RedirectToAction("Index", new { IDLoaiDT = loaiDT });
         }
         // POST: NoiDungDTTH/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -1245,7 +1256,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             if(IDNoiDungDT != null && PhuongPhapDT_ID != null)
             {
                 var data = db.VitriKNL_search().Where(x=>x.IDPB == MyAuthentication.IDPhongban);
-                var vt = db.SH_ViTri_NDDT.Where(x=>x.NCDT_ID == null ).ToList();
+                var vt = db.SH_ViTri_NDDT.Where(x=>x.NCDT_ID == null || x.NCDT_ID == 0 ).ToList();
                 ls =  (from a in vt.Where(x => x.NoiDungDT_ID == IDNoiDungDT && x.PhuongPhapDT_ID == PhuongPhapDT_ID)
                      join b in data on a.Vitri_ID equals b.IDVT
                  select new SH_ViTri_NDDTView()

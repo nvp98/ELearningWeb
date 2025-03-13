@@ -23,7 +23,7 @@ namespace E_Learning.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 int id = MyAuthentication.ID;
-                var res = (from h in db_context.XNHocTaps
+                var res = (from h in db_context.XNHocTaps.Where(x=>x.NVID == id)
                            join l in db_context.LopHocs.Where(x=>x.TinhTrang == 1 || x.NCDT_ID == null) on h.LHID equals l.IDLH
                            join n in db_context.NhanViens.Where(x => x.ID == id) on h.NVID equals n.ID
                            join p in db_context.PhongBans on h.NhanVien.IDPhongBan equals p.IDPhongBan

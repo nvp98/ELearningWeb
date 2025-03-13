@@ -46,81 +46,43 @@ namespace E_Learning.Controllers
                     if (IDPB == null) IDPB = 0;
                     if (IDND == null) IDND = 0;
                     var res = new List<ManageClassValidation>();
-                    if (IDPB != 0)
-                    {
-                        res = (from l in db_context.LopHocs
-                               join n in db_context.NoiDungDTs on l.NDID equals n.IDND
-                               join g in db_context.NhanViens on l.GVID equals g.ID
-                               join hv in db_context.XNHocTaps on l.IDLH equals hv.LHID into LopHocHV
-                               join d in db_context.DeThis on l.IDDeThi equals d.IDDeThi into uli
-                               from d in uli.DefaultIfEmpty()
-                               join x in db_context.BaiThis.Where(x => x.TinhTrang == true) on l.IDLH equals x.IDLH into LopHocHVHT
-                               select new ManageClassValidation
-                               {
-                                   IDLH = l.IDLH,
-                                   MaLH = l.MaLH,
-                                   TenLH = l.TenLH,
-                                   NDID = n.IDND,
-                                   MaND = n.MaND,
-                                   TenND = n.NoiDung,
-                                   LinhVuc = n.LinhVucDT.TenLVDT,
-                                   VideoLH = n.VideoND,
-                                   ImageLH = n.ImageND,
-                                   QuyDT = (int)l.QuyDT,
-                                   NamDT = (int)l.NamDT,
-                                   TGBDLH = (DateTime)l.TGBDLH,
-                                   TGKTLH = (DateTime)l.TGKTLH,
-                                   IDDeThi = (int)l.IDDeThi,
-                                   TenDeThi = d.TenDe,
-                                   GVID = g.ID,
-                                   TenGV = g.HoTen,
-                                   MaGV = g.MaNV,
-                                   TenPhongBan = g.PhongBan.TenPhongBan,
-                                   IsGV = g.IsGV,
-                                   SLHT = LopHocHVHT.Count(),
-                                   TSLHV = LopHocHV.Count(),
-                                   IDPB = g.IDPhongBan
-                               }).Where(x=>x.IDPB == IDPB).ToList();
-                    }
-                    else
-                    {
-                        res = (from l in db_context.LopHocs
-                               join n in db_context.NoiDungDTs on l.NDID equals n.IDND
-                               join g in db_context.NhanViens on l.GVID equals g.ID
-                               join hv in db_context.XNHocTaps on l.IDLH equals hv.LHID into LopHocHV
-                               join d in db_context.DeThis on l.IDDeThi equals d.IDDeThi into uli
-                               from d in uli.DefaultIfEmpty()
-                               join x in db_context.BaiThis.Where(x => x.TinhTrang == true) on l.IDLH equals x.IDLH into LopHocHVHT
-                               select new ManageClassValidation
-                               {
-                                   IDLH = l.IDLH,
-                                   MaLH = l.MaLH,
-                                   TenLH = l.TenLH,
-                                   NDID = n.IDND,
-                                   MaND = n.MaND,
-                                   TenND = n.NoiDung,
-                                   LinhVuc = n.LinhVucDT.TenLVDT,
-                                   VideoLH = n.VideoND,
-                                   ImageLH = n.ImageND,
-                                   QuyDT = (int)l.QuyDT,
-                                   NamDT = (int)l.NamDT,
-                                   TGBDLH = (DateTime)l.TGBDLH,
-                                   TGKTLH = (DateTime)l.TGKTLH,
-                                   IDDeThi = (int)l.IDDeThi,
-                                   TenDeThi = d.TenDe,
-                                   GVID = g.ID,
-                                   TenGV = g.HoTen,
-                                   MaGV = g.MaNV,
-                                   TenPhongBan = g.PhongBan.TenPhongBan,
-                                   IsGV = g.IsGV,
-                                   SLHT = LopHocHVHT.Count(),
-                                   TSLHV = LopHocHV.Count(),
-                                   IDPB = g.IDPhongBan
-                               }).ToList();
-                    }
+                    res = (from l in db_context.LopHocs
+                           join n in db_context.NoiDungDTs on l.NDID equals n.IDND
+                           join g in db_context.NhanViens.Where(x => IDPB == 0 || x.PhongBan.IDPhongBan == IDPB) on l.GVID equals g.ID
+                           join hv in db_context.XNHocTaps on l.IDLH equals hv.LHID into LopHocHV
+                           join d in db_context.DeThis on l.IDDeThi equals d.IDDeThi into uli
+                           from d in uli.DefaultIfEmpty()
+                           join x in db_context.BaiThis.Where(x => x.TinhTrang == true) on l.IDLH equals x.IDLH into LopHocHVHT
+                           select new ManageClassValidation
+                           {
+                               IDLH = l.IDLH,
+                               MaLH = l.MaLH,
+                               TenLH = l.TenLH,
+                               NDID = n.IDND,
+                               MaND = n.MaND,
+                               TenND = n.NoiDung,
+                               LinhVuc = n.LinhVucDT.TenLVDT,
+                               VideoLH = n.VideoND,
+                               ImageLH = n.ImageND,
+                               QuyDT = (int)l.QuyDT,
+                               NamDT = (int)l.NamDT,
+                               TGBDLH = (DateTime)l.TGBDLH,
+                               TGKTLH = (DateTime)l.TGKTLH,
+                               IDDeThi = (int)l.IDDeThi,
+                               TenDeThi = d.TenDe,
+                               GVID = g.ID,
+                               TenGV = g.HoTen,
+                               MaGV = g.MaNV,
+                               TenPhongBan = g.PhongBan.TenPhongBan,
+                               IsGV = g.IsGV,
+                               SLHT = LopHocHVHT.Count(),
+                               TSLHV = LopHocHV.Count(),
+                               IDPB = g.IDPhongBan,
+                               NCDT_ID = l.NCDT_ID,
+                           }).ToList();
 
                     //if (MyAuthentication.IDQuyen == 2 || MyAuthentication.IDQuyen == 3)
-                    if(ListQuyen.Contains(CONSTKEY.V_GV))
+                    if (ListQuyen.Contains(CONSTKEY.V_GV))
                     {
                         res = res.Where(x => x.GVID == id).ToList();
                     }

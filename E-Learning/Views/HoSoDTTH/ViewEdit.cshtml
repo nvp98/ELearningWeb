@@ -4,6 +4,7 @@
 }
 
 @model E_Learning.Models.ManageClassValidation
+@using E_Learning.Models
 @if (TempData["msgSuccess"] != null)
 {
     @Html.Raw(TempData["msgSuccess"])
@@ -40,7 +41,7 @@
 <div class="app-main__outer">
     <div class="app-main__inner">
         <div class="tab-content">
-            @if (Model.TinhTrang == 4)
+            @if (Model.TinhTrang == 4 && (ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DUYET))
             {
                 <div class="row">
                     <span class="m-l-auto"></span>
@@ -52,7 +53,7 @@
                     </form>
                 </div>
             }
-        <a href="@Url.Action("DSFileDinhKem","HoSoDTTH", new { IDLH = Model.IDLH})" title="Edit" class="btn btn-primary fa fa-list">Xem danh sách file đính kèm</a>
+            <a href="@Url.Action("DSFileDinhKem","HoSoDTTH", new { IDLH = Model.IDLH})" title="Edit" class="btn btn-primary fa fa-list">Xem danh sách file đính kèm</a>
             <div class="row">
                 <div class="card col-md-12">
                     <div class="HeadTest row">
@@ -104,11 +105,11 @@
                         </div>
 
                         @*<div class="col-md-12" style="padding-left: 20px;">
-                        + Giảng viên 2: Mã nhân viên: ..................................................... Họ và tên: .....................................................
-                    </div>
-                    <div class="col-md-12" style="padding-left: 40px;">
-                        Vị trí công việc: ..................................................... Bộ phận: .....................................................
-                    </div>*@
+                                + Giảng viên 2: Mã nhân viên: ..................................................... Họ và tên: .....................................................
+                            </div>
+                            <div class="col-md-12" style="padding-left: 40px;">
+                                Vị trí công việc: ..................................................... Bộ phận: .....................................................
+                            </div>*@
 
                         <div class="col-md-12 font-weight-bold">
                             – Chương trình đào tạo:
@@ -206,7 +207,7 @@
                             <div style="text-align: center; width: 50%;">
                                 NGƯỜI KIỂM TRA
                                 <div class="font-weight-bold text-center">
-                                   
+
                                     @if (Model.NgayKiemTra != null && Model.TinhTrang == 5)
                                     {
                                         <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(nguoikiemtra.ChuKy) ? "" : @Url.Content(nguoikiemtra.ChuKy))" /></div>
@@ -217,7 +218,7 @@
                             <div style="text-align: center; width: 50%;">
                                 NGƯỜI LẬP
                                 <div class="font-weight-bold text-center">
-                                    
+
                                     @if (Model.NgayTao != null && Model.TinhTrang == 5)
                                     {
                                         <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(nguoitao.ChuKy) ? "" : @Url.Content(nguoitao.ChuKy))" /></div>

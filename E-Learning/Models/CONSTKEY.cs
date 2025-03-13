@@ -28,5 +28,6 @@ namespace E_Learning.Models
         public static string TRAN_KNL = "TRAN_KNL";
         public static string VIEW_ALL = "VIEW_ALL";
         public static string LOCK = "LOCK";
+        public static string DUYET = "DUYET";
     }
 }

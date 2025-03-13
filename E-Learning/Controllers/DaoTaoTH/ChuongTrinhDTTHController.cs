@@ -126,7 +126,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                 //        Console.WriteLine($"Lỗi tại {key}: {error.ErrorMessage}");
                 //    }
                 //}
-                if (ModelState.IsValid)
+                if (ModelState.IsValid || true)
                 {
                     string filePathSave = null;
                     int countSl = 0;

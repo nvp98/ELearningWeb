@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <div class="form-group col-md-12">
-                            <label class=" mb-1 font-weight-bold">Thời lượng đào tạo</label>
+                            <label class=" mb-1 font-weight-bold">Thời lượng đào tạo (giờ)</label>
                             @Html.TextBoxFor(model => model.ThoiLuongDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "ThoiLuongDT",@type="number", required = "required" })
                             @Html.ValidationMessageFor(model => model.ThoiLuongDT, "", new { @class = "text-danger" })
                         </div>
