@@ -65,7 +65,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                 TenBoPhan = db_context.PhongBans.FirstOrDefault(x => x.IDPhongBan == b.BoPhan_ID).TenPhongBan,
                                 TenNguoiTao = db_context.NhanViens.FirstOrDefault(x => x.ID == b.NguoiTao_ID).HoTen,
                                 TenNguoiKiemTra = db_context.NhanViens.FirstOrDefault(x => x.ID == b.NguoiKiemTra_ID).HoTen,
-                                LinhVuc = n.LinhVucDT.TenLVDT
+                                LinhVuc = n.LinhVucDT.TenLVDT,
+                                IDDeThi = b.IDDeThi??0,
+                                TenDeThi = b.IDDeThi != null?db_context.DeThis.FirstOrDefault(x=>x.IDDeThi == b.IDDeThi).TenDe:""
                             }
                         }).ToList();
             if (page == null) page = 1;

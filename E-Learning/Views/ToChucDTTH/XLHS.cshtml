@@ -108,10 +108,9 @@
                                     }
                                 }
                             }
-                            @if (MyAuthentication.ID == (int)ViewBag.ID_NguoiTao)
+                            @if (MyAuthentication.ID == (int)ViewBag.ID_NguoiTao && (int)ViewBag.TinhTrangLH ==1)
                             {
                                 <button type="button" id="btn-Import" class="btn btn-success m-l-auto"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Nộp hồ sơ  </button>
-
 
                             }
                             <a class="btn btn-primary" href="@Url.Action("ExportToExcel","ToChucDTTH", new {id = @Url.RequestContext.RouteData.Values["id"] })">&nbsp;Lấy dữ liệu lớp học</a>
@@ -179,7 +178,7 @@
                                 </tbody>
                             </table>
                             <div class="pager">
-                                @Html.PagedListPager(Model, page => Url.Action("Index", "ConfirmEStudy", new { page, IDPhongBan = Request.QueryString["IDPhongBan"] }))
+                                @Html.PagedListPager(Model, page => Url.Action("XLHS", "ToChucDTTH", new { page, id = @Url.RequestContext.RouteData.Values["id"], IDPhongBan = Request.QueryString["IDPhongBan"] }))
                                 <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
                             </div>
                         </div>

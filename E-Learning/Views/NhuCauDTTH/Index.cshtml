@@ -410,7 +410,9 @@
 
     $("#btn-search").on('click', function () {
         var search = $('#txtsearch').val();
-        window.location.href = '@Url.Action("Index", "NoiDungDTTH")?search=' + search + "&IDLVDT=" + $('#LVDTID').val() + "&IDGV=" + $('#IDGV').val() + "&IDLoaiDT=" + $('#IDLoaiDT').val() + "&IDPPDT=" + $('#IDPPDT').val() + "&IDNhomDT=" + $('#IDNhomDT').val();
+        const params = new URLSearchParams(window.location.search);
+        const idLoaiDT = params.get('IDLoaiDT');
+        window.location.href = '@Url.Action("Index", "NhuCauDTTH")?search=' + search + "&IDLoaiDT=" + idLoaiDT ;
     });
 </script>
 

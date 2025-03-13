@@ -107,7 +107,15 @@
                                 <tr>
                                     <td class="text-center"> @RowNo@{RowNo++;}</td>
                                     <td class="">@item.TenFile</td>
-                                    <td class=""><a href="@Url.Content(item.LinkFile)" target="_blank">Xem file</a></td>
+                                    @if (!string.IsNullOrEmpty(item.LinkFile))
+                                    {
+                                        <td class=""><a href="@Url.Content(item.LinkFile)" target="_blank">Xem file</a></td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+
                                 </tr>
                             }
                         </tbody>

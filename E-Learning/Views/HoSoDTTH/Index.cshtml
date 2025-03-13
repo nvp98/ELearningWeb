@@ -83,6 +83,7 @@
                                         <th class="text-center">Tên lớp học</th>
                                         <th class="text-center">Nội dung đào tạo</th>
                                         <th class="text-center">Trích yếu nội dung</th>
+                                        <th class="text-center">Đề thi</th>
                                         <th class="text-center">Quý</th>
                                         <th class="text-center">Năm</th>
                                         <th class="text-center">TG Bắt đầu</th>
@@ -112,11 +113,15 @@
                                                 <a id="btn-edit_@item.LHID" href="@Url.Action("ViewEdit","HoSoDTTH", new { IDLH = item.LHID})" title="Edit" class="fa fa-check-square-o"></a>
                                                 <a title="DS Lớp" class="fa fa-list-alt" id="@item.LHID" href="@Url.Action("XLHS" , "ToChucDTTH" , new { id = @item.LHID })"></a>
                                                 <a title="File đính kèm" target="_blank" href="@Url.Action("DSFileDinhKem","HoSoDTTH", new { IDLH = item.LHID})" class=" fa fa-file-alt"></a>
+                                                <a title="DS Câu Hỏi" class="fa fa-question-circle" href="@Url.Action("Question" , "ChuongTrinhDTTH" , new { id = item.manageClassValidation.IDDeThi })"></a>
                                             </td>
                                             <td class="text-center"> @RowNo@{RowNo++;}</td>
                                             <td><a id="btn-edit_@item.LHID" href="@Url.Action("ViewEdit","HoSoDTTH", new { IDLH = item.LHID})" title="Edit" class="">@item.TenLopHoc</a>  </td>
                                             <td>@item.manageClassValidation.TenND</td>
                                             <td>@item.manageClassValidation.NoiDungTrichYeu</td>
+                                            <td>
+                                                <a href="@Url.Action("Question" , "ChuongTrinhDTTH" , new { id = item.manageClassValidation.IDDeThi })">@item.manageClassValidation.TenDeThi</a>
+                                            </td>
                                             <td>@item.manageClassValidation.QuyDT</td>
                                             <td>@item.manageClassValidation.NamDT</td>
                                             <td class="text-center">@item.manageClassValidation.TGBDLH.ToString("dd-MM-yyyy")</td>

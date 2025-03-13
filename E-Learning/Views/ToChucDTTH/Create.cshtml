@@ -99,6 +99,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <script>
+                                $(document).ready(function () {
+                                    $('#myFormId').on('submit', function () {
+                                        // Vô hiệu hóa tất cả các nút submit trong form
+                                        $(this).find('input[type="submit"]').prop('disabled', true);
+                                    });
+                                });
+                            </script>
                             <div style=" margin: 1% 0% 1% 3%;">
                                 <h6>
                                     @*<b>Kính gửi:</b> - @Html.DropDownList("DSNguoiNhan", null, new { id = "NguoiNhan", @class = "", @style = "", }).<br />
@@ -171,8 +179,8 @@
                                                     $("#listVT").empty();
                                                     //$("#IDPPDT").append("<option value ='" + null + "'>" + "--Phương pháp Đào tạo--" + "</option>");
                                                     $("#listVT").append(`
-                                                                                                                                            <div style="">Có ${data1} Học viên theo NCĐT </div>
-                                                                                                                                        `);
+                                                                                                                                                                                <div style="">Có ${data1} Học viên theo NCĐT </div>
+                                                                                                                                                                            `);
                                                 }
                                                 else {
                                                     $("#listVT").empty();

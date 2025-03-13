@@ -80,11 +80,11 @@
                         @*<span class="modal fade" id="myModalExport" role="dialog" data-url='@Url.Action("ExportToExcelLH","ManageClass")'></span>*@
                         @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EX))
                         {
-                            <button type="button" id="btn-ExportLH" class="btn btn-success m-l-auto"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Danh sách lớp học</button>
-                            <button type="button" id="btn-process" class="btn btn-primary m-l-auto"><i class="fa fa-plus">&nbsp;</i>&nbsp;Xử lý dữ liệu </button>
+                            @*<button type="button" id="btn-ExportLH" class="btn btn-success m-l-auto"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Danh sách lớp học</button>*@
+                            @*<button type="button" id="btn-process" class="btn btn-primary m-l-auto"><i class="fa fa-plus">&nbsp;</i>&nbsp;Xử lý dữ liệu </button>*@
                             <span class="modal fade" id="myModalProcess" role="dialog" data-url='@Url.Action("ExportProcess","ManageClass"@*, new { id = @Url.RequestContext.RouteData.Values["id"]}*@)'></span>
                         }
-                        <button type="button" id="btn-Export" class="btn btn-success m-l-auto"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Biểu Mẫu DSHV</button>
+                        @*<button type="button" id="btn-Export" class="btn btn-success m-l-auto"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Biểu Mẫu DSHV</button>*@
                         <span class="modal fade" id="myModalimport" role="dialog" data-url='@Url.Action("ExportToExcel","ManageClass")'></span>
                         @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD) )
                         {
@@ -277,8 +277,11 @@
     $("#IDPB,#IDLH,#IDND").chosen({
         width: "100%"
     });
-       $("#btn-search").on('click', function () {
-           window.location.href = '@Url.Action("Index", "ManageClass")?IDPB=' + $('#IDPB').val() + '&IDLH=' + $('#IDLH').val() + '&IDND=' + $('#IDND').val();
+    $("#btn-search").on('click', function () {
+        const params = new URLSearchParams(window.location.search);
+        const PhuongPhapDT_ID = params.get('PhuongPhapDT_ID');
+        const PhanLoaiNCDT_ID = params.get('PhanLoaiNCDT_ID');
+        window.location.href = '@Url.Action("Index", "ToChucDTTH")?IDPB=' + $('#IDPB').val() + '&IDLH=' + $('#IDLH').val() + '&IDND=' + $('#IDND').val() + '&PhuongPhapDT_ID=' + PhuongPhapDT_ID + '&PhanLoaiNCDT_ID=' + PhanLoaiNCDT_ID ;
     });
 </script>
 

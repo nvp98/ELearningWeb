@@ -193,6 +193,7 @@
                                     <td>@(item.KetLuan ==2?"X":"")</td>
                                     <td>@(item.KetLuan ==3?"X":"")</td>
                                 </tr>
+                                stt++;
                             }
                         </table>
                         <div>&nbsp;</div>
@@ -204,14 +205,24 @@
                         <div style="width: 100%; display: flex; justify-content: space-between; font-weight: bold; margin-top: 20px;">
                             <div style="text-align: center; width: 50%;">
                                 NGƯỜI KIỂM TRA
-                                <div class="font-weight-bold">
-                                    @nguoikiemtra.HoTen
+                                <div class="font-weight-bold text-center">
+                                   
+                                    @if (Model.NgayKiemTra != null && Model.TinhTrang == 5)
+                                    {
+                                        <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(nguoikiemtra.ChuKy) ? "" : @Url.Content(nguoikiemtra.ChuKy))" /></div>
+                                    }
+                                    <div> @nguoikiemtra.HoTen</div>
                                 </div>
                             </div>
                             <div style="text-align: center; width: 50%;">
                                 NGƯỜI LẬP
-                                <div class="font-weight-bold">
-                                    @nguoitao.HoTen
+                                <div class="font-weight-bold text-center">
+                                    
+                                    @if (Model.NgayTao != null && Model.TinhTrang == 5)
+                                    {
+                                        <div style="height:50px"><img height="50" alt="Hòa Phát Dung Quất" src="@(string.IsNullOrEmpty(nguoitao.ChuKy) ? "" : @Url.Content(nguoitao.ChuKy))" /></div>
+                                    }
+                                    <div>@nguoitao.HoTen</div>
                                 </div>
                             </div>
                         </div>

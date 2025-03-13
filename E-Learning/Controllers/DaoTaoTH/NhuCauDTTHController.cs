@@ -52,7 +52,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             }
             if (IDLoaiDT == null) IDLoaiDT = 1;
             var noiDungDTs = (from a in db.SH_NhuCauDT.Where(x =>
-                              //&& (search == null || x.NoiDung.Contains(search))
+                              (search == null || x.NoiDungDT.NoiDung.Contains(search)) &&
                               (IDLoaiDT == null || x.PhanLoaiNCDT_ID == IDLoaiDT))
                               join b in db.SH_ChiTiet_NCDT on a.ID equals b.NhuCauDT_ID
                               join c in db.PhongBans on a.BoPhanLNC_ID equals c.IDPhongBan into uli from c in uli.DefaultIfEmpty()
@@ -96,7 +96,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             else if (ListQuyen.Contains(CONSTKEY.V_BP)) noiDungDTs = noiDungDTs.Where(x => x.BoPhanLNC_ID == MyAuthentication.IDPhongban).ToList();
 
             ViewBag.IDPhanLoaiDT = new SelectList(db.SH_PhanLoaiNCDT.Where(x=>x.IDLoai ==1 || x.IDLoai == 4), "IDLoai", "TenLoaiNCDT");
-
+            ViewBag.Search = search;
             if (page == null) page = 1;
             int pageSize = 50;
             int pageNumber = (page ?? 1);
@@ -258,10 +258,39 @@ namespace E_Learning.Controllers.DaoTaoTH
                         FileDinhKem = filePathSave
                     };
                     db.SH_NhuCauDT.Add(parent);
-                    db.SaveChanges();
-
                     // Lấy Id của Parent mới tạo
                     int parentId = parent.ID;
+
+                    // check nhân viên
+                    var gv = db.NhanViens.Where(x => x.ID == nhucau.chiTietNhuCauDTTHView.GiangVien_ID).FirstOrDefault();
+                    // thêm chi tiết NCĐT
+                    var child = new SH_ChiTiet_NCDT
+                    {
+                        NhuCauDT_ID = parentId,
+                        GhiChu = nhucau.chiTietNhuCauDTTHView.GhiChu,
+                        SoLuongNguoi = countSl,
+                        DoiTuongDT = nhucau.chiTietNhuCauDTTHView.DoiTuongDT,
+                        GiangVien_ID = nhucau.chiTietNhuCauDTTHView.GiangVien_ID,
+                        GiangVien_Vitri = nhucau.chiTietNhuCauDTTHView.TenViTri,
+                        ThoiGian_DT = nhucau.chiTietNhuCauDTTHView.ThoiGianDT,
+                        ThoiLuong_DT = nhucau.chiTietNhuCauDTTHView.ThoiLuong,
+                        DiaDiemDT = nhucau.chiTietNhuCauDTTHView.DiaDiemDT,
+                        DonViDT = nhucau.chiTietNhuCauDTTHView.DonViDT,
+                        GiangVien_HoTen = nhucau.chiTietNhuCauDTTHView.TenGiangVien
+                        //BoPhanDT_ID = gv.IDPhongBan
+                    };
+                    var loai = db.SH_PhanLoaiNCDT.Where(x => x.IDLoai == nhucau.PhanLoaiNCDT_ID).FirstOrDefault().LoaiHinhDT_ID;
+                    if (gv != null)
+                    {
+                        child.DonViDT = gv?.PhongBan.TenPhongBan;
+                        child.GiangVien_Vitri = gv?.Vitri.TenViTri;
+                        child.GiangVien_HoTen = gv.HoTen;
+                        child.GiangVien_ID = gv.ID;
+                    }
+                    db.SH_ChiTiet_NCDT.Add(child);
+                    db.SaveChanges();
+
+                  
 
                     // Thêm ds nhân viên khi chọn NCĐT thuê ngoài
                     if (nhucau.PhanLoaiNCDT_ID != 1)
@@ -270,7 +299,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                         {
                             //Regex.Replace(_DO.NVDG, @"[^0-9a-zA-Z]+", " ");
                             string tx = Regex.Replace(nhucau.DSNhanVien, @"[^0-9a-zA-Z]+", " ");
-                            string[] NVS = tx.Split(new char[] { ' ' });
+                            string[] NVS = tx.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                             foreach (var item in NVS)
                             {
                                 var aa = db.NhanViens.Where(x => x.MaNV == item).FirstOrDefault();
@@ -339,32 +368,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                     }
 
 
-                    // check nhân viên
-                    var gv = db.NhanViens.Where(x=>x.ID == nhucau.chiTietNhuCauDTTHView.GiangVien_ID).FirstOrDefault();
-
-                    var child = new SH_ChiTiet_NCDT { NhuCauDT_ID = parentId, 
-                        GhiChu = nhucau.chiTietNhuCauDTTHView.GhiChu,
-                        SoLuongNguoi = countSl,
-                        DoiTuongDT = nhucau.chiTietNhuCauDTTHView.DoiTuongDT,
-                        GiangVien_ID = nhucau.chiTietNhuCauDTTHView.GiangVien_ID,
-                        GiangVien_Vitri=nhucau.chiTietNhuCauDTTHView.TenViTri,
-                        ThoiGian_DT =nhucau.chiTietNhuCauDTTHView.ThoiGianDT,
-                        ThoiLuong_DT = nhucau.chiTietNhuCauDTTHView.ThoiLuong,
-                        DiaDiemDT=nhucau.chiTietNhuCauDTTHView.DiaDiemDT,
-                        DonViDT= nhucau.chiTietNhuCauDTTHView.DonViDT,
-                        GiangVien_HoTen = nhucau.chiTietNhuCauDTTHView.TenGiangVien
-                        //BoPhanDT_ID = gv.IDPhongBan
-                    };
-                   var loai =  db.SH_PhanLoaiNCDT.Where(x => x.IDLoai == nhucau.PhanLoaiNCDT_ID).FirstOrDefault().LoaiHinhDT_ID;
-                    if(gv != null)
-                    {
-                        child.DonViDT = gv?.PhongBan.TenPhongBan;
-                        child.GiangVien_Vitri = gv?.Vitri.TenViTri;
-                        child.GiangVien_HoTen = gv.HoTen;
-                        child.GiangVien_ID = gv.ID;
-                    }
-                    db.SH_ChiTiet_NCDT.Add(child);
-                    db.SaveChanges();
+                   
                     //duyệt BPSD
                     var CapDuyet = nhucau.CapDuyetView;
                     if (CapDuyet.BPSD != null)

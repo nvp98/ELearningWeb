@@ -23,7 +23,7 @@ namespace E_Learning.Controllers.DaoTaoTH
         int Idquyen = MyAuthentication.IDQuyen;
         String ControllerName = "ToChucDTTH";
         // GET: ToChucDTTH
-        public ActionResult Index(int? page,string search, int? NCDT_ID, int? PhuongPhapDT_ID,int? PhanLoaiNCDT_ID)
+        public ActionResult Index(int? page,string search, int? NCDT_ID, int? PhuongPhapDT_ID,int? PhanLoaiNCDT_ID , int? IDLH, int? IDPB, int? IDND)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             ViewBag.QUYENCN = ListQuyen;
@@ -38,9 +38,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                 }
                 var res = new List<ManageClassValidation>();
                 res = (from l in db_context.LopHocs.Where(x => (search == null || x.TenLH.Contains(search)) &&
-                              (NCDT_ID == null || x.NCDT_ID == NCDT_ID))
+                              (NCDT_ID == null || x.NCDT_ID == NCDT_ID) && (IDLH == null || x.IDLH == IDLH) && (IDPB == null || x.BoPhan_ID == IDPB))
                        join b in db_context.SH_NhuCauDT.Where(x=> (PhanLoaiNCDT_ID == null || x.PhanLoaiNCDT_ID == PhanLoaiNCDT_ID) && (PhuongPhapDT_ID == null || x.PhuongPhapDT_ID == PhuongPhapDT_ID)) on l.NCDT_ID equals b.ID
-                       join n in db_context.NoiDungDTs on l.NDID equals n.IDND
+                       join n in db_context.NoiDungDTs.Where(x=>(IDND == null || x.IDND == IDND)) on l.NDID equals n.IDND
                        //join g in db_context.NhanViens on l.GVID equals g.ID
                        join hv in db_context.XNHocTaps on l.IDLH equals hv.LHID into LopHocHV
                        join d in db_context.DeThis on l.IDDeThi equals d.IDDeThi into uli
@@ -635,6 +635,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                 data.IsCoCTDT = res.IsCoCTDT;
                 data.CTDT_ID = res.CTDT_ID;
                 data.NDID = (int)res.NDID;
+                data.IsAll = true;
                 if(chitietGV != null)
                 {
                     data.chiTietToChucDTTH = new ChiTietToChucDTTHView() { 
@@ -699,7 +700,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             {
                 if (ModelState.IsValid || true)
                 {
-                    var lopHocExisting = db_context.LopHocs.Where(x => x.MaLH == DTO.MaLH).FirstOrDefault();
+                    var lopHocExisting = db_context.LopHocs.Where(x => x.IDLH == DTO.IDLH).FirstOrDefault();
                     if (lopHocExisting != null)
                     {
                         lopHocExisting.TenLH = DTO.TenLH;
@@ -709,6 +710,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                         lopHocExisting.TGKTLH = DTO.TGKTLH;
                         lopHocExisting.ThoiLuongDT = DTO.ThoiLuongDT;
                         lopHocExisting.DiaDiemDT = DTO.DiaDiemDT;
+                        lopHocExisting.CTDT_ID =DTO.CTDT_ID;
                         var nhuCauDT = db_context.SH_NhuCauDT.Where(x => x.ID == lopHocExisting.NCDT_ID).FirstOrDefault();
                         lopHocExisting.NDID = nhuCauDT.NoiDungDT_ID;
 
@@ -1110,6 +1112,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                              TinhTrang = h.TinhTrang,
                          }).ToList();
             ViewBag.ID_NguoiTao = db_context.LopHocs.FirstOrDefault(x=>x.IDLH == id).NguoiTao_ID;
+            var lh = db_context.LopHocs.FirstOrDefault(x => x.IDLH == id).TinhTrang;
+            List<int> numbers = new List<int> { 0, 2, 3, 5};
+            ViewBag.TinhTrangLH =numbers.Contains(lh??0) == true ?0:1;
             if (page == null) page = 1;
             int pageSize = 50;
             int pageNumber = (page ?? 1);
@@ -1355,7 +1360,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                 }
                 foreach (var item in _DO.fileScanHoSoViews)
                 {
-                   if(item.FileDinhKem != null)
+                   if(item.FileDinhKem != null && item.TenFile != null)
                     {
                         //Use Namespace called :  System.IO  
                         string FileName = item.FileDinhKem.FileName;
@@ -1363,23 +1368,34 @@ namespace E_Learning.Controllers.DaoTaoTH
                         //To Get File Extension  
                         string FileExtension = item.FileDinhKem != null ? Path.GetExtension(FileName) : "";
                         //Add Current Date To Attached File Name  
-                        if (FileExtension != ".pdf")
+                        if (FileExtension == ".pdf")
                         {
-                            //TempData["msgError"] = "<script>alert('Vui lòng chọn đúng định dạng file PDF');</script>";
-                            //return View();
-                        }
-                        else
-                        {
-                            if (item.FileDinhKem != null)
+                            FileNameSave = FileNameSave.Trim() + FileExtension;
+                            item.FileDinhKem.SaveAs(path + FileNameSave);
+                            filedinhkem = "~/FileHoSo/" + FileNameSave;
+                            if (string.IsNullOrEmpty(item.TenFile))
                             {
-                                FileNameSave = FileNameSave.Trim() + FileExtension;
-                                item.FileDinhKem.SaveAs(path + FileNameSave);
-                                filedinhkem = "~/FileHoSo/" + FileNameSave;
+                                item.TenFile = FileName;
                             }
+                            var hoso = new SH_FileScanHoSo() { FileDinhKem = filedinhkem, TenFile = item.TenFile, IDLH = lophoc.IDLH };
+                            db_context.SH_FileScanHoSo.Add(hoso);
+                            db_context.SaveChanges();
                         }
-                        var hoso = new SH_FileScanHoSo() { FileDinhKem = filedinhkem, TenFile = item.TenFile, IDLH = lophoc.IDLH };
-                        db_context.SH_FileScanHoSo.Add(hoso);
-                        db_context.SaveChanges();
+                        //else
+                        //{
+                        //    if (item.FileDinhKem != null)
+                        //    {
+                        //        FileNameSave = FileNameSave.Trim() + FileExtension;
+                        //        item.FileDinhKem.SaveAs(path + FileNameSave);
+                        //        filedinhkem = "~/FileHoSo/" + FileNameSave;
+                        //    }
+                        //}
+                        //FileNameSave = FileNameSave.Trim() + FileExtension;
+                        //item.FileDinhKem.SaveAs(path + FileNameSave);
+                        //filedinhkem = "~/FileHoSo/" + FileNameSave;
+                        //var hoso = new SH_FileScanHoSo() { FileDinhKem = filedinhkem, TenFile = item.TenFile, IDLH = lophoc.IDLH };
+                        //db_context.SH_FileScanHoSo.Add(hoso);
+                        //db_context.SaveChanges();
                     }
                 }
             }
