@@ -88,16 +88,21 @@
                                             @if (item.noidungdt.IsDelete == true)
                                             {
                                                 <td class="text-center">
-                                                    <button id="btn-edit_@item.ID_CTDT" data-url='@Url.Action("XuLyNDDT","PheDuyetPhieu", new { id = item.ID_CTDT })' class="btn btn-success">
-                                                        @if (item.CapDuyet == 1)
-                                                        {
-                                                            <span>P.NS Đăng nội dung</span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span>Duyệt NDĐT</span>
-                                                        }
-                                                    </button>
+
+
+                                                    @if (item.CapDuyet == 1)
+                                                    {
+                                                        <button id="btn-edit_@item.ID_CTDT" data-url='@Url.Action("XuLyNDDT","PheDuyetPhieu", new { id = item.ID_CTDT })' class="btn btn-success">
+                                                            P.NS Đăng nội dung
+                                                        </button>
+                                                    }
+                                                    else if(item.CapDuyet ==2 && item.NgayDuyetNDDT == null)
+                                                    {
+                                                        <a class="btn btn-success" title="Xóa" href="@Url.Action("XacNhanNDDT", "PheDuyetPhieu", new { id = item.ID_CTDT })"
+                                                           onclick="return confirm('Bạn muốn duyệt : @item.NoiDungCTDT')">
+                                                            Duyệt NDĐT
+                                                        </a>
+                                                    }
                                                     @*<a id="btn-edit_@item.noidungdt.IDND" title="Sửa" class="fa fa-edit icon_action"></a>*@
                                                     <div class="modal fade modalEdit" id="myModale_@item.ID_CTDT" role="dialog" data-url='@Url.Action("XuLyNDDT","PheDuyetPhieu", new { id = item.ID_CTDT, capduyet =item.CapDuyet })'></div>
                                                     <script type="text/javascript">

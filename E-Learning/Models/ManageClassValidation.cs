@@ -82,7 +82,8 @@ namespace E_Learning.Models
         public Nullable<int> TinhTrang { get; set; }
         public Nullable<System.DateTime> NgayTao { get; set; }
         public Nullable<System.DateTime> NgayKiemTra { get; set; }
-
+        public Nullable<int> ID_PPDT { get; set; }
+        public string TenPPDT { get; set; }
         public Nullable<int> IsCoCTDT { get; set; }
 
         public bool IsAll { get; set; }

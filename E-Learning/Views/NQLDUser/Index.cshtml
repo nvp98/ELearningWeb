@@ -252,14 +252,14 @@
         });
 
         // Kiểm tra khi video kết thúc
-        video.addEventListener("ended", function () {
-            var element = document.getElementById("target");
-            videoEnded = true;
-            resetTimeouts(); // Dừng các bộ đếm thời gian khi video kết thúc
-            //alert("Bạn đã xem hết video!");
-            console.log("complete");
-            element.disabled = false;
-        });
+        //video.addEventListener("ended", function () {
+        //    var element = document.getElementById("target");
+        //    videoEnded = true;
+        //    resetTimeouts(); // Dừng các bộ đếm thời gian khi video kết thúc
+        //    //alert("Bạn đã xem hết video!");
+        //    console.log("complete");
+        //    element.disabled = false;
+        //});
 
         // Chống tua video
         video.addEventListener("timeupdate", function () {
@@ -293,7 +293,6 @@
     var element = document.getElementById("target");
     element.disabled = true;
     jwplayer().on('complete', function (event) {
-        console.log("complete");
         element.disabled = false;
 
     });

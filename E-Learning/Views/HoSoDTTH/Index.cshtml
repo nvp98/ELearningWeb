@@ -68,11 +68,41 @@
         <div class="tab-content">
             <div class="row">
                 <div class="card col-lg-12">
-                    <div class="card-header">
+                    <!-- Form Filter -->
+                    @using (Html.BeginForm("Index", "HoSoDTTH", FormMethod.Get))
+                    {
+                        <div class="row mb-3 ">
+                            <div class="col-md-3">
+                                <input type="text" placeholder="tên nội dung ..." name="search" class="form-control" value="@ViewBag.Search" />
+                            </div>
+                            <div class="col-md-3">
+                                <select name="ID_NoiDung" id="ID_NoiDung" class="form-control">
+                                    <option value="">-- Chọn Nội dung --</option>
+                                    @foreach (var nv in ViewBag.IDNoiDung)
+                                    {
+                                        <option value="@nv.Value" selected="@(nv.Value == Request.QueryString["ID_NoiDung"])">@nv.Text</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-1" style="padding-top:0.5%;text-align: right;">
+                                <span class="text-center" style="margin-top: 8px"><b style="font-size: 15px; color: black;">TRẠNG THÁI :</b></span>
+                            </div>
+                            <!-- Chọn trạng thái -->
+                            <div class="col-md-2">
+                                <select name="ID_TrangThai" class="form-control">
+                                    <option value="">-- Chọn tình trạng --</option>
+                                    <option value="0" selected="@(Request.QueryString["ID_TrangThai"] == "0")">Hồ sơ chờ xử lý</option>
+                                    <option value="1" selected="@(Request.QueryString["ID_TrangThai"] == "1")">Đã duyệt hồ sơ</option>
+                                    <option value="2" selected="@(Request.QueryString["ID_TrangThai"] == "2")">Từ chối hồ sơ</option>
+                                </select>
+                            </div>
 
-                        <div class="col-md-4">
+                            <!-- Nút tìm kiếm -->
+                            <div class="col-md-2 ">
+                                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                            </div>
                         </div>
-                    </div>
+                    }
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
@@ -88,8 +118,10 @@
                                         <th class="text-center">Năm</th>
                                         <th class="text-center">TG Bắt đầu thực tế</th>
                                         <th class="text-center">TG Kết thúc thực tế</th>
+                                        <th class="text-center">Thời lượng ĐT Thực tế</th>
+                                        <th class="text-center">PP Đào tạo</th>
                                         <th class="text-center">Lĩnh vực</th>
-                                        <th class="text-center">Giảng viên</th>
+                                        <th class="text-center">Giảng viên thực tế</th>
                                         <th class="text-center">Phòng ban</th>
                                         <th class="text-center">Người lập</th>
                                         <th class="text-center">Người kiểm tra</th>
@@ -125,7 +157,9 @@
                                             <td>@item.manageClassValidation.QuyDT</td>
                                             <td>@item.manageClassValidation.NamDT</td>
                                             <td class="text-center">@item.NgayBDThucTe.Value.ToString("dd-MM-yyyy")</td>
-                                            <td class="text-center">@item.NgayBDThucTe.Value.ToString("dd-MM-yyyy")</td>
+                                            <td class="text-center">@item.NgayKTThucTe.Value.ToString("dd-MM-yyyy")</td>
+                                            <td>@item.ThoiLuongDT</td>
+                                            <td>@item.manageClassValidation.TenPPDT</td>
                                             <td>@item.manageClassValidation.LinhVuc</td>
                                             <td>@item.manageClassValidation.TenGV</td>
                                             <td>@item.manageClassValidation.TenBoPhan</td>
@@ -170,7 +204,7 @@
                                 </tbody>
                             </table>
                             <div class="pager">
-                                @Html.PagedListPager(Model, page => Url.Action("Index", "HoSoDTTH", new { page, IDLH = Request.QueryString["IDLH"], IDPB = Request.QueryString["IDPB"], IDND = Request.QueryString["IDND"] }))
+                                @Html.PagedListPager(Model, page => Url.Action("Index", "HoSoDTTH", new { page, ID_NoiDung = Request.QueryString["ID_NoiDung"], ID_TrangThai = Request.QueryString["ID_TrangThai"], search = Request.QueryString["search"] }))
                                 <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
                             </div>
                         </div>
@@ -213,7 +247,7 @@
         window.location.href = "/ManageClass/ExportToExcelLH";
     });
 
-    $("#IDPB,#IDLH,#IDND").chosen({
+    $("#ID_NoiDung").chosen({
         width: "100%"
     });
        $("#btn-search").on('click', function () {

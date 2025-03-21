@@ -243,58 +243,64 @@
                                         int sttch = 1;
                                         var dscauhoi = db.CauHoiDeThis.Where(x => x.IDDeThi == item.ID).ToList();
                                         <tr>
-                                            <td class="font-weight-bold" colspan="5">Hình thức thi @stt</td>
-                                        </tr>
-                                        foreach (var ch in dscauhoi)
-                                        {
-                                            var chou = db.CauHois.Where(x => x.IDCH == ch.IDCauHoi).FirstOrDefault();
-                                            var thoigian = item.ThoiGianLamBai / dscauhoi.Count();
-                                            <tr>
-                                                <td class="text-center" width="50">@sttch</td>
-                                                <td class="text-center" width="70">@thoigian</td>
-                                                <td>
-                                                    <span class="font-weight-bold">@chou.NoiDungCH? <br /></span>
-                                                    @if (chou.DapAnA != "")
-                                                    {
-                                                        <span>A. @chou.DapAnA</span> <br />
-                                                    }
-                                                    @if (chou.DapAnB != "")
-                                                    {
-                                                        <span>B. @chou.DapAnB</span> <br />
-                                                    }
-                                                    @if (chou.DapAnC != "")
-                                                    {
-                                                        <span>C. @chou.DapAnC</span> <br />
-                                                    }
-                                                    @if (chou.DapAnD != "")
-                                                    {
-                                                        <span>D. @chou.DapAnD</span> <br />
-                                                    }
-                                                </td>
-                                                <td>
-                                                    @if (chou.IDDAĐung == 1)
-                                                    {
-                                                        <span>Đáp án: A</span> <br />
-                                                    }
-                                                    else if (chou.IDDAĐung == 2)
-                                                    {
-                                                        <span>Đáp án: B</span> <br />
-                                                    }
-                                                    else if (chou.IDDAĐung == 3)
-                                                    {
-                                                        <span>Đáp án: C</span> <br />
-                                                    }
-                                                    else if (chou.IDDAĐung == 4)
-                                                    {
-                                                        <span>Đáp án: D</span> <br />
-                                                    }
-
-                                                </td>
-                                                <td class="text-center">@ch.Diem</td>
+                                            <td class="font-weight-bold" colspan="2">Hình thức thi @stt</td>
+                                            @if (item.fileDe != null)
+                                            {
+                                            <td class="font-weight-bold" colspan="3"><a href="@Url.Content(item.fileDe)" target="_blank">Xem file đề thi</a></td>
+                                            }
                                             </tr>
-                                            sttch++;
+
+                                            foreach (var ch in dscauhoi)
+                                            {
+                                                var chou = db.CauHois.Where(x => x.IDCH == ch.IDCauHoi).FirstOrDefault();
+                                                var thoigian = item.ThoiGianLamBai / dscauhoi.Count();
+                                                <tr>
+                                                    <td class="text-center" width="50">@sttch</td>
+                                                    <td class="text-center" width="70">@thoigian</td>
+                                                    <td>
+                                                        <span class="font-weight-bold">@chou.NoiDungCH? <br /></span>
+                                                        @if (chou.DapAnA != "")
+                                                        {
+                                                            <span>A. @chou.DapAnA</span> <br />
+                                                        }
+                                                        @if (chou.DapAnB != "")
+                                                        {
+                                                            <span>B. @chou.DapAnB</span> <br />
+                                                        }
+                                                        @if (chou.DapAnC != "")
+                                                        {
+                                                            <span>C. @chou.DapAnC</span> <br />
+                                                        }
+                                                        @if (chou.DapAnD != "")
+                                                        {
+                                                            <span>D. @chou.DapAnD</span> <br />
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (chou.IDDAĐung == 1)
+                                                        {
+                                                            <span>Đáp án: A</span> <br />
+                                                        }
+                                                        else if (chou.IDDAĐung == 2)
+                                                        {
+                                                            <span>Đáp án: B</span> <br />
+                                                        }
+                                                        else if (chou.IDDAĐung == 3)
+                                                        {
+                                                            <span>Đáp án: C</span> <br />
+                                                        }
+                                                        else if (chou.IDDAĐung == 4)
+                                                        {
+                                                            <span>Đáp án: D</span> <br />
+                                                        }
+
+                                                    </td>
+                                                    <td class="text-center">@ch.Diem</td>
+                                                </tr>
+                                                sttch++;
+                                            }
+                                            stt++;
                                         }
-                                    }
                                 </tbody>
                             </table>
                         </div>

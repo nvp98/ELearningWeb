@@ -48,7 +48,7 @@ namespace E_Learning.Controllers
                     var res = new List<ManageClassValidation>();
                     res = (from l in db_context.LopHocs
                            join n in db_context.NoiDungDTs on l.NDID equals n.IDND
-                           join g in db_context.NhanViens.Where(x => IDPB == 0 || x.PhongBan.IDPhongBan == IDPB) on l.GVID equals g.ID
+                           join g in db_context.NhanViens.Where(x => IDPB == 0 || x.PhongBan.IDPhongBan == IDPB) on l.GVID equals g.ID into gv from g in gv.DefaultIfEmpty()
                            join hv in db_context.XNHocTaps on l.IDLH equals hv.LHID into LopHocHV
                            join d in db_context.DeThis on l.IDDeThi equals d.IDDeThi into uli
                            from d in uli.DefaultIfEmpty()
@@ -70,14 +70,14 @@ namespace E_Learning.Controllers
                                TGKTLH = (DateTime)l.TGKTLH,
                                IDDeThi = (int)l.IDDeThi,
                                TenDeThi = d.TenDe,
-                               GVID = g.ID,
-                               TenGV = g.HoTen,
-                               MaGV = g.MaNV,
-                               TenPhongBan = g.PhongBan.TenPhongBan,
-                               IsGV = g.IsGV,
+                               GVID = g != null ?g.ID:0,
+                               TenGV = g != null ? g.HoTen:"",
+                               MaGV = g != null ? g.MaNV:"",
+                               TenPhongBan = g != null ? g.PhongBan.TenPhongBan:"",
+                               IsGV = g != null ? g.IsGV:false,
                                SLHT = LopHocHVHT.Count(),
                                TSLHV = LopHocHV.Count(),
-                               IDPB = g.IDPhongBan,
+                               IDPB = g != null ? g.IDPhongBan:0,
                                NCDT_ID = l.NCDT_ID,
                            }).ToList();
 

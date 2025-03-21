@@ -8,6 +8,7 @@ using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -237,6 +238,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                         chitietCTDT.MaNV_GV =gv.MaNV;
                         chitietCTDT.ViTriCV_GV = gv.Vitri.TenViTri;
                         chitietCTDT.DonVi_GV = gv.PhongBan.TenPhongBan;
+                        lophoc.GVID = gv.ID; // lưu IDGV vào LopHoc
                     }
                     db_context.SH_ChiTietTCDT.Add(chitietCTDT);
                     db_context.SaveChanges();
@@ -249,13 +251,18 @@ namespace E_Learning.Controllers.DaoTaoTH
                             var nhanvien = db_context.NhanViens.Where(x => x.IDVTKNL == item.Vitri_ID && x.IDTinhTrangLV == 1).ToList();
                             foreach (var item1 in nhanvien)
                             {
-                                var checknv = db_context.XNHocTaps.Where(x => x.NVID == item1.ID && x.LHID == lophoc.IDLH).FirstOrDefault();
-                                var checkDKnv = (from a in db_context.XNHocTaps.Where(x => x.NVID == item1.ID && x.IDND == ncdt.NoiDungDT_ID && x.ID_PhuongPhapDT == ncdt.PhuongPhapDT_ID )
-                                                 join b in db_context.LopHocs.Where(x=>x.TinhTrang ==5) on a.LHID equals b.IDLH
-                                                 join c in db_context.SH_NhuCauDT on b.NCDT_ID equals c.ID
-                                                 select a
-                                                ).ToList();
-                                if (checknv == null && checkDKnv == null)
+                                //var checknv = db_context.XNHocTaps.Where(x => x.NVID == item1.ID && x.LHID == lophoc.IDLH).FirstOrDefault();
+                                //var checkDKnv = (from a in db_context.XNHocTaps.Where(x => x.NVID == item1.ID && x.IDND == ncdt.NoiDungDT_ID && x.ID_PhuongPhapDT == ncdt.PhuongPhapDT_ID )
+                                //                 join b in db_context.LopHocs.Where(x=>x.TinhTrang ==4) on a.LHID equals b.IDLH
+                                //                 select a
+                                //                ).ToList(); // đang nộp hồ sơ
+                                //var checkNVNop = (from a in db_context.XNHocTaps.Where(x => x.NVID == item1.ID && x.IDND == ncdt.NoiDungDT_ID && x.ID_PhuongPhapDT == ncdt.PhuongPhapDT_ID && x.KetLuan == 1)
+                                //                 join b in db_context.LopHocs.Where(x => x.TinhTrang == 5) on a.LHID equals b.IDLH
+                                //                 join c in db_context.SH_HoSoDaoTao.Where(x=>x.NgayKTThucTe.Value.AddMonths(dinhky) < DateTime.Now) on b.IDLH equals c.ID
+                                //                 select a
+                                //                ).ToList(); // đã duyệt hồ sơ
+                                bool check = CheckDKHocVien(item1.ID, lophoc.IDLH, ncdt.NoiDungDT_ID, ncdt.PhuongPhapDT_ID, ncdt.ID);
+                                if (check)
                                 {
                                     var XNHT = new XNHocTap()
                                     {
@@ -266,7 +273,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                         NgayTG = default,
                                         NgayHT = default,
                                         XNHT = false,
-                                        XNTG = false
+                                        XNTG = false,
+                                        IDND = ncdt.NoiDungDT_ID,
+                                        ID_PhuongPhapDT = ncdt.PhuongPhapDT_ID
                                     };
                                     db_context.XNHocTaps.Add(XNHT);
                                     db_context.SaveChanges();
@@ -279,8 +288,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                             var nhanvien = db_context.NhanViens.Where(x => x.ID == item.NhanVien_ID && x.IDTinhTrangLV == 1).FirstOrDefault();
                             if (nhanvien != null)
                             {
-                                var checknv = db_context.XNHocTaps.Where(x => x.NVID == nhanvien.ID && x.LHID == lophoc.IDLH).FirstOrDefault();
-                                if (checknv == null)
+                                //var checknv = db_context.XNHocTaps.Where(x => x.NVID == nhanvien.ID && x.LHID == lophoc.IDLH).FirstOrDefault();
+                                bool check = CheckDKHocVien(nhanvien.ID, lophoc.IDLH, ncdt.NoiDungDT_ID, ncdt.PhuongPhapDT_ID, ncdt.ID);
+                                if (check)
                                 {
                                     var XNHT = new XNHocTap()
                                     {
@@ -291,7 +301,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                         NgayTG = default(DateTime),
                                         NgayHT = default(DateTime),
                                         XNHT =false,
-                                        XNTG = false
+                                        XNTG = false,
+                                        IDND = ncdt.NoiDungDT_ID,
+                                        ID_PhuongPhapDT = ncdt.PhuongPhapDT_ID
                                     };
                                     db_context.XNHocTaps.Add(XNHT);
                                     db_context.SaveChanges();
@@ -311,8 +323,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                             var aa = db_context.NhanViens.Where(x => x.MaNV == item).FirstOrDefault();
                             if (aa != null)
                             {
-                                var checktrung = db_context.XNHocTaps.Where(x => x.NVID == aa.ID && x.LHID == lophoc.IDLH).ToList();
-                                if (checktrung.Count() == 0)
+                                //var checktrung = db_context.XNHocTaps.Where(x => x.NVID == aa.ID && x.LHID == lophoc.IDLH).ToList();
+                                bool check = CheckDKHocVien(aa.ID, lophoc.IDLH, ncdt.NoiDungDT_ID, ncdt.PhuongPhapDT_ID, ncdt.ID);
+                                if (check)
                                 {
                                     var XNHT = new XNHocTap()
                                     {
@@ -323,7 +336,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                         NgayTG = default(DateTime),
                                         NgayHT = default(DateTime),
                                         XNHT = false,
-                                        XNTG = false
+                                        XNTG = false,
+                                        IDND = ncdt.NoiDungDT_ID,
+                                        ID_PhuongPhapDT = ncdt.PhuongPhapDT_ID
                                     };
                                     db_context.XNHocTaps.Add(XNHT);
                                     db_context.SaveChanges();
@@ -362,8 +377,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                             var nv = db_context.NhanViens.Where(x=>x.MaNV == manv).FirstOrDefault();
                             if(nv != null)
                             {
-                                var checktrung = db_context.XNHocTaps.Where(x => x.NVID == nv.ID && x.LHID == lophoc.IDLH).ToList();
-                                if (checktrung.Count() == 0)
+                                //var checktrung = db_context.XNHocTaps.Where(x => x.NVID == nv.ID && x.LHID == lophoc.IDLH).ToList();
+                                bool check = CheckDKHocVien(nv.ID, lophoc.IDLH, ncdt.NoiDungDT_ID, ncdt.PhuongPhapDT_ID, ncdt.ID);
+                                if (check)
                                 {
                                     var XNHT = new XNHocTap()
                                     {
@@ -374,7 +390,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                         NgayTG = default(DateTime),
                                         NgayHT = default(DateTime),
                                         XNHT = false,
-                                        XNTG = false
+                                        XNTG = false,
+                                        IDND = ncdt.NoiDungDT_ID,
+                                        ID_PhuongPhapDT = ncdt.PhuongPhapDT_ID
                                     };
                                     db_context.XNHocTaps.Add(XNHT);
                                     db_context.SaveChanges();
@@ -497,6 +515,70 @@ namespace E_Learning.Controllers.DaoTaoTH
                       }).FirstOrDefault();
             }
             return Json(ls, JsonRequestBehavior.AllowGet);
+        }
+        public bool CheckDKHocVien(int? IDNV, int? IDLH, int? IDND, int? IDPhuongPhap,int? NCDT_ID )
+        {
+            int dinhky = db_context.SH_NhuCauDT.FirstOrDefault(x => x.ID == NCDT_ID)?.MaDinhKy ?? 0;
+            var thoiGianSoSanh = DateTime.Now.AddMonths(-dinhky);
+            var checknv = db_context.XNHocTaps.Where(x => x.NVID == IDNV && x.LHID == IDLH).FirstOrDefault(); // check hv đã có trong lớp
+            if (checknv != null) return false;
+
+            //var checkDKnv = (from a in db_context.XNHocTaps.Where(x => x.NVID == IDNV && x.IDND == IDND && x.ID_PhuongPhapDT == IDPhuongPhap)
+            //                 join b in db_context.LopHocs.Where(x => x.TinhTrang != 3 && x.TinhTrang != 5 && x.TinhTrang != 6) on a.LHID equals b.IDLH
+            //                 select a
+            //                ).ToList(); // hồ sơ chưa xử lý
+            var checkDKnv = db_context.XNHocTaps
+                            .Where(x => x.NVID == IDNV
+                                     && x.IDND == IDND
+                                     && x.ID_PhuongPhapDT == IDPhuongPhap
+                                     && db_context.LopHocs.Any(b => b.IDLH == x.LHID
+                                                                    && b.TinhTrang != 3
+                                                                    && b.TinhTrang != 5
+                                                                    && b.TinhTrang != 6))
+                            .AsNoTracking() // Tối ưu hiệu năng nếu không cần cập nhật
+                            .ToList();
+            if (checkDKnv.Count != 0) return false;
+            //var checkNVNop = (from a in db_context.XNHocTaps.Where(x => x.NVID == IDNV && x.IDND == IDND && x.ID_PhuongPhapDT == IDPhuongPhap && x.KetLuan == 1)
+            //                  join b in db_context.LopHocs.Where(x => x.TinhTrang == 5) on a.LHID equals b.IDLH
+            //                  join c in db_context.SH_HoSoDaoTao.Where(x=>(x.NgayKTThucTe != null && x.NgayKTThucTe > thoiGianSoSanh && dinhky != 0) || dinhky == 0) on b.IDLH equals c.LHID
+            //                  //join c in db_context.SH_HoSoDaoTao.Where(x =>(x.NgayKTThucTe != null && x.NgayKTThucTe.Value.AddMonths(dinhky) > DateTime.Now && dinhky != 0)|| dinhky == 0) on b.IDLH equals c.LHID
+            //                  select a
+            //                ).ToList(); // đã duyệt hồ sơ
+            var checkNVNop = (from a in db_context.XNHocTaps
+                              where a.NVID == IDNV
+                                 && a.IDND == IDND
+                                 && a.ID_PhuongPhapDT == IDPhuongPhap
+                                 && a.KetLuan == 1
+                                 && db_context.LopHocs.Any(b => b.TinhTrang == 5 && b.IDLH == a.LHID)
+                                 && db_context.SH_HoSoDaoTao.Any(c =>
+                                        c.LHID == a.LHID &&
+                                        ((c.NgayKTThucTe != null && c.NgayKTThucTe > thoiGianSoSanh && dinhky != 0) || dinhky == 0))
+                              select a
+                 ).AsNoTracking().ToList();
+            if (checkNVNop.Count != 0) return false;
+            //var checkNVNopKDAT = (from a in db_context.XNHocTaps.Where(x => x.NVID == IDNV && x.IDND == IDND && x.ID_PhuongPhapDT == IDPhuongPhap && x.KetLuan != 1)
+            //                  join b in db_context.LopHocs.Where(x => x.TinhTrang == 5) on a.LHID equals b.IDLH
+            //                  //join c in db_context.SH_HoSoDaoTao.Where(x => (x.NgayKTThucTe != null && x.NgayKTThucTe.Value.AddMonths(dinhky) > DateTime.Now && dinhky != 0) || dinhky == 0) on b.IDLH equals c.ID
+            //                  select a
+            //               ).ToList(); // đã duyệt hồ sơ và không đạt
+            var checkNVNopKDAT = (from a in db_context.XNHocTaps
+                                  where a.NVID == IDNV
+                                     && a.IDND == IDND
+                                     && a.ID_PhuongPhapDT == IDPhuongPhap
+                                     && a.KetLuan != 1
+                                     && db_context.LopHocs.Any(b => b.TinhTrang == 5 && b.IDLH == a.LHID)
+                                     && db_context.SH_HoSoDaoTao.Any(c =>
+                                            c.LHID == a.LHID &&
+                                            ((c.NgayKTThucTe != null && c.NgayKTThucTe > thoiGianSoSanh && dinhky != 0) || dinhky == 0))
+                                  select a)
+                     .AsNoTracking() // Tối ưu hiệu suất
+                     .ToList();
+            if (checkNVNop.Count != 0) return false;
+
+            return true;
+
+            //if (checknv == null ) return true;
+            //else return false;
         }
 
         public JsonResult GetDeThi(int? ID_NCDT)
@@ -730,6 +812,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                             chiTietTCDTInDB.ViTriCV_GV = viTriCongViecInDb != null ? viTriCongViecInDb.TenViTri : "";
                             var phongBanInDb = db_context.PhongBans.Where(x => x.IDPhongBan == nhanVienInDb.IDPhongBan).SingleOrDefault();
                             chiTietTCDTInDB.DonVi_GV = phongBanInDb != null ? phongBanInDb.TenPhongBan : "";
+                            lopHocExisting.GVID = IDGVCty; // lưu IDGV vào LopHoc
                         }
                         else
                         {
@@ -748,17 +831,20 @@ namespace E_Learning.Controllers.DaoTaoTH
                         lopHocExisting.IDDeThi = DTO.IDDeThi;
                         lopHocExisting.IsCoCTDT = DTO.IsCoCTDT;
                     }
+                    var ncdt = db_context.SH_NhuCauDT.FirstOrDefault(x => x.ID == DTO.NCDT_ID);
                     // thêm học viên vào lớp
                     if (DTO.IsAll)
                     {
                         var dsvt = db_context.SH_ViTri_NDDT.Where(x => x.NCDT_ID == DTO.NCDT_ID).ToList();
+                       
                         foreach (var item in dsvt)
                         {
                             var nhanvien = db_context.NhanViens.Where(x => x.IDVTKNL == item.Vitri_ID && x.IDTinhTrangLV == 1).ToList();
                             foreach (var item1 in nhanvien)
                             {
-                                var checknv = db_context.XNHocTaps.Where(x => x.NVID == item1.ID && x.LHID == DTO.IDLH).FirstOrDefault();
-                                if (checknv == null)
+                                //var checknv = db_context.XNHocTaps.Where(x => x.NVID == item1.ID && x.LHID == DTO.IDLH).FirstOrDefault();
+                                bool check = CheckDKHocVien(item1.ID, DTO.IDLH, ncdt.NoiDungDT_ID, ncdt.PhuongPhapDT_ID, ncdt.ID);
+                                if (check)
                                 {
                                     var XNHT = new XNHocTap()
                                     {
@@ -769,7 +855,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                         NgayTG = default(DateTime),
                                         NgayHT = default(DateTime),
                                         XNHT = false,
-                                        XNTG = false
+                                        XNTG = false,
+                                        IDND = ncdt.NoiDungDT_ID,
+                                        ID_PhuongPhapDT = ncdt.PhuongPhapDT_ID
                                     };
                                     db_context.XNHocTaps.Add(XNHT);
                                     db_context.SaveChanges();
@@ -782,8 +870,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                             var nhanvien = db_context.NhanViens.Where(x => x.ID == item.NhanVien_ID && x.IDTinhTrangLV == 1).FirstOrDefault();
                             if (nhanvien != null)
                             {
-                                var checknv = db_context.XNHocTaps.Where(x => x.NVID == nhanvien.ID && x.LHID == DTO.IDLH).FirstOrDefault();
-                                if (checknv == null)
+                                //var checknv = db_context.XNHocTaps.Where(x => x.NVID == nhanvien.ID && x.LHID == DTO.IDLH).FirstOrDefault();
+                                bool check = CheckDKHocVien(nhanvien.ID, DTO.IDLH, ncdt.NoiDungDT_ID, ncdt.PhuongPhapDT_ID, ncdt.ID);
+                                if (check)
                                 {
                                     var XNHT = new XNHocTap()
                                     {
@@ -794,7 +883,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                         NgayTG = default(DateTime),
                                         NgayHT = default(DateTime),
                                         XNHT = false,
-                                        XNTG = false
+                                        XNTG = false,
+                                        IDND = ncdt.NoiDungDT_ID,
+                                        ID_PhuongPhapDT = ncdt.PhuongPhapDT_ID
                                     };
                                     db_context.XNHocTaps.Add(XNHT);
                                     db_context.SaveChanges();
@@ -814,8 +905,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                             var aa = db_context.NhanViens.Where(x => x.MaNV == item).FirstOrDefault();
                             if (aa != null)
                             {
-                                var checktrung = db_context.XNHocTaps.Where(x => x.NVID == aa.ID && x.LHID == DTO.IDLH).ToList();
-                                if (checktrung.Count() == 0)
+                                //var checktrung = db_context.XNHocTaps.Where(x => x.NVID == aa.ID && x.LHID == DTO.IDLH).ToList();
+                                bool check = CheckDKHocVien(aa.ID, DTO.IDLH, ncdt.NoiDungDT_ID, ncdt.PhuongPhapDT_ID, ncdt.ID);
+                                if (check)
                                 {
                                     var XNHT = new XNHocTap()
                                     {
@@ -826,7 +918,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                         NgayTG = default(DateTime),
                                         NgayHT = default(DateTime),
                                         XNHT = false,
-                                        XNTG = false
+                                        XNTG = false,
+                                        IDND = ncdt.NoiDungDT_ID,
+                                        ID_PhuongPhapDT = ncdt.PhuongPhapDT_ID
                                     };
                                     db_context.XNHocTaps.Add(XNHT);
                                     db_context.SaveChanges();
@@ -865,8 +959,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                             var nv = db_context.NhanViens.Where(x => x.MaNV == manv).FirstOrDefault();
                             if (nv != null)
                             {
-                                var checktrung = db_context.XNHocTaps.Where(x => x.NVID == nv.ID && x.LHID == DTO.IDLH).ToList();
-                                if (checktrung.Count() == 0)
+                                //var checktrung = db_context.XNHocTaps.Where(x => x.NVID == nv.ID && x.LHID == DTO.IDLH).ToList();
+                                bool check = CheckDKHocVien(nv.ID, DTO.IDLH, ncdt.NoiDungDT_ID, ncdt.PhuongPhapDT_ID, ncdt.ID);
+                                if (check)
                                 {
                                     var XNHT = new XNHocTap()
                                     {
@@ -877,7 +972,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                         NgayTG = default(DateTime),
                                         NgayHT = default(DateTime),
                                         XNHT = false,
-                                        XNTG = false
+                                        XNTG = false,
+                                        IDND = ncdt.NoiDungDT_ID,
+                                        ID_PhuongPhapDT = ncdt.PhuongPhapDT_ID
                                     };
                                     db_context.XNHocTaps.Add(XNHT);
                                     db_context.SaveChanges();
@@ -1149,6 +1246,13 @@ namespace E_Learning.Controllers.DaoTaoTH
                             NgayHT = (DateTime)(h.NgayHT ?? default(DateTime)),
                             XNTG = (bool)h.XNTG,
                             XNHT = (bool)h.XNHT,
+                            DiemOnline = h.DiemOnline,
+                            DiemLyThuyet = h.DiemLyThuyet,
+                            DiemThucHanh = h.DiemThucHanh,
+                            DiemVanDap = h.DiemVanDap,
+                            KetLuan = h.KetLuan,
+                            LyDoKhongTGia = h.LyDoKhongTGia,
+                            TinhTrang = h.TinhTrang,
                         }).ToList();
             using (var workbook = new XLWorkbook())
             {
@@ -1360,7 +1464,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                 }
                 foreach (var item in _DO.fileScanHoSoViews)
                 {
-                   if(item.FileDinhKem != null && item.TenFile != null)
+                   if(item.FileDinhKem != null )
                     {
                         //Use Namespace called :  System.IO  
                         string FileName = item.FileDinhKem.FileName;

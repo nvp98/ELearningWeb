@@ -2864,7 +2864,11 @@ namespace E_Learning.Controllers
         {
             try
             {
-                db.KhungNangLuc_delete(id);
+                // ẩn khung năng lực
+                var knl = db.KhungNangLucs.FirstOrDefault(x => x.IDNL == id);
+                knl.IsDuyet = 2; //năng lực cũ
+                db.SaveChanges();
+                //db.KhungNangLuc_delete(id);
             }
             catch (Exception e)
             {
@@ -2877,7 +2881,7 @@ namespace E_Learning.Controllers
         {
             try
             {
-               
+
                 var aLi = db.KhungNangLucs.Where(x => x.IDVT == IDVT && x.IDLoaiNL == id).ToList();
                 if (aLi.Count > 0)
                 {
@@ -4239,7 +4243,7 @@ namespace E_Learning.Controllers
             ViewBag.IDVT = IDVT;
             ViewBag.TenPB = vt?.TenPhongBan ?? "";
 
-            var res = (from a in db.KhungNangLuc_SearchByIDVT(IDVT)
+            var res = (from a in db.KhungNangLuc_SearchByIDVT(IDVT).Where(x=>x.IsDuyet == 1)
                        select new FValueValidation
                        {
                            IDNL = a.IDNL,

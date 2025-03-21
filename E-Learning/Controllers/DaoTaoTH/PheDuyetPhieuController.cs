@@ -430,7 +430,8 @@ namespace E_Learning.Controllers.DaoTaoTH
                                                             TenDeThi = d.TenDe,
                                                             DiemChuan = d.DiemChuan,
                                                             ThoiGianLamBai = d.ThoiGianLamBai,
-                                                            TongSoCau = d.TongSoCau
+                                                            TongSoCau = d.TongSoCau,
+                                                            fileDe = d.FileDeThi
                                                         }).ToList(),
                                   sH_KyDuyetCTDTs = db.SH_KyDuyetCTDT.Where(x => x.ID_CTDT == id).FirstOrDefault()
                               }).OrderBy(x => x.NgayTao).FirstOrDefault();
@@ -457,7 +458,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             ViewBag.IDPPDT = new SelectList(db.SH_PhuongPhapDT, "ID", "TenPhuongPhapDT", noiDungDT.IDPhuongPhapDT);
             ViewBag.IDNhomNL = new SelectList(db.NhomNLKCCDs, "ID", "NoiDung", noiDungDT.IDNhomNL);
             ViewBag.IDHoatDongDT = new SelectList(db.SH_HoatDongDT, "ID", "TenHoatDong", noiDungDT.IDHoatDongDT);
-            ViewBag.IDPhuongPhapDT = new SelectList(db.SH_PhuongPhapDT, "ID", "TenPhuongPhapDT", noiDungDT.IDHoatDongDT);
+            ViewBag.IDPhuongPhapDT = new SelectList(db.SH_PhuongPhapDT, "ID", "TenPhuongPhapDT", noiDungDT.IDPhuongPhapDT);
             return PartialView(noiDungDT);
         }
 
@@ -513,6 +514,23 @@ namespace E_Learning.Controllers.DaoTaoTH
             ViewBag.LVDTID = new SelectList(db.LinhVucDTs, "IDLVDT", "TenLVDT", noiDungDT.LVDTID);
             return RedirectToAction("Index_NDDT");
         }
+
+        public ActionResult XacNhanNDDT(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var kyduyet = db.SH_KyDuyetCTDT.Where(x => x.ID_CTDT == id).FirstOrDefault();
+            if (kyduyet.ID_NguoiDuyetNDDT == MyAuthentication.ID)
+            {
+                kyduyet.NgayDuyetNDDT = DateTime.Now;
+                db.SaveChanges();
+            }
+            TempData["msgSuccess"] = "<script>alert('Thành công ');</script>";
+            return RedirectToAction("Index_NDDT");
+        }
+
 
         public ActionResult XacNhanPhieu(int? id)
         {

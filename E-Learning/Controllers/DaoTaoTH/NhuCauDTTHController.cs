@@ -368,6 +368,10 @@ namespace E_Learning.Controllers.DaoTaoTH
                         }
                     }
 
+                    // update số lượng Nhân viên
+                    var chitiet = db.SH_ChiTiet_NCDT.FirstOrDefault(x=>x.NhuCauDT_ID == parentId);
+                    chitiet.SoLuongNguoi = countSl;
+                    db.SaveChanges();
 
                    
                     //duyệt BPSD
@@ -486,9 +490,13 @@ namespace E_Learning.Controllers.DaoTaoTH
 
             var ls = new List<SH_ViTri_NDDTView>();
            
-                var data = db.VitriKNL_search();
-                var vt = db.SH_ViTri_NDDT.Where(x=> x.NCDT_ID == nhuCauDT.ID).ToList();
-                ls = (from a in vt.Where(x => x.NoiDungDT_ID == nhuCauDT.NoiDungDT_ID && x.PhuongPhapDT_ID == nhuCauDT.PhuongPhapDT_ID)
+                var data = db.VitriKNL_search().ToList();
+                var vt = db.SH_ViTri_NDDT.Where(x=> x.NoiDungDT_ID == nhuCauDT.NoiDungDT_ID && x.PhuongPhapDT_ID == nhuCauDT.PhuongPhapDT_ID).ToList();
+                if(nhuCauDT.PhanLoaiNCDT_ID == 1) // NCĐT nội bộ
+                {
+                    data = data.Where(x => x.IDPB == IDPB).ToList();
+                }
+                ls = (from a in vt
                       join b in data on a.Vitri_ID equals b.IDVT
                       select new SH_ViTri_NDDTView()
                       {

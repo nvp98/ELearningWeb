@@ -263,64 +263,91 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @Html.HiddenFor(m => Model.cauHoiDeThiCTDTTHs[0].ID)
-                                            <tr class="data-rowD">
-                                                <td><input type="text" name="cauHoiDeThiCTDTTHs[0].MaDeThi" value="@Model.cauHoiDeThiCTDTTHs[0].MaDeThi" class="form-control" required></td>
-                                                <td><input type="text" name="cauHoiDeThiCTDTTHs[0].TenDeThi" value="@Model.cauHoiDeThiCTDTTHs[0].TenDeThi" class="form-control" required></td>
-                                                @if (Model.cauHoiDeThiCTDTTHs[0].fileDe != null && Model.cauHoiDeThiCTDTTHs[0].MaDeThi == "DETHIGIAY")
-                                                {
-                                                    <td><input type="file" name="cauHoiDeThiCTDTTHs[0].FileDeThi" style="display:none" class="form-control"></td>
-                                                    <td><input type="file" name="cauHoiDeThiCTDTTHs[0].FileScanDeThi" class="form-control" accept=".jpg, .png, .pdf"></td>
-                                                }
-                                                else
-                                                {
-                                                    <td><input type="file" name="cauHoiDeThiCTDTTHs[0].FileDeThi" class="form-control"></td>
-                                                    <td><input type="file" name="cauHoiDeThiCTDTTHs[0].FileScanDeThi" class="form-control" style="display:none" accept=".jpg, .png, .pdf"></td>
-                                                }
-                                                <td><input type="number" name="cauHoiDeThiCTDTTHs[0].DiemChuan" value="@Model.cauHoiDeThiCTDTTHs[0].DiemChuan" class="form-control" required></td>
-                                                <td><input type="number" name="cauHoiDeThiCTDTTHs[0].ThoiGianLamBai" value="@Model.cauHoiDeThiCTDTTHs[0].ThoiGianLamBai" class="form-control" required></td>
-                                                <td><input type="number" name="cauHoiDeThiCTDTTHs[0].TongSoCau" value="@Model.cauHoiDeThiCTDTTHs[0].TongSoCau" class="form-control" required></td>
-                                                <td class="text-center"><a title="DS Câu Hỏi" class="fa fa-list-alt" id="@Model.cauHoiDeThiCTDTTHs[0].ID" href="@Url.Action("Question" , "ChuongTrinhDTTH" , new { id = Model.cauHoiDeThiCTDTTHs[0].ID })"></a></td>
-                                            </tr>
-                                            @for (int j = 1; j < Model.cauHoiDeThiCTDTTHs.Count; j++)
+                                            @if (Model.cauHoiDeThiCTDTTHs != null && Model.cauHoiDeThiCTDTTHs.Any())
                                             {
-                                                @Html.HiddenFor(m => Model.cauHoiDeThiCTDTTHs[@j].ID)
-                                        <tr class="data-rowD">
+                                                @Html.HiddenFor(m => Model.cauHoiDeThiCTDTTHs[0].ID)
+                                                <tr class="data-rowD">
+                                                    <td><input type="text" name="cauHoiDeThiCTDTTHs[0].MaDeThi" value="@Model.cauHoiDeThiCTDTTHs[0].MaDeThi" class="form-control" required></td>
+                                                    <td><input type="text" name="cauHoiDeThiCTDTTHs[0].TenDeThi" value="@Model.cauHoiDeThiCTDTTHs[0].TenDeThi" class="form-control" required></td>
+                                                    @if (Model.cauHoiDeThiCTDTTHs[0].fileDe != null && Model.cauHoiDeThiCTDTTHs[0].MaDeThi == "DETHIGIAY")
+                                                    {
+                                                        <td><input type="file" name="cauHoiDeThiCTDTTHs[0].FileDeThi" style="display:none" class="form-control"></td>
+                                                        <td>
+                                                            @if (Model.cauHoiDeThiCTDTTHs[0].fileDe != null)
+                                                            {
+                                                                <a href="@Url.Content(Model.cauHoiDeThiCTDTTHs[0].fileDe)" target="_blank">Xem file Đề thi</a>
+                                                            }
+                                                            <input type="file" name="cauHoiDeThiCTDTTHs[0].FileScanDeThi" class="form-control" accept=".jpg, .png, .pdf">
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td><input type="file" name="cauHoiDeThiCTDTTHs[0].FileDeThi" class="form-control"></td>
+                                                        <td><input type="file" name="cauHoiDeThiCTDTTHs[0].FileScanDeThi" class="form-control" style="display:none" accept=".jpg, .png, .pdf"></td>
+                                                    }
+                                                    <td><input type="number" name="cauHoiDeThiCTDTTHs[0].DiemChuan" value="@Model.cauHoiDeThiCTDTTHs[0].DiemChuan" class="form-control" required></td>
+                                                    <td><input type="number" name="cauHoiDeThiCTDTTHs[0].ThoiGianLamBai" value="@Model.cauHoiDeThiCTDTTHs[0].ThoiGianLamBai" class="form-control" required></td>
+                                                    <td><input type="number" name="cauHoiDeThiCTDTTHs[0].TongSoCau" value="@Model.cauHoiDeThiCTDTTHs[0].TongSoCau" class="form-control" required></td>
+                                                    <td class="text-center"><a title="DS Câu Hỏi" class="fa fa-list-alt" id="@Model.cauHoiDeThiCTDTTHs[0].ID" href="@Url.Action("Question" , "ChuongTrinhDTTH" , new { id = Model.cauHoiDeThiCTDTTHs[0].ID })"></a></td>
+                                                </tr>
+                                                for (int j = 1; j < Model.cauHoiDeThiCTDTTHs.Count; j++)
+                                                {
+                                                    @Html.HiddenFor(m => Model.cauHoiDeThiCTDTTHs[@j].ID)
+                                                    <tr class="data-rowD">
 
-                                            @if (Model.cauHoiDeThiCTDTTHs[@j].fileDe != null && Model.cauHoiDeThiCTDTTHs[@j].MaDeThi == "DETHIGIAY")
-                                            {
-                                                <td><input type="text" name="cauHoiDeThiCTDTTHs[@j].MaDeThi" value="@Model.cauHoiDeThiCTDTTHs[@j].MaDeThi" class="form-control" readonly></td>
-                                                <td><input type="text" name="cauHoiDeThiCTDTTHs[@j].TenDeThi" value="@Model.cauHoiDeThiCTDTTHs[@j].TenDeThi" class="form-control"></td>
-                                                <td><input type="file" name="cauHoiDeThiCTDTTHs[@j].FileDeThi" style="display:none" class="form-control"></td>
-                                                <td><div class=""><a href="@Url.Content(Model.cauHoiDeThiCTDTTHs[@j].fileDe)" target="_blank"><span class="font-weight-bold">Xem file Đề thi</a></div><input type="file" name="cauHoiDeThiCTDTTHs[@j].FileScanDeThi" class="form-control" accept=".jpg, .png, .pdf"></td>
+                                                        @if (Model.cauHoiDeThiCTDTTHs[@j].fileDe != null && Model.cauHoiDeThiCTDTTHs[@j].MaDeThi == "DETHIGIAY")
+                                                        {
+                                                            <td><input type="text" name="cauHoiDeThiCTDTTHs[@j].MaDeThi" value="@Model.cauHoiDeThiCTDTTHs[@j].MaDeThi" class="form-control" readonly></td>
+                                                            <td><input type="text" name="cauHoiDeThiCTDTTHs[@j].TenDeThi" value="@Model.cauHoiDeThiCTDTTHs[@j].TenDeThi" class="form-control"></td>
+                                                            <td><input type="file" name="cauHoiDeThiCTDTTHs[@j].FileDeThi" style="display:none" class="form-control"></td>
+                                                            <td><div class=""><a href="@Url.Content(Model.cauHoiDeThiCTDTTHs[@j].fileDe)" target="_blank">Xem file Đề thi</a></div><input type="file" name="cauHoiDeThiCTDTTHs[@j].FileScanDeThi" class="form-control" accept=".jpg, .png, .pdf"></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><input type="text" name="cauHoiDeThiCTDTTHs[@j].MaDeThi" value="@Model.cauHoiDeThiCTDTTHs[@j].MaDeThi" class="form-control"></td>
+                                                            <td><input type="text" name="cauHoiDeThiCTDTTHs[@j].TenDeThi" value="@Model.cauHoiDeThiCTDTTHs[@j].TenDeThi" class="form-control"></td>
+                                                            <td><input type="file" name="cauHoiDeThiCTDTTHs[@j].FileDeThi" class="form-control"></td>
+                                                            <td><input type="file" name="cauHoiDeThiCTDTTHs[@j].FileScanDeThi" class="form-control" style="display:none" accept=".jpg, .png, .pdf"></td>
+                                                        }
+                                                        @*<td><input type="file" name="cauHoiDeThiCTDTTHs[@j].FileDeThi" class="form-control"></td>
+                                                        <td>
+                                                            @if (Model.cauHoiDeThiCTDTTHs[@j].fileDe != null)
+                                                            {
+                                                                <div class=""><a href="@Url.Content(Model.cauHoiDeThiCTDTTHs[@j].fileDe)" target="_blank"><span class="font-weight-bold">Xem file Đề thi</a></div>
+                                                            }
+                                                            <input type="file" name="cauHoiDeThiCTDTTHs[@j].FileScanDeThi" class="form-control" style="display:none" accept=".jpg, .png, .pdf">
+                                                        </td>*@
+                                                        <td><input type="number" name="cauHoiDeThiCTDTTHs[@j].DiemChuan" value="@Model.cauHoiDeThiCTDTTHs[@j].DiemChuan" class="form-control"></td>
+                                                        <td><input type="number" name="cauHoiDeThiCTDTTHs[@j].ThoiGianLamBai" value="@Model.cauHoiDeThiCTDTTHs[@j].ThoiGianLamBai" class="form-control"></td>
+                                                        <td><input type="number" name="cauHoiDeThiCTDTTHs[@j].TongSoCau" value="@Model.cauHoiDeThiCTDTTHs[@j].TongSoCau" class="form-control"></td>
+                                                        <td class="text-center"><a title="DS Câu Hỏi" class="fa fa-list-alt" id="@Model.cauHoiDeThiCTDTTHs[@j].ID" href="@Url.Action("Question" , "ChuongTrinhDTTH" , new { id = Model.cauHoiDeThiCTDTTHs[@j].ID })"></a></td>
+                                                        @*<td><button type="button" class="btn btn-danger removeRowDe">Xóa</button></td>*@
+                                                    </tr>
+                                                }
+
+
                                             }
                                             else
                                             {
-                                                <td><input type="text" name="cauHoiDeThiCTDTTHs[@j].MaDeThi" value="@Model.cauHoiDeThiCTDTTHs[@j].MaDeThi" class="form-control"></td>
-                                                <td><input type="text" name="cauHoiDeThiCTDTTHs[@j].TenDeThi" value="@Model.cauHoiDeThiCTDTTHs[@j].TenDeThi" class="form-control"></td>
-                                                <td><input type="file" name="cauHoiDeThiCTDTTHs[@j].FileDeThi" class="form-control"></td>
-                                                <td><input type="file" name="cauHoiDeThiCTDTTHs[@j].FileScanDeThi" class="form-control" style="display:none" accept=".jpg, .png, .pdf"></td>
+                                                <tr class="data-rowD">
+                                                    <td><input type="text" name="cauHoiDeThiCTDTTHs[0].MaDeThi" value="" class="form-control" ></td>
+                                                    <td><input type="text" name="cauHoiDeThiCTDTTHs[0].TenDeThi" value="" class="form-control" ></td>
+                                                    <td><input type="file" name="cauHoiDeThiCTDTTHs[0].FileDeThi" class="form-control"></td>
+                                                    <td><input type="file" name="cauHoiDeThiCTDTTHs[0].FileScanDeThi" class="form-control" style="display:none" accept=".jpg, .png, .pdf"></td>
+                                                    <td><input type="number" name="cauHoiDeThiCTDTTHs[0].DiemChuan" value="" class="form-control" ></td>
+                                                    <td><input type="number" name="cauHoiDeThiCTDTTHs[0].ThoiGianLamBai" value="" class="form-control" ></td>
+                                                    <td><input type="number" name="cauHoiDeThiCTDTTHs[0].TongSoCau" value="" class="form-control" ></td>
+                                                    <td class="text-center"></td>
+                                                </tr>
                                             }
-                                            @*<td><input type="file" name="cauHoiDeThiCTDTTHs[@j].FileDeThi" class="form-control"></td>
-        <td>
-            @if (Model.cauHoiDeThiCTDTTHs[@j].fileDe != null)
-            {
-                <div class=""><a href="@Url.Content(Model.cauHoiDeThiCTDTTHs[@j].fileDe)" target="_blank"><span class="font-weight-bold">Xem file Đề thi</a></div>
-            }
-            <input type="file" name="cauHoiDeThiCTDTTHs[@j].FileScanDeThi" class="form-control" style="display:none" accept=".jpg, .png, .pdf">
-        </td>*@
-                                            <td><input type="number" name="cauHoiDeThiCTDTTHs[@j].DiemChuan" value="@Model.cauHoiDeThiCTDTTHs[@j].DiemChuan" class="form-control"></td>
-                                            <td><input type="number" name="cauHoiDeThiCTDTTHs[@j].ThoiGianLamBai" value="@Model.cauHoiDeThiCTDTTHs[@j].ThoiGianLamBai" class="form-control"></td>
-                                            <td><input type="number" name="cauHoiDeThiCTDTTHs[@j].TongSoCau" value="@Model.cauHoiDeThiCTDTTHs[@j].TongSoCau" class="form-control"></td>
-                                            <td class="text-center"><a title="DS Câu Hỏi" class="fa fa-list-alt" id="@Model.cauHoiDeThiCTDTTHs[@j].ID" href="@Url.Action("Question" , "ChuongTrinhDTTH" , new { id = Model.cauHoiDeThiCTDTTHs[@j].ID })"></a></td>
-                                            @*<td><button type="button" class="btn btn-danger removeRowDe">Xóa</button></td>*@
-                                        </tr>
-                                            }
+
+
+
                                         </tbody>
                                     </table>
                                     <div class="row ml-2">
                                         <button type="button" id="addRowDe" class="btn btn-success">+</button>
-                                        <button type="button" id="addRowDeGiay" class="ml-2 btn btn-warning">+ Thêm đề thi giấy</button>
+                                        <button type="button" id="addRowDeGiay" class="ml-2 btn btn-warning">+ Thêm đề thi tự luận, vấn đáp, thực hành (theo mẫu QT.04)</button>
                                     </div>
                                 </div>
                                 <script>
@@ -340,6 +367,12 @@
                                                 $(this).attr("name", nameAttr);
                                                 $(this).removeAttr("required").val("");
                                             });
+                                            // Set dữ liệu tự động
+                                            newRow.find("input[name$='.FileScanDeThi']").css("display", "none");
+
+                                            // Ẩn input khác
+                                            newRow.find("input[name$='.FileDeThi']").css("display", "inline");
+
 
                                             $("#dataTableDe tbody").append(newRow); // Thêm vào bảng
                                             rowIndex++;

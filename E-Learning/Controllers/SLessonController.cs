@@ -38,8 +38,8 @@ namespace E_Learning.Controllers
                                FileCTDT = l.NoiDungDT.FileDinhKem,
                                TGBDLH = (DateTime)l.TGBDLH,
                                TGKTLH = (DateTime)l.TGKTLH,
-                               NgayTG = (DateTime)h.NgayTG,
-                               NgayHT = (DateTime)h.NgayHT,
+                               NgayTG = h.NgayTG != null?(DateTime)h.NgayTG:default(DateTime),
+                               NgayHT = h.NgayHT != null?(DateTime)h.NgayHT:default(DateTime),
                                XNTG = (bool)h.XNTG,
                                XNHT = (bool)h.XNHT,
                            }).ToList();

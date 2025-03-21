@@ -24,11 +24,11 @@ namespace E_Learning.Controllers
             {
                
                 int id = MyAuthentication.ID;
-                var res = (from h in db_context.XNHocTaps
-                           join l in db_context.LopHocs on h.LHID equals l.IDLH
+                var res = (from h in db_context.XNHocTaps.AsNoTracking()
+                           join l in db_context.LopHocs.Where(x => x.TinhTrang == 1 || x.TinhTrang == 5 || x.NCDT_ID == null) on h.LHID equals l.IDLH
                            join n in db_context.NhanViens.Where(x => x.ID == id) on h.NVID equals n.ID
-                           join p in db_context.PhongBans on h.PBID equals p.IDPhongBan
-                           join v in db_context.Vitris on h.VTID equals v.IDViTri
+                           join p in db_context.PhongBans.AsNoTracking() on h.PBID equals p.IDPhongBan
+                           join v in db_context.Vitris.AsNoTracking() on h.VTID equals v.IDViTri
                            select new ConfirmEStudyValidation
                            {
                                IDHT = h.IDHT,
@@ -43,13 +43,15 @@ namespace E_Learning.Controllers
                                TenLH = l.TenLH,
                                TenND = l.NoiDungDT.NoiDung,
                                LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
-                               TGBDLH = (DateTime)l.TGBDLH,
-                               TGKTLH = (DateTime)l.TGKTLH,
-                               NgayTG = (DateTime)h.NgayTG,
-                               NgayHT = (DateTime)h.NgayHT,
+                               TGBDLH = l.TGBDLH.HasValue ? l.TGBDLH.Value : DateTime.MinValue,
+                               TGKTLH = l.TGKTLH.HasValue ? l.TGKTLH.Value : DateTime.MinValue,
+                               NgayTG = h.NgayTG != null ? (DateTime)h.NgayTG : DateTime.MinValue,
+                               NgayHT = h.NgayHT != null ? (DateTime)h.NgayHT : DateTime.MinValue,
                                XNTG = (bool)h.XNTG,
                                XNHT = (bool)h.XNHT,
-                               PPDaoTao = "Mở lớp tập trung (E-learning)"
+                               PPDaoTao = "Mở lớp tập trung (E-learning)",
+                               KetLuan = h.KetLuan,
+                               LyDoKhongTGia = h.LyDoKhongTGia,
                            }).OrderByDescending(x => x.TGBDLH).ToList();
 
                 //var sugg = dbKCCCD.DeNghiKCCD_select("").ToList();

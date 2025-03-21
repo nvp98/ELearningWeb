@@ -20,7 +20,7 @@ namespace E_Learning.Controllers.DaoTaoTH
         int Idquyen = MyAuthentication.IDQuyen;
         String ControllerName = "HoSoDTTH";
         // GET: HoSoDTTH
-        public ActionResult Index(int? page, string search)
+        public ActionResult Index(int? page, string search, int? ID_TrangThai, int? ID_NoiDung)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             ViewBag.QUYENCN = ListQuyen;
@@ -29,9 +29,12 @@ namespace E_Learning.Controllers.DaoTaoTH
                 TempData["msgError"] = "<script>alert('Bạn không có quyền truy cập chức năng này');</script>";
                 return RedirectToAction("", "Home");
             }
-            var data = (from a in db_context.SH_HoSoDaoTao
+            if (search == null) search = "";
+            //if (ID_TrangThai == null) ID_TrangThai = 0;
+            var data = (from a in db_context.SH_HoSoDaoTao.Where(x=> ID_TrangThai ==null || x.TinhTrang == ID_TrangThai)
                         join b in db_context.LopHocs on a.LHID equals b.IDLH
-                        join n in db_context.NoiDungDTs on b.NDID equals n.IDND
+                        join nc in db_context.SH_NhuCauDT on b.NCDT_ID equals nc.ID
+                        join n in db_context.NoiDungDTs.Where(x=> search == ""|| x.NoiDung.Contains(search)) on b.NDID equals n.IDND
                         join c in db_context.NhanViens on a.ID_NguoiNopHS equals c.ID
                         join d in db_context.NhanViens on a.ID_NguoiXuLy equals d.ID into dGroup
                         from d in dGroup.DefaultIfEmpty() // LEFT JOIN
@@ -51,6 +54,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                             NgayXuLy = a.NgayXuLy,
                             NgayBDThucTe = a.NgayBDThucTe,
                             NgayKTThucTe = a.NgayKTThucTe,
+                            ThoiLuongDT = a.ThoiLuongDT,
                             manageClassValidation = 
                             new ManageClassValidation()
                             {
@@ -58,12 +62,15 @@ namespace E_Learning.Controllers.DaoTaoTH
                                 MaLH = b.MaLH,
                                 TenLH = b.TenLH,
                                 TenND = n.NoiDung,
+                                NDID = n.IDND,
                                 NoiDungTrichYeu = b.NoiDungTrichYeu,
                                 QuyDT = (int)b.QuyDT,
                                 NamDT = (int)b.NamDT,
                                 TGBDLH = (DateTime)b.TGBDLH,
                                 TGKTLH = (DateTime)b.TGKTLH,
-                                TenGV = db_context.SH_ChiTietTCDT.FirstOrDefault(x => x.CTDT_ID == b.IDLH).MaNV_GV + " - " + db_context.SH_ChiTietTCDT.FirstOrDefault(x => x.CTDT_ID == b.IDLH).HoTenGV,
+                                ID_PPDT = nc.PhuongPhapDT_ID,
+                                TenPPDT = db_context.SH_PhuongPhapDT.FirstOrDefault(x=>x.ID ==nc.PhuongPhapDT_ID).TenPhuongPhapDT,
+                                TenGV = a.MaGiangVien +" - " + a.HoTenGV,
                                 TenBoPhan = db_context.PhongBans.FirstOrDefault(x => x.IDPhongBan == b.BoPhan_ID).TenPhongBan,
                                 TenNguoiTao = db_context.NhanViens.FirstOrDefault(x => x.ID == b.NguoiTao_ID).HoTen,
                                 TenNguoiKiemTra = db_context.NhanViens.FirstOrDefault(x => x.ID == b.NguoiKiemTra_ID).HoTen,
@@ -72,9 +79,17 @@ namespace E_Learning.Controllers.DaoTaoTH
                                 TenDeThi = b.IDDeThi != null?db_context.DeThis.FirstOrDefault(x=>x.IDDeThi == b.IDDeThi).TenDe:""
                             }
                         }).ToList();
+            if(ID_NoiDung != null)
+            {
+                data = data.Where(x=>x.manageClassValidation.NDID == ID_NoiDung).ToList();
+            }
+            
             if (!ListQuyen.Contains(CONSTKEY.VIEW_ALL) && !ListQuyen.Contains(CONSTKEY.V_BP)) data = data.Where(x => x.ID_NguoiNopHS == MyAuthentication.ID).ToList();
             else if (ListQuyen.Contains(CONSTKEY.V_BP)) data =  data.Where(x => x.manageClassValidation.BoPhan_ID == MyAuthentication.IDPhongban).ToList();
 
+            List<NoiDungDT> lh = db_context.NoiDungDTs.ToList();
+            ViewBag.IDNoiDung = new SelectList(lh, "IDND", "NoiDung");
+            ViewBag.Search = search;
             if (page == null) page = 1;
             int pageSize = 100;
             int pageNumber = (page ?? 1);
@@ -298,13 +313,15 @@ namespace E_Learning.Controllers.DaoTaoTH
             try
             {
 
-                var data = (from h in db_context.XNHocTaps
+                var data = (from h in db_context.XNHocTaps.AsNoTracking()
                             join hs in db_context.SH_HoSoDaoTao.Where(x=>x.TinhTrang == 1 && x.NgayXuLy >= _DO.NgayBDThucTe && x.NgayXuLy <= _DO.NgayKTThucTe) on h.LHID equals hs.LHID
-                            join l in db_context.LopHocs on h.LHID equals l.IDLH
-                            join n in db_context.NhanViens on h.NVID equals n.ID
-                            join p in db_context.PhongBans on h.PBID equals p.IDPhongBan
-                            join pb in db_context.PhongBans on l.BoPhan_ID equals pb.IDPhongBan
-                            join nd in db_context.NoiDungDTs on l.NDID equals nd.IDND 
+                            join l in db_context.LopHocs.AsNoTracking() on h.LHID equals l.IDLH
+                            join nc in db_context.SH_NhuCauDT.AsNoTracking() on l.NCDT_ID equals nc.ID
+                            join pp in db_context.SH_PhuongPhapDT.AsNoTracking() on nc.PhuongPhapDT_ID equals pp.ID
+                            join n in db_context.NhanViens.AsNoTracking() on h.NVID equals n.ID
+                            join p in db_context.PhongBans.AsNoTracking() on h.PBID equals p.IDPhongBan
+                            join pb in db_context.PhongBans.AsNoTracking() on l.BoPhan_ID equals pb.IDPhongBan
+                            join nd in db_context.NoiDungDTs.AsNoTracking() on l.NDID equals nd.IDND 
                             select new ConfirmEStudyValidation()
                             {
                                 IDHT = h.IDHT,
@@ -346,12 +363,13 @@ namespace E_Learning.Controllers.DaoTaoTH
                                 },
                                 noidungdt = new NoiDungDTTHView()
                                 {
-                                    MaND =nd.MaND,
+                                    MaND =nd.IDND +" - "+ nd.MaND,
                                     NoiDung =nd.NoiDung,
                                     IDNguonGV = nd.IDNguonGV,
                                     TenHoatDongDT =nd.SH_HoatDongDT.TenHoatDong,
                                     TenLVDT = nd.LinhVucDT.TenLVDT,
                                     TenNguonGV = nd.SH_NguonGV.TenNguonGV,
+                                    TenPPDT = pp.TenPhuongPhapDT
                                 }
                             }).ToList();
                 using (var workbook = new XLWorkbook())

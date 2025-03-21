@@ -171,7 +171,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                         foreach (var item in chuongtrinh.cauHoiDeThiCTDTTHs)
                         {
                             
-                            if(item.TenDeThi == null && item.MaDeThi == null && item.FileDeThi == null && item.FileScanDeThi == null && item.DiemChuan == null )
+                            if( item.FileDeThi == null && item.FileScanDeThi == null) // bỏ qua khi k có file đề thi
                             {
                                 continue;
                             }
@@ -804,7 +804,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                             }
                             else // thêm mới
                             {
-                                if ((item.TenDeThi == null || item.MaDeThi == null || item.FileDeThi == null || item.DiemChuan == null))
+                                if ((item.TenDeThi == null && item.MaDeThi == null && item.FileDeThi == null && item.DiemChuan == null))
                                 {
                                     continue;
                                 }
@@ -932,28 +932,29 @@ namespace E_Learning.Controllers.DaoTaoTH
                                 
                             }
 
-                            // Thêm thông tin trình ký
-                            // check xóa trình ký cũ
-                            List<SH_KyDuyetCTDT> kycu = db.SH_KyDuyetCTDT.Where(x=>x.ID_CTDT == chuongtrinh.IDCTDT).ToList();
-                            db.SH_KyDuyetCTDT.RemoveRange(kycu);
-                            db.SaveChanges();
-                            bool kyduyetctdt = _chuongtrinhDTService.ThemTrinhKyChuongTrinhDT(chuongtrinh);
-                            if (action == "Lưu")
-                            {
-                                var kyduyet = db.SH_ChuongTrinhDT.Where(x => x.IDCTDT == chuongtrinh.IDCTDT).FirstOrDefault();
-                                kyduyet.TinhTrang = 0; // Đang lưu
-                                db.SaveChanges();
-                            }
-                            else // trình ký lại
-                            {
-                                var kyduyet = db.SH_ChuongTrinhDT.Where(x => x.IDCTDT == chuongtrinh.IDCTDT).FirstOrDefault();
-                                kyduyet.TinhTrang = 2; // Đang trình ký
-                                db.SaveChanges();
-                            }
-
-
                         }
+                        
                     }
+
+                    // Thêm thông tin trình ký
+                    // check xóa trình ký cũ
+                    List<SH_KyDuyetCTDT> kycu = db.SH_KyDuyetCTDT.Where(x => x.ID_CTDT == chuongtrinh.IDCTDT).ToList();
+                    db.SH_KyDuyetCTDT.RemoveRange(kycu);
+                    db.SaveChanges();
+                    bool kyduyetctdt = _chuongtrinhDTService.ThemTrinhKyChuongTrinhDT(chuongtrinh);
+                    if (action == "Lưu")
+                    {
+                        var kyduyet = db.SH_ChuongTrinhDT.Where(x => x.IDCTDT == chuongtrinh.IDCTDT).FirstOrDefault();
+                        kyduyet.TinhTrang = 0; // Đang lưu
+                        db.SaveChanges();
+                    }
+                    else // trình ký lại
+                    {
+                        var kyduyet = db.SH_ChuongTrinhDT.Where(x => x.IDCTDT == chuongtrinh.IDCTDT).FirstOrDefault();
+                        kyduyet.TinhTrang = 2; // Đang trình ký
+                        db.SaveChanges();
+                    }
+
 
                     TempData["msgSuccess"] = "<script>alert('Cập nhật thành công ');</script>";
                     return RedirectToAction("Index");
@@ -1043,6 +1044,52 @@ namespace E_Learning.Controllers.DaoTaoTH
                               }).OrderBy(x => x.NgayTao).FirstOrDefault();
 
             return View(noiDungDTs);
+        }
+
+        public ActionResult Delete(int id)
+        {
+            var ctdt = db.SH_ChuongTrinhDT.FirstOrDefault(x=>x.IDCTDT == id);
+            // check ctdt đã mở lớp
+            var lh = db.LopHocs.FirstOrDefault(x => x.CTDT_ID == id);
+            if(lh != null)
+            {
+                TempData["msgSuccess"] = "<script>alert('Xóa không thành công! Đã có lớp học mở lớp với TCĐT này ');</script>";
+                return RedirectToAction("Index");
+            }
+            //check cau hoi de thi
+            var dethi = db.DeThis.Where(x => x.CTDT_ID == ctdt.IDCTDT).ToList();
+            if(dethi.Count > 0)
+            {
+                foreach (var item in dethi)
+                {
+                    // xóa câu hỏi và đề thi
+                    var dsch = db.CauHoiDeThis.Where(x=>x.IDDeThi == item.IDDeThi).ToList();
+                    foreach (var item1 in dsch)
+                    {
+                        var it = new CauHoi { IDCH = (int)item1.IDCauHoi };
+                        db.CauHois.Attach(it);
+                        db.CauHois.Remove(it);
+                        db.SaveChanges();
+                    }
+                    db.CauHoiDeThis.RemoveRange(dsch);
+                }
+                db.DeThis.RemoveRange(dethi);
+            }
+            // check nddt duyệt chưa
+            var noidung = db.NoiDungDTs.FirstOrDefault(x => x.IDND == ctdt.ID_NoiDungDT);
+            if (noidung != null && noidung.IsDelete == true)
+            {
+                db.NoiDungDTs.Remove(noidung);
+                db.SaveChanges();
+            }
+            // xóa Chi tiet CTĐT
+            var chitiet = db.SH_ChiTietCTDT.Where(x => x.ID_ChuongTrinhDT == ctdt.IDCTDT).ToList();
+            db.SH_ChiTietCTDT.RemoveRange(chitiet);
+            // xóa CTĐT 
+            db.SH_ChuongTrinhDT.Remove(ctdt);
+            db.SaveChanges();
+            TempData["msgSuccess"] = "<script>alert('Xóa thành công ');</script>";
+            return RedirectToAction("Index");
         }
 
         public ActionResult Question(int id)

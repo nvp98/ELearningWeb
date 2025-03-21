@@ -179,11 +179,11 @@
                      }).ToList();
     float? sogioDT = Listsogio?.Sum(x => x.ThoiLuongDT.GetValueOrDefault())/60??0;
 
-    var ListLS_DaoTao = (from h in db.XNHocTaps
-                         join l in db.LopHocs on h.LHID equals l.IDLH
+    var ListLS_DaoTao = (from h in db.XNHocTaps.AsNoTracking()
+                         join l in db.LopHocs.Where(x=>x.TinhTrang == 1 || x.TinhTrang == 5 || x.NCDT_ID == null) on h.LHID equals l.IDLH
                          join n in db.NhanViens.Where(x => x.ID == nhanvien.ID) on h.NVID equals n.ID
-                         join p in db.PhongBans on h.PBID equals p.IDPhongBan
-                         join v in db.Vitris on h.VTID equals v.IDViTri
+                         join p in db.PhongBans.AsNoTracking() on h.PBID equals p.IDPhongBan
+                         join v in db.Vitris.AsNoTracking() on h.VTID equals v.IDViTri
                          select new ConfirmEStudyValidation
                          {
                              IDHT = h.IDHT,
@@ -200,11 +200,13 @@
                              LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
                              TGBDLH = l.TGBDLH.HasValue ? l.TGBDLH.Value : DateTime.MinValue,
                              TGKTLH = l.TGKTLH.HasValue ? l.TGKTLH.Value : DateTime.MinValue,
-                             NgayTG = h.NgayTG.HasValue ? h.NgayTG.Value : DateTime.MinValue,
-                             NgayHT = h.NgayHT.HasValue ? h.NgayTG.Value : DateTime.MinValue,
+                             NgayTG = h.NgayTG != null ? (DateTime)h.NgayTG : DateTime.MinValue,
+                             NgayHT = h.NgayHT != null ? (DateTime)h.NgayHT : DateTime.MinValue,
                              XNTG = (bool)h.XNTG,
                              XNHT = (bool)h.XNHT,
-                             PPDaoTao = "Mở lớp tập trung (E-learning)"
+                             PPDaoTao = "Mở lớp tập trung (E-learning)",
+                             KetLuan = h.KetLuan,
+                             LyDoKhongTGia = h.LyDoKhongTGia
                          }).OrderByDescending(x => x.TGBDLH).ToList().Take(10);
 
 }
@@ -476,7 +478,7 @@
                                                         <td>@item.TenLH</td>
                                                         @if (@item.NgayTG.ToString("dd/MM/yyyy") == "01/01/0001")
                                                         {
-                                                            <td class="text-center">Chưa Tham Gia</td>
+                                                            <td class="text-center"></td>
                                                         }
                                                         else
                                                         {
@@ -486,13 +488,13 @@
 
                                                         @if (@item.NgayHT.ToString("dd/MM/yyyy") == "01/01/0001")
                                                         {
-                                                            <td class="text-center">Chưa Hoàn Thành</td>
+                                                            <td class="text-center"></td>
                                                         }
                                                         else
                                                         {
                                                             <td class="text-center">@item.NgayHT.ToString("dd/MM/yyyy")</td>
                                                         }
-                                                        @if (@item.XNHT == true)
+                                                        @if (@item.XNHT == true || item.KetLuan == 1)
                                                         {
                                                             <td class="text-center text-success">Đã hoàn Thành</td>
                                                         }

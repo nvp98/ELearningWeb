@@ -96,7 +96,7 @@
                                     <td>@Html.Raw(item.DapAnD)</td>
                                     <td>@item.DapAnĐung</td>
                                     <td class="text-right">@item.Diem</td>
-                                    @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) || true)
+                                    @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL))
                                     {
                                         <td class="text-center">
                                             <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("DeleteQuestion", "ManageTestExam", new { id = item.IDCauHoiDeThi})"
