@@ -32,6 +32,7 @@
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-2.2.2/datatables.min.css" rel="stylesheet" integrity="sha384-EMec0P+bM7BzPRifh0Da2z4pEzNGzbb1pmzxZ/E0fZjPky+56QS2Y+x6U/00/L2z" crossorigin="anonymous">
 
@@ -92,18 +93,454 @@
 
             </div>
 
-        </section><!-- /Hero Section -->
-        <!-- About Section -->
+        </section>
+
+        <section class="testnhan">
+            <!-- Box thông tin tuần/tháng -->
+            <div class="info-box">
+                <div class="button-group">
+                    <button onclick="showWeekInfo()" class="active">Tuần</button>
+                    <button onclick="showMonthInfo()">Tháng</button>
+                </div>
+
+                <div id="week-info">
+                    <h2>Thông tin tuần</h2>
+                    <p>Tổng đề tài: 50</p>
+                    <p>Số cá nhân được thưởng: 30</p>
+                    <p>Số tập thể được thưởng: 20</p>
+                    <p>Tổng số tiền thưởng: 100,000,000 VND</p>
+                </div>
+
+                <div id="month-info" style="display: none;">
+                    <h2>Thông tin tháng</h2>
+                    <p>Tổng đề tài: 200</p>
+                    <p>Số cá nhân được thưởng: 120</p>
+                    <p>Số tập thể được thưởng: 80</p>
+                    <p>Tổng số tiền thưởng: 500,000,000 VND</p>
+                </div>
+            </div>
+
+            <!-- Wrapper cho danh sách thẻ và bảng xếp hạng -->
+            <div class="content-wrapper">
+                <!-- Danh sách thẻ -->
+                <div class="card-list">
+                    <!-- Thẻ 1 -->
+                    <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                        <img src="~/Content/assets/images/avatars/CNTT9730_1.jpg" alt="Hình ảnh">
+                        <h3>Nguyễn Văn A</h3>
+                        <p>Đề tài: Nghiên cứu AI</p>
+                    </div>
+
+                    <!-- Thẻ 2 -->
+                    <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                        <img src="~/Content/assets/images/avatars/CNTT9730_1.jpg" alt="Hình ảnh">
+                        <h3>Trần Thị B</h3>
+                        <p>Đề tài: Phát triển Web</p>
+                    </div>
+                    <!-- Thẻ 3 -->
+                    <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                        <img src="~/Content/assets/images/avatars/CNTT9730_1.jpg" alt="Hình ảnh">
+                        <h3>Lê Văn C</h3>
+                        <p>Đề tài: Blockchain</p>
+                    </div>
+                    <!-- Thẻ 4 -->
+                    <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                        <img src="~/Content/assets/images/avatars/CNTT9730_1.jpg" alt="Hình ảnh">
+                        <h3>Phạm Thị D</h3>
+                        <p>Đề tài: IoT</p>
+                    </div>
+                    <!-- Thẻ 5 -->
+                    <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                        <img src="~/Content/assets/images/avatars/CNTT9730_1.jpg" alt="Hình ảnh">
+                        <h3>Hoàng Văn E</h3>
+                        <p>Đề tài: Machine Learning</p>
+                    </div>
+                    <!-- Thẻ 6 -->
+                    <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                        <img src="~/Content/assets/images/avatars/CNTT9730_1.jpg" alt="Hình ảnh">
+                        <h3>Vũ Thị F</h3>
+                        <p>Đề tài: Data Science</p>
+                    </div>
+                    <!-- Thẻ 7 -->
+                    <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                        <img src="~/Content/assets/images/avatars/CNTT9730_1.jpg" alt="Hình ảnh">
+                        <h3>Đặng Văn G</h3>
+                        <p>Đề tài: Cybersecurity</p>
+                    </div>
+                    <!-- Thẻ 8 -->
+                    <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                        <img src="~/Content/assets/images/avatars/CNTT9730_1.jpg" alt="Hình ảnh">
+                        <h3>Bùi Thị H</h3>
+                        <p>Đề tài: Cloud Computing</p>
+                    </div>
+                </div>
+
+                <!-- Bảng xếp hạng -->
+                <div class="ranking-table">
+                    <h2>Bảng xếp hạng</h2>
+                    <table id="ranking-table">
+                        <thead>
+                            <tr>
+                                <th>Tên</th>
+                                <th>Đơn vị</th>
+                                <th>Tên đề tài</th>
+                                <th>Loại đề tài</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ranking-body">
+                            <!-- Dữ liệu bảng xếp hạng sẽ được thêm vào đây bằng JavaScript -->
+                        </tbody>
+                    </table>
+                    <!-- Phân trang -->
+                    <div class="pagination" id="pagination">
+                        <!-- Các nút phân trang sẽ được thêm vào đây bằng JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script>
+            // Dữ liệu bảng xếp hạng
+            const rankingData = [
+                { name: "Nguyễn Văn A", unit: "P. CNTT & CĐS", topic: "Nghiên cứu AI", type: "Cá nhân" },
+                { name: "Trần Thị B", unit: "P. CNTT & CĐS", topic: "Phát triển Web", type: "Cá nhân" },
+                { name: "Lê Văn C", unit: "P. CNTT & CĐS", topic: "Blockchain", type: "Tập thể" },
+                { name: "Phạm Thị D", unit: "P. CNTT & CĐS", topic: "IoT", type: "Cá nhân" },
+                { name: "Hoàng Văn E", unit: "P. CNTT & CĐS", topic: "Machine Learning", type: "Cá nhân" },
+                { name: "Vũ Thị F", unit: "P. CNTT & CĐS", topic: "Data Science", type: "Cá nhân" },
+                { name: "Đặng Văn G", unit: "P. CNTT & CĐS", topic: "Cybersecurity", type: "Cá nhân" },
+                { name: "Bùi Thị H", unit: "P. CNTT & CĐS", topic: "Cloud Computing", type: "Cá nhân" },
+                { name: "Nguyễn Văn I", unit: "P. CNTT & CĐS", topic: "AI", type: "Tập thể" },
+                { name: "Trần Thị K", unit: "P. CNTT & CĐS", topic: "Face ID", type: "Tập thể" },
+            ];
+
+            const itemsPerPage = 4; // Số dòng hiển thị trên mỗi trang
+            let currentPage = 1; // Trang hiện tại
+
+            // Hiển thị dữ liệu bảng xếp hạng
+            function renderTable(page) {
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const paginatedData = rankingData.slice(start, end);
+
+                const tbody = document.getElementById('ranking-body');
+                tbody.innerHTML = paginatedData.map(item => `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.unit}</td>
+                            <td>${item.topic}</td>
+                            <td>${item.type}</td>
+                        </tr>
+                    `).join('');
+            }
+
+            // Hiển thị phân trang
+            function renderPagination() {
+                const totalPages = Math.ceil(rankingData.length / itemsPerPage);
+                const pagination = document.getElementById('pagination');
+                pagination.innerHTML = '';
+
+                // Nút "Trang đầu"
+                const firstButton = document.createElement('button');
+                firstButton.innerText = '<<';
+                firstButton.addEventListener('click', () => goToPage(1));
+                pagination.appendChild(firstButton);
+
+                // Nút "Trang trước"
+                const prevButton = document.createElement('button');
+                prevButton.innerText = '<';
+                prevButton.addEventListener('click', () => goToPage(currentPage - 1));
+                pagination.appendChild(prevButton);
+
+                // Các nút số trang
+                for (let i = 1; i <= totalPages; i++) {
+                    const button = document.createElement('button');
+                    button.innerText = i;
+                    button.addEventListener('click', () => goToPage(i));
+                    pagination.appendChild(button);
+                }
+
+                // Nút "Trang sau"
+                const nextButton = document.createElement('button');
+                nextButton.innerText = '>';
+                nextButton.addEventListener('click', () => goToPage(currentPage + 1));
+                pagination.appendChild(nextButton);
+
+                // Nút "Trang cuối"
+                const lastButton = document.createElement('button');
+                lastButton.innerText = '>>';
+                lastButton.addEventListener('click', () => goToPage(totalPages));
+                pagination.appendChild(lastButton);
+
+                updatePaginationButtons();
+            }
+
+            // Điều hướng đến trang cụ thể
+            function goToPage(page) {
+                const totalPages = Math.ceil(rankingData.length / itemsPerPage);
+                if (page < 1 || page > totalPages) return; // Không làm gì nếu trang không hợp lệ
+                currentPage = page;
+                renderTable(currentPage);
+                updatePaginationButtons();
+            }
+
+            // Cập nhật trạng thái active của các nút phân trang
+            function updatePaginationButtons() {
+                const buttons = document.querySelectorAll('#pagination button');
+                buttons.forEach((button, index) => {
+                    if (button.innerText === currentPage.toString()) {
+                        button.classList.add('active');
+                    } else {
+                        button.classList.remove('active');
+                    }
+
+                    // Vô hiệu hóa nút "Trang đầu" và "Trang trước" nếu ở trang đầu tiên
+                    if (button.innerText === '<<' || button.innerText === '<') {
+                        button.disabled = currentPage === 1;
+                    }
+
+                    // Vô hiệu hóa nút "Trang sau" và "Trang cuối" nếu ở trang cuối
+                    if (button.innerText === '>>' || button.innerText === '>') {
+                        button.disabled = currentPage === Math.ceil(rankingData.length / itemsPerPage);
+                    }
+                });
+            }
+
+            // Khởi tạo
+            renderTable(currentPage);
+            renderPagination();
+
+            // Xử lý button tuần/tháng
+            function showWeekInfo() {
+                document.getElementById('week-info').style.display = 'block';
+                document.getElementById('month-info').style.display = 'none';
+                document.querySelector('.button-group button:first-child').classList.add('active');
+                document.querySelector('.button-group button:last-child').classList.remove('active');
+            }
+
+            function showMonthInfo() {
+                document.getElementById('week-info').style.display = 'none';
+                document.getElementById('month-info').style.display = 'block';
+                document.querySelector('.button-group button:last-child').classList.add('active');
+                document.querySelector('.button-group button:first-child').classList.remove('active');
+            }
+        </script>
+
+
+        <style>
+            .card img {
+                width: 150px; /* Chiều rộng 3 */
+                height: 200px; /* Chiều cao 4 */
+                object-fit: cover; /* Cắt ảnh để khớp */
+                border-radius: 8px; /* Bo góc nhẹ */
+            }
+            /* Giữ nguyên CSS từ trước */
+            .testnhan {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f0f8ff;
+            }
+
+            section {
+                padding: 20px;
+                background-color: #ffffff;
+                margin: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                display: flex;
+                gap: 20px;
+            }
+
+            .info-box {
+                width: 20%;
+                background-color: #f9f9f9;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                border: 1px solid #ddd;
+            }
+
+                .info-box h2 {
+                    margin-bottom: 10px;
+                    font-size: 18px;
+                    color: #333;
+                    font-weight: 600;
+                }
+
+                .info-box p {
+                    margin: 5px 0;
+                    font-size: 14px;
+                    color: #555;
+                    font-weight: 500;
+                }
+
+            .button-group {
+                margin-bottom: 20px;
+                display: flex;
+            }
+
+                .button-group button {
+                    padding: 8px 16px;
+                    border: none;
+                    background-color: #e0e0e0;
+                    color: #333;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease, color 0.3s ease;
+                    font-size: 14px;
+                    font-weight: 500;
+                    flex: 1;
+                    border-radius: 0;
+                }
+
+                    .button-group button:first-child {
+                        border-top-left-radius: 5px;
+                        border-bottom-left-radius: 5px;
+                    }
+
+                    .button-group button:last-child {
+                        border-top-right-radius: 5px;
+                        border-bottom-right-radius: 5px;
+                    }
+
+                    .button-group button.active {
+                        background-color: #007bff;
+                        color: white;
+                    }
+
+                    .button-group button:hover {
+                        background-color: #0056b3;
+                        color: white;
+                    }
+
+            .content-wrapper {
+                display: flex;
+                gap: 20px;
+                width: 80%;
+            }
+
+            .card-list {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                width: 70%;
+            }
+
+            .card {
+                width: calc(25% - 10px);
+                background-color: #f9f9f9;
+                border-radius: 10px;
+                padding: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+                .card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+                }
+
+                .card img {
+                    width: 100%;
+                    border-radius: 10px;
+                }
+
+                .card h3 {
+                    margin: 10px 0 5px;
+                    font-size: 14px;
+                    color: #333;
+                    font-weight: 600;
+                }
+
+                .card p {
+                    margin: 0;
+                    font-size: 12px;
+                    color: #555;
+                    font-weight: 500;
+                }
+
+            .ranking-table {
+                width: 30%;
+                background-color: #f9f9f9;
+                border-radius: 10px;
+                padding: 15px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+                .ranking-table h2 {
+                    margin-bottom: 10px;
+                    font-size: 18px;
+                    color: #333;
+                    font-weight: 600;
+                }
+
+                .ranking-table table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                .ranking-table th, .ranking-table td {
+                    padding: 10px;
+                    text-align: left;
+                    border-bottom: 1px solid #ddd;
+                    font-size: 14px;
+                    font-weight: 500;
+                }
+
+                .ranking-table th {
+                    background-color: #007bff;
+                    color: white;
+                    font-weight: 600;
+                }
+
+                .ranking-table tr:hover {
+                    background-color: #f1f1f1;
+                }
+
+            .pagination {
+                display: flex;
+                justify-content: center;
+                margin-top: 10px;
+                gap: 5px;
+            }
+
+                .pagination button {
+                    padding: 5px 10px;
+                    border: none;
+                    background-color: #e0e0e0;
+                    color: #333;
+                    cursor: pointer;
+                    border-radius: 3px;
+                    transition: background-color 0.3s ease, color 0.3s ease;
+                }
+
+                    .pagination button.active {
+                        background-color: #007bff;
+                        color: white;
+                    }
+
+                    .pagination button:hover {
+                        background-color: #0056b3;
+                        color: white;
+                    }
+
+                    .pagination button:disabled {
+                        background-color: #ccc;
+                        cursor: not-allowed;
+                        color: #666;
+                    }
+        </style>
+
         <section id="overview" class="about " style="padding-bottom: 0;">
 
-            <!-- Section Title -->
+
             <div class="container section-title" data-aos="fade-up">
                 <h2>Tổng quan</h2>
                 <div><span>Tổng quan</span> <span class="description-title">chung </span></div>
-            </div><!-- End Section Title -->
+            </div>
 
-        </section><!-- /About Section -->
-        <!-- Stats Section -->
+        </section>
+
         <section id="stats" class="stats section" style="padding-bottom: 0;">
 
             <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -116,7 +553,7 @@
                             <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
                             <p>Đề tài</p>
                         </div>
-                    </div><!-- End Stats Item -->
+                    </div>
 
                     <div class="col-lg col-md-6 d-flex flex-column align-items-center">
                         <i class="bi bi-arrow-up-right-circle-fill"></i>
@@ -124,7 +561,7 @@
                             <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
                             <p>Giá trị làm lợi</p>
                         </div>
-                    </div><!-- End Stats Item -->
+                    </div>
 
                     <div class="col-lg col-md-6 d-flex flex-column align-items-center">
                         <i class="bi bi-currency-exchange"></i>
@@ -882,38 +1319,38 @@
             </div>
         </section>
 
-            <style>
-                .contact-info {
-                    font-size: 18px;
-                    text-align: left;
-                    line-height: 1.6;
-                }
+        <style>
+            .contact-info {
+                font-size: 18px;
+                text-align: left;
+                line-height: 1.6;
+            }
 
-                .contact-title {
-                    font-size: 22px;
-                    font-weight: bold;
-                    margin-bottom: 15px;
-                }
+            .contact-title {
+                font-size: 22px;
+                font-weight: bold;
+                margin-bottom: 15px;
+            }
 
-                .contact-item {
-                    margin-bottom: 8px
-                }
+            .contact-item {
+                margin-bottom: 8px
+            }
 
                 .contact-item a {
                     color: #007bff;
                     text-decoration: none;
                 }
 
-                .contact-item a:hover {
-                    text-decoration: underline;
-                }
-            </style>
+                    .contact-item a:hover {
+                        text-decoration: underline;
+                    }
+        </style>
 
 
 
 
 
-</main>
+    </main>
 
     <footer id="footer" class="footer dark-background py-3">
         <div class="container">
