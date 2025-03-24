@@ -37,6 +37,7 @@
     <link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-2.2.2/datatables.min.css" rel="stylesheet" integrity="sha384-EMec0P+bM7BzPRifh0Da2z4pEzNGzbb1pmzxZ/E0fZjPky+56QS2Y+x6U/00/L2z" crossorigin="anonymous">
 
     <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-2.2.2/datatables.min.js" integrity="sha384-h+dgoYlXhgp1Rdr2BQORgRZ8uTV8KHpMEDxsAXD5RMRvytPCeeiubqmZx5ZIewmp" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 
 <body class="index-page">
@@ -62,156 +63,335 @@
 
         </div>
     </header>
+    <style>
+            .top-units {
+                background: #ffffff;
+                padding: 15px;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            }
 
+                .top-units h2 {
+                    font-size: 18px;
+                    color: #2c3e50;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                }
+
+            .unit {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .unit-logo {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+                .unit-logo img {
+                    width: 80px;
+                    height: 80px;
+                    object-fit: contain;
+                }
+
+            .unit-name {
+                font-size: 14px;
+                color: #e67e22;
+                font-weight: bold;
+                margin-top: 5px;
+            }
+
+            /*.unit-info {
+            width: 100px;
+            height: 80px;*/
+            /*                    border: 2px dashed #3498db;*/
+            /*display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+        }*/
+
+            .content-number {
+                font-size: 22px;
+                color: #3498db;
+                font-weight: bold;
+            }
+
+            .content-text {
+                font-size: 14px;
+                color: #7f8c8d;
+            }
+    </style>
     <main class="main">
 
-        <section id="intro" class="hero section dark-background">
+        <div class="testnhan123">
+            <section id="group" class="services section">
 
-            <div id="honor-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+                <!-- Section Title -->
+                <div class="container section-title" data-aos="fade-up">
+                    <h2>Điểm tin</h2>
+                    <div><span></span> <span class="description-title">Top hạng mục nổi bật</span></div>
+                </div><!-- End Section Title -->
 
-                <div class="carousel-item active">
-                    <img src="~/Content/assets/images/thuong/thuong_1.png" alt="">
-                </div>
+                <div class="container_">
+                    <section class="testnhan">
+                        <!-- Box thông tin tuần/tháng -->
+                        <div class="info-box">
+                            <div class="button-group">
+                                <button onclick="showWeekInfo()" class="active">Tuần</button>
+                                <button onclick="showMonthInfo()">Tháng</button>
+                            </div>
 
-                <div class="carousel-item">
-                    <img src="~/Content/assets/images/thuong/thuong_2.png" alt="">
-                </div>
 
-                <div class="carousel-item">
-                    <img src="~/Content/assets/images/thuong/thuong_3.png" alt="">
-                </div>
+                            <div id="week-info">
+                                <h2>Thông tin tuần</h2>
+                                <p><i class="fa-solid fa-list-check" style="color: #3498db;"></i> Tổng đề tài: 50</p>
+                                <p><i class="fa-solid fa-user-check" style="color: #27ae60;"></i> Số cá nhân được thưởng: 30</p>
+                                <p><i class="fa-solid fa-users" style="color: #f39c12;"></i> Số tập thể được thưởng: 20</p>
+                                <p><i class="fa-solid fa-money-bill-wave" style="color: #e74c3c;"></i> Tổng số tiền thưởng: 100,000,000 VND</p>
+                            </div>
 
-                <a class="carousel-control-prev" href="#honor-carousel" role="button" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
-                </a>
+                            <div id="month-info" style="display: none;">
+                                <h2>Thông tin tháng</h2>
+                                <p><i class="fa-solid fa-list-check" style="color: #3498db;"></i> Tổng đề tài: 200</p>
+                                <p><i class="fa-solid fa-user-check" style="color: #27ae60;"></i> Số cá nhân được thưởng: 120</p>
+                                <p><i class="fa-solid fa-users" style="color: #f39c12;"></i> Số tập thể được thưởng: 80</p>
+                                <p><i class="fa-solid fa-money-bill-wave" style="color: #e74c3c;"></i> Tổng số tiền thưởng: 500,000,000 VND</p>
+                            </div>
 
-                <a class="carousel-control-next" href="#honor-carousel" role="button" data-bs-slide="next">
-                    <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
-                </a>
+                            <div class="top-units">
+                                <h2>TOP ĐƠN VỊ NỔI BẬT</h2>
+                                <div class="unit">
+                                    <div class="unit-logo">
+                                        <img src="~/Content/assets/images/avatars/NMCD3.png" alt="Logo NM.Cơ điện 3">
+                                        <p class="unit-name">NM.Cơ điện 3</p>
+                                    </div>
+                                    <div class="unit-info">
+                                        <p class="content-number">100</p>
+                                        <p class="content-text">Nội dung sáng tạo</p>
+                                    </div>
+                                </div>
+                                <div class="unit">
+                                    <div class="unit-logo">
+                                        <img src="~/Content/assets/images/avatars/NMCD3.png" alt="Logo NM.Cơ điện 3">
+                                        <p class="unit-name">P. CNTT & CĐS</p>
+                                    </div>
+                                    <div class="unit-info">
+                                        <p class="content-number">100</p>
+                                        <p class="content-text">Nội dung sáng tạo</p>
+                                    </div>
+                                </div>
 
-                <ol class="carousel-indicators"></ol>
+                            </div>
 
-            </div>
+                        </div>
 
-        </section>
 
-        <section class="testnhan">
-            <!-- Box thông tin tuần/tháng -->
-            <div class="info-box">
-                <div class="button-group">
-                    <button onclick="showWeekInfo()" class="active">Tuần</button>
-                    <button onclick="showMonthInfo()">Tháng</button>
-                </div>
 
-                <div id="week-info">
-                    <h2>Thông tin tuần</h2>
-                    <p>Tổng đề tài: 50</p>
-                    <p>Số cá nhân được thưởng: 30</p>
-                    <p>Số tập thể được thưởng: 20</p>
-                    <p>Tổng số tiền thưởng: 100,000,000 VND</p>
-                </div>
+                        <!-- Wrapper cho danh sách thẻ và bảng xếp hạng -->
+                        <div class="content-wrapper">
 
-                <div id="month-info" style="display: none;">
-                    <h2>Thông tin tháng</h2>
-                    <p>Tổng đề tài: 200</p>
-                    <p>Số cá nhân được thưởng: 120</p>
-                    <p>Số tập thể được thưởng: 80</p>
-                    <p>Tổng số tiền thưởng: 500,000,000 VND</p>
-                </div>
-            </div>
+                            <div class="card-list active">
+                                <!-- Thẻ 1 -->
+                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                    <img src="~/Content/assets/images/avatars/dmst_08.jpg" alt="Hình ảnh">
+                                    <h3>Đề tài: Nghiên cứu AI</h3>
+                                    <p>Nguyễn Văn A</p>
+                                </div>
 
-            <!-- Wrapper cho danh sách thẻ và bảng xếp hạng -->
-            <div class="content-wrapper">
-                <!-- Danh sách thẻ -->
-                <div class="card-list">
-                    <!-- Thẻ 1 -->
-                    <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                        <img src="~/Content/assets/images/avatars/CNTT9730_1.jpg" alt="Hình ảnh">
-                        <h3>Nguyễn Văn A</h3>
-                        <p>Đề tài: Nghiên cứu AI</p>
+                                <!-- Thẻ 2 -->
+                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                    <img src="~/Content/assets/images/avatars/dmst_07.jpg" alt="Hình ảnh">
+                                    <h3>Đề tài: Phát triển Web</h3>
+                                    <p>Trần Thị B</p>
+                                </div>
+                                <!-- Thẻ 3 -->
+                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                    <img src="~/Content/assets/images/avatars/dmst_06.jpg" alt="Hình ảnh">
+                                    <h3>Đề tài: Blockchain</h3>
+                                    <p>Lê Văn C</p>
+                                </div>
+                                <!-- Thẻ 4 -->
+                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                    <img src="~/Content/assets/images/avatars/dmst_05.jpg" alt="Hình ảnh">
+                                    <h3>Đề tài: IoT</h3>
+                                    <p>Phạm Thị D</p>
+                                </div>
+                                <!-- Thẻ 5 -->
+                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                    <img src="~/Content/assets/images/avatars/dmst_09.jpg" alt="Hình ảnh">
+                                    <h3>Đề tài: Machine Learning</h3>
+                                    <p>Hoàng Văn E1</p>
+                                </div>
+                                <!-- Thẻ 6 -->
+                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                    <img src="~/Content/assets/images/avatars/dmst_03.jpg" alt="Hình ảnh">
+                                    <h3>Đề tài: Data Science</h3>
+                                    <p>Vũ Thị F</p>
+                                </div>
+                                <!-- Thẻ 7 -->
+                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                    <img src="~/Content/assets/images/avatars/dmst_02.jpg" alt="Hình ảnh">
+                                    <h3>Đề tài: Cybersecurity</h3>
+                                    <p>Đặng Văn G</p>
+                                </div>
+                                <!-- Thẻ 8 -->
+                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                    <img src="~/Content/assets/images/avatars/dmst_01.jpg" alt="Hình ảnh">
+                                    <h3>Đề tài: Cloud Computing</h3>
+                                    <p>Bùi Thị H</p>
+                                </div>
+                            </div>
+
+                            <div class="card-list">
+                                <!-- Thẻ 1 -->
+                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                    <img src="~/Content/assets/images/avatars/dmst_10.jpg" alt="Hình ảnh">
+                                    <h3>Đề tài: Xử lí sự cố ABC</h3>
+                                    <p>Huỳnh Văn O</p>
+                                </div>
+
+                                <!-- Thẻ 2 -->
+                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                    <img src="~/Content/assets/images/avatars/dmst_11.jpg" alt="Hình ảnh">
+                                    <h3>Đề tài: Phát triển hệ thống XYZ</h3>
+                                    <p>Phạm Văn X</p>
+                                </div>
+                                <!-- Thẻ 3 -->
+                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                    <img src="~/Content/assets/images/avatars/dmst_12.jpg" alt="Hình ảnh">
+                                    <h3>Đề tài: Nghiên cứ đổi mới hệ thống B</h3>
+                                    <p>Trần Văn Y</p>
+                                </div>
+                                <!-- Thẻ 4 -->
+                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                    <img src="~/Content/assets/images/avatars/dmst_13.jpg" alt="Hình ảnh">
+                                    <h3>Đề tài: Internet of things</h3>
+                                    <p>Phạm Văn Q</p>
+                                </div>
+                                <!-- Thẻ 5 -->
+                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                    <img src="~/Content/assets/images/avatars/dmst_14.jpg" alt="Hình ảnh">
+                                    <h3>Đề tài: Camera AI</h3>
+                                    <p>Lương Tuấn F</p>
+                                </div>
+                                <!-- Thẻ 6 -->
+                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                    <img src="~/Content/assets/images/avatars/dmst_15.jpg" alt="Hình ảnh">
+                                    <h3>Đề tài: Xử lí dữ liệu</h3>
+                                    <p>Vũ Tuấn K</p>
+                                </div>
+                                <!-- Thẻ 7 -->
+                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                    <img src="~/Content/assets/images/avatars/dmst_02.jpg" alt="Hình ảnh">
+                                    <h3>Đề tài: Bảo mật hệ thống L</h3>
+                                    <p>Đặng Vũ Y</p>
+                                </div>
+                                <!-- Thẻ 8 -->
+                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                    <img src="~/Content/assets/images/avatars/dmst_01.jpg" alt="Hình ảnh">
+                                    <h3>Đề tài: Hệ thống điện ABC</h3>
+                                    <p>Nguyễn Vũ X</p>
+                                </div>
+                            </div>
+
+                            <!-- Bảng xếp hạng -->
+                            <div class="ranking-table">
+                                <h2>Bảng xếp hạng</h2>
+                                <table id="ranking-table">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Tên</th>
+                                            <th>Đơn vị</th>
+                                            <th>Số lượng đề tài</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ranking-body">
+                                        <!-- Dữ liệu bảng xếp hạng sẽ được thêm vào đây bằng JavaScript -->
+                                    </tbody>
+                                </table>
+                                <!-- Phân trang -->
+                                <div class="pagination" id="pagination">
+                                    <!-- Các nút phân trang sẽ được thêm vào đây bằng JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+                    <div class="dots">
+                        <span class="dot active" onclick="changeSlide(0)"></span>
+                        <span class="dot" onclick="changeSlide(1)"></span>
                     </div>
+                    <style>
+                        .card-list.active {
+                            display: flex; /* Chỉ hiển thị danh sách đang được chọn */
+                        }
+                        .dots {
+                            text-align: center;
+                            margin-top: 10px;
+                        }
 
-                    <!-- Thẻ 2 -->
-                    <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                        <img src="~/Content/assets/images/avatars/CNTT9730_1.jpg" alt="Hình ảnh">
-                        <h3>Trần Thị B</h3>
-                        <p>Đề tài: Phát triển Web</p>
-                    </div>
-                    <!-- Thẻ 3 -->
-                    <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                        <img src="~/Content/assets/images/avatars/CNTT9730_1.jpg" alt="Hình ảnh">
-                        <h3>Lê Văn C</h3>
-                        <p>Đề tài: Blockchain</p>
-                    </div>
-                    <!-- Thẻ 4 -->
-                    <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                        <img src="~/Content/assets/images/avatars/CNTT9730_1.jpg" alt="Hình ảnh">
-                        <h3>Phạm Thị D</h3>
-                        <p>Đề tài: IoT</p>
-                    </div>
-                    <!-- Thẻ 5 -->
-                    <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                        <img src="~/Content/assets/images/avatars/CNTT9730_1.jpg" alt="Hình ảnh">
-                        <h3>Hoàng Văn E</h3>
-                        <p>Đề tài: Machine Learning</p>
-                    </div>
-                    <!-- Thẻ 6 -->
-                    <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                        <img src="~/Content/assets/images/avatars/CNTT9730_1.jpg" alt="Hình ảnh">
-                        <h3>Vũ Thị F</h3>
-                        <p>Đề tài: Data Science</p>
-                    </div>
-                    <!-- Thẻ 7 -->
-                    <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                        <img src="~/Content/assets/images/avatars/CNTT9730_1.jpg" alt="Hình ảnh">
-                        <h3>Đặng Văn G</h3>
-                        <p>Đề tài: Cybersecurity</p>
-                    </div>
-                    <!-- Thẻ 8 -->
-                    <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                        <img src="~/Content/assets/images/avatars/CNTT9730_1.jpg" alt="Hình ảnh">
-                        <h3>Bùi Thị H</h3>
-                        <p>Đề tài: Cloud Computing</p>
-                    </div>
-                </div>
+                        .dot {
+                            width: 12px;
+                            height: 12px;
+                            margin: 0 5px;
+                            display: inline-block;
+                            background-color: gray;
+                            border-radius: 50%;
+                            cursor: pointer;
+                        }
 
-                <!-- Bảng xếp hạng -->
-                <div class="ranking-table">
-                    <h2>Bảng xếp hạng</h2>
-                    <table id="ranking-table">
-                        <thead>
-                            <tr>
-                                <th>Tên</th>
-                                <th>Đơn vị</th>
-                                <th>Tên đề tài</th>
-                                <th>Loại đề tài</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ranking-body">
-                            <!-- Dữ liệu bảng xếp hạng sẽ được thêm vào đây bằng JavaScript -->
-                        </tbody>
-                    </table>
-                    <!-- Phân trang -->
-                    <div class="pagination" id="pagination">
-                        <!-- Các nút phân trang sẽ được thêm vào đây bằng JavaScript -->
-                    </div>
-                </div>
-            </div>
-        </section>
+                            .dot.active {
+                                background-color: black;
+                            }
+                    </style>
+
+                    <script>
+                        function changeSlide(index) {
+                            const lists = document.querySelectorAll('.card-list');
+                            const dots = document.querySelectorAll('.dot');
+
+                            // Cập nhật danh sách
+                            lists.forEach((list, i) => {
+                                list.classList.toggle('active', i === index);
+                            });
+
+                            // Cập nhật chấm tròn
+                            dots.forEach((dot, i) => {
+                                dot.classList.toggle('active', i === index);
+                            });
+                        }
+
+                        // Khi tải trang, đảm bảo chỉ hiển thị danh sách đầu tiên
+                        document.addEventListener("DOMContentLoaded", function () {
+                            changeSlide(0);
+                        });
+                    </script>
+
+</section><!-- /Services Section -->
+        </div>
+
+
 
         <script>
             // Dữ liệu bảng xếp hạng
             const rankingData = [
-                { name: "Nguyễn Văn A", unit: "P. CNTT & CĐS", topic: "Nghiên cứu AI", type: "Cá nhân" },
-                { name: "Trần Thị B", unit: "P. CNTT & CĐS", topic: "Phát triển Web", type: "Cá nhân" },
-                { name: "Lê Văn C", unit: "P. CNTT & CĐS", topic: "Blockchain", type: "Tập thể" },
-                { name: "Phạm Thị D", unit: "P. CNTT & CĐS", topic: "IoT", type: "Cá nhân" },
-                { name: "Hoàng Văn E", unit: "P. CNTT & CĐS", topic: "Machine Learning", type: "Cá nhân" },
-                { name: "Vũ Thị F", unit: "P. CNTT & CĐS", topic: "Data Science", type: "Cá nhân" },
-                { name: "Đặng Văn G", unit: "P. CNTT & CĐS", topic: "Cybersecurity", type: "Cá nhân" },
-                { name: "Bùi Thị H", unit: "P. CNTT & CĐS", topic: "Cloud Computing", type: "Cá nhân" },
-                { name: "Nguyễn Văn I", unit: "P. CNTT & CĐS", topic: "AI", type: "Tập thể" },
-                { name: "Trần Thị K", unit: "P. CNTT & CĐS", topic: "Face ID", type: "Tập thể" },
+                { name: "Nguyễn Văn A", unit: "P. CNTT & CĐS", numberOfTopic: "10" },
+                { name: "Trần Thị B", unit: "P. CNTT & CĐS", numberOfTopic: "9" },
+                { name: "Lê Văn C", unit: "P. CNTT & CĐS", numberOfTopic: "8" },
+                { name: "Phạm Thị D", unit: "P. CNTT & CĐS", numberOfTopic: "7" },
+                { name: "Hoàng Văn E", unit: "P. CNTT & CĐS", numberOfTopic: "6" },
+                { name: "Vũ Thị F", unit: "P. CNTT & CĐS", numberOfTopic: "5" },
+                { name: "Đặng Văn G", unit: "P. CNTT & CĐS", numberOfTopic: "4" },
+                { name: "Bùi Thị H", unit: "P. CNTT & CĐS", numberOfTopic: "3" },
+                { name: "Nguyễn Văn I", unit: "P. CNTT & CĐS", numberOfTopic: "2" },
+                { name: "Trần Thị K", unit: "P. CNTT & CĐS", numberOfTopic: "1" },
             ];
 
             const itemsPerPage = 4; // Số dòng hiển thị trên mỗi trang
@@ -224,14 +404,15 @@
                 const paginatedData = rankingData.slice(start, end);
 
                 const tbody = document.getElementById('ranking-body');
-                tbody.innerHTML = paginatedData.map(item => `
-                        <tr>
-                            <td>${item.name}</td>
-                            <td>${item.unit}</td>
-                            <td>${item.topic}</td>
-                            <td>${item.type}</td>
-                        </tr>
-                    `).join('');
+                tbody.innerHTML = paginatedData.map((item, index) => `
+                            <tr>
+                                <td class="center-text-custom">${start + index + 1}</td> <!-- STT -->
+                                <td>${item.name}</td>
+                                <td>${item.unit}</td>
+                                <td class="center-text-custom">${item.numberOfTopic}</td>
+                            </tr>
+                        `).join('');
+
             }
 
             // Hiển thị phân trang
@@ -242,13 +423,15 @@
 
                 // Nút "Trang đầu"
                 const firstButton = document.createElement('button');
-                firstButton.innerText = '<<';
+                firstButton.innerHTML = '<i class="fa-solid fa-angles-left" style="color: #3498db;"></i>';
+                firstButton.setAttribute('data-type', 'first');
                 firstButton.addEventListener('click', () => goToPage(1));
                 pagination.appendChild(firstButton);
 
                 // Nút "Trang trước"
                 const prevButton = document.createElement('button');
-                prevButton.innerText = '<';
+                prevButton.innerHTML = '<i class="fa-solid fa-chevron-left" style="color: #3498db;"></i>';
+                prevButton.setAttribute('data-type', 'prev');
                 prevButton.addEventListener('click', () => goToPage(currentPage - 1));
                 pagination.appendChild(prevButton);
 
@@ -256,24 +439,29 @@
                 for (let i = 1; i <= totalPages; i++) {
                     const button = document.createElement('button');
                     button.innerText = i;
+                    button.setAttribute('data-type', 'page');
                     button.addEventListener('click', () => goToPage(i));
                     pagination.appendChild(button);
                 }
 
                 // Nút "Trang sau"
                 const nextButton = document.createElement('button');
-                nextButton.innerText = '>';
+                nextButton.innerHTML = '<i class="fa-solid fa-chevron-right" style="color: #3498db;"></i>';
+                nextButton.setAttribute('data-type', 'next');
                 nextButton.addEventListener('click', () => goToPage(currentPage + 1));
                 pagination.appendChild(nextButton);
 
                 // Nút "Trang cuối"
                 const lastButton = document.createElement('button');
-                lastButton.innerText = '>>';
+                lastButton.innerHTML = '<i class="fa-solid fa-angles-right" style="color: #3498db;"></i>';
+                lastButton.setAttribute('data-type', 'last');
                 lastButton.addEventListener('click', () => goToPage(totalPages));
                 pagination.appendChild(lastButton);
 
                 updatePaginationButtons();
             }
+
+
 
             // Điều hướng đến trang cụ thể
             function goToPage(page) {
@@ -287,24 +475,32 @@
             // Cập nhật trạng thái active của các nút phân trang
             function updatePaginationButtons() {
                 const buttons = document.querySelectorAll('#pagination button');
-                buttons.forEach((button, index) => {
-                    if (button.innerText === currentPage.toString()) {
-                        button.classList.add('active');
+                const totalPages = Math.ceil(rankingData.length / itemsPerPage);
+
+                buttons.forEach((button) => {
+                    const type = button.getAttribute('data-type'); // Lấy loại nút từ data-type
+
+                    if (type === "page") {
+                        // Kiểm tra nếu là số trang
+                        if (parseInt(button.innerText) === currentPage) {
+                            button.classList.add('active');
+                        } else {
+                            button.classList.remove('active');
+                        }
                     } else {
-                        button.classList.remove('active');
-                    }
+                        // Vô hiệu hóa nút "Trang đầu" và "Trang trước" nếu ở trang đầu tiên
+                        if (type === "first" || type === "prev") {
+                            button.disabled = currentPage === 1;
+                        }
 
-                    // Vô hiệu hóa nút "Trang đầu" và "Trang trước" nếu ở trang đầu tiên
-                    if (button.innerText === '<<' || button.innerText === '<') {
-                        button.disabled = currentPage === 1;
-                    }
-
-                    // Vô hiệu hóa nút "Trang sau" và "Trang cuối" nếu ở trang cuối
-                    if (button.innerText === '>>' || button.innerText === '>') {
-                        button.disabled = currentPage === Math.ceil(rankingData.length / itemsPerPage);
+                        // Vô hiệu hóa nút "Trang sau" và "Trang cuối" nếu ở trang cuối
+                        if (type === "next" || type === "last") {
+                            button.disabled = currentPage === totalPages;
+                        }
                     }
                 });
             }
+
 
             // Khởi tạo
             renderTable(currentPage);
@@ -328,28 +524,39 @@
 
 
         <style>
+            .center-text-custom {
+                text-align: center !important;
+                vertical-align: middle;
+            }
+
             .card img {
-                width: 150px; /* Chiều rộng 3 */
-                height: 200px; /* Chiều cao 4 */
                 object-fit: cover; /* Cắt ảnh để khớp */
                 border-radius: 8px; /* Bo góc nhẹ */
             }
-            /* Giữ nguyên CSS từ trước */
-            .testnhan {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                margin: 0;
-                padding: 0;
-                background-color: #f0f8ff;
-            }
 
-            section {
-                padding: 20px;
+            .testnhan123 {
+                /*                padding: 20px;
                 background-color: #ffffff;
                 margin: 20px;
                 border-radius: 10px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                 display: flex;
+                gap: 20px;*/
+                padding: 20px;
+                margin: 20px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                /*                border-radius: 10px;*/
+            }
+
+            .testnhan {
+                padding: 20px;
+                background-color: #ffffff;
+                margin: 20px;
+                /*                                border-radius: 10px;*/
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                display: flex;
                 gap: 20px;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             }
 
             .info-box {
@@ -420,7 +627,7 @@
             }
 
             .card-list {
-                display: flex;
+                display: none;
                 flex-wrap: wrap;
                 gap: 10px;
                 width: 70%;
@@ -531,793 +738,807 @@
                     }
         </style>
 
-        <section id="overview" class="about " style="padding-bottom: 0;">
+        <div class="testnhan123">
+            <section id="overview" class="about " style="padding-bottom: 0;">
 
 
-            <div class="container section-title" data-aos="fade-up">
-                <h2>Tổng quan</h2>
-                <div><span>Tổng quan</span> <span class="description-title">chung </span></div>
-            </div>
+                <div class="container section-title" data-aos="fade-up">
+                    <h2>Tổng quan</h2>
+                    <div><span>Tổng quan</span> <span class="description-title">chung </span></div>
+                </div>
 
-        </section>
+            </section>
 
-        <section id="stats" class="stats section" style="padding-bottom: 0;">
+            <section id="stats" class="stats section" style="padding-bottom: 0;">
 
-            <div class="container" data-aos="fade-up" data-aos-delay="100">
+                <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-                <div class="row gy-4">
+                    <div class="row gy-4">
 
-                    <div class="col-lg col-md-6 d-flex flex-column align-items-center">
-                        <i class="bi bi-book-fill"></i>
-                        <div class="stats-item">
-                            <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
-                            <p>Đề tài</p>
+                        <div class="col-lg col-md-6 d-flex flex-column align-items-center">
+                            <i class="bi bi-book-fill"></i>
+                            <div class="stats-item">
+                                <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
+                                <p>Đề tài</p>
+                            </div>
                         </div>
+
+                        <div class="col-lg col-md-6 d-flex flex-column align-items-center">
+                            <i class="bi bi-arrow-up-right-circle-fill"></i>
+                            <div class="stats-item">
+                                <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
+                                <p>Giá trị làm lợi</p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg col-md-6 d-flex flex-column align-items-center">
+                            <i class="bi bi-currency-exchange"></i>
+                            <div class="stats-item">
+                                <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" class="purecounter"></span>
+                                <p>Tiền thưởng</p>
+                            </div>
+                        </div><!-- End Stats Item -->
+
+                        <div class="col-lg col-md-6 d-flex flex-column align-items-center">
+                            <i class="bi bi-person-fill"></i>
+                            <div class="stats-item">
+                                <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
+                                <p>Cá nhân</p>
+                            </div>
+                        </div><!-- End Stats Item -->
+
+                        <div class="col-lg col-md-6 d-flex flex-column align-items-center">
+                            <i class="bi bi-people-fill"></i>
+                            <div class="stats-item">
+                                <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
+                                <p>Tập thể</p>
+                            </div>
+                        </div><!-- End Stats Item -->
+
                     </div>
-
-                    <div class="col-lg col-md-6 d-flex flex-column align-items-center">
-                        <i class="bi bi-arrow-up-right-circle-fill"></i>
-                        <div class="stats-item">
-                            <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
-                            <p>Giá trị làm lợi</p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg col-md-6 d-flex flex-column align-items-center">
-                        <i class="bi bi-currency-exchange"></i>
-                        <div class="stats-item">
-                            <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" class="purecounter"></span>
-                            <p>Tiền thưởng</p>
-                        </div>
-                    </div><!-- End Stats Item -->
-
-                    <div class="col-lg col-md-6 d-flex flex-column align-items-center">
-                        <i class="bi bi-person-fill"></i>
-                        <div class="stats-item">
-                            <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
-                            <p>Cá nhân</p>
-                        </div>
-                    </div><!-- End Stats Item -->
-
-                    <div class="col-lg col-md-6 d-flex flex-column align-items-center">
-                        <i class="bi bi-people-fill"></i>
-                        <div class="stats-item">
-                            <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
-                            <p>Tập thể</p>
-                        </div>
-                    </div><!-- End Stats Item -->
 
                 </div>
 
-            </div>
+            </section><!-- /Stats Section -->
+            <!-- Features Section -->
+            <section id="features" class="features section">
 
-        </section><!-- /Stats Section -->
-        <!-- Features Section -->
-        <section id="features" class="features section">
+                <div class="container">
 
-            <div class="container">
+                    <div class="row gy-4">
 
-                <div class="row gy-4">
+                        <div class="col-lg col-md-6" data-aos="fade-up" data-aos-delay="100">
+                            <h3>Nội dung đề tài</h3>
+                            <p>
+                                232 đề tài đa dạng, bao quát nhiều lĩnh vực.
+                                Mỗi đề tài được xây dựng và
+                                phân tích chuyên sâu, dễ dàng tiếp cận và ứng dụng vào thực tế.
+                            </p>
+                        </div>
 
-                    <div class="col-lg col-md-6" data-aos="fade-up" data-aos-delay="100">
-                        <h3>Nội dung đề tài</h3>
-                        <p>
-                            232 đề tài đa dạng, bao quát nhiều lĩnh vực.
-                            Mỗi đề tài được xây dựng và
-                            phân tích chuyên sâu, dễ dàng tiếp cận và ứng dụng vào thực tế.
+                        <div class="col-lg col-md-6" data-aos="fade-up" data-aos-delay="200">
+                            <h3>Giá trị làm lợi</h3>
+                            <p>Với tinh thần đổi mới sáng tạo và tối ưu hóa quy trình sản xuất, dự án đã mang lại giá trị làm lợi lên đến 2 tỷ đồng.</p>
+                        </div>
+
+                        <div class="col-lg col-md-6" data-aos="fade-up" data-aos-delay="300">
+                            <h3>Tiền thưởng</h3>
+                            <p>3 tỷ đồng đã được trao thưởng nhằm ghi nhận những nỗ lực và thành tích xuất sắc cho các cá nhân và tập thể.</p>
+                        </div>
+
+                        <div class="col-lg col-md-6" data-aos="fade-up" data-aos-delay="400">
+                            <h3>Cá nhân</h3>
+                            <p>15 cá nhân tiêu biểu đã có những đóng góp nổi bật, thể hiện tinh thần trách nhiệm, sáng tạo và hiệu suất làm việc xuất sắc.</p>
+                        </div>
+
+                        <div class="col-lg col-md-6" data-aos="fade-up" data-aos-delay="400">
+                            <h3>Tập thể</h3>
+                            <p>15 tập thể tiêu biểu, được vinh danh nhờ những thành tích nổi bật và đóng góp quan trọng cho hoạt động sản xuất.</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section><!-- /Features Section -->
+        </div>
+        <div class="testnhan123">
+            <section id="group" class="services section">
+
+                <!-- Section Title -->
+                <div class="container section-title" data-aos="fade-up">
+                    <h2>Bảng thành tích tập thể</h2>
+                    <div><span>Biểu đồ thống kê</span> <span class="description-title">Đơn vị được khen thưởng</span></div>
+                </div><!-- End Section Title -->
+
+                <div class="container">
+                    <figure class="highcharts-figure">
+                        <div class="dropdown-container">
+                            <div style="display: flex; gap: 20px; align-items: center; ">
+                                <select id="categoryFilter" class="dropdown-filter" style=" padding: 8px; width: 200px; border-radius: 8px; border: 1px solid #ccc;">
+                                    <option value="all">Tất cả hạng mục</option>
+                                    <option value="Đổi mới sáng tạo">Đổi mới sáng tạo</option>
+                                    <option value="Thành tích đạt được">Thành tích đạt được</option>
+                                    <option value="Đưa hạng mục vào hoạt động">Đưa hạng mục vào hoạt động</option>
+                                </select>
+
+                                <select id="unitFilter" class="dropdown-filter" style=" padding: 8px; width: 200px; border-radius: 8px; border: 1px solid #ccc;">
+                                    <option value="all">Tất cả đơn vị</option>
+                                    <option value="P. CNTT & CĐS">P. CNTT & CĐS</option>
+                                    <option value="P. NS">P. NS</option>
+                                    <option value="P. CN">P. CN</option>
+                                    <option value="NM. HRC1">NM. HRC1</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="container"></div>
+                        <p class="highcharts-description">
+                            Biểu đồ thành tích đạt được của các đơn vị
                         </p>
-                    </div>
-
-                    <div class="col-lg col-md-6" data-aos="fade-up" data-aos-delay="200">
-                        <h3>Giá trị làm lợi</h3>
-                        <p>Với tinh thần đổi mới sáng tạo và tối ưu hóa quy trình sản xuất, dự án đã mang lại giá trị làm lợi lên đến 2 tỷ đồng.</p>
-                    </div>
-
-                    <div class="col-lg col-md-6" data-aos="fade-up" data-aos-delay="300">
-                        <h3>Tiền thưởng</h3>
-                        <p>3 tỷ đồng đã được trao thưởng nhằm ghi nhận những nỗ lực và thành tích xuất sắc cho các cá nhân và tập thể.</p>
-                    </div>
-
-                    <div class="col-lg col-md-6" data-aos="fade-up" data-aos-delay="400">
-                        <h3>Cá nhân</h3>
-                        <p>15 cá nhân tiêu biểu đã có những đóng góp nổi bật, thể hiện tinh thần trách nhiệm, sáng tạo và hiệu suất làm việc xuất sắc.</p>
-                    </div>
-
-                    <div class="col-lg col-md-6" data-aos="fade-up" data-aos-delay="400">
-                        <h3>Tập thể</h3>
-                        <p>15 tập thể tiêu biểu, được vinh danh nhờ những thành tích nổi bật và đóng góp quan trọng cho hoạt động sản xuất.</p>
-                    </div>
-
+                    </figure>
                 </div>
 
-            </div>
 
-        </section><!-- /Features Section -->
+            </section><!-- /Services Section -->
+        </div>
         <!-- Services Section -->
-        <section id="group" class="services section">
 
-            <!-- Section Title -->
-            <div class="container section-title" data-aos="fade-up">
-                <h2>Bảng thành tích tập thể</h2>
-                <div><span>Biểu đồ thống kê</span> <span class="description-title">Đơn vị được khen thưởng</span></div>
-            </div><!-- End Section Title -->
+        <div class="testnhan123">
+            <section id="individual" class="testimonials section light-background">
 
-            <div class="container">
-                <figure class="highcharts-figure">
+                <!-- Section Title -->
+                <div class="container section-title" data-aos="fade-up">
+                    <h2>Bảng thành tích Cá nhân</h2>
+                    <div><span>Danh sách cá nhân</span> <span class="description-title">được khen thưởng</span></div>
+                </div><!-- End Section Title -->
+                <div class="container">
                     <div class="dropdown-container">
-                        <div style="display: flex; gap: 20px; align-items: center; ">
-                            <select id="categoryFilter" class="dropdown-filter" style=" padding: 8px; width: 200px; border-radius: 8px; border: 1px solid #ccc;">
-                                <option value="all">Tất cả hạng mục</option>
-                                <option value="Đổi mới sáng tạo">Đổi mới sáng tạo</option>
-                                <option value="Thành tích đạt được">Thành tích đạt được</option>
-                                <option value="Đưa hạng mục vào hoạt động">Đưa hạng mục vào hoạt động</option>
+                        <div class="filter-container" style="display: flex; gap: 20px; align-items: center; ">
+                            @*<label for="filter-unit" style="display: flex; flex-direction: column; font-weight: bold; text-align: center;">Đơn vị:</label>*@
+                            <select id="filter-unit" class="dropdown-filter" style=" padding: 8px; width: 200px; border-radius: 8px; border: 1px solid #ccc;">
+                                <option value="">Tất cả đơn vị</option>
                             </select>
-
-                            <select id="unitFilter" class="dropdown-filter" style=" padding: 8px; width: 200px; border-radius: 8px; border: 1px solid #ccc;">
-                                <option value="all">Tất cả đơn vị</option>
-                                <option value="P. CNTT & CĐS">P. CNTT & CĐS</option>
-                                <option value="P. NS">P. NS</option>
-                                <option value="P. CN">P. CN</option>
-                                <option value="NM. HRC1">NM. HRC1</option>
+                            @*<label style="display: flex; flex-direction: column; font-weight: bold; text-align: center;">Thành tích:</label>*@
+                            <select id="filter-achievement" class="dropdown-filter" style=" padding: 8px; width: 200px; border-radius: 8px; border: 1px solid #ccc;">
+                                <option value="">Tất cả thành tích</option>
+                            </select>
+                            @*<label style="display: flex; flex-direction: column; font-weight: bold; text-align: center;">Năm:</label>*@
+                            <select id="filter-year" class="dropdown-filter" style=" padding: 8px; width: 200px; border-radius: 8px; border: 1px solid #ccc;">
+                                <option value="">Năm</option>
                             </select>
                         </div>
                     </div>
+                    <table id="example" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th style="color: #00529C;">Họ và tên</th>
+                                <th style="color: #00529C;">Vị trí công việc</th>
+                                <th style="color: #00529C;">Đơn vị</th>
+                                <th style="color: #00529C;">Thành tích</th>
+                                <th style="color: #00529C;">Loại hình thưởng</th>
+                                <th style="color: #00529C;">Giá trị thưởng</th>
+                                <th style="color: #00529C;">Năm</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Hà Văn Tân</td>
+                                <td>KTV Cơ khí</td>
+                                <td>NM.CĐ2</td>
+                                <td>Thưởng đưa hạng mục vào hoạt động</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>567,800</td>
+                                <td>2025</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn Luân</td>
+                                <td>KTV Điện</td>
+                                <td>NM.TKVV</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>235,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Hà Văn Tân</td>
+                                <td>KTV Cơ khí</td>
+                                <td>NM.CĐ2</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>352,800</td>
+                                <td>2025</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Mạnh Dũng</td>
+                                <td>KTV Cơ khí</td>
+                                <td>NM.TKVV</td>
+                                <td>Thưởng đưa hạng mục vào hoạt động</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>53,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Mạnh Dũng</td>
+                                <td>KTV Cơ khí</td>
+                                <td>NM.TKVV</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>24,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT - Lập trình</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>53,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT - Lập trình</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>420,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Thị A</td>
+                                <td>KTV Cơ khí</td>
+                                <td>NM.TKVV</td>
+                                <td>Thưởng đưa hạng mục vào hoạt động</td>
+                                <td>Thành tích đạt được</td>
+                                <td>534,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT - Lập trình</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>Có đổi mới sáng tạo</td>
+                                <td>333,800</td>
+                                <td>2025</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Mạnh Dũng</td>
+                                <td>KTV Cơ khí</td>
+                                <td>NM.TKVV</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>433,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT - Lập trình</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thưởng đưa hạng mục vào hoạt động</td>
+                                <td>Thành tích đạt được</td>
+                                <td>345,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT - Hệ thống mạng</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>53,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT - Lập trình</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>54,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Phùng Văn Tuấn</td>
+                                <td>KTV CNTT - Lập trình</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thưởng đưa hạng mục vào hoạt động</td>
+                                <td>Thành tích đạt được</td>
+                                <td>43,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT - Lập trình</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thưởng đưa hạng mục vào hoạt động</td>
+                                <td>Thành tích đạt được</td>
+                                <td>32,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT - SAP</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>23,800</td>
+                                <td>2025</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT - Lập trình</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thưởng đưa hạng mục vào hoạt động</td>
+                                <td>Thành tích đạt được</td>
+                                <td>34,800</td>
+                                <td>2025</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT - Network</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>67,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT - Lập trình</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thưởng đưa hạng mục vào hoạt động</td>
+                                <td>Thành tích đạt được</td>
+                                <td>34,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT - Lập trình</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>76,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT - Lập trình</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>23,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Phùng Văn Tuấn</td>
+                                <td>KTV CNTT - Lập trình</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thưởng đưa hạng mục vào hoạt động</td>
+                                <td>Thành tích đạt được</td>
+                                <td>120,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT - Lập trình</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>56,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Phùng Văn Tuấn</td>
+                                <td>KTV CNTT - Lập trình</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thưởng đưa hạng mục vào hoạt động</td>
+                                <td>Thành tích đạt được</td>
+                                <td>45,800</td>
+                                <td>2021</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>34,800</td>
+                                <td>2021</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT - Phần mềm</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>67,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thưởng đưa hạng mục vào hoạt động</td>
+                                <td>Thành tích đạt được</td>
+                                <td>34,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT - Lập trình</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>76,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>23,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT - Lập trình</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>120,800</td>
+                                <td>2021</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT - Lập trình</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>56,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Phùng Văn Tuấn</td>
+                                <td>KTV CNTT - Phần mềm</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>45,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>34,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Quang Tèo</td>
+                                <td>KTV Cơ khí</td>
+                                <td>NM.CĐ1</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>67,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>34,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn Tí</td>
+                                <td>KTV Cơ khí</td>
+                                <td>NM.CĐ1</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>76,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>23,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn Soàn</td>
+                                <td>KTV Cơ khí</td>
+                                <td>NM.CĐ2</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>120,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>56,800</td>
+                                <td>2021</td>
+                            </tr>
+                            <tr>
+                                <td>Trần Văn Vinh</td>
+                                <td>KTV Cơ khí</td>
+                                <td>NM.CĐ3</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>45,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>34,800</td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>Lê Ngọc Hà</td>
+                                <td>KTV Cơ khí</td>
+                                <td>NM.CĐ3</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>67,800</td>
+                                <td>2021</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Vĩnh Phước</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>34,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Doãn Anh</td>
+                                <td>KTV Cơ khí</td>
+                                <td>NM.CĐ2</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>76,800</td>
+                                <td>2025</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>23,800</td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Văn Nghĩa</td>
+                                <td>KTV Cơ khí</td>
+                                <td>NM.CĐ1</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>120,800</td>
+                                <td>2025</td>
+                            </tr>
+                            <tr>
+                                <td>Nguyễn Võ Tuấn Nhân</td>
+                                <td>KTV CNTT</td>
+                                <td>P. CNTT & CĐS</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>56,800</td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>Lê Quang Minh</td>
+                                <td>KTV Cơ khí</td>
+                                <td>NM.CĐ2</td>
+                                <td>Thành tích đạt được</td>
+                                <td>Thành tích đạt được</td>
+                                <td>45,800</td>
+                                <td>2021</td>
+                            </tr>
+                        </tbody>
 
-                    <div id="container"></div>
-                    <p class="highcharts-description">
-                        Biểu đồ thành tích đạt được của các đơn vị
-                    </p>
-                </figure>
-            </div>
-
-
-        </section><!-- /Services Section -->
-        <!-- Testimonials Section -->
-        <section id="individual" class="testimonials section light-background">
-
-            <!-- Section Title -->
-            <div class="container section-title" data-aos="fade-up">
-                <h2>Bảng thành tích Cá nhân</h2>
-                <div><span>Danh sách cá nhân</span> <span class="description-title">được khen thưởng</span></div>
-            </div><!-- End Section Title -->
-            <div class="container">
-                <div class="dropdown-container">
-                    <div class="filter-container" style="display: flex; gap: 20px; align-items: center; ">
-                        @*<label for="filter-unit" style="display: flex; flex-direction: column; font-weight: bold; text-align: center;">Đơn vị:</label>*@
-                        <select id="filter-unit" class="dropdown-filter" style=" padding: 8px; width: 200px; border-radius: 8px; border: 1px solid #ccc;">
-                            <option value="">Tất cả đơn vị</option>
-                        </select>
-                        @*<label style="display: flex; flex-direction: column; font-weight: bold; text-align: center;">Thành tích:</label>*@
-                        <select id="filter-achievement" class="dropdown-filter" style=" padding: 8px; width: 200px; border-radius: 8px; border: 1px solid #ccc;">
-                            <option value="">Tất cả thành tích</option>
-                        </select>
-                        @*<label style="display: flex; flex-direction: column; font-weight: bold; text-align: center;">Năm:</label>*@
-                        <select id="filter-year" class="dropdown-filter" style=" padding: 8px; width: 200px; border-radius: 8px; border: 1px solid #ccc;">
-                            <option value="">Năm</option>
-                        </select>
-                    </div>
+                    </table>
                 </div>
-                <table id="example" class="display" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th style="color: #00529C;">Họ và tên</th>
-                            <th style="color: #00529C;">Vị trí công việc</th>
-                            <th style="color: #00529C;">Đơn vị</th>
-                            <th style="color: #00529C;">Thành tích</th>
-                            <th style="color: #00529C;">Loại hình thưởng</th>
-                            <th style="color: #00529C;">Giá trị thưởng</th>
-                            <th style="color: #00529C;">Năm</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Hà Văn Tân</td>
-                            <td>KTV Cơ khí</td>
-                            <td>NM.CĐ2</td>
-                            <td>Thưởng đưa hạng mục vào hoạt động</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>567,800</td>
-                            <td>2025</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn Luân</td>
-                            <td>KTV Điện</td>
-                            <td>NM.TKVV</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>235,800</td>
-                            <td>2024</td>
-                        </tr>
-                        <tr>
-                            <td>Hà Văn Tân</td>
-                            <td>KTV Cơ khí</td>
-                            <td>NM.CĐ2</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>352,800</td>
-                            <td>2025</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Mạnh Dũng</td>
-                            <td>KTV Cơ khí</td>
-                            <td>NM.TKVV</td>
-                            <td>Thưởng đưa hạng mục vào hoạt động</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>53,800</td>
-                            <td>2024</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Mạnh Dũng</td>
-                            <td>KTV Cơ khí</td>
-                            <td>NM.TKVV</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>24,800</td>
-                            <td>2023</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT - Lập trình</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>53,800</td>
-                            <td>2022</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT - Lập trình</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>420,800</td>
-                            <td>2023</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Thị A</td>
-                            <td>KTV Cơ khí</td>
-                            <td>NM.TKVV</td>
-                            <td>Thưởng đưa hạng mục vào hoạt động</td>
-                            <td>Thành tích đạt được</td>
-                            <td>534,800</td>
-                            <td>2022</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT - Lập trình</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>Có đổi mới sáng tạo</td>
-                            <td>333,800</td>
-                            <td>2025</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Mạnh Dũng</td>
-                            <td>KTV Cơ khí</td>
-                            <td>NM.TKVV</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>433,800</td>
-                            <td>2024</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT - Lập trình</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thưởng đưa hạng mục vào hoạt động</td>
-                            <td>Thành tích đạt được</td>
-                            <td>345,800</td>
-                            <td>2022</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT - Hệ thống mạng</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>53,800</td>
-                            <td>2023</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT - Lập trình</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>54,800</td>
-                            <td>2024</td>
-                        </tr>
-                        <tr>
-                            <td>Phùng Văn Tuấn</td>
-                            <td>KTV CNTT - Lập trình</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thưởng đưa hạng mục vào hoạt động</td>
-                            <td>Thành tích đạt được</td>
-                            <td>43,800</td>
-                            <td>2023</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT - Lập trình</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thưởng đưa hạng mục vào hoạt động</td>
-                            <td>Thành tích đạt được</td>
-                            <td>32,800</td>
-                            <td>2022</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT - SAP</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>23,800</td>
-                            <td>2025</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT - Lập trình</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thưởng đưa hạng mục vào hoạt động</td>
-                            <td>Thành tích đạt được</td>
-                            <td>34,800</td>
-                            <td>2025</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT - Network</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>67,800</td>
-                            <td>2022</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT - Lập trình</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thưởng đưa hạng mục vào hoạt động</td>
-                            <td>Thành tích đạt được</td>
-                            <td>34,800</td>
-                            <td>2024</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT - Lập trình</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>76,800</td>
-                            <td>2022</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT - Lập trình</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>23,800</td>
-                            <td>2024</td>
-                        </tr>
-                        <tr>
-                            <td>Phùng Văn Tuấn</td>
-                            <td>KTV CNTT - Lập trình</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thưởng đưa hạng mục vào hoạt động</td>
-                            <td>Thành tích đạt được</td>
-                            <td>120,800</td>
-                            <td>2023</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT - Lập trình</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>56,800</td>
-                            <td>2022</td>
-                        </tr>
-                        <tr>
-                            <td>Phùng Văn Tuấn</td>
-                            <td>KTV CNTT - Lập trình</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thưởng đưa hạng mục vào hoạt động</td>
-                            <td>Thành tích đạt được</td>
-                            <td>45,800</td>
-                            <td>2021</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>34,800</td>
-                            <td>2021</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT - Phần mềm</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>67,800</td>
-                            <td>2023</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thưởng đưa hạng mục vào hoạt động</td>
-                            <td>Thành tích đạt được</td>
-                            <td>34,800</td>
-                            <td>2023</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT - Lập trình</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>76,800</td>
-                            <td>2023</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>23,800</td>
-                            <td>2022</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT - Lập trình</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>120,800</td>
-                            <td>2021</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT - Lập trình</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>56,800</td>
-                            <td>2022</td>
-                        </tr>
-                        <tr>
-                            <td>Phùng Văn Tuấn</td>
-                            <td>KTV CNTT - Phần mềm</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>45,800</td>
-                            <td>2023</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>34,800</td>
-                            <td>2022</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Quang Tèo</td>
-                            <td>KTV Cơ khí</td>
-                            <td>NM.CĐ1</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>67,800</td>
-                            <td>2022</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>34,800</td>
-                            <td>2023</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn Tí</td>
-                            <td>KTV Cơ khí</td>
-                            <td>NM.CĐ1</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>76,800</td>
-                            <td>2024</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>23,800</td>
-                            <td>2023</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn Soàn</td>
-                            <td>KTV Cơ khí</td>
-                            <td>NM.CĐ2</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>120,800</td>
-                            <td>2022</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>56,800</td>
-                            <td>2021</td>
-                        </tr>
-                        <tr>
-                            <td>Trần Văn Vinh</td>
-                            <td>KTV Cơ khí</td>
-                            <td>NM.CĐ3</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>45,800</td>
-                            <td>2024</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>34,800</td>
-                            <td>2023</td>
-                        </tr>
-                        <tr>
-                            <td>Lê Ngọc Hà</td>
-                            <td>KTV Cơ khí</td>
-                            <td>NM.CĐ3</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>67,800</td>
-                            <td>2021</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Vĩnh Phước</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>34,800</td>
-                            <td>2022</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Doãn Anh</td>
-                            <td>KTV Cơ khí</td>
-                            <td>NM.CĐ2</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>76,800</td>
-                            <td>2025</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>23,800</td>
-                            <td>2024</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Văn Nghĩa</td>
-                            <td>KTV Cơ khí</td>
-                            <td>NM.CĐ1</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>120,800</td>
-                            <td>2025</td>
-                        </tr>
-                        <tr>
-                            <td>Nguyễn Võ Tuấn Nhân</td>
-                            <td>KTV CNTT</td>
-                            <td>P. CNTT & CĐS</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>56,800</td>
-                            <td>2022</td>
-                        </tr>
-                        <tr>
-                            <td>Lê Quang Minh</td>
-                            <td>KTV Cơ khí</td>
-                            <td>NM.CĐ2</td>
-                            <td>Thành tích đạt được</td>
-                            <td>Thành tích đạt được</td>
-                            <td>45,800</td>
-                            <td>2021</td>
-                        </tr>
-                    </tbody>
+                <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-                </table>
-            </div>
-            <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-                <div class="swiper init-swiper">
-                    <script type="application/json" class="swiper-config">
-                        {
-                          "loop": true,
-                          "speed": 600,
-                          "autoplay": {
-                            "delay": 5000
-                          },
-                          "slidesPerView": "auto",
-                          "pagination": {
-                            "el": ".swiper-pagination",
-                            "type": "bullets",
-                            "clickable": true
-                          },
-                          "breakpoints": {
-                            "320": {
-                              "slidesPerView": 1,
-                              "spaceBetween": 40
-                            },
-                            "1200": {
-                              "slidesPerView": 2,
-                              "spaceBetween": 20
+                    <div class="swiper init-swiper">
+                        <script type="application/json" class="swiper-config">
+                            {
+                              "loop": true,
+                              "speed": 600,
+                              "autoplay": {
+                                "delay": 5000
+                              },
+                              "slidesPerView": "auto",
+                              "pagination": {
+                                "el": ".swiper-pagination",
+                                "type": "bullets",
+                                "clickable": true
+                              },
+                              "breakpoints": {
+                                "320": {
+                                  "slidesPerView": 1,
+                                  "spaceBetween": 40
+                                },
+                                "1200": {
+                                  "slidesPerView": 2,
+                                  "spaceBetween": 20
+                                }
+                              }
                             }
-                          }
-                        }
-                    </script>
-                    <div class="swiper-wrapper">
+                        </script>
+                        <div class="swiper-wrapper">
 
-                        <div class="swiper-slide">
-                            <div class="testimonial-wrap">
-                                <div class="testimonial-item">
-                                    <img src="~/Content/assets/images/testimonials/avt.jpg" class="testimonial-img" alt="">
-                                    <h3>Nguyễn Văn An</h3>
-                                    <h4>Nhân viên cơ khí</h4>
-                                    <p>
-                                        <span>
-                                            Tận dụng lại xỉ thải của các mác thép khử nhôm để làm phụ gia cho luyện thép
-                                            mang lại hiệu quả cao về tiết giảm chi phí sản xuất và bảo vệ môi trường.
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div><!-- End testimonial item -->
-
-                        <div class="swiper-slide">
-
-                            <div class="testimonial-wrap">
-                                <div class="testimonial-item">
-                                    <div class="avatar-container">
-                                        <div class="laurel-wreath">
-                                            <img src="/Content/assets/images/testimonials/avt.jpg" class="testimonial-img" alt="">
-                                        </div>
+                            <div class="swiper-slide">
+                                <div class="testimonial-wrap">
+                                    <div class="testimonial-item">
+                                        <img src="~/Content/assets/images/testimonials/avt.jpg" class="testimonial-img" alt="">
+                                        <h3>Nguyễn Văn An</h3>
+                                        <h4>Nhân viên cơ khí</h4>
+                                        <p>
+                                            <span>
+                                                Tận dụng lại xỉ thải của các mác thép khử nhôm để làm phụ gia cho luyện thép
+                                                mang lại hiệu quả cao về tiết giảm chi phí sản xuất và bảo vệ môi trường.
+                                            </span>
+                                        </p>
                                     </div>
-                                    <h3>Nguyễn Võ Tuấn Nhân</h3>
-                                    <h4>Nhân viên cơ khí</h4>
-                                    <p>
-                                        <span>
-                                            Nghiên cứu, ứng dụng, phối hợp và thực hiện tốt trong việc giảm
-                                            tiêu hao than phun vào Lò vôi quay, giảm chi phí sản xuất vôi nung Lò vôi quay.
-                                        </span>
-                                    </p>
                                 </div>
-                            </div>
-                        </div><!-- End testimonial item -->
+                            </div><!-- End testimonial item -->
 
-                        <div class="swiper-slide">
-                            <div class="testimonial-wrap">
-                                <div class="testimonial-item">
-                                    <img src="~/Content/assets/images/testimonials/avt.jpg" class="testimonial-img" alt="">
-                                    <h3>Phùng Văn Tuấn</h3>
-                                    <h4>KTV CNTT - Hệ thống phần mềm</h4>
-                                    <p>
-                                        <span>Thực hiện cải tạo việc thay đổi khổ phôi có tiết diện từ 150x150 mm lên khổ phôi có tiết diện 165x165 mm.</span>
-                                    </p>
+                            <div class="swiper-slide">
+
+                                <div class="testimonial-wrap">
+                                    <div class="testimonial-item">
+                                        <div class="avatar-container">
+                                            <div class="laurel-wreath">
+                                                <img src="/Content/assets/images/testimonials/avt.jpg" class="testimonial-img" alt="">
+                                            </div>
+                                        </div>
+                                        <h3>Nguyễn Võ Tuấn Nhân</h3>
+                                        <h4>Nhân viên cơ khí</h4>
+                                        <p>
+                                            <span>
+                                                Nghiên cứu, ứng dụng, phối hợp và thực hiện tốt trong việc giảm
+                                                tiêu hao than phun vào Lò vôi quay, giảm chi phí sản xuất vôi nung Lò vôi quay.
+                                            </span>
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </div><!-- End testimonial item -->
+                            </div><!-- End testimonial item -->
 
-                        <div class="swiper-slide">
-                            <div class="testimonial-wrap">
-                                <div class="testimonial-item">
-                                    <img src="~/Content/assets/images/testimonials/avt.jpg" class="testimonial-img" alt="">
-                                    <h3>Nguyễn Vĩnh Phước</h3>
-                                    <h4>KTV CNTT - Lập trình</h4>
-                                    <p>
-                                        <span>
-                                            Nghiên cứu, ứng dụng, phối hợp và thực hiện tốt trong việc giảm
-                                            tiêu hao than phun vào Lò vôi quay, giảm chi phí sản xuất vôi nung Lò vôi quay.
-                                        </span>
-                                    </p>
+                            <div class="swiper-slide">
+                                <div class="testimonial-wrap">
+                                    <div class="testimonial-item">
+                                        <img src="~/Content/assets/images/testimonials/avt.jpg" class="testimonial-img" alt="">
+                                        <h3>Phùng Văn Tuấn</h3>
+                                        <h4>KTV CNTT - Hệ thống phần mềm</h4>
+                                        <p>
+                                            <span>Thực hiện cải tạo việc thay đổi khổ phôi có tiết diện từ 150x150 mm lên khổ phôi có tiết diện 165x165 mm.</span>
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </div><!-- End testimonial item -->
+                            </div><!-- End testimonial item -->
 
-                        <div class="swiper-slide">
-                            <div class="testimonial-wrap">
-                                <div class="testimonial-item">
-                                    <img src="~/Content/assets/images/testimonials/avt.jpg" class="testimonial-img" alt="">
-                                    <h3>Nguyễn Võ Tuấn Nhân</h3>
-                                    <h4>KTV CNTT - Lập trình</h4>
-                                    <p>
-                                        <span>Cải tiến trạm mỡ đáy lò gia nhiệt tại Xưởng Cán thép 1 – NM.CTDAI.</span>
-                                    </p>
+                            <div class="swiper-slide">
+                                <div class="testimonial-wrap">
+                                    <div class="testimonial-item">
+                                        <img src="~/Content/assets/images/testimonials/avt.jpg" class="testimonial-img" alt="">
+                                        <h3>Nguyễn Vĩnh Phước</h3>
+                                        <h4>KTV CNTT - Lập trình</h4>
+                                        <p>
+                                            <span>
+                                                Nghiên cứu, ứng dụng, phối hợp và thực hiện tốt trong việc giảm
+                                                tiêu hao than phun vào Lò vôi quay, giảm chi phí sản xuất vôi nung Lò vôi quay.
+                                            </span>
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </div><!-- End testimonial item -->
+                            </div><!-- End testimonial item -->
 
+                            <div class="swiper-slide">
+                                <div class="testimonial-wrap">
+                                    <div class="testimonial-item">
+                                        <img src="~/Content/assets/images/testimonials/avt.jpg" class="testimonial-img" alt="">
+                                        <h3>Nguyễn Võ Tuấn Nhân</h3>
+                                        <h4>KTV CNTT - Lập trình</h4>
+                                        <p>
+                                            <span>Cải tiến trạm mỡ đáy lò gia nhiệt tại Xưởng Cán thép 1 – NM.CTDAI.</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div><!-- End testimonial item -->
+
+                        </div>
+                        <div class="swiper-pagination"></div>
                     </div>
-                    <div class="swiper-pagination"></div>
+
                 </div>
 
-            </div>
+            </section>
+        </div>
 
-        </section>
-        <section id="achievement" class="contact section light-background">
 
-            <!-- Section Title -->
-            <div class="container section-title" data-aos="fade-up">
-                <h2>Thống kê tổng hợp</h2>
-                <div><span>Biểu đồ thống kê</span> <span class="description-title"></span></div>
-            </div><!-- End Section Title -->
+        <div class="testnhan123">
+            <section id="achievement" class="contact section light-background">
 
-            <script src="https://code.highcharts.com/highcharts.js"></script>
-            <script src="https://code.highcharts.com/modules/exporting.js"></script>
-            <script src="https://code.highcharts.com/modules/export-data.js"></script>
-            <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-            <div class="container">
-                <figure class="highcharts-figure">
-                    <div class="dropdown-container">
-                        <label for="filter">Chọn loại hiển thị:</label>
-                        <select id="filter" class="dropdown-filter">
-                            <option value="all">Tất cả hạng mục</option>
-                            <option value="money">Theo số tiền thưởng</option>
-                            <option value="people">Theo số cá nhân/tập thể</option>
-                            <option value="content">Theo số nội dung</option>
-                        </select>
-                    </div>
-                    <div id="container_chart"></div>
-                    <p class="highcharts-description">
-                        Biểu đồ thống kê tổng hợp
-                    </p>
-                </figure>
-            </div>
+                <!-- Section Title -->
+                <div class="container section-title" data-aos="fade-up">
+                    <h2>Thống kê tổng hợp</h2>
+                    <div><span>Biểu đồ thống kê</span> <span class="description-title"></span></div>
+                </div><!-- End Section Title -->
 
-        </section><!-- /Contact Section -->
+                <script src="https://code.highcharts.com/highcharts.js"></script>
+                <script src="https://code.highcharts.com/modules/exporting.js"></script>
+                <script src="https://code.highcharts.com/modules/export-data.js"></script>
+                <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+                <div class="container">
+                    <figure class="highcharts-figure">
+                        <div class="dropdown-container">
+                            <label for="filter">Chọn loại hiển thị:</label>
+                            <select id="filter" class="dropdown-filter">
+                                <option value="all">Tất cả hạng mục</option>
+                                <option value="money">Theo số tiền thưởng</option>
+                                <option value="people">Theo số cá nhân/tập thể</option>
+                                <option value="content">Theo số nội dung</option>
+                            </select>
+                        </div>
+                        <div id="container_chart"></div>
+                        <p class="highcharts-description">
+                            Biểu đồ thống kê tổng hợp
+                        </p>
+                    </figure>
+                </div>
 
-        <section id="contact" class="contact section light-background">
-            <!-- Section Title -->
-            <div class="container section-title" data-aos="fade-up">
-                <h2 class="text-left">Phản hồi / Liên hệ</h2>
-            </div><!-- End Section Title -->
+            </section><!-- /Contact Section -->
+        </div>
 
-            <div class="container" data-aos="fade-up">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="contact-info">
-                            <p class="contact-title">Mọi thông tin phản hồi xin liên hệ:</p>
-                            <p class="contact-item">
-                                <strong>Điện thoại:</strong>
-                                <a href="tel:+842553620630">02553.620.630</a>
-                            </p>
-                            <p class="contact-item">
-                                <strong>Email:</strong>
-                                <a href="mailto:tuyendungdungquat@hoaphat.com.vn">tuyendungdungquat@hoaphat.com.vn</a>
-                            </p>
+
+
+        <div class="testnhan123">
+            <section id="contact" class="contact section light-background">
+                <!-- Section Title -->
+                <div class="container section-title" data-aos="fade-up">
+                    <h2 class="text-left">Phản hồi / Liên hệ</h2>
+                </div><!-- End Section Title -->
+
+                <div class="container" data-aos="fade-up">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="contact-info">
+                                <p class="contact-title">Mọi thông tin phản hồi xin liên hệ:</p>
+                                <p class="contact-item">
+                                    <strong>Điện thoại:</strong>
+                                    <a href="tel:+842553620630">02553.620.630</a>
+                                </p>
+                                <p class="contact-item">
+                                    <strong>Email:</strong>
+                                    <a href="mailto:tuyendungdungquat@hoaphat.com.vn">tuyendungdungquat@hoaphat.com.vn</a>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
 
         <style>
             .contact-info {
