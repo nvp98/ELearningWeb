@@ -51,7 +51,7 @@
 
             <nav id="navmenu" class="navmenu">
                 <ul id="menu">
-                    <li class="underline-hover active"><a href="#intro" class="fw-bold fs-6" style="color: #00529C;">GIỚI THIỆU</a></li>
+                    <li class="underline-hover active"><a href="#intro" class="fw-bold fs-6" style="color: #00529C;">ĐIỂM TIN</a></li>
                     <li class="underline-hover"><a href="#overview" class="fw-bold fs-6" style="color: #00529C;">TỔNG QUAN</a></li>
                     <li class="underline-hover"><a href="#group" class="fw-bold fs-6" style="color: #00529C;">TẬP THỂ</a></li>
                     <li class="underline-hover"><a href="#individual" class="fw-bold fs-6" style="color: #00529C;">CÁ NHÂN</a></li>
@@ -126,11 +126,73 @@
                 font-size: 14px;
                 color: #7f8c8d;
             }
+
+
+
+
+        .carousel-container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .carousel-wrapper {
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+            cursor: grab;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            text-align: center;
+            padding: 20px;
+            background: #f4f4f4;
+            font-size: 24px;
+            font-weight: bold;
+            border-right: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Nút điều hướng */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        .carousel-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        .card-list.active {
+            display: flex !important; /* Chỉ hiển thị danh sách đang được chọn */
+        }
+
+
     </style>
     <main class="main">
 
         <div class="testnhan123">
-            <section id="group" class="services section">
+            <section id="intro" class="services section">
 
                 <!-- Section Title -->
                 <div class="container section-title" data-aos="fade-up">
@@ -195,110 +257,122 @@
 
                         <!-- Wrapper cho danh sách thẻ và bảng xếp hạng -->
                         <div class="content-wrapper">
+                            <div class="carousel-container">
+                                <div class="carousel-wrapper">
 
-                            <div class="card-list active">
-                                <!-- Thẻ 1 -->
-                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                                    <img src="~/Content/assets/images/avatars/dmst_08.jpg" alt="Hình ảnh">
-                                    <h3>Đề tài: Nghiên cứu AI</h3>
-                                    <p>Nguyễn Văn A</p>
-                                </div>
 
-                                <!-- Thẻ 2 -->
-                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                                    <img src="~/Content/assets/images/avatars/dmst_07.jpg" alt="Hình ảnh">
-                                    <h3>Đề tài: Phát triển Web</h3>
-                                    <p>Trần Thị B</p>
+
+
+                                    <div class="card-list carousel-item">
+                                        <!-- Thẻ 1 -->
+                                        <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                            <img src="~/Content/assets/images/avatars/dmst_08.jpg" alt="Hình ảnh">
+                                            <h3>Đề tài: Nghiên cứu AI</h3>
+                                            <p>Nguyễn Văn A</p>
+                                        </div>
+
+                                        <!-- Thẻ 2 -->
+                                        <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                            <img src="~/Content/assets/images/avatars/dmst_07.jpg" alt="Hình ảnh">
+                                            <h3>Đề tài: Phát triển Web</h3>
+                                            <p>Trần Thị B</p>
+                                        </div>
+                                        <!-- Thẻ 3 -->
+                                        <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                            <img src="~/Content/assets/images/avatars/dmst_06.jpg" alt="Hình ảnh">
+                                            <h3>Đề tài: Blockchain</h3>
+                                            <p>Lê Văn C</p>
+                                        </div>
+                                        <!-- Thẻ 4 -->
+                                        <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                            <img src="~/Content/assets/images/avatars/dmst_05.jpg" alt="Hình ảnh">
+                                            <h3>Đề tài: IoT</h3>
+                                            <p>Phạm Thị D</p>
+                                        </div>
+                                        <!-- Thẻ 5 -->
+                                        <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                            <img src="~/Content/assets/images/avatars/dmst_09.jpg" alt="Hình ảnh">
+                                            <h3>Đề tài: Machine Learning</h3>
+                                            <p>Hoàng Văn E1</p>
+                                        </div>
+                                        <!-- Thẻ 6 -->
+                                        <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                            <img src="~/Content/assets/images/avatars/dmst_03.jpg" alt="Hình ảnh">
+                                            <h3>Đề tài: Data Science</h3>
+                                            <p>Vũ Thị F</p>
+                                        </div>
+                                        <!-- Thẻ 7 -->
+                                        <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                            <img src="~/Content/assets/images/avatars/dmst_12.jpg" alt="Hình ảnh">
+                                            <h3>Đề tài: Cybersecurity</h3>
+                                            <p>Đặng Văn G</p>
+                                        </div>
+                                        <!-- Thẻ 8 -->
+                                        <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                            <img src="~/Content/assets/images/avatars/dmst_10.jpg" alt="Hình ảnh">
+                                            <h3>Đề tài: Cloud Computing</h3>
+                                            <p>Bùi Thị H</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-list carousel-item">
+                                        <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                            <img src="~/Content/assets/images/avatars/dmst_01.jpg" alt="Hình ảnh">
+                                            <h3>Đề tài: Xử lí sự cố ABC</h3>
+                                            <p>Huỳnh Văn O</p>
+                                        </div>
+
+                                        <!-- Thẻ 2 -->
+                                        <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                            <img src="~/Content/assets/images/avatars/dmst_11.jpg" alt="Hình ảnh">
+                                            <h3>Đề tài: Phát triển hệ thống XYZ</h3>
+                                            <p>Phạm Văn X</p>
+                                        </div>
+                                        <!-- Thẻ 3 -->
+                                        <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                            <img src="~/Content/assets/images/avatars/dmst_12.jpg" alt="Hình ảnh">
+                                            <h3>Đề tài: Nghiên cứ đổi mới hệ thống B</h3>
+                                            <p>Trần Văn Y</p>
+                                        </div>
+                                        <!-- Thẻ 4 -->
+                                        <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                            <img src="~/Content/assets/images/avatars/dmst_13.jpg" alt="Hình ảnh">
+                                            <h3>Đề tài: Internet of things</h3>
+                                            <p>Phạm Văn Q</p>
+                                        </div>
+                                        <!-- Thẻ 5 -->
+                                        <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                            <img src="~/Content/assets/images/avatars/dmst_14.jpg" alt="Hình ảnh">
+                                            <h3>Đề tài: Camera AI</h3>
+                                            <p>Lương Tuấn F</p>
+                                        </div>
+                                        <!-- Thẻ 6 -->
+                                        <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                            <img src="~/Content/assets/images/avatars/dmst_15.jpg" alt="Hình ảnh">
+                                            <h3>Đề tài: Xử lí dữ liệu</h3>
+                                            <p>Vũ Tuấn K</p>
+                                        </div>
+                                        <!-- Thẻ 7 -->
+                                        <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                            <img src="~/Content/assets/images/avatars/dmst_02.jpg" alt="Hình ảnh">
+                                            <h3>Đề tài: Bảo mật hệ thống L</h3>
+                                            <p>Đặng Vũ Y</p>
+                                        </div>
+                                        <!-- Thẻ 8 -->
+                                        <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
+                                            <img src="~/Content/assets/images/avatars/dmst_01.jpg" alt="Hình ảnh">
+                                            <h3>Đề tài: Hệ thống điện ABC</h3>
+                                            <p>Nguyễn Vũ X</p>
+                                        </div>
+                                        <!-- Thẻ 1 -->
+
+                                    </div>
+
                                 </div>
-                                <!-- Thẻ 3 -->
-                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                                    <img src="~/Content/assets/images/avatars/dmst_06.jpg" alt="Hình ảnh">
-                                    <h3>Đề tài: Blockchain</h3>
-                                    <p>Lê Văn C</p>
-                                </div>
-                                <!-- Thẻ 4 -->
-                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                                    <img src="~/Content/assets/images/avatars/dmst_05.jpg" alt="Hình ảnh">
-                                    <h3>Đề tài: IoT</h3>
-                                    <p>Phạm Thị D</p>
-                                </div>
-                                <!-- Thẻ 5 -->
-                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                                    <img src="~/Content/assets/images/avatars/dmst_09.jpg" alt="Hình ảnh">
-                                    <h3>Đề tài: Machine Learning</h3>
-                                    <p>Hoàng Văn E1</p>
-                                </div>
-                                <!-- Thẻ 6 -->
-                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                                    <img src="~/Content/assets/images/avatars/dmst_03.jpg" alt="Hình ảnh">
-                                    <h3>Đề tài: Data Science</h3>
-                                    <p>Vũ Thị F</p>
-                                </div>
-                                <!-- Thẻ 7 -->
-                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                                    <img src="~/Content/assets/images/avatars/dmst_02.jpg" alt="Hình ảnh">
-                                    <h3>Đề tài: Cybersecurity</h3>
-                                    <p>Đặng Văn G</p>
-                                </div>
-                                <!-- Thẻ 8 -->
-                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                                    <img src="~/Content/assets/images/avatars/dmst_01.jpg" alt="Hình ảnh">
-                                    <h3>Đề tài: Cloud Computing</h3>
-                                    <p>Bùi Thị H</p>
-                                </div>
+                                <button class="carousel-btn prev">&#10094;</button>
+                                <button class="carousel-btn next">&#10095;</button>
                             </div>
 
-                            <div class="card-list">
-                                <!-- Thẻ 1 -->
-                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                                    <img src="~/Content/assets/images/avatars/dmst_10.jpg" alt="Hình ảnh">
-                                    <h3>Đề tài: Xử lí sự cố ABC</h3>
-                                    <p>Huỳnh Văn O</p>
-                                </div>
-
-                                <!-- Thẻ 2 -->
-                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                                    <img src="~/Content/assets/images/avatars/dmst_11.jpg" alt="Hình ảnh">
-                                    <h3>Đề tài: Phát triển hệ thống XYZ</h3>
-                                    <p>Phạm Văn X</p>
-                                </div>
-                                <!-- Thẻ 3 -->
-                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                                    <img src="~/Content/assets/images/avatars/dmst_12.jpg" alt="Hình ảnh">
-                                    <h3>Đề tài: Nghiên cứ đổi mới hệ thống B</h3>
-                                    <p>Trần Văn Y</p>
-                                </div>
-                                <!-- Thẻ 4 -->
-                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                                    <img src="~/Content/assets/images/avatars/dmst_13.jpg" alt="Hình ảnh">
-                                    <h3>Đề tài: Internet of things</h3>
-                                    <p>Phạm Văn Q</p>
-                                </div>
-                                <!-- Thẻ 5 -->
-                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                                    <img src="~/Content/assets/images/avatars/dmst_14.jpg" alt="Hình ảnh">
-                                    <h3>Đề tài: Camera AI</h3>
-                                    <p>Lương Tuấn F</p>
-                                </div>
-                                <!-- Thẻ 6 -->
-                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                                    <img src="~/Content/assets/images/avatars/dmst_15.jpg" alt="Hình ảnh">
-                                    <h3>Đề tài: Xử lí dữ liệu</h3>
-                                    <p>Vũ Tuấn K</p>
-                                </div>
-                                <!-- Thẻ 7 -->
-                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                                    <img src="~/Content/assets/images/avatars/dmst_02.jpg" alt="Hình ảnh">
-                                    <h3>Đề tài: Bảo mật hệ thống L</h3>
-                                    <p>Đặng Vũ Y</p>
-                                </div>
-                                <!-- Thẻ 8 -->
-                                <div class="card" onclick="location.href='link-den-trang-can-den.html'" style="cursor: pointer;">
-                                    <img src="~/Content/assets/images/avatars/dmst_01.jpg" alt="Hình ảnh">
-                                    <h3>Đề tài: Hệ thống điện ABC</h3>
-                                    <p>Nguyễn Vũ X</p>
-                                </div>
-                            </div>
 
                             <!-- Bảng xếp hạng -->
                             <div class="ranking-table">
@@ -323,56 +397,43 @@
                             </div>
                         </div>
 
+
+
                     </section>
-                    <div class="dots">
-                        <span class="dot active" onclick="changeSlide(0)"></span>
-                        <span class="dot" onclick="changeSlide(1)"></span>
-                    </div>
-                    <style>
-                        .card-list.active {
-                            display: flex; /* Chỉ hiển thị danh sách đang được chọn */
-                        }
-                        .dots {
-                            text-align: center;
-                            margin-top: 10px;
-                        }
-
-                        .dot {
-                            width: 12px;
-                            height: 12px;
-                            margin: 0 5px;
-                            display: inline-block;
-                            background-color: gray;
-                            border-radius: 50%;
-                            cursor: pointer;
-                        }
-
-                            .dot.active {
-                                background-color: black;
-                            }
-                    </style>
-
+                    
                     <script>
-                        function changeSlide(index) {
-                            const lists = document.querySelectorAll('.card-list');
-                            const dots = document.querySelectorAll('.dot');
-
-                            // Cập nhật danh sách
-                            lists.forEach((list, i) => {
-                                list.classList.toggle('active', i === index);
-                            });
-
-                            // Cập nhật chấm tròn
-                            dots.forEach((dot, i) => {
-                                dot.classList.toggle('active', i === index);
-                            });
-                        }
-
-                        // Khi tải trang, đảm bảo chỉ hiển thị danh sách đầu tiên
                         document.addEventListener("DOMContentLoaded", function () {
-                            changeSlide(0);
+                            const slides = document.querySelectorAll(".card-list.carousel-item");
+                            const prevBtn = document.querySelector(".carousel-btn.prev");
+                            const nextBtn = document.querySelector(".carousel-btn.next");
+                            let currentIndex = 0;
+
+                            // Hàm cập nhật slide hiển thị
+                            function updateActiveSlide() {
+                                slides.forEach((slide, index) => {
+                                    slide.classList.toggle("active", index === currentIndex);
+                                });
+                            }
+
+                            // Xử lý khi nhấn Next
+                            nextBtn.addEventListener("click", function () {
+                                currentIndex = (currentIndex + 1) % slides.length;
+                                updateActiveSlide();
+                            });
+
+                            // Xử lý khi nhấn Prev
+                            prevBtn.addEventListener("click", function () {
+                                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                                updateActiveSlide();
+                            });
+
+                            // Đặt slide đầu tiên là active khi tải trang
+                            updateActiveSlide();
                         });
+
                     </script>
+
+
 
 </section><!-- /Services Section -->
         </div>
@@ -611,7 +672,7 @@
                     }
 
                     .button-group button.active {
-                        background-color: #007bff;
+                        background-color: #00529C;
                         color: white;
                     }
 
@@ -695,7 +756,7 @@
                 }
 
                 .ranking-table th {
-                    background-color: #007bff;
+                    background-color: #00529C;
                     color: white;
                     font-weight: 600;
                 }
@@ -722,7 +783,7 @@
                 }
 
                     .pagination button.active {
-                        background-color: #007bff;
+                        background-color: #00529C;
                         color: white;
                     }
 
@@ -1558,7 +1619,7 @@
             }
 
                 .contact-item a {
-                    color: #007bff;
+                    color: #00529C;
                     text-decoration: none;
                 }
 
