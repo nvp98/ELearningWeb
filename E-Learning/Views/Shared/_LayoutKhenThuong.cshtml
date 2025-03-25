@@ -64,71 +64,57 @@
         </div>
     </header>
     <style>
-            .top-units {
-                background: #ffffff;
-                padding: 15px;
-                border-radius: 8px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                text-align: center;
-            }
+        .top-units {
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
 
-                .top-units h2 {
-                    font-size: 18px;
-                    color: #2c3e50;
-                    font-weight: bold;
-                    margin-bottom: 10px;
-                }
+        .top-units h2 {
+            font-size: 18px;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
 
-            .unit {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 15px;
-            }
-
-            .unit-logo {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
-                .unit-logo img {
-                    width: 80px;
-                    height: 80px;
-                    object-fit: contain;
-                }
-
-            .unit-name {
-                font-size: 14px;
-                color: #e67e22;
-                font-weight: bold;
-                margin-top: 5px;
-            }
-
-            /*.unit-info {
-            width: 100px;
-            height: 80px;*/
-            /*                    border: 2px dashed #3498db;*/
-            /*display: flex;
-            flex-direction: column;
-            justify-content: center;
+        .unit {
+            display: flex;
             align-items: center;
-            border-radius: 5px;
-        }*/
+            justify-content: center;
+            gap: 15px;
+        }
 
-            .content-number {
-                font-size: 22px;
-                color: #3498db;
-                font-weight: bold;
-            }
+        .unit-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-            .content-text {
-                font-size: 14px;
-                color: #7f8c8d;
-            }
+        .unit-logo img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
 
+        .unit-name {
+            font-size: 14px;
+            color: #e67e22;
+            font-weight: bold;
+            margin-top: 5px;
+        }
 
+        .content-number {
+            font-size: 22px;
+            color: #3498db;
+            font-weight: bold;
+        }
 
+        .content-text {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
 
         .carousel-container {
             width: 80%;
@@ -158,7 +144,6 @@
             gap: 20px;
         }
 
-        /* Nút điều hướng */
         .carousel-btn {
             position: absolute;
             top: 50%;
@@ -184,11 +169,214 @@
             background: rgba(0, 0, 0, 0.8);
         }
         .card-list.active {
-            display: flex !important; /* Chỉ hiển thị danh sách đang được chọn */
+            display: flex !important;
         }
 
+        .center-text-custom {
+            text-align: center !important;
+            vertical-align: middle;
+        }
 
+        .card img {
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .testnhan123 {
+            padding: 20px;
+            margin: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .testnhan {
+            padding: 20px;
+            background-color: #ffffff;
+            margin: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .info-box {
+            width: 20%;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+        }
+
+        .info-box h2 {
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .info-box p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .button-group {
+            margin-bottom: 20px;
+            display: flex;
+        }
+
+        .button-group button {
+            padding: 8px 16px;
+            border: none;
+            background-color: #e0e0e0;
+            color: #333;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+            flex: 1;
+            border-radius: 0;
+        }
+
+        .button-group button:first-child {
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+
+        .button-group button:last-child {
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+
+        .button-group button.active {
+            background-color: #00529C;
+            color: white;
+        }
+
+        .button-group button:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .content-wrapper {
+            display: flex;
+            gap: 20px;
+            width: 80%;
+        }
+
+        .card-list {
+            display: none;
+            flex-wrap: wrap;
+            gap: 10px;
+            width: 70%;
+        }
+
+        .card {
+            width: calc(25% - 10px);
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .card h3 {
+            margin: 10px 0 5px;
+            font-size: 14px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .card p {
+            margin: 0;
+            font-size: 12px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .ranking-table {
+            width: 30%;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .ranking-table h2 {
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .ranking-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .ranking-table th, .ranking-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .ranking-table th {
+            background-color: #00529C;
+            color: white;
+            font-weight: 600;
+        }
+
+        .ranking-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            gap: 5px;
+        }
+
+        .pagination button {
+            padding: 5px 10px;
+            border: none;
+            background-color: #e0e0e0;
+            color: #333;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .pagination button.active {
+            background-color: #00529C;
+            color: white;
+        }
+
+        .pagination button:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            color: #666;
+        }
     </style>
+
     <main class="main">
 
         <div class="testnhan123">
@@ -252,8 +440,6 @@
                             </div>
 
                         </div>
-
-
 
                         <!-- Wrapper cho danh sách thẻ và bảng xếp hạng -->
                         <div class="content-wrapper">
@@ -397,8 +583,6 @@
                             </div>
                         </div>
 
-
-
                     </section>
                     
                     <script>
@@ -432,10 +616,8 @@
                         });
 
                     </script>
-
-
-
-</section><!-- /Services Section -->
+                </div>
+            </section><!-- /Services Section -->
         </div>
 
 
@@ -476,27 +658,23 @@
 
             }
 
-            // Hiển thị phân trang
             function renderPagination() {
                 const totalPages = Math.ceil(rankingData.length / itemsPerPage);
                 const pagination = document.getElementById('pagination');
                 pagination.innerHTML = '';
 
-                // Nút "Trang đầu"
                 const firstButton = document.createElement('button');
                 firstButton.innerHTML = '<i class="fa-solid fa-angles-left" style="color: #3498db;"></i>';
                 firstButton.setAttribute('data-type', 'first');
                 firstButton.addEventListener('click', () => goToPage(1));
                 pagination.appendChild(firstButton);
 
-                // Nút "Trang trước"
                 const prevButton = document.createElement('button');
                 prevButton.innerHTML = '<i class="fa-solid fa-chevron-left" style="color: #3498db;"></i>';
                 prevButton.setAttribute('data-type', 'prev');
                 prevButton.addEventListener('click', () => goToPage(currentPage - 1));
                 pagination.appendChild(prevButton);
 
-                // Các nút số trang
                 for (let i = 1; i <= totalPages; i++) {
                     const button = document.createElement('button');
                     button.innerText = i;
@@ -505,14 +683,12 @@
                     pagination.appendChild(button);
                 }
 
-                // Nút "Trang sau"
                 const nextButton = document.createElement('button');
                 nextButton.innerHTML = '<i class="fa-solid fa-chevron-right" style="color: #3498db;"></i>';
                 nextButton.setAttribute('data-type', 'next');
                 nextButton.addEventListener('click', () => goToPage(currentPage + 1));
                 pagination.appendChild(nextButton);
 
-                // Nút "Trang cuối"
                 const lastButton = document.createElement('button');
                 lastButton.innerHTML = '<i class="fa-solid fa-angles-right" style="color: #3498db;"></i>';
                 lastButton.setAttribute('data-type', 'last');
@@ -522,39 +698,34 @@
                 updatePaginationButtons();
             }
 
-
-
-            // Điều hướng đến trang cụ thể
             function goToPage(page) {
                 const totalPages = Math.ceil(rankingData.length / itemsPerPage);
-                if (page < 1 || page > totalPages) return; // Không làm gì nếu trang không hợp lệ
+                if (page < 1 || page > totalPages) return;
                 currentPage = page;
                 renderTable(currentPage);
                 updatePaginationButtons();
             }
 
-            // Cập nhật trạng thái active của các nút phân trang
             function updatePaginationButtons() {
                 const buttons = document.querySelectorAll('#pagination button');
                 const totalPages = Math.ceil(rankingData.length / itemsPerPage);
 
                 buttons.forEach((button) => {
-                    const type = button.getAttribute('data-type'); // Lấy loại nút từ data-type
+                    const type = button.getAttribute('data-type');
 
                     if (type === "page") {
-                        // Kiểm tra nếu là số trang
+                        
                         if (parseInt(button.innerText) === currentPage) {
                             button.classList.add('active');
                         } else {
                             button.classList.remove('active');
                         }
                     } else {
-                        // Vô hiệu hóa nút "Trang đầu" và "Trang trước" nếu ở trang đầu tiên
+                        
                         if (type === "first" || type === "prev") {
                             button.disabled = currentPage === 1;
                         }
 
-                        // Vô hiệu hóa nút "Trang sau" và "Trang cuối" nếu ở trang cuối
                         if (type === "next" || type === "last") {
                             button.disabled = currentPage === totalPages;
                         }
@@ -562,12 +733,9 @@
                 });
             }
 
-
-            // Khởi tạo
             renderTable(currentPage);
             renderPagination();
 
-            // Xử lý button tuần/tháng
             function showWeekInfo() {
                 document.getElementById('week-info').style.display = 'block';
                 document.getElementById('month-info').style.display = 'none';
@@ -582,222 +750,6 @@
                 document.querySelector('.button-group button:first-child').classList.remove('active');
             }
         </script>
-
-
-        <style>
-            .center-text-custom {
-                text-align: center !important;
-                vertical-align: middle;
-            }
-
-            .card img {
-                object-fit: cover; /* Cắt ảnh để khớp */
-                border-radius: 8px; /* Bo góc nhẹ */
-            }
-
-            .testnhan123 {
-                /*                padding: 20px;
-                background-color: #ffffff;
-                margin: 20px;
-                border-radius: 10px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                display: flex;
-                gap: 20px;*/
-                padding: 20px;
-                margin: 20px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                /*                border-radius: 10px;*/
-            }
-
-            .testnhan {
-                padding: 20px;
-                background-color: #ffffff;
-                margin: 20px;
-                /*                                border-radius: 10px;*/
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                display: flex;
-                gap: 20px;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            }
-
-            .info-box {
-                width: 20%;
-                background-color: #f9f9f9;
-                border-radius: 10px;
-                padding: 20px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                border: 1px solid #ddd;
-            }
-
-                .info-box h2 {
-                    margin-bottom: 10px;
-                    font-size: 18px;
-                    color: #333;
-                    font-weight: 600;
-                }
-
-                .info-box p {
-                    margin: 5px 0;
-                    font-size: 14px;
-                    color: #555;
-                    font-weight: 500;
-                }
-
-            .button-group {
-                margin-bottom: 20px;
-                display: flex;
-            }
-
-                .button-group button {
-                    padding: 8px 16px;
-                    border: none;
-                    background-color: #e0e0e0;
-                    color: #333;
-                    cursor: pointer;
-                    transition: background-color 0.3s ease, color 0.3s ease;
-                    font-size: 14px;
-                    font-weight: 500;
-                    flex: 1;
-                    border-radius: 0;
-                }
-
-                    .button-group button:first-child {
-                        border-top-left-radius: 5px;
-                        border-bottom-left-radius: 5px;
-                    }
-
-                    .button-group button:last-child {
-                        border-top-right-radius: 5px;
-                        border-bottom-right-radius: 5px;
-                    }
-
-                    .button-group button.active {
-                        background-color: #00529C;
-                        color: white;
-                    }
-
-                    .button-group button:hover {
-                        background-color: #0056b3;
-                        color: white;
-                    }
-
-            .content-wrapper {
-                display: flex;
-                gap: 20px;
-                width: 80%;
-            }
-
-            .card-list {
-                display: none;
-                flex-wrap: wrap;
-                gap: 10px;
-                width: 70%;
-            }
-
-            .card {
-                width: calc(25% - 10px);
-                background-color: #f9f9f9;
-                border-radius: 10px;
-                padding: 10px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
-            }
-
-                .card:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-                }
-
-                .card img {
-                    width: 100%;
-                    border-radius: 10px;
-                }
-
-                .card h3 {
-                    margin: 10px 0 5px;
-                    font-size: 14px;
-                    color: #333;
-                    font-weight: 600;
-                }
-
-                .card p {
-                    margin: 0;
-                    font-size: 12px;
-                    color: #555;
-                    font-weight: 500;
-                }
-
-            .ranking-table {
-                width: 30%;
-                background-color: #f9f9f9;
-                border-radius: 10px;
-                padding: 15px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            }
-
-                .ranking-table h2 {
-                    margin-bottom: 10px;
-                    font-size: 18px;
-                    color: #333;
-                    font-weight: 600;
-                }
-
-                .ranking-table table {
-                    width: 100%;
-                    border-collapse: collapse;
-                }
-
-                .ranking-table th, .ranking-table td {
-                    padding: 10px;
-                    text-align: left;
-                    border-bottom: 1px solid #ddd;
-                    font-size: 14px;
-                    font-weight: 500;
-                }
-
-                .ranking-table th {
-                    background-color: #00529C;
-                    color: white;
-                    font-weight: 600;
-                }
-
-                .ranking-table tr:hover {
-                    background-color: #f1f1f1;
-                }
-
-            .pagination {
-                display: flex;
-                justify-content: center;
-                margin-top: 10px;
-                gap: 5px;
-            }
-
-                .pagination button {
-                    padding: 5px 10px;
-                    border: none;
-                    background-color: #e0e0e0;
-                    color: #333;
-                    cursor: pointer;
-                    border-radius: 3px;
-                    transition: background-color 0.3s ease, color 0.3s ease;
-                }
-
-                    .pagination button.active {
-                        background-color: #00529C;
-                        color: white;
-                    }
-
-                    .pagination button:hover {
-                        background-color: #0056b3;
-                        color: white;
-                    }
-
-                    .pagination button:disabled {
-                        background-color: #ccc;
-                        cursor: not-allowed;
-                        color: #666;
-                    }
-        </style>
 
         <div class="testnhan123">
             <section id="overview" class="about " style="padding-bottom: 0;">
