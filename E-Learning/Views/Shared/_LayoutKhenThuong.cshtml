@@ -1004,20 +1004,20 @@
 
     </script>
     <script>
-        // Khai báo biến toàn cục ở đầu script
+
+        // Khai báo biến toàn cục
         const recordsPerPage = 3; // Số lượng record mỗi trang
 
-        // Lưu trữ tất cả các hàng trong bảng ngay sau khi DOM được tải
-        let allRows;
-
-        document.addEventListener("DOMContentLoaded", function () {
-            // Khởi tạo các hàng khi DOM đã sẵn sàng
-            allRows = Array.from(document.querySelectorAll("#individual-ranking tbody tr"));
-            displayPage(1); // Hiển thị trang đầu tiên khi tải trang
-        });
+        // Hàm lấy tất cả các hàng trong bảng xếp hạng (dựa trên loại)
+        function getRows(type) {
+            return Array.from(document.querySelectorAll(`#${type}-ranking tbody tr`));
+        }
 
         // Hàm hiển thị trang
-        function displayPage(pageNumber) {
+        function displayPage(type, pageNumber) {
+            // Lấy các hàng theo loại bảng (cá nhân hoặc tập thể)
+            const allRows = getRows(type);
+
             // Tính toán vị trí bắt đầu và kết thúc
             const start = (pageNumber - 1) * recordsPerPage;
             const end = start + recordsPerPage;
@@ -1041,10 +1041,16 @@
             event.currentTarget.parentElement.classList.add('active');
 
             // Hiển thị dữ liệu trang mới
-            displayPage(pageNumber);
+            displayPage(type, pageNumber);
             console.log(`Đã chuyển sang trang ${pageNumber} của ${type}`);
         }
 
+        // Khởi tạo khi DOM đã sẵn sàng
+        document.addEventListener("DOMContentLoaded", function () {
+            // Hiển thị trang đầu tiên của cả hai bảng khi tải trang
+            displayPage('individual', 1);
+            displayPage('collective', 1);
+        });
     </script>
     <script>
         // Xử lý chọn năm
