@@ -14,6 +14,13 @@
 
     <!-- Chart.js for charts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- jquery link -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 
 <body class="index-page">
@@ -673,33 +680,29 @@
                 <div class="overview-card">
                     <div class="overview-card-title">Tổng số đề tài</div>
                     <div class="overview-card-value summary-value text-primary">1,245</div>
-                    <!-- <div class="overview-card-change"><i class="fas fa-arrow-up"></i> 12% so với năm trước</div> -->
                 </div>
 
                 <div class="overview-card">
                     <div class="overview-card-title">Tổng giá trị làm lợi</div>
                     <div class="overview-card-value summary-value text-success">2,450 tỷ</div>
-                    <!-- <div class="overview-card-change"><i class="fas fa-arrow-up"></i> 18% so với năm trước</div> -->
                 </div>
 
                 <div class="overview-card">
                     <div class="overview-card-title">Tổng số tiền thưởng</div>
                     <div class="overview-card-value summary-value text-warning">45 tỷ</div>
-                    <!-- <div class="overview-card-change"><i class="fas fa-arrow-up"></i> 8% so với năm trước</div> -->
                 </div>
 
                 <div class="overview-card">
                     <div class="overview-card-title">Số cá nhân được khen thưởng</div>
                     <div class="overview-card-value summary-value text-info">324</div>
-                    <!-- <div class="overview-card-change"><i class="fas fa-arrow-up"></i> 15% so với năm trước</div> -->
                 </div>
 
                 <div class="overview-card">
                     <div class="overview-card-title">Số đơn vị được khen thưởng</div>
                     <div class="overview-card-value summary-value text-danger">78</div>
-                    <!-- <div class="overview-card-change negative"><i class="fas fa-arrow-down"></i> 5% so với năm trước</div> -->
                 </div>
             </div>
+
         </div>
 
 
@@ -899,8 +902,6 @@
 
     </div>
 
-    <!-- Bootstrap 5 JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Hàm chuyển tab tuần/tháng
         function switchTab(tabName) {
@@ -1003,6 +1004,7 @@
         }
 
     </script>
+
     <script>
 
         // Khai báo biến toàn cục
@@ -1052,135 +1054,66 @@
             displayPage('collective', 1);
         });
     </script>
+
     <script>
         // Xử lý chọn năm
         document.getElementById('yearSelector').addEventListener('change', function () {
             const selectedYear = this.value;
-            console.log(`Đã chọn năm: ${selectedYear}`);
-            // Tải dữ liệu theo năm
-            // loadOverviewData(selectedYear);
             loadOverviewData(selectedYear);
         });
 
-        // Hàm ví dụ để tải dữ liệu tổng quan
+        // call API
         function loadOverviewData(year) {
-            // Gọi API hoặc cập nhật dữ liệu theo năm được chọn
-            console.log(`Tải dữ liệu tổng quan cho năm ${year}`);
-
-            // Ví dụ cập nhật dữ liệu
-            const data = {
-                "2020": {
-                    projects: 980,
-                    economicValue: "1,850 tỷ",
-                    bonus: "32 tỷ",
-                    individuals: 245,
-                    teams: 65
+            $.ajax({
+                url: '/Honor/GetTongQuanTheoNam',
+                type: 'GET',
+                data: { year: year },
+                success: function (data) {
+                    if (data) {
+                        document.querySelector('.overview-card:nth-child(1) .overview-card-value').textContent = data.TongSoDeTai.toLocaleString();
+                        document.querySelector('.overview-card:nth-child(2) .overview-card-value').textContent = data.TongGiaTriLamLoi + ' tỷ';
+                        document.querySelector('.overview-card:nth-child(3) .overview-card-value').textContent = data.TongSoTienThuong + ' tỷ';
+                        document.querySelector('.overview-card:nth-child(4) .overview-card-value').textContent = data.SoCaNhanKhenThuong;
+                        document.querySelector('.overview-card:nth-child(5) .overview-card-value').textContent = data.SoDonViKhenThuong;
+                    }
                 },
-                "2021": {
-                    projects: 1050,
-                    economicValue: "2,000 tỷ",
-                    bonus: "36 tỷ",
-                    individuals: 278,
-                    teams: 72
-                },
-                "2022": {
-                    projects: 1120,
-                    economicValue: "2,200 tỷ",
-                    bonus: "42 tỷ",
-                    individuals: 295,
-                    teams: 82
-                },
-                "2023": {
-                    projects: 1245,
-                    economicValue: "250 tỷ",
-                    bonus: "45 tỷ",
-                    individuals: 324,
-                    teams: 78
+                error: function () {
+                    alert('Không thể tải dữ liệu tổng quan!');
                 }
-            };
-
-            if (data[year]) {
-                document.querySelector('.overview-card:nth-child(1) .overview-card-value').textContent = data[year].projects.toLocaleString();
-                document.querySelector('.overview-card:nth-child(2) .overview-card-value').textContent = data[year].economicValue;
-                document.querySelector('.overview-card:nth-child(3) .overview-card-value').textContent = data[year].bonus;
-                document.querySelector('.overview-card:nth-child(4) .overview-card-value').textContent = data[year].individuals;
-                document.querySelector('.overview-card:nth-child(5) .overview-card-value').textContent = data[year].teams;
-            }
+            });
         }
 
-        // Khởi tạo dữ liệu
-        loadOverviewData('2023');
+        // init data
+        loadOverviewData(2023);
     </script>
 
     <script>
-
-        // Biểu đồ thành tích tập thể
         const collectiveCtx = document.getElementById('collectiveChart').getContext('2d');
 
-        // Dữ liệu mẫu cho các năm
-        const collectiveData = {
-            "2020": {
-                labels: ['P. CNTT & CĐS', 'NM. HRC1', 'NM. CĐ2', 'NM. HRC2', 'NM. TKVV'],
-                data: [45, 32, 28, 20, 15],
-                backgroundColor: [
-                    'rgba(54, 162, 235, 0.7)',
-                    'rgba(75, 192, 192, 0.7)',
-                    'rgba(255, 159, 64, 0.7)',
-                    'rgba(153, 102, 255, 0.7)',
-                    'rgba(75, 192, 75, 0.7)'
-                ]
-            },
-            "2021": {
-                labels: ['P. CNTT & CĐS', 'NM. HRC1', 'NM. CĐ2', 'NM. HRC2', 'NM. TKVV'],
-                data: [52, 38, 31, 25, 18],
-                backgroundColor: [
-                    'rgba(54, 162, 235, 0.7)',
-                    'rgba(75, 192, 192, 0.7)',
-                    'rgba(255, 159, 64, 0.7)',
-                    'rgba(153, 102, 255, 0.7)',
-                    'rgba(75, 192, 75, 0.7)'
-                ]
-            },
-            "2022": {
-                labels: ['P. CNTT & CĐS', 'NM. HRC1', 'NM. CĐ2', 'NM. HRC2', 'NM. TKVV'],
-                data: [60, 42, 36, 30, 22],
-                backgroundColor: [
-                    'rgba(54, 162, 235, 0.7)',
-                    'rgba(75, 192, 192, 0.7)',
-                    'rgba(255, 159, 64, 0.7)',
-                    'rgba(153, 102, 255, 0.7)',
-                    'rgba(75, 192, 75, 0.7)'
-                ]
-            },
-            "2023": {
-                labels: ['P. CNTT & CĐS', 'NM. HRC1', 'NM. CĐ2', 'NM. HRC2', 'NM. TKVV'],
-                data: [68, 48, 40, 35, 25],
-                backgroundColor: [
-                    'rgba(54, 162, 235, 0.7)',
-                    'rgba(75, 192, 192, 0.7)',
-                    'rgba(255, 159, 64, 0.7)',
-                    'rgba(153, 102, 255, 0.7)',
-                    'rgba(75, 192, 75, 0.7)'
-                ]
-            }
-        };
+        const defaultColors = [
+            'rgba(54, 162, 235, 0.7)',
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(255, 159, 64, 0.7)',
+            'rgba(153, 102, 255, 0.7)',
+            'rgba(75, 192, 75, 0.7)'
+        ];
+        const defaultBorderColors = [
+            'rgba(54, 162, 235, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(75, 192, 75, 1)'
+        ];
 
-        // Tạo biểu đồ
         const collectiveChart = new Chart(collectiveCtx, {
             type: 'bar',
             data: {
-                labels: collectiveData['2023'].labels,
+                labels: [],
                 datasets: [{
                     label: 'Số đề tài đổi mới sáng tạo',
-                    data: collectiveData['2023'].data,
-                    backgroundColor: collectiveData['2023'].backgroundColor,
-                    borderColor: [
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(75, 192, 75, 1)'
-                    ],
+                    data: [],
+                    backgroundColor: defaultColors,
+                    borderColor: defaultBorderColors,
                     borderWidth: 1
                 }]
             },
@@ -1188,9 +1121,7 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        display: false
-                    },
+                    legend: { display: false },
                     tooltip: {
                         callbacks: {
                             label: function (context) {
@@ -1208,21 +1139,14 @@
                         title: {
                             display: true,
                             text: 'Số đề tài',
-                            font: {
-                                weight: 'bold'
-                            }
+                            font: { weight: 'bold' }
                         },
-                        ticks: {
-                            stepSize: 10
-                        }
+                        ticks: { stepSize: 10 }
                     },
                     x: {
                         title: {
                             display: true,
-                            // text: 'Đơn vị',
-                            font: {
-                                weight: 'bold'
-                            }
+                            font: { weight: 'bold' }
                         }
                     }
                 },
@@ -1232,53 +1156,61 @@
             }
         });
 
+        // call API
+        function updateCollectiveChart(year) {
+            $.ajax({
+                url: '/Honor/GetCollectiveChartData',
+                type: 'GET',
+                data: { year: year },
+                success: function (data) {
+                    if (data) {
+                        collectiveChart.data.labels = data.Labels;
+                        collectiveChart.data.datasets[0].data = data.Data;
+                        collectiveChart.update();
+                    } else {
+                        alert("Không có dữ liệu cho năm " + year);
+                    }
+                },
+                error: function () {
+                    alert('Không thể tải dữ liệu biểu đồ.');
+                }
+            });
+        }
 
-        // Xử lý chọn năm
+        // init default
+        updateCollectiveChart(2023);
+
+        // change year
         document.getElementById('collectiveYearSelector').addEventListener('change', function () {
             const selectedYear = this.value;
             updateCollectiveChart(selectedYear);
         });
-
-        // Hàm cập nhật biểu đồ
-        function updateCollectiveChart(year) {
-            collectiveChart.data.labels = collectiveData[year].labels;
-            collectiveChart.data.datasets[0].data = collectiveData[year].data;
-            collectiveChart.data.datasets[0].backgroundColor = collectiveData[year].backgroundColor;
-            collectiveChart.update();
-        }
     </script>
+
+
     <script>
 
-        // Dữ liệu mẫu cho bảng Thành tích Cá nhân
-        const achievementData = [
-            { id: 'NV001', name: 'Nguyễn Văn A', department: 'NM. CĐ1', project: 'Giải pháp A', reward: 'Có đổi mới sáng tạo', year: '2023' },
-            { id: 'NV002', name: 'Trần Thị B', department: 'NM. TKVV', project: 'Nghiên cứu B', reward: 'Có đổi mới sáng tạo', year: '2023' },
-            { id: 'NV003', name: 'Lê Văn C', department: 'P. ATMT', project: 'Vật liệu C', reward: 'Có đổi mới sáng tạo', year: '2023' },
-            { id: 'NV004', name: 'Phạm Thị D', department: 'P. CNTT & CĐS', project: 'Giải pháp xử lý D', reward: 'Có đổi mới sáng tạo', year: '2023' },
-            { id: 'NV005', name: 'Hoàng Văn E', department: 'NM. HRC2', project: 'Năng lượng tái tạo', reward: 'Có đổi mới sáng tạo', year: '2023' },
-            { id: 'NV006', name: 'Vũ Thị F', department: 'NM. CĐ1', project: 'Blockchain', reward: 'Có đổi mới sáng tạo', year: '2022' },
-            { id: 'NV007', name: 'Đặng Văn G', department: 'NM. TKVV', project: 'Nghiên cứu E', reward: 'Có đổi mới sáng tạo', year: '2022' },
-            { id: 'NV008', name: 'Bùi Thị H', department: 'P. ATMT', project: 'Đề tài F', reward: 'Có đổi mới sáng tạo', year: '2022' },
-            { id: 'NV009', name: 'Ngô Văn I', department: 'P. CNTT & CĐS', project: 'Giám sát G', reward: 'Có đổi mới sáng tạo', year: '2022' },
-            { id: 'NV010', name: 'Đỗ Thị K', department: 'NM. HRC2', project: 'Hiệu suất H', reward: 'Có đổi mới sáng tạo', year: '2022' },
-            { id: 'NV011', name: 'Mai Văn L', department: 'NM. CĐ1', project: 'Hệ thống K', reward: 'Có đổi mới sáng tạo', year: '2021' },
-            { id: 'NV012', name: 'Lý Thị M', department: 'NM. TKVV', project: 'Công nghệ L', reward: 'Có đổi mới sáng tạo', year: '2021' },
-            { id: 'NV013', name: 'Trương Văn N', department: 'P. ATMT', project: 'Vật liệu M', reward: 'Có đổi mới sáng tạo', year: '2021' },
-            { id: 'NV014', name: 'Hồ Thị O', department: 'P. CNTT & CĐS', project: 'Xử lý N', reward: 'Có đổi mới sáng tạo', year: '2021' },
-            { id: 'NV015', name: 'Phan Văn P', department: 'NM. HRC2', project: 'Năng lượng Z', reward: 'Có đổi mới sáng tạo', year: '2021' },
-            { id: 'NV016', name: 'Võ Thị Q', department: 'NM. CĐ1', project: 'AI', reward: 'Có đổi mới sáng tạo', year: '2020' },
-            { id: 'NV017', name: 'Chu Văn R', department: 'NM. TKVV', project: 'Nghiên cứu O', reward: 'Có đổi mới sáng tạo', year: '2020' },
-            { id: 'NV018', name: 'Lâm Thị S', department: 'P. ATMT', project: 'Đề tài ABC', reward: 'Có đổi mới sáng tạo', year: '2020' },
-            { id: 'NV019', name: 'Tô Văn T', department: 'P. CNTT & CĐS', project: 'Giảm thiểu CO2', reward: 'Có đổi mới sáng tạo', year: '2020' },
-            { id: 'NV020', name: 'Hà Thị U', department: 'NM. HRC2', project: 'Lưu trữ năng lượng', reward: 'Có đổi mới sáng tạo', year: '2020' }
-        ];
-
-        // Biến quản lý phân trang
+        let achievementData = [];
+        let filteredData = [];
         let currentPage = 1;
         const rowsPerPage = 5;
-        let filteredData = [...achievementData];
 
-        // Hàm hiển thị dữ liệu
+        function fetchAchievements() {
+            $.ajax({
+                url: '/Honor/GetAchievements',
+                type: 'GET',
+                success: function (data) {
+                    achievementData = data;
+                    filteredData = [...achievementData];
+                    displayData();
+                },
+                error: function (xhr, status, error) {
+                    alert('Lỗi khi lấy dữ liệu:', error);
+                }
+            });
+        }
+
+        // display data
         function displayData(page = 1) {
             currentPage = page;
             const startIdx = (page - 1) * rowsPerPage;
@@ -1291,21 +1223,21 @@
             paginatedData.forEach(item => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${item.id}</td>
-                    <td>${item.name}</td>
-                    <td>${item.department}</td>
-                    <td>${item.project}</td>
-                    <td>${item.reward}</td>
-                    <td>${item.year}</td>
-                `;
+                                <td>${item.id}</td>
+                                <td>${item.name}</td>
+                                <td>${item.department}</td>
+                                <td>${item.project}</td>
+                                <td>${item.reward}</td>
+                                <td>${item.year}</td>
+                            `;
                 tableBody.appendChild(row);
             });
 
-            // Cập nhật thông tin phân trang
+            // call update pagination
             updatePaginationInfo();
         }
 
-        // Hàm cập nhật thông tin phân trang
+        // function update pagination
         function updatePaginationInfo() {
             const totalPages = Math.ceil(filteredData.length / rowsPerPage);
             const startItem = (currentPage - 1) * rowsPerPage + 1;
@@ -1322,10 +1254,10 @@
             const prevItem = document.createElement('li');
             prevItem.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
             prevItem.innerHTML = `
-                <a class="page-link" href="#" aria-label="Previous" id="prevPage">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            `;
+                            <a class="page-link" href="#" aria-label="Previous" id="prevPage">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        `;
             pagination.appendChild(prevItem);
 
             // Các nút trang
@@ -1376,10 +1308,10 @@
             const nextItem = document.createElement('li');
             nextItem.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
             nextItem.innerHTML = `
-                <a class="page-link" href="#" aria-label="Next" id="nextPage">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            `;
+                            <a class="page-link" href="#" aria-label="Next" id="nextPage">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        `;
             pagination.appendChild(nextItem);
 
             // Thêm sự kiện click cho các nút trang
@@ -1441,54 +1373,21 @@
         document.getElementById('searchInput').addEventListener('input', filterData);
 
         // Khởi tạo dữ liệu ban đầu
-        displayData();
+        fetchAchievements();
     </script>
-    <script>
 
-        // Khởi tạo biểu đồ thống kê
+    <script>
         const statisticsCtx = document.getElementById('statisticsChart').getContext('2d');
 
-        // Dữ liệu mẫu cho các năm
-        const statisticsData = {
-            "2020": {
-                individuals: 245,
-                teams: 65,
-                contents: 120,
-                bonus: 32
-            },
-            "2021": {
-                individuals: 278,
-                teams: 72,
-                contents: 145,
-                bonus: 36
-            },
-            "2022": {
-                individuals: 295,
-                teams: 82,
-                contents: 168,
-                bonus: 42
-            },
-            "2023": {
-                individuals: 324,
-                teams: 78,
-                contents: 195,
-                bonus: 45
-            }
-        };
+        const labels = ['Cá nhân được thưởng', 'Đơn vị được thưởng', 'Nội dung khen thưởng', 'Tiền thưởng (tỷ)'];
 
-        // Tạo biểu đồ
         const statisticsChart_group = new Chart(statisticsCtx, {
             type: 'bar',
             data: {
-                labels: ['Cá nhân được thưởng', 'Đơn vị được thưởng', 'Nội dung khen thưởng', 'Tiền thưởng (tỷ)'],
+                labels: labels,
                 datasets: [{
-                    label: 'Thống kê năm 2023',
-                    data: [
-                        statisticsData['2023'].individuals,
-                        statisticsData['2023'].teams,
-                        statisticsData['2023'].contents,
-                        statisticsData['2023'].bonus
-                    ],
+                    label: 'Thống kê năm',
+                    data: [],
                     backgroundColor: [
                         'rgba(52, 152, 219, 0.7)',
                         'rgba(46, 204, 113, 0.7)',
@@ -1508,19 +1407,13 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        display: false
-                    },
+                    legend: { display: false },
                     tooltip: {
                         callbacks: {
                             label: function (context) {
                                 let label = context.dataset.label || '';
-                                if (label) {
-                                    label += ': ';
-                                }
-                                if (context.parsed.y !== null) {
-                                    label += context.parsed.y;
-                                }
+                                if (label) label += ': ';
+                                if (context.parsed.y !== null) label += context.parsed.y;
                                 return label;
                             }
                         }
@@ -1528,44 +1421,74 @@
                     datalabels: {
                         anchor: 'end',
                         align: 'top',
-                        formatter: function (value) {
-                            return value;
-                        },
-                        font: {
-                            weight: 'bold'
-                        }
+                        formatter: value => value,
+                        font: { weight: 'bold' }
                     }
                 },
                 scales: {
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            callback: function (value) {
-                                return value;
-                            }
+                            callback: value => value
                         }
                     }
                 }
-            }
+            },
+            plugins: [{
+                id: 'datalabels',
+                afterDatasetsDraw(chart) {
+                    const { ctx } = chart;
+                    ctx.font = 'bold 12px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+
+                    chart.data.datasets.forEach((dataset, i) => {
+                        chart.getDatasetMeta(i).data.forEach((datapoint, index) => {
+                            ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+                            ctx.fillText(
+                                dataset.data[index],
+                                datapoint.x,
+                                datapoint.y - 10
+                            );
+                        });
+                    });
+                }
+            }]
         });
 
-        // Cập nhật biểu đồ khi chọn năm
+        function updateStatisticsChart(year) {
+            $.ajax({
+                url: '/Honor/GetStatisticsData',
+                type: 'GET',
+                data: { year: year },
+                success: function (data) {
+                    if (data) {
+                        statisticsChart_group.data.datasets[0].label = `Thống kê năm ${year}`;
+                        statisticsChart_group.data.datasets[0].data = [
+                            data.individuals,
+                            data.teams,
+                            data.contents,
+                            data.bonus
+                        ];
+                        statisticsChart_group.update();
+                    } else {
+                        alert("Không có dữ liệu cho năm " + year);
+                    }
+                },
+                error: function () {
+                    alert('Lỗi khi tải dữ liệu biểu đồ!');
+                }
+            });
+        }
+
+        // Gọi mặc định khi load trang
+        updateStatisticsChart(2023);
+
+        // Gọi khi select thay đổi
         document.getElementById('statisticsYearSelector').addEventListener('change', function () {
             const selectedYear = this.value;
             updateStatisticsChart(selectedYear);
         });
-
-        // Hàm cập nhật biểu đồ
-        function updateStatisticsChart(year) {
-            statisticsChart_group.data.datasets[0].label = `Thống kê năm ${year}`;
-            statisticsChart_group.data.datasets[0].data = [
-                statisticsData[year].individuals,
-                statisticsData[year].teams,
-                statisticsData[year].contents,
-                statisticsData[year].bonus
-            ];
-            statisticsChart_group.update();
-        }
 
         // Plugin để hiển thị giá trị trên đỉnh cột
         Chart.register({
@@ -1591,6 +1514,7 @@
         });
 
     </script>
+
     <script>
         // Xử lý menu mobile
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -1621,6 +1545,7 @@
         });
 
     </script>
+
     <script>
 
         // Hàm scroll lên đầu trang
@@ -1643,6 +1568,7 @@
             }
         });
     </script>
+
 </body>
 
 </html>
