@@ -15,7 +15,7 @@ namespace E_Learning.Controllers.KhenThuong
         }
 
         [HttpGet]
-        public JsonResult GetTongQuanTheoNam(int year)
+        public JsonResult GetOverviewByYear(int year)
         {
             var data = new Dictionary<int, object>
             {

@@ -25,7 +25,7 @@
 
 <body class="index-page">
     @RenderBody()
-    <!-- Header mới -->
+    <!-- Header -->
     <header class="main-header">
         <div class="header-container">
             <div class="logo">
@@ -71,7 +71,7 @@
             <!-- Vùng Thông tin tuần/tháng - Chiếm 1/3 -->
             <div class="col-lg-4 col-md-12 mb-4">
                 <div class="stats-container">
-                    <!-- Tab mới chuyên nghiệp -->
+                    <!-- Tab chọn tuần tháng-->
                     <div class="custom-tabs">
                         <div class="custom-tab active" id="custom-week-tab" onclick="switchTab('week')">
                             Tuần 3
@@ -771,7 +771,7 @@
 
                     <div class="search-box">
                         <!-- <label class="filter-label">Tìm kiếm</label> -->
-                        <input type="text" class="search-input" id="searchInput" placeholder="Tìm theo mã, tên, đơn vị...">
+                        <input type="text" class="search-input" id="searchInput" placeholder="Tìm theo mã, tên, đơn vị, đề tài...">
                     </div>
                 </div>
             </div>
@@ -890,7 +890,7 @@
 
                     <div class="footer-info">
                         <p><strong>© 2025 Công ty CP Thép Hòa Phát Dung Quất</strong></p>
-                        <p>Phát triển bởi Phòng CNTT & CĐS</p>
+                        <p title="Phòng Công nghệ thông tin & Chuyển đổi số">Phát triển bởi Phòng CNTT & CĐS</p>
                     </div>
 
                     <button class="back-to-top" onclick="scrollToTop()">
@@ -1065,7 +1065,7 @@
         // call API
         function loadOverviewData(year) {
             $.ajax({
-                url: '/Honor/GetTongQuanTheoNam',
+                url: '/Honor/GetOverviewByYear',
                 type: 'GET',
                 data: { year: year },
                 success: function (data) {
