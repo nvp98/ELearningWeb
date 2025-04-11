@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -426,47 +427,36 @@
 
         <!-- Vùng Top 3 và Bảng xếp hạng -->
         <div class="row top3-container">
+            @{
+                var danhSach = ViewBag.DanhSachCaNhan as List<E_Learning.ModelsQLKhenThuong.CaNhanXepHang>;
+                var top3 = danhSach.Take(3).ToList();
+                var conLai = danhSach.Skip(3).ToList();
+                var stt = 4;
+
+                var danhSachDonVi = ViewBag.DanhSachDonVi as List<E_Learning.ModelsQLKhenThuong.DonViXepHang>;
+                var top3DonVi = danhSachDonVi.Take(3).ToList();
+                var conLaiDonVi = danhSachDonVi.Skip(3).ToList();
+                var sttDonVi = 4;
+            }
             <!-- Top 3 cá nhân -->
             <div class="col-lg-6 col-md-6 mb-4">
                 <div class="top3-section">
                     <h5 class="top3-title">Bảng xếp hạng Cá nhân</h5>
                     <div class="top3-items">
-                        <!-- Top 2 -->
-                        <div class="top-item top2">
-                            <div class="top-badge">2</div>
-                            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="top-avatar" alt="Top 2">
-                            <h6 class="top-name">Nguyễn Võ Tuấn Nhân</h6>
-                            <p class="top-unit">P. CNTT & CĐS</p>
-                            <p class="top-project">10 Đề tài</p>
-                        </div>
-
-                        <!-- Top 1 -->
-                        <div class="top-item top1">
-                            <div class="top-badge">1</div>
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="top-avatar" alt="Top 1">
-                            <h6 class="top-name">Trần Văn Nam</h6>
-                            <p class="top-unit">P. CNTT & CĐS</p>
-                            <p class="top-project">11 Đề tài</p>
-                        </div>
-
-                        <!-- Top 3 -->
-                        <div class="top-item top3">
-                            <div class="top-badge">3</div>
-                            <img src="https://randomuser.me/api/portraits/men/45.jpg" class="top-avatar" alt="Top 3">
-                            <h6 class="top-name">Lê Minh Tuấn</h6>
-                            <p class="top-unit">NM. CĐ2</p>
-                            <p class="top-project">9 Đề tài</p>
-                        </div>
+                        @for (int i = 0; i < top3.Count; i++)
+                        {
+                            var item = top3[i];
+                            var topClass = i == 0 ? "top1" : (i == 1 ? "top2" : "top3");
+                            <div class="top-item @topClass">
+                                <div class="top-badge">@((i + 1))</div>
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="top-avatar" alt="Top @(i+1)">
+                                <h6 class="top-name">@item.HoTen</h6>
+                                <p class="top-unit">@item.DonVi</p>
+                                <p class="top-project">@item.SoLuongDeTai Đề tài</p>
+                            </div>
+                        }
                     </div>
-
-
                     <div class="ranking-container_">
-                        <!-- <h5 class="top3-title">BXH Cá nhân</h5> -->
-                        <!-- <div class="ranking-tabs">
-                            <div class="ranking-tab active" onclick="switchRankingTab('individual')">Cá Nhân</div>
-                            <div class="ranking-tab" onclick="switchRankingTab('collective')">Đơn vị</div>
-                        </div> -->
-
                         <div id="individual-ranking" class="ranking-content">
                             <table class="ranking-table">
                                 <thead>
@@ -479,74 +469,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>HPDQ01</td>
-                                        <td class="ranking-name">
-                                            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="ranking-avatar" alt="Avatar">
-                                            Trần Văn Q
-                                        </td>
-                                        <td>NM. HRC1</td>
-                                        <td>5</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>HPDQ02</td>
-                                        <td class="ranking-name">
-                                            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="ranking-avatar" alt="Avatar">
-                                            Nguyễn Tấn H
-                                        </td>
-                                        <td>P. CNTT & CĐS</td>
-                                        <td>4</td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>HPDQ03</td>
-                                        <td class="ranking-name">
-                                            <img src="https://randomuser.me/api/portraits/men/45.jpg" class="ranking-avatar" alt="Avatar">
-                                            Phạm Văn T
-                                        </td>
-                                        <td>NM. CĐ3</td>
-                                        <td>3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td>HPDQ04</td>
-                                        <td class="ranking-name">
-                                            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="ranking-avatar" alt="Avatar">
-                                            TS. Phạm Thị Lan
-                                        </td>
-                                        <td>P. CNTT & CĐS</td>
-                                        <td>3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>8</td>
-                                        <td>HPDQ05</td>
-                                        <td class="ranking-name">
-                                            <img src="https://randomuser.me/api/portraits/men/22.jpg" class="ranking-avatar" alt="Avatar">
-                                            TS. Nguyễn Văn Hùng
-                                        </td>
-                                        <td>NM. CĐ1</td>
-                                        <td>2</td>
-                                    </tr>
+                                    @foreach (var item in conLai)
+                                    {
+                                        <tr>
+                                            <td>@stt</td>
+                                            <td>@item.MNV</td>
+                                            <td class="ranking-name">
+                                                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="ranking-avatar" alt="Avatar" />
+                                                @item.HoTen
+                                            </td>
+                                            <td>@item.DonVi</td>
+                                            <td>@item.SoLuongDeTai</td>
+                                        </tr>
+                                        stt++;
+                                    }
                                 </tbody>
                             </table>
-                            <!-- <nav aria-label="Page navigation">
-                                <ul class="pagination" id="individual-pagination">
-                                    <li class="page-item active"><a class="page-link" href="#" onclick="changePage(event, 'individual', 1)">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#" onclick="changePage(event, 'individual', 2)">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#" onclick="changePage(event, 'individual', 3)">3</a></li>
-                                </ul>
-                            </nav> -->
                             <nav aria-label="Page navigation">
                                 <ul class="pagination" id="individual-pagination">
-                                    <li class="page-item active"><a class="page-link" href="#" onclick="changePage(event, 'individual', 1)">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#" onclick="changePage(event, 'individual', 2)">2</a></li>
                                 </ul>
                             </nav>
-
                         </div>
-
                     </div>
 
                 </div>
@@ -557,32 +500,48 @@
                 <div class="top3-section">
                     <h5 class="top3-title">Bảng xếp hạng Đơn vị</h5>
                     <div class="top3-items">
+
+
+                        @for (int i = 0; i < top3DonVi.Count; i++)
+                        {
+                            var item = top3DonVi[i];
+                            var topClass = i == 0 ? "top1" : (i == 1 ? "top2" : "top3");
+                            var path = i == 0 ? "/Content/assets/images/avatars/BCNTT.png" : (i == 1 ? "/Content/assets/images/avatars/CD2.png" : "/Content/assets/images/avatars/NMND.png");
+                            <div class="top-item @topClass">
+                                <div class="top-badge">@((i + 1))</div>
+                                <img src="@path" class="top-avatar" alt="Top @(i+1)">
+                                <h6 class="top-name">@item.DonVi</h6>
+                                <p class="top-unit">@item.SoLuongDeTai</p>
+                                <p class="top-project">Đề tài</p>
+                            </div>
+                        }
+
+
+
                         <!-- Top 2 -->
-                        <div class="top-item top2">
+                        <!--<div class="top-item top2">
                             <div class="top-badge">2</div>
                             <img src="~/Content/assets/images/avatars/BCNTT.png" class="top-avatar" alt="Top 2">
                             <h6 class="top-name">P. CNTT & CĐS</h6>
                             <p class="top-unit">10</p>
                             <p class="top-project">Đề tài</p>
-                        </div>
-
+                        </div>-->
                         <!-- Top 1 -->
-                        <div class="top-item top1">
+                        <!--<div class="top-item top1">
                             <div class="top-badge">1</div>
                             <img src="~/Content/assets/images/avatars/CD2.png" class="top-avatar" alt="Top 1">
                             <h6 class="top-name">NM. CĐ2</h6>
                             <p class="top-unit">11</p>
                             <p class="top-project">Đề tài</p>
-                        </div>
-
+                        </div>-->
                         <!-- Top 3 -->
-                        <div class="top-item top3">
+                        <!--<div class="top-item top3">
                             <div class="top-badge">3</div>
                             <img src="~/Content/assets/images/avatars/NMND.png" class="top-avatar" alt="Top 3">
                             <h6 class="top-name">NM. CĐ3</h6>
                             <p class="top-unit">9</p>
                             <p class="top-project">Đề tài</p>
-                        </div>
+                        </div>-->
                     </div>
 
 
@@ -599,53 +558,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>4</td>
-                                        <td class="ranking-name">
-                                            <img src="~/Content/assets/images/avatars/BCNTT.png" class="ranking-avatar" alt="Avatar">
-                                            P. CNTT & CĐS
-                                        </td>
-                                        <td>24</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td class="ranking-name">
-                                            <img src="~/Content/assets/images/avatars/BCNTT.png" class="ranking-avatar" alt="Avatar">
-                                            NM. CĐ1
-                                        </td>
-                                        <td>15</td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td class="ranking-name">
-                                            <img src="~/Content/assets/images/avatars/BCNTT.png" class="ranking-avatar" alt="Avatar">
-                                            NM. CĐ2
-                                        </td>
-                                        <td>12</td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td class="ranking-name">
-                                            <img src="~/Content/assets/images/avatars/BCNTT.png" class="ranking-avatar" alt="Avatar">
-                                            NM. TKVV
-                                        </td>
-                                        <td>8</td>
-                                    </tr>
-                                    <tr>
-                                        <td>8</td>
-                                        <td class="ranking-name">
-                                            <img src="~/Content/assets/images/avatars/BCNTT.png" class="ranking-avatar" alt="Avatar">
-                                            NM. HRC2
-                                        </td>
-                                        <td>6</td>
-                                    </tr>
+
+                                    @foreach (var item in conLaiDonVi)
+                                    {
+                                        <tr>
+                                            <td>@sttDonVi</td>
+                                            <td class="ranking-name">
+                                                <img src="~/Content/assets/images/avatars/BCNTT.png" class="ranking-avatar" alt="Avatar" />
+                                                @item.DonVi
+                                            </td>
+                                            <td>@item.SoLuongDeTai</td>
+                                        </tr>
+                                        sttDonVi++;
+                                    }
                                 </tbody>
                             </table>
                             <nav aria-label="Page navigation">
                                 <ul class="pagination" id="collective-pagination">
-                                    <li class="page-item active"><a class="page-link" href="#" onclick="changePage(event, 'collective', 1)">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#" onclick="changePage(event, 'collective', 2)">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#" onclick="changePage(event, 'collective', 3)">3</a></li>
+                                    @*<li class="page-item active"><a class="page-link" href="#" onclick="changePage(event, 'collective', 1)">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#" onclick="changePage(event, 'collective', 2)">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#" onclick="changePage(event, 'collective', 3)">3</a></li>*@
                                 </ul>
                             </nav>
                         </div>
@@ -667,10 +599,8 @@
             <div class="filter-section_">
                 <div class="team-achievement-filters">
                     <select class="team-filter" id="yearSelector">
-                        <option value="2023" selected>Năm 2023</option>
-                        <option value="2022">Năm 2022</option>
-                        <option value="2021">Năm 2021</option>
-                        <option value="2020">Năm 2020</option>
+                        <option value="2025" selected>Năm 2025</option>
+                        <option value="2024">Năm 2024</option>
                     </select>
                 </div>
             </div>
@@ -716,10 +646,8 @@
 
             <div class="team-achievement-filters">
                 <select class="team-filter" id="collectiveYearSelector">
-                    <option value="2023" selected>Năm 2023</option>
-                    <option value="2022">Năm 2022</option>
-                    <option value="2021">Năm 2021</option>
-                    <option value="2020">Năm 2020</option>
+                    <option value="2025" selected>Năm 2025</option>
+                    <option value="2024">Năm 2024</option>
                 </select>
             </div>
 
@@ -740,11 +668,13 @@
                         <!-- <label class="filter-label">Đơn vị</label> -->
                         <select class="filter-control" id="departmentFilter">
                             <option value="">Tất cả đơn vị</option>
-                            <option value="NM. CĐ1">NM. CĐ1</option>
-                            <option value="NM. TKVV">NM. TKVV</option>
-                            <option value="P. ATMT">P. ATMT</option>
-                            <option value="P. CNTT & CĐS">P. CNTT & CĐS</option>
-                            <option value="NM. HRC2">NM. HRC2</option>
+                            @if (ViewBag.Departments != null)
+                            {
+                                foreach (var donvi in ViewBag.Departments as List<string>)
+                                {
+                                    <option value="@donvi">@donvi</option>
+                                }
+                            }
                         </select>
                     </div>
 
@@ -762,10 +692,8 @@
                         <!-- <label class="filter-label">Năm</label> -->
                         <select class="filter-control" id="yearFilter">
                             <option value="">Tất cả năm</option>
-                            <option value="2023">2023</option>
-                            <option value="2022">2022</option>
-                            <option value="2021">2021</option>
-                            <option value="2020">2020</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
                         </select>
                     </div>
 
@@ -828,10 +756,8 @@
 
             <div class="team-achievement-filters">
                 <select class="team-filter" id="statisticsYearSelector">
-                    <option value="2023" selected>Năm 2023</option>
-                    <option value="2022">Năm 2022</option>
-                    <option value="2021">Năm 2021</option>
-                    <option value="2020">Năm 2020</option>
+                    <option value="2025" selected>Năm 2025</option>
+                    <option value="2024">Năm 2024</option>
                 </select>
             </div>
 
@@ -1008,43 +934,83 @@
     <script>
 
         // Khai báo biến toàn cục
-        const recordsPerPage = 3; // Số lượng record mỗi trang
+        const recordsPerPage = 5; // Số lượng record mỗi trang
 
         // Hàm lấy tất cả các hàng trong bảng xếp hạng (dựa trên loại)
         function getRows(type) {
             return Array.from(document.querySelectorAll(`#${type}-ranking tbody tr`));
         }
 
-        // Hàm hiển thị trang
         function displayPage(type, pageNumber) {
-            // Lấy các hàng theo loại bảng (cá nhân hoặc tập thể)
-            const allRows = getRows(type);
+            const rows = getRows(type);
+            totalPages = Math.ceil(rows.length / recordsPerPage);
+            currentPage = pageNumber;
 
-            // Tính toán vị trí bắt đầu và kết thúc
             const start = (pageNumber - 1) * recordsPerPage;
             const end = start + recordsPerPage;
 
-            // Ẩn tất cả các hàng
-            allRows.forEach(row => row.style.display = "none");
+            rows.forEach(row => row.style.display = 'none');
+            rows.slice(start, end).forEach(row => row.style.display = 'table-row');
 
-            // Hiển thị hàng trong phạm vi
-            allRows.slice(start, end).forEach(row => row.style.display = "table-row");
+            renderPagination(type);
         }
 
-        // Hàm chuyển trang phân trang
         function changePage(event, type, pageNumber) {
-            event.preventDefault();
-
-            // Cập nhật active class cho pagination
-            const paginationId = `${type}-pagination`;
-            document.querySelectorAll(`#${paginationId} .page-item`).forEach(item => {
-                item.classList.remove('active');
-            });
-            event.currentTarget.parentElement.classList.add('active');
-
-            // Hiển thị dữ liệu trang mới
+            event?.preventDefault();
             displayPage(type, pageNumber);
-            console.log(`Đã chuyển sang trang ${pageNumber} của ${type}`);
+        }
+
+        function renderPagination(type) {
+            const paginationId = `${type}-pagination`;
+            const pagination = document.getElementById(paginationId);
+            pagination.innerHTML = '';
+
+            const createPageItem = (text, page, isActive = false, isDisabled = false) => {
+                const li = document.createElement('li');
+                li.className = `page-item ${isActive ? 'active' : ''} ${isDisabled ? 'disabled' : ''}`;
+                const a = document.createElement('a');
+                a.className = 'page-link';
+                a.href = '#';
+                a.innerText = text;
+                if (!isDisabled) {
+                    a.onclick = (e) => changePage(e, type, page);
+                }
+                li.appendChild(a);
+                return li;
+            };
+
+            // Previous
+            pagination.appendChild(createPageItem('«', currentPage - 1, false, currentPage === 1));
+
+            // First page
+            if (currentPage > 3) {
+                pagination.appendChild(createPageItem('1', 1));
+                if (currentPage > 4) {
+                    const ellipsis = document.createElement('li');
+                    ellipsis.className = 'page-item disabled';
+                    ellipsis.innerHTML = `<span class="page-link">...</span>`;
+                    pagination.appendChild(ellipsis);
+                }
+            }
+
+            // Pages around current
+            for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+                pagination.appendChild(createPageItem(i, i, currentPage === i));
+            }
+
+            // Last page
+            if (currentPage < totalPages - 2) {
+                if (currentPage < totalPages - 3) {
+                    const ellipsis = document.createElement('li');
+                    ellipsis.className = 'page-item disabled';
+                    ellipsis.innerHTML = `<span class="page-link">...</span>`;
+                    pagination.appendChild(ellipsis);
+                }
+                pagination.appendChild(createPageItem(totalPages, totalPages));
+            }
+
+            // Next
+            pagination.appendChild(createPageItem('»', currentPage + 1, false, currentPage === totalPages));
         }
 
         // Khởi tạo khi DOM đã sẵn sàng
@@ -1072,7 +1038,7 @@
                     if (data) {
                         document.querySelector('.overview-card:nth-child(1) .overview-card-value').textContent = data.TongSoDeTai.toLocaleString();
                         document.querySelector('.overview-card:nth-child(2) .overview-card-value').textContent = data.TongGiaTriLamLoi + ' tỷ';
-                        document.querySelector('.overview-card:nth-child(3) .overview-card-value').textContent = data.TongSoTienThuong + ' tỷ';
+                        document.querySelector('.overview-card:nth-child(3) .overview-card-value').textContent = data.TongSoTienThuong + ' triệu';
                         document.querySelector('.overview-card:nth-child(4) .overview-card-value').textContent = data.SoCaNhanKhenThuong;
                         document.querySelector('.overview-card:nth-child(5) .overview-card-value').textContent = data.SoDonViKhenThuong;
                     }
@@ -1084,26 +1050,40 @@
         }
 
         // init data
-        loadOverviewData(2023);
+        loadOverviewData(2025);
     </script>
 
     <script>
-        const collectiveCtx = document.getElementById('collectiveChart').getContext('2d');
+        // Bản đồ màu cố định theo đơn vị
+        const colorMap = {
+            "NM.CĐ1": { bg: 'rgba(54, 162, 235, 0.7)', border: 'rgba(54, 162, 235, 1)' },
+            "NM.CĐ3": { bg: 'rgba(75, 192, 192, 0.7)', border: 'rgba(75, 192, 192, 1)' },
+            "P.TB": { bg: 'rgba(255, 159, 64, 0.7)', border: 'rgba(255, 159, 64, 1)' },
+            "NM.CĐ2": { bg: 'rgba(153, 102, 255, 0.7)', border: 'rgba(153, 102, 255, 1)' },
+            "NM.CĐ4": { bg: 'rgba(255, 205, 86, 0.7)', border: 'rgba(255, 205, 86, 1)' },
+            "NM.CTDAI": { bg: 'rgba(52, 152, 219, 0.7)', border: 'rgba(52, 152, 219, 1)' },
+            "NM.NĐ": { bg: 'rgba(231, 76, 60, 0.7)', border: 'rgba(231, 76, 60, 1)' },
+            "BP.AN": { bg: 'rgba(46, 204, 113, 0.7)', border: 'rgba(46, 204, 113, 1)' },
+            "P.CN": { bg: 'rgba(241, 196, 15, 0.7)', border: 'rgba(241, 196, 15, 1)' },
+            "B.KSNB": { bg: 'rgba(230, 126, 34, 0.7)', border: 'rgba(230, 126, 34, 1)' },
+            "P.ATMT": { bg: 'rgba(26, 188, 156, 0.7)', border: 'rgba(26, 188, 156, 1)' },
+            "NM.TKVV": { bg: 'rgba(155, 89, 182, 0.7)', border: 'rgba(155, 89, 182, 1)' },
+            "P.XD": { bg: 'rgba(192, 57, 43, 0.7)', border: 'rgba(192, 57, 43, 1)' },
+            "P.ĐN": { bg: 'rgba(127, 140, 141, 0.7)', border: 'rgba(127, 140, 141, 1)' },
+            "B.CNTT": { bg: 'rgba(52, 73, 94, 0.7)', border: 'rgba(52, 73, 94, 1)' },
+            "NM.HRC1": { bg: 'rgba(149, 165, 166, 0.7)', border: 'rgba(149, 165, 166, 1)' },
+            "NM.NL": { bg: 'rgba(41, 128, 185, 0.7)', border: 'rgba(41, 128, 185, 1)' },
+            "B.XDCB": { bg: 'rgba(39, 174, 96, 0.7)', border: 'rgba(39, 174, 96, 1)' },
+            "P.KH": { bg: 'rgba(44, 62, 80, 0.7)', border: 'rgba(44, 62, 80, 1)' },
+            "P.NL": { bg: 'rgba(241, 148, 138, 0.7)', border: 'rgba(241, 148, 138, 1)' },
+            "P.NS": { bg: 'rgba(174, 214, 241, 0.7)', border: 'rgba(174, 214, 241, 1)' },
+            "BP.K": { bg: 'rgba(133, 193, 233, 0.7)', border: 'rgba(133, 193, 233, 1)' },
+            "BP.QLHT": { bg: 'rgba(163, 228, 215, 0.7)', border: 'rgba(163, 228, 215, 1)' },
+            "BP.VT": { bg: 'rgba(255, 153, 153, 0.7)', border: 'rgba(255, 153, 153, 1)' },
+            "NM.LC": { bg: 'rgba(204, 204, 255, 0.7)', border: 'rgba(204, 204, 255, 1)' }
+        };
 
-        const defaultColors = [
-            'rgba(54, 162, 235, 0.7)',
-            'rgba(75, 192, 192, 0.7)',
-            'rgba(255, 159, 64, 0.7)',
-            'rgba(153, 102, 255, 0.7)',
-            'rgba(75, 192, 75, 0.7)'
-        ];
-        const defaultBorderColors = [
-            'rgba(54, 162, 235, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(255, 159, 64, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(75, 192, 75, 1)'
-        ];
+        const collectiveCtx = document.getElementById('collectiveChart').getContext('2d');
 
         const collectiveChart = new Chart(collectiveCtx, {
             type: 'bar',
@@ -1112,8 +1092,8 @@
                 datasets: [{
                     label: 'Số đề tài đổi mới sáng tạo',
                     data: [],
-                    backgroundColor: defaultColors,
-                    borderColor: defaultBorderColors,
+                    backgroundColor: [],
+                    borderColor: [],
                     borderWidth: 1
                 }]
             },
@@ -1128,9 +1108,6 @@
                                 return `Số đề tài: ${context.raw}`;
                             }
                         }
-                    },
-                    datalabels: {
-                        display: false
                     }
                 },
                 scales: {
@@ -1150,25 +1127,31 @@
                         }
                     }
                 },
-                animation: {
-                    duration: 1000
-                }
+                animation: { duration: 1000 }
             }
         });
 
-        // call API
+        // Gọi API và cập nhật biểu đồ
         function updateCollectiveChart(year) {
             $.ajax({
                 url: '/Honor/GetCollectiveChartData',
                 type: 'GET',
                 data: { year: year },
                 success: function (data) {
-                    if (data) {
-                        collectiveChart.data.labels = data.Labels;
-                        collectiveChart.data.datasets[0].data = data.Data;
+                    if (data && data.Labels && data.Data) {
+                        const labels = data.Labels;
+                        const values = data.Data;
+
+                        const bgColors = labels.map(dv => colorMap[dv]?.bg || 'rgba(200,200,200,0.7)');
+                        const borderColors = labels.map(dv => colorMap[dv]?.border || 'rgba(200,200,200,1)');
+
+                        collectiveChart.data.labels = labels;
+                        collectiveChart.data.datasets[0].data = values;
+                        collectiveChart.data.datasets[0].backgroundColor = bgColors;
+                        collectiveChart.data.datasets[0].borderColor = borderColors;
                         collectiveChart.update();
                     } else {
-                        alert("Không có dữ liệu cho năm " + year);
+                        alert(`Không có dữ liệu cho năm ${year}`);
                     }
                 },
                 error: function () {
@@ -1177,10 +1160,10 @@
             });
         }
 
-        // init default
-        updateCollectiveChart(2023);
+        // Khởi tạo ban đầu
+        updateCollectiveChart(2025);
 
-        // change year
+        // Cập nhật khi chọn năm
         document.getElementById('collectiveYearSelector').addEventListener('change', function () {
             const selectedYear = this.value;
             updateCollectiveChart(selectedYear);
@@ -1223,13 +1206,13 @@
             paginatedData.forEach(item => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                                <td>${item.id}</td>
-                                <td>${item.name}</td>
-                                <td>${item.department}</td>
-                                <td>${item.project}</td>
-                                <td>${item.reward}</td>
-                                <td>${item.year}</td>
-                            `;
+                                            <td>${item.id}</td>
+                                            <td>${item.name}</td>
+                                            <td>${item.department}</td>
+                                            <td>${item.project}</td>
+                                            <td>${item.reward}</td>
+                                            <td>${item.year}</td>
+                                        `;
                 tableBody.appendChild(row);
             });
 
@@ -1254,10 +1237,10 @@
             const prevItem = document.createElement('li');
             prevItem.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
             prevItem.innerHTML = `
-                            <a class="page-link" href="#" aria-label="Previous" id="prevPage">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        `;
+                                        <a class="page-link" href="#" aria-label="Previous" id="prevPage">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    `;
             pagination.appendChild(prevItem);
 
             // Các nút trang
@@ -1308,10 +1291,10 @@
             const nextItem = document.createElement('li');
             nextItem.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
             nextItem.innerHTML = `
-                            <a class="page-link" href="#" aria-label="Next" id="nextPage">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        `;
+                                        <a class="page-link" href="#" aria-label="Next" id="nextPage">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    `;
             pagination.appendChild(nextItem);
 
             // Thêm sự kiện click cho các nút trang
@@ -1375,11 +1358,26 @@
         // Khởi tạo dữ liệu ban đầu
         fetchAchievements();
     </script>
-
+    
     <script>
         const statisticsCtx = document.getElementById('statisticsChart').getContext('2d');
+        const labels = ['Cá nhân được thưởng', 'Đơn vị được thưởng', 'Nội dung khen thưởng'];
 
-        const labels = ['Cá nhân được thưởng', 'Đơn vị được thưởng', 'Nội dung khen thưởng', 'Tiền thưởng (tỷ)'];
+        // ✅ Plugin hiển thị "Tiền thưởng (tỷ): X.X" ở phía trên giữa
+        const centerTextPlugin = {
+            id: 'centerText',
+            beforeDraw(chart) {
+                const { ctx, width } = chart;
+                ctx.save();
+                ctx.font = 'bold 17px Arial';
+                ctx.fillStyle = 'red';
+                ctx.textAlign = 'center';
+                const bonus = window.currentBonus || 0;
+                ctx.fillText(`Tổng tiền thưởng: ${bonus} triệu VNĐ`, width / 2, 20);
+
+                ctx.restore();
+            }
+        };
 
         const statisticsChart_group = new Chart(statisticsCtx, {
             type: 'bar',
@@ -1391,14 +1389,12 @@
                     backgroundColor: [
                         'rgba(52, 152, 219, 0.7)',
                         'rgba(46, 204, 113, 0.7)',
-                        'rgba(230, 126, 34, 0.7)',
-                        'rgba(155, 89, 182, 0.7)'
+                        'rgba(230, 126, 34, 0.7)'
                     ],
                     borderColor: [
                         'rgba(52, 152, 219, 1)',
                         'rgba(46, 204, 113, 1)',
-                        'rgba(230, 126, 34, 1)',
-                        'rgba(155, 89, 182, 1)'
+                        'rgba(230, 126, 34, 1)'
                     ],
                     borderWidth: 1
                 }]
@@ -1417,12 +1413,6 @@
                                 return label;
                             }
                         }
-                    },
-                    datalabels: {
-                        anchor: 'end',
-                        align: 'top',
-                        formatter: value => value,
-                        font: { weight: 'bold' }
                     }
                 },
                 scales: {
@@ -1434,26 +1424,29 @@
                     }
                 }
             },
-            plugins: [{
-                id: 'datalabels',
-                afterDatasetsDraw(chart) {
-                    const { ctx } = chart;
-                    ctx.font = 'bold 12px Arial';
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'bottom';
+            plugins: [
+                centerTextPlugin,
+                {
+                    id: 'datalabels',
+                    afterDatasetsDraw(chart) {
+                        const { ctx } = chart;
+                        ctx.font = 'bold 12px Arial';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
 
-                    chart.data.datasets.forEach((dataset, i) => {
-                        chart.getDatasetMeta(i).data.forEach((datapoint, index) => {
-                            ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-                            ctx.fillText(
-                                dataset.data[index],
-                                datapoint.x,
-                                datapoint.y - 10
-                            );
+                        chart.data.datasets.forEach((dataset, i) => {
+                            chart.getDatasetMeta(i).data.forEach((datapoint, index) => {
+                                ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+                                ctx.fillText(
+                                    dataset.data[index],
+                                    datapoint.x,
+                                    datapoint.y - 10
+                                );
+                            });
                         });
-                    });
+                    }
                 }
-            }]
+            ]
         });
 
         function updateStatisticsChart(year) {
@@ -1463,12 +1456,12 @@
                 data: { year: year },
                 success: function (data) {
                     if (data) {
+                        window.currentBonus = data.bonus; // ✅ Gán bonus vào biến global
                         statisticsChart_group.data.datasets[0].label = `Thống kê năm ${year}`;
                         statisticsChart_group.data.datasets[0].data = [
                             data.individuals,
                             data.teams,
-                            data.contents,
-                            data.bonus
+                            data.contents
                         ];
                         statisticsChart_group.update();
                     } else {
@@ -1482,7 +1475,7 @@
         }
 
         // Gọi mặc định khi load trang
-        updateStatisticsChart(2023);
+        updateStatisticsChart(2025);
 
         // Gọi khi select thay đổi
         document.getElementById('statisticsYearSelector').addEventListener('change', function () {
@@ -1490,12 +1483,11 @@
             updateStatisticsChart(selectedYear);
         });
 
-        // Plugin để hiển thị giá trị trên đỉnh cột
+        // Đăng ký plugin hiển thị giá trị trên cột (datalabels)
         Chart.register({
             id: 'datalabels',
             afterDatasetsDraw(chart) {
-                const { ctx, data, chartArea: { top, bottom, left, right, width, height }, scales: { x, y } } = chart;
-
+                const { ctx } = chart;
                 ctx.font = 'bold 12px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'bottom';
@@ -1512,8 +1504,8 @@
                 });
             }
         });
-
     </script>
+
 
     <script>
         // Xử lý menu mobile
