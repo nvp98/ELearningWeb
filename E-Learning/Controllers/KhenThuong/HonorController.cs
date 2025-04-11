@@ -123,26 +123,6 @@ namespace E_Learning.Controllers.KhenThuong
         }
 
         [HttpGet]
-        public JsonResult GetStatisticsData1(int year)
-        {
-
-            var data = new Dictionary<int, object>
-            {
-                { 2020, new { individuals = 245, teams = 65, contents = 120, bonus = 32 } },
-                { 2021, new { individuals = 278, teams = 72, contents = 145, bonus = 36 } },
-                { 2022, new { individuals = 295, teams = 82, contents = 168, bonus = 42 } },
-                { 2023, new { individuals = 324, teams = 78, contents = 195, bonus = 45 } }
-            };
-
-            if (data.ContainsKey(year))
-            {
-                return Json(data[year], JsonRequestBehavior.AllowGet);
-            }
-
-            return Json(null, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
         public JsonResult GetStatisticsData(int year)
         {
             var data = _context.KT_DanhSachKhenThuong
