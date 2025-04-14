@@ -161,7 +161,12 @@ namespace E_Learning.Controllers.KNL
                            TenNVDG = a.HoTen
                        }).ToList().OrderBy(x => x.OrderBy);
 
-            List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => x.IDVT == IDVT && x.IDLoai != 1 && x.IDLoai != 2).OrderBy(x => x.OrderBy).ToList();
+            var distinctIDLoaiNLs = res.Where(x=>x.IDLoaiNL != 1 && x.IDLoaiNL != 2)
+                    .Select(x => x.IDLoaiNL)
+                    .Distinct()
+                    .ToList();
+
+            List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => distinctIDLoaiNLs.Contains(x.IDLoai)).OrderBy(x => x.OrderBy).ToList();
             ViewBag.IDLoaiNL = new SelectList(loaiNL, "IDLoai", "TenLoai");
 
             return View(res.ToList());

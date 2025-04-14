@@ -312,9 +312,11 @@ namespace E_Learning.Controllers.DaoTaoTH
         {
             try
             {
+                var startDate = ((DateTime)_DO.NgayBDThucTe).Date;
+                var endDate = ((DateTime)_DO.NgayKTThucTe).Date.AddDays(1).AddTicks(-1);
 
                 var data = (from h in db_context.XNHocTaps.AsNoTracking()
-                            join hs in db_context.SH_HoSoDaoTao.Where(x=>x.TinhTrang == 1 && x.NgayXuLy >= _DO.NgayBDThucTe && x.NgayXuLy <= _DO.NgayKTThucTe) on h.LHID equals hs.LHID
+                            join hs in db_context.SH_HoSoDaoTao.Where(x=>x.TinhTrang == 1 && x.NgayXuLy >= startDate && x.NgayXuLy <= endDate) on h.LHID equals hs.LHID
                             join l in db_context.LopHocs.AsNoTracking() on h.LHID equals l.IDLH
                             join nc in db_context.SH_NhuCauDT.AsNoTracking() on l.NCDT_ID equals nc.ID
                             join pp in db_context.SH_PhuongPhapDT.AsNoTracking() on nc.PhuongPhapDT_ID equals pp.ID
@@ -359,11 +361,12 @@ namespace E_Learning.Controllers.DaoTaoTH
                                     ThoiLuongDT = hs.ThoiLuongDT,
                                     NgayBDThucTe = hs.NgayBDThucTe,
                                     NgayKTThucTe = hs.NgayKTThucTe,
+                                    NgayXuLy = hs.NgayXuLy,
                                     
                                 },
                                 noidungdt = new NoiDungDTTHView()
                                 {
-                                    MaND =nd.IDND +" - "+ nd.MaND,
+                                    IDND =nd.IDND,
                                     NoiDung =nd.NoiDung,
                                     IDNguonGV = nd.IDNguonGV,
                                     TenHoatDongDT =nd.SH_HoatDongDT.TenHoatDong,
@@ -396,7 +399,8 @@ namespace E_Learning.Controllers.DaoTaoTH
                     worksheet.Cell(1, 18).Value = "Phương Pháp ĐT";
                     worksheet.Cell(1, 19).Value = "Nguồn GV (Nội bộ/ thuê ngoài)";
                     worksheet.Cell(1, 20).Value = "Lý do không tham gia";
-                    
+                    worksheet.Cell(1, 21).Value = "Ngày duyệt hồ sơ";
+
                     int row = 2; int stt = 1;
                     foreach (var item in data)
                     {
@@ -405,7 +409,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                         worksheet.Cell(row, 3).Value = item.hosodaotao.MaGiangVien;
                         worksheet.Cell(row, 4).Value = item.hosodaotao.HoTenGV;
                         worksheet.Cell(row, 5).Value = item.hosodaotao.DonViGV;
-                        worksheet.Cell(row, 6).Value = item.noidungdt.MaND;
+                        worksheet.Cell(row, 6).Value = item.noidungdt.IDND;
                         worksheet.Cell(row, 7).Value = item.noidungdt.NoiDung;
                         worksheet.Cell(row, 8).Value = item.TenLH;
                         worksheet.Cell(row, 9).Value = item.hosodaotao.NgayBDThucTe.Value.ToString("dd/MM/yyyy");
@@ -420,6 +424,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                         worksheet.Cell(row, 18).Value = item.noidungdt.TenPPDT;
                         worksheet.Cell(row, 19).Value = item.noidungdt.TenNguonGV;
                         worksheet.Cell(row, 20).Value = item.LyDoKhongTGia;
+                        worksheet.Cell(row, 21).Value = item.hosodaotao.NgayXuLy.Value.ToString("dd/MM/yyyy");
                         row++; stt++;
                     }
 

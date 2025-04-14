@@ -10,14 +10,10 @@
 namespace E_Learning.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class sysdiagrams
+    public partial class KhungNangLuc_Total_Result
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public Nullable<int> IDVT { get; set; }
+        public Nullable<int> Total { get; set; }
     }
 }

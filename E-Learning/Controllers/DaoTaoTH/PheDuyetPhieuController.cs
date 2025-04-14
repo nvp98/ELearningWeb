@@ -625,9 +625,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                 db.SaveChanges();
             }
             if ((sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.ID_PCHN == null)
-               || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN == null)
-               || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.ID_PCHN != null)
-               || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN != null)
+               || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.NgayTPBP != null && sH_KyDuyetCTDT.ID_PCHN == null)
+               || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.NgayPCHN != null)
+               || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.NgayTPBP != null && sH_KyDuyetCTDT.NgayPCHN != null)
                 ) // Hoàn thành
             {
                 nddt.IsDelete = false;
@@ -635,10 +635,10 @@ namespace E_Learning.Controllers.DaoTaoTH
                 db.SaveChanges();
             }
 
-            if ((sH_KyDuyetCTDT.NgayKTDuyet == null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN == null)
-              || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN == null)
-              || (sH_KyDuyetCTDT.NgayKTDuyet == null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN != null)
-              || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN != null)
+            if ((sH_KyDuyetCTDT.ID_NguoiKiemTra == null && sH_KyDuyetCTDT.NgayTPBP != null && sH_KyDuyetCTDT.ID_PCHN == null)
+              //|| (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.NgayTPBP != null && sH_KyDuyetCTDT.ID_PCHN == null)
+              || (sH_KyDuyetCTDT.ID_NguoiKiemTra == null && sH_KyDuyetCTDT.NgayTPBP != null && sH_KyDuyetCTDT.NgayPCHN != null)
+              //|| (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.NgayTPBP != null && sH_KyDuyetCTDT.NgayPCHN != null)
                ) // Hoàn thành
             {
                 nddt.IsDelete = false;
@@ -646,10 +646,10 @@ namespace E_Learning.Controllers.DaoTaoTH
 
                 db.SaveChanges();
             }
-            if ((sH_KyDuyetCTDT.NgayKTDuyet == null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.ID_PCHN != null)
-               || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.ID_PCHN != null)
-               || (sH_KyDuyetCTDT.NgayKTDuyet == null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN != null)
-               || (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP != null && sH_KyDuyetCTDT.ID_PCHN != null)
+            if ((sH_KyDuyetCTDT.ID_NguoiKiemTra == null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.NgayPCHN != null)
+               //|| (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.NgayPCHN != null)
+               //|| (sH_KyDuyetCTDT.ID_NguoiKiemTra == null && sH_KyDuyetCTDT.NgayTPBP != null && sH_KyDuyetCTDT.NgayPCHN != null)
+               //|| (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.NgayTPBP != null && sH_KyDuyetCTDT.NgayPCHN != null)
                 ) // Hoàn thành
             {
                 nddt.IsDelete = false;

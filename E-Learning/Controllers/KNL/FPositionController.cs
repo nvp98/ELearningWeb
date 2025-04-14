@@ -2075,24 +2075,24 @@ namespace E_Learning.Controllers
                     }
                 }
             }
-            if ((chqly.Count != def.Where(x => x.IDLoaiNL == 1 || x.IDLoaiNL == 2).Count()) && chqly.Count != 0)
-            {
-                foreach (var item in chqly)
-                {
-                    db.KhungNangLuc_delete(item.IDNL);
-                }
-                foreach (var item in def)
-                {
-                    if (item.TenNL != null && item.IDLoaiNL == 1)
-                    {
-                        var aa = db.KhungNangLuc_insert(item.TenNL, 1, id, IDPB, null, 1,1,null);
-                    }
-                    else if (item.TenNL != null && item.IDLoaiNL == 2)
-                    {
-                        var aa = db.KhungNangLuc_insert(item.TenNL, 2, id, IDPB, null, 1,1,null);
-                    }
-                }
-            }
+            //if ((chqly.Count != def.Where(x => x.IDLoaiNL == 1 || x.IDLoaiNL == 2).Count()) && chqly.Count != 0)
+            //{
+            //    foreach (var item in chqly)
+            //    {
+            //        db.KhungNangLuc_delete(item.IDNL);
+            //    }
+            //    foreach (var item in def)
+            //    {
+            //        if (item.TenNL != null && item.IDLoaiNL == 1)
+            //        {
+            //            var aa = db.KhungNangLuc_insert(item.TenNL, 1, id, IDPB, null, 1,1,null);
+            //        }
+            //        else if (item.TenNL != null && item.IDLoaiNL == 2)
+            //        {
+            //            var aa = db.KhungNangLuc_insert(item.TenNL, 2, id, IDPB, null, 1,1,null);
+            //        }
+            //    }
+            //}
 
             var res = (from a in db.KhungNangLucs.Where(x=>x.IDVT ==id && x.IsDuyet == null)
                       join b in db.LoaiKNLs
@@ -2100,7 +2100,7 @@ namespace E_Learning.Controllers
                       join c in db.ViTriKNLs
                       on a.IDVT equals c.IDVT
                       join d in db.PhongBans
-                      on a.IDPB equals d.IDPhongBan
+                      on c.IDPB equals d.IDPhongBan
                       select new KhungNangLucValidation
                       {
                           IDNL = a.IDNL,
@@ -2881,16 +2881,21 @@ namespace E_Learning.Controllers
         {
             try
             {
+                var loaiKNL = db.LoaiKNLs.FirstOrDefault(x=>x.IDLoai ==id);
+                loaiKNL.IDVT = null;
+                db.SaveChanges();
 
                 var aLi = db.KhungNangLucs.Where(x => x.IDVT == IDVT && x.IDLoaiNL == id).ToList();
                 if (aLi.Count > 0)
                 {
                     foreach (var item in aLi)
                     {
-                        db.KhungNangLuc_delete(item.IDNL);
+                        //db.KhungNangLuc_delete(item.IDNL);
+                        item.IsDuyet = 2; //năng lực cũ
                     }
+                    db.SaveChanges();
                 }
-                db.LoaiKNL_delete(id);
+                //db.LoaiKNL_delete(id);
 
             }
             catch (Exception e)
@@ -4735,7 +4740,7 @@ namespace E_Learning.Controllers
             var res = new FExportKNLValidation();
             var vt = db.VitriKNL_searchByIDVT(IDVT).FirstOrDefault();
 
-            var FKNL = (from a in db.KhungNangLuc_SearchByIDVT(IDVT)
+            var FKNL = (from a in db.KhungNangLuc_SearchByIDVT(IDVT).Where(x=>x.IsDuyet == null)
                        select new FValueValidation
                        {
                            IDNL = a.IDNL,
@@ -4747,8 +4752,12 @@ namespace E_Learning.Controllers
                            DinhMuc = a.IsDanhGia != 0 ? a.DinhMuc : 0,
                            IsDanhGia = a.IsDanhGia,
                        }).ToList().OrderBy(x => x.OrderBy);
+            var distinctIDLoaiNLs = FKNL.Where(x => x.IDLoaiNL != 1 && x.IDLoaiNL != 2)
+                   .Select(x => x.IDLoaiNL)
+                   .Distinct()
+                   .ToList();
 
-            List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => x.IDVT == IDVT && x.IDLoai != 1 && x.IDLoai != 2).OrderBy(x => x.OrderBy).ToList();
+            List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => distinctIDLoaiNLs.Contains(x.IDLoai)).OrderBy(x => x.OrderBy).ToList();
             res.LSLoaiKNL = loaiNL;
             res.LSFValue = FKNL.ToList();
             //res.TenViTri = vt.TenViTri + "-" + vt.TenTo + "-" + vt.TenNhom + "-" + vt.TenPX;
@@ -5561,8 +5570,12 @@ namespace E_Learning.Controllers
                            IsDanhGia = a.IsDanhGia,
                            IsDuyet = a.IsDuyet
                        }).Where(x=>x.IsDuyet == 1).ToList().OrderBy(x => x.OrderBy);
+            var distinctIDLoaiNLs = res.Where(x => x.IDLoaiNL != 1 && x.IDLoaiNL != 2)
+                   .Select(x => x.IDLoaiNL)
+                   .Distinct()
+                   .ToList();
 
-            List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => x.IDVT == IDVT && x.IDLoai != 1 && x.IDLoai != 2).OrderBy(x => x.OrderBy).ToList();
+            List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => distinctIDLoaiNLs.Contains(x.IDLoai)).OrderBy(x => x.OrderBy).ToList();
             ViewBag.IDLoaiNL = new SelectList(loaiNL, "IDLoai", "TenLoai");
 
             // Kết xuất View thành HTML

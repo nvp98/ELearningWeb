@@ -1,0 +1,62 @@
+﻿@model E_Learning.ModelsDTTH.SH_KyDuyetCTDTView
+
+<div class="modal fade" id="phieuDuyetModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết phiếu duyệt</h5>
+                <button  type="button" class="btn" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+            </div>
+            <div class="modal-body">
+                @if (Model != null)
+                {
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Cấp duyệt</th>
+                                <th>Người xử lý</th>
+                                <th>Ngày xử lý</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Lập CTĐT</td>
+                                <td>@Model.TenNguoiTao</td>
+                                <td>@(Model.NgayTao?.ToString("dd/MM/yyyy"))</td>
+                            </tr>
+                            <tr>
+                                <td>Đăng nội dung đào tạo</td>
+                                <td>@Model.TenNguoiDangNDDT</td>
+                                <td>@(Model.NgayDangNDDT?.ToString("dd/MM/yyyy"))</td>
+                            </tr>
+                            <tr>
+                                <td>Duyệt nội dung đào tạo</td>
+                                <td>@Model.TenNguoiDuyetNDDT</td>
+                                <td>@(Model.NgayDuyetNDDT?.ToString("dd/MM/yyyy"))</td>
+                            </tr>
+                            <tr>
+                                <td>Người kiểm tra</td>
+                                <td>@Model.TenNguoiKiemTra</td>
+                                <td>@(Model.NgayKTDuyet?.ToString("dd/MM/yyyy"))</td>
+                            </tr>
+                            <tr>
+                                <td>T/PBP</td>
+                                <td>@Model.TenTPBP</td>
+                                <td>@(Model.NgayTPBP?.ToString("dd/MM/yyyy"))</td>
+                            </tr>
+                            <tr>
+                                <td>Phòng chức năng</td>
+                                <td>@Model.TenPCHN</td>
+                                <td>@(Model.NgayPCHN?.ToString("dd/MM/yyyy"))</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>Không có dữ liệu.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

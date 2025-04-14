@@ -749,7 +749,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                 }
             }
 
-            ViewBag.DETHI_DATA = new SelectList(listDeThi, "ID", "TenDeThi", data.IDDeThi);
+            ViewBag.DETHI_DATA = new SelectList(listDeThi, "ID", "TenDeThi", data?.IDDeThi);
 
             var listNhanVien = db_context.NhanViens.Where(x => x.IDTinhTrangLV == 1)
                 .Select(x => new EmployeeValidation { ID = x.ID, HoTen = x.MaNV + " - " + x.HoTen, IDPhongBan = (int)x.IDPhongBan })
@@ -758,18 +758,18 @@ namespace E_Learning.Controllers.DaoTaoTH
             int IDGVCty = db_context.SH_ChiTietTCDT.Where(x => x.CTDT_ID == data.IDLH).SingleOrDefault()?.ID_GVCty??0;
 
             ViewBag.ID_NhanVien = new SelectList(listNhanVien, "ID", "HoTen", IDGVCty);
-            ViewBag.ID_NguoiKiemTra = new SelectList(listNhanVien.Where(x => x.IDPhongBan == IDPB), "ID", "HoTen", data.NguoiKiemTra_ID);
+            ViewBag.ID_NguoiKiemTra = new SelectList(listNhanVien.Where(x => x.IDPhongBan == IDPB), "ID", "HoTen", data?.NguoiKiemTra_ID);
             ViewBag.PhuongPhapDT_ID = PhuongPhapDT_ID;
             ViewBag.PhanLoaiNCDT_ID = PhanLoaiNCDT_ID;
             ViewBag.LoaiNCDT = PhanLoaiNCDT_ID;
             ViewBag.LoaiHinh_DT = db_context.SH_PhanLoaiNCDT.Where(x => x.IDLoai == PhanLoaiNCDT_ID).FirstOrDefault().LoaiHinhDT_ID;
-            ViewBag.ChuongTrinhDT_ID = new SelectList(db_context.SH_ChuongTrinhDT.Where(x=>x.ID_NoiDungDT == data.NDID), "IDCTDT", "TenChuongTrinhDT", data.CTDT_ID);
+            ViewBag.ChuongTrinhDT_ID = new SelectList(db_context.SH_ChuongTrinhDT.Where(x=>x.ID_NoiDungDT == data.NDID), "IDCTDT", "TenChuongTrinhDT", data?.CTDT_ID);
 
            
             ViewBag.Nam = res.NamDT;
             ViewBag.Quy = res.QuyDT;
             ViewBag.BoPhan_ID = new SelectList(db_context.PhongBans.Where(x => x.IDPhongBan == IDPB), "IDPhongBan", "TenPhongBan", IDPB);
-            ViewBag.MaLH = data.MaLH;
+            ViewBag.MaLH = data?.MaLH;
             
             return View(data);
         }
@@ -983,7 +983,6 @@ namespace E_Learning.Controllers.DaoTaoTH
                         }
                     }
 
-
                     // Thêm thông tin trình ký
                     if (action == "Cập nhật")
                     {
@@ -995,6 +994,13 @@ namespace E_Learning.Controllers.DaoTaoTH
                     {
                         lopHocExisting.TinhTrang = 2; // Đang trình ký
                         lopHocExisting.NgayKiemTra = null;
+                        db_context.SaveChanges();
+                    }
+                    // kiểm tra có nộp hồ sơ chưa thì xóa
+                    var checkhoso = db_context.SH_HoSoDaoTao.FirstOrDefault(x => x.LHID == lopHocExisting.IDLH);
+                    if(checkhoso != null)
+                    {
+                        db_context.SH_HoSoDaoTao.Remove(checkhoso);
                         db_context.SaveChanges();
                     }
 
@@ -1349,6 +1355,8 @@ namespace E_Learning.Controllers.DaoTaoTH
             }
 
             var lophoc = db_context.LopHocs.FirstOrDefault(x => x.IDLH == id);
+            lophoc.TinhTrang = 4; // set tình trạng lớp thành đang trình hồ sơ
+            db_context.SaveChanges();
             var ncdt = db_context.SH_NhuCauDT.FirstOrDefault(x => x.ID == lophoc.NCDT_ID);
             // file data học viên
             if (Request != null)
@@ -1522,7 +1530,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                 NgayNopHS = DateTime.Now,
                 TinhTrang = 0
             };
-            lophoc.TinhTrang = 4; // set tình trạng lớp thành đang trình hồ sơ
+           
             db_context.SH_HoSoDaoTao.Add(trinhkyhoso);
             db_context.SaveChanges();
             TempData["msgError"] = "<script>alert('Nộp hồ sơ thành công');</script>";

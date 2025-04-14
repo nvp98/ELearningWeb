@@ -148,6 +148,17 @@
                                         @Html.TextBoxFor(model => model.NoiDungTrichYeu, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "NoiDungTrichYeu", required = "required" })
                                         @Html.ValidationMessageFor(model => model.NoiDungTrichYeu, "", new { @class = "text-danger" })
                                     </div>
+                                    @if (Model.sH_KyDuyetCTDTs.ID_NguoiDangNDDT != null && Model.sH_KyDuyetCTDTs.ID_NguoiDuyetNDDT != null)
+                                    {
+                                        <div class="form-group col-md-6" style="display:grid">
+                                            <label class="mb-1 font-weight-bold">P.NS Đăng Nội dung<span class="text-danger">(*)</span></label>
+                                            @Html.DropDownListFor(m => m.sH_KyDuyetCTDTs.ID_NguoiDangNDDT, (SelectList)ViewBag.ID_NguoiDangND, "-- Chọn nhân viên --", new { id = "ID_NguoiDangNDDT", @class = "form-control marginTB5", @style = "width:100%" })
+                                        </div>
+                                        <div class="form-group col-md-6" style="display:grid">
+                                            <label class="mb-1 font-weight-bold">Chọn người kiểm duyệt Nội dung<span class="text-danger">(*)</span></label>
+                                            @Html.DropDownListFor(m => m.sH_KyDuyetCTDTs.ID_NguoiDuyetNDDT, (SelectList)ViewBag.ID_NguoiDuyetND, "-- Chọn nhân viên --", new { id = "ID_NguoiDuyetNDDT", @class = "form-control marginTB5", @style = "width:100%" })
+                                        </div>
+                                    }
 
                                 </div>
 
@@ -489,7 +500,13 @@
         });
     $("#ID_PCHN").chosen({
             width: "100%"
-        });
+    });
+    $("#ID_NguoiDuyetNDDT").chosen({
+        width: "100%"
+    });
+    $("#ID_NguoiDangNDDT").chosen({
+        width: "100%"
+    });
 
     $(document).ready(function() {
         $('#myFormId').on('submit', function(event) {

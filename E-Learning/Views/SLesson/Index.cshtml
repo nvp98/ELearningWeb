@@ -18,20 +18,20 @@
 }
 
 <style>
-  /*  #videoPlayer::-webkit-media-controls-timeline,
+    /*  #videoPlayer::-webkit-media-controls-timeline,
     #videoPlayer::-webkit-media-controls-current-time-display {
         display: none;
     }*/
-    #videoPlayer::-webkit-media-controls-timeline {
+    /*    #videoPlayer::-webkit-media-controls-timeline {
         display: none;
     }
 
     #videoPlayer::-moz-media-controls {
         display: none;
-    }
+    }*/
 
     /* Ẩn các điều khiển video mặc định */
-  /*  video::-webkit-media-controls {
+    /*  video::-webkit-media-controls {
         display: none !important;
     }
 
@@ -140,18 +140,18 @@
 
                                         <div class="" style="width: 100%; height: auto;">
                                             @*<div id="myElement">Loading the player...</div>
-        <script type="text/javascript">
-                            var playerInstance = jwplayer("myElement");
-                            playerInstance.setup({
-                                file: "@item.VideoLH",
-                                image: "@item.ImageLH",
-                                autostart: false,
-                                controls: true,
-                                width: "100%",
-                                aspectratio: "16 : 9",
-                               // height: 360,
-                            });
-        </script>*@
+                                                <script type="text/javascript">
+                                                                    var playerInstance = jwplayer("myElement");
+                                                                    playerInstance.setup({
+                                                                        file: "@item.VideoLH",
+                                                                        image: "@item.ImageLH",
+                                                                        autostart: false,
+                                                                        controls: true,
+                                                                        width: "100%",
+                                                                        aspectratio: "16 : 9",
+                                                                       // height: 360,
+                                                                    });
+                                                </script>*@
                                             @if (item.XNHT == false)
                                             {
                                                 <video id="videoPlayer" width="100%" poster="@item.ImageLH" controls controlsList="nodownload" preload="auto" autoplay="true">
@@ -167,9 +167,9 @@
                                                 </video>
                                             }
 
-                                            <div class="custom-controls" id="custom-controls">
-                                                <div class="progress-bar" id="progress-bar"></div>
-                                            </div>
+                                            @*<div class="custom-controls" id="custom-controls">
+                                                    <div class="progress-bar" id="progress-bar"></div>
+                                                </div>*@
                                         </div>
 
                                     </div>
@@ -217,8 +217,8 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="myModalLabel">Thông báo!</h5>
                 @*<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>*@
+                        <span aria-hidden="true">&times;</span>
+                    </button>*@
             </div>
             <div class="modal-body text-center ">
                 <h6 class="font-weight-bold text-danger">Bạn có đang theo dõi bài học?</h6>
@@ -234,65 +234,6 @@
 
 
 <script>
-    var video = document.getElementById('videoPlayer');
-    var progressBar = document.getElementById('progress-bar');
-    var lastPlaybackTime = 0;
-    var videoHasError = false;
-    // Cập nhật thanh tiến trình khi video đang phát và cập nhật thời gian phát
-    video.addEventListener('timeupdate', function () {
-        //if (!video.paused && !video.ended && !videoHasError) {
-        //    var progress = (video.currentTime / video.duration) * 100;
-        //    progressBar.style.width = progress + '%';
-        //}
-        var progress = (video.currentTime / video.duration) * 100;
-        progressBar.style.width = progress + '%';
-    });
-
-    // Ngăn chặn người dùng kéo thanh tiến trình
-    document.getElementById('custom-controls').addEventListener('click', function (event) {
-        event.preventDefault();
-    });
-
-    // Handle the error event
-    video.addEventListener("error", function (e) {
-        lastPlaybackTime = video.currentTime;
-        videoHasError = true;
-        // Optionally, save the error time to the server or local storage
-        localStorage.setItem('videoTime', lastPlaybackTime);
-    });
-
-    // Sự kiện khi video bị tạm dừng
-    video.addEventListener('pause', function () {
-        lastPlaybackTime = video.currentTime;
-        // Lưu thời gian hiện tại của video vào local storage
-        localStorage.setItem('videoTime', lastPlaybackTime);
-
-    });
-
-    // Sự kiện khi người dùng thoát khỏi trang
-    window.addEventListener('beforeunload', function () {
-        lastPlaybackTime = video.currentTime;
-        // Lưu thời gian hiện tại của video vào local storage
-        localStorage.setItem('videoTime', lastPlaybackTime);
-    });
-    // Reset cờ lỗi khi video tải lại
-    video.addEventListener('loadeddata', function () {
-        var urlParams = new URLSearchParams(window.location.search);
-        //localStorage.setItem('videoTime', lastPlaybackTime);
-        //video.currentTime = lastPlaybackTime;
-        // Kiểm tra xem có thời gian đã lưu trong local storage không
-        var savedTime = localStorage.getItem('videoTime');
-        var videoId = urlParams.get('LHID');
-        var videoIdStore = localStorage.getItem('videoID');
-        if (savedTime && videoId == videoIdStore) {
-            // Nếu có, đặt thời gian đó cho video
-            video.currentTime = savedTime;
-        }
-        videoHasError = false;
-    });
-</script>
-
-<script>
     document.addEventListener("DOMContentLoaded", function () {
         var video = document.getElementById("videoPlayer");
         var modal = document.getElementById("myModalTB");
@@ -302,18 +243,6 @@
         var lastTime = 0;
         var stopTimeout;
         var exitTimeout;
-
-        // Lấy URL hiện tại
-        var urlParams = new URLSearchParams(window.location.search);
-        var videoId = urlParams.get('LHID');
-        var IDNV = @MyAuthentication.ID;
-        var videoIdStore = localStorage.getItem('videoID');
-        var nhanvienID = localStorage.getItem('NVID');
-        if (videoIdStore != videoId || IDNV != nhanvienID) {
-            localStorage.removeItem('videoTime');
-        }
-        localStorage.setItem('videoID', videoId);
-        localStorage.setItem('NVID', IDNV);
 
         // Thiết lập thời gian dừng lại (5 phút = 300 giây)
         var stopInterval = 300 * 1000;
@@ -380,20 +309,7 @@
         //    }
         //});
 
-        //video.addEventListener("seeking", function () {
-        //    event.preventDefault();
-        //    //if (video.currentTime > lastTime) {
-        //    //    video.currentTime = lastTime;
-        //    //}
-        //});
-        // Dừng video khi chuyển tab và phát lại khi quay lại
-        //document.addEventListener("visibilitychange", function () {
-        //    if (document.hidden) {
-        //        video.pause();
-        //    } else if (videoStopped) {
-        //        video.play();
-        //    }
-        //});
+
         // Giám sát thời gian hiện tại của video để phát hiện sự cố
         video.ontimeupdate = function () {
             if (!videoEnded && video.currentTime === 0) {
@@ -403,21 +319,9 @@
         // Lấy phần tử video
 /*        var video = document.getElementById('myVideo');*/
 
-
-        // Khi trang được tải
-        window.addEventListener('load', function () {
-            // Kiểm tra xem có thời gian đã lưu trong local storage không
-            var savedTime = localStorage.getItem('videoTime');
-            var videoId = urlParams.get('LHID');
-            var videoIdStore = localStorage.getItem('videoID');
-            if (savedTime && videoId == videoIdStore) {
-                // Nếu có, đặt thời gian đó cho video
-                video.currentTime = savedTime;
-            }
-            //console.log(savedTime);
-        });
     });
 </script>
+
 
 <script>
     var video = document.getElementById('videoPlayer');
@@ -456,27 +360,24 @@
         console.log('The video is waiting for more data.');
     };
 
-    //video.onseeking = function () {
-    //    alert('The video is seeking.');
-    //};
-
-    //video.onseeked = function () {
-    //    alert('The video has finished seeking.');
-    //};
 </script>
 
 <script type="text/javascript">
 
     // API JWplayer play complete
-
+    // Bắt sự kiện khi video kết thúc
+ 
     var element = document.getElementById("target");
     element.disabled = true;
-    jwplayer().on('complete', function (event) {
-        console.log("complete");
+    //jwplayer().on('complete', function (event) {
+    //    console.log("complete");
+    //    element.disabled = false;
+
+    //});
+    jwplayer("videoPlayer").on('complete', function () {
+        console.log("Video đã kết thúc!");
         element.disabled = false;
-
     });
-
     // JWplayer pause after 5 m play
 
     //jwplayer().on('play', function (event) {
@@ -488,39 +389,40 @@
     //        clearInterval(Pause);
     //    }, 20000);
     //});
-    let checkview;
-    jwplayer().on('play', function (event) {
-        console.log("playt");
-        checkview = setInterval(pause, 300000);
-        function delay(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-        function pause() {
-            jwplayer().pause();
-            console.log("auto pause");
-            $('#myModalTB').modal('show');
-            clearInterval(checkview);
-            startTimer(); // đếm 10ph dừng
-        }
-        function aler() {
-            clearInterval(checkview);
-            alert("Bạn có đang theo dõi bài học");
-            console.log("auto play");
-            jwplayer().play();
-        }
-        //jwplayer().on('pause', function (event) {
-        //    console.log("pauset");
-        //    clearInterval(checkview);
-        //});
+    //let checkview;
+    //jwplayer().on('play', function (event) {
+    //    console.log("playt");
+    //    checkview = setInterval(pause, 300000);
+    //    function delay(ms) {
+    //        return new Promise(resolve => setTimeout(resolve, ms));
+    //    }
+    //    function pause() {
+    //        jwplayer().pause();
+    //        console.log("auto pause");
+    //        $('#myModalTB').modal('show');
+    //        clearInterval(checkview);
+    //        startTimer(); // đếm 10ph dừng
+    //    }
+    //    function aler() {
+    //        clearInterval(checkview);
+    //        alert("Bạn có đang theo dõi bài học");
+    //        console.log("auto play");
+    //        jwplayer().play();
+    //    }
+    //    //jwplayer().on('pause', function (event) {
+    //    //    console.log("pauset");
+    //    //    clearInterval(checkview);
+    //    //});
 
-    });
+    //});
 
     $('#confirmBtn').on('click', function () {
         console.log('Confirmed');
         // Thực hiện hành động xác nhận ở đây
         $('#myModalTB').modal('hide'); // Đóng modal sau khi xác nhận
         console.log("auto play");
-        jwplayer().play();
+        //jwplayer().play();
+        jwplayer("videoPlayer").play();
         stopTimer();
     });
 
@@ -528,7 +430,8 @@
     // Dừng video khi chuyển tab
     document.addEventListener("visibilitychange", function () {
         if (document.hidden) {
-            jwplayer().pause();
+            //jwplayer().pause();
+            jwplayer("videoPlayer").pause();
             clearInterval(checkview);
         } else {
             // Uncomment the line below if you want the video to resume playing when the tab becomes visible again
@@ -573,7 +476,7 @@
     var seeking = false;
     var maxPlayPosition = 0;
 
-    jwplayer().on('time', function (event) {
+    jwplayer("videoPlayer").on('time', function (event) {
         if (!seeking) {
             maxPlayPosition = Math.max(event.position, maxPlayPosition);
         }
@@ -582,7 +485,7 @@
     }).on('seeked', function (event) {
         var pos = jwplayer().getPosition();
         if (pos > maxPlayPosition) {
-            jwplayer().seek(maxPlayPosition);
+            jwplayer("videoPlayer").seek(maxPlayPosition);
         }
 
         seeking = false;

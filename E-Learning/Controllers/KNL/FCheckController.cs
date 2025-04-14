@@ -1,4 +1,5 @@
-﻿using E_Learning.Models;
+﻿using DocumentFormat.OpenXml.Vml;
+using E_Learning.Models;
 using Microsoft.Ajax.Utilities;
 using PagedList;
 using System;
@@ -23,13 +24,14 @@ namespace E_Learning.Controllers.KNL
             //    return RedirectToAction("", "Home");
             //}
             string manv = MyAuthentication.Username;
+            int idnv = MyAuthentication.ID;
             int idpb = MyAuthentication.IDPhongban;
             int? IDVTKNL = MyAuthentication.IDVTKNL;
             if (search == null) search = "";
             ViewBag.search = search;
             var nv = db.NhanViens.Where(x => x.MaNV == manv).FirstOrDefault();
             var vt = db.ViTriKNLs.Where(x => x.IDVT == IDVTKNL).FirstOrDefault();
-            var aa = db.KNL_NVKiemNhiem.Where(x => x.IDNV == nv.ID).ToList();
+            var aa = db.KNL_NVKiemNhiem.Where(x => x.IDNV == idnv).ToList();
             var res = new List<FCheckValidation>();
             var resView = new List<FCheckValidation>();
             // Đánh giá cá nhân
@@ -80,6 +82,7 @@ namespace E_Learning.Controllers.KNL
                 res = res.DistinctBy(x => x.MaNV).ToList();
                 resView = resView.DistinctBy(x => x.MaNV).ToList();
                 // Bổ sung Đánh giá cá nhân
+
                 resNV = (from a in db.NhanVien_SelectKQKNL(idpb).Where(x => x.ID == MyAuthentication.ID)
                          select new FCheckValidation
                          {
@@ -96,7 +99,7 @@ namespace E_Learning.Controllers.KNL
                              fileBMTCV = a.FilePath,
                              NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
                              TotalDat =  db.KNL_DocBangKNL.Count(x => x.IDNV == a.ID && x.ID_ViTriKNL == a.IDVT),
-                             Total = db.KhungNangLucs.Count(x => x.IDVT == a.IDVT && x.IsDanhGia == 1 && x.IsDuyet == 1),
+                             Total = db.KhungNangLuc_Total(a.IDVT).FirstOrDefault() != null? db.KhungNangLuc_Total(a.IDVT).FirstOrDefault().Total:0, // tổng NL duyệt
                              NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
                          }).ToList();
             }
@@ -157,37 +160,73 @@ namespace E_Learning.Controllers.KNL
             var vt3 = checkMVT3(vt.MaViTri);
             var res = new List<FCheckValidation>();
             if(idpb ==null) idpb = 0;
-            var res1 = (from a in db.NhanVien_SelectKQKNL(idpb)
-                        select new FCheckValidation
-                        {
-                            MaNV = a.MaNV,
-                            IDNV = a.ID,
-                            IDVT = a.IDVT,
-                            TenVT = a.TenViTri,
-                            TenNV = a.HoTen,
-                            //IDNhom = b.IDNhom,
-                            //IDPX = b.IDPX,
-                            IDKip = a.IDKip,
-                            TenKip = a.TenKip,
-                            //MaViTri = a.MaViTri,
-                            fileBMTCV = a.FilePath,
-                            NgayDG =a?.NgayDG != null? String.Format("{0:dd/MM/yyyy}", a?.NgayDG):"",
-                            Total = db.KhungNangLuc_SearchByIDVT(a.IDVT).FirstOrDefault(x => x.IsDuyet == 1) != null?1:0
-                        }).ToList();
+            //var res1 = (from a in db.NhanVien_SelectKQKNL(idpb)
+            //            select new FCheckValidation
+            //            {
+            //                MaNV = a.MaNV,
+            //                IDNV = a.ID,
+            //                IDVT = a.IDVT,
+            //                TenVT = a.TenViTri,
+            //                TenNV = a.HoTen,
+            //                //IDNhom = b.IDNhom,
+            //                //IDPX = b.IDPX,
+            //                IDKip = a.IDKip,
+            //                TenKip = a.TenKip,
+            //                //MaViTri = a.MaViTri,
+            //                fileBMTCV = a.FilePath,
+            //                NgayDG =a?.NgayDG != null? String.Format("{0:dd/MM/yyyy}", a?.NgayDG):"",
+            //                Total = db.KhungNangLuc_Total(a.IDVT) != null?1:0
+            //            }).ToList();
 
             if (vt.IDNhom != null && vt2 == "PT")
             {
                 //res = res1.Where(x => x.IDNhom == vt.IDNhom && x.IDVT != vt.IDVT).ToList();
-                res = (from a in res1.Where(x=>x.IDVT != vt.IDVT)
-                      join b in db.ViTriKNLs.Where(x=> x.IDNhom == vt.IDNhom) on a.IDVT equals b.IDVT 
-                      select a).ToList();
+                res  = (from a in db.NhanVien_SelectKQKNL(idpb).Where(x => x.IDVT != vt.IDVT)
+                        join b in db.ViTriKNLs.Where(x => x.IDNhom == vt.IDNhom) on a.IDVT equals b.IDVT
+                        select new FCheckValidation
+                           {
+                               MaNV = a.MaNV,
+                               IDNV = a.ID,
+                               IDVT = a.IDVT,
+                               TenVT = a.TenViTri,
+                               TenNV = a.HoTen,
+                               //IDNhom = b.IDNhom,
+                               //IDPX = b.IDPX,
+                               IDKip = a.IDKip,
+                               TenKip = a.TenKip,
+                               //MaViTri = a.MaViTri,
+                               fileBMTCV = a.FilePath,
+                               NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+                               Total = db.KhungNangLuc_Total(a.IDVT) != null ? 1 : 0
+                           }).ToList();
+                //res = (from a in res1.Where(x=>x.IDVT != vt.IDVT)
+                //      join b in db.ViTriKNLs.Where(x=> x.IDNhom == vt.IDNhom) on a.IDVT equals b.IDVT 
+                //      select a).ToList();
             }
             else if (vt.IDTo != null && vt2 == "TT")
             {
+                res = (from a in db.NhanVien_SelectKQKNL(idpb).Where(x => x.IDVT != vt.IDVT && (x.IDKip == nv.IDKip || (x.IDKip != 1 && x.IDKip != 2 & x.IDKip != 3)))
+                       join b in db.ViTriKNLs.Where(x => x.IDTo == vt.IDTo) on a.IDVT equals b.IDVT
+                       select new FCheckValidation
+                       {
+                           MaNV = a.MaNV,
+                           IDNV = a.ID,
+                           IDVT = a.IDVT,
+                           TenVT = a.TenViTri,
+                           TenNV = a.HoTen,
+                           //IDNhom = b.IDNhom,
+                           //IDPX = b.IDPX,
+                           IDKip = a.IDKip,
+                           TenKip = a.TenKip,
+                           //MaViTri = a.MaViTri,
+                           fileBMTCV = a.FilePath,
+                           NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+                           Total = db.KhungNangLuc_Total(a.IDVT) != null ? 1 : 0
+                       }).ToList();
                 //res = res1.Where(x => x.IDTo == vt.IDTo && x.IDVT != vt.IDVT).ToList();
-                res = (from a in res1.Where(x => x.IDVT != vt.IDVT && (x.IDKip ==nv.IDKip || (x.IDKip != 1 && x.IDKip != 2 & x.IDKip != 3)))
-                       join b in db.ViTriKNLs.Where(x =>  x.IDTo == vt.IDTo) on a.IDVT equals b.IDVT
-                       select a).ToList();
+                //res = (from a in res1.Where(x => x.IDVT != vt.IDVT && (x.IDKip ==nv.IDKip || (x.IDKip != 1 && x.IDKip != 2 & x.IDKip != 3)))
+                //       join b in db.ViTriKNLs.Where(x =>  x.IDTo == vt.IDTo) on a.IDVT equals b.IDVT
+                //       select a).ToList();
             }
 
             List<KNLDGiaTCValidation> lsVTTT = (from a in db.KNLDGiaTC_select(vt.IDVT).Where(x=> x.IDVTDGTT != null)
@@ -204,10 +243,25 @@ namespace E_Learning.Controllers.KNL
             if (lsVTTT.Count > 0)
             {
                 var resVT=new List<FCheckValidation>();
-                var aa = (from a in res1
+                var aa = (from a in db.NhanVien_SelectKQKNL(idpb)
                           join b in lsVTTT on a.IDVT equals b.IDVTDGTT
-                          select a).ToList();
-                if(vt2 == "TK"||vt2 =="TT" || vt2 =="PK" || vt2 =="TP")
+                          select new FCheckValidation
+                          {
+                              MaNV = a.MaNV,
+                              IDNV = a.ID,
+                              IDVT = a.IDVT,
+                              TenVT = a.TenViTri,
+                              TenNV = a.HoTen,
+                              //IDNhom = b.IDNhom,
+                              //IDPX = b.IDPX,
+                              IDKip = a.IDKip,
+                              TenKip = a.TenKip,
+                              //MaViTri = a.MaViTri,
+                              fileBMTCV = a.FilePath,
+                              NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+                              Total = db.KhungNangLuc_Total(a.IDVT) != null ? 1 : 0
+                          }).ToList();
+                if (vt2 == "TK"||vt2 =="TT" || vt2 =="PK" || vt2 =="TP")
                 {
                     aa = aa.Where(x =>  x.IDKip == nv.IDKip || (x.IDKip != 1 && x.IDKip != 2 & x.IDKip != 3)).ToList();
                 }
@@ -223,23 +277,23 @@ namespace E_Learning.Controllers.KNL
             var res = new List<FCheckValidation>();
             if (idpb == null) idpb = 0;
 
-            var res1 = (from a in db.NhanVien_SelectKQKNL(idpb)
-                        select new FCheckValidation
-                        {
-                            MaNV = a.MaNV,
-                            IDNV = a.ID,
-                            IDVT = a.IDVT,
-                            TenVT = a.TenViTri,
-                            TenNV = a.HoTen,
-                            //IDNhom = b.IDNhom,
-                            //IDPX = b.IDPX,
-                            IDKip = a.IDKip,
-                            TenKip = a.TenKip,
-                            //MaViTri = a.MaViTri,
-                            fileBMTCV = a.FilePath,
-                            NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
-                            Total = db.KhungNangLuc_SearchByIDVT(a.IDVT).FirstOrDefault(x=>x.IsDuyet == 1) != null ? 1 : 0
-                        }).ToList();
+            //var res1 = (from a in db.NhanVien_SelectKQKNL(idpb)
+            //            select new FCheckValidation
+            //            {
+            //                MaNV = a.MaNV,
+            //                IDNV = a.ID,
+            //                IDVT = a.IDVT,
+            //                TenVT = a.TenViTri,
+            //                TenNV = a.HoTen,
+            //                //IDNhom = b.IDNhom,
+            //                //IDPX = b.IDPX,
+            //                IDKip = a.IDKip,
+            //                TenKip = a.TenKip,
+            //                //MaViTri = a.MaViTri,
+            //                fileBMTCV = a.FilePath,
+            //                NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+            //                Total = db.KhungNangLuc_Total(a.IDVT) != null ? 1 : 0
+            //            }).ToList();
  
             List<KNLDGiaTCValidation> lsVTTC = (from a in db.KNLDGiaTC_select(vt.IDVT).Where(x => x.IDVTDGTC != null)
                                                 select new KNLDGiaTCValidation
@@ -255,9 +309,24 @@ namespace E_Learning.Controllers.KNL
             if (lsVTTC.Count > 0)
             {
                 var resVT = new List<FCheckValidation>();
-                var aa = (from a in res1
+                var aa = (from a in db.NhanVien_SelectKQKNL(idpb)
                           join b in lsVTTC on a.IDVT equals b.IDVTDGTC
-                          select a).ToList();
+                          select new FCheckValidation
+                          {
+                              MaNV = a.MaNV,
+                              IDNV = a.ID,
+                              IDVT = a.IDVT,
+                              TenVT = a.TenViTri,
+                              TenNV = a.HoTen,
+                              //IDNhom = b.IDNhom,
+                              //IDPX = b.IDPX,
+                              IDKip = a.IDKip,
+                              TenKip = a.TenKip,
+                              //MaViTri = a.MaViTri,
+                              fileBMTCV = a.FilePath,
+                              NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+                              Total = db.KhungNangLuc_Total(a.IDVT) != null ? 1 : 0
+                          }).ToList();
                 if (vt2 == "TK" || vt2 == "TT" || vt2 == "PK" || vt2 == "TP")
                 {
                     aa = aa.Where(x => x.IDKip == nv.IDKip || (x.IDKip != 1 && x.IDKip != 2 & x.IDKip != 3)).ToList();
@@ -322,10 +391,11 @@ namespace E_Learning.Controllers.KNL
                             kqua.IDNguoiDG_Lan1 = aa.IDNguoiDG_Lan1;
                             kqua.DiemDG_Lan1 = aa.DiemDG_Lan1;
                             kqua.NgayDG_Lan1 = aa.NgayDG_Lan1;
-                            db.SaveChanges();
+                            
                         }    
                         
                     }
+                    db.SaveChanges();
                 }
             }
 
@@ -366,7 +436,13 @@ namespace E_Learning.Controllers.KNL
                           capDG = capDG
                       }).ToList().OrderBy(x => x.OrderBy);
 
-            List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => x.IDVT == nv.IDVT && x.IDLoai != 1 && x.IDLoai != 2).OrderBy(x => x.OrderBy).ToList();
+
+            var distinctIDLoaiNLs = res.Where(x => x.IDLoaiNL != 1 && x.IDLoaiNL != 2)
+                   .Select(x => x.IDLoaiNL)
+                   .Distinct()
+                   .ToList();
+
+            List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => distinctIDLoaiNLs.Contains(x.IDLoai)).OrderBy(x => x.OrderBy).ToList();
             ViewBag.IDLoaiNL = new SelectList(loaiNL, "IDLoai", "TenLoai");
 
             string manv = MyAuthentication.Username;
@@ -708,9 +784,12 @@ namespace E_Learning.Controllers.KNL
                            NgayHanDG = a.DiemDG < a.DinhMuc ? ((DateTime)a.NgayDG).AddMonths(6) : default(DateTime),
                            CapNhatDG = b?.TinhTrang == 1?true:false,
                        }).ToList().OrderBy(x => x.OrderBy);
+            var distinctIDLoaiNLs = res.Where(x => x.IDLoaiNL != 1 && x.IDLoaiNL != 2)
+                   .Select(x => x.IDLoaiNL)
+                   .Distinct()
+                   .ToList();
 
-           
-            List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => x.IDVT == nv.IDVT && x.IDLoai != 1 && x.IDLoai != 2).OrderBy(x => x.OrderBy).ToList();
+            List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => distinctIDLoaiNLs.Contains(x.IDLoai)).OrderBy(x => x.OrderBy).ToList();
             ViewBag.IDLoaiNL = new SelectList(loaiNL, "IDLoai", "TenLoai");
 
             string manv = MyAuthentication.Username;

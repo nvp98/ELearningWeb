@@ -95,7 +95,6 @@ namespace E_Learning.Models
         public virtual DbSet<SH_QuyDaoTao> SH_QuyDaoTao { get; set; }
         public virtual DbSet<SH_TrinhKy> SH_TrinhKy { get; set; }
         public virtual DbSet<SH_ViTri_NDDT> SH_ViTri_NDDT { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TB_KyLuat> TB_KyLuat { get; set; }
         public virtual DbSet<TinhTrangLV> TinhTrangLV { get; set; }
         public virtual DbSet<ThongBao> ThongBaos { get; set; }
@@ -4235,6 +4234,15 @@ namespace E_Learning.Models
                 new ObjectParameter("VTID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("XNHocTap_update", iDHTParameter, nVIDParameter, lHIDParameter, ngayTGParameter, ngayHTParameter, xNTGParameter, xNHTParameter, pBIDParameter, vTIDParameter);
+        }
+    
+        public virtual ObjectResult<KhungNangLuc_Total_Result> KhungNangLuc_Total(Nullable<int> iDVT)
+        {
+            var iDVTParameter = iDVT.HasValue ?
+                new ObjectParameter("IDVT", iDVT) :
+                new ObjectParameter("IDVT", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<KhungNangLuc_Total_Result>("KhungNangLuc_Total", iDVTParameter);
         }
     }
 }

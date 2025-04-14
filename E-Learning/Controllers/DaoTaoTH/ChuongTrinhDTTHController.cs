@@ -245,9 +245,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                 DataSet result = reader.AsDataSet();
                                 DataTable dt = result.Tables[0];
                                 reader.Close();
-
                                 for (int i = 5; i < dt.Rows.Count; i++)
                                 {
+                                    
                                     string NoiDungCH = dt.Rows[i][1].ToString().Trim();
 
                                     string DapAnA = dt.Rows[i][2].ToString().Trim();
@@ -291,8 +291,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                     db.SaveChanges();
                                     // lưu câu hỏi đề thi
                                     string ketQua = (10 / (dt.Rows.Count - 5)).ToString("F1");
-                                    double diemso = 10 / (dt.Rows.Count - 5);
-                                    db.CauHoiDeThi_insert(ch.IDCH, dethi.IDDeThi, double.Parse(ketQua));
+                                    double diemso = 10.0 / (dt.Rows.Count - 5);
+                                    diemso = Math.Round(diemso, 2); // Làm tròn đến 2 số thập phân
+                                    db.CauHoiDeThi_insert(ch.IDCH, dethi.IDDeThi, diemso);
                                 }
                             }
                            
@@ -514,8 +515,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                 db.SaveChanges();
                                 // lưu câu hỏi đề thi
                                 string ketQua = (10 / (dt.Rows.Count - 5)).ToString("F1");
-                                double diemso = 10 / (dt.Rows.Count - 5);
-                                db.CauHoiDeThi_insert(ch.IDCH, dethi.IDDeThi, double.Parse(ketQua));
+                                double diemso = 10.0 / (dt.Rows.Count - 5);
+                                diemso = Math.Round(diemso, 2); // Làm tròn đến 2 số thập phân
+                                db.CauHoiDeThi_insert(ch.IDCH, dethi.IDDeThi, diemso);
                             }
                         }
                     }
@@ -578,6 +580,9 @@ namespace E_Learning.Controllers.DaoTaoTH
             ViewBag.ID_TPBP = new SelectList(nhanvien.Where(x => x.IDPhongBan == MyAuthentication.IDPhongban), "ID", "HoTen",trinhky.ID_TPBP);
             ViewBag.ID_PCHN = new SelectList(nhanvien, "ID", "HoTen",trinhky.ID_PCHN);
 
+            ViewBag.ID_NguoiDangND = new SelectList(nhanvien, "ID", "HoTen", trinhky?.ID_NguoiDangNDDT);
+            ViewBag.ID_NguoiDuyetND = new SelectList(nhanvien, "ID", "HoTen", trinhky?.ID_NguoiDuyetNDDT);
+
             var noiDungDTs = (from a in db.SH_ChuongTrinhDT.Where(x => x.IDCTDT == id)
                               select new ChuongTrinhDTTHView
                               {
@@ -613,6 +618,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                                       TongSoCau =d.TongSoCau,
                                       fileDe = d.FileDeThi
                                   }).ToList(),
+                                  sH_KyDuyetCTDTs = db.SH_KyDuyetCTDT.FirstOrDefault(x=>x.ID_CTDT == id)
                               }).OrderBy(x => x.NgayTao).FirstOrDefault();
 
             return View(noiDungDTs);
@@ -797,8 +803,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                         db.SaveChanges();
                                         // lưu câu hỏi đề thi
                                         string ketQua = (10 / (dtt.Rows.Count - 5)).ToString("F1");
-                                        double diemso = 10 / (dtt.Rows.Count - 5);
-                                        db.CauHoiDeThi_insert(chh.IDCH, item.ID, double.Parse(ketQua));
+                                        double diemso = 10.0 / (dtt.Rows.Count - 5);
+                                        diemso = Math.Round(diemso, 2); // Làm tròn đến 2 số thập phân
+                                        db.CauHoiDeThi_insert(chh.IDCH, item.ID, diemso);
                                     }
                                 }
                             }
@@ -925,8 +932,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                         db.SaveChanges();
                                         // lưu câu hỏi đề thi
                                         string ketQua = (10 / (dt.Rows.Count - 5)).ToString("F1");
-                                        double diemso = 10 / (dt.Rows.Count - 5);
-                                        db.CauHoiDeThi_insert(ch.IDCH, dethi.IDDeThi, double.Parse(ketQua));
+                                        double diemso = 10.0 / (dt.Rows.Count - 5);
+                                        diemso = Math.Round(diemso, 2); // Làm tròn đến 2 số thập phân
+                                        db.CauHoiDeThi_insert(ch.IDCH, dethi.IDDeThi, diemso);
                                     }
                                 }
                                 
@@ -965,6 +973,41 @@ namespace E_Learning.Controllers.DaoTaoTH
                 TempData["msgSuccess"] = "<script>alert('Cập nhập thất bại " + ex.Message + " ');</script>";
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult ViewPheDuyet(int? IDCTDT)
+        {
+            var pheduyet = (from a in db.SH_KyDuyetCTDT.AsNoTracking().Where(x => x.ID_CTDT == IDCTDT)
+                            join nd in db.NhanViens.AsNoTracking() on a.ID_NguoiDangNDDT equals nd.ID into ndGroup
+                            from nd in ndGroup.DefaultIfEmpty()
+                            join duyet in db.NhanViens.AsNoTracking() on a.ID_NguoiDuyetNDDT equals duyet.ID into duyetGroup
+                            from duyet in duyetGroup.DefaultIfEmpty()
+                            join tao in db.NhanViens.AsNoTracking() on a.ID_NguoiTao equals tao.ID into taoGroup
+                            from tao in taoGroup.DefaultIfEmpty()
+                            join kiemtra in db.NhanViens.AsNoTracking() on a.ID_NguoiKiemTra equals kiemtra.ID into ktGroup
+                            from kiemtra in ktGroup.DefaultIfEmpty()
+                            join pchn in db.NhanViens.AsNoTracking() on a.ID_PCHN equals pchn.ID into pchnGroup
+                            from pchn in pchnGroup.DefaultIfEmpty()
+                            join tpbp in db.NhanViens.AsNoTracking() on a.ID_TPBP equals tpbp.ID into tpbpGroup
+                            from tpbp in tpbpGroup.DefaultIfEmpty()
+                            select new SH_KyDuyetCTDTView()
+                            {
+                                ID = a.ID,
+                                ID_NguoiDangNDDT = a.ID_NguoiDangNDDT,
+                                TenNguoiDangNDDT = nd != null ? nd.HoTen : "",
+                                TenNguoiDuyetNDDT = duyet != null ? duyet.HoTen : "",
+                                TenNguoiTao = tao != null ? tao.HoTen : "",
+                                TenNguoiKiemTra = kiemtra != null ? kiemtra.HoTen : "",
+                                TenPCHN = pchn != null ? pchn.HoTen : "",
+                                TenTPBP = tpbp != null ? tpbp.HoTen : "",
+                                NgayDangNDDT = a.NgayDangNDDT,
+                                NgayDuyetNDDT = a.NgayDuyetNDDT,
+                                NgayTao = a.NgayTao,
+                                NgayKTDuyet = a.NgayKTDuyet,
+                                NgayPCHN = a.NgayPCHN,
+                                NgayTPBP = a.NgayTPBP
+                            }).FirstOrDefault();
+            return PartialView(pheduyet);
         }
 
         public ActionResult Edit_View(int? id)

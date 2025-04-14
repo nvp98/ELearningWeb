@@ -473,6 +473,9 @@
     <Compile Include="Models\KhungNangLuc_SearchByIDVT_Result.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\KhungNangLuc_Total_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Kip.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
@@ -775,9 +778,6 @@
     </Compile>
     <Compile Include="Models\StatisticValidation.cs" />
     <Compile Include="Models\StudentTestDetailValidation.cs" />
-    <Compile Include="Models\sysdiagrams.cs">
-      <DependentUpon>ELEARNING.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TaiKhoan_ID_Result.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
@@ -896,6 +896,7 @@
     <Content Include="Views\HoSoDTTH\ViewEdit.cshtml" />
     <Content Include="Views\HoSoDTTH\ExportProcess.cshtml" />
     <Content Include="Views\HoSoDTTH\DSFileDinhKem.cshtml" />
+    <Content Include="Views\ChuongTrinhDTTH\ViewPheDuyet.cshtml" />
     <None Include="Views\Shared\LayoutAdmin.cshtml" />
     <Content Include="Views\ToChucDTTH\Index.cshtml" />
     <Content Include="Views\ToChucDTTH\Create.cshtml" />

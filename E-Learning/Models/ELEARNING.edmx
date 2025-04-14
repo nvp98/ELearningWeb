@@ -187,6 +187,7 @@
           <Property Name="TenDe" Type="nvarchar" MaxLength="250" />
           <Property Name="DiemChuan" Type="float" />
           <Property Name="KCCDID" Type="int" />
+          <Property Name="CTDT_ID" Type="int" />
         </EntityType>
         <EntityType Name="Kip">
           <Key>
@@ -700,7 +701,7 @@
           <Property Name="ThoiGian_DT" Type="int" />
           <Property Name="ThoiLuong_DT" Type="int" />
           <Property Name="DiaDiemDT" Type="nvarchar" MaxLength="50" />
-          <Property Name="GhiChu" Type="nvarchar" MaxLength="50" />
+          <Property Name="GhiChu" Type="nvarchar" MaxLength="150" />
           <Property Name="DonViDT" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="SH_ChiTietCTDT">
@@ -926,16 +927,6 @@
           <Property Name="NCDT_ID" Type="int" />
           <Property Name="TinhTrang_NCDT" Type="int" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="TB_KyLuat">
           <Key>
             <PropertyRef Name="ID" />
@@ -1003,10 +994,10 @@
           <Property Name="DiemThucHanh" Type="float" />
           <Property Name="DiemVanDap" Type="float" />
           <Property Name="KetLuan" Type="int" />
-          <Property Name="IDND" Type="int" />
-          <Property Name="ID_PhuongPhapDT" Type="int" />
           <Property Name="LyDoKhongTGia" Type="nvarchar" MaxLength="250" />
           <Property Name="TinhTrang" Type="int" />
+          <Property Name="IDND" Type="int" />
+          <Property Name="ID_PhuongPhapDT" Type="int" />
         </EntityType>
         <Association Name="FK_CauHoiDeThi_CauHoi">
           <End Role="CauHoi" Type="Self.CauHoi" Multiplicity="0..1" />
@@ -1104,6 +1095,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_KNL_KQ_KhungNangLuc">
+          <End Role="KhungNangLuc" Type="Self.KhungNangLuc" Multiplicity="0..1" />
+          <End Role="KNL_KQ" Type="Self.KNL_KQ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhungNangLuc">
+              <PropertyRef Name="IDNL" />
+            </Principal>
+            <Dependent Role="KNL_KQ">
+              <PropertyRef Name="IDNL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_KNL_PheDuyetKNL_NhanVien">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="0..1" />
           <End Role="KNL_PheDuyetKNL" Type="Self.KNL_PheDuyetKNL" Multiplicity="*" />
@@ -1149,54 +1152,6 @@
             </Principal>
             <Dependent Role="NoiDungDT">
               <PropertyRef Name="LVDTID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NoiDungDT_NhomNLKCCD">
-          <End Role="NhomNLKCCD" Type="Self.NhomNLKCCD" Multiplicity="0..1" />
-          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NhomNLKCCD">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="NoiDungDT">
-              <PropertyRef Name="IDNhomNL" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NoiDungDT_SH_HoatDongDT">
-          <End Role="SH_HoatDongDT" Type="Self.SH_HoatDongDT" Multiplicity="0..1" />
-          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SH_HoatDongDT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="NoiDungDT">
-              <PropertyRef Name="IDHoatDongDT" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NoiDungDT_SH_NguonGV">
-          <End Role="SH_NguonGV" Type="Self.SH_NguonGV" Multiplicity="0..1" />
-          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SH_NguonGV">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="NoiDungDT">
-              <PropertyRef Name="IDNguonGV" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NoiDungDT_SH_PhanLoaiNDDT">
-          <End Role="SH_PhanLoaiNDDT" Type="Self.SH_PhanLoaiNDDT" Multiplicity="0..1" />
-          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SH_PhanLoaiNDDT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="NoiDungDT">
-              <PropertyRef Name="IDPhanLoaiDT" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1440,18 +1395,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SH_NhuCauDT_NhanVien">
-          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="0..1" />
-          <End Role="SH_NhuCauDT" Type="Self.SH_NhuCauDT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NhanVien">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SH_NhuCauDT">
-              <PropertyRef Name="NguoiTao_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SH_NhuCauDT_PhongBan">
           <End Role="PhongBan" Type="Self.PhongBan" Multiplicity="0..1" />
           <End Role="SH_NhuCauDT" Type="Self.SH_NhuCauDT" Multiplicity="*" />
@@ -1680,7 +1623,6 @@
           <Parameter Name="NVDG" Type="nvarchar" Mode="In" />
           <Parameter Name="IDKNL" Type="int" Mode="In" />
         </Function>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="HDSD_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
@@ -1790,7 +1732,6 @@
         <Function Name="KhungNangLuc_delete_VT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDVT" Type="int" Mode="In" />
         </Function>
-        <Function Name="KhungNangLuc_DongBoDuLieu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="KhungNangLuc_insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TenNL" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="IDLoaiNL" Type="int" Mode="In" />
@@ -1805,6 +1746,9 @@
           <Parameter Name="IDNL" Type="int" Mode="In" />
         </Function>
         <Function Name="KhungNangLuc_SearchByIDVT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDVT" Type="int" Mode="In" />
+        </Function>
+        <Function Name="KhungNangLuc_Total" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDVT" Type="int" Mode="In" />
         </Function>
         <Function Name="KhungNangLuc_update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -2523,36 +2467,6 @@
           <Parameter Name="IDQuyenCN" Type="int" Mode="In" />
           <Parameter Name="isActive" Type="int" Mode="In" />
         </Function>
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="TaiKhoan_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
@@ -2752,7 +2666,6 @@
           <EntitySet Name="SH_QuyDaoTao" EntityType="Self.SH_QuyDaoTao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SH_TrinhKy" EntityType="Self.SH_TrinhKy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SH_ViTri_NDDT" EntityType="Self.SH_ViTri_NDDT" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TB_KyLuat" EntityType="Self.TB_KyLuat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TinhTrangLV" EntityType="Self.TinhTrangLV" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThongBao" EntityType="Self.ThongBao" Schema="dbo" store:Type="Tables" />
@@ -2791,6 +2704,10 @@
             <End Role="KCCD_CauHoi" EntitySet="KCCD_CauHoi" />
             <End Role="KCCD_CTBaiThi" EntitySet="KCCD_CTBaiThi" />
           </AssociationSet>
+          <AssociationSet Name="FK_KNL_KQ_KhungNangLuc" Association="Self.FK_KNL_KQ_KhungNangLuc">
+            <End Role="KhungNangLuc" EntitySet="KhungNangLuc" />
+            <End Role="KNL_KQ" EntitySet="KNL_KQ" />
+          </AssociationSet>
           <AssociationSet Name="FK_KNL_PheDuyetKNL_NhanVien" Association="Self.FK_KNL_PheDuyetKNL_NhanVien">
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="KNL_PheDuyetKNL" EntitySet="KNL_PheDuyetKNL" />
@@ -2805,22 +2722,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_NoiDungDT_LinhVucDT" Association="Self.FK_NoiDungDT_LinhVucDT">
             <End Role="LinhVucDT" EntitySet="LinhVucDT" />
-            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NoiDungDT_NhomNLKCCD" Association="Self.FK_NoiDungDT_NhomNLKCCD">
-            <End Role="NhomNLKCCD" EntitySet="NhomNLKCCD" />
-            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NoiDungDT_SH_HoatDongDT" Association="Self.FK_NoiDungDT_SH_HoatDongDT">
-            <End Role="SH_HoatDongDT" EntitySet="SH_HoatDongDT" />
-            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NoiDungDT_SH_NguonGV" Association="Self.FK_NoiDungDT_SH_NguonGV">
-            <End Role="SH_NguonGV" EntitySet="SH_NguonGV" />
-            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NoiDungDT_SH_PhanLoaiNDDT" Association="Self.FK_NoiDungDT_SH_PhanLoaiNDDT">
-            <End Role="SH_PhanLoaiNDDT" EntitySet="SH_PhanLoaiNDDT" />
             <End Role="NoiDungDT" EntitySet="NoiDungDT" />
           </AssociationSet>
           <AssociationSet Name="FK_NoiDungDTKCCD_NhomNLKCCD" Association="Self.FK_NoiDungDTKCCD_NhomNLKCCD">
@@ -2902,10 +2803,6 @@
           <AssociationSet Name="FK_SH_ChuongTrinhDT_PhongBan" Association="Self.FK_SH_ChuongTrinhDT_PhongBan">
             <End Role="PhongBan" EntitySet="PhongBan" />
             <End Role="SH_ChuongTrinhDT" EntitySet="SH_ChuongTrinhDT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SH_NhuCauDT_NhanVien" Association="Self.FK_SH_NhuCauDT_NhanVien">
-            <End Role="NhanVien" EntitySet="NhanVien" />
-            <End Role="SH_NhuCauDT" EntitySet="SH_NhuCauDT" />
           </AssociationSet>
           <AssociationSet Name="FK_SH_NhuCauDT_PhongBan" Association="Self.FK_SH_NhuCauDT_PhongBan">
             <End Role="PhongBan" EntitySet="PhongBan" />
@@ -3120,6 +3017,7 @@
           <Property Name="DiemChuan" Type="Double" />
           <Property Name="KCCDID" Type="Int32" />
           <NavigationProperty Name="KCCD_CauHoi" Relationship="Self.FK_KCCD_CauHoi_KCCD_DeThi" FromRole="KCCD_DeThi" ToRole="KCCD_CauHoi" />
+          <Property Name="CTDT_ID" Type="Int32" />
         </EntityType>
         <EntityType Name="Kip">
           <Key>
@@ -3177,6 +3075,7 @@
           <Property Name="IDNguoiDG_Lan1" Type="Int32" />
           <Property Name="DiemDG_Lan1" Type="Int32" />
           <Property Name="NgayDG_Lan1" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="KhungNangLuc" Relationship="ELEARNINGModel.FK_KNL_KQ_KhungNangLuc" FromRole="KNL_KQ" ToRole="KhungNangLuc" />
         </EntityType>
         <EntityType Name="KNL_Khoi">
           <Key>
@@ -3296,6 +3195,7 @@
           <Property Name="IsDanhGia" Type="Int32" />
           <Property Name="OrderBy" Type="Int32" />
           <Property Name="IsDuyet" Type="Int32" />
+          <NavigationProperty Name="KNL_KQ" Relationship="ELEARNINGModel.FK_KNL_KQ_KhungNangLuc" FromRole="KhungNangLuc" ToRole="KNL_KQ" />
         </EntityType>
         <EntityType Name="LinhVucDT">
           <Key>
@@ -3649,7 +3549,7 @@
           <Property Name="ThoiGian_DT" Type="Int32" />
           <Property Name="ThoiLuong_DT" Type="Int32" />
           <Property Name="DiaDiemDT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GhiChu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GhiChu" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="DonViDT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SH_NhuCauDT" Relationship="Self.FK_SH_ChiTiet_NCDT_SH_NhuCauDT" FromRole="SH_ChiTiet_NCDT" ToRole="SH_NhuCauDT" />
         </EntityType>
@@ -3849,16 +3749,6 @@
           <Property Name="PhuongPhapDT_ID" Type="Int32" />
           <Property Name="NCDT_ID" Type="Int32" />
           <Property Name="TinhTrang_NCDT" Type="Int32" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="TB_KyLuat">
           <Key>
@@ -4430,7 +4320,6 @@
           <EntitySet Name="SH_QuyDaoTao" EntityType="Self.SH_QuyDaoTao" />
           <EntitySet Name="SH_TrinhKy" EntityType="Self.SH_TrinhKy" />
           <EntitySet Name="SH_ViTri_NDDT" EntityType="Self.SH_ViTri_NDDT" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="TB_KyLuat" EntityType="Self.TB_KyLuat" />
           <EntitySet Name="TinhTrangLV" EntityType="Self.TinhTrangLV" />
           <EntitySet Name="ThongBao" EntityType="Self.ThongBao" />
@@ -5785,6 +5674,13 @@
             <End Role="XNHocTap" EntitySet="XNHocTap" />
           </AssociationSet>
           <EntitySet Name="SH_HoSoDaoTao" EntityType="ELEARNINGModel.SH_HoSoDaoTao" />
+          <AssociationSet Name="FK_KNL_KQ_KhungNangLuc" Association="ELEARNINGModel.FK_KNL_KQ_KhungNangLuc">
+            <End Role="KhungNangLuc" EntitySet="KhungNangLuc" />
+            <End Role="KNL_KQ" EntitySet="KNL_KQ" />
+          </AssociationSet>
+          <FunctionImport Name="KhungNangLuc_Total" ReturnType="Collection(ELEARNINGModel.KhungNangLuc_Total_Result)">
+            <Parameter Name="IDVT" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="CauHoi_DeThi_list_Result">
           <Property Type="Int32" Name="IDCH" Nullable="false" />
@@ -6649,6 +6545,22 @@
           <Property Name="ID_NguoiXuLy" Type="Int32" />
           <Property Name="NgayXuLy" Type="DateTime" Precision="3" />
         </EntityType>
+        <Association Name="FK_KNL_KQ_KhungNangLuc">
+          <End Type="ELEARNINGModel.KhungNangLuc" Role="KhungNangLuc" Multiplicity="0..1" />
+          <End Type="ELEARNINGModel.KNL_KQ" Role="KNL_KQ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhungNangLuc">
+              <PropertyRef Name="IDNL" />
+            </Principal>
+            <Dependent Role="KNL_KQ">
+              <PropertyRef Name="IDNL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="KhungNangLuc_Total_Result">
+          <Property Type="Int32" Name="IDVT" Nullable="true" />
+          <Property Type="Int32" Name="Total" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6845,6 +6757,7 @@
           <EntitySetMapping Name="KCCD_DeThi">
             <EntityTypeMapping TypeName="ELEARNINGModel.KCCD_DeThi">
               <MappingFragment StoreEntitySet="KCCD_DeThi">
+                <ScalarProperty Name="CTDT_ID" ColumnName="CTDT_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="MaDe" ColumnName="MaDe" />
                 <ScalarProperty Name="TenDe" ColumnName="TenDe" />
@@ -7581,17 +7494,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="ELEARNINGModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TB_KyLuat">
             <EntityTypeMapping TypeName="ELEARNINGModel.TB_KyLuat">
               <MappingFragment StoreEntitySet="TB_KyLuat">
@@ -7818,7 +7720,6 @@
           <FunctionImportMapping FunctionImportName="KCCD_DeThi_update" FunctionName="ELEARNINGModel.Store.KCCD_DeThi_update" />
           <FunctionImportMapping FunctionImportName="KhungNangLuc_delete" FunctionName="ELEARNINGModel.Store.KhungNangLuc_delete" />
           <FunctionImportMapping FunctionImportName="KhungNangLuc_delete_VT" FunctionName="ELEARNINGModel.Store.KhungNangLuc_delete_VT" />
-          <FunctionImportMapping FunctionImportName="KhungNangLuc_DongBoDuLieu" FunctionName="ELEARNINGModel.Store.KhungNangLuc_DongBoDuLieu" />
           <FunctionImportMapping FunctionImportName="KhungNangLuc_insert" FunctionName="ELEARNINGModel.Store.KhungNangLuc_insert" />
           <FunctionImportMapping FunctionImportName="KhungNangLuc_searchByIDNL" FunctionName="ELEARNINGModel.Store.KhungNangLuc_searchByIDNL">
             <ResultMapping>
@@ -8545,30 +8446,6 @@
           <FunctionImportMapping FunctionImportName="QuyenDetails_insert" FunctionName="ELEARNINGModel.Store.QuyenDetails_insert" />
           <FunctionImportMapping FunctionImportName="QuyenDetails_isActive" FunctionName="ELEARNINGModel.Store.QuyenDetails_isActive" />
           <FunctionImportMapping FunctionImportName="QuyenDetails_update" FunctionName="ELEARNINGModel.Store.QuyenDetails_update" />
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="ELEARNINGModel.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="ELEARNINGModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="ELEARNINGModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="ELEARNINGModel.Store.sp_helpdiagramdefinition">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ELEARNINGModel.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="ELEARNINGModel.Store.sp_helpdiagrams">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ELEARNINGModel.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="ELEARNINGModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="ELEARNINGModel.Store.sp_upgraddiagrams" />
           <FunctionImportMapping FunctionImportName="TaiKhoan_ID" FunctionName="ELEARNINGModel.Store.TaiKhoan_ID">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ELEARNINGModel.TaiKhoan_ID_Result">
@@ -8818,6 +8695,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="KhungNangLuc_Total" FunctionName="ELEARNINGModel.Store.KhungNangLuc_Total">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ELEARNINGModel.KhungNangLuc_Total_Result">
+                <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

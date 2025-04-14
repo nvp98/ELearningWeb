@@ -82,7 +82,7 @@
                                         {
                                             ELEARNINGEntities db = new ELEARNINGEntities();
                                             var TCDT = db.LopHocs.Where(x => x.IDLH == item.ID).FirstOrDefault();
-                                            var dethi = db.DeThis.Where(x => x.CTDT_ID == TCDT.CTDT_ID).FirstOrDefault();
+                                            var dethi = db.DeThis.Where(x => x.IDDeThi == TCDT.IDDeThi).FirstOrDefault();
                                             //var NguoiTao = db.NhanViens.Where(x => x.ID == NCDT.NguoiTao_ID).FirstOrDefault();
                                             <tr>
                                                 <td class="text-center"> @RowNo@{RowNo++;}</td>
@@ -110,7 +110,7 @@
 
                                                 </td>
                                                 <td>
-                                                    @if (dethi.IDDeThi != 0)
+                                                    @if (dethi != null)
                                                     {
                                                         <a title="DS Câu Hỏi" class="fa fa-eye" id="@TCDT.IDLH" target="_blank" href="@Url.Action("ViewQuestion" , "ManageTestExam" , new { id = @dethi.IDDeThi })">Xem câu hỏi</a>
 

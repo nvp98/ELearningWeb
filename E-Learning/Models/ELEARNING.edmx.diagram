@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3c95c0d35e0646a8ab6fb1d853d75adb" Name="Diagram1" ZoomLevel="52">
+      <Diagram DiagramId="3c95c0d35e0646a8ab6fb1d853d75adb" Name="Diagram1" ZoomLevel="64">
         <EntityTypeShape EntityType="ELEARNINGModel.BaiThi" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.CauHoi" Width="1.5" PointX="8.25" PointY="1.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.CauHoiDeThi" Width="1.5" PointX="10.5" PointY="10.25" IsExpanded="true" />
@@ -79,7 +79,6 @@
         <EntityTypeShape EntityType="ELEARNINGModel.SH_QuyDaoTao" Width="1.5" PointX="4.75" PointY="28" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.SH_TrinhKy" Width="1.5" PointX="26.75" PointY="17" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.SH_ViTri_NDDT" Width="1.5" PointX="20.75" PointY="28" IsExpanded="true" />
-        <EntityTypeShape EntityType="ELEARNINGModel.sysdiagrams" Width="1.5" PointX="25.75" PointY="28" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.TB_KyLuat" Width="1.5" PointX="27.75" PointY="8" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.TinhTrangLV" Width="1.5" PointX="8.75" PointY="18.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.ThongBao" Width="1.5" PointX="6.75" PointY="29" IsExpanded="true" />
@@ -130,6 +129,7 @@
         <AssociationConnector Association="ELEARNINGModel.FK_LopHoc_NoiDungDT" />
         <AssociationConnector Association="ELEARNINGModel.FK_XNHocTap_LopHoc" />
         <EntityTypeShape EntityType="ELEARNINGModel.SH_HoSoDaoTao" Width="1.5" PointX="28.375" PointY="19.75" />
+        <AssociationConnector Association="ELEARNINGModel.FK_KNL_KQ_KhungNangLuc" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

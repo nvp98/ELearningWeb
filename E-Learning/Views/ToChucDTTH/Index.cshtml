@@ -160,7 +160,7 @@
                                             <td>
                                                 @if (item.CTDT_ID != null)
                                                 {
-                                                    <a id="btn-edit_@item.CTDT_ID" href="@Url.Action("Edit_View","ChuongTrinhDTTH", new { id = item.CTDT_ID })" title="Edit" class="">Xem CTĐT</a>
+                                                    <a id="btn-edit_@item.CTDT_ID" href="@Url.Action("Edit_View","ChuongTrinhDTTH", new { id = item.CTDT_ID })"  title="Edit" class="">Xem CTĐT</a>
                                                 }
 
                                             </td>
@@ -217,7 +217,7 @@
 
                                             @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT) && item.TinhTrang != 5 && item.NguoiTao_ID == MyAuthentication.ID)
                                             {
-                                                <a id="btn-edit_@item.IDLH" title="Sửa" class="fa fa-edit icon_action" href='@Url.Action("Edit","ToChucDTTH", new { PhuongPhapDT_ID = Request.QueryString["PhuongPhapDT_ID"],PhanLoaiNCDT_ID = Request.QueryString["PhanLoaiNCDT_ID"], IDLH = item.IDLH})'></a>
+                                                <a id="btn-edit_@item.IDLH" title="Sửa" onclick="return confirm('Lưu ý: Nếu TCĐT đang nộp hồ sơ thì khi cập nhật hoặc trình ký lại TCĐT sẽ hủy tình trạng nộp hồ sơ')" class="fa fa-edit icon_action" href='@Url.Action("Edit","ToChucDTTH", new { PhuongPhapDT_ID = Request.QueryString["PhuongPhapDT_ID"],PhanLoaiNCDT_ID = Request.QueryString["PhanLoaiNCDT_ID"], IDLH = item.IDLH})'></a>
                                             }
                                             @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) && item.NguoiTao_ID == MyAuthentication.ID)
                                             {
@@ -231,7 +231,7 @@
                                 </tbody>
                             </table>
                             <div class="pager">
-                                @Html.PagedListPager(Model, page => Url.Action("Index", "ToChucDTTH", new { page, IDLH = Request.QueryString["IDLH"], IDPB = Request.QueryString["IDPB"], IDND = Request.QueryString["IDND"] }))
+                                @Html.PagedListPager(Model, page => Url.Action("Index", "ToChucDTTH", new { page, PhuongPhapDT_ID = Request.QueryString["PhuongPhapDT_ID"], PhanLoaiNCDT_ID = Request.QueryString["PhanLoaiNCDT_ID"], IDLH = Request.QueryString["IDLH"], IDPB = Request.QueryString["IDPB"], IDND = Request.QueryString["IDND"] }))
                                 <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
                             </div>
                         </div>

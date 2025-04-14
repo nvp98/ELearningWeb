@@ -310,12 +310,15 @@ namespace E_Learning.Controllers
             ViewBag.QUYENCN = ListQuyen;
             var queryNC = db.NhanViens.Where(x=>x.IDTinhTrangLV ==1).AsQueryable();
             var data = (from a in queryNC
+                        join q in db.Quyens on a.IDQuyen equals q.IDQuyen into g
+                        from quyen in g.DefaultIfEmpty()
                         select new EmployeeValidation
                         {
                             ID = a.ID,
                             HoTen = a.HoTen,
                             MaNV = a.MaNV,
                             PhongBan =a.PhongBan.TenPhongBan,
+                            TenQuyen = quyen != null ? quyen.TenQuyen : ""
                         }).ToList();
             using (var workbook = new XLWorkbook())
             {
@@ -326,6 +329,7 @@ namespace E_Learning.Controllers
                 worksheet.Cell(1, 3).Value = "Mã nhân viên";
                 worksheet.Cell(1, 4).Value = "Tên nhân viên";
                 worksheet.Cell(1, 5).Value = "Phòng ban";
+                worksheet.Cell(1, 6).Value = "Tên quyền";
                 int row = 2; int stt = 1;
                 foreach (var item in data)
                 {
@@ -334,6 +338,7 @@ namespace E_Learning.Controllers
                     worksheet.Cell(row, 3).Value = item.MaNV;
                     worksheet.Cell(row, 4).Value = item.HoTen;
                     worksheet.Cell(row, 5).Value = item.PhongBan;
+                    worksheet.Cell(row, 6).Value = item.TenQuyen;
                     row++; stt++;
                 }
 

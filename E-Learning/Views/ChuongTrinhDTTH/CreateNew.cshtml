@@ -179,7 +179,7 @@
                                                 <td><input type="number" name="sH_ChiTietCTDTs[0].ThoiGianDT" class="form-control" required></td>
                                                 <td><input type="text" name="sH_ChiTietCTDTs[0].NoiDungDT" class="form-control" required></td>
                                                 <td><input type="text" name="sH_ChiTietCTDTs[0].YeuCau" class="form-control" required></td>
-                                                <td><input type="text" name="sH_ChiTietCTDTs[0].GhiChu" class="form-control" required></td>
+                                                <td><input type="text" name="sH_ChiTietCTDTs[0].GhiChu" class="form-control" ></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -276,7 +276,7 @@
 
 
                                 <div class="row border border-light rounded mt-2">
-                                    <div class="font-weight-bold col-12 text-danger">File Chương trình đào tạo (bản đã ký)<span class="text-danger">(*)</span></div>
+                                    <div class="font-weight-bold col-12 text-danger">File đính kèm</div>
                                     <div class="form-group col-md-12">
                                         @Html.TextBoxFor(model => model.File, new { @class = "form-control ", @rows = 1, placeholder = "Đơn vị đào tạo", type = "file", @id = "File", })
                                         @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
@@ -358,7 +358,13 @@
             // Biến để kiểm tra tình trạng form
             let isValid = true;
             // Kiểm tra tên
-            //const name = $('#NoiDung_ID').val();
+            const ID_NguoiDuyetNDDT = $('#ID_NguoiDuyetNDDT').val();
+            const ID_NguoiDangNDDT = $('#ID_NguoiDangNDDT').val();
+            if (!ID_NguoiDuyetNDDT || !ID_NguoiDuyetNDDT) {
+                alert("Vui lòng chọn người duyệt và đăng nội dung.");
+                isValid = false;
+                return false; // Ngăn form submit
+            }
             //if (name == "null" || !name) {
             //    alert("Vui lòng chọn nội dung.");
             //    //$("#err-noidung").text("Vui lòng chọn nội dung đào tạo.").show();

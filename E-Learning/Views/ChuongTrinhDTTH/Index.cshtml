@@ -175,6 +175,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
+                            <div id="phieuDuyetContainer"></div>
                             <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
                                 <thead class="thead-light">
                                     <tr>
@@ -206,7 +207,11 @@
                                         <tr>
                                             <td class="text-center"> @RowNo@{RowNo++;}</td>
                                             <td class="text-center">
-                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) && item.ID_NguoiTao == MyAuthentication.ID )
+                                                <button type="button" class="btn fa fa-plane p-0" title="Thông tin ký duyệt"  data-bs-toggle="modal" data-bs-target="#phieuDuyetModal" onclick="loadPhieuDuyet(@item.IDCTDT)">
+                                                </button>
+
+
+                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) && item.ID_NguoiTao == MyAuthentication.ID)
                                                 {
                                                     <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "ChuongTrinhDTTH", new { id = item.IDCTDT })"
                                                        onclick="return confirm('Bạn muốn xóa : @item.TenChuongTrinhDT')">
@@ -250,9 +255,9 @@
                                             </td>
                                             <td class="text-center">
                                                 @*<a class="fa " title="Xóa" href="@Url.Action("PhanQuyenNDDT", "NoiDungDTTH", new { id = item.IDND })"
-               onclick="return confirm('Xem chi tiết : @item.NoiDung')">
-                @item.SLViTri Vị trí
-            </a>*@
+                               onclick="return confirm('Xem chi tiết : @item.NoiDung')">
+                                @item.SLViTri Vị trí
+                            </a>*@
                                                 @item.NoiDungTrichYeu
                                                 @* <a class="fa btn text-danger" id="btn-pq_@item.IDND" href="@Url.Action("DS_ViTri","NoiDungDTTH", new {IDND = item.IDND })" title="Chi tiết vị trí">@item.SLViTri Vị trí</a>*@
                                             </td>
@@ -341,6 +346,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    function loadPhieuDuyet(id) {
+        $.get('/ChuongTrinhDTTH/ViewPheDuyet', { IDCTDT: id }, function (data) {
+            $('#phieuDuyetContainer').html(data);
+            $('#phieuDuyetModal').modal('show');
+        });
+    }
+</script>
 
 @*<script src="~/Content/Chonse/chosen.jquery.js"></script>*@
 
