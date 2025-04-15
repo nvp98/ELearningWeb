@@ -2075,24 +2075,26 @@ namespace E_Learning.Controllers
                     }
                 }
             }
-            //if ((chqly.Count != def.Where(x => x.IDLoaiNL == 1 || x.IDLoaiNL == 2).Count()) && chqly.Count != 0)
-            //{
-            //    foreach (var item in chqly)
-            //    {
-            //        db.KhungNangLuc_delete(item.IDNL);
-            //    }
-            //    foreach (var item in def)
-            //    {
-            //        if (item.TenNL != null && item.IDLoaiNL == 1)
-            //        {
-            //            var aa = db.KhungNangLuc_insert(item.TenNL, 1, id, IDPB, null, 1,1,null);
-            //        }
-            //        else if (item.TenNL != null && item.IDLoaiNL == 2)
-            //        {
-            //            var aa = db.KhungNangLuc_insert(item.TenNL, 2, id, IDPB, null, 1,1,null);
-            //        }
-            //    }
-            //}
+            if ((chqly.Count != def.Where(x => x.IDLoaiNL == 1 || x.IDLoaiNL == 2).Count()) && chqly.Count != 0)
+            {
+                foreach (var item in chqly)
+                {
+                    //db.KhungNangLuc_delete(item.IDNL);
+                    item.IsDuyet = 2;// năng lực cũ ẩn
+                }
+                db.SaveChanges();
+                foreach (var item in def)
+                {
+                    if (item.TenNL != null && item.IDLoaiNL == 1)
+                    {
+                        var aa = db.KhungNangLuc_insert(item.TenNL, 1, id, IDPB, null, 1, 1, null);
+                    }
+                    else if (item.TenNL != null && item.IDLoaiNL == 2)
+                    {
+                        var aa = db.KhungNangLuc_insert(item.TenNL, 2, id, IDPB, null, 1, 1, null);
+                    }
+                }
+            }
 
             var res = (from a in db.KhungNangLucs.Where(x=>x.IDVT ==id && x.IsDuyet == null)
                       join b in db.LoaiKNLs
