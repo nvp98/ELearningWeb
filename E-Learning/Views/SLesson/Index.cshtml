@@ -182,7 +182,7 @@
                                         {
                                             <div id="dddd"></div>
                                             <a class="" id="" href="@Url.Action("CompleteLesson" , "SLesson" , new { id = @item.IDHT })" onclick="">
-                                                <button id="target" class="btn-transition btn btn-success">Hoàn thành</button>
+                                                <button id="target" class="btn-transition btn btn-success" disabled>Hoàn thành</button>
                                             </a>
                                         }
                                         else
@@ -238,6 +238,7 @@
         var video = document.getElementById("videoPlayer");
         var modal = document.getElementById("myModalTB");
         var confirmButton = document.getElementById("confirmBtn");
+
         var videoStopped = false;
         var videoEnded = false;
         var lastTime = 0;
@@ -301,14 +302,13 @@
         });
 
         // Chống tua video
-        //video.addEventListener("timeupdate", function () {
-        //    if (video.currentTime > lastTime + 1) {
-        //        video.currentTime = lastTime;
-        //    } else {
-        //        lastTime = video.currentTime;
-        //    }
-        //});
-
+        video.addEventListener("timeupdate", function () {
+            if (video.currentTime > lastTime + 1) {
+                video.currentTime = lastTime;
+            } else {
+                lastTime = video.currentTime;
+            }
+        });
 
         // Giám sát thời gian hiện tại của video để phát hiện sự cố
         video.ontimeupdate = function () {
@@ -316,180 +316,7 @@
                 video.play();
             }
         };
-        // Lấy phần tử video
-/*        var video = document.getElementById('myVideo');*/
 
     });
 </script>
 
-
-<script>
-    var video = document.getElementById('videoPlayer');
-    var lastPlaybackTime = 0;
-    // Lắng nghe sự kiện lỗi
-    video.onerror = function (event) {
-        var error = video.error;
-        var errorMessage = '';
-
-        switch (error.code) {
-            case error.MEDIA_ERR_ABORTED:
-                errorMessage = 'Video playback was aborted.';
-                break;
-            case error.MEDIA_ERR_NETWORK:
-                errorMessage = 'A network error caused the video download to fail.';
-                break;
-            case error.MEDIA_ERR_DECODE:
-                errorMessage = 'The video playback was aborted due to a corruption problem or because the video used features your browser did not support.';
-                break;
-            case error.MEDIA_ERR_SRC_NOT_SUPPORTED:
-                errorMessage = 'The video could not be loaded, either because the server or network failed or because the format is not supported.';
-                break;
-            default:
-                errorMessage = 'An unknown error occurred.';
-                break;
-        }
-        console.log(errorMessage);
-    };
-
-    // Kiểm tra các lỗi phát sinh trong quá trình tải video
-    video.onstalled = function () {
-        console.log('The video is stalled due to lack of data.');
-    };
-
-    video.onwaiting = function () {
-        console.log('The video is waiting for more data.');
-    };
-
-</script>
-
-<script type="text/javascript">
-
-    // API JWplayer play complete
-    // Bắt sự kiện khi video kết thúc
- 
-    var element = document.getElementById("target");
-    element.disabled = true;
-    //jwplayer().on('complete', function (event) {
-    //    console.log("complete");
-    //    element.disabled = false;
-
-    //});
-    jwplayer("videoPlayer").on('complete', function () {
-        console.log("Video đã kết thúc!");
-        element.disabled = false;
-    });
-    // JWplayer pause after 5 m play
-
-    //jwplayer().on('play', function (event) {
-    //    console.log("play");
-    //    setInterval(function Pause () {
-    //        jwplayer().pause();
-    //        alert("Bạn có đang theo dõi bài học");
-    //        jwplayer().play();
-    //        clearInterval(Pause);
-    //    }, 20000);
-    //});
-    //let checkview;
-    //jwplayer().on('play', function (event) {
-    //    console.log("playt");
-    //    checkview = setInterval(pause, 300000);
-    //    function delay(ms) {
-    //        return new Promise(resolve => setTimeout(resolve, ms));
-    //    }
-    //    function pause() {
-    //        jwplayer().pause();
-    //        console.log("auto pause");
-    //        $('#myModalTB').modal('show');
-    //        clearInterval(checkview);
-    //        startTimer(); // đếm 10ph dừng
-    //    }
-    //    function aler() {
-    //        clearInterval(checkview);
-    //        alert("Bạn có đang theo dõi bài học");
-    //        console.log("auto play");
-    //        jwplayer().play();
-    //    }
-    //    //jwplayer().on('pause', function (event) {
-    //    //    console.log("pauset");
-    //    //    clearInterval(checkview);
-    //    //});
-
-    //});
-
-    $('#confirmBtn').on('click', function () {
-        console.log('Confirmed');
-        // Thực hiện hành động xác nhận ở đây
-        $('#myModalTB').modal('hide'); // Đóng modal sau khi xác nhận
-        console.log("auto play");
-        //jwplayer().play();
-        jwplayer("videoPlayer").play();
-        stopTimer();
-    });
-
-
-    // Dừng video khi chuyển tab
-    document.addEventListener("visibilitychange", function () {
-        if (document.hidden) {
-            //jwplayer().pause();
-            jwplayer("videoPlayer").pause();
-            clearInterval(checkview);
-        } else {
-            // Uncomment the line below if you want the video to resume playing when the tab becomes visible again
-            // video.play();
-        }
-    });
-
-    // Dừng video khi cửa sổ bị làm mờ
-    //window.addEventListener("blur", function () {
-    //    jwplayer().pause();
-    //});
-
-    let timer;
-    let seconds = 0;
-
-    function startTimer() {
-        // Nếu bộ đếm đã chạy, không làm gì cả
-        if (timer) return;
-        // Bắt đầu bộ đếm thời gian
-        timer = setInterval(() => {
-            seconds++;
-    /*        console.log(seconds);*/
-            let minutes = Math.floor((seconds % 3600) / 60);
-            if (minutes == 10) {
-                 window.location.href = '@Url.Action("Logout", "Login")';
-            }
-            //document.getElementById("timer").textContent = seconds;
-        }, 1000); // Cập nhật mỗi giây
-    }
-
-    function stopTimer() {
-        // Dừng bộ đếm thời gian
-        clearInterval(timer);
-        timer = null;
-        seconds = 0;
-    }
-
-
-
-    // API JWplayer prevent
-
-    var seeking = false;
-    var maxPlayPosition = 0;
-
-    jwplayer("videoPlayer").on('time', function (event) {
-        if (!seeking) {
-            maxPlayPosition = Math.max(event.position, maxPlayPosition);
-        }
-    }).on('seek', function (event) {
-        seeking = true;
-    }).on('seeked', function (event) {
-        var pos = jwplayer().getPosition();
-        if (pos > maxPlayPosition) {
-            jwplayer("videoPlayer").seek(maxPlayPosition);
-        }
-
-        seeking = false;
-    });
-
-
-</script>

@@ -35,7 +35,7 @@ namespace E_Learning.Controllers.NQLD
                                NoiDung = n.NoiDung,
                                ImageND = n.ImageND,
                                VideoND = n.VideoND,
-                               XNHT = b.XNHT,
+                               XNHT = b.XNHT??0,
                                XNTG = b.XNTG,
                                XNHTFile = b.XNHTFile,
                                FileDinhKem = n.FileDinhKem,
