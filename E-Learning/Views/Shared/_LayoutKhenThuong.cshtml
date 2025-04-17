@@ -75,10 +75,10 @@
                     <!-- Tab chọn tuần tháng-->
                     <div class="custom-tabs">
                         <div class="custom-tab active" id="custom-week-tab" onclick="switchTab('week')">
-                            Tuần 3
+                            Tuần @ViewBag.TuanHienTai
                         </div>
                         <div class="custom-tab" id="custom-month-tab" onclick="switchTab('month')">
-                            Tháng 3
+                            Tháng @ViewBag.ThangHienTai
                         </div>
                     </div>
 
@@ -88,23 +88,23 @@
                             <div class="d-flex flex-column">
                                 <div class="stat-item">
                                     <span class="stat-label"><i class="fa-solid fa-list-check" style="color: #3498db;"></i> Tổng đề tài</span>
-                                    <span class="stat-value summary-value text-primary"><h3>24</h3></span>
+                                    <span class="stat-value summary-value text-primary"><h3>@ViewBag.TongNoiDungThuongTuan</h3></span>
                                 </div>
                                 <div class="stat-item">
                                     <span class="stat-label"><i class="fa-solid fa-user-check" style="color: #27ae60;"></i> Cá nhân được thưởng</span>
-                                    <span class="stat-value summary-value text-success"><h3>15</h3></span>
+                                    <span class="stat-value summary-value text-success"><h3>@ViewBag.TongNhanVienThuongTuan</h3></span>
                                 </div>
                                 <div class="stat-item">
                                     <span class="stat-label"><i class="fa-solid fa-users" style="color: #f39c12;"></i> Đơn vị được thưởng</span>
-                                    <span class="stat-value summary-value text-warning"><h3>4</h3></span>
+                                    <span class="stat-value summary-value text-warning"><h3>@ViewBag.TongDonViThuongTuan</h3></span>
                                 </div>
                                 <div class="stat-item">
                                     <span class="stat-label"><i class="fa-solid fa-money-bill-wave" style="color: #e74c3c;"></i> Tổng tiền thưởng</span>
-                                    <span class="stat-value summary-value text-danger"><h3>125M</h3></span>
+                                    <span class="stat-value summary-value text-danger"><h3>@ViewBag.TongGiaTriThuongTuan</h3></span>
                                 </div>
                             </div>
                             <div class="text-center mt-3 text-muted small">
-                                <i class="fas fa-solid fa-calendar me-2"></i><strong>Tuần 3 (20/03 - 26/03/2023)</strong>
+                                <i class="fas fa-solid fa-calendar me-2"></i><strong>Tuần @ViewBag.TuanHienTai (@ViewBag.NgayBatDauTuan - @ViewBag.NgayKetThucTuan)</strong>
                             </div>
                         </div>
 
@@ -113,23 +113,23 @@
                             <div class="d-flex flex-column">
                                 <div class="stat-item">
                                     <span class="stat-label"><i class="fa-solid fa-list-check" style="color: #3498db;"></i> Tổng đề tài</span>
-                                    <span class="stat-value summary-value text-primary"><h3>78</h3></span>
+                                    <span class="stat-value summary-value text-primary"><h3>@ViewBag.TongNoiDungThuongThang</h3></span>
                                 </div>
                                 <div class="stat-item">
                                     <span class="stat-label"><i class="fa-solid fa-user-check" style="color: #27ae60;"></i> Cá nhân được thưởng</span>
-                                    <span class="stat-value summary-value text-success"><h3>42</h3></span>
+                                    <span class="stat-value summary-value text-success"><h3>@ViewBag.TongNhanVienThuongThang</h3></span>
                                 </div>
                                 <div class="stat-item">
                                     <span class="stat-label"><i class="fa-solid fa-users" style="color: #f39c12;"></i> Đơn vị được thưởng</span>
-                                    <span class="stat-value summary-value text-warning"><h3>12</h3></span>
+                                    <span class="stat-value summary-value text-warning"><h3>@ViewBag.TongDonViThuongThang</h3></span>
                                 </div>
                                 <div class="stat-item">
                                     <span class="stat-label"><i class="fa-solid fa-money-bill-wave" style="color: #e74c3c;"></i> Tổng tiền thưởng</span>
-                                    <span class="stat-value summary-value text-danger"><h3>450M</h3></span>
+                                    <span class="stat-value summary-value text-danger"><h3>@ViewBag.TongGiaTriThuongThang</h3></span>
                                 </div>
                             </div>
                             <div class="text-center mt-3 text-muted small">
-                                <i class="fas fa-solid fa-calendar me-2"></i><strong>Tháng 3 (01/03 - 31/03/2023)</strong>
+                                <i class="fas fa-solid fa-calendar me-2"></i><strong>Tháng @ViewBag.ThangHienTai (@ViewBag.NgayBatDauThang - @ViewBag.NgayKetThucThang)</strong>
                             </div>
                         </div>
                     </div>
@@ -144,107 +144,42 @@
                     <!-- Carousel cho tab Tuần -->
                     <div id="week-carousel" class="carousel-container carousel-tab-content active">
                         <div class="carousel-track" id="weekCarouselTrack">
-                            <!-- Slide 1 Tuần -->
-                            <div class="carousel-slide active">
-                                <div class="cards-wrapper">
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_01.jpg" class="news-img" alt="Research Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Nghiên cứu ứng dụng A (Tuần)</h6>
-                                            <p class="news-author">
-                                                P. CNTT & CĐS
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_02.jpg" class="news-img" alt="Industry Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Giải pháp tiết kiệm B (Tuần)</h6>
-                                            <p class="news-author">
-                                                P. ATMT
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_03.jpg" class="news-img" alt="Construction Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Vật liệu xây dựng C (Tuần)</h6>
-                                            <p class="news-author">
-                                                NM. HRC1
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_05.jpg" class="news-img" alt="Blockchain Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Công nghệ blockchain (Tuần)</h6>
-                                            <p class="news-author">
-                                                NM. HRC2
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_05.jpg" class="news-img" alt="Disaster Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Cảnh báo D (Tuần)</h6>
-                                            <p class="news-author">
-                                                NM. NL
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @{
+                                var dsKhenThuongTuan = ViewBag.KhenThuongTuan as List<E_Learning.ModelsQLKhenThuong.NoiDungKhenThuongDTO>;
+                                int itemsPerSlide_week = 5;
+                                int totalItems_week = dsKhenThuongTuan?.Count ?? 0;
+                                int totalSlides_week = (int)Math.Ceiling((double)totalItems_week / itemsPerSlide_week);
+                            }
 
-                            <!-- Slide 2 Tuần -->
-                            <div class="carousel-slide">
-                                <div class="cards-wrapper">
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_06.jpg" class="news-img" alt="IoT Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Ứng dụng IoT (Tuần)</h6>
-                                            <p class="news-author">
-                                                NM. CĐ3
-                                            </p>
+                            @if (dsKhenThuongTuan != null && dsKhenThuongTuan.Count > 0)
+                            {
+                                for (int slideIndex = 0; slideIndex < totalSlides_week; slideIndex++)
+                                {
+                                    <div class="carousel-slide @(slideIndex == 0 ? "active" : "")">
+                                        <div class="cards-wrapper">
+                                            @{
+                                                var slideItems = dsKhenThuongTuan.Skip(slideIndex * itemsPerSlide_week).Take(itemsPerSlide_week).ToList();
+                                            }
+                                            @foreach (var item in slideItems)
+                                            {
+                                                <div class="news-card card">
+                                                    <img src="@(item.BannerBase64 ?? Url.Content("~/Content/assets/images/default.jpg"))"
+                                                         class="news-img" alt="Reward Image" />
+                                                    <div class="news-content">
+                                                        <h6 class="news-title">@item.NoiDungKhenThuong</h6>
+                                                        <p class="news-author">@item.DonVi</p>
+                                                    </div>
+                                                </div>
+                                            }
                                         </div>
                                     </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_07.jpg" class="news-img" alt="Smart City Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Giải pháp E (Tuần)</h6>
-                                            <p class="news-author">
-                                                NM. CĐ1
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_08.jpg" class="news-img" alt="Climate Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Nghiên cứu biến đổi F (Tuần)</h6>
-                                            <p class="news-author">
-                                                P. CNTT & CĐS
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_11.jpg" class="news-img" alt="Disaster Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Hệ thống cảnh báo G (Tuần)</h6>
-                                            <p class="news-author">
-                                                NM. CĐ2
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_01.jpg" class="news-img" alt="Disaster Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Ngiên cứu ABC (Tuần)</h6>
-                                            <p class="news-author">
-                                                NM. TKVV
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                }
+                            }
+                            else
+                            {
+                                <p class="text-danger">Không có dữ liệu khen thưởng trong tuần này.</p>
+                            }
+                            
                         </div>
 
                         <!-- Controls -->
@@ -259,158 +194,41 @@
                     <!-- Carousel cho tab Tháng -->
                     <div id="month-carousel" class="carousel-container carousel-tab-content">
                         <div class="carousel-track" id="monthCarouselTrack">
-                            <!-- Slide 1 Tháng -->
-                            <div class="carousel-slide active">
-                                <div class="cards-wrapper">
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_07.jpg" class="news-img" alt="Research Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Đề tài X ứng dụng Y (Tháng)</h6>
-                                            <p class="news-author">
-                                                NM. NL
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_01.jpg" class="news-img" alt="Industry Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Giải pháp tiết kiệm năng lượng (Tháng)</h6>
-                                            <p class="news-author">
-                                                NM. HRC2
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_13.jpg" class="news-img" alt="Construction Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Vật liệu xây dựng (Tháng)</h6>
-                                            <p class="news-author">
-                                                NM. HRC2
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_08.jpg" class="news-img" alt="Blockchain Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Công nghệ blockchain (Tháng)</h6>
-                                            <p class="news-author">
-                                                NM. HRC1
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_01.jpg" class="news-img" alt="Disaster Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Cảnh báo thiên tai (Tháng)</h6>
-                                            <p class="news-author">
-                                                NM. TKVV
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @{
+                                var dsKhenThuongThang = ViewBag.KhenThuongThang as List<E_Learning.ModelsQLKhenThuong.NoiDungKhenThuongDTO>;
+                                int itemsPerSlide = 5;
+                                int totalItems = dsKhenThuongThang?.Count ?? 0;
+                                int totalSlides = (int)Math.Ceiling((double)totalItems / itemsPerSlide);
+                            }
 
-                            <!-- Slide 2 Tháng -->
-                            <div class="carousel-slide">
-                                <div class="cards-wrapper">
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_06.jpg" class="news-img" alt="IoT Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Ứng dụng sản xuất (Tháng)</h6>
-                                            <p class="news-author">
-                                                NM. LG
-                                            </p>
+                            @if (dsKhenThuongThang != null && dsKhenThuongThang.Count > 0)
+                            {
+                                for (int slideIndex = 0; slideIndex < totalSlides; slideIndex++)
+                                {
+                                    <div class="carousel-slide @(slideIndex == 0 ? "active" : "")">
+                                        <div class="cards-wrapper">
+                                            @{
+                                                var slideItems = dsKhenThuongThang.Skip(slideIndex * itemsPerSlide).Take(itemsPerSlide).ToList();
+                                            }
+                                            @foreach (var item in slideItems)
+                                            {
+                                                <div class="news-card card">
+                                                    <img src="@(item.BannerBase64 ?? Url.Content("~/Content/assets/images/default.jpg"))"
+                                                         class="news-img" alt="Reward Image" />
+                                                    <div class="news-content">
+                                                        <h6 class="news-title">@item.NoiDungKhenThuong</h6>
+                                                        <p class="news-author">@item.DonVi</p>
+                                                    </div>
+                                                </div>
+                                            }
                                         </div>
                                     </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_11.jpg" class="news-img" alt="Smart City Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Giải pháp P (Tháng)</h6>
-                                            <p class="news-author">
-                                                P. CNTT & CĐS
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_05.jpg" class="news-img" alt="Climate Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Biến đổi khí hậu (Tháng)</h6>
-                                            <p class="news-author">
-                                                P. ATMT
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_13.jpg" class="news-img" alt="Disaster Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Cảnh báo K (Tháng)</h6>
-                                            <p class="news-author">
-                                                NM. HRC2
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_05.jpg" class="news-img" alt="Disaster Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Đề tài Y (Tháng)</h6>
-                                            <p class="news-author">
-                                                NM. CĐ4
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Slide 3 Tháng -->
-                            <div class="carousel-slide">
-                                <div class="cards-wrapper">
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_07.jpg" class="news-img" alt="IoT Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Đề tài ứng dụng B (Tháng)</h6>
-                                            <p class="news-author">
-                                                NM. TKVV
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_01.jpg" class="news-img" alt="Smart City Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Nghiên cứu X (Tháng)</h6>
-                                            <p class="news-author">
-                                                P. ATMT
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_05.jpg" class="news-img" alt="Climate Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Biến đổi vật liệu X (Tháng)</h6>
-                                            <p class="news-author">
-                                                P. CNTT & CĐS
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_02.jpg" class="news-img" alt="Disaster Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Ứng dụng nguyên liệu Z (Tháng)</h6>
-                                            <p class="news-author">
-                                                NM. HRC1
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="news-card card">
-                                        <img src="~/Content/assets/images/avatars/dmst_06.jpg" class="news-img" alt="Disaster Image">
-                                        <div class="news-content">
-                                            <h6 class="news-title">Nghiên cứu giải pháp Y (Tháng)</h6>
-                                            <p class="news-author">
-                                                NM. CĐ1
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                }
+                            }
+                            else
+                            {
+                                <p class="text-danger">Không có dữ liệu khen thưởng trong tháng này.</p>
+                            }
                         </div>
 
                         <!-- Controls -->
@@ -449,7 +267,7 @@
                             var topClass = i == 0 ? "top1" : (i == 1 ? "top2" : "top3");
                             <div class="top-item @topClass">
                                 <div class="top-badge">@((i + 1))</div>
-                                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="top-avatar" alt="Top @(i+1)">
+                                <img src="~/Content/assets/images/avt-default.png" class="top-avatar" alt="Top @(i+1)">
                                 <h6 class="top-name">@item.HoTen</h6>
                                 <p class="top-unit">@item.DonVi</p>
                                 <p class="top-project">@item.SoLuongDeTai Đề tài</p>
@@ -475,7 +293,7 @@
                                             <td>@stt</td>
                                             <td>@item.MNV</td>
                                             <td class="ranking-name">
-                                                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="ranking-avatar" alt="Avatar" />
+                                                <img src="~/Content/assets/images/avt-default.png" class="ranking-avatar" alt="Avatar" />
                                                 @item.HoTen
                                             </td>
                                             <td>@item.DonVi</td>
@@ -1037,7 +855,7 @@
                 success: function (data) {
                     if (data) {
                         document.querySelector('.overview-card:nth-child(1) .overview-card-value').textContent = data.TongSoDeTai.toLocaleString();
-                        document.querySelector('.overview-card:nth-child(2) .overview-card-value').textContent = data.TongGiaTriLamLoi + ' tỷ';
+                        document.querySelector('.overview-card:nth-child(2) .overview-card-value').textContent = data.TongGiaTriLamLoi + ' triệu';
                         document.querySelector('.overview-card:nth-child(3) .overview-card-value').textContent = data.TongSoTienThuong + ' triệu';
                         document.querySelector('.overview-card:nth-child(4) .overview-card-value').textContent = data.SoCaNhanKhenThuong;
                         document.querySelector('.overview-card:nth-child(5) .overview-card-value').textContent = data.SoDonViKhenThuong;
@@ -1363,7 +1181,7 @@
         const statisticsCtx = document.getElementById('statisticsChart').getContext('2d');
         const labels = ['Cá nhân được thưởng', 'Đơn vị được thưởng', 'Nội dung khen thưởng'];
 
-        // ✅ Plugin hiển thị "Tiền thưởng (tỷ): X.X" ở phía trên giữa
+        // Plugin hiển thị Tiền thưởng
         const centerTextPlugin = {
             id: 'centerText',
             beforeDraw(chart) {
@@ -1456,7 +1274,7 @@
                 data: { year: year },
                 success: function (data) {
                     if (data) {
-                        window.currentBonus = data.bonus; // ✅ Gán bonus vào biến global
+                        window.currentBonus = data.bonus;
                         statisticsChart_group.data.datasets[0].label = `Thống kê năm ${year}`;
                         statisticsChart_group.data.datasets[0].data = [
                             data.individuals,

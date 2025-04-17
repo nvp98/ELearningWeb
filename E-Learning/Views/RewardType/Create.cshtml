@@ -15,23 +15,67 @@
             </div>
             <div class="modal-body">
 
-
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <fieldset id="SubmitForm">
-                    <div class="row">
-                        <div class="form-group col-md-8 " style="display:grid">
-                            <label class="mb-1">Loại khen thưởng</label>
-                            @Html.TextAreaFor(model => model.TenLoaiThuong, new { @class = "form-control", @rows = 1, placeholder = "Loại khen thưởng", @id = "LKT", })
-                            @Html.ValidationMessageFor(model => model.TenLoaiThuong, "", new { @class = "text-danger" })
-                        </div>
-                        <div id="list_vt" style="width:100%">
+                    <div class="row mb-2">
+                        <div class="col-md-12">
+                            <label class="mb-1 font-weight-bold">Chọn hình thức khen thưởng:</label>
+                            <div class="form-check form-check-inline ml-2">
+                                <input class="form-check-input" type="radio" name="LoaiKhenThuong" id="caNhanRadio" value="CaNhan" checked />
+                                <label class="form-check-label" for="caNhanRadio">Khen thưởng cá nhân</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="LoaiKhenThuong" id="donViRadio" value="DonVi" />
+                                <label class="form-check-label" for="donViRadio">Khen thưởng đơn vị</label>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="btn-margin-top text-center">
-                        <input type="submit" value="Xác nhận" class="btn btn-primary pull-right " />
-                        <input type="reset" value="Hủy" class="btn btn-danger pull-right button_cancel mr-1" data-dismiss="modal" />
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="mb-1">Nhập mã NV</label>
+                            <div class="input-group">
+                                @Html.TextAreaFor(model => model.MaNV, new { @class = "form-control", rows = 1, placeholder = "Nhập mã NV ngăn cách bằng dấu phẩy hoặc xuống hàng", id = "LKT", style = "resize: none; height: 100px;" })
+                                <button type="button" class="btn btn-primary" id="btnLayDS">Lấy DS</button>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Nội dung khen thưởng</label>
+                            @Html.DropDownList("IDNoiDungThuong", (SelectList)ViewBag.NoiDungThuongList, "Chọn nội dung", new { @class = "form-control", @id = "dropdownNoiDungThuong" })
+                        </div>
                     </div>
+
+                    <div class="row mb-3">
+                        <div class="form-group col-md-6">
+                            <label class="mb-1">Chọn đơn vị (MaPB)</label>
+                            @Html.ListBox("SelectedMaPBs", new MultiSelectList(ViewBag.ListPhongBan, "MaPB", "MaPB"), new { @class = "form-control", id = "dropdownMaPB", multiple = "multiple" })
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="mb-1">Tập thể</label>
+                            <div class="input-group">
+                                @Html.TextAreaFor(model => model.TapThe, new { @class = "form-control", rows = 1, placeholder = "Tập thể", id = "TapThe" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div id="vungLoadDanhSach" class="border rounded p-3 bg-light" style="min-height: 100px;">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <button type="button" class="btn btn-success" id="btnXacNhan">Xác nhận</button>
+                    </div>
+
+                    @*<div class="btn-margin-top text-center">
+            <input type="submit" value="Xác nhận" class="btn btn-primary pull-right " />
+            <input type="reset" value="Hủy" class="btn btn-danger pull-right button_cancel mr-1" data-dismiss="modal" />
+        </div>*@
                 </fieldset>
 
             </div>
@@ -39,7 +83,6 @@
     </div>
 
 }
-
 
 <script>
     $("#formF #IDPB").chosen({
@@ -56,7 +99,156 @@
         });
     });
 </script>
+<script>
+    var danhSachNhanVienHienTai = [];
 
+    document.getElementById("btnLayDS").addEventListener("click", function () {
+        var maNV = document.getElementById("LKT").value;
+
+        $.ajax({
+            url: '@Url.Action("LoadDanhSachNhanVien", "RewardType")',
+            type: 'POST',
+            data: { maNV: maNV },
+            success: function (response) {
+                var container = $('#vungLoadDanhSach');
+                container.empty();
+                danhSachNhanVienHienTai = [];
+
+                if (response.success && response.data.length > 0) {
+                    var html = '<ul>';
+                    response.data.forEach(function (nv) {
+                        html += '<li>' + nv.MaNV + ' - ' + nv.HoTen + ' - ' + nv.TenPhongBan + '</li>';
+                        danhSachNhanVienHienTai.push(nv);
+                    });
+                    html += '</ul>';
+                    container.html(html);
+                } else {
+                    container.html('<p class="text-danger">Không tìm thấy nhân viên nào.</p>');
+                }
+            }
+        });
+    });
+
+    document.getElementById("btnXacNhan").addEventListener("click", function () {
+        var idNoiDung = document.getElementById("dropdownNoiDungThuong").value;
+        if (!idNoiDung) {
+            alert("Vui lòng chọn nội dung khen thưởng!");
+            return;
+        }
+        var checkSelectedCaNhan = $("#caNhanRadio").is(":checked");
+        if (danhSachNhanVienHienTai.length === 0 && checkSelectedCaNhan) {
+            alert("Danh sách nhân viên đang trống!");
+            return;
+        }
+        if (checkSelectedCaNhan) {
+            $.ajax({
+                url: '@Url.Action("SubmitCaNhanKhenThuong", "RewardType")',
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    idNoiDungThuong: idNoiDung,
+                    danhSachNV: danhSachNhanVienHienTai
+                }),
+                success: function (res) {
+                    if (res.success) {
+                        alert("Lưu thành công!");
+                    } else {
+                        alert("Có lỗi: " + res.message);
+                    }
+                },
+                error: function () {
+                    alert("Lỗi server.");
+                }
+            });
+        }
+    });
+</script>
+
+<script>
+        $(document).ready(function () {
+            // default khen thưởng cá nhân
+            $("#dropdownMaPB, #TapThe").prop("disabled", true);
+
+            $("input[name='LoaiKhenThuong']").change(function () {
+                const isCaNhan = $("#caNhanRadio").is(":checked");
+
+                // Toggle controls
+                $("#LKT, #btnLayDS").prop("disabled", !isCaNhan);
+                $("#dropdownMaPB, #TapThe").prop("disabled", isCaNhan);
+                $("#LKT, #TapThe").val("");
+                
+                $("#vungLoadDanhSach").html("");
+
+                if (!isCaNhan) {
+                    const selectedOptions = $("#dropdownMaPB option:selected").map(function () {
+                        return $(this).val();
+                    }).get();
+
+                    if (selectedOptions.length > 0) {
+                        const content = "<strong>Danh sách mã phòng ban:</strong><br>" + selectedOptions.join(", ");
+                        $("#vungLoadDanhSach").html(content);
+                    }
+                }
+            });
+
+            $("#dropdownMaPB").change(function () {
+                if ($("#donViRadio").is(":checked")) {
+                    const selectedOptions = $("#dropdownMaPB option:selected").map(function () {
+                        return $(this).val();
+                    }).get();
+                    if (selectedOptions.length > 0) {
+                        $("#vungLoadDanhSach").html("<strong>Danh sách mã phòng ban:</strong><br>" + selectedOptions.join(", "));
+                    } else {
+                        $("#vungLoadDanhSach").html("<em>Chưa chọn đơn vị nào</em>");
+                    }
+                }
+            });
+        });
+    </script>
+<script>
+        $(document).ready(function () {
+            $("#btnXacNhan").click(function () {
+                var isDonVi = $("#donViRadio").is(":checked");
+
+                if (isDonVi) {
+                    var danhSachMaPB = [];
+                    $("#dropdownMaPB option:selected").each(function () {
+                        danhSachMaPB.push($(this).val());
+                    });
+
+                    var idNoiDungThuong = $("#dropdownNoiDungThuong").val();
+                    var tapThe = $("#TapThe").val();
+
+                    if (danhSachMaPB.length === 0 || !idNoiDungThuong) {
+                        alert("Vui lòng chọn đầy đủ thông tin trước khi xác nhận.");
+                        return;
+                    }
+
+                    // call API
+                    $.ajax({
+                        url: '/RewardType/SubmitDonViKhenThuong',
+                        type: 'POST',
+                        traditional: true,
+                        data: {
+                            maPBList: danhSachMaPB,
+                            idNoiDungThuong: idNoiDungThuong,
+                            tapThe: tapThe
+                        },
+                        success: function (res) {
+                            if (res.success) {
+                                alert(res.message);
+                            } else {
+                                alert(res.message);
+                            }
+                        },
+                        error: function () {
+                            alert("Lỗi khi gửi yêu cầu xác nhận.");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 
 
 

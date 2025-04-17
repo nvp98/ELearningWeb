@@ -7,7 +7,7 @@
 
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "RewardContent", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="modal-dialog text-left" style="max-width:800px" id="formE">
@@ -27,14 +27,40 @@
                             @Html.TextAreaFor(model => model.NoiDungKhenThuong, new { @class = "form-control", @rows = 1, placeholder = "Nội dung khen thưởng", @id = "NDKT", })
                             @Html.ValidationMessageFor(model => model.NoiDungKhenThuong, "", new { @class = "text-danger" })
                         </div>
-                        <div class="form-group col-md-4 " style="display:grid">
+                        @*<div class="form-group col-md-4 " style="display:grid">
                             <label class="mb-1">Số quyết định</label>
                             @Html.TextAreaFor(model => model.SoQuyetDinh, new { @class = "form-control", @rows = 1, placeholder = "Số quyết định", @id = "SoQD", })
                             @Html.ValidationMessageFor(model => model.SoQuyetDinh, "", new { @class = "text-danger" })
+                        </div>*@
+                        <div class="form-group col-md-4">
+                            <label class="mb-1">Số tiền khen thưởng</label>
+                            <div class="input-group">
+                                @Html.TextBoxFor(model => model.TongTienThuong, new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "Nhập số tiền thưởng",
+                                    id = "GiaTriThuong",
+                                    type = "number",
+                                    min = "0"
+                                })
+
+                            </div>
+                            @Html.ValidationMessageFor(model => model.GiaTriLamLoi, "", new { @class = "text-danger" })
                         </div>
-                        <div class="form-group col-md-4 " style="display:grid">
-                            <label class="mb-1">Loại thưởng</label>
-                            @Html.DropDownListFor(model => model.IDLoaiKhenThuong, (SelectList)ViewBag.LoaiThuong, "-- Chọn loại thưởng --", new { @class = "form-control" })
+                        <div class="form-group col-md-4">
+                            <label class="mb-1">Giá trị làm lợi</label>
+                            <div class="input-group">
+                                @Html.TextBoxFor(model => model.GiaTriLamLoi, new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "Nhập giá trị làm lợi",
+                                    id = "GiaTriLamLoi",
+                                    type = "number",
+                                    min = "0"
+                                })
+
+                            </div>
+                            @Html.ValidationMessageFor(model => model.GiaTriLamLoi, "", new { @class = "text-danger" })
                         </div>
                         <div class="form-group col-md-4" style="display: grid">
                             <label class="mb-1">Ngày quyết định</label>
@@ -42,6 +68,18 @@
 
                         </div>
 
+                        <div class="form-group col-md-4" style="display: grid">
+                            <label class="mb-1">Chọn ảnh banner</label>
+                            <input type="file" name="BannerUpload" class="form-control" />
+                        </div>
+
+                        @if (Model.BannerBase64 != null)
+                        {
+                            <div class="form-group">
+                                <label>Banner hiện tại:</label><br />
+                                <img src="@Model.BannerBase64" style="max-height:200px;" />
+                            </div>
+                        }
 
                     </div>
                     &nbsp;
@@ -50,10 +88,7 @@
                         <input type="reset" value="Hủy" class="btn btn-danger button_cancel" data-dismiss="modal" />
                     </div>
                 </fieldset>
-
             </div>
-
-
         </div>
     </div>
 }

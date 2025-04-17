@@ -93,7 +93,7 @@
                                 <th class="text-center">Nội dung khen thưởng</th>
                                 <th class="text-center">Số quyết định</th>
                                 <th class="text-center">Ngày quyết định</th>
-                                <th class="text-center">Loại thưởng</th>
+                                <th class="text-center">Ảnh banner</th>
                                 <th class="text-center">Thao tác</th>
                             </tr>
                         </thead>
@@ -110,7 +110,14 @@
                                     <td class="">@item.NoiDungKhenThuong</td>
                                     <td class="">@item.SoQuyetDinh</td>
                                     <td>@(item.NgayQuyetDinh != null ? item.NgayQuyetDinh.Value.ToString("dd-MM-yyyy") : "")</td>
-                                    <td class="">@item.LoaiKhenThuong</td>
+                                    <!-- Cột ảnh banner -->
+
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.BannerBase64))
+                                        {
+                                            <img src="@item.BannerBase64" style="width: 100px; height: auto;" />
+                                        }
+                                    </td>
                                     <td class="text-center">
                                         @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL))
                                         {

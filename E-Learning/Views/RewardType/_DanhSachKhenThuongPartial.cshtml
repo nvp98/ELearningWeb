@@ -1,0 +1,37 @@
+﻿@model PagedList.IPagedList<E_Learning.ModelsQLKhenThuong.LoaiKhenThuongDTO>
+
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>STT</th>
+            <th>Mã NV</th>
+            <th>Họ Tên</th>
+            <th>Phòng Ban</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            string currentDeTai = null;
+            int stt = 1;
+        }
+
+        @foreach (var item in Model)
+        {
+            if (item.TenDeTai != currentDeTai)
+            {
+                currentDeTai = item.TenDeTai;
+                stt = 1;
+                <tr class="table-primary font-weight-bold">
+                    <td colspan="4">Đề tài: @item.TenDeTai</td>
+                </tr>
+            }
+
+            <tr>
+                <td>@(stt++)</td>
+                <td>@item.MaNV</td>
+                <td>@item.HoTen</td>
+                <td>@item.TenPhongBan</td>
+            </tr>
+        }
+    </tbody>
+</table>
