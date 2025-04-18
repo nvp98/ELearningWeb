@@ -4,7 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 @using E_Learning.Models
 @model PagedList.IPagedList<E_Learning.ModelsQLKhenThuong.LoaiKhenThuongDTO>
 @using PagedList.Mvc
@@ -162,6 +161,30 @@
         e.preventDefault();
         const page = new URL($(this).attr('href'), window.location.href).searchParams.get("page");
         loadRewardList(page);
+    });
+</script>
+<script>
+    $(document).on("click", ".btn-delete", function () {
+        var id = $(this).data("id");
+
+        if (confirm("Bạn có chắc chắn muốn xóa mục này?")) {
+            $.ajax({
+                url: '@Url.Action("XoaKhenThuong", "RewardType")',
+                type: 'POST',
+                data: { id: id },
+                success: function (res) {
+                    if (res.success) {
+                        alert("Xóa thành công!");
+                         location.reload();
+                    } else {
+                        alert("Lỗi: " + res.message);
+                    }
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra khi xóa.");
+                }
+            });
+        }
     });
 </script>
 

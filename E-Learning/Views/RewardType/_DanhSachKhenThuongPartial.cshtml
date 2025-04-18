@@ -4,8 +4,11 @@
 @{
     var kieuThuong = ViewBag.kieuThuong as string ?? "all";
     var pageList = ViewBag.PageList as PagedList.IPagedList<E_Learning.ModelsQLKhenThuong.LoaiKhenThuongDTO>;
-    var highlightMaNVs = ViewBag.HighlightMaNVs as List<string> ?? new List<string>();
+    var highlightIDs = ViewBag.HighlightIDs as List<int> ?? new List<int>();
+    var highlightDonVis = ViewBag.HighlightDonVis as List<string> ?? new List<string>();
 }
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
 <div id="ajaxContent">
     <table class="table table-bordered table-striped">
@@ -22,13 +25,14 @@
                 {
                     <th>Tập thể</th>
                 }
+                <th>Thao tác</th>
             </tr>
         </thead>
         <tbody>
             @if (!Model.Any())
             {
                 <tr>
-                    <td colspan="@(kieuThuong == "all" ? 5 : (kieuThuong == "ca-nhan" ? 4 : 3))" class="text-center text-muted">
+                    <td colspan="@(kieuThuong == "all" ? 6 : (kieuThuong == "ca-nhan" ? 5 : 4))" class="text-center text-muted">
                         Không có dữ liệu
                     </td>
                 </tr>
@@ -40,13 +44,14 @@
 
                 foreach (var item in Model)
                 {
-                    bool isHighlightRow = highlightMaNVs.Contains(item.MaNV);
+                    bool isHighlightRow = highlightIDs.Contains(item.ID);
+
                     if (item.TenDeTai != currentDeTai)
                     {
                         currentDeTai = item.TenDeTai;
                         stt = 1;
                         <tr class="table-info font-weight-bold">
-                            <td colspan="@(kieuThuong == "all" ? 5 : (kieuThuong == "ca-nhan" ? 4 : 3))">
+                            <td colspan="@(kieuThuong == "all" ? 6 : (kieuThuong == "ca-nhan" ? 5 : 4))">
                                 Đề tài: @item.TenDeTai
                             </td>
                         </tr>
@@ -64,6 +69,11 @@
                         {
                             <td>@item.TapThe</td>
                         }
+                        <td>
+                            <a href="javascript:void(0);" class="btn btn-sm btn-danger btn-delete" data-id="@item.ID" title="Xóa">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
                     </tr>
                 }
             }

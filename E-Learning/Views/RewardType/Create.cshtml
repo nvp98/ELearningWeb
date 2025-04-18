@@ -157,7 +157,7 @@
 
                     const params = new URLSearchParams();
                     params.set("highlightDeTai", res.tenDeTai);
-                    params.set("highlightMaNVs", res.danhSachMaNV.join(','));
+                    params.set("highlightIDs", res.danhSachID.join(','));
 
                     window.location.href = '@Url.Action("Index", "RewardType")' + '?' + params.toString();
                 } else {
@@ -170,6 +170,7 @@
         });
     }
 });
+
 </script>
 <script>
         $(document).ready(function () {
@@ -213,49 +214,53 @@
         });
     </script>
 <script>
-        $(document).ready(function () {
-            $("#btnXacNhan").click(function () {
-                var isDonVi = $("#donViRadio").is(":checked");
+    $(document).ready(function () {
+        $("#btnXacNhan").click(function () {
+            var isDonVi = $("#donViRadio").is(":checked");
 
-                if (isDonVi) {
-                    var danhSachMaPB = [];
-                    $("#dropdownMaPB option:selected").each(function () {
-                        danhSachMaPB.push($(this).val());
-                    });
+            if (isDonVi) {
+                var danhSachMaPB = [];
+                $("#dropdownMaPB option:selected").each(function () {
+                    danhSachMaPB.push($(this).val());
+                });
 
-                    var idNoiDungThuong = $("#dropdownNoiDungThuong").val();
-                    var tapThe = $("#TapThe").val();
+                var idNoiDungThuong = $("#dropdownNoiDungThuong").val();
+                var tapThe = $("#TapThe").val();
 
-                    if (danhSachMaPB.length === 0 || !idNoiDungThuong) {
-                        alert("Vui lòng chọn đầy đủ thông tin trước khi xác nhận.");
-                        return;
-                    }
-
-                    // call API
-                    $.ajax({
-                        url: '/RewardType/SubmitDonViKhenThuong',
-                        type: 'POST',
-                        traditional: true,
-                        data: {
-                            maPBList: danhSachMaPB,
-                            idNoiDungThuong: idNoiDungThuong,
-                            tapThe: tapThe
-                        },
-                        success: function (res) {
-                            if (res.success) {
-                                alert(res.message);
-                                location.reload();
-                            } else {
-                                alert(res.message);
-                            }
-                        },
-                        error: function () {
-                            alert("Lỗi khi gửi yêu cầu xác nhận.");
-                        }
-                    });
+                if (danhSachMaPB.length === 0 || !idNoiDungThuong) {
+                    alert("Vui lòng chọn đầy đủ thông tin");
+                    return;
                 }
-            });
+
+                $.ajax({
+                    url: '/RewardType/SubmitDonViKhenThuong',
+                    type: 'POST',
+                    traditional: true,
+                    data: {
+                        maPBList: danhSachMaPB,
+                        idNoiDungThuong: idNoiDungThuong,
+                        tapThe: tapThe
+                    },
+                    success: function (res) {
+                        if (res.success) {
+                            alert(res.message);
+
+                            const params = new URLSearchParams();
+                            params.set("highlightDeTai", res.tenDeTai);
+                            params.set("highlightIDs", res.danhSachID.join(','));
+
+                            window.location.href = '/RewardType/Index?' + params.toString();
+                        } else {
+                            alert(res.message);
+                        }
+                    },
+                    error: function () {
+                        alert("Xảy ra lỗi.");
+                    }
+                });
+            }
         });
+    });
     </script>
 
 
