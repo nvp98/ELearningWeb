@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<E_Learning.ModelsQLKhenThuong.LoaiKhenThuongDTO>
 @using PagedList.Mvc
+
 @{
     var kieuThuong = ViewBag.kieuThuong as string ?? "all";
     var pageList = ViewBag.PageList as PagedList.IPagedList<E_Learning.ModelsQLKhenThuong.LoaiKhenThuongDTO>;
+    var highlightMaNVs = ViewBag.HighlightMaNVs as List<string> ?? new List<string>();
 }
 
 <div id="ajaxContent">
@@ -23,42 +25,52 @@
             </tr>
         </thead>
         <tbody>
-            @{
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="@(kieuThuong == "all" ? 5 : (kieuThuong == "ca-nhan" ? 4 : 3))" class="text-center text-muted">
+                        Không có dữ liệu
+                    </td>
+                </tr>
+            }
+            else
+            {
                 string currentDeTai = null;
                 int stt = 1;
-            }
 
-            @foreach (var item in Model)
-            {
-                if (item.TenDeTai != currentDeTai)
+                foreach (var item in Model)
                 {
-                    currentDeTai = item.TenDeTai;
-                    stt = 1;
-                    <tr class="table-info font-weight-bold">
-                        <td colspan="@(kieuThuong == "all" ? 5 : (kieuThuong == "ca-nhan" ? 4 : 3))">
-                            Đề tài: @item.TenDeTai
-                        </td>
+                    bool isHighlightRow = highlightMaNVs.Contains(item.MaNV);
+                    if (item.TenDeTai != currentDeTai)
+                    {
+                        currentDeTai = item.TenDeTai;
+                        stt = 1;
+                        <tr class="table-info font-weight-bold">
+                            <td colspan="@(kieuThuong == "all" ? 5 : (kieuThuong == "ca-nhan" ? 4 : 3))">
+                                Đề tài: @item.TenDeTai
+                            </td>
+                        </tr>
+                    }
+
+                    <tr class="@(isHighlightRow ? "table-success" : "")">
+                        <td>@(stt++)</td>
+                        @if (kieuThuong == "ca-nhan" || kieuThuong == "all")
+                        {
+                            <td>@item.MaNV</td>
+                            <td>@item.HoTen</td>
+                        }
+                        <td>@item.TenPhongBan</td>
+                        @if (kieuThuong == "tap-the" || kieuThuong == "all")
+                        {
+                            <td>@item.TapThe</td>
+                        }
                     </tr>
                 }
-
-                <tr>
-                    <td>@(stt++)</td>
-                    @if (kieuThuong == "ca-nhan" || kieuThuong == "all")
-                    {
-                        <td>@item.MaNV</td>
-                        <td>@item.HoTen</td>
-                    }
-                    <td>@item.TenPhongBan</td>
-                    @if (kieuThuong == "tap-the" || kieuThuong == "all")
-                    {
-                        <td>@item.TapThe</td>
-                    }
-                </tr>
             }
         </tbody>
     </table>
 
-    @if (pageList != null)
+    @if (pageList != null && pageList.Any())
     {
         <div class="pager" id="ajaxPager">
             @Html.PagedListPager(pageList, page => Url.Action("Index", "RewardType", new
@@ -70,5 +82,4 @@
             <span class="pageoff">Trang @(pageList.PageCount < pageList.PageNumber ? 0 : pageList.PageNumber) / @pageList.PageCount</span>
         </div>
     }
-
 </div>

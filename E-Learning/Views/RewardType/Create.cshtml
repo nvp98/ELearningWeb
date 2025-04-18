@@ -130,40 +130,47 @@
     });
 
     document.getElementById("btnXacNhan").addEventListener("click", function () {
-        var idNoiDung = document.getElementById("dropdownNoiDungThuong").value;
-        if (!idNoiDung) {
-            alert("Vui lòng chọn nội dung khen thưởng!");
-            return;
-        }
-        var checkSelectedCaNhan = $("#caNhanRadio").is(":checked");
-        if (danhSachNhanVienHienTai.length === 0 && checkSelectedCaNhan) {
-            alert("Danh sách nhân viên đang trống!");
-            return;
-        }
-        if (checkSelectedCaNhan) {
-            $.ajax({
-                url: '@Url.Action("SubmitCaNhanKhenThuong", "RewardType")',
-                type: 'POST',
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({
-                    idNoiDungThuong: idNoiDung,
-                    danhSachNV: danhSachNhanVienHienTai
-                }),
-                success: function (res) {
-                    if (res.success) {
-                        alert("Lưu thành công!");
-                    } else {
-                        alert("Có lỗi: " + res.message);
-                    }
-                },
-                error: function () {
-                    alert("Lỗi server.");
-                }
-            });
-        }
-    });
-</script>
+    var idNoiDung = document.getElementById("dropdownNoiDungThuong").value;
+    if (!idNoiDung) {
+        alert("Vui lòng chọn nội dung khen thưởng!");
+        return;
+    }
 
+    var checkSelectedCaNhan = $("#caNhanRadio").is(":checked");
+    if (danhSachNhanVienHienTai.length === 0 && checkSelectedCaNhan) {
+        alert("Danh sách nhân viên đang trống!");
+        return;
+    }
+
+    if (checkSelectedCaNhan) {
+        $.ajax({
+            url: '@Url.Action("SubmitCaNhanKhenThuong", "RewardType")',
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                idNoiDungThuong: idNoiDung,
+                danhSachNV: danhSachNhanVienHienTai
+            }),
+            success: function (res) {
+                if (res.success) {
+                    alert("Lưu thành công!");
+
+                    const params = new URLSearchParams();
+                    params.set("highlightDeTai", res.tenDeTai);
+                    params.set("highlightMaNVs", res.danhSachMaNV.join(','));
+
+                    window.location.href = '@Url.Action("Index", "RewardType")' + '?' + params.toString();
+                } else {
+                    alert("Có lỗi: " + res.message);
+                }
+            },
+            error: function () {
+                alert("Lỗi server.");
+            }
+        });
+    }
+});
+</script>
 <script>
         $(document).ready(function () {
             // default khen thưởng cá nhân

@@ -140,26 +140,6 @@
     });
 </script>
 <script>
-    $(document).ready(function () {
-        $("#NoiDungThuongDropdown").change(function () {
-            var selectedId = $(this).val();
-            if (selectedId) {
-                $.ajax({
-                    url: '@Url.Action("FilterByNoiDungThuong", "RewardType")',
-                    data: { id: selectedId },
-                    type: "GET",
-                    success: function (result) {
-                        $("#danhSachKhenThuongContainer").html(result);
-                    },
-                    error: function () {
-                        alert("Lỗi khi tải dữ liệu.");
-                    }
-                });
-            }
-        });
-    });
-</script>
-<script>
     function loadRewardList(page = 1) {
         const kieuThuong = $('#kieuThuongSelect').val();
         const noiDungId = $('#NoiDungThuongDropdown').val();

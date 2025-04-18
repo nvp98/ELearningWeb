@@ -15,7 +15,7 @@ namespace E_Learning.Controllers.KhenThuong
         int Idquyen = MyAuthentication.IDQuyen;
         String ControllerName = "RewardType";
         // GET: RewardType
-        public ActionResult Index(int? page, string search, int? IDLoai, string kieuThuong = "all")
+        public ActionResult Index(int? page, string search, int? IDLoai, string kieuThuong = "all", string highlightDeTai = null, string highlightMaNVs = null)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             ViewBag.QUYENCN = ListQuyen;
@@ -70,6 +70,22 @@ namespace E_Learning.Controllers.KhenThuong
                 .GroupBy(x => x.TenDeTai)
                 .Select(g => g.Key)
                 .ToList();
+
+            // Nếu có highlightDeTai → tìm page chứa nó
+            if (!string.IsNullOrEmpty(highlightDeTai))
+            {
+                var index = distinctDeTais.IndexOf(highlightDeTai);
+                if (index >= 0)
+                {
+                    pageNumber = (index / pageSize) + 1;
+                }
+                ViewBag.HighlightDeTai = highlightDeTai;
+            }
+
+            var highlightMaNVList = string.IsNullOrEmpty(highlightMaNVs)
+               ? new List<string>()
+               : highlightMaNVs.Split(',').ToList();
+            ViewBag.HighlightMaNVs = highlightMaNVList;
 
             var pagedDeTais = distinctDeTais
                 .Skip((pageNumber - 1) * pageSize)
@@ -291,13 +307,19 @@ namespace E_Learning.Controllers.KhenThuong
                 db.KT_DanhSachKhenThuong.AddRange(danhSachInsert);
                 db.SaveChanges();
 
-                return Json(new { success = true });
+                return Json(new
+                {
+                    success = true,
+                    tenDeTai = tenDeTai,
+                    danhSachMaNV = danhSachNV.Select(x => x.MaNV).ToList()
+                });
             }
             catch (Exception ex)
             {
                 return Json(new { success = false, message = ex.Message });
             }
         }
+
 
         [HttpPost]
         public JsonResult SubmitDonViKhenThuong(List<string> maPBList, int idNoiDungThuong, string tapThe)
@@ -336,23 +358,6 @@ namespace E_Learning.Controllers.KhenThuong
             {
                 return Json(new { success = false, message = "Lỗi: " + ex.Message });
             }
-        }
-
-        public ActionResult FilterByNoiDungThuong(int id)
-        {
-            var filteredData = db.KT_DanhSachKhenThuong
-                .Where(x => x.ID_NoiDungThuong == id && x.MNV != null)
-                .Select(dskt => new LoaiKhenThuongDTO
-                {
-                    ID = dskt.ID,
-                    TenDeTai = dskt.NoiDungKhenThuong,
-                    MaNV = dskt.MNV,
-                    HoTen = dskt.HoTen,
-                    TenPhongBan = dskt.DonVi
-                })
-                .ToList();
-
-            return PartialView("_DanhSachKhenThuongPartial", filteredData);
         }
     }
 }
