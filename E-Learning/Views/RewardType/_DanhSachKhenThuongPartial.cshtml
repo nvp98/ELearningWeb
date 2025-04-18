@@ -1,37 +1,74 @@
-﻿@model PagedList.IPagedList<E_Learning.ModelsQLKhenThuong.LoaiKhenThuongDTO>
+﻿@model IEnumerable<E_Learning.ModelsQLKhenThuong.LoaiKhenThuongDTO>
+@using PagedList.Mvc
+@{
+    var kieuThuong = ViewBag.kieuThuong as string ?? "all";
+    var pageList = ViewBag.PageList as PagedList.IPagedList<E_Learning.ModelsQLKhenThuong.LoaiKhenThuongDTO>;
+}
 
-<table class="table table-bordered table-striped">
-    <thead class="thead-dark">
-        <tr>
-            <th>STT</th>
-            <th>Mã NV</th>
-            <th>Họ Tên</th>
-            <th>Phòng Ban</th>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            string currentDeTai = null;
-            int stt = 1;
-        }
-
-        @foreach (var item in Model)
-        {
-            if (item.TenDeTai != currentDeTai)
-            {
-                currentDeTai = item.TenDeTai;
-                stt = 1;
-                <tr class="table-primary font-weight-bold">
-                    <td colspan="4">Đề tài: @item.TenDeTai</td>
-                </tr>
+<div id="ajaxContent">
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>STT</th>
+                @if (kieuThuong == "ca-nhan" || kieuThuong == "all")
+                {
+                    <th>Mã NV</th>
+                    <th>Họ Tên</th>
+                }
+                <th>Đơn vị</th>
+                @if (kieuThuong == "tap-the" || kieuThuong == "all")
+                {
+                    <th>Tập thể</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                string currentDeTai = null;
+                int stt = 1;
             }
 
-            <tr>
-                <td>@(stt++)</td>
-                <td>@item.MaNV</td>
-                <td>@item.HoTen</td>
-                <td>@item.TenPhongBan</td>
-            </tr>
-        }
-    </tbody>
-</table>
+            @foreach (var item in Model)
+            {
+                if (item.TenDeTai != currentDeTai)
+                {
+                    currentDeTai = item.TenDeTai;
+                    stt = 1;
+                    <tr class="table-info font-weight-bold">
+                        <td colspan="@(kieuThuong == "all" ? 5 : (kieuThuong == "ca-nhan" ? 4 : 3))">
+                            Đề tài: @item.TenDeTai
+                        </td>
+                    </tr>
+                }
+
+                <tr>
+                    <td>@(stt++)</td>
+                    @if (kieuThuong == "ca-nhan" || kieuThuong == "all")
+                    {
+                        <td>@item.MaNV</td>
+                        <td>@item.HoTen</td>
+                    }
+                    <td>@item.TenPhongBan</td>
+                    @if (kieuThuong == "tap-the" || kieuThuong == "all")
+                    {
+                        <td>@item.TapThe</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (pageList != null)
+    {
+        <div class="pager" id="ajaxPager">
+            @Html.PagedListPager(pageList, page => Url.Action("Index", "RewardType", new
+            {
+                page,
+                kieuThuong = kieuThuong,
+                IDLoai = Request.QueryString["IDLoai"]
+            }))
+            <span class="pageoff">Trang @(pageList.PageCount < pageList.PageNumber ? 0 : pageList.PageNumber) / @pageList.PageCount</span>
+        </div>
+    }
+
+</div>

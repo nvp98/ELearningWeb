@@ -15,7 +15,7 @@ namespace E_Learning.Controllers.KhenThuong
         int Idquyen = MyAuthentication.IDQuyen;
         String ControllerName = "RewardType";
         // GET: RewardType
-        public ActionResult Index(int? page, string search, int? IDLoai)
+        public ActionResult Index(int? page, string search, int? IDLoai, string kieuThuong = "all")
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             ViewBag.QUYENCN = ListQuyen;
@@ -27,33 +27,73 @@ namespace E_Learning.Controllers.KhenThuong
 
             if (search == null) search = "";
             ViewBag.search = search;
+            ViewBag.kieuThuong = kieuThuong;
+            ViewBag.IDLoai = IDLoai;
 
-            int pageSize = 10;
+            int pageSize = 4;
             int pageNumber = (page ?? 1);
 
-            var res = (from dskt in db.KT_DanhSachKhenThuong
-                       where dskt.MNV != null
-                       select new LoaiKhenThuongDTO
-                       {
-                           ID = dskt.ID,
-                           TenDeTai = dskt.NoiDungKhenThuong,
-                           MaNV = dskt.MNV,
-                           HoTen = dskt.HoTen,
-                           TenPhongBan = dskt.DonVi
-                       }).ToList();
+            var baseQuery = db.KT_DanhSachKhenThuong.AsQueryable();
+
+            if (kieuThuong == "ca-nhan")
+            {
+                baseQuery = baseQuery.Where(x => x.MNV != null);
+            }
+            else if (kieuThuong == "tap-the")
+            {
+                baseQuery = baseQuery.Where(x => x.MNV == null);
+            }
+
+            if (IDLoai.HasValue && IDLoai > 0)
+            {
+                baseQuery = baseQuery.Where(x => x.ID_NoiDungThuong == IDLoai.Value);
+            }
+
+            var allData = baseQuery.Select(dskt => new LoaiKhenThuongDTO
+            {
+                ID = dskt.ID,
+                TenDeTai = dskt.NoiDungKhenThuong,
+                MaNV = dskt.MNV,
+                HoTen = dskt.HoTen,
+                TenPhongBan = dskt.DonVi,
+                TapThe = dskt.TapThe
+            }).ToList();
 
             if (!string.IsNullOrEmpty(search))
             {
-                res = res.Where(x => (x.HoTen + " " + x.MaNV + " " + x.TenLoaiThuong).ToLower().Contains(search.ToLower())).ToList();
+                allData = allData.Where(x =>
+                    (x.HoTen + " " + x.MaNV + " " + x.TenPhongBan).ToLower().Contains(search.ToLower())
+                ).ToList();
             }
+
+            var distinctDeTais = allData
+                .GroupBy(x => x.TenDeTai)
+                .Select(g => g.Key)
+                .ToList();
+
+            var pagedDeTais = distinctDeTais
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var filteredData = allData
+                .Where(x => pagedDeTais.Contains(x.TenDeTai))
+                .OrderBy(x => x.TenDeTai)
+                .ThenBy(x => x.ID)
+                .ToList();
+
+            var pagedList = new StaticPagedList<LoaiKhenThuongDTO>(
+                filteredData, pageNumber, pageSize, distinctDeTais.Count()
+            );
 
             var noiDungList = db.KT_NoiDungThuong
                .Select(x => new { x.ID, x.NoiDungKhenThuong })
+               .OrderBy(x => x.NoiDungKhenThuong)
                .ToList();
 
-            ViewBag.NoiDungThuongList = new SelectList(noiDungList, "ID", "NoiDungKhenThuong");
+            ViewBag.NoiDungThuongList = new SelectList(noiDungList, "ID", "NoiDungKhenThuong", IDLoai);
 
-            return View(res.OrderBy(x => x.ID).ToPagedList(pageNumber, pageSize));
+            return View(pagedList);
         }
 
         public ActionResult Create()
