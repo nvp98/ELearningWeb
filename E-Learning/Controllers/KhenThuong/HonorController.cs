@@ -101,11 +101,6 @@ namespace E_Learning.Controllers.KhenThuong
                                           DonVi = ds.DonVi
                                       }).ToList();
 
-            //var khenThuongThang = khenThuongThangRaw
-            //    .GroupBy(x => x.NoiDungKhenThuong)
-            //    .Select(g => g.First())
-            //    .ToList();
-
             var khenThuongThang = khenThuongThangRaw
                 .GroupBy(x => new { x.NoiDungKhenThuong, x.BannerBase64 })
                 .Select(g => new NoiDungKhenThuongDTO
@@ -240,8 +235,6 @@ namespace E_Learning.Controllers.KhenThuong
                 })
                 .FirstOrDefault();
 
-            
-
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
@@ -280,7 +273,6 @@ namespace E_Learning.Controllers.KhenThuong
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
 
         [HttpGet]
         public JsonResult GetCollectiveChartData(int year)
@@ -357,6 +349,5 @@ namespace E_Learning.Controllers.KhenThuong
 
             return Json(data, JsonRequestBehavior.AllowGet);
         }
-
     }
 }

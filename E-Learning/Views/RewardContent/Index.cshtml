@@ -4,7 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 @using E_Learning.Models
 @model PagedList.IPagedList<E_Learning.ModelsQLKhenThuong.NoiDungKhenThuongDTO>
 @using PagedList.Mvc
@@ -47,8 +46,6 @@
 
             </div>
         </div>
-
-
 
         <div class="card mb-4">
             <div class="card-header">
@@ -102,16 +99,16 @@
                                 int pageno = (int)Model.PageNumber;
                                 int itemperpage = (int)Model.PageSize;
                                 int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                int? highlightID = ViewBag.HighlightID as int?;
                             }
                             @foreach (var item in Model)
                             {
-                                <tr>
+                                string rowClass = (highlightID.HasValue && item.ID == highlightID.Value) ? "table-success" : "";
+                                <tr class="@rowClass">
                                     <td class="text-center"> @RowNo@{RowNo++;}</td>
                                     <td class="">@item.NoiDungKhenThuong</td>
                                     <td class="">@item.SoQuyetDinh</td>
                                     <td>@(item.NgayQuyetDinh != null ? item.NgayQuyetDinh.Value.ToString("dd-MM-yyyy") : "")</td>
-                                    <!-- Cột ảnh banner -->
-
                                     <td>
                                         @if (!string.IsNullOrEmpty(item.BannerBase64))
                                         {
@@ -155,10 +152,7 @@
             </div>
         </div>
 
-
-
     </div>
-
 
     <div class="app-wrapper-footer">
         <div class="app-footer">
@@ -167,9 +161,7 @@
         </div>
     </div>
 
-
 </div>
-
 
 <script src="~/Content/Chonse/chosen.jquery.js"></script>
 <script type="text/javascript">
@@ -221,10 +213,10 @@
         text-transform: capitalize;
     }
 
-        .chosen-container-single .chosen-single span {
-            text-transform: capitalize !important;
-            font-size: 16px !important;
-        }
+    .chosen-container-single .chosen-single span {
+        text-transform: capitalize !important;
+        font-size: 16px !important;
+    }
 </style>
 
 

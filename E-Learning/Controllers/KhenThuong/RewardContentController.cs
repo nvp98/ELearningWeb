@@ -15,7 +15,7 @@ namespace E_Learning.Controllers.KhenThuong
         int Idquyen = MyAuthentication.IDQuyen;
         String ControllerName = "RewardContent";
         // GET: RewardContent
-        public ActionResult Index(int? page, string search, int? IDND)
+        public ActionResult Index(int? page, string search, int? IDND, int? highlightID = null)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             ViewBag.QUYENCN = ListQuyen;
@@ -36,21 +36,30 @@ namespace E_Learning.Controllers.KhenThuong
                            IDLoaiKhenThuong = a.ID_LoaiKhenThuong != null ? (int)a.ID_LoaiKhenThuong : 0,
                            NoiDungKhenThuong = a.NoiDungKhenThuong,
                            SoQuyetDinh = a.SoQuyetDinh,
-                           NgayQuyetDinh = (DateTime) a.NgayQuyetDinh,
-                           GiaTriLamLoi = a.GiaTriLamLoi != null ? (decimal) a.GiaTriLamLoi : 0,
-                           TongTienThuong = a.TongTienThuong != null ? (decimal) a.TongTienThuong : 0,
+                           NgayQuyetDinh = (DateTime)a.NgayQuyetDinh,
+                           GiaTriLamLoi = a.GiaTriLamLoi != null ? (decimal)a.GiaTriLamLoi : 0,
+                           TongTienThuong = a.TongTienThuong != null ? (decimal)a.TongTienThuong : 0,
                            LoaiKhenThuong = db.KT_LoaiThuong.Where(x => x.ID_Loai == a.ID_LoaiKhenThuong).FirstOrDefault().TenLoaiThuong,
                            BannerBase64 = a.BannerImageBase64
                        });
 
             if (IDND != 0) res = res.Where(a => a.ID == IDND);
 
-            List<KT_NoiDungThuong> dt = db.KT_NoiDungThuong.ToList();
-            // dropdown
             ViewBag.IDND = new SelectList(db.KT_NoiDungThuong, "ID", "NoiDungKhenThuong");
 
             int pageSize = 20;
             int pageNumber = (page ?? 1);
+
+            if (highlightID.HasValue)
+            {
+                var list = res.OrderBy(a => a.ID).ToList();
+                int index = list.FindIndex(x => x.ID == highlightID.Value);
+                if (index >= 0)
+                {
+                    pageNumber = (index / pageSize) + 1;
+                    ViewBag.HighlightID = highlightID.Value;
+                }
+            }
 
             return View(res.OrderBy(a => a.ID).ToPagedList(pageNumber, pageSize));
         }
@@ -74,34 +83,36 @@ namespace E_Learning.Controllers.KhenThuong
         [HttpPost]
         public ActionResult Create(NoiDungKhenThuongDTO DTO)
         {
-            var binaryReader = new BinaryReader(DTO.BannerUpload.InputStream);
-            byte[] fileData = binaryReader.ReadBytes(DTO.BannerUpload.ContentLength);
-            string base64Data = Convert.ToBase64String(fileData);
-            string fullBase64Image = $"data:{DTO.BannerUpload.ContentType};base64,{base64Data}";
             try
             {
+                var binaryReader = new BinaryReader(DTO.BannerUpload.InputStream);
+                byte[] fileData = binaryReader.ReadBytes(DTO.BannerUpload.ContentLength);
+                string base64Data = Convert.ToBase64String(fileData);
+                string fullBase64Image = $"data:{DTO.BannerUpload.ContentType};base64,{base64Data}";
+
                 var data = new KT_NoiDungThuong()
                 {
                     SoQuyetDinh = DTO.SoQuyetDinh,
                     NoiDungKhenThuong = DTO.NoiDungKhenThuong,
                     ID_LoaiKhenThuong = DTO.IDLoaiKhenThuong,
                     NgayQuyetDinh = DTO.NgayQuyetDinh,
-                    BannerImage = binaryReader.ReadBytes(DTO.BannerUpload.ContentLength),
+                    BannerImage = fileData,
                     BannerImageBase64 = fullBase64Image,
                     GiaTriLamLoi = DTO.GiaTriLamLoi,
                     TongTienThuong = DTO.TongTienThuong
                 };
 
                 db.KT_NoiDungThuong.Add(data);
-
                 db.SaveChanges();
+
                 TempData["msgSuccess"] = "<script>alert('Thêm mới thành công');</script>";
-            } catch (Exception ex)
+                return RedirectToAction("Index", "RewardContent", new { highlightID = data.ID });
+            }
+            catch (Exception ex)
             {
                 TempData["msgError"] = "<script>alert('Có lỗi khi thêm mới: " + ex.Message + "');</script>";
+                return RedirectToAction("Index", "RewardContent");
             }
-            
-            return RedirectToAction("Index", "RewardContent");
         }
 
         public ActionResult Edit(int id)
@@ -162,6 +173,7 @@ namespace E_Learning.Controllers.KhenThuong
 
                 db.SaveChanges();
                 TempData["msgSuccess"] = "<script>alert('Cập nhật thành công');</script>";
+                return RedirectToAction("Index", "RewardContent", new { highlightID = data.ID });
             }
             catch (Exception e)
             {
@@ -170,7 +182,6 @@ namespace E_Learning.Controllers.KhenThuong
 
             return RedirectToAction("Index", "RewardContent");
         }
-
         public ActionResult Delete(int id)
         {
             try
