@@ -146,6 +146,7 @@ namespace E_Learning.Controllers.KhenThuong
                 {
                     item.Nam = DTO.NgayQuyetDinh.Value.Year;
                     item.Thang = DTO.NgayQuyetDinh.Value.Month;
+                    item.NoiDungKhenThuong = DTO.NoiDungKhenThuong;
                 }
 
                 if (DTO.BannerUpload != null && DTO.BannerUpload.ContentLength > 0)
@@ -184,20 +185,5 @@ namespace E_Learning.Controllers.KhenThuong
             }
             return RedirectToAction("Index", "RewardContent");
         }
-
-        public static string GetImageMimeType(byte[] bytes)
-        {
-            if (bytes == null || bytes.Length < 4) return "application/octet-stream";
-
-            if (bytes[0] == 0xFF && bytes[1] == 0xD8) return "image/jpeg";
-            if (bytes[0] == 0x89 && bytes[1] == 0x50 &&
-                bytes[2] == 0x4E && bytes[3] == 0x47) return "image/png";
-            if (bytes[0] == 0x47 && bytes[1] == 0x49 &&
-                bytes[2] == 0x46) return "image/gif";
-            if (bytes[0] == 0x42 && bytes[1] == 0x4D) return "image/bmp";
-
-            return "application/octet-stream";
-        }
-
     }
 }
