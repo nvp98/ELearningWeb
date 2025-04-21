@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
 
@@ -43,7 +44,17 @@ namespace E_Learning.Controllers
                                XNTG = (bool)h.XNTG,
                                XNHT = (bool)h.XNHT,
                            }).ToList();
+                var video = res.FirstOrDefault() != null?res.FirstOrDefault().VideoLH:"";
+                var img = res.FirstOrDefault() != null ? res.FirstOrDefault().ImageLH : "";
+                Uri uri = new Uri(video);
+                string[] segments = uri.Segments;
+                string filename = segments.Last(); // "QST4elHA-DOiUK1KQ.mp4"
+                string code = filename.Split('-')[0];
 
+                var videoUrl = "https://cdn.jwplayer.com/manifests/"+ code + ".m3u8";
+                var imageUrl = img;
+                ViewBag.VideoUrl = videoUrl;
+                ViewBag.ImageUrl = imageUrl;
 
                 //Check Xác nhận tham gia và Update xác nhận tham gia và ngày tham gia 
                 var XNTG = db_context.XNHocTaps.Where(x => x.IDHT == IDHT).Select(g => g.XNTG).FirstOrDefault();

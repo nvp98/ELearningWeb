@@ -5619,7 +5619,7 @@ namespace E_Learning.Controllers
                 }
 
                 document.Close();
-                string filename = $"{"KhungNangLuc_" +  vt?.MaViTri + "_" + DateTime.Now.ToString("yyyyMMddHHmm")}.pdf";
+                string filename = $"{"KhungNangLuc_" +  vt?.IDVT + "_" + DateTime.Now.ToString("yyyyMMddHHmm")}.pdf";
                 var folderPath = Server.MapPath("~/FileKNL/");
 
                 // Lưu file vào server và trả về path

@@ -763,7 +763,7 @@ namespace E_Learning.Controllers.KNL
             ViewBag.TenVT = nv.TenVT ?? "";
 
             var res = (from a in db.KNL_KQ_searchByIDNV(IDNV, DateTime.Now, nv.IDVT).Where(x=>x.IsDuyet == 1)
-                       join b in db.KNL_DocBangKNL on a.IDNL equals b.ID_NangLuc into uli from b in uli.DefaultIfEmpty()
+                       join b in db.KNL_DocBangKNL.Where(x=>x.IDNV == IDNV) on a.IDNL equals b.ID_NangLuc into uli from b in uli.DefaultIfEmpty()
                        select new FValueValidation
                        {
                            IDNV = (int?)nv.IDNV ?? null,
@@ -782,7 +782,8 @@ namespace E_Learning.Controllers.KNL
                            OrderByLoai = a.orByLoai,
                            NgayCanhBao = a.DiemDG < a.DinhMuc ? (((DateTime)a.NgayDG).AddMonths(6) - DateTime.Now).Days : -1000,
                            NgayHanDG = a.DiemDG < a.DinhMuc ? ((DateTime)a.NgayDG).AddMonths(6) : default(DateTime),
-                           CapNhatDG = b?.TinhTrang == 1?true:false,
+                           CapNhatDG = b?.TinhTrang == 1 ? true : false,
+                           //CapNhatDG =false
                        }).ToList().OrderBy(x => x.OrderBy);
             var distinctIDLoaiNLs = res.Where(x => x.IDLoaiNL != 1 && x.IDLoaiNL != 2)
                    .Select(x => x.IDLoaiNL)

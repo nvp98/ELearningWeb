@@ -676,7 +676,7 @@
     });
     const urlParams = new URLSearchParams(window.location.search);
     $("#btn-search-o").on('click', function () {
-        window.location.href = '@Url.Action("Value", "FCheck")?IDNV=' + $('#LSUser').val() + "&dt=" + urlParams.get('dt');
+        window.location.href = '@Url.Action("Value", "FCheck")?IDNV=' + $('#LSUser').val() + "&dt=" + urlParams.get('dt') + "&capDG=" + urlParams.get('capDG');
     });
 </script>
 

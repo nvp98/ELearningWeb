@@ -58,6 +58,7 @@
         background-color: #2196F3;
         width: 0;
     }
+    
 </style>
 
 
@@ -154,17 +155,19 @@
                                                 </script>*@
                                             @if (item.XNHT == false)
                                             {
-                                                <video id="videoPlayer" width="100%" poster="@item.ImageLH" controls controlsList="nodownload" preload="auto" autoplay="true">
+                                                @*<video id="videoPlayer" width="100%" poster="@item.ImageLH" controls controlsList="nodownload" preload="auto" autoplay="true">
                                                     <source src="@item.VideoLH" type="video/mp4">
                                                     Trình duyệt của bạn không hỗ trợ thẻ video.
-                                                </video>
+                                                </video>*@
+                                                <div id="myPlayer"></div>
                                             }
                                             else
                                             {
-                                                <video width="100%" poster="@item.ImageLH" controls controlsList="nodownload" preload="auto" autoplay="true">
+                                                @*<video width="100%" poster="@item.ImageLH" controls controlsList="nodownload" preload="auto" autoplay="true">
                                                     <source src="@item.VideoLH" type="video/mp4">
                                                     Trình duyệt của bạn không hỗ trợ thẻ video.
-                                                </video>
+                                                </video>*@
+                                                <div id="myPlayerDo"></div>
                                             }
 
                                             @*<div class="custom-controls" id="custom-controls">
@@ -232,12 +235,20 @@
     </div>
 </div>
 
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        var video = document.getElementById("videoPlayer");
-        var modal = document.getElementById("myModalTB");
-        var confirmButton = document.getElementById("confirmBtn");
+        var playerId = '#myPlayer'; // Replace with your player element ID
+        var playerId2 = '#myPlayerDo'; // Replace with your player element ID
+        if ($(playerId).length) {
+            var player = jwplayer("myPlayer").setup({
+            //file: "//cdn.jwplayer.com/videos/9mnd5aiQ-DOiUK1KQ.mp4",
+            //file:"https://cdn.jwplayer.com/manifests/9mnd5aiQ.m3u8",
+            //image: "https://cdn.jwplayer.com/v2/media/9mnd5aiQ/poster.jpg",
+            file: "@ViewBag.VideoUrl",
+            image: "@ViewBag.ImageUrl",
+            width: "100%",
+            aspectratio: "16:9"
+        });
 
         var videoStopped = false;
         var videoEnded = false;
@@ -245,23 +256,19 @@
         var stopTimeout;
         var exitTimeout;
 
-        // Thiết lập thời gian dừng lại (5 phút = 300 giây)
         var stopInterval = 300 * 1000;
-        // Thiết lập thời gian tự động thoát (10 phút = 600 giây)
         var autoExitTime = 600 * 1000;
 
         function startStopTimeout() {
             stopTimeout = setTimeout(function () {
                 if (!videoEnded) {
-                    video.pause();
-                    //modal.style.display = "block";
+                    player.pause();
                     $('#myModalTB').modal('show');
                     videoStopped = true;
 
-                    // Thiết lập thời gian tự động thoát sau 10 phút nếu không xác nhận
                     exitTimeout = setTimeout(function () {
                         alert("Bạn đã không xác nhận trong thời gian quy định. Trang sẽ tự động thoát ra ngoài.");
-                        window.location.href = '@Url.Action("Logout", "Login")'; // Chuyển hướng tới trang khác
+                        window.location.href = '@Url.Action("Logout", "Login")';
                     }, autoExitTime);
                 }
             }, stopInterval);
@@ -272,51 +279,62 @@
             clearTimeout(exitTimeout);
         }
 
-        // Khi video được phát lại, khởi động lại bộ đếm thời gian
-        video.addEventListener("play", function () {
+        player.on('play', function () {
             if (!videoEnded) {
                 resetTimeouts();
                 startStopTimeout();
             }
         });
 
-        // Khi nhấn nút xác nhận, ẩn modal và tiếp tục phát video
-        confirmButton.addEventListener("click", function () {
-            //modal.style.display = "none";
+        document.getElementById("confirmBtn").addEventListener("click", function () {
             $('#myModalTB').modal('hide');
             if (videoStopped) {
-                video.play();
+                player.play();
                 videoStopped = false;
-                resetTimeouts(); // Hủy bỏ thời gian tự động thoát nếu người dùng xác nhận
+                resetTimeouts();
             }
         });
 
-        // Kiểm tra khi video kết thúc
-        video.addEventListener("ended", function () {
-            var element = document.getElementById("target");
+        player.on('complete', function () {
             videoEnded = true;
-            resetTimeouts(); // Dừng các bộ đếm thời gian khi video kết thúc
-            //alert("Bạn đã xem hết video!");
+            resetTimeouts();
             console.log("complete");
-            element.disabled = false;
+            document.getElementById("target").disabled = false;
         });
 
-        // Chống tua video
-        video.addEventListener("timeupdate", function () {
-            if (video.currentTime > lastTime + 1) {
-                video.currentTime = lastTime;
+        // Chống tua
+        player.on('time', function (e) {
+            if (e.position > lastTime + 1) {
+                player.seek(lastTime);
             } else {
-                lastTime = video.currentTime;
+                lastTime = e.position;
             }
         });
 
-        // Giám sát thời gian hiện tại của video để phát hiện sự cố
-        video.ontimeupdate = function () {
-            if (!videoEnded && video.currentTime === 0) {
-                video.play();
-            }
-        };
+        // Tự phát lại nếu đứng tại 0
+        setInterval(function () {
+            player.getPosition(function (pos) {
+                if (!videoEnded && pos === 0) {
+                    player.play();
+                }
+            });
+        }, 2000);
+        }
+        if ($(playerId2).length) {
+             jwplayer("myPlayerDo").setup({
+            //file: "//cdn.jwplayer.com/videos/9mnd5aiQ-DOiUK1KQ.mp4",
+            //file:"https://cdn.jwplayer.com/manifests/9mnd5aiQ.m3u8",
+            //image: "https://cdn.jwplayer.com/v2/media/9mnd5aiQ/poster.jpg",
+            file: "@ViewBag.VideoUrl",
+            image: "@ViewBag.ImageUrl",
+            width: "100%",
+            aspectratio: "16:9"
+        });
+        }
+
 
     });
 </script>
+
+
 
