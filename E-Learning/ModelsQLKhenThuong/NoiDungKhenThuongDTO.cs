@@ -15,11 +15,7 @@ namespace E_Learning.ModelsQLKhenThuong
         public decimal? TongTienThuong { get; set; }
         public string LoaiKhenThuong { get; set; }
         public string DonVi { get; set; }
-
-        // upload img
-        [NotMapped]
+        public string BannerImage { get; set; }
         public HttpPostedFileBase BannerUpload { get; set; }
-
-        public string BannerBase64 { get; set; }
     }
 }

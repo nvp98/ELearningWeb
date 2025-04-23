@@ -163,8 +163,10 @@
                                             @foreach (var item in slideItems)
                                             {
                                                 <div class="news-card card">
-                                                    <img src="@(item.BannerBase64 ?? Url.Content("~/Content/assets/images/default.jpg"))"
-                                                         class="news-img" alt="Reward Image" />
+                                                    @if (!string.IsNullOrEmpty(item.BannerImage))
+                                                    {
+                                                        <img src="@Url.Content(item.BannerImage)" class="news-img" alt="Reward Image" />
+                                                    }
                                                     <div class="news-content">
                                                         <h6 class="news-title">@item.NoiDungKhenThuong</h6>
                                                         <p class="news-author">@item.DonVi</p>
@@ -213,13 +215,15 @@
                                             @foreach (var item in slideItems)
                                             {
                                                 <div class="news-card card">
-                                                    <img src="@(item.BannerBase64 ?? Url.Content("~/Content/assets/images/default.jpg"))"
-                                                         class="news-img" alt="Reward Image" />
+                                                    @if (!string.IsNullOrEmpty(item.BannerImage))
+                                                    {
+                                                        <img src="@Url.Content(item.BannerImage)" class="news-img" alt="Reward Image" />
+                                                    }
                                                     <div class="news-content">
                                                         <h6 class="news-title">@item.NoiDungKhenThuong</h6>
                                                         <p class="news-author">@item.DonVi</p>
                                                     </div>
-                                                </div>
+                                                    </div>
                                             }
                                         </div>
                                     </div>
