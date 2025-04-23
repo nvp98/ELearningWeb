@@ -4,7 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 @using E_Learning.Models
 @model PagedList.IPagedList<E_Learning.ModelsQLKhenThuong.LoaiKhenThuongDTO>
 @using PagedList.Mvc
@@ -39,125 +38,71 @@
                         </i>
                     </div>
                     <div>
-                        Quản lý loại khen thưởng
+                        Danh sách khen thưởng
                         <div class="page-title-subheading">
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
-
-
         <div class="card mb-4">
             <div class="card-header">
-
                 <div class="col-md-9">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="row">
-                                @Html.DropDownList("IDLoaiThuong", null, "--Loại khen thưởng--", new { id = "IDLoai", @class = "form-control marginTB5", @style = "width:100%", })
+                                @Html.DropDownList("NoiDungThuongID", (SelectList)ViewBag.NoiDungThuongList, "-- Chọn đề tài --", new
+                                {
+                                    @class = "form-control",
+                                    id = "NoiDungThuongDropdown"
+                                })
                             </div>
-
                         </div>
-
-                        <div class="col-md-2">
-                            <div class="input-group-btn"><button class="btn btn-primary marginTB5" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button></div>
-                        </div>
-
                     </div>
-
                 </div>
-                @*<div class="clo-md-3 m-l-auto">
-                        <a class="btn btn-primary" title="Chi tiết" href="@Url.Action("CreateVTKNL", "ViTriKNL")">
-                            <i class="fa fa-plus">&nbsp;</i>&nbsp;Danh sách mã vị trí
-                        </a>
-                    </div>*@
+
                 @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD))
                 {
                     <div class="clo-md-3 m-l-auto">
-                        <button type="button" id="btn-add" class="btn btn-primary m-l-auto"><i class="fa fa-plus">&nbsp;</i>&nbsp;Thêm mới </button>
+                        <button type="button" id="btn-add" class="btn btn-primary m-l-auto">
+                            <i class="fa fa-plus">&nbsp;</i>&nbsp;Thêm mới
+                        </button>
                         <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","RewardType")'></div>
                     </div>
                 }
-
             </div>
+
+            @{
+                var kieuThuong = ViewBag.kieuThuong as string ?? "all";
+                ViewBag.PageList = Model;
+            }
+
+            <div class="form-inline mb-3">
+                <label class="mr-2">Lọc loại thưởng:</label>
+                <select id="kieuThuongSelect" class="form-control mr-2">
+                    <option value="all" @(kieuThuong == "all" ? "selected" : "")>Tất cả</option>
+                    <option value="ca-nhan" @(kieuThuong == "ca-nhan" ? "selected" : "")>Thưởng cá nhân</option>
+                    <option value="tap-the" @(kieuThuong == "tap-the" ? "selected" : "")>Thưởng tập thể</option>
+                </select>
+            </div>
+
             <div class="card-body">
                 <div class="table-responsive">
-
-                    <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
-                        <thead class="thead-light">
-                            <tr>
-                                <th class="text-center" width="30px">STT</th>
-                                <th class="text-center">Loại khen thưởng</th>
-                                <th class="text-center">Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                int pageno = (int)Model.PageNumber;
-                                int itemperpage = (int)Model.PageSize;
-                                int RowNo = ((pageno - 1) * itemperpage) + 1;
-                            }
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td class="text-center"> @RowNo@{RowNo++;}</td>
-                                    <td class="">@item.TenLoaiThuong</td>
-                                    <td class="text-center">
-                                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL))
-                                        {
-                                            <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "RewardType", new { id = item.ID })"
-                                               onclick="return confirm('Bạn muốn xóa : @item.TenLoaiThuong')">
-                                            </a>
-                                        }
-                                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
-                                        {
-                                            <a id="btn-edit_@item.ID" title="Sửa" class="fa fa-edit icon_action "></a>
-                                            <div class=" modal fade" id="myModale_@item.ID" role="dialog" data-url='@Url.Action("Edit","RewardType", new { id = item.ID })'></div>
-                                            <script type="text/javascript">
-                                            $("#btn-edit_@item.ID").click(function () {
-                                                var url = $('#myModale_@item.ID').data('url');
-                                                        $.get(url, function (data) {
-                                                            $("#myModale_@item.ID").html(data);
-                                                            $("#ModalTitle").html("Cập nhật loại thưởng");
-                                                            $("#myModale_@item.ID").modal('show');
-                                                        });
-                                                    });
-                                            </script>
-                                        }
-
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                    <div class="pager">
-                        @Html.PagedListPager(Model, page => Url.Action("Index", "RewardType", new { IDLoai = Request.QueryString["IDLoai"], page }))
-                        <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+                    <div id="danhSachKhenThuongContainer">
+                        @Html.Partial("_DanhSachKhenThuongPartial", Model)
                     </div>
-
                 </div>
-
             </div>
         </div>
-
-
-
     </div>
-
-
     <div class="app-wrapper-footer">
         <div class="app-footer">
             <div class="app-footer__inner">
             </div>
         </div>
     </div>
-
-
 </div>
-
 
 <script src="~/Content/Chonse/chosen.jquery.js"></script>
 <script type="text/javascript">
@@ -165,7 +110,7 @@
         var url = $('#myModal').data('url');
         $.get(url, function (data) {
             $("#myModal").html(data);
-            $("#ModalTitle").html("Thêm mới loại khen thưởng");
+            $("#ModalTitle").html("Thêm mới khen thưởng cá nhân/đơn vị");
             $("#myModal").modal('show');
         });
     });
@@ -193,6 +138,59 @@
         window.location.href = '@Url.Action("Index", "RewardType")?IDLoai=' + $('#IDLoai').val();
     });
 </script>
+<script>
+    function loadRewardList(page = 1) {
+        const kieuThuong = $('#kieuThuongSelect').val();
+        const noiDungId = $('#NoiDungThuongDropdown').val();
+
+        $.get('@Url.Action("Index", "RewardType")', {
+            page: page,
+            kieuThuong: kieuThuong,
+            IDLoai: noiDungId
+        }, function (data) {
+            const newHtml = $('<div>').html(data);
+            $('#danhSachKhenThuongContainer').html(newHtml.find('#ajaxContent').html());
+        });
+    }
+
+    $(document).on('change', '#kieuThuongSelect, #NoiDungThuongDropdown', function () {
+        loadRewardList(1);
+    });
+
+    $(document).on('click', '#ajaxPager a', function (e) {
+        e.preventDefault();
+        const page = new URL($(this).attr('href'), window.location.href).searchParams.get("page");
+        loadRewardList(page);
+    });
+</script>
+<script>
+    $(document).on("click", ".btn-delete", function () {
+        var id = $(this).data("id");
+
+        if (confirm("Bạn có chắc chắn muốn xóa mục này?")) {
+            $.ajax({
+                url: '@Url.Action("XoaKhenThuong", "RewardType")',
+                type: 'POST',
+                data: { id: id },
+                success: function (res) {
+                    if (res.success) {
+                        alert("Xóa thành công!");
+                         location.reload();
+                    } else {
+                        alert("Lỗi: " + res.message);
+                    }
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra khi xóa.");
+                }
+            });
+        }
+    });
+
+    $("#NoiDungThuongDropdown").chosen({
+        width: "100%"
+    });
+</script>
 
 <style>
     .chosen-container-single .chosen-single {
@@ -209,10 +207,10 @@
         text-transform: capitalize;
     }
 
-        .chosen-container-single .chosen-single span {
-            text-transform: capitalize !important;
-            font-size: 16px !important;
-        }
+    .chosen-container-single .chosen-single span {
+        text-transform: capitalize !important;
+        font-size: 16px !important;
+    }
 </style>
 
 

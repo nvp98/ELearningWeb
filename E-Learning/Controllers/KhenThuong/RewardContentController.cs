@@ -3,6 +3,7 @@ using E_Learning.ModelsQLKhenThuong;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -14,7 +15,7 @@ namespace E_Learning.Controllers.KhenThuong
         int Idquyen = MyAuthentication.IDQuyen;
         String ControllerName = "RewardContent";
         // GET: RewardContent
-        public ActionResult Index(int? page, string search, int? IDND)
+        public ActionResult Index(int? page, string search, int? IDND, int? highlightID = null)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             ViewBag.QUYENCN = ListQuyen;
@@ -35,20 +36,30 @@ namespace E_Learning.Controllers.KhenThuong
                            IDLoaiKhenThuong = a.ID_LoaiKhenThuong != null ? (int)a.ID_LoaiKhenThuong : 0,
                            NoiDungKhenThuong = a.NoiDungKhenThuong,
                            SoQuyetDinh = a.SoQuyetDinh,
-                           NgayQuyetDinh = (DateTime) a.NgayQuyetDinh,
-                           GiaTriLamLoi = a.GiaTriLamLoi != null ? (decimal) a.GiaTriLamLoi : 0,
-                           TongTienThuong = a.TongTienThuong != null ? (decimal) a.TongTienThuong : 0,
-                           LoaiKhenThuong = db.KT_LoaiThuong.Where(x => x.ID_Loai == a.ID_LoaiKhenThuong).FirstOrDefault().TenLoaiThuong
+                           NgayQuyetDinh = (DateTime)a.NgayQuyetDinh,
+                           GiaTriLamLoi = a.GiaTriLamLoi != null ? (decimal)a.GiaTriLamLoi : 0,
+                           TongTienThuong = a.TongTienThuong != null ? (decimal)a.TongTienThuong : 0,
+                           LoaiKhenThuong = db.KT_LoaiThuong.Where(x => x.ID_Loai == a.ID_LoaiKhenThuong).FirstOrDefault().TenLoaiThuong,
+                           BannerBase64 = a.BannerImageBase64
                        });
 
             if (IDND != 0) res = res.Where(a => a.ID == IDND);
 
-            List<KT_NoiDungThuong> dt = db.KT_NoiDungThuong.ToList();
-            // dropdown
             ViewBag.IDND = new SelectList(db.KT_NoiDungThuong, "ID", "NoiDungKhenThuong");
 
             int pageSize = 20;
             int pageNumber = (page ?? 1);
+
+            if (highlightID.HasValue)
+            {
+                var list = res.OrderBy(a => a.ID).ToList();
+                int index = list.FindIndex(x => x.ID == highlightID.Value);
+                if (index >= 0)
+                {
+                    pageNumber = (index / pageSize) + 1;
+                    ViewBag.HighlightID = highlightID.Value;
+                }
+            }
 
             return View(res.OrderBy(a => a.ID).ToPagedList(pageNumber, pageSize));
         }
@@ -74,24 +85,34 @@ namespace E_Learning.Controllers.KhenThuong
         {
             try
             {
+                var binaryReader = new BinaryReader(DTO.BannerUpload.InputStream);
+                byte[] fileData = binaryReader.ReadBytes(DTO.BannerUpload.ContentLength);
+                string base64Data = Convert.ToBase64String(fileData);
+                string fullBase64Image = $"data:{DTO.BannerUpload.ContentType};base64,{base64Data}";
+
                 var data = new KT_NoiDungThuong()
                 {
                     SoQuyetDinh = DTO.SoQuyetDinh,
                     NoiDungKhenThuong = DTO.NoiDungKhenThuong,
                     ID_LoaiKhenThuong = DTO.IDLoaiKhenThuong,
-                    NgayQuyetDinh = DTO.NgayQuyetDinh
+                    NgayQuyetDinh = DTO.NgayQuyetDinh,
+                    BannerImage = fileData,
+                    BannerImageBase64 = fullBase64Image,
+                    GiaTriLamLoi = DTO.GiaTriLamLoi,
+                    TongTienThuong = DTO.TongTienThuong
                 };
 
                 db.KT_NoiDungThuong.Add(data);
-
                 db.SaveChanges();
+
                 TempData["msgSuccess"] = "<script>alert('Thêm mới thành công');</script>";
-            } catch (Exception ex)
+                return RedirectToAction("Index", "RewardContent", new { highlightID = data.ID });
+            }
+            catch (Exception ex)
             {
                 TempData["msgError"] = "<script>alert('Có lỗi khi thêm mới: " + ex.Message + "');</script>";
+                return RedirectToAction("Index", "RewardContent");
             }
-            
-            return RedirectToAction("Index", "RewardContent");
         }
 
         public ActionResult Edit(int id)
@@ -105,10 +126,12 @@ namespace E_Learning.Controllers.KhenThuong
             var data = db.KT_NoiDungThuong.Where(x => x.ID == id).SingleOrDefault();
             var DTO = new NoiDungKhenThuongDTO()
             {
-                NoiDungKhenThuong = data.NoiDungKhenThuong,
-                SoQuyetDinh = data.SoQuyetDinh,
+                NoiDungKhenThuong = data.NoiDungKhenThuong != null ? data.NoiDungKhenThuong : "",
+                SoQuyetDinh = data.SoQuyetDinh != null ? data.SoQuyetDinh : "",
+                BannerBase64 = data.BannerImageBase64,
                 NgayQuyetDinh = data.NgayQuyetDinh,
-                IDLoaiKhenThuong = (int) data.ID_LoaiKhenThuong
+                GiaTriLamLoi = data.GiaTriLamLoi != null ? data.GiaTriLamLoi : 0,
+                TongTienThuong = data.TongTienThuong != null ? data.TongTienThuong : 0
             };
             List<KT_LoaiThuong> listLoaiThuong = db.KT_LoaiThuong.ToList();
             ViewBag.LoaiThuong = new SelectList(listLoaiThuong, "ID_Loai", "TenLoaiThuong", data.ID_LoaiKhenThuong);
@@ -125,19 +148,40 @@ namespace E_Learning.Controllers.KhenThuong
                 data.NoiDungKhenThuong = DTO.NoiDungKhenThuong;
                 data.SoQuyetDinh = DTO.SoQuyetDinh;
                 data.NgayQuyetDinh = DTO.NgayQuyetDinh;
-                data.ID_LoaiKhenThuong = DTO.IDLoaiKhenThuong;
+                data.GiaTriLamLoi = DTO.GiaTriLamLoi;
+                data.TongTienThuong = DTO.TongTienThuong;
+
+                var dataKT_DanhSachKhenThuong = db.KT_DanhSachKhenThuong.Where(x => x.ID_NoiDungThuong == DTO.ID).ToList();
+
+                foreach (var item in dataKT_DanhSachKhenThuong)
+                {
+                    item.Nam = DTO.NgayQuyetDinh.Value.Year;
+                    item.Thang = DTO.NgayQuyetDinh.Value.Month;
+                    item.NoiDungKhenThuong = DTO.NoiDungKhenThuong;
+                }
+
+                if (DTO.BannerUpload != null && DTO.BannerUpload.ContentLength > 0)
+                {
+                    using (var binaryReader = new BinaryReader(DTO.BannerUpload.InputStream))
+                    {
+                        data.BannerImage = binaryReader.ReadBytes(DTO.BannerUpload.ContentLength);
+
+                        string base64String = "data:" + DTO.BannerUpload.ContentType + ";base64," + Convert.ToBase64String(data.BannerImage);
+                        data.BannerImageBase64 = base64String;
+                    }
+                }
 
                 db.SaveChanges();
-                TempData["msgSuccess"] = "<script>alert('Cập nhập thành công');</script>";
+                TempData["msgSuccess"] = "<script>alert('Cập nhật thành công');</script>";
+                return RedirectToAction("Index", "RewardContent", new { highlightID = data.ID });
             }
             catch (Exception e)
             {
-                TempData["msgSuccess"] = "<script>alert('Cập nhập thất bại " + e.Message + " ');</script>";
+                TempData["msgSuccess"] = "<script>alert('Cập nhật thất bại " + e.Message + " ');</script>";
             }
 
             return RedirectToAction("Index", "RewardContent");
         }
-
         public ActionResult Delete(int id)
         {
             try
