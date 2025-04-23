@@ -97,16 +97,17 @@ namespace E_Learning.Controllers.KhenThuong
                                       select new NoiDungKhenThuongDTO
                                       {
                                           NoiDungKhenThuong = nd.NoiDungKhenThuong,
-                                          BannerBase64 = nd.BannerImageBase64,
-                                          DonVi = ds.DonVi
+                                          //BannerBase64 = nd.BannerImageBase64,
+                                          DonVi = ds.DonVi,
+                                          BannerImage = nd.BannerImage
                                       }).ToList();
 
             var khenThuongThang = khenThuongThangRaw
-                .GroupBy(x => new { x.NoiDungKhenThuong, x.BannerBase64 })
+                .GroupBy(x => new { x.NoiDungKhenThuong, x.BannerImage})
                 .Select(g => new NoiDungKhenThuongDTO
                 {
                     NoiDungKhenThuong = g.Key.NoiDungKhenThuong,
-                    BannerBase64 = g.Key.BannerBase64,
+                    BannerImage = g.Key.BannerImage,
                     DonVi = string.Join(", ", g
                                 .Select(x => x.DonVi)
                                 .Where(dv => !string.IsNullOrEmpty(dv))
@@ -135,16 +136,17 @@ namespace E_Learning.Controllers.KhenThuong
                                      select new NoiDungKhenThuongDTO
                                      {
                                          NoiDungKhenThuong = ds.NoiDungKhenThuong,
-                                         BannerBase64 = ds.BannerImageBase64,
-                                         DonVi = nd.DonVi
+                                         //BannerBase64 = ds.BannerImageBase64,
+                                         DonVi = nd.DonVi,
+                                         BannerImage = ds.BannerImage
                                      }).ToList();
 
             var khenThuongTuan = khenThuongTuanRaw
-                .GroupBy(x => new { x.NoiDungKhenThuong, x.BannerBase64 })
+                .GroupBy(x => new { x.NoiDungKhenThuong, x.BannerImage })
                 .Select(g => new NoiDungKhenThuongDTO
                 {
                     NoiDungKhenThuong = g.Key.NoiDungKhenThuong,
-                    BannerBase64 = g.Key.BannerBase64,
+                    BannerImage = g.Key.BannerImage,
                     DonVi = string.Join(", ", g
                                 .Select(x => x.DonVi)
                                 .Where(dv => !string.IsNullOrEmpty(dv))

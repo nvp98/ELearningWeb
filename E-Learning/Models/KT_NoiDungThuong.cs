@@ -23,7 +23,6 @@ namespace E_Learning.Models
         public Nullable<int> Thang { get; set; }
         public Nullable<decimal> GiaTriLamLoi { get; set; }
         public Nullable<decimal> TongTienThuong { get; set; }
-        public byte[] BannerImage { get; set; }
-        public string BannerImageBase64 { get; set; }
+        public string BannerImage { get; set; }
     }
 }

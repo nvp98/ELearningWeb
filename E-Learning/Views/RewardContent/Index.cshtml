@@ -110,16 +110,17 @@
                                     <td class="">@item.SoQuyetDinh</td>
                                     <td>@(item.NgayQuyetDinh != null ? item.NgayQuyetDinh.Value.ToString("dd-MM-yyyy") : "")</td>
                                     <td>
-                                        @if (!string.IsNullOrEmpty(item.BannerBase64))
+                                        @if (!string.IsNullOrEmpty(item.BannerImage))
                                         {
-                                            <img src="@item.BannerBase64" style="width: 100px; height: auto;" />
+                                            <img src="@Url.Content(item.BannerImage)" style="width: 100px; height: auto;" />
                                         }
                                     </td>
+
                                     <td class="text-center">
                                         @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL))
                                         {
                                             <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "RewardContent", new { id = item.ID })"
-                                               onclick="return confirm('Bạn muốn xóa : @item.NoiDungKhenThuong')">
+                                               onclick="return confirm('Bạn muốn xóa: @item.NoiDungKhenThuong')">
                                             </a>
                                         }
                                         @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))

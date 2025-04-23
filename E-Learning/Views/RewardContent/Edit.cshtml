@@ -28,10 +28,10 @@
                             @Html.ValidationMessageFor(model => model.NoiDungKhenThuong, "", new { @class = "text-danger" })
                         </div>
                         @*<div class="form-group col-md-4 " style="display:grid">
-                            <label class="mb-1">Số quyết định</label>
-                            @Html.TextAreaFor(model => model.SoQuyetDinh, new { @class = "form-control", @rows = 1, placeholder = "Số quyết định", @id = "SoQD", })
-                            @Html.ValidationMessageFor(model => model.SoQuyetDinh, "", new { @class = "text-danger" })
-                        </div>*@
+            <label class="mb-1">Số quyết định</label>
+            @Html.TextAreaFor(model => model.SoQuyetDinh, new { @class = "form-control", @rows = 1, placeholder = "Số quyết định", @id = "SoQD", })
+            @Html.ValidationMessageFor(model => model.SoQuyetDinh, "", new { @class = "text-danger" })
+        </div>*@
                         <div class="form-group col-md-4">
                             <label class="mb-1">Số tiền khen thưởng</label>
                             <div class="input-group">
@@ -70,16 +70,17 @@
 
                         <div class="form-group col-md-4" style="display: grid">
                             <label class="mb-1">Chọn ảnh banner</label>
-                            <input type="file" name="BannerUpload" class="form-control" />
+                            <input type="file" name="BannerUpload" class="form-control" accept="image/*" />
                         </div>
 
-                        @if (Model.BannerBase64 != null)
+                        @if (!string.IsNullOrEmpty(Model.BannerImage))
                         {
                             <div class="form-group">
                                 <label>Banner hiện tại:</label><br />
-                                <img src="@Model.BannerBase64" style="max-height:200px;" />
+                                <img src="@Url.Content(Model.BannerImage)" style="max-height:200px;" />
                             </div>
                         }
+
 
                     </div>
                     &nbsp;

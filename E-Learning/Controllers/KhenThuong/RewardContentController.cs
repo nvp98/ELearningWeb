@@ -40,7 +40,7 @@ namespace E_Learning.Controllers.KhenThuong
                            GiaTriLamLoi = a.GiaTriLamLoi != null ? (decimal)a.GiaTriLamLoi : 0,
                            TongTienThuong = a.TongTienThuong != null ? (decimal)a.TongTienThuong : 0,
                            LoaiKhenThuong = db.KT_LoaiThuong.Where(x => x.ID_Loai == a.ID_LoaiKhenThuong).FirstOrDefault().TenLoaiThuong,
-                           BannerBase64 = a.BannerImageBase64
+                           BannerImage = a.BannerImage
                        });
 
             if (IDND != 0) res = res.Where(a => a.ID == IDND);
@@ -85,33 +85,43 @@ namespace E_Learning.Controllers.KhenThuong
         {
             try
             {
-                var binaryReader = new BinaryReader(DTO.BannerUpload.InputStream);
-                byte[] fileData = binaryReader.ReadBytes(DTO.BannerUpload.ContentLength);
-                string base64Data = Convert.ToBase64String(fileData);
-                string fullBase64Image = $"data:{DTO.BannerUpload.ContentType};base64,{base64Data}";
+                string fileName = null;
 
-                var data = new KT_NoiDungThuong()
+                if (DTO.BannerUpload != null && DTO.BannerUpload.ContentLength > 0)
+                {
+                    string folderPath = Server.MapPath("~/Uploads/Banners/");
+                    if (!Directory.Exists(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath);
+                    }
+
+                    fileName = Guid.NewGuid().ToString() + Path.GetExtension(DTO.BannerUpload.FileName);
+                    string fullPath = Path.Combine(folderPath, fileName);
+
+                    DTO.BannerUpload.SaveAs(fullPath);
+                }
+
+                var data = new KT_NoiDungThuong
                 {
                     SoQuyetDinh = DTO.SoQuyetDinh,
                     NoiDungKhenThuong = DTO.NoiDungKhenThuong,
                     ID_LoaiKhenThuong = DTO.IDLoaiKhenThuong,
                     NgayQuyetDinh = DTO.NgayQuyetDinh,
-                    BannerImage = fileData,
-                    BannerImageBase64 = fullBase64Image,
                     GiaTriLamLoi = DTO.GiaTriLamLoi,
-                    TongTienThuong = DTO.TongTienThuong
+                    TongTienThuong = DTO.TongTienThuong,
+                    BannerImage = fileName != null ? "/Uploads/Banners/" + fileName : null
                 };
 
                 db.KT_NoiDungThuong.Add(data);
                 db.SaveChanges();
 
                 TempData["msgSuccess"] = "<script>alert('Thêm mới thành công');</script>";
-                return RedirectToAction("Index", "RewardContent", new { highlightID = data.ID });
+                return RedirectToAction("Index", new { highlightID = data.ID });
             }
             catch (Exception ex)
             {
-                TempData["msgError"] = "<script>alert('Có lỗi khi thêm mới: " + ex.Message + "');</script>";
-                return RedirectToAction("Index", "RewardContent");
+                TempData["msgError"] = "<script>alert('Lỗi khi thêm mới: " + ex.Message + "');</script>";
+                return RedirectToAction("Index");
             }
         }
 
@@ -128,10 +138,11 @@ namespace E_Learning.Controllers.KhenThuong
             {
                 NoiDungKhenThuong = data.NoiDungKhenThuong != null ? data.NoiDungKhenThuong : "",
                 SoQuyetDinh = data.SoQuyetDinh != null ? data.SoQuyetDinh : "",
-                BannerBase64 = data.BannerImageBase64,
+                //BannerBase64 = data.BannerImageBase64,
                 NgayQuyetDinh = data.NgayQuyetDinh,
                 GiaTriLamLoi = data.GiaTriLamLoi != null ? data.GiaTriLamLoi : 0,
-                TongTienThuong = data.TongTienThuong != null ? data.TongTienThuong : 0
+                TongTienThuong = data.TongTienThuong != null ? data.TongTienThuong : 0,
+                BannerImage = data.BannerImage
             };
             List<KT_LoaiThuong> listLoaiThuong = db.KT_LoaiThuong.ToList();
             ViewBag.LoaiThuong = new SelectList(listLoaiThuong, "ID_Loai", "TenLoaiThuong", data.ID_LoaiKhenThuong);
@@ -144,31 +155,54 @@ namespace E_Learning.Controllers.KhenThuong
         {
             try
             {
-                var data = db.KT_NoiDungThuong.Where(x => x.ID == DTO.ID).SingleOrDefault();
+                var data = db.KT_NoiDungThuong.SingleOrDefault(x => x.ID == DTO.ID);
+                if (data == null)
+                {
+                    TempData["msgError"] = "<script>alert('Không tìm thấy dữ liệu để cập nhật');</script>";
+                    return RedirectToAction("Index", "RewardContent");
+                }
+
                 data.NoiDungKhenThuong = DTO.NoiDungKhenThuong;
                 data.SoQuyetDinh = DTO.SoQuyetDinh;
                 data.NgayQuyetDinh = DTO.NgayQuyetDinh;
                 data.GiaTriLamLoi = DTO.GiaTriLamLoi;
                 data.TongTienThuong = DTO.TongTienThuong;
 
-                var dataKT_DanhSachKhenThuong = db.KT_DanhSachKhenThuong.Where(x => x.ID_NoiDungThuong == DTO.ID).ToList();
+                var dataKT_DanhSachKhenThuong = db.KT_DanhSachKhenThuong
+                    .Where(x => x.ID_NoiDungThuong == DTO.ID)
+                    .ToList();
 
                 foreach (var item in dataKT_DanhSachKhenThuong)
                 {
-                    item.Nam = DTO.NgayQuyetDinh.Value.Year;
-                    item.Thang = DTO.NgayQuyetDinh.Value.Month;
+                    if (DTO.NgayQuyetDinh.HasValue)
+                    {
+                        item.Nam = DTO.NgayQuyetDinh.Value.Year;
+                        item.Thang = DTO.NgayQuyetDinh.Value.Month;
+                    }
                     item.NoiDungKhenThuong = DTO.NoiDungKhenThuong;
                 }
 
                 if (DTO.BannerUpload != null && DTO.BannerUpload.ContentLength > 0)
                 {
-                    using (var binaryReader = new BinaryReader(DTO.BannerUpload.InputStream))
+                    string folderPath = Server.MapPath("~/Uploads/Banners/");
+                    if (!Directory.Exists(folderPath))
                     {
-                        data.BannerImage = binaryReader.ReadBytes(DTO.BannerUpload.ContentLength);
-
-                        string base64String = "data:" + DTO.BannerUpload.ContentType + ";base64," + Convert.ToBase64String(data.BannerImage);
-                        data.BannerImageBase64 = base64String;
+                        Directory.CreateDirectory(folderPath);
                     }
+
+                    if (!string.IsNullOrEmpty(data.BannerImage))
+                    {
+                        string oldImagePath = Server.MapPath(data.BannerImage);
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(DTO.BannerUpload.FileName);
+                    string fullPath = Path.Combine(folderPath, fileName);
+                    DTO.BannerUpload.SaveAs(fullPath);
+                    data.BannerImage = "/Uploads/Banners/" + fileName;
                 }
 
                 db.SaveChanges();
@@ -177,11 +211,11 @@ namespace E_Learning.Controllers.KhenThuong
             }
             catch (Exception e)
             {
-                TempData["msgSuccess"] = "<script>alert('Cập nhật thất bại " + e.Message + " ');</script>";
+                TempData["msgError"] = "<script>alert('Cập nhật thất bại: " + e.Message + "');</script>";
+                return RedirectToAction("Index", "RewardContent");
             }
-
-            return RedirectToAction("Index", "RewardContent");
         }
+
         public ActionResult Delete(int id)
         {
             try
