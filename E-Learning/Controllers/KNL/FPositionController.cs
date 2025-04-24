@@ -4742,7 +4742,7 @@ namespace E_Learning.Controllers
             var res = new FExportKNLValidation();
             var vt = db.VitriKNL_searchByIDVT(IDVT).FirstOrDefault();
 
-            var FKNL = (from a in db.KhungNangLuc_SearchByIDVT(IDVT).Where(x=>x.IsDuyet == null)
+            var FKNL = (from a in db.KhungNangLuc_SearchByIDVT(IDVT).Where(x=>x.IsDuyet == 1)
                        select new FValueValidation
                        {
                            IDNL = a.IDNL,
