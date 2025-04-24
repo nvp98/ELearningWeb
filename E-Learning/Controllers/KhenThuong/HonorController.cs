@@ -255,11 +255,11 @@ namespace E_Learning.Controllers.KhenThuong
                 .FirstOrDefault();
 
             var tongTienThuongVaLamLoi = _context.KT_NoiDungThuong
-                .Where(x => x.NgayQuyetDinh.HasValue && x.NgayQuyetDinh.Value.Year == year)
+                .Where(x => x.Nam == year)
                 .GroupBy(x => 1)
                 .Select(g => new
                 {
-                    TongGiaTriLamLoi = Math.Round(g.Sum(x => x.GiaTriLamLoi ?? 0) / (decimal) 1_000_000.0, 0),
+                    TongGiaTriLamLoi = Math.Round(g.Sum(x => x.GiaTriLamLoi ?? 0) / (decimal) 1_000_000_000.0, 0),
                     TongSoTienThuong = Math.Round(g.Sum(x => x.TongTienThuong ?? 0) / (decimal) 1_000_000.0, 0),
                 })
                 .FirstOrDefault();
@@ -285,7 +285,8 @@ namespace E_Learning.Controllers.KhenThuong
                 .Select(g => new
                 {
                     DonVi = g.Key,
-                    SoLuong = g.Count()
+                    SoLuong = g.Select(x => x.NoiDungKhenThuong).Distinct().Count()
+                    //SoLuong = g.Distinct().Count()
                 })
                 .OrderByDescending(g => g.SoLuong)
                 .ToList();
@@ -333,7 +334,7 @@ namespace E_Learning.Controllers.KhenThuong
                 .FirstOrDefault();
 
             var data_02 = _context.KT_NoiDungThuong
-                .Where(x => x.NgayQuyetDinh.HasValue && x.NgayQuyetDinh.Value.Year == year)
+                .Where(x => x.Nam == year)
                 .GroupBy(x => 1)
                 .Select(g => new
                 {
@@ -343,10 +344,10 @@ namespace E_Learning.Controllers.KhenThuong
 
             var data = new
             {
-                individuals = data_01.soCaNhanDuocThuong,
-                teams = data_01.soTapTheDuocThuong,
-                contents = data_01.soDeTaiDuocThuong,
-                bonus = data_02.tongSoTienThuong
+                individuals = data_01?.soCaNhanDuocThuong ?? 0,
+                teams = data_01?.soTapTheDuocThuong ?? 0,
+                contents = data_01?.soDeTaiDuocThuong ?? 0,
+                bonus = data_02?.tongSoTienThuong ?? 0
             };
 
             return Json(data, JsonRequestBehavior.AllowGet);

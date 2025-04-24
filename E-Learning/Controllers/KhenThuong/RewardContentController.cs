@@ -107,6 +107,8 @@ namespace E_Learning.Controllers.KhenThuong
                     NoiDungKhenThuong = DTO.NoiDungKhenThuong,
                     ID_LoaiKhenThuong = DTO.IDLoaiKhenThuong,
                     NgayQuyetDinh = DTO.NgayQuyetDinh,
+                    Nam = DTO.NgayQuyetDinh.Value.Year,
+                    Thang = DTO.NgayQuyetDinh.Value.Month,
                     GiaTriLamLoi = DTO.GiaTriLamLoi,
                     TongTienThuong = DTO.TongTienThuong,
                     BannerImage = fileName != null ? "/Uploads/Banners/" + fileName : null
@@ -165,6 +167,8 @@ namespace E_Learning.Controllers.KhenThuong
                 data.NoiDungKhenThuong = DTO.NoiDungKhenThuong;
                 data.SoQuyetDinh = DTO.SoQuyetDinh;
                 data.NgayQuyetDinh = DTO.NgayQuyetDinh;
+                data.Nam = DTO.NgayQuyetDinh.Value.Year;
+                data.Thang = DTO.NgayQuyetDinh.Value.Month;
                 data.GiaTriLamLoi = DTO.GiaTriLamLoi;
                 data.TongTienThuong = DTO.TongTienThuong;
 
