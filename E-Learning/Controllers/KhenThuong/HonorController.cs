@@ -176,7 +176,6 @@ namespace E_Learning.Controllers.KhenThuong
             var tongDonViThuongThang = tongQuanKhenThuongThang.Where(x => x.DonVi != null).Select(x => x.DonVi).Distinct().Count();
             //var tongGiaTriThuongThang = tongQuanKhenThuongThang.ToList().Sum(x => x.GiaTriThuong ?? 0);
 
-
             var tongGiaTriThuongThang = _context.KT_NoiDungThuong
                 .Where(x => x.NgayQuyetDinh.HasValue &&
                             x.NgayQuyetDinh.Value.Month == currentMonth &&
@@ -213,31 +212,12 @@ namespace E_Learning.Controllers.KhenThuong
                             x.NgayQuyetDinh < endOfWeek)
                 .Sum(x => (decimal?)x.TongTienThuong) ?? 0;
 
-
             ViewBag.TongNoiDungThuongTuan = tongNoiDungThuongTuan;
             ViewBag.TongNhanVienThuongTuan = tongNhanVienThuongTuan;
             ViewBag.TongDonViThuongTuan = tongDonViThuongTuan;
             ViewBag.TongGiaTriThuongTuan = tongGiaTriThuongTuan.ToString("N0"); ;
 
-
             return View();
-        }
-
-        [HttpGet]
-        public JsonResult GetOverviewByYear_(int year)
-        {
-            var data = _context.KT_DanhSachKhenThuong
-                .Where(x => x.Nam == year)
-                .GroupBy(x => x.Nam)
-                .Select(g => new
-                {
-                    TongSoDeTai = g.Select(x => x.NoiDungKhenThuong).Distinct().Count(),
-                    SoCaNhanKhenThuong = g.Where(x => x.MNV != null).Select(x => x.MNV).Distinct().Count(),
-                    SoDonViKhenThuong = g.Where(x => x.DonVi != null).Select(x => x.DonVi).Distinct().Count()
-                })
-                .FirstOrDefault();
-
-            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -306,17 +286,26 @@ namespace E_Learning.Controllers.KhenThuong
         [HttpGet]
         public JsonResult GetAchievements()
         {
-            var data = _context.KT_DanhSachKhenThuong.Select(x => new
-            {
-                id = x.MNV,
-                name = x.HoTen,
-                department = x.DonVi,
-                project = x.NoiDungKhenThuong,
-                reward = "Có đổi mới sáng tạo",
-                year = x.Nam.ToString()
-            }).Where(x => x.id != null).ToList();
+            var rawData = _context.KT_DanhSachKhenThuong
+                .Where(x => x.MNV != null)
+                .Select(x => new
+                {
+                    id = x.MNV,
+                    name = x.HoTen,
+                    department = x.DonVi,
+                    project = x.NoiDungKhenThuong,
+                    reward = "Có đổi mới sáng tạo",
+                    year = x.Nam.ToString()
+                })
+                .ToList();
 
-            return Json(data, JsonRequestBehavior.AllowGet);
+            var dataWithStt = rawData
+                .Select((item, index) => new { STT = index + 1, Data = item })
+                .OrderByDescending(x => x.STT)
+                .Select(x => x.Data)
+                .ToList();
+
+            return Json(dataWithStt, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
