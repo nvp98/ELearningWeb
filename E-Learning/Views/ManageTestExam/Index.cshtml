@@ -122,9 +122,9 @@
                                                     $("#btn-edit_@item.IDDeThi").click(function () {
                                                         var url = $('#myModale_@item.IDDeThi').data('url');
                                                         $.get(url, function (data) {
-                                                            $("#myModal").html(data);
+                                                            $('#myModale_@item.IDDeThi').html(data);
                                                             $("#ModalTitle").html("Cập nhật Đề Thi");
-                                                            $("#myModal").modal('show');
+                                                            $('#myModale_@item.IDDeThi').modal('show');
                                                         });
                                                     });
                                                     </script>
