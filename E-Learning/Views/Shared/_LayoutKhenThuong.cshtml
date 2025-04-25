@@ -264,20 +264,36 @@
             <div class="col-lg-6 col-md-6 mb-4">
                 <div class="top3-section">
                     <h5 class="top3-title">Bảng xếp hạng Cá nhân</h5>
-                    <div class="top3-items">
-                        @for (int i = 0; i < top3.Count; i++)
+                    @{
+                        var hinhAnhCaNhanMap = ViewBag.HinhAnhCaNhanMap as Dictionary<string, string>;
+                    }
+                <div class="top3-items">
+                    @for (int i = 0; i < top3.Count; i++)
+                    {
+                        var item = top3[i];
+                        var topClass = i == 0 ? "top1" : (i == 1 ? "top2" : "top3");
+
+                        string avatarPath = "~/Content/assets/images/avt-default.png";
+                        var key = item.MNV?.Trim().ToLower();
+
+                        if (!string.IsNullOrEmpty(key) && hinhAnhCaNhanMap != null && hinhAnhCaNhanMap.ContainsKey(key))
                         {
-                            var item = top3[i];
-                            var topClass = i == 0 ? "top1" : (i == 1 ? "top2" : "top3");
-                            <div class="top-item @topClass">
-                                <div class="top-badge">@((i + 1))</div>
-                                <img src="~/Content/assets/images/avt-default.png" class="top-avatar" alt="Top @(i+1)">
-                                <h6 class="top-name">@item.HoTen</h6>
-                                <p class="top-unit">@item.DonVi</p>
-                                <p class="top-project">@item.SoLuongDeTai Đề tài</p>
-                            </div>
+                            avatarPath = Url.Content(hinhAnhCaNhanMap[key]);
                         }
-                    </div>
+                        else
+                        {
+                            avatarPath = Url.Content(avatarPath);
+                        }
+
+                        <div class="top-item @topClass">
+                            <div class="top-badge">@((i + 1))</div>
+                            <img src="@avatarPath" class="top-avatar" alt="Top @(i+1)">
+                            <h6 class="top-name">@item.HoTen</h6>
+                            <p class="top-unit">@item.DonVi</p>
+                            <p class="top-project">@item.SoLuongDeTai Đề tài</p>
+                        </div>
+                    }
+                </div>
                     <div class="ranking-container_">
                         <div id="individual-ranking" class="ranking-content">
                             <table class="ranking-table">
@@ -293,11 +309,23 @@
                                 <tbody>
                                     @foreach (var item in conLai)
                                     {
+                                        var key = item.MNV?.Trim().ToLower();
+                                        string avatarPath = "~/Content/assets/images/avt-default.png";
+
+                                        if (!string.IsNullOrEmpty(key) && hinhAnhCaNhanMap != null && hinhAnhCaNhanMap.ContainsKey(key))
+                                        {
+                                            avatarPath = Url.Content(hinhAnhCaNhanMap[key]);
+                                        }
+                                        else
+                                        {
+                                            avatarPath = Url.Content(avatarPath);
+                                        }
+
                                         <tr>
                                             <td>@stt</td>
                                             <td>@item.MNV</td>
                                             <td class="ranking-name">
-                                                <img src="~/Content/assets/images/avt-default.png" class="ranking-avatar" alt="Avatar" />
+                                                <img src="@avatarPath" class="ranking-avatar" alt="Avatar" />
                                                 @item.HoTen
                                             </td>
                                             <td>@item.DonVi</td>
@@ -321,90 +349,82 @@
             <div class="col-lg-6 col-md-6 mb-4">
                 <div class="top3-section">
                     <h5 class="top3-title">Bảng xếp hạng Đơn vị</h5>
-                    <div class="top3-items">
-
-
-                        @for (int i = 0; i < top3DonVi.Count; i++)
+                    @{
+                        var hinhAnhMap = ViewBag.HinhAnhMap as Dictionary<string, string>;
+                    }
+                    @functions {
+                        public string NormalizeKey(string input)
                         {
-                            var item = top3DonVi[i];
-                            var topClass = i == 0 ? "top1" : (i == 1 ? "top2" : "top3");
-                            var path = i == 0 ? "/Content/assets/images/avatars/BCNTT.png" : (i == 1 ? "/Content/assets/images/avatars/CD2.png" : "/Content/assets/images/avatars/NMND.png");
-                            <div class="top-item @topClass">
-                                <div class="top-badge">@((i + 1))</div>
-                                <img src="@path" class="top-avatar" alt="Top @(i+1)">
-                                <h6 class="top-name">@item.DonVi</h6>
-                                <p class="top-unit">@item.SoLuongDeTai</p>
-                                <p class="top-project">Đề tài</p>
-                            </div>
+                            if (string.IsNullOrWhiteSpace(input)) return "";
+                            return input.Trim()
+                                        .Replace("Ð", "Đ")
+                                        .Replace(".", "")
+                                        .Replace(" ", "")
+                                        .ToLowerInvariant();
                         }
+                    }
+                <div class="top3-items">
+                    @for (int i = 0; i < top3DonVi.Count; i++)
+                    {
+                        var item = top3DonVi[i];
+                        var topClass = i == 0 ? "top1" : (i == 1 ? "top2" : "top3");
 
-
-
-                        <!-- Top 2 -->
-                        <!--<div class="top-item top2">
-                            <div class="top-badge">2</div>
-                            <img src="~/Content/assets/images/avatars/BCNTT.png" class="top-avatar" alt="Top 2">
-                            <h6 class="top-name">P. CNTT & CĐS</h6>
-                            <p class="top-unit">10</p>
+                        var normalizedKey = NormalizeKey(item.DonVi);
+                        var path = hinhAnhMap.ContainsKey(normalizedKey)
+                            ? Url.Content(hinhAnhMap[normalizedKey])
+                            : Url.Content("~/Content/assets/images/avatars/default.png");
+                        <div class="top-item @topClass">
+                            <div class="top-badge">@((i + 1))</div>
+                            <img src="@path" class="top-avatar" alt="Top @(i+1)">
+                            <h6 class="top-name">@item.DonVi</h6>
+                            <p class="top-unit">@item.SoLuongDeTai</p>
                             <p class="top-project">Đề tài</p>
-                        </div>-->
-                        <!-- Top 1 -->
-                        <!--<div class="top-item top1">
-                            <div class="top-badge">1</div>
-                            <img src="~/Content/assets/images/avatars/CD2.png" class="top-avatar" alt="Top 1">
-                            <h6 class="top-name">NM. CĐ2</h6>
-                            <p class="top-unit">11</p>
-                            <p class="top-project">Đề tài</p>
-                        </div>-->
-                        <!-- Top 3 -->
-                        <!--<div class="top-item top3">
-                            <div class="top-badge">3</div>
-                            <img src="~/Content/assets/images/avatars/NMND.png" class="top-avatar" alt="Top 3">
-                            <h6 class="top-name">NM. CĐ3</h6>
-                            <p class="top-unit">9</p>
-                            <p class="top-project">Đề tài</p>
-                        </div>-->
-                    </div>
-
-
-                    <div class="ranking-container_">
-                        <!-- <h5 class="top3-title">BXH Đơn vị</h5> -->
-
-                        <div id="collective-ranking" class="ranking-content">
-                            <table class="ranking-table">
-                                <thead>
-                                    <tr>
-                                        <th>STT</th>
-                                        <th>Đơn vị</th>
-                                        <th>Số đề tài</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @foreach (var item in conLaiDonVi)
-                                    {
-                                        <tr>
-                                            <td>@sttDonVi</td>
-                                            <td class="ranking-name">
-                                                <img src="~/Content/assets/images/avatars/BCNTT.png" class="ranking-avatar" alt="Avatar" />
-                                                @item.DonVi
-                                            </td>
-                                            <td>@item.SoLuongDeTai</td>
-                                        </tr>
-                                        sttDonVi++;
-                                    }
-                                </tbody>
-                            </table>
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination" id="collective-pagination">
-                                    @*<li class="page-item active"><a class="page-link" href="#" onclick="changePage(event, 'collective', 1)">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#" onclick="changePage(event, 'collective', 2)">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#" onclick="changePage(event, 'collective', 3)">3</a></li>*@
-                                </ul>
-                            </nav>
                         </div>
+                    }
+                </div>
 
+                <div class="ranking-container_">
+                    <!-- <h5 class="top3-title">BXH Đơn vị</h5> -->
+
+                    <div id="collective-ranking" class="ranking-content">
+                        <table class="ranking-table">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Đơn vị</th>
+                                    <th>Số đề tài</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in conLaiDonVi)
+                                {
+                                    var normalizedKey = NormalizeKey(item.DonVi);
+                                    var avatarPath = hinhAnhMap != null && hinhAnhMap.ContainsKey(normalizedKey)
+                                        ? Url.Content(hinhAnhMap[normalizedKey])
+                                        : Url.Content("~/Content/assets/images/avatars/default.png");
+
+                                    <tr>
+                                        <td>@sttDonVi</td>
+                                        <td class="ranking-name">
+                                            <img src="@avatarPath" class="ranking-avatar" alt="Avatar" />
+                                            @item.DonVi
+                                        </td>
+                                        <td>@item.SoLuongDeTai</td>
+                                    </tr>
+                                    sttDonVi++;
+                                }
+
+                            </tbody>
+                        </table>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination" id="collective-pagination">
+                                
+                            </ul>
+                        </nav>
                     </div>
+
+                </div>
 
                 </div>
             </div>

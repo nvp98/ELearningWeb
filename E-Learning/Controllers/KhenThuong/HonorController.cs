@@ -215,9 +215,38 @@ namespace E_Learning.Controllers.KhenThuong
             ViewBag.TongNoiDungThuongTuan = tongNoiDungThuongTuan;
             ViewBag.TongNhanVienThuongTuan = tongNhanVienThuongTuan;
             ViewBag.TongDonViThuongTuan = tongDonViThuongTuan;
-            ViewBag.TongGiaTriThuongTuan = tongGiaTriThuongTuan.ToString("N0"); ;
+            ViewBag.TongGiaTriThuongTuan = tongGiaTriThuongTuan.ToString("N0");
+
+            var hinhAnhs = _context.KT_HinhAnh
+                .Where(x => x.LoaiDoiTuong == "DonVi")
+                .ToList();
+
+            var hinhAnhDonViMap = hinhAnhs
+                .GroupBy(x => NormalizeKey(x.MaDoiTuong))
+                .ToDictionary(g => g.Key, g => g.First().AvatarPath);
+
+            ViewBag.HinhAnhMap = hinhAnhDonViMap;
+
+            var hinhAnhCaNhanMap = _context.KT_HinhAnh
+                .Where(h => h.LoaiDoiTuong == "CaNhan")
+                .ToDictionary(
+                    h => h.MaDoiTuong?.Trim().ToLower(),
+                    h => h.AvatarPath
+                );
+
+            ViewBag.HinhAnhCaNhanMap = hinhAnhCaNhanMap;
 
             return View();
+        }
+
+        private string NormalizeKey(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input)) return "";
+            return input.Trim()
+                        .Replace("Ð", "Đ")
+                        .Replace(".", "")
+                        .Replace(" ", "")
+                        .ToLowerInvariant();
         }
 
         [HttpGet]
