@@ -224,15 +224,30 @@ namespace E_Learning.Controllers.KhenThuong
         {
             try
             {
-                var data = db.KT_NoiDungThuong.Where(x => x.ID == id).SingleOrDefault();
-                db.KT_NoiDungThuong.Remove(data);
-                db.SaveChanges();
+                var data = db.KT_NoiDungThuong.SingleOrDefault(x => x.ID == id);
+                if (data != null)
+                {
+                    if (!string.IsNullOrEmpty(data.BannerImage))
+                    {
+                        var fullPath = Server.MapPath(data.BannerImage);
+                        if (System.IO.File.Exists(fullPath))
+                        {
+                            System.IO.File.Delete(fullPath);
+                        }
+                    }
+
+                    db.KT_NoiDungThuong.Remove(data);
+                    db.SaveChanges();
+                    TempData["msgSuccess"] = "<script>alert('Xóa thành công');</script>";
+                }
             }
             catch (Exception e)
             {
-                TempData["msgSuccess"] = "<script>alert('Xóa thất bại " + e.Message + " ');</script>";
+                TempData["msgSuccess"] = "<script>alert('Xóa thất bại: " + e.Message + "');</script>";
             }
+
             return RedirectToAction("Index", "RewardContent");
         }
+
     }
 }

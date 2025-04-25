@@ -636,26 +636,35 @@
                                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                                     </a>
                                 }
-                                <ul id="LSTK">
-                                    @if (ListControll.Contains("RewardContent"))
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Index", "RewardContent")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Question" ? "mm-active" : "")">
-                                                <i class=" pe-7s-note2">
-                                                </i>&nbsp;&nbsp; Nội dung khen thưởng
-                                            </a>
-                                        </li>
-                                    }
-                                    @if (ListControll.Contains("RewardType"))
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Index", "RewardType")" class=" font-weight-bold @(Context.Request.Path == "/RewardType" ? "mm-active" : "")">
-                                                <i class=" pe-7s-graph3">
-                                                </i>&nbsp;&nbsp; Danh sách khen thưởng
-                                            </a>
-                                        </li>
-                                    }
-                                </ul>
+                            <ul id="LSTK">
+                                @if (ListControll.Contains("RewardContent"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index", "RewardContent")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Question" ? "mm-active" : "")">
+                                            <i class=" pe-7s-note2">
+                                            </i>&nbsp;&nbsp; Nội dung khen thưởng
+                                        </a>
+                                    </li>
+                                }
+                                @if (ListControll.Contains("RewardType"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index", "RewardType")" class=" font-weight-bold @(Context.Request.Path == "/RewardType" ? "mm-active" : "")">
+                                            <i class=" pe-7s-graph3">
+                                            </i>&nbsp;&nbsp; Danh sách khen thưởng
+                                        </a>
+                                    </li>
+                                }
+                                @if (ListControll.Contains("RewardImage"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index", "RewardImage")" class=" font-weight-bold @(Context.Request.Path == "/RewardImage" ? "mm-active" : "")">
+                                            <i class=" pe-7s-graph3">
+                                            </i>&nbsp;&nbsp; Quản lý hình ảnh
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
                             </li>
 
                             @*@if (User.Identity.IsAuthenticated)
