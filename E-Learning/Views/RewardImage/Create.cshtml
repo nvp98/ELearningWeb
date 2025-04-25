@@ -1,0 +1,183 @@
+﻿@model E_Learning.ModelsQLKhenThuong.AvatarUpload
+@*<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+    <link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />*@
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<!-- jquery link -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+@Html.AntiForgeryToken()
+<div class="modal-dialog" style="max-width:800px" id="formF">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 id="ModalTitle"></h5>
+            <a href="#" class="close" data-dismiss="modal">&times;</a>
+        </div>
+        <div class="modal-body">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <form id="avatarForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Loại ảnh:</label><br />
+                    <label><input type="radio" name="LoaiDoiTuong" value="CaNhan" checked /> Cá nhân</label>
+                    <label class="ml-3"><input type="radio" name="LoaiDoiTuong" value="DonVi" /> Đơn vị</label>
+                </div>
+
+                <div id="caNhanSection">
+                    <div class="form-group">
+                        <label for="MaDoiTuong">Mã nhân viên:</label>
+                        <input type="text" name="MaDoiTuong" class="form-control" id="txtMaNhanVien" placeholder="Nhập mã nhân viên..." />
+                    </div>
+
+                    <button type="button" id="btnTaiDuLieuNV" class="btn btn-secondary mb-2">Tải dữ liệu</button>
+
+                    <div class="form-group">
+                        <label>Thông tin nhân viên:</label>
+                        <input type="text" id="txtThongTinNV" class="form-control" readonly />
+                    </div>
+                </div>
+
+                <div id="donViSection" style="display:none">
+                    <div class="form-group">
+                        <label for="MaDoiTuong">Chọn đơn vị:</label>
+                        <select id="ddlDonVi" name="MaDoiTuong" class="form-control">
+                            <option value="">-- Chọn đơn vị --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <input type="hidden" name="LoaiDoiTuong" id="hiddenLoaiDoiTuong" value="CaNhan" />
+
+                <div class="form-group">
+                    <label for="File">Chọn ảnh đại diện:</label>
+                    <input type="file" name="File" id="fileAvatar" accept="image/*" class="form-control" required />
+                    <div id="uploadResult" class="mt-2"></div>
+                    <img id="avatarPreview" src="" alt="Avatar Preview" style="max-height:150px; display:none;" />
+                </div>
+
+                <button type="button" id="btnSubmitAvatar" class="btn btn-primary mt-2">Lưu</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("input[name='LoaiDoiTuong']").change(function () {
+            var loai = $(this).val();
+            $("#hiddenLoaiDoiTuong").val(loai);
+
+            if (loai === "CaNhan") {
+                $("#caNhanSection").show();
+                $("#donViSection").hide();
+            } else {
+                $("#caNhanSection").hide();
+                $("#donViSection").show();
+                loadDonViList();
+            }
+        });
+
+        $("#btnTaiDuLieuNV").click(function () {
+            var maNV = $("#txtMaNhanVien").val().trim();
+            if (!maNV) {
+                alert("Vui lòng nhập mã nhân viên.");
+                return;
+            }
+
+            $.ajax({
+                url: '/RewardImage/LayThongTinNhanVien',
+                type: 'GET',
+                data: { maNV: maNV },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.Ma && data.Ten) {
+                        $("#txtThongTinNV").val(data.Ma + " - " + data.Ten);
+                    } else {
+                        $("#txtThongTinNV").val("Không tìm thấy nhân viên.");
+                    }
+                },
+                error: function () {
+                    $("#txtThongTinNV").val("Không tìm thấy nhân viên.");
+                }
+            });
+        });
+
+        function loadDonViList() {
+            $.ajax({
+                url: '/RewardImage/GetAllDonVi',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    var ddl = $("#ddlDonVi");
+                    ddl.empty().append('<option value="">-- Chọn đơn vị --</option>');
+                    $.each(data, function (i, item) {
+                        ddl.append(`<option value="${item.MaDonVi}">${item.TenDonVi}</option>`);
+                    });
+                },
+                error: function () {
+                    alert("Không thể tải danh sách đơn vị.");
+                }
+            });
+        }
+
+        // submit
+        $("#btnSubmitAvatar").click(function () {
+            var formData = new FormData();
+
+            var loai = $("input[name='LoaiDoiTuong']:checked").val();
+            var maDoiTuong = loai === "CaNhan" ? $("#txtMaNhanVien").val().trim() : $("#ddlDonVi").val();
+            var hoTenOrTenDonVi = loai === "CaNhan"
+                ? $("#txtThongTinNV").val()
+                : $("#ddlDonVi option:selected").text();
+
+            if (!maDoiTuong) {
+                alert("Vui lòng chọn đầy đủ thông tin.");
+                return;
+            }
+
+            var file = $("#fileAvatar")[0].files[0];
+            if (!file) {
+                alert("Vui lòng chọn file ảnh.");
+                return;
+            }
+
+            formData.append("MaDoiTuong", maDoiTuong);
+            formData.append("LoaiDoiTuong", loai);
+            formData.append("HoTenOrTenDonVi", hoTenOrTenDonVi);
+            formData.append("File", file);
+            formData.append("__RequestVerificationToken", $('input[name="__RequestVerificationToken"]').val());
+
+            $.ajax({
+                url: '/RewardImage/UploadAvatar',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    if (res.success) {
+                        $("#uploadResult").html(`<div class="alert alert-success">${res.message}</div>`);
+                        if (res.avatarUrl) {
+                            $("#avatarPreview").attr("src", res.avatarUrl).show();
+                        }
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        $("#uploadResult").html(`<div class="alert alert-danger">${res.message}</div>`);
+                    }
+                },
+                error: function () {
+                    $("#uploadResult").html(`<div class="alert alert-danger">Lỗi khi upload ảnh.</div>`);
+                }
+            });
+        });
+    });
+    //$("#ddlDonVi").chosen({
+    //    width: "100%"
+    //});
+
+</script>
+
+
+
