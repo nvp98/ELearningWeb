@@ -132,10 +132,10 @@
                                     <span class="stat-label"><i class="fa-solid fa-users" style="color: #f39c12;"></i> Đơn vị được thưởng</span>
                                     <span class="stat-value summary-value text-warning"><h3>@ViewBag.TongDonViThuongTuan</h3></span>
                                 </div>
-                                <div class="stat-item">
+                                @*<div class="stat-item">
                                     <span class="stat-label"><i class="fa-solid fa-money-bill-wave" style="color: #e74c3c;"></i> Tổng tiền thưởng</span>
                                     <span class="stat-value summary-value text-danger"><h3>@ViewBag.TongGiaTriThuongTuan</h3></span>
-                                </div>
+                                </div>*@
                             </div>
                             <div class="text-center mt-3 text-muted small">
                                 <i class="fas fa-solid fa-calendar me-2"></i><strong>Tuần @ViewBag.TuanHienTai (@ViewBag.NgayBatDauTuan - @ViewBag.NgayKetThucTuan)</strong>
@@ -157,10 +157,10 @@
                                     <span class="stat-label"><i class="fa-solid fa-users" style="color: #f39c12;"></i> Đơn vị được thưởng</span>
                                     <span class="stat-value summary-value text-warning"><h3>@ViewBag.TongDonViThuongThang</h3></span>
                                 </div>
-                                <div class="stat-item">
+                                @*<div class="stat-item">
                                     <span class="stat-label"><i class="fa-solid fa-money-bill-wave" style="color: #e74c3c;"></i> Tổng tiền thưởng</span>
                                     <span class="stat-value summary-value text-danger"><h3>@ViewBag.TongGiaTriThuongThang</h3></span>
-                                </div>
+                                </div>*@
                             </div>
                             <div class="text-center mt-3 text-muted small">
                                 <i class="fas fa-solid fa-calendar me-2"></i><strong>Tháng @ViewBag.ThangHienTai (@ViewBag.NgayBatDauThang - @ViewBag.NgayKetThucThang)</strong>
@@ -499,10 +499,10 @@
                     <div class="overview-card-value summary-value text-success">2,450 tỷ</div>
                 </div>
 
-                <div class="overview-card">
+                @*<div class="overview-card">
                     <div class="overview-card-title">Tổng số tiền thưởng</div>
                     <div class="overview-card-value summary-value text-warning">45 tỷ</div>
-                </div>
+                </div>*@
 
                 <div class="overview-card">
                     <div class="overview-card-title">Số cá nhân được khen thưởng</div>
@@ -920,9 +920,9 @@
                     if (data) {
                         document.querySelector('.overview-card:nth-child(1) .overview-card-value').textContent = data.TongSoDeTai.toLocaleString();
                         document.querySelector('.overview-card:nth-child(2) .overview-card-value').textContent = data.TongGiaTriLamLoi + ' tỷ';
-                        document.querySelector('.overview-card:nth-child(3) .overview-card-value').textContent = data.TongSoTienThuong + ' triệu';
-                        document.querySelector('.overview-card:nth-child(4) .overview-card-value').textContent = data.SoCaNhanKhenThuong;
-                        document.querySelector('.overview-card:nth-child(5) .overview-card-value').textContent = data.SoDonViKhenThuong;
+                        //document.querySelector('.overview-card:nth-child(3) .overview-card-value').textContent = data.TongSoTienThuong + ' triệu';
+                        document.querySelector('.overview-card:nth-child(3) .overview-card-value').textContent = data.SoCaNhanKhenThuong;
+                        document.querySelector('.overview-card:nth-child(4) .overview-card-value').textContent = data.SoDonViKhenThuong;
                     }
                 },
                 error: function () {
