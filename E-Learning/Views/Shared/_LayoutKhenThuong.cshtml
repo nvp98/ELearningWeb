@@ -23,7 +23,41 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 </head>
+<style>
 
+    .award-container {
+        position: relative;
+        width: 250px;
+        height: 250px;
+    }
+
+    .avatar_canhan {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        background-color: #fff;
+    }
+
+    .laurel {
+        width: 100%;
+        height: 100%;
+        background: url('/Content/assets/images/vong-nguyet-que.png') no-repeat center center;
+        background-size: contain;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        pointer-events: none;
+    }
+</style>
 <body class="index-page">
     @RenderBody()
     <!-- Header -->
@@ -287,7 +321,10 @@
 
                         <div class="top-item @topClass">
                             <div class="top-badge">@((i + 1))</div>
-                            <img src="@avatarPath" class="top-avatar" alt="Top @(i+1)">
+                            <div class="award-container">
+                                <img src="@avatarPath" alt="Avatar" class="avatar_canhan">
+                                <div class="laurel"></div>
+                            </div>
                             <h6 class="top-name">@item.HoTen</h6>
                             <p class="top-unit">@item.DonVi</p>
                             <p class="top-project">@item.SoLuongDeTai Đề tài</p>
@@ -375,7 +412,10 @@
                             : Url.Content("~/Content/assets/images/avatars/default.png");
                         <div class="top-item @topClass">
                             <div class="top-badge">@((i + 1))</div>
-                            <img src="@path" class="top-avatar" alt="Top @(i+1)">
+                            <div class="award-container">
+                                <img src="@path" alt="Avatar" class="avatar_canhan">
+                                <div class="laurel"></div>
+                            </div>
                             <h6 class="top-name">@item.DonVi</h6>
                             <p class="top-unit">@item.SoLuongDeTai</p>
                             <p class="top-project">Đề tài</p>
