@@ -323,7 +323,11 @@
                                             <td class="text-center">@item.Quy / @item.Nam</td>
                                             <td class="">@item.TenBoPhan_LNC</td>
                                             <td>@item.chiTietNhuCauDTTHView.DoiTuongDT</td>
-                                            <td class="text-center">@item.chiTietNhuCauDTTHView.SoLuongNguoi</td>
+                                            <td class="text-center">
+                                                <a href="/NhuCauDTTH/GetNhanViensByNCDT/@item.ID_NCDT">
+                                                    @item.chiTietNhuCauDTTHView.SoLuongNguoi
+                                                </a>
+                                            </td>
                                             <td>@item.chiTietNhuCauDTTHView.MaNV</td>
                                             <td>@item.chiTietNhuCauDTTHView.TenGiangVien</td>
                                             <td>@item.chiTietNhuCauDTTHView.DonViDT</td>
@@ -358,15 +362,9 @@
                                                     <i class="font-weight-bold"></i>
                                                     @item.SLCauHoi (Câu hỏi) / @item.SLDeThi (Đề thi)
                                                 </a>
-                                               
+
                                             </td>
-                                                @*<td>
-                                                    <a href="@Url.Action("Create","ChuongTrinhDTTH",new {ID_NCDT = item.ID_NCDT})">
-                                                        <i class="font-weight-bold"></i>
-                                                        Tạo CTĐT
-                                                    </a>
-                                                </td>*@
-                                            </tr>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
