@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.ModelsDTTH
+@using E_Learning.Models
+@model PagedList.IPagedList<NhanVienViewDTTH>
+@using PagedList.Mvc
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+<div class="app-main__outer" style="overflow:hidden">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-portfolio icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Danh sách Nhân viên - Nhu cầu đào tạo
+                        <div class="page-title-subheading">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col float-right">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="card col-lg-12">
+                    <div class="card-header">
+                        <div class="col">
+                            <div class="row">
+                                @*<div class="col">
+                                        <input type="text" id="txtsearch" name="" placeholder="Tìm kiếm" class="form-control" value="@ViewBag.search">
+                                    </div>*@
+                                <div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" id="txtsearch" name="" placeholder="Tìm kiếm" class="form-control" value="@ViewBag.search">
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-primary" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button>
+                                </div>
+                                <div class="col">
+                                    <a href="@Url.Action("ExportNhanViensByNCDT", "NhuCauDTTH", new { id = ViewBag.IdNCDT })" class="btn btn-success">
+                                        <i class="fas fa-file-excel"></i> Download Excel
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Mã NV</th>
+                                        <th>Họ Tên</th>
+                                        <th>Vị trí</th>
+                                        <th>Phòng ban</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int pageno = Model.PageNumber;
+                                        int itemperpage = Model.PageSize;
+                                        int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                    }
+                                    @foreach (var nv in Model)
+                                    {
+                                        <tr>
+                                            <td>@RowNo</td>
+                                            <td>@nv.MaNV</td>
+                                            <td>@nv.HoTen</td>
+                                            <td>@nv.ViTri</td>
+                                            <td>@nv.TenPhongBan</td>
+                                        </tr>
+                                        RowNo++;
+                                    }
+                                </tbody>
+                            </table>
+
+                            <div class="pager">
+                                @Html.PagedListPager(Model, page =>
+                                    Url.Action("GetNhanViensByNCDT", "NhuCauDTTH", new { id = ViewBag.IdNCDT, page })
+                                )
+                                <span class="pageoff">
+                                    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+                                </span>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#btn-search').click(function () {
+            var searchValue = $('#txtsearch').val();
+            var idNCDT = '@ViewBag.IdNCDT';
+
+            var url = '/NhuCauDTTH/GetNhanViensByNCDT?id=' + idNCDT + '&search=' + encodeURIComponent(searchValue);
+            window.location.href = url;
+        });
+
+        $('#txtsearch').keypress(function (e) {
+            if (e.which == 13) { // Enter key
+                $('#btn-search').click();
+            }
+        });
+    });
+</script>
+

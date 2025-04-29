@@ -121,9 +121,9 @@
                                                         var url = $('#myModale_@item.IDCH').data('url');
                                                         tinymce.remove('.myTextarea');
                                                         $.get(url, function (data) {
-                                                            $("#myModal").html(data);
+                                                            $('#myModale_@item.IDCH').html(data);
                                                             $("#ModalTitle").html("Cập nhật Đề thi");
-                                                            $("#myModal").modal('show');
+                                                            $('#myModale_@item.IDCH').modal('show');
                                                         });
                                                     });
                                                     </script>

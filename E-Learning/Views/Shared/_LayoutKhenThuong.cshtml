@@ -1,0 +1,1448 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinh Danh - HPDQ</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="~/Content/assets/css/vd-khen-thuong.css" rel="stylesheet">
+
+    <!-- Chart.js for charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- jquery link -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<style>
+
+    .award-container {
+        position: relative;
+        width: 250px;
+        height: 250px;
+    }
+
+    .avatar_canhan {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        background-color: #fff;
+    }
+
+    .laurel {
+        width: 100%;
+        height: 100%;
+        background: url('/Content/assets/images/vong-nguyet-que.png') no-repeat center center;
+        background-size: contain;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        pointer-events: none;
+    }
+</style>
+<body class="index-page">
+    @RenderBody()
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="~/Content/assets/images/avatars/Logo-Gang-thep-Trang.png" alt="Company Logo">
+            </div>
+
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="#tong-quan">TỔNG QUAN</a></li>
+                    <li><a href="#tap-the">ĐƠN VỊ</a></li>
+                    <li><a href="#ca-nhan">CÁ NHÂN</a></li>
+                    <li><a href="#thong-ke">THỐNG KÊ</a></li>
+                    <li><a href="#lien-he">LIÊN HỆ</a></li>
+                </ul>
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="mobile-menu" id="mobileMenu">
+                    <ul class="mobile-nav-links">
+                        <li><a href="#tong-quan">TỔNG QUAN</a></li>
+                        <li><a href="#tap-the">ĐƠN VỊ</a></li>
+                        <li><a href="#ca-nhan">CÁ NHÂN</a></li>
+                        <li><a href="#thong-ke">THỐNG KÊ</a></li>
+                        <li><a href="#lien-he">LIÊN HỆ</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container-fluid py-3">
+        <!-- Header Card -->
+        <div class="header-card p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="header-title mb-0">Vinh danh Đổi mới sáng tạo</h3>
+                <!-- <span class="badge bg-light text-dark"><i class="fas fa-calendar-alt me-2"></i>Cập nhật: 26/03/2023</span> -->
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Vùng Thông tin tuần/tháng - Chiếm 1/3 -->
+            <div class="col-lg-4 col-md-12 mb-4">
+                <div class="stats-container">
+                    <!-- Tab chọn tuần tháng-->
+                    <div class="custom-tabs">
+                        <div class="custom-tab active" id="custom-week-tab" onclick="switchTab('week')">
+                            Tuần @ViewBag.TuanHienTai
+                        </div>
+                        <div class="custom-tab" id="custom-month-tab" onclick="switchTab('month')">
+                            Tháng @ViewBag.ThangHienTai
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="timeTabContent">
+                        <!-- Tab Tuần -->
+                        <div class="tab-pane fade show active" id="week" role="tabpanel" aria-labelledby="week-tab">
+                            <div class="d-flex flex-column">
+                                <div class="stat-item">
+                                    <span class="stat-label"><i class="fa-solid fa-list-check" style="color: #3498db;"></i> Tổng đề tài</span>
+                                    <span class="stat-value summary-value text-primary"><h3>@ViewBag.TongNoiDungThuongTuan</h3></span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label"><i class="fa-solid fa-user-check" style="color: #27ae60;"></i> Cá nhân được thưởng</span>
+                                    <span class="stat-value summary-value text-success"><h3>@ViewBag.TongNhanVienThuongTuan</h3></span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label"><i class="fa-solid fa-users" style="color: #f39c12;"></i> Đơn vị được thưởng</span>
+                                    <span class="stat-value summary-value text-warning"><h3>@ViewBag.TongDonViThuongTuan</h3></span>
+                                </div>
+                                @*<div class="stat-item">
+                                    <span class="stat-label"><i class="fa-solid fa-money-bill-wave" style="color: #e74c3c;"></i> Tổng tiền thưởng</span>
+                                    <span class="stat-value summary-value text-danger"><h3>@ViewBag.TongGiaTriThuongTuan</h3></span>
+                                </div>*@
+                            </div>
+                            <div class="text-center mt-3 text-muted small">
+                                <i class="fas fa-solid fa-calendar me-2"></i><strong>Tuần @ViewBag.TuanHienTai (@ViewBag.NgayBatDauTuan - @ViewBag.NgayKetThucTuan)</strong>
+                            </div>
+                        </div>
+
+                        <!-- Tab Tháng -->
+                        <div class="tab-pane fade" id="month" role="tabpanel" aria-labelledby="month-tab">
+                            <div class="d-flex flex-column">
+                                <div class="stat-item">
+                                    <span class="stat-label"><i class="fa-solid fa-list-check" style="color: #3498db;"></i> Tổng đề tài</span>
+                                    <span class="stat-value summary-value text-primary"><h3>@ViewBag.TongNoiDungThuongThang</h3></span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label"><i class="fa-solid fa-user-check" style="color: #27ae60;"></i> Cá nhân được thưởng</span>
+                                    <span class="stat-value summary-value text-success"><h3>@ViewBag.TongNhanVienThuongThang</h3></span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label"><i class="fa-solid fa-users" style="color: #f39c12;"></i> Đơn vị được thưởng</span>
+                                    <span class="stat-value summary-value text-warning"><h3>@ViewBag.TongDonViThuongThang</h3></span>
+                                </div>
+                                @*<div class="stat-item">
+                                    <span class="stat-label"><i class="fa-solid fa-money-bill-wave" style="color: #e74c3c;"></i> Tổng tiền thưởng</span>
+                                    <span class="stat-value summary-value text-danger"><h3>@ViewBag.TongGiaTriThuongThang</h3></span>
+                                </div>*@
+                            </div>
+                            <div class="text-center mt-3 text-muted small">
+                                <i class="fas fa-solid fa-calendar me-2"></i><strong>Tháng @ViewBag.ThangHienTai (@ViewBag.NgayBatDauThang - @ViewBag.NgayKetThucThang)</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vùng Danh sách tin nổi bật - Chiếm 2/3 -->
+            <div class="col-lg-8 col-md-12 mb-4">
+                <div class="news-container">
+                    <h5 class="section-title">Đề tài đổi mới sáng tạo</h5>
+
+                    <!-- Carousel cho tab Tuần -->
+                    <div id="week-carousel" class="carousel-container carousel-tab-content active">
+                        <div class="carousel-track" id="weekCarouselTrack">
+                            @{
+                                var dsKhenThuongTuan = ViewBag.KhenThuongTuan as List<E_Learning.ModelsQLKhenThuong.NoiDungKhenThuongDTO>;
+                                int itemsPerSlide_week = 5;
+                                int totalItems_week = dsKhenThuongTuan?.Count ?? 0;
+                                int totalSlides_week = (int)Math.Ceiling((double)totalItems_week / itemsPerSlide_week);
+                            }
+
+                            @if (dsKhenThuongTuan != null && dsKhenThuongTuan.Count > 0)
+                            {
+                                for (int slideIndex = 0; slideIndex < totalSlides_week; slideIndex++)
+                                {
+                                    <div class="carousel-slide @(slideIndex == 0 ? "active" : "")">
+                                        <div class="cards-wrapper">
+                                            @{
+                                                var slideItems = dsKhenThuongTuan.Skip(slideIndex * itemsPerSlide_week).Take(itemsPerSlide_week).ToList();
+                                            }
+                                            @foreach (var item in slideItems)
+                                            {
+                                                <div class="news-card card">
+                                                    @if (!string.IsNullOrEmpty(item.BannerImage))
+                                                    {
+                                                        <img src="@Url.Content(item.BannerImage)" class="news-img" alt="Reward Image" />
+                                                    }
+                                                    <div class="news-content">
+                                                        <h6 class="news-title">@item.NoiDungKhenThuong</h6>
+                                                        <p class="news-author">@item.DonVi</p>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <h3 class="text-danger">Không có dữ liệu khen thưởng trong tuần này.</h3>
+                            }
+                            
+                        </div>
+
+                        <!-- Controls -->
+                        <div class="carousel-control prev" onclick="moveSlide('week', -1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="carousel-control next" onclick="moveSlide('week', 1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+
+                    <!-- Carousel cho tab Tháng -->
+                    <div id="month-carousel" class="carousel-container carousel-tab-content">
+                        <div class="carousel-track" id="monthCarouselTrack">
+                            @{
+                                var dsKhenThuongThang = ViewBag.KhenThuongThang as List<E_Learning.ModelsQLKhenThuong.NoiDungKhenThuongDTO>;
+                                int itemsPerSlide = 5;
+                                int totalItems = dsKhenThuongThang?.Count ?? 0;
+                                int totalSlides = (int)Math.Ceiling((double)totalItems / itemsPerSlide);
+                            }
+
+                            @if (dsKhenThuongThang != null && dsKhenThuongThang.Count > 0)
+                            {
+                                for (int slideIndex = 0; slideIndex < totalSlides; slideIndex++)
+                                {
+                                    <div class="carousel-slide @(slideIndex == 0 ? "active" : "")">
+                                        <div class="cards-wrapper">
+                                            @{
+                                                var slideItems = dsKhenThuongThang.Skip(slideIndex * itemsPerSlide).Take(itemsPerSlide).ToList();
+                                            }
+                                            @foreach (var item in slideItems)
+                                            {
+                                                <div class="news-card card">
+                                                    @if (!string.IsNullOrEmpty(item.BannerImage))
+                                                    {
+                                                        <img src="@Url.Content(item.BannerImage)" class="news-img" alt="Reward Image" />
+                                                    }
+                                                    <div class="news-content">
+                                                        <h6 class="news-title">@item.NoiDungKhenThuong</h6>
+                                                        <p class="news-author">@item.DonVi</p>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <h3 class="text-danger">Không có dữ liệu khen thưởng trong tháng này.</h3>
+                            }
+                        </div>
+
+                        <!-- Controls -->
+                        <div class="carousel-control prev" onclick="moveSlide('month', -1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="carousel-control next" onclick="moveSlide('month', 1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vùng Top 3 và Bảng xếp hạng -->
+        <div class="row top3-container">
+            @{
+                var danhSach = ViewBag.DanhSachCaNhan as List<E_Learning.ModelsQLKhenThuong.CaNhanXepHang>;
+                var top3 = danhSach.Take(3).ToList();
+                var conLai = danhSach.Skip(3).ToList();
+                var stt = 4;
+
+                var danhSachDonVi = ViewBag.DanhSachDonVi as List<E_Learning.ModelsQLKhenThuong.DonViXepHang>;
+                var top3DonVi = danhSachDonVi.Take(3).ToList();
+                var conLaiDonVi = danhSachDonVi.Skip(3).ToList();
+                var sttDonVi = 4;
+            }
+            <!-- Top 3 cá nhân -->
+            <div class="col-lg-6 col-md-6 mb-4">
+                <div class="top3-section">
+                    <h5 class="top3-title">Bảng xếp hạng Cá nhân</h5>
+                    @{
+                        var hinhAnhCaNhanMap = ViewBag.HinhAnhCaNhanMap as Dictionary<string, string>;
+                    }
+                <div class="top3-items">
+                    @for (int i = 0; i < top3.Count; i++)
+                    {
+                        var item = top3[i];
+                        var topClass = i == 0 ? "top1" : (i == 1 ? "top2" : "top3");
+
+                        string avatarPath = "~/Content/assets/images/avt-default.png";
+                        var key = item.MNV?.Trim().ToLower();
+
+                        if (!string.IsNullOrEmpty(key) && hinhAnhCaNhanMap != null && hinhAnhCaNhanMap.ContainsKey(key))
+                        {
+                            avatarPath = Url.Content(hinhAnhCaNhanMap[key]);
+                        }
+                        else
+                        {
+                            avatarPath = Url.Content(avatarPath);
+                        }
+
+                        <div class="top-item @topClass">
+                            <div class="top-badge">@((i + 1))</div>
+                            <div class="award-container">
+                                <img src="@avatarPath" alt="Avatar" class="avatar_canhan">
+                                <div class="laurel"></div>
+                            </div>
+                            <h6 class="top-name">@item.HoTen</h6>
+                            <p class="top-unit">@item.DonVi</p>
+                            <p class="top-project">@item.SoLuongDeTai Đề tài</p>
+                        </div>
+                    }
+                </div>
+                    <div class="ranking-container_">
+                        <div id="individual-ranking" class="ranking-content">
+                            <table class="ranking-table">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Mã NV</th>
+                                        <th>Tên</th>
+                                        <th>Đơn vị</th>
+                                        <th>Số đề tài</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in conLai)
+                                    {
+                                        var key = item.MNV?.Trim().ToLower();
+                                        string avatarPath = "~/Content/assets/images/avt-default.png";
+
+                                        if (!string.IsNullOrEmpty(key) && hinhAnhCaNhanMap != null && hinhAnhCaNhanMap.ContainsKey(key))
+                                        {
+                                            avatarPath = Url.Content(hinhAnhCaNhanMap[key]);
+                                        }
+                                        else
+                                        {
+                                            avatarPath = Url.Content(avatarPath);
+                                        }
+
+                                        <tr>
+                                            <td>@stt</td>
+                                            <td>@item.MNV</td>
+                                            <td class="ranking-name">
+                                                <img src="@avatarPath" class="ranking-avatar" alt="Avatar" />
+                                                @item.HoTen
+                                            </td>
+                                            <td>@item.DonVi</td>
+                                            <td>@item.SoLuongDeTai</td>
+                                        </tr>
+                                        stt++;
+                                    }
+                                </tbody>
+                            </table>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination" id="individual-pagination">
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Top 3 tập thể -->
+            <div class="col-lg-6 col-md-6 mb-4">
+                <div class="top3-section">
+                    <h5 class="top3-title">Bảng xếp hạng Đơn vị</h5>
+                    @{
+                        var hinhAnhMap = ViewBag.HinhAnhMap as Dictionary<string, string>;
+                    }
+                    @functions {
+                        public string NormalizeKey(string input)
+                        {
+                            if (string.IsNullOrWhiteSpace(input)) return "";
+                            return input.Trim()
+                                        .Replace("Ð", "Đ")
+                                        .Replace(".", "")
+                                        .Replace(" ", "")
+                                        .ToLowerInvariant();
+                        }
+                    }
+                <div class="top3-items">
+                    @for (int i = 0; i < top3DonVi.Count; i++)
+                    {
+                        var item = top3DonVi[i];
+                        var topClass = i == 0 ? "top1" : (i == 1 ? "top2" : "top3");
+
+                        var normalizedKey = NormalizeKey(item.DonVi);
+                        var path = hinhAnhMap.ContainsKey(normalizedKey)
+                            ? Url.Content(hinhAnhMap[normalizedKey])
+                            : Url.Content("~/Content/assets/images/avatars/default.png");
+                        <div class="top-item @topClass">
+                            <div class="top-badge">@((i + 1))</div>
+                            <div class="award-container">
+                                <img src="@path" alt="Avatar" class="avatar_canhan">
+                                <div class="laurel"></div>
+                            </div>
+                            <h6 class="top-name">@item.DonVi</h6>
+                            <p class="top-unit">@item.SoLuongDeTai</p>
+                            <p class="top-project">Đề tài</p>
+                        </div>
+                    }
+                </div>
+
+                <div class="ranking-container_">
+                    <!-- <h5 class="top3-title">BXH Đơn vị</h5> -->
+
+                    <div id="collective-ranking" class="ranking-content">
+                        <table class="ranking-table">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Đơn vị</th>
+                                    <th>Số đề tài</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in conLaiDonVi)
+                                {
+                                    var normalizedKey = NormalizeKey(item.DonVi);
+                                    var avatarPath = hinhAnhMap != null && hinhAnhMap.ContainsKey(normalizedKey)
+                                        ? Url.Content(hinhAnhMap[normalizedKey])
+                                        : Url.Content("~/Content/assets/images/avatars/default.png");
+
+                                    <tr>
+                                        <td>@sttDonVi</td>
+                                        <td class="ranking-name">
+                                            <img src="@avatarPath" class="ranking-avatar" alt="Avatar" />
+                                            @item.DonVi
+                                        </td>
+                                        <td>@item.SoLuongDeTai</td>
+                                    </tr>
+                                    sttDonVi++;
+                                }
+
+                            </tbody>
+                        </table>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination" id="collective-pagination">
+                                
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="overview-container" id="tong-quan">
+            <div class="overview-header-card">
+                <div class="overview-header">
+                    <h3 class="overview-title">Tổng quan</h3>
+                </div>
+            </div>
+
+            <div class="filter-section_">
+                <div class="team-achievement-filters">
+                    <select class="team-filter" id="yearSelector">
+                        <option value="2025" selected>Năm 2025</option>
+                        <option value="2024">Năm 2024</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="overview-cards">
+                <div class="overview-card">
+                    <div class="overview-card-title">Tổng số đề tài</div>
+                    <div class="overview-card-value summary-value text-primary">1,245</div>
+                </div>
+
+                <div class="overview-card">
+                    <div class="overview-card-title">Tổng giá trị làm lợi</div>
+                    <div class="overview-card-value summary-value text-success">2,450 tỷ</div>
+                </div>
+
+                @*<div class="overview-card">
+                    <div class="overview-card-title">Tổng số tiền thưởng</div>
+                    <div class="overview-card-value summary-value text-warning">45 tỷ</div>
+                </div>*@
+
+                <div class="overview-card">
+                    <div class="overview-card-title">Số cá nhân được khen thưởng</div>
+                    <div class="overview-card-value summary-value text-info">324</div>
+                </div>
+
+                <div class="overview-card">
+                    <div class="overview-card-title">Số đơn vị được khen thưởng</div>
+                    <div class="overview-card-value summary-value text-danger">78</div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Vùng Thành tích Tập thể -->
+        <div class="collective-achievement" id="tap-the">
+            <div class="collective-header-card">
+                <div class="collective-header">
+                    <h3 class="collective-title">Thành tích đơn vị</h3>
+                </div>
+            </div>
+
+            <div class="team-achievement-filters">
+                <select class="team-filter" id="collectiveYearSelector">
+                    <option value="2025" selected>Năm 2025</option>
+                    <option value="2024">Năm 2024</option>
+                </select>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="collectiveChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Vùng Thành tích Cá nhân -->
+        <div class="achievement-container" id="ca-nhan">
+            <div class="achievement-header-card">
+                <h3 class="achievement-title">Danh sách cá nhân có đề tài đổi mới sáng tạo</h3>
+            </div>
+
+            <div class="filter-section_">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <!-- <label class="filter-label">Đơn vị</label> -->
+                        <select class="filter-control" id="departmentFilter">
+                            <option value="">Tất cả đơn vị</option>
+                            @if (ViewBag.Departments != null)
+                            {
+                                foreach (var donvi in ViewBag.Departments as List<string>)
+                                {
+                                    <option value="@donvi">@donvi</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <!-- <div class="filter-group"> -->
+                    <!-- <label class="filter-label">Loại khen thưởng</label> -->
+                    <!-- <select class="filter-control" id="rewardTypeFilter">
+                        <option value="">Tất cả loại</option>
+                        <option value="Có đổi mới sáng tạo">Có đổi mới sáng tạo</option>
+                        <option value="Thành tích đạt được">Thành tích đạt được</option>
+                        <option value="Đưa hạng mục vào hoạt động">Đưa hạng mục vào hoạt động</option>
+                    </select> -->
+                    <!-- </div> -->
+
+                    <div class="filter-group">
+                        <!-- <label class="filter-label">Năm</label> -->
+                        <select class="filter-control" id="yearFilter">
+                            <option value="">Tất cả năm</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                        </select>
+                    </div>
+
+                    <div class="search-box">
+                        <!-- <label class="filter-label">Tìm kiếm</label> -->
+                        <input type="text" class="search-input" id="searchInput" placeholder="Tìm theo mã, tên, đơn vị, đề tài...">
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="achievement-table">
+                    <thead>
+                        <tr>
+                            <th>Mã NV</th>
+                            <th>Tên NV</th>
+                            <th>Đơn vị</th>
+                            <th>Đề tài</th>
+                            <th>Loại khen thưởng</th>
+                            <th>Năm</th>
+                        </tr>
+                    </thead>
+                    <tbody id="achievementTableBody">
+                        <!-- Dữ liệu sẽ được thêm bằng JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination-container">
+                <div class="page-info" id="pageInfo">Hiển thị 1-10 của 50 bản ghi</div>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination" id="achievementPagination">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Previous" id="prevPage">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#" data-page="1">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#" data-page="2">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#" data-page="3">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#" data-page="4">4</a></li>
+                        <li class="page-item"><a class="page-link" href="#" data-page="5">5</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next" id="nextPage">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Vùng Thống kê tổng hợp -->
+        <div class="statistics-container" id="thong-ke">
+            <div class="statistics-header-card">
+                <div class="statistics-header">
+                    <h3 class="statistics-title">Thống kê tổng hợp</h3>
+                </div>
+            </div>
+
+            <div class="team-achievement-filters">
+                <select class="team-filter" id="statisticsYearSelector">
+                    <option value="2025" selected>Năm 2025</option>
+                    <option value="2024">Năm 2024</option>
+                </select>
+            </div>
+
+            <div class="statistics-chart-container">
+                <div class="chart-container">
+                    <canvas id="statisticsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vùng Liên hệ/Phản hồi -->
+        <div class="contact-container" id="lien-he">
+            <div class="contact-header-card">
+                <h3 class="contact-title">Liên hệ/Phản hồi</h3>
+            </div>
+
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="contact-text">
+                            Mọi thông tin phản hồi xin liên hệ:
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-text">
+                            Điện thoại: <strong>02553.620.630</strong>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-text">
+                            Email: <a href="mailto:tuyendungdungquat@hoaphat.com.vn">tuyendungdungquat@hoaphat.com.vn</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-container">
+                    <div class="footer-logo">
+                        <img src="~/Content/assets/images/avatars/Logo-Gang-thep-Trang.png" alt="Logo Hòa Phát" class="img-fluid">
+                    </div>
+
+                    <div class="footer-info">
+                        <p><strong>© 2025 Công ty CP Thép Hòa Phát Dung Quất</strong></p>
+                        <p title="Phòng Công nghệ thông tin & Chuyển đổi số">Phát triển bởi Phòng CNTT & CĐS</p>
+                    </div>
+
+                    <button class="back-to-top" onclick="scrollToTop()">
+                        <i class="fas fa-arrow-up"></i>
+                    </button>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Hàm chuyển tab tuần/tháng
+        function switchTab(tabName) {
+            // Ẩn tất cả các tab content
+            document.querySelectorAll('.tab-pane').forEach(tab => {
+                tab.classList.remove('show', 'active');
+            });
+
+            // Hiển thị tab được chọn
+            document.getElementById(tabName).classList.add('show', 'active');
+
+            // Cập nhật trạng thái active cho tab
+            document.querySelectorAll('.custom-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(`custom-${tabName}-tab`).classList.add('active');
+
+            // Chuyển đổi carousel tương ứng
+            document.querySelectorAll('.carousel-tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-carousel`).classList.add('active');
+
+            // Reset slide về đầu tiên khi chuyển tab
+            if (tabName === 'week') {
+                currentWeekSlideIndex = 0;
+                updateCarousel('week');
+            } else {
+                currentMonthSlideIndex = 0;
+                updateCarousel('month');
+            }
+        }
+
+        // Carousel logic
+        let currentWeekSlideIndex = 0;
+        let currentMonthSlideIndex = 0;
+
+        function updateCarousel(type) {
+            const track = document.getElementById(`${type}CarouselTrack`);
+            const slides = document.querySelectorAll(`#${type}-carousel .carousel-slide`);
+
+            // Cập nhật active class
+            slides.forEach((slide, index) => {
+                const isActive = type === 'week'
+                    ? index === currentWeekSlideIndex
+                    : index === currentMonthSlideIndex;
+                slide.classList.toggle('active', isActive);
+            });
+
+            // Di chuyển track
+            const currentIndex = type === 'week' ? currentWeekSlideIndex : currentMonthSlideIndex;
+            if (track) {
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            } else {
+                //console.error('Element with class .track not found');
+            }
+        }
+
+        function moveSlide(type, direction) {
+            const slides = document.querySelectorAll(`#${type}-carousel .carousel-slide`);
+            const totalSlides = slides.length;
+
+            if (type === 'week') {
+                currentWeekSlideIndex = (currentWeekSlideIndex + direction + totalSlides) % totalSlides;
+            } else {
+                currentMonthSlideIndex = (currentMonthSlideIndex + direction + totalSlides) % totalSlides;
+            }
+
+            updateCarousel(type);
+        }
+
+        // Tự động chuyển slide sau 5 giây
+        // setInterval(() => {
+        //     const activeTab = document.querySelector('.custom-tab.active').id.replace('custom-', '').replace('-tab', '');
+        //     moveSlide(activeTab, 1);
+        // }, 5000);
+
+        // Khởi tạo carousel
+        updateCarousel('week');
+        updateCarousel('month');
+
+        // Khởi tạo carousel
+        updateCarousel();
+
+        // Hàm chuyển tab bảng xếp hạng
+        function switchRankingTab(tabName) {
+            // Ẩn tất cả các nội dung ranking
+            document.querySelectorAll('.ranking-content').forEach(content => {
+                content.style.display = 'none';
+            });
+
+            // Hiển thị tab được chọn
+            document.getElementById(`${tabName}-ranking`).style.display = 'block';
+
+            // Cập nhật trạng thái active cho tab
+            document.querySelectorAll('.ranking-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+
+    </script>
+
+    <script>
+
+        // Khai báo biến toàn cục
+        const recordsPerPage = 5; // Số lượng record mỗi trang
+
+        // Hàm lấy tất cả các hàng trong bảng xếp hạng (dựa trên loại)
+        function getRows(type) {
+            return Array.from(document.querySelectorAll(`#${type}-ranking tbody tr`));
+        }
+
+        function displayPage(type, pageNumber) {
+            const rows = getRows(type);
+            totalPages = Math.ceil(rows.length / recordsPerPage);
+            currentPage = pageNumber;
+
+            const start = (pageNumber - 1) * recordsPerPage;
+            const end = start + recordsPerPage;
+
+            rows.forEach(row => row.style.display = 'none');
+            rows.slice(start, end).forEach(row => row.style.display = 'table-row');
+
+            renderPagination(type);
+        }
+
+        function changePage(event, type, pageNumber) {
+            event?.preventDefault();
+            displayPage(type, pageNumber);
+        }
+
+        function renderPagination(type) {
+            const paginationId = `${type}-pagination`;
+            const pagination = document.getElementById(paginationId);
+            pagination.innerHTML = '';
+
+            const createPageItem = (text, page, isActive = false, isDisabled = false) => {
+                const li = document.createElement('li');
+                li.className = `page-item ${isActive ? 'active' : ''} ${isDisabled ? 'disabled' : ''}`;
+                const a = document.createElement('a');
+                a.className = 'page-link';
+                a.href = '#';
+                a.innerText = text;
+                if (!isDisabled) {
+                    a.onclick = (e) => changePage(e, type, page);
+                }
+                li.appendChild(a);
+                return li;
+            };
+
+            // Previous
+            pagination.appendChild(createPageItem('«', currentPage - 1, false, currentPage === 1));
+
+            // First page
+            if (currentPage > 3) {
+                pagination.appendChild(createPageItem('1', 1));
+                if (currentPage > 4) {
+                    const ellipsis = document.createElement('li');
+                    ellipsis.className = 'page-item disabled';
+                    ellipsis.innerHTML = `<span class="page-link">...</span>`;
+                    pagination.appendChild(ellipsis);
+                }
+            }
+
+            // Pages around current
+            for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+                pagination.appendChild(createPageItem(i, i, currentPage === i));
+            }
+
+            // Last page
+            if (currentPage < totalPages - 2) {
+                if (currentPage < totalPages - 3) {
+                    const ellipsis = document.createElement('li');
+                    ellipsis.className = 'page-item disabled';
+                    ellipsis.innerHTML = `<span class="page-link">...</span>`;
+                    pagination.appendChild(ellipsis);
+                }
+                pagination.appendChild(createPageItem(totalPages, totalPages));
+            }
+
+            // Next
+            pagination.appendChild(createPageItem('»', currentPage + 1, false, currentPage === totalPages));
+        }
+
+        // Khởi tạo khi DOM đã sẵn sàng
+        document.addEventListener("DOMContentLoaded", function () {
+            // Hiển thị trang đầu tiên của cả hai bảng khi tải trang
+            displayPage('individual', 1);
+            displayPage('collective', 1);
+        });
+    </script>
+
+    <script>
+        // Xử lý chọn năm
+        document.getElementById('yearSelector').addEventListener('change', function () {
+            const selectedYear = this.value;
+            loadOverviewData(selectedYear);
+        });
+
+        // call API
+        function loadOverviewData(year) {
+            $.ajax({
+                url: '/Honor/GetOverviewByYear',
+                type: 'GET',
+                data: { year: year },
+                success: function (data) {
+                    if (data) {
+                        document.querySelector('.overview-card:nth-child(1) .overview-card-value').textContent = data.TongSoDeTai.toLocaleString();
+                        document.querySelector('.overview-card:nth-child(2) .overview-card-value').textContent = data.TongGiaTriLamLoi + ' tỷ';
+                        //document.querySelector('.overview-card:nth-child(3) .overview-card-value').textContent = data.TongSoTienThuong + ' triệu';
+                        document.querySelector('.overview-card:nth-child(3) .overview-card-value').textContent = data.SoCaNhanKhenThuong;
+                        document.querySelector('.overview-card:nth-child(4) .overview-card-value').textContent = data.SoDonViKhenThuong;
+                    }
+                },
+                error: function () {
+                    alert('Không thể tải dữ liệu tổng quan!');
+                }
+            });
+        }
+
+        // init data
+        loadOverviewData(2025);
+    </script>
+
+    <script>
+        // Bản đồ màu cố định theo đơn vị
+        const colorMap = {
+            "NM.CĐ1": { bg: 'rgba(54, 162, 235, 0.7)', border: 'rgba(54, 162, 235, 1)' },
+            "NM.CĐ3": { bg: 'rgba(75, 192, 192, 0.7)', border: 'rgba(75, 192, 192, 1)' },
+            "P.TB": { bg: 'rgba(255, 159, 64, 0.7)', border: 'rgba(255, 159, 64, 1)' },
+            "NM.CĐ2": { bg: 'rgba(153, 102, 255, 0.7)', border: 'rgba(153, 102, 255, 1)' },
+            "NM.CĐ4": { bg: 'rgba(255, 205, 86, 0.7)', border: 'rgba(255, 205, 86, 1)' },
+            "NM.CTDAI": { bg: 'rgba(52, 152, 219, 0.7)', border: 'rgba(52, 152, 219, 1)' },
+            "NM.NĐ": { bg: 'rgba(231, 76, 60, 0.7)', border: 'rgba(231, 76, 60, 1)' },
+            "BP.AN": { bg: 'rgba(46, 204, 113, 0.7)', border: 'rgba(46, 204, 113, 1)' },
+            "P.CN": { bg: 'rgba(241, 196, 15, 0.7)', border: 'rgba(241, 196, 15, 1)' },
+            "B.KSNB": { bg: 'rgba(230, 126, 34, 0.7)', border: 'rgba(230, 126, 34, 1)' },
+            "P.ATMT": { bg: 'rgba(26, 188, 156, 0.7)', border: 'rgba(26, 188, 156, 1)' },
+            "NM.TKVV": { bg: 'rgba(155, 89, 182, 0.7)', border: 'rgba(155, 89, 182, 1)' },
+            "P.XD": { bg: 'rgba(192, 57, 43, 0.7)', border: 'rgba(192, 57, 43, 1)' },
+            "P.ĐN": { bg: 'rgba(127, 140, 141, 0.7)', border: 'rgba(127, 140, 141, 1)' },
+            "B.CNTT": { bg: 'rgba(52, 73, 94, 0.7)', border: 'rgba(52, 73, 94, 1)' },
+            "NM.HRC1": { bg: 'rgba(149, 165, 166, 0.7)', border: 'rgba(149, 165, 166, 1)' },
+            "NM.NL": { bg: 'rgba(41, 128, 185, 0.7)', border: 'rgba(41, 128, 185, 1)' },
+            "B.XDCB": { bg: 'rgba(39, 174, 96, 0.7)', border: 'rgba(39, 174, 96, 1)' },
+            "P.KH": { bg: 'rgba(44, 62, 80, 0.7)', border: 'rgba(44, 62, 80, 1)' },
+            "P.NL": { bg: 'rgba(241, 148, 138, 0.7)', border: 'rgba(241, 148, 138, 1)' },
+            "P.NS": { bg: 'rgba(174, 214, 241, 0.7)', border: 'rgba(174, 214, 241, 1)' },
+            "BP.K": { bg: 'rgba(133, 193, 233, 0.7)', border: 'rgba(133, 193, 233, 1)' },
+            "BP.QLHT": { bg: 'rgba(163, 228, 215, 0.7)', border: 'rgba(163, 228, 215, 1)' },
+            "BP.VT": { bg: 'rgba(255, 153, 153, 0.7)', border: 'rgba(255, 153, 153, 1)' },
+            "NM.LC": { bg: 'rgba(204, 204, 255, 0.7)', border: 'rgba(204, 204, 255, 1)' }
+        };
+
+        const collectiveCtx = document.getElementById('collectiveChart').getContext('2d');
+
+        const collectiveChart = new Chart(collectiveCtx, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Số đề tài đổi mới sáng tạo',
+                    data: [],
+                    backgroundColor: [],
+                    borderColor: [],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `Số đề tài: ${context.raw}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Số đề tài',
+                            font: { weight: 'bold' }
+                        },
+                        ticks: { stepSize: 10 }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            font: { weight: 'bold' }
+                        }
+                    }
+                },
+                animation: { duration: 1000 }
+            }
+        });
+
+        // Gọi API và cập nhật biểu đồ
+        function updateCollectiveChart(year) {
+            $.ajax({
+                url: '/Honor/GetCollectiveChartData',
+                type: 'GET',
+                data: { year: year },
+                success: function (data) {
+                    if (data && data.Labels && data.Data) {
+                        const labels = data.Labels;
+                        const values = data.Data;
+
+                        const bgColors = labels.map(dv => colorMap[dv]?.bg || 'rgba(200,200,200,0.7)');
+                        const borderColors = labels.map(dv => colorMap[dv]?.border || 'rgba(200,200,200,1)');
+
+                        collectiveChart.data.labels = labels;
+                        collectiveChart.data.datasets[0].data = values;
+                        collectiveChart.data.datasets[0].backgroundColor = bgColors;
+                        collectiveChart.data.datasets[0].borderColor = borderColors;
+                        collectiveChart.update();
+                    } else {
+                        alert(`Không có dữ liệu cho năm ${year}`);
+                    }
+                },
+                error: function () {
+                    alert('Không thể tải dữ liệu biểu đồ.');
+                }
+            });
+        }
+
+        // Khởi tạo ban đầu
+        updateCollectiveChart(2025);
+
+        // Cập nhật khi chọn năm
+        document.getElementById('collectiveYearSelector').addEventListener('change', function () {
+            const selectedYear = this.value;
+            updateCollectiveChart(selectedYear);
+        });
+    </script>
+
+
+    <script>
+
+        let achievementData = [];
+        let filteredData = [];
+        let currentPage = 1;
+        const rowsPerPage = 5;
+
+        function fetchAchievements() {
+            $.ajax({
+                url: '/Honor/GetAchievements',
+                type: 'GET',
+                success: function (data) {
+                    achievementData = data;
+                    filteredData = [...achievementData];
+                    displayData();
+                },
+                error: function (xhr, status, error) {
+                    alert('Lỗi khi lấy dữ liệu:', error);
+                }
+            });
+        }
+
+        // display data
+        function displayData(page = 1) {
+            currentPage = page;
+            const startIdx = (page - 1) * rowsPerPage;
+            const endIdx = startIdx + rowsPerPage;
+            const paginatedData = filteredData.slice(startIdx, endIdx);
+
+            const tableBody = document.getElementById('achievementTableBody');
+            tableBody.innerHTML = '';
+
+            paginatedData.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                                            <td>${item.id}</td>
+                                            <td>${item.name}</td>
+                                            <td>${item.department}</td>
+                                            <td>${item.project}</td>
+                                            <td>${item.reward}</td>
+                                            <td>${item.year}</td>
+                                        `;
+                tableBody.appendChild(row);
+            });
+
+            // call update pagination
+            updatePaginationInfo();
+        }
+
+        // function update pagination
+        function updatePaginationInfo() {
+            const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+            const startItem = (currentPage - 1) * rowsPerPage + 1;
+            const endItem = Math.min(currentPage * rowsPerPage, filteredData.length);
+
+            document.getElementById('pageInfo').textContent =
+                `Hiển thị ${startItem}-${endItem} của ${filteredData.length} bản ghi`;
+
+            // Cập nhật nút phân trang
+            const pagination = document.getElementById('achievementPagination');
+            pagination.innerHTML = '';
+
+            // Nút Previous
+            const prevItem = document.createElement('li');
+            prevItem.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+            prevItem.innerHTML = `
+                                        <a class="page-link" href="#" aria-label="Previous" id="prevPage">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    `;
+            pagination.appendChild(prevItem);
+
+            // Các nút trang
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            if (startPage > 1) {
+                const firstPageItem = document.createElement('li');
+                firstPageItem.className = 'page-item';
+                firstPageItem.innerHTML = `<a class="page-link" href="#" data-page="1">1</a>`;
+                pagination.appendChild(firstPageItem);
+
+                if (startPage > 2) {
+                    const ellipsisItem = document.createElement('li');
+                    ellipsisItem.className = 'page-item disabled';
+                    ellipsisItem.innerHTML = `<span class="page-link">...</span>`;
+                    pagination.appendChild(ellipsisItem);
+                }
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageItem = document.createElement('li');
+                pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                pageItem.innerHTML = `<a class="page-link" href="#" data-page="${i}">${i}</a>`;
+                pagination.appendChild(pageItem);
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const ellipsisItem = document.createElement('li');
+                    ellipsisItem.className = 'page-item disabled';
+                    ellipsisItem.innerHTML = `<span class="page-link">...</span>`;
+                    pagination.appendChild(ellipsisItem);
+                }
+
+                const lastPageItem = document.createElement('li');
+                lastPageItem.className = 'page-item';
+                lastPageItem.innerHTML = `<a class="page-link" href="#" data-page="${totalPages}">${totalPages}</a>`;
+                pagination.appendChild(lastPageItem);
+            }
+
+            // Nút Next
+            const nextItem = document.createElement('li');
+            nextItem.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+            nextItem.innerHTML = `
+                                        <a class="page-link" href="#" aria-label="Next" id="nextPage">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    `;
+            pagination.appendChild(nextItem);
+
+            // Thêm sự kiện click cho các nút trang
+            document.querySelectorAll('#achievementPagination .page-link').forEach(link => {
+                if (link.id !== 'prevPage' && link.id !== 'nextPage') {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const page = parseInt(this.getAttribute('data-page'));
+                        displayData(page);
+                    });
+                }
+            });
+
+            // Sự kiện cho nút Previous
+            document.getElementById('prevPage').addEventListener('click', function (e) {
+                e.preventDefault();
+                if (currentPage > 1) {
+                    displayData(currentPage - 1);
+                }
+            });
+
+            // Sự kiện cho nút Next
+            document.getElementById('nextPage').addEventListener('click', function (e) {
+                e.preventDefault();
+                if (currentPage < totalPages) {
+                    displayData(currentPage + 1);
+                }
+            });
+        }
+
+        // Hàm lọc dữ liệu
+        function filterData() {
+            const department = document.getElementById('departmentFilter').value.toLowerCase();
+            // const rewardType = document.getElementById('rewardTypeFilter').value.toLowerCase();
+            const year = document.getElementById('yearFilter').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            filteredData = achievementData.filter(item => {
+                return (department === '' || item.department.toLowerCase().includes(department)) &&
+                    //    (rewardType === '' || item.reward.toLowerCase().includes(rewardType)) &&
+                    (year === '' || item.year === year) &&
+                    (searchTerm === '' ||
+                        item.id.toLowerCase().includes(searchTerm) ||
+                        item.name.toLowerCase().includes(searchTerm) ||
+                        item.department.toLowerCase().includes(searchTerm) ||
+                        item.project.toLowerCase().includes(searchTerm) ||
+                        item.reward.toLowerCase().includes(searchTerm) ||
+                        item.year.includes(searchTerm));
+            });
+
+            currentPage = 1;
+            displayData();
+        }
+
+        // Thêm sự kiện cho các bộ lọc
+        document.getElementById('departmentFilter').addEventListener('change', filterData);
+        // document.getElementById('rewardTypeFilter').addEventListener('change', filterData);
+        document.getElementById('yearFilter').addEventListener('change', filterData);
+        document.getElementById('searchInput').addEventListener('input', filterData);
+
+        // Khởi tạo dữ liệu ban đầu
+        fetchAchievements();
+    </script>
+    
+    <script>
+        const statisticsCtx = document.getElementById('statisticsChart').getContext('2d');
+        const labels = ['Cá nhân được thưởng', 'Đơn vị được thưởng', 'Nội dung khen thưởng'];
+
+        // Plugin hiển thị Tiền thưởng
+        const centerTextPlugin = {
+            id: 'centerText',
+            beforeDraw(chart) {
+                const { ctx, width } = chart;
+                ctx.save();
+                ctx.font = 'bold 17px Arial';
+                ctx.fillStyle = 'red';
+                ctx.textAlign = 'center';
+                const bonus = window.currentBonus || 0;
+                //ctx.fillText(`Tổng tiền thưởng: ${bonus} triệu VNĐ`, width / 2, 20);
+
+                ctx.restore();
+            }
+        };
+
+        const statisticsChart_group = new Chart(statisticsCtx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Thống kê năm',
+                    data: [],
+                    backgroundColor: [
+                        'rgba(52, 152, 219, 0.7)',
+                        'rgba(46, 204, 113, 0.7)',
+                        'rgba(230, 126, 34, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(52, 152, 219, 1)',
+                        'rgba(46, 204, 113, 1)',
+                        'rgba(230, 126, 34, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                let label = context.dataset.label || '';
+                                if (label) label += ': ';
+                                if (context.parsed.y !== null) label += context.parsed.y;
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: value => value
+                        }
+                    }
+                }
+            },
+            plugins: [
+                centerTextPlugin,
+                {
+                    id: 'datalabels',
+                    afterDatasetsDraw(chart) {
+                        const { ctx } = chart;
+                        ctx.font = 'bold 12px Arial';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+
+                        chart.data.datasets.forEach((dataset, i) => {
+                            chart.getDatasetMeta(i).data.forEach((datapoint, index) => {
+                                ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+                                ctx.fillText(
+                                    dataset.data[index],
+                                    datapoint.x,
+                                    datapoint.y - 10
+                                );
+                            });
+                        });
+                    }
+                }
+            ]
+        });
+
+        function updateStatisticsChart(year) {
+            $.ajax({
+                url: '/Honor/GetStatisticsData',
+                type: 'GET',
+                data: { year: year },
+                success: function (data) {
+                    if (data) {
+                        window.currentBonus = data.bonus;
+                        statisticsChart_group.data.datasets[0].label = `Thống kê năm ${year}`;
+                        statisticsChart_group.data.datasets[0].data = [
+                            data.individuals,
+                            data.teams,
+                            data.contents
+                        ];
+                        statisticsChart_group.update();
+                    } else {
+                        alert("Không có dữ liệu cho năm " + year);
+                    }
+                },
+                error: function () {
+                    alert('Lỗi khi tải dữ liệu biểu đồ!');
+                }
+            });
+        }
+
+        // Gọi mặc định khi load trang
+        updateStatisticsChart(2025);
+
+        // Gọi khi select thay đổi
+        document.getElementById('statisticsYearSelector').addEventListener('change', function () {
+            const selectedYear = this.value;
+            updateStatisticsChart(selectedYear);
+        });
+
+        // Đăng ký plugin hiển thị giá trị trên cột (datalabels)
+        Chart.register({
+            id: 'datalabels',
+            afterDatasetsDraw(chart) {
+                const { ctx } = chart;
+                ctx.font = 'bold 12px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+
+                chart.data.datasets.forEach((dataset, i) => {
+                    chart.getDatasetMeta(i).data.forEach((datapoint, index) => {
+                        ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+                        ctx.fillText(
+                            dataset.data[index],
+                            datapoint.x,
+                            datapoint.y - 10
+                        );
+                    });
+                });
+            }
+        });
+    </script>
+
+
+    <script>
+        // Xử lý menu mobile
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', function () {
+            mobileMenu.classList.toggle('active');
+
+            // Đổi icon khi menu mở/đóng
+            const icon = this.querySelector('i');
+            if (mobileMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Đóng menu khi click vào mục menu trên mobile
+        const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', function () {
+                mobileMenu.classList.remove('active');
+                mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+                mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+            });
+        });
+
+    </script>
+
+    <script>
+
+        // Hàm scroll lên đầu trang
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Hiển thị nút back-to-top khi cuộn trang
+        window.addEventListener('scroll', function () {
+            const backToTopButton = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTopButton.style.opacity = '1';
+                backToTopButton.style.visibility = 'visible';
+            } else {
+                backToTopButton.style.opacity = '0';
+                backToTopButton.style.visibility = 'hidden';
+            }
+        });
+    </script>
+
+</body>
+
+</html>
