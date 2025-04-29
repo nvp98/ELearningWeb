@@ -1,0 +1,216 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.Models
+@model PagedList.IPagedList<E_Learning.ModelsQLKhenThuong.LoaiKhenThuongDTO>
+@using PagedList.Mvc
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+<style type="text/css">
+    a:hover {
+        cursor: pointer;
+    }
+</style>
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Danh sách khen thưởng
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                @Html.DropDownList("NoiDungThuongID", (SelectList)ViewBag.NoiDungThuongList, "-- Chọn đề tài --", new
+                                {
+                                    @class = "form-control",
+                                    id = "NoiDungThuongDropdown"
+                                })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD))
+                {
+                    <div class="clo-md-3 m-l-auto">
+                        <button type="button" id="btn-add" class="btn btn-primary m-l-auto">
+                            <i class="fa fa-plus">&nbsp;</i>&nbsp;Thêm mới
+                        </button>
+                        <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","RewardType")'></div>
+                    </div>
+                }
+            </div>
+
+            @{
+                var kieuThuong = ViewBag.kieuThuong as string ?? "all";
+                ViewBag.PageList = Model;
+            }
+
+            <div class="form-inline mb-3">
+                <label class="mr-2">Lọc loại thưởng:</label>
+                <select id="kieuThuongSelect" class="form-control mr-2">
+                    <option value="all" @(kieuThuong == "all" ? "selected" : "")>Tất cả</option>
+                    <option value="ca-nhan" @(kieuThuong == "ca-nhan" ? "selected" : "")>Thưởng cá nhân</option>
+                    <option value="tap-the" @(kieuThuong == "tap-the" ? "selected" : "")>Thưởng tập thể</option>
+                </select>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div id="danhSachKhenThuongContainer">
+                        @Html.Partial("_DanhSachKhenThuongPartial", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/Chonse/chosen.jquery.js"></script>
+<script type="text/javascript">
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Thêm mới khen thưởng cá nhân/đơn vị");
+            $("#myModal").modal('show');
+        });
+    });
+    $('#btn-add-vt').click(function () {
+        var url = $('#myModalVT').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Danh sách mã vị trí");
+            $("#myModal").modal('show');
+        });
+    });
+
+    //$('#btn-Import').click(function () {
+    //    var url = $('#myModalimport').data('url');
+    //    $.get(url, function (data) {
+    //        $("#myModal").html(data);
+    //        $("#ModalTitle").html("Thêm mới danh sách câu");
+    //        $("#myModal").modal('show');
+    //    });
+    //});
+    $("#IDLoai").chosen({
+        width: "100%"
+    });
+    $("#btn-search").on('click', function () {
+        window.location.href = '@Url.Action("Index", "RewardType")?IDLoai=' + $('#IDLoai').val();
+    });
+</script>
+<script>
+    function loadRewardList(page = 1) {
+        const kieuThuong = $('#kieuThuongSelect').val();
+        const noiDungId = $('#NoiDungThuongDropdown').val();
+
+        $.get('@Url.Action("Index", "RewardType")', {
+            page: page,
+            kieuThuong: kieuThuong,
+            IDLoai: noiDungId
+        }, function (data) {
+            const newHtml = $('<div>').html(data);
+            $('#danhSachKhenThuongContainer').html(newHtml.find('#ajaxContent').html());
+        });
+    }
+
+    $(document).on('change', '#kieuThuongSelect, #NoiDungThuongDropdown', function () {
+        loadRewardList(1);
+    });
+
+    $(document).on('click', '#ajaxPager a', function (e) {
+        e.preventDefault();
+        const page = new URL($(this).attr('href'), window.location.href).searchParams.get("page");
+        loadRewardList(page);
+    });
+</script>
+<script>
+    $(document).on("click", ".btn-delete", function () {
+        var id = $(this).data("id");
+
+        if (confirm("Bạn có chắc chắn muốn xóa mục này?")) {
+            $.ajax({
+                url: '@Url.Action("XoaKhenThuong", "RewardType")',
+                type: 'POST',
+                data: { id: id },
+                success: function (res) {
+                    if (res.success) {
+                        alert("Xóa thành công!");
+                         location.reload();
+                    } else {
+                        alert("Lỗi: " + res.message);
+                    }
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra khi xóa.");
+                }
+            });
+        }
+    });
+
+    $("#NoiDungThuongDropdown").chosen({
+        width: "100%"
+    });
+</script>
+
+<style>
+    .chosen-container-single .chosen-single {
+        color: #495057;
+        background: #fff;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.8;
+        text-transform: capitalize;
+    }
+
+    .chosen-container-single .chosen-single span {
+        text-transform: capitalize !important;
+        font-size: 16px !important;
+    }
+</style>
+
+

@@ -32,6 +32,7 @@ using iText.Kernel.Pdf.Event;
 using iTextSharp.tool.xml.html;
 using ClosedXML.Excel;
 using ClosedXML;
+using System.Web.UI;
 
 namespace E_Learning.Controllers.DaoTaoTH
 {
@@ -1529,6 +1530,98 @@ namespace E_Learning.Controllers.DaoTaoTH
 
             // Trả về đường dẫn tương đối hoặc URL để lưu vào database
             return $"/pdfs/{fileName}"; // Nếu wwwroot/pdfs là thư mục lưu trữ công khai
+        }
+
+        public ActionResult GetNhanViensByNCDT(int? id, int? page, string search = "")
+        {
+            if (!id.HasValue)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.IdNCDT = id;
+            ViewBag.search = search;
+
+            var nhanVienList = (from nv in db.NhanViens
+                                join vtnd in db.SH_ViTri_NDDT on nv.IDVTKNL equals vtnd.Vitri_ID
+                                join pb in db.PhongBans on nv.IDPhongBan equals pb.IDPhongBan
+                                join vt in db.Vitris on nv.IDViTri equals vt.IDViTri
+                                where vtnd.NCDT_ID == id && nv.IDTinhTrangLV == 1
+                                select new NhanVienViewDTTH
+                                {
+                                    ID = nv.ID,
+                                    MaNV = nv.MaNV,
+                                    HoTen = nv.HoTen,
+                                    ViTri = vt.TenViTri,
+                                    TenPhongBan = pb.TenPhongBan
+                                });
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                nhanVienList = nhanVienList.Where(x => x.MaNV.Contains(search) || x.HoTen.Contains(search));
+            }
+
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
+
+            var pagedNhanVienList = nhanVienList.OrderBy(nv => nv.MaNV)
+                                               .ToPagedList(pageNumber, pageSize);
+
+            return View(pagedNhanVienList);
+        }
+
+        public ActionResult ExportNhanViensByNCDT(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var nhanVienList = (from nv in db.NhanViens
+                                join vtnd in db.SH_ViTri_NDDT on nv.IDVTKNL equals vtnd.Vitri_ID
+                                join pb in db.PhongBans on nv.IDPhongBan equals pb.IDPhongBan
+                                join vt in db.Vitris on nv.IDViTri equals vt.IDViTri
+                                where vtnd.NCDT_ID == id && nv.IDTinhTrangLV == 1
+                                select new NhanVienViewDTTH
+                                {
+                                    ID = nv.ID,
+                                    MaNV = nv.MaNV,
+                                    HoTen = nv.HoTen,
+                                    ViTri = vt.TenViTri,
+                                    TenPhongBan = pb.TenPhongBan
+                                }).ToList();
+
+            using (var workbook = new ClosedXML.Excel.XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Danh sách nhân viên");
+
+                worksheet.Cell(1, 1).Value = "STT";
+                worksheet.Cell(1, 2).Value = "Mã NV";
+                worksheet.Cell(1, 3).Value = "Họ Tên";
+                worksheet.Cell(1, 4).Value = "Vị trí";
+                worksheet.Cell(1, 5).Value = "Phòng ban";
+
+                int row = 2;
+                int stt = 1;
+                foreach (var nv in nhanVienList)
+                {
+                    worksheet.Cell(row, 1).Value = stt++;
+                    worksheet.Cell(row, 2).Value = nv.MaNV;
+                    worksheet.Cell(row, 3).Value = nv.HoTen;
+                    worksheet.Cell(row, 4).Value = nv.ViTri;
+                    worksheet.Cell(row, 5).Value = nv.TenPhongBan;
+                    row++;
+                }
+
+                worksheet.Columns().AdjustToContents();
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    stream.Position = 0;
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachNhanVien.xlsx");
+                }
+            }
         }
     }
 }

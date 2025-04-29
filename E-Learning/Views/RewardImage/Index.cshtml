@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.Models
+@model PagedList.IPagedList<KT_HinhAnh>
+@using PagedList.Mvc
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+<style type="text/css">
+    a:hover {
+        cursor: pointer;
+    }
+</style>
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Quản lý hình ảnh Vinh danh khen thưởng
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+
+                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD))
+                {
+                    <div class="clo-md-3 m-l-auto">
+                        <button type="button" id="btn-add" class="btn btn-primary m-l-auto">
+                            <i class="fa fa-plus">&nbsp;</i>&nbsp;Thêm mới
+                        </button>
+                        <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","RewardImage")'></div>
+                    </div>
+                }
+            </div>
+
+            @{
+                var loaiAvatar = ViewBag.loaiAvatar as string ?? "all";
+                ViewBag.PageList = Model;
+            }
+
+            <div class="form-inline mb-3">
+                <label class="mr-2">Lọc loại hình ảnh:</label>
+                <form id="filterForm" class="form-inline">
+                    <select class="form-control mr-2" name="loaiAvatar" onchange="$('#filterForm').submit()">
+                        <option value="all" @(loaiAvatar == "all" ? "selected" : "")>Tất cả</option>
+                        <option value="ca-nhan" @(loaiAvatar == "ca-nhan" ? "selected" : "")>Cá nhân</option>
+                        <option value="don-vi" @(loaiAvatar == "don-vi" ? "selected" : "")>Đơn vị</option>
+                    </select>
+                </form>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div id="danhSachKhenThuongContainer">
+                        @Html.Partial("_DanhSachHinhAnhPartial", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/Chonse/chosen.jquery.js"></script>
+<script type="text/javascript">
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Thêm mới avatar cá nhân/đơn vị");
+            $("#myModal").modal('show');
+        });
+    });
+    $('#btn-add-vt').click(function () {
+        var url = $('#myModalVT').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Danh sách mã vị trí");
+            $("#myModal").modal('show');
+        });
+    });
+   
+    $("#IDLoai").chosen({
+        width: "100%"
+    });
+</script>
+
+<style>
+    .chosen-container-single .chosen-single {
+        color: #495057;
+        background: #fff;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.8;
+        text-transform: capitalize;
+    }
+
+    .chosen-container-single .chosen-single span {
+        text-transform: capitalize !important;
+        font-size: 16px !important;
+    }
+</style>
+
+
