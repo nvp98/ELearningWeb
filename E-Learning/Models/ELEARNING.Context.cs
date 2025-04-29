@@ -110,7 +110,11 @@ namespace E_Learning.Models
         public virtual DbSet<SH_ChiTietTCDT> SH_ChiTietTCDT { get; set; }
         public virtual DbSet<SH_FileScanHoSo> SH_FileScanHoSo { get; set; }
         public virtual DbSet<SH_HoSoDaoTao> SH_HoSoDaoTao { get; set; }
-
+        public virtual DbSet<KT_DanhSachKhenThuong> KT_DanhSachKhenThuong { get; set; }
+        public virtual DbSet<KT_HinhAnh> KT_HinhAnh { get; set; }
+        public virtual DbSet<KT_LoaiThuong> KT_LoaiThuong { get; set; }
+        public virtual DbSet<KT_NoiDungThuong> KT_NoiDungThuong { get; set; }
+    
         public virtual int BaiThi_insert(Nullable<int> iDLH, Nullable<int> iDDeThi, Nullable<int> iDND, Nullable<int> iDNV, Nullable<int> iDPhongBan, Nullable<int> iDViTri, Nullable<double> diemSo, Nullable<System.DateTime> ngayThi, Nullable<bool> tinhTrang, Nullable<int> lanThi, ObjectParameter iDBaiThi)
         {
             var iDLHParameter = iDLH.HasValue ?
