@@ -11,6 +11,7 @@ namespace E_Learning.ModelsQLKhenThuong
         public string MNV { get; set; }
         public string HoTen { get; set; }
         public string DonVi { get; set; }
+        public string Avatar { get; set; }
         public int SoLuongDeTai { get; set; }
     }
 }

@@ -370,5 +370,41 @@ namespace E_Learning.Controllers.KhenThuong
 
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult LoadEmployees(int page = 1, int pageSize = 5)
+        {
+            List<CaNhanXepHang> danhSachCaNhan = _context.KT_DanhSachKhenThuong
+                                    .Where(x => x.MNV != null)
+                                    .GroupBy(x => new { x.MNV, x.HoTen, x.DonVi })
+                                    .Select(g => new CaNhanXepHang
+                                    {
+                                        MNV = g.Key.MNV,
+                                        HoTen = g.Key.HoTen,
+                                        DonVi = g.Key.DonVi,
+                                        SoLuongDeTai = g.Count(x => x.NoiDungKhenThuong != null),
+                                        Avatar = _context.KT_HinhAnh.FirstOrDefault(x=>x.MaDoiTuong == g.Key.MNV) != null? _context.KT_HinhAnh.FirstOrDefault(x => x.MaDoiTuong == g.Key.MNV).AvatarPath:""
+                                    })
+                                    .OrderByDescending(x => x.SoLuongDeTai)
+                                    .Skip((page - 1) * pageSize)
+                                    .Take(pageSize)
+                                    .ToList();
+
+            int totalItems = _context.KT_DanhSachKhenThuong.AsNoTracking().Where(x=>x.MNV != null).GroupBy(x => new { x.MNV, x.HoTen, x.DonVi }).Count();
+
+            return Json(new
+            {
+                data = danhSachCaNhan,
+                total = totalItems
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        //private string GetAvatar(string mnv)
+        //{
+        //    var key = mnv?.Trim().ToLower();
+        //    if (!string.IsNullOrEmpty(key) && hinhAnhCaNhanMap.ContainsKey(key))
+        //        return Url.Content(hinhAnhCaNhanMap[key]);
+
+        //    return Url.Content("~/Content/assets/images/avt-default.png");
+        //}
     }
 }
