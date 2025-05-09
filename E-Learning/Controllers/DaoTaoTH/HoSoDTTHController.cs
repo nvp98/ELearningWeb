@@ -444,6 +444,18 @@ namespace E_Learning.Controllers.DaoTaoTH
 
         }
 
+        public ActionResult HuyHoSo(int IDLH)
+        {
+            var hoSo = db_context.SH_HoSoDaoTao.Where(h => h.LHID == IDLH).FirstOrDefault();
+            hoSo.TinhTrang = 0;
 
+            var lopHoc = db_context.LopHocs.Where(l => l.IDLH == IDLH).FirstOrDefault();
+            lopHoc.TinhTrang = 4;
+
+            db_context.SaveChanges();
+
+            TempData["msgSuccess"] = "<script>alert('Hủy hồ sơ thành công.');</script>";
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -146,6 +146,13 @@
                                                 <a title="DS Lớp" class="fa fa-list-alt" id="@item.LHID" href="@Url.Action("XLHS" , "ToChucDTTH" , new { id = @item.LHID })"></a>
                                                 <a title="File đính kèm" target="_blank" href="@Url.Action("DSFileDinhKem","HoSoDTTH", new { IDLH = item.LHID})" class=" fa fa-file-alt"></a>
                                                 <a title="DS Câu Hỏi" class="fa fa-question-circle" href="@Url.Action("Question" , "ChuongTrinhDTTH" , new { id = item.manageClassValidation.IDDeThi })"></a>
+                                                @if (item.TinhTrang == 1)
+                                                {
+                                                    <a title="Hủy hồ sơ" class="fa fa-times-circle text-danger"
+                                                       href="@Url.Action("HuyHoSo", "HoSoDTTH", new { IDLH = item.LHID })"
+                                                       onclick="return confirmCancel();">
+                                                    </a>
+                                                }
                                             </td>
                                             <td class="text-center"> @RowNo@{RowNo++;}</td>
                                             <td><a id="btn-edit_@item.LHID" href="@Url.Action("ViewEdit","HoSoDTTH", new { IDLH = item.LHID})" title="Edit" class="">@item.TenLopHoc</a>  </td>
@@ -250,8 +257,12 @@
     $("#ID_NoiDung").chosen({
         width: "100%"
     });
-       $("#btn-search").on('click', function () {
-           window.location.href = '@Url.Action("Index", "ManageClass")?IDPB=' + $('#IDPB').val() + '&IDLH=' + $('#IDLH').val() + '&IDND=' + $('#IDND').val();
+    $("#btn-search").on('click', function () {
+        window.location.href = '@Url.Action("Index", "ManageClass")?IDPB=' + $('#IDPB').val() + '&IDLH=' + $('#IDLH').val() + '&IDND=' + $('#IDND').val();
     });
+
+    function confirmCancel() {
+        return confirm("Bạn có chắc muốn hủy hồ sơ này?");
+    }
 </script>
 
