@@ -72,7 +72,7 @@
                     @using (Html.BeginForm("Index", "HoSoDTTH", FormMethod.Get))
                     {
                         <div class="row mb-3 ">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input type="text" placeholder="tên nội dung ..." name="search" class="form-control" value="@ViewBag.Search" />
                             </div>
                             <div class="col-md-3">
@@ -81,6 +81,15 @@
                                     @foreach (var nv in ViewBag.IDNoiDung)
                                     {
                                         <option value="@nv.Value" selected="@(nv.Value == Request.QueryString["ID_NoiDung"])">@nv.Text</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select name="IDPhongBan" id="IDPhongBan" class="form-control">
+                                    <option value="">-- Chọn Phòng Ban --</option>
+                                    @foreach (var nv in ViewBag.IDPhongBan)
+                                    {
+                                        <option value="@nv.Value" selected="@(nv.Value == Request.QueryString["IDPhongBan"])">@nv.Text</option>
                                     }
                                 </select>
                             </div>
@@ -146,7 +155,7 @@
                                                 <a title="DS Lớp" class="fa fa-list-alt" id="@item.LHID" href="@Url.Action("XLHS" , "ToChucDTTH" , new { id = @item.LHID })"></a>
                                                 <a title="File đính kèm" target="_blank" href="@Url.Action("DSFileDinhKem","HoSoDTTH", new { IDLH = item.LHID})" class=" fa fa-file-alt"></a>
                                                 <a title="DS Câu Hỏi" class="fa fa-question-circle" href="@Url.Action("Question" , "ChuongTrinhDTTH" , new { id = item.manageClassValidation.IDDeThi })"></a>
-                                                @if (item.TinhTrang == 1)
+                                                @if (item.TinhTrang == 1 || item.TinhTrang ==0)
                                                 {
                                                     <a title="Hủy hồ sơ" class="fa fa-times-circle text-danger"
                                                        href="@Url.Action("HuyHoSo", "HoSoDTTH", new { IDLH = item.LHID })"
@@ -211,7 +220,7 @@
                                 </tbody>
                             </table>
                             <div class="pager">
-                                @Html.PagedListPager(Model, page => Url.Action("Index", "HoSoDTTH", new { page, ID_NoiDung = Request.QueryString["ID_NoiDung"], ID_TrangThai = Request.QueryString["ID_TrangThai"], search = Request.QueryString["search"] }))
+                                @Html.PagedListPager(Model, page => Url.Action("Index", "HoSoDTTH", new { page, IDPhongBan = Request.QueryString["IDPhongBan"], ID_NoiDung = Request.QueryString["ID_NoiDung"], ID_TrangThai = Request.QueryString["ID_TrangThai"], search = Request.QueryString["search"] }))
                                 <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
                             </div>
                         </div>
@@ -255,6 +264,9 @@
     });
 
     $("#ID_NoiDung").chosen({
+        width: "100%"
+    });
+    $("#IDPhongBan").chosen({
         width: "100%"
     });
     $("#btn-search").on('click', function () {

@@ -20,7 +20,7 @@ namespace E_Learning.Controllers.DaoTaoTH
         int Idquyen = MyAuthentication.IDQuyen;
         String ControllerName = "HoSoDTTH";
         // GET: HoSoDTTH
-        public ActionResult Index(int? page, string search, int? ID_TrangThai, int? ID_NoiDung)
+        public ActionResult Index(int? page, string search, int? ID_TrangThai, int? ID_NoiDung,int? IDPhongBan)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             ViewBag.QUYENCN = ListQuyen;
@@ -66,6 +66,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                                 NoiDungTrichYeu = b.NoiDungTrichYeu,
                                 QuyDT = (int)b.QuyDT,
                                 NamDT = (int)b.NamDT,
+                                BoPhan_ID = b.BoPhan_ID,
                                 TGBDLH = (DateTime)b.TGBDLH,
                                 TGKTLH = (DateTime)b.TGKTLH,
                                 ID_PPDT = nc.PhuongPhapDT_ID,
@@ -83,9 +84,17 @@ namespace E_Learning.Controllers.DaoTaoTH
             {
                 data = data.Where(x=>x.manageClassValidation.NDID == ID_NoiDung).ToList();
             }
-            
+
+            if (IDPhongBan != null)
+            {
+                data = data.Where(x => x.manageClassValidation.BoPhan_ID == IDPhongBan).ToList();
+            }
+
             if (!ListQuyen.Contains(CONSTKEY.VIEW_ALL) && !ListQuyen.Contains(CONSTKEY.V_BP)) data = data.Where(x => x.ID_NguoiNopHS == MyAuthentication.ID).ToList();
             else if (ListQuyen.Contains(CONSTKEY.V_BP)) data =  data.Where(x => x.manageClassValidation.BoPhan_ID == MyAuthentication.IDPhongban).ToList();
+
+            List<PhongBan> pb = db_context.PhongBans.ToList();
+            ViewBag.IDPhongBan = new SelectList(pb, "IDPhongBan", "TenPhongBan");
 
             List<NoiDungDT> lh = db_context.NoiDungDTs.ToList();
             ViewBag.IDNoiDung = new SelectList(lh, "IDND", "NoiDung");
@@ -447,14 +456,23 @@ namespace E_Learning.Controllers.DaoTaoTH
         public ActionResult HuyHoSo(int IDLH)
         {
             var hoSo = db_context.SH_HoSoDaoTao.Where(h => h.LHID == IDLH).FirstOrDefault();
-            hoSo.TinhTrang = 0;
-
             var lopHoc = db_context.LopHocs.Where(l => l.IDLH == IDLH).FirstOrDefault();
-            lopHoc.TinhTrang = 4;
+            if (hoSo.TinhTrang == 1)
+            {
+                hoSo.TinhTrang = 0;
+                hoSo.NgayXuLy = null;
+                hoSo.ID_NguoiXuLy = null;
+                lopHoc.TinhTrang = 4;
+            }
+            else if (hoSo.TinhTrang == 0)
+            {
+                db_context.SH_HoSoDaoTao.Remove(hoSo);
+                lopHoc.TinhTrang = 1;
+            }
 
             db_context.SaveChanges();
 
-            TempData["msgSuccess"] = "<script>alert('Hủy hồ sơ thành công.');</script>";
+            TempData["msgSuccess"] = "<script>alert('Gỡ hồ sơ thành công.');</script>";
             return RedirectToAction("Index");
         }
     }

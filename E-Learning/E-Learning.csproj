@@ -362,6 +362,7 @@
     </Compile>
     <Compile Include="ModelsDTTH\ChuongTrinhDTTHView.cs" />
     <Compile Include="ModelsDTTH\HoSoDaoTaoTH.cs" />
+    <Compile Include="ModelsDTTH\NhanVienViewDTTH.cs" />
     <Compile Include="ModelsDTTH\NhuCauDTTHView.cs" />
     <Compile Include="ModelsDTTH\NoiDungDTTHView.cs" />
     <Compile Include="ModelsDTTH\ToChucDTTHView.cs" />
@@ -934,6 +935,7 @@
     <Content Include="Views\RewardType\Edit.cshtml" />
     <Content Include="Views\RewardType\Index.cshtml" />
     <Content Include="Views\RewardType\_DanhSachKhenThuongPartial.cshtml" />
+    <Content Include="Views\NhuCauDTTH\GetNhanViensByNCDT.cshtml" />
     <None Include="Views\Shared\LayoutAdmin.cshtml" />
     <Content Include="Views\ToChucDTTH\Index.cshtml" />
     <Content Include="Views\ToChucDTTH\Create.cshtml" />
