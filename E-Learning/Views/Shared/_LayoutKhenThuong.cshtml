@@ -301,38 +301,38 @@
                     @{
                         var hinhAnhCaNhanMap = ViewBag.HinhAnhCaNhanMap as Dictionary<string, string>;
                     }
-                <div class="top3-items">
-                    @for (int i = 0; i < top3.Count; i++)
-                    {
-                        var item = top3[i];
-                        var topClass = i == 0 ? "top1" : (i == 1 ? "top2" : "top3");
-
-                        string avatarPath = "~/Content/assets/images/avt-default.png";
-                        var key = item.MNV?.Trim().ToLower();
-
-                        if (!string.IsNullOrEmpty(key) && hinhAnhCaNhanMap != null && hinhAnhCaNhanMap.ContainsKey(key))
+                    <div class="top3-items">
+                        @for (int i = 0; i < top3.Count; i++)
                         {
-                            avatarPath = Url.Content(hinhAnhCaNhanMap[key]);
-                        }
-                        else
-                        {
-                            avatarPath = Url.Content(avatarPath);
-                        }
+                            var item = top3[i];
+                            var topClass = i == 0 ? "top1" : (i == 1 ? "top2" : "top3");
 
-                        <div class="top-item @topClass">
-                            <div class="top-badge">@((i + 1))</div>
-                            <div class="award-container">
-                                <img src="@avatarPath" alt="Avatar" class="avatar_canhan">
-                                <div class="laurel"></div>
+                            string avatarPath = "~/Content/assets/images/avt-default.png";
+                            var key = item.MNV?.Trim().ToLower();
+
+                            if (!string.IsNullOrEmpty(key) && hinhAnhCaNhanMap != null && hinhAnhCaNhanMap.ContainsKey(key))
+                            {
+                                avatarPath = Url.Content(hinhAnhCaNhanMap[key]);
+                            }
+                            else
+                            {
+                                avatarPath = Url.Content(avatarPath);
+                            }
+
+                            <div class="top-item @topClass">
+                                <div class="top-badge">@((i + 1))</div>
+                                <div class="award-container">
+                                    <img src="@avatarPath" alt="Avatar" class="avatar_canhan">
+                                    <div class="laurel"></div>
+                                </div>
+                                <h6 class="top-name">@item.HoTen</h6>
+                                <p class="top-unit">@item.DonVi</p>
+                                <p class="top-project">@item.SoLuongDeTai Đề tài</p>
                             </div>
-                            <h6 class="top-name">@item.HoTen</h6>
-                            <p class="top-unit">@item.DonVi</p>
-                            <p class="top-project">@item.SoLuongDeTai Đề tài</p>
-                        </div>
-                    }
-                </div>
+                        }
+                    </div>
                     <div class="ranking-container_">
-                        <div id="individual-ranking" class="ranking-content">
+                        <div id="individual-r" class="ranking-content">
                             <table class="ranking-table">
                                 <thead>
                                     <tr>
@@ -343,33 +343,33 @@
                                         <th>Số đề tài</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach (var item in conLai)
+                                <tbody id="tb-individual-ranking">
+                                    @*@foreach (var item in conLai)
+                                {
+                                    var key = item.MNV?.Trim().ToLower();
+                                    string avatarPath = "~/Content/assets/images/avt-default.png";
+
+                                    if (!string.IsNullOrEmpty(key) && hinhAnhCaNhanMap != null && hinhAnhCaNhanMap.ContainsKey(key))
                                     {
-                                        var key = item.MNV?.Trim().ToLower();
-                                        string avatarPath = "~/Content/assets/images/avt-default.png";
-
-                                        if (!string.IsNullOrEmpty(key) && hinhAnhCaNhanMap != null && hinhAnhCaNhanMap.ContainsKey(key))
-                                        {
-                                            avatarPath = Url.Content(hinhAnhCaNhanMap[key]);
-                                        }
-                                        else
-                                        {
-                                            avatarPath = Url.Content(avatarPath);
-                                        }
-
-                                        <tr>
-                                            <td>@stt</td>
-                                            <td>@item.MNV</td>
-                                            <td class="ranking-name">
-                                                <img src="@avatarPath" class="ranking-avatar" alt="Avatar" />
-                                                @item.HoTen
-                                            </td>
-                                            <td>@item.DonVi</td>
-                                            <td>@item.SoLuongDeTai</td>
-                                        </tr>
-                                        stt++;
+                                        avatarPath = Url.Content(hinhAnhCaNhanMap[key]);
                                     }
+                                    else
+                                    {
+                                        avatarPath = Url.Content(avatarPath);
+                                    }
+
+                                    <tr>
+                                        <td>@stt</td>
+                                        <td>@item.MNV</td>
+                                        <td class="ranking-name">
+                                            <img src="@avatarPath" class="ranking-avatar" alt="Avatar" loading="lazy" />
+                                            @item.HoTen
+                                        </td>
+                                        <td>@item.DonVi</td>
+                                        <td>@item.SoLuongDeTai</td>
+                                    </tr>
+                                    stt++;
+                                }*@
                                 </tbody>
                             </table>
                             <nav aria-label="Page navigation">
@@ -381,6 +381,82 @@
 
                 </div>
             </div>
+
+            <script>
+                let currentPage1 = 1;
+                const pageSize = 5;
+
+                function loadEmployees(page = 1) {
+                    $.getJSON('/Honor/LoadEmployees', { page: page, pageSize: pageSize }, function (res) {
+                        const tbody = $('#tb-individual-ranking');
+                        tbody.empty();
+                        let stt = ((page - 1) * pageSize) + 1;
+                        res.data.forEach(item => {
+                            tbody.append(`
+                                <tr>
+                                    <td>${stt}</td>
+                                    <td>${item.MNV}</td>
+                                    <td class="ranking-name">
+                                        <img src="${item.Avatar}" class="ranking-avatar" alt="Avatar" loading="lazy" />
+                                        ${item.HoTen}
+                                    </td>
+                                    <td>${item.DonVi}</td>
+                                    <td>${item.SoLuongDeTai}</td>
+                                </tr>
+                            `);
+                            stt++;
+                        });
+
+                        renderPagination1(res.total, page);
+                    });
+                }
+
+                function renderPagination1(totalItems, currentPage) {
+                    const totalPages = Math.ceil(totalItems / pageSize);
+                    const pagination = $('#individual-pagination');
+                    pagination.empty();
+
+                    const addPage = (i, text = i) => {
+                        const activeClass = i === currentPage ? 'active' : '';
+                        pagination.append(`
+                                            <li class="page-item ${activeClass}">
+                                                <a href="#" class="page-link" onclick="loadEmployees(${i}); return false;">${text}</a>
+                                            </li>
+                                        `);
+                    };
+
+                    // Previous button
+                    if (currentPage > 1) {
+                        addPage(currentPage - 1, '&laquo;');
+                    }
+
+                    const range = 2;
+                    const start = Math.max(1, currentPage - range);
+                    const end = Math.min(totalPages, currentPage + range);
+
+                    if (start > 1) {
+                        addPage(1);
+                        if (start > 2) pagination.append(`<li class="page-item disabled"><span class="page-link">...</span></li>`);
+                    }
+
+                    for (let i = start; i <= end; i++) {
+                        addPage(i);
+                    }
+
+                    if (end < totalPages) {
+                        if (end < totalPages - 1) pagination.append(`<li class="page-item disabled"><span class="page-link">...</span></li>`);
+                        addPage(totalPages);
+                    }
+
+                    // Next button
+                    if (currentPage < totalPages) {
+                        addPage(currentPage + 1, '&raquo;');
+                    }
+                }
+
+                // Load page 1 on first load
+                $(document).ready(() => loadEmployees(1));
+            </script>
 
             <!-- Top 3 tập thể -->
             <div class="col-lg-6 col-md-6 mb-4">
@@ -400,71 +476,70 @@
                                         .ToLowerInvariant();
                         }
                     }
-                <div class="top3-items">
-                    @for (int i = 0; i < top3DonVi.Count; i++)
-                    {
-                        var item = top3DonVi[i];
-                        var topClass = i == 0 ? "top1" : (i == 1 ? "top2" : "top3");
+                    <div class="top3-items">
+                        @for (int i = 0; i < top3DonVi.Count; i++)
+                        {
+                            var item = top3DonVi[i];
+                            var topClass = i == 0 ? "top1" : (i == 1 ? "top2" : "top3");
 
-                        var normalizedKey = NormalizeKey(item.DonVi);
-                        var path = hinhAnhMap.ContainsKey(normalizedKey)
-                            ? Url.Content(hinhAnhMap[normalizedKey])
-                            : Url.Content("~/Content/assets/images/avatars/default.png");
-                        <div class="top-item @topClass">
-                            <div class="top-badge">@((i + 1))</div>
-                            <div class="award-container">
-                                <img src="@path" alt="Avatar" class="avatar_canhan">
-                                <div class="laurel"></div>
+                            var normalizedKey = NormalizeKey(item.DonVi);
+                            var path = hinhAnhMap.ContainsKey(normalizedKey)
+                                ? Url.Content(hinhAnhMap[normalizedKey])
+                                : Url.Content("~/Content/assets/images/avatars/default.png");
+                            <div class="top-item @topClass">
+                                <div class="top-badge">@((i + 1))</div>
+                                <div class="award-container">
+                                    <img src="@path" alt="Avatar" class="avatar_canhan">
+                                    <div class="laurel"></div>
+                                </div>
+                                <h6 class="top-name">@item.DonVi</h6>
+                                <p class="top-unit">@item.SoLuongDeTai</p>
+                                <p class="top-project">Đề tài</p>
                             </div>
-                            <h6 class="top-name">@item.DonVi</h6>
-                            <p class="top-unit">@item.SoLuongDeTai</p>
-                            <p class="top-project">Đề tài</p>
-                        </div>
-                    }
-                </div>
-
-                <div class="ranking-container_">
-                    <!-- <h5 class="top3-title">BXH Đơn vị</h5> -->
-
-                    <div id="collective-ranking" class="ranking-content">
-                        <table class="ranking-table">
-                            <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Đơn vị</th>
-                                    <th>Số đề tài</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                @foreach (var item in conLaiDonVi)
-                                {
-                                    var normalizedKey = NormalizeKey(item.DonVi);
-                                    var avatarPath = hinhAnhMap != null && hinhAnhMap.ContainsKey(normalizedKey)
-                                        ? Url.Content(hinhAnhMap[normalizedKey])
-                                        : Url.Content("~/Content/assets/images/avatars/default.png");
-
-                                    <tr>
-                                        <td>@sttDonVi</td>
-                                        <td class="ranking-name">
-                                            <img src="@avatarPath" class="ranking-avatar" alt="Avatar" />
-                                            @item.DonVi
-                                        </td>
-                                        <td>@item.SoLuongDeTai</td>
-                                    </tr>
-                                    sttDonVi++;
-                                }
-
-                            </tbody>
-                        </table>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination" id="collective-pagination">
-                                
-                            </ul>
-                        </nav>
+                        }
                     </div>
 
-                </div>
+                    <div class="ranking-container_">
+                        <!-- <h5 class="top3-title">BXH Đơn vị</h5> -->
+
+                        <div id="collective-ranking" class="ranking-content">
+                            <table class="ranking-table">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Đơn vị</th>
+                                        <th>Số đề tài</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in conLaiDonVi)
+                                    {
+                                        var normalizedKey = NormalizeKey(item.DonVi);
+                                        var avatarPath = hinhAnhMap != null && hinhAnhMap.ContainsKey(normalizedKey)
+                                            ? Url.Content(hinhAnhMap[normalizedKey])
+                                            : Url.Content("~/Content/assets/images/avatars/default.png");
+
+                                        <tr>
+                                            <td>@sttDonVi</td>
+                                            <td class="ranking-name">
+                                                <img src="@avatarPath" class="ranking-avatar" alt="Avatar" />
+                                                @item.DonVi
+                                            </td>
+                                            <td>@item.SoLuongDeTai</td>
+                                        </tr>
+                                        sttDonVi++;
+                                    }
+
+                                </tbody>
+                            </table>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination" id="collective-pagination">
+                                </ul>
+                            </nav>
+                        </div>
+
+                    </div>
 
                 </div>
             </div>
