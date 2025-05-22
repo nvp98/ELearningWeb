@@ -390,7 +390,7 @@
                     $.getJSON('/Honor/LoadEmployees', { page: page, pageSize: pageSize }, function (res) {
                         const tbody = $('#tb-individual-ranking');
                         tbody.empty();
-                        let stt = ((page - 1) * pageSize) + 1;
+                        let stt = ((page - 1) * pageSize) + 4;
                         res.data.forEach(item => {
                             tbody.append(`
                                 <tr>
@@ -1013,31 +1013,45 @@
     <script>
         // Bản đồ màu cố định theo đơn vị
         const colorMap = {
-            "NM.CĐ1": { bg: 'rgba(54, 162, 235, 0.7)', border: 'rgba(54, 162, 235, 1)' },
-            "NM.CĐ3": { bg: 'rgba(75, 192, 192, 0.7)', border: 'rgba(75, 192, 192, 1)' },
-            "P.TB": { bg: 'rgba(255, 159, 64, 0.7)', border: 'rgba(255, 159, 64, 1)' },
-            "NM.CĐ2": { bg: 'rgba(153, 102, 255, 0.7)', border: 'rgba(153, 102, 255, 1)' },
-            "NM.CĐ4": { bg: 'rgba(255, 205, 86, 0.7)', border: 'rgba(255, 205, 86, 1)' },
-            "NM.CTDAI": { bg: 'rgba(52, 152, 219, 0.7)', border: 'rgba(52, 152, 219, 1)' },
-            "NM.NĐ": { bg: 'rgba(231, 76, 60, 0.7)', border: 'rgba(231, 76, 60, 1)' },
-            "BP.AN": { bg: 'rgba(46, 204, 113, 0.7)', border: 'rgba(46, 204, 113, 1)' },
-            "P.CN": { bg: 'rgba(241, 196, 15, 0.7)', border: 'rgba(241, 196, 15, 1)' },
-            "B.KSNB": { bg: 'rgba(230, 126, 34, 0.7)', border: 'rgba(230, 126, 34, 1)' },
-            "P.ATMT": { bg: 'rgba(26, 188, 156, 0.7)', border: 'rgba(26, 188, 156, 1)' },
-            "NM.TKVV": { bg: 'rgba(155, 89, 182, 0.7)', border: 'rgba(155, 89, 182, 1)' },
-            "P.XD": { bg: 'rgba(192, 57, 43, 0.7)', border: 'rgba(192, 57, 43, 1)' },
-            "P.ĐN": { bg: 'rgba(127, 140, 141, 0.7)', border: 'rgba(127, 140, 141, 1)' },
-            "B.CNTT": { bg: 'rgba(52, 73, 94, 0.7)', border: 'rgba(52, 73, 94, 1)' },
+            "NM.CĐ 1": { bg: 'rgba(52, 152, 219, 0.7)', border: 'rgba(52, 152, 219, 1)' },
+            "NM.CĐ 2": { bg: 'rgba(155, 89, 182, 0.7)', border: 'rgba(155, 89, 182, 1)' },
+            "NM.CĐ 3": { bg: 'rgba(46, 204, 113, 0.7)', border: 'rgba(46, 204, 113, 1)' },
+            "NM.CĐ 4": { bg: 'rgba(241, 196, 15, 0.7)', border: 'rgba(241, 196, 15, 1)' },
+            "NM.CĐ 5": { bg: 'rgba(231, 76, 60, 0.7)', border: 'rgba(231, 76, 60, 1)' },
+            "NM.CĐ 6": { bg: 'rgba(230, 126, 34, 0.7)', border: 'rgba(230, 126, 34, 1)' },
             "NM.HRC1": { bg: 'rgba(149, 165, 166, 0.7)', border: 'rgba(149, 165, 166, 1)' },
+            "NM.HRC2": { bg: 'rgba(127, 140, 141, 0.7)', border: 'rgba(127, 140, 141, 1)' },
+            "NM.LC": { bg: 'rgba(26, 188, 156, 0.7)', border: 'rgba(26, 188, 156, 1)' },
+            "NM.LG": { bg: 'rgba(52, 73, 94, 0.7)', border: 'rgba(52, 73, 94, 1)' },
             "NM.NL": { bg: 'rgba(41, 128, 185, 0.7)', border: 'rgba(41, 128, 185, 1)' },
-            "B.XDCB": { bg: 'rgba(39, 174, 96, 0.7)', border: 'rgba(39, 174, 96, 1)' },
-            "P.KH": { bg: 'rgba(44, 62, 80, 0.7)', border: 'rgba(44, 62, 80, 1)' },
+            "NM.NĐ": { bg: 'rgba(192, 57, 43, 0.7)', border: 'rgba(192, 57, 43, 1)' },
+            "NM.TKVV": { bg: 'rgba(22, 160, 133, 0.7)', border: 'rgba(22, 160, 133, 1)' },
+            "P.ATMT": { bg: 'rgba(142, 68, 173, 0.7)', border: 'rgba(142, 68, 173, 1)' },
+            "P.CN": { bg: 'rgba(243, 156, 18, 0.7)', border: 'rgba(243, 156, 18, 1)' },
+            "P.CNTT&CĐS": { bg: 'rgba(211, 84, 0, 0.7)', border: 'rgba(211, 84, 0, 1)' },
+            "P.ĐN": { bg: 'rgba(52, 73, 94, 0.7)', border: 'rgba(52, 73, 94, 1)' },
+            "P.KH": { bg: 'rgba(39, 174, 96, 0.7)', border: 'rgba(39, 174, 96, 1)' },
+            "P.KT": { bg: 'rgba(192, 57, 43, 0.7)', border: 'rgba(192, 57, 43, 1)' },
+            "P.KD": { bg: 'rgba(41, 128, 185, 0.7)', border: 'rgba(41, 128, 185, 1)' },
             "P.NL": { bg: 'rgba(241, 148, 138, 0.7)', border: 'rgba(241, 148, 138, 1)' },
             "P.NS": { bg: 'rgba(174, 214, 241, 0.7)', border: 'rgba(174, 214, 241, 1)' },
+            "P.QLCL": { bg: 'rgba(52, 152, 219, 0.7)', border: 'rgba(52, 152, 219, 1)' },
+            "P.TB": { bg: 'rgba(243, 156, 18, 0.7)', border: 'rgba(243, 156, 18, 1)' },
+            "BP.VT": { bg: 'rgba(255, 153, 153, 0.7)', border: 'rgba(255, 153, 153, 1)' },
+            "P.XD": { bg: 'rgba(241, 196, 15, 0.7)', border: 'rgba(241, 196, 15, 1)' },
+            "B.KSNB": { bg: 'rgba(230, 126, 34, 0.7)', border: 'rgba(230, 126, 34, 1)' },
+            "B.XDCB": { bg: 'rgba(46, 204, 113, 0.7)', border: 'rgba(46, 204, 113, 1)' },
+            "C.TH": { bg: 'rgba(155, 89, 182, 0.7)', border: 'rgba(155, 89, 182, 1)' },
+            "BDA LC 2": { bg: 'rgba(52, 152, 219, 0.7)', border: 'rgba(52, 152, 219, 1)' },
+            "BDA LG 2": { bg: 'rgba(26, 188, 156, 0.7)', border: 'rgba(26, 188, 156, 1)' },
+            "BDA NL 2": { bg: 'rgba(243, 156, 18, 0.7)', border: 'rgba(243, 156, 18, 1)' },
+            "BDA ND 2": { bg: 'rgba(211, 84, 0, 0.7)', border: 'rgba(211, 84, 0, 1)' },
+            "BP.AN": { bg: 'rgba(46, 204, 113, 0.7)', border: 'rgba(46, 204, 113, 1)' },
+            "BP.C": { bg: 'rgba(149, 165, 166, 0.7)', border: 'rgba(149, 165, 166, 1)' },
             "BP.K": { bg: 'rgba(133, 193, 233, 0.7)', border: 'rgba(133, 193, 233, 1)' },
             "BP.QLHT": { bg: 'rgba(163, 228, 215, 0.7)', border: 'rgba(163, 228, 215, 1)' },
-            "BP.VT": { bg: 'rgba(255, 153, 153, 0.7)', border: 'rgba(255, 153, 153, 1)' },
-            "NM.LC": { bg: 'rgba(204, 204, 255, 0.7)', border: 'rgba(204, 204, 255, 1)' }
+            "BQLDA HPDQ 2": { bg: 'rgba(127, 140, 141, 0.7)', border: 'rgba(127, 140, 141, 1)' },
+            "NM.CTD": { bg: 'rgba(52, 152, 219, 0.7)', border: 'rgba(52, 152, 219, 1)' }
         };
 
         const collectiveCtx = document.getElementById('collectiveChart').getContext('2d');
@@ -1307,10 +1321,16 @@
         }
 
         // Thêm sự kiện cho các bộ lọc
-        document.getElementById('departmentFilter').addEventListener('change', filterData);
+        //document.getElementById('departmentFilter').addEventListener('change', filterData);
         // document.getElementById('rewardTypeFilter').addEventListener('change', filterData);
-        document.getElementById('yearFilter').addEventListener('change', filterData);
-        document.getElementById('searchInput').addEventListener('input', filterData);
+        //document.getElementById('yearFilter').addEventListener('change', filterData);
+        //document.getElementById('searchInput').addEventListener('input', filterData);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('departmentFilter').addEventListener('change', filterData);
+            document.getElementById('yearFilter').addEventListener('change', filterData);
+            document.getElementById('searchInput').addEventListener('input', filterData);
+        });
 
         // Khởi tạo dữ liệu ban đầu
         fetchAchievements();
