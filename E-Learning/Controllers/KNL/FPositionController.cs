@@ -4216,7 +4216,7 @@ namespace E_Learning.Controllers
                        let b = db.KNL_LSDG.FirstOrDefault(x => x.NgayDGGN == a.NgayDG && x.NVID == a.ID)
                        let c = db.KNL_DocBangKNL.Where(x => x.IDNV == a.ID && x.ID_ViTriKNL == a.IDVT)
                        let d = db.KNL_KQ.Where(x => x.IDNV == a.ID && a.NgayDG.HasValue && x.ThangDG.Value.Year == x.NgayDG.Value.Year &&
-                       x.ThangDG.Value.Month == a.NgayDG.Value.Month).ToList()
+                       x.ThangDG.Value.Month == a.NgayDG.Value.Month && x.VTID == a.IDVT).ToList()
                        select new ExportNhanVienKQKNL
                        {
                            MaNV = a.MaNV,
