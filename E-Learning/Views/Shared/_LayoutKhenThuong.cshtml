@@ -1321,16 +1321,10 @@
         }
 
         // Thêm sự kiện cho các bộ lọc
-        //document.getElementById('departmentFilter').addEventListener('change', filterData);
+        document.getElementById('departmentFilter').addEventListener('change', filterData);
         // document.getElementById('rewardTypeFilter').addEventListener('change', filterData);
-        //document.getElementById('yearFilter').addEventListener('change', filterData);
-        //document.getElementById('searchInput').addEventListener('input', filterData);
-
-        document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('departmentFilter').addEventListener('change', filterData);
-            document.getElementById('yearFilter').addEventListener('change', filterData);
-            document.getElementById('searchInput').addEventListener('input', filterData);
-        });
+        document.getElementById('yearFilter').addEventListener('change', filterData);
+        document.getElementById('searchInput').addEventListener('input', filterData);
 
         // Khởi tạo dữ liệu ban đầu
         fetchAchievements();

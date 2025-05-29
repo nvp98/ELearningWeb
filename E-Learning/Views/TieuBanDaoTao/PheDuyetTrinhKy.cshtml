@@ -1,0 +1,235 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.ModelsDTTH
+@using E_Learning.Models
+@model PagedList.IPagedList<E_Learning.ModelsTieuBanDaoTao.ThanhVienTieuBanInfo>
+@using PagedList.Mvc
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-portfolio icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Danh sách trình ký Tiểu ban đào tạo
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="card col-lg-12">
+                    <div class="card-header">
+                            <div class="row">
+                                <div class="col-auto d-flex gap-2">
+                                    <button type="button" id="btnPheDuyet" class="btn btn-success">
+                                        <i class="fas fa-check-circle me-1"></i> Phê duyệt
+                                    </button>
+                                </div>
+                            </div>
+
+                    </div>
+                    @using (Html.BeginForm("PheDuyetTrinhKy", "TieuBanDaoTao", FormMethod.Get))
+                    {
+                        <div class="form-row mb-3">
+                            <div class="form-group col-md-3">
+                                <label for="phongBanFilter">Bộ phận:</label>
+                                <input type="text" class="form-control" id="BoPhan" value="@ViewBag.TenBoPhan" disabled />
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <label for="viTriTieuBanFilter">Vị trí trong tiểu ban:</label>
+                                @Html.DropDownList("viTriTieuBanFilter", (SelectList)ViewBag.DSViTriTieuBan, "-- Tất cả --", new { @class = "form-control" })
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label for="searchName">Tên thành viên:</label>
+                                <input type="text" name="searchName" class="form-control" placeholder="Nhập tên..." value="@ViewBag.SearchName" />
+                            </div>
+
+                            <div class="form-group col-md-4 align-self-end">
+                                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <form method="post" id="myForm">
+                                <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th width="30px" style="vertical-align:middle">STT</th>
+                                            <th class="text-center" width="50px" style="vertical-align:middle;background-color: #f7f7f7;">
+                                                <input type="checkbox" id="selectAll" /> Chọn tất Cả<br />
+                                            </th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Thành viên</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Vị trí trong tiểu ban</th>
+                                            <th class="text-center" width="300px" style="vertical-align:middle">Vị trí khung năng lực</th>
+                                            <th class="text-center" width="100px" style="vertical-align:middle">Ngày trình ký</th>
+                                            <th class="text-center" width="100px" style="vertical-align:middle">Ngày phê duyệt</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Người trình ký</th>
+                                            <th class="text-center" width="100px" style="vertical-align:middle">Trạng thái</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            int index = (Model.PageNumber - 1) * Model.PageSize + 1;
+                                        }
+                                        @if (!Model.Any())
+                                        {
+                                            <tr>
+                                                <td colspan="10" class="text-center text-muted">
+                                                    Không tìm thấy dữ liệu.
+                                                </td>
+                                            </tr>
+                                        } else
+                                        {
+
+                                            foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td style="text-align: center">@index</td>
+                                                    <td style="text-align: center">
+                                                        <input type="checkbox" class="cb-item" data-id="@item.Id" @(item.TrangThai == 2 ? "disabled" : "") />
+                                                    </td>
+                                                    <td>@item.HoTen</td>
+                                                    <td>@item.TenViTriTieuBan</td>
+                                                    <td>@item.TenViTriKNL</td>
+                                                    <td>@item.NgayCapNhatGanNhat.ToString("dd/MM/yyyy")</td>
+                                                    <td>
+                                                        @(item.NgayPheDuyet.HasValue ? item.NgayPheDuyet.Value.ToString("dd/MM/yyyy") : "")
+                                                    </td>
+                                                    <td>@item.NguoiTrinhKy</td>
+                                                    <td style="text-align: center">
+                                                        @if (item.TrangThai == 1)
+                                                        {
+                                                            <span class="badge bg-warning">Đang chờ duyệt</span>
+                                                        }
+                                                        else if (item.TrangThai == 2)
+                                                        {
+                                                            <span class="badge bg-success">Đã phê duyệt</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="badge bg-danger">Hết hiệu lực</span>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                                index++;
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </form>
+                            <div class="pager">
+                                @Html.PagedListPager(Model, page => Url.Action("Index", new
+                                {
+                                    page,
+                                    phongBanFilter = Request.QueryString["phongBanFilter"],
+                                    searchName = Request.QueryString["searchName"]
+                                }))
+                                <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        $('#btn-add').click(function () {
+            var url = $('#myModal').data('url');
+            $.get(url, function (data) {
+                $("#myModal").html(data);
+                $("#ModalTitle").html("Thêm mới thành viên Tiểu ban đào tạo");
+                $("#myModal").modal('show');
+            });
+        });
+
+        $('#selectAll').change(function () {
+            $('.cb-item:enabled').prop('checked', this.checked);
+        });
+
+        $('.cb-item').change(function () {
+            const total = $('.cb-item:enabled').length;
+            const checked = $('.cb-item:enabled:checked').length;
+            $('#selectAll').prop('checked', total > 0 && checked === total);
+        });
+
+        $('#btnPheDuyet').click(function () {
+            const selectedIds = [];
+
+            $('.cb-item:checked').each(function () {
+                const id = $(this).data('id');
+                if (id) selectedIds.push(id);
+            });
+
+            if (selectedIds.length === 0) {
+                alert('Vui lòng chọn vị trí để phê duyệt.');
+                return;
+            }
+
+            const xacNhan = confirm(`Xác nhận phê duyệt ${selectedIds.length} vị trí ?`);
+
+            if (!xacNhan) return;
+
+            $.ajax({
+                url: '@Url.Action("PheDuyet", "TieuBanDaoTao")',
+                type: 'POST',
+                data: JSON.stringify({ ids: selectedIds }),
+                contentType: 'application/json; charset=utf-8',
+                success: function (res) {
+                    if (res.success) {
+                        alert('Phê duyệt thành công!');
+                        location.reload();
+                    } else {
+                        alert('Đã có lỗi xảy ra.');
+                    }
+                },
+                error: function () {
+                    alert('Đã có lỗi xảy ra.');
+                }
+            });
+        });
+
+    });
+</script>
+

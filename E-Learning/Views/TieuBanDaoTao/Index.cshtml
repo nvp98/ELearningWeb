@@ -1,0 +1,287 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.ModelsDTTH
+@using E_Learning.Models
+@model PagedList.IPagedList<E_Learning.ModelsTieuBanDaoTao.ThanhVienTieuBanInfo>
+@using PagedList.Mvc
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-portfolio icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Tiểu ban đào tạo
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="card col-lg-12">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-auto gap-2">
+                                <button type="button" id="btn-add" class="btn btn-primary">
+                                    <i class="fas fa-plus me-1"></i> Thêm mới
+                                </button>
+                                <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","TieuBanDaoTao")'></div>
+                                <button type="button" class="btn btn-secondary">
+                                    <i class="fas fa-sync-alt me-1"></i> Cập nhật
+                                </button>
+                                <button type="button" id="btnTrinhKy" class="btn btn-success">
+                                    <i class="fas fa-paper-plane me-1"></i> Trình ký
+                                </button>
+                                <div class="modal fade" id="myModal_TrinhKy" role="dialog" data-url='@Url.Action("TrinhKy","TieuBanDaoTao")'></div>
+                                @{
+                                    var phongBanFilter = Request.QueryString["phongBanFilter"] ?? "";
+                                }
+                                <button type="button" class="btn btn-info"
+                                        onclick="location.href='@Url.Action("ExportExcel", "TieuBanDaoTao")?phongBanFilter=@phongBanFilter'">
+                                    <i class="fas fa-file-excel me-1"></i> Xuất Excel
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    @using (Html.BeginForm("Index", "TieuBanDaoTao", FormMethod.Get))
+                    {
+                            <div class="form-row mb-3">
+                                <div class="form-group col-md-3">
+                                    <label for="phongBanFilter">Bộ phận:</label>
+                                    @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.VIEW_ALL))
+                                    {
+                                        @Html.DropDownList("phongBanFilter", (SelectList)ViewBag.DSPhongBan, "-- Tất cả --", new { @class = "form-control" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("phongBanFilter", (SelectList)ViewBag.DSPhongBan, "-- Tất cả --", new { @class = "form-control", disabled = "disabled" })
+                                    }
+
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="viTriTieuBanFilter">Vị trí trong tiểu ban:</label>
+                                    @Html.DropDownList("viTriTieuBanFilter", (SelectList)ViewBag.DSViTriTieuBan, "-- Tất cả --", new { @class = "form-control" })
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="searchName">Tên thành viên:</label>
+                                    <input type="text" name="searchName" class="form-control" placeholder="Nhập tên..." value="@ViewBag.SearchName" />
+                                </div>
+
+                                <div class="form-group col-md-4 align-self-end">
+                                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                </div>
+                            </div>
+                        }
+
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <form method="post" id="myForm">
+                                <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th width="30px" style="vertical-align:middle">STT</th>
+                                            <th class="text-center" width="50px" style="vertical-align:middle;background-color: #f7f7f7;">
+                                                <input type="checkbox" id="selectAll" /> Chọn tất Cả<br />
+                                            </th>
+                                            <th class="text-center" width="50px" style="vertical-align:middle">Mã vị trí KNL</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Thành viên</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Vị trí trong tiểu ban</th>
+                                            <th class="text-center" width="300px" style="vertical-align:middle">Vị trí khung năng lực</th>
+                                            <th class="text-center" width="100px" style="vertical-align:middle">Ngày cập nhật gần nhất</th>
+                                            <th class="text-center" width="100px" style="vertical-align:middle">Ngày đến hạn cập nhật lại</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Trạng thái</th>
+                                            <th class="text-center" width="100px" style="vertical-align:middle">Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            int index = (Model.PageNumber - 1) * Model.PageSize + 1;
+                                        }
+                                        @if (!Model.Any())
+                                        {
+                                            <tr>
+                                                <td colspan="10" class="text-center text-muted">
+                                                    Không tìm thấy dữ liệu.
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td style="text-align: center">@index</td>
+                                                    <td style="text-align: center">
+                                                        <input type="checkbox" class="cb-item" data-id="@item.Id" @(item.TrangThai == 1 || item.TrangThai == 2 || item.TrangThai == 3 ? "disabled" : "") />
+                                                    </td>
+                                                    <td>@item.MaViTriKNL</td>
+                                                    <td>@item.HoTen</td>
+                                                    <td>@item.TenViTriTieuBan</td>
+                                                    <td>@item.TenViTriKNL</td>
+                                                    <td>@item.NgayCapNhatGanNhat.ToString("dd/MM/yyyy")</td>
+                                                    <td style="color: red">@item.NgayDenHanCapNhat.ToString("dd/MM/yyyy")</td>
+                                                    <td style="text-align: center">
+                                                        @if (item.TrangThai == 0)
+                                                        {
+                                                            <span class="badge bg-secondary">Chưa trình ký</span>
+                                                        }
+                                                        else if (item.TrangThai == 1)
+                                                        {
+                                                            <span class="badge bg-info text-dark">
+                                                                Đang trình ký
+                                                            </span>
+                                                            <a href="#" class="text-danger ms-2 btn-huy-trinhky" title="Hủy trình ký" data-id="@item.Id">
+                                                                <i class="fas fa-times-circle"></i>
+                                                            </a>
+                                                        }
+                                                        else if (item.TrangThai == 2)
+                                                        {
+                                                            <span class="badge bg-success">Đang hiệu lực</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="badge bg-danger">Hết hiệu lực</span>
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a class="fa fa-trash icon_action" title="Xóa"
+                                                           href="@Url.Action("Delete", "TieuBanDaoTao", new { id = item.Id })"
+                                                           onclick="return confirm('Bạn muốn xóa vị trí: @item.HoTen - @item.TenViTriTieuBan?')">
+                                                        </a>
+                                                        <a id="btn-edit_@item.Id" title="Sửa" class="fa fa-edit icon_action" style="cursor:pointer;"></a>
+                                                        <div class="modal fade" id="myModale_@item.Id" role="dialog" data-url='@Url.Action("Edit","TieuBanDaoTao", new { id = item.Id })'></div>
+                                                        <script type="text/javascript">
+                                                            $("#btn-edit_@item.Id").click(function () {
+                                                                var url = $('#myModale_@item.Id').data('url');
+                                                                    $.get(url, function (data) {
+                                                                        $("#myModale_@item.Id").html(data);
+                                                                        $(".ModalTitle_Edit").html("Cập nhật Thành viên tiểu ban đào tạo");
+                                                                        $("#myModale_@item.Id").modal('show');
+                                                                    });
+                                                            });
+                                                        </script>
+                                                    </td>
+                                                </tr>
+                                                index++;
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </form>
+                            <div class="pager">
+                                @Html.PagedListPager(Model, page => Url.Action("Index", new
+                                {
+                                    page,
+                                    viTriTieuBanFilter = Request.QueryString["viTriTieuBanFilter"],
+                                    phongBanFilter = Request.QueryString["phongBanFilter"],
+                                    searchName = Request.QueryString["searchName"]
+                                }))
+                                <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        $('#btn-add').click(function () {
+            var url = $('#myModal').data('url');
+            $.get(url, function (data) {
+                $("#myModal").html(data);
+                $("#ModalTitle").html("Thêm mới thành viên Tiểu ban đào tạo");
+                $("#myModal").modal('show');
+            });
+        });
+
+        $('#selectAll').change(function () {
+            $('.cb-item:enabled').prop('checked', this.checked);
+        });
+
+        $('.cb-item').change(function () {
+            const total = $('.cb-item:enabled').length;
+            const checked = $('.cb-item:enabled:checked').length;
+            $('#selectAll').prop('checked', total > 0 && checked === total);
+        });
+
+        $("#btnTrinhKy").click(function () {
+            const checkedItems = $(".cb-item:enabled:checked");
+
+            if (checkedItems.length === 0) {
+                alert("Vui lòng chọn vị trí để trình ký.");
+                return;
+            }
+
+            alert("Bạn muốn trình ký " + checkedItems.length + " vị trí ?");
+
+            const url = $('#myModal_TrinhKy').data('url');
+            $.get(url, function (data) {
+                $("#myModal_TrinhKy").html(data);
+                $("#ModalTitle_TrinhKy").html("Trình ký");
+                $("#myModal_TrinhKy").modal('show');
+            });
+        });
+
+        $(".btn-huy-trinhky").click(function (e) {
+            e.preventDefault();
+            var id = $(this).data("id");
+            if (confirm("Bạn muốn hủy trình ký vị trí này?")) {
+                $.ajax({
+                    url: '/TieuBanDaoTao/HuyTrinhKy',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (res) {
+                        if (res.success) {
+                            alert("Hủy trình ký thành công!");
+                            location.reload();
+                        } else {
+                            alert("Không thể hủy trình ký!");
+                        }
+                    }
+                });
+            }
+        })
+    });
+</script>
+

@@ -1,0 +1,72 @@
+﻿@model E_Learning.ModelsTieuBanDaoTao.ThanhVienTieuBanViewModel
+@*<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+    <link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />*@
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm("TrinhKy", "TieuBanDaoTao", FormMethod.Post, new { id = "formTrinhKy" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog" style="max-width:800px" id="formF">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="ModalTitle_TrinhKy"></h5>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <fieldset id="SubmitForm">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="BoPhan">Bộ phận</label>
+                            <input type="text" class="form-control" id="BoPhan" value="@ViewBag.TenBoPhan" disabled />
+                        </div>
+                    </div>
+                    @Html.Hidden("SelectedIds", null, new { id = "SelectedIds" })
+                    <div id="thanhVienContainer">
+                        <div class="row mt-3 thanhVienRow">
+                            <div class="form-group col-md-4">
+                                <label>Chọn người trình ký</label>
+                                @Html.DropDownList("NguoiTrinhKy", (SelectList)ViewBag.DanhSachTruongPho, "--Chọn thành viên--", new { @class = "form-control" })
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label>Vị trí trong tiểu ban</label>
+                                <select class="form-control" disabled>
+                                    <option value="">T/PBP</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-success" id="btnXacNhan">Xác nhận</button>
+                        <input type="reset" value="Hủy" class="btn btn-danger button_cancel" data-dismiss="modal" />
+                    </div>
+                </fieldset>
+
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $("#btnXacNhan").click(function (e) {
+            var ids = [];
+            $(".cb-item:checked").each(function () {
+                ids.push($(this).data("id"));
+            });
+            $("#SelectedIds").val(ids.join(","));
+        });
+
+        $("#formTrinhKy").submit(function (e) {
+            const nguoiTrinhKy = $("#NguoiTrinhKy").val();
+            if (!nguoiTrinhKy) {
+                e.preventDefault();
+                alert('Vui lòng chọn người để trình ký.');
+                return false;
+            }
+        })
+    });
+</script>
