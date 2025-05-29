@@ -86,8 +86,6 @@ namespace E_Learning.Controllers.TieuBanDaoTao
             }
             db.SaveChanges();
 
-    
-
             var danhSachViTri = db.BDT_ViTriTieuBan
                 .Select(v => new { v.ID, v.TenViTri })
                 .ToList();
@@ -215,7 +213,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
             }
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id, int? phongBanFilter)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             //if (!ListQuyen.Contains(CONSTKEY.EDIT))
@@ -229,6 +227,11 @@ namespace E_Learning.Controllers.TieuBanDaoTao
             {
                 TempData["msgError"] = "<script>alert('Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');</script>";
                 return RedirectToAction("Index", "Login");
+            }
+
+            if (phongBanFilter > 0 && phongBanFilter != MyAuthentication.IDPhongban)
+            {
+                return Json(new { error = true, message = "Không thể chỉnh sửa ở bộ phận khác!" }, JsonRequestBehavior.AllowGet);
             }
 
             var tenPhongBan = db.PhongBans
@@ -299,38 +302,40 @@ namespace E_Learning.Controllers.TieuBanDaoTao
             }
         }
 
-        public ActionResult Delete(int id)
+        [HttpPost]
+        public JsonResult Delete(int id, int? phongBanFilter)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             if (!ListQuyen.Contains(CONSTKEY.DEL))
             {
-                TempData["msgError"] = "<script>alert('Bạn không có quyền thực hiện chức năng này');</script>";
-                return RedirectToAction("", "Home");
+                return Json(new { success = false, message = "Bạn không có quyền thực hiện chức năng này!" });
             }
+
+            if (phongBanFilter > 0 && phongBanFilter != MyAuthentication.IDPhongban)
+            {
+                return Json(new { success = false, message = "Không thể xóa ở bộ phận khác!" });
+            }
+
             try
             {
                 var record = db.BDT_ThanhVienTieuBan.SingleOrDefault(x => x.ID == id);
-
                 if (record == null)
                 {
-                    TempData["msgError"] = "<script>alert('Không tìm thấy dữ liệu cần xóa');</script>";
-                    return RedirectToAction("Index");
+                    return Json(new { success = false, message = "Không tìm thấy dữ liệu cần xóa!" });
                 }
 
                 db.BDT_ThanhVienTieuBan.Remove(record);
                 db.SaveChanges();
 
-                TempData["msgSuccess"] = "<script>alert('Xóa thành viên khỏi tiểu ban thành công!');</script>";
-                return RedirectToAction("Index");
+                return Json(new { success = true, message = "Xóa thành viên khỏi tiểu ban thành công!" });
             }
             catch
             {
-                TempData["msgError"] = "<script>alert('Có lỗi xảy ra khi xóa.');</script>";
-                return RedirectToAction("Index");
+                return Json(new { success = false, message = "Có lỗi xảy ra khi xóa!" });
             }
         }
 
-        public ActionResult TrinhKy()
+        public ActionResult TrinhKy(int? phongBanFilter)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             //if (!ListQuyen.Contains(CONSTKEY.VIEW_ALL))
@@ -338,6 +343,11 @@ namespace E_Learning.Controllers.TieuBanDaoTao
             //    TempData["msgError"] = "<script>alert('Bạn không có quyền thực hiện chức năng này');</script>";
             //    return RedirectToAction("", "Home");
             //}
+
+            if (phongBanFilter > 0 && phongBanFilter != MyAuthentication.IDPhongban)
+            {
+                return Json(new { error = true, message = "Không thể trình ký ở bộ phận khác." }, JsonRequestBehavior.AllowGet);
+            }
 
             var username = MyAuthentication.Username;
             if (username == null)
@@ -546,7 +556,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                 return RedirectToAction("Index", "Login");
             }
 
-            phongBanFilter = phongBanFilter.HasValue ? phongBanFilter : MyAuthentication.IDPhongban;
+            phongBanFilter = phongBanFilter.HasValue && phongBanFilter > 0 ? phongBanFilter : MyAuthentication.IDPhongban;
 
             var result = (from nv in db.NhanViens
                           join vtKNL in db.ViTriKNLs on nv.IDVTKNL equals vtKNL.IDVT

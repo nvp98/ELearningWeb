@@ -36,7 +36,6 @@
                         <div class="page-title-subheading">
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -47,7 +46,10 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-auto gap-2">
-                                <button type="button" id="btn-add" class="btn btn-primary">
+                                @{
+                                    var phongBanFilter = Request.QueryString["phongBanFilter"] ?? "0";
+                                }
+                                <button type="button" id="btn-add" data-phongbanid="@phongBanFilter" class="btn btn-primary">
                                     <i class="fas fa-plus me-1"></i> Thêm mới
                                 </button>
                                 <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","TieuBanDaoTao")'></div>
@@ -57,10 +59,9 @@
                                 <button type="button" id="btnTrinhKy" class="btn btn-success">
                                     <i class="fas fa-paper-plane me-1"></i> Trình ký
                                 </button>
-                                <div class="modal fade" id="myModal_TrinhKy" role="dialog" data-url='@Url.Action("TrinhKy","TieuBanDaoTao")'></div>
-                                @{
-                                    var phongBanFilter = Request.QueryString["phongBanFilter"] ?? "";
-                                }
+                                <div class="modal fade" id="myModal_TrinhKy" role="dialog"
+                                     data-url='@Url.Action("TrinhKy", "TieuBanDaoTao", new { phongBanFilter = phongBanFilter })'>
+                                </div>
                                 <button type="button" class="btn btn-info"
                                         onclick="location.href='@Url.Action("ExportExcel", "TieuBanDaoTao")?phongBanFilter=@phongBanFilter'">
                                     <i class="fas fa-file-excel me-1"></i> Xuất Excel
@@ -173,20 +174,25 @@
                                                         }
                                                     </td>
                                                     <td class="text-center">
-                                                        <a class="fa fa-trash icon_action" title="Xóa"
-                                                           href="@Url.Action("Delete", "TieuBanDaoTao", new { id = item.Id })"
-                                                           onclick="return confirm('Bạn muốn xóa vị trí: @item.HoTen - @item.TenViTriTieuBan?')">
+                                                        <a href="javascript:void(0);" class="fa fa-trash icon_action btn-delete"
+                                                           data-id="@item.Id"
+                                                           data-phongbanid="@item.PhongBanID"
+                                                           title="Xóa">
                                                         </a>
                                                         <a id="btn-edit_@item.Id" title="Sửa" class="fa fa-edit icon_action" style="cursor:pointer;"></a>
-                                                        <div class="modal fade" id="myModale_@item.Id" role="dialog" data-url='@Url.Action("Edit","TieuBanDaoTao", new { id = item.Id })'></div>
+                                                        <div class="modal fade" id="myModale_@item.Id" role="dialog" data-url='@Url.Action("Edit","TieuBanDaoTao", new { id = item.Id, phongBanFilter = phongBanFilter })'></div>
                                                         <script type="text/javascript">
                                                             $("#btn-edit_@item.Id").click(function () {
                                                                 var url = $('#myModale_@item.Id').data('url');
-                                                                    $.get(url, function (data) {
+                                                                $.get(url, function (data) {
+                                                                    if (data.error) {
+                                                                        alert(data.message);
+                                                                    } else {
                                                                         $("#myModale_@item.Id").html(data);
                                                                         $(".ModalTitle_Edit").html("Cập nhật Thành viên tiểu ban đào tạo");
                                                                         $("#myModale_@item.Id").modal('show');
-                                                                    });
+                                                                    }
+                                                                });
                                                             });
                                                         </script>
                                                     </td>
@@ -226,7 +232,17 @@
 <script>
     $(document).ready(function () {
 
+        var currentUserPhongBanID = @MyAuthentication.IDPhongban;
+
         $('#btn-add').click(function () {
+
+            var phongBanID = $(this).data("phongbanid");
+
+            if (phongBanID > 0 && phongBanID !== currentUserPhongBanID) {
+                alert("Không thể thêm mới ở bộ phận khác.");
+                return;
+            }
+
             var url = $('#myModal').data('url');
             $.get(url, function (data) {
                 $("#myModal").html(data);
@@ -248,18 +264,23 @@
         $("#btnTrinhKy").click(function () {
             const checkedItems = $(".cb-item:enabled:checked");
 
-            if (checkedItems.length === 0) {
-                alert("Vui lòng chọn vị trí để trình ký.");
-                return;
-            }
-
-            alert("Bạn muốn trình ký " + checkedItems.length + " vị trí ?");
-
             const url = $('#myModal_TrinhKy').data('url');
             $.get(url, function (data) {
-                $("#myModal_TrinhKy").html(data);
-                $("#ModalTitle_TrinhKy").html("Trình ký");
-                $("#myModal_TrinhKy").modal('show');
+                if (data.error) {
+                    alert(data.message);
+                } else {
+
+                    if (checkedItems.length === 0) {
+                        alert("Vui lòng chọn vị trí để trình ký.");
+                        return;
+                    }
+
+                    alert("Bạn muốn trình ký " + checkedItems.length + " vị trí ?");
+
+                    $("#myModal_TrinhKy").html(data);
+                    $("#ModalTitle_TrinhKy").html("Trình ký");
+                    $("#myModal_TrinhKy").modal('show');
+                }
             });
         });
 
@@ -281,6 +302,33 @@
                     }
                 });
             }
+        })
+
+        $(".btn-delete").click(function (e) {
+            var id = $(this).data("id");
+            var phongBanID = $(this).data("phongbanid");
+
+            if (phongBanID !== currentUserPhongBanID) {
+                alert("Không thể xóa ở bộ phận khác!");
+                return;
+            }
+
+            if (!confirm("Bạn muốn xóa vị trí này?")) return;
+
+            $.ajax({
+                url: '@Url.Action("Delete", "TieuBanDaoTao")',
+                type: 'POST',
+                data: { id: id, phongBanFilter: phongBanID },
+                success: function (response) {
+                    alert(response.message);
+                    if (response.success) {
+                        location.reload();
+                    }
+                },
+                error: function () {
+                    alert("Lỗi kết nối máy chủ");
+                }
+            });
         })
     });
 </script>
