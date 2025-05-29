@@ -1,6 +1,6 @@
-﻿using E_Learning.Models;
+﻿using ClosedXML.Excel;
+using E_Learning.Models;
 using E_Learning.ModelsTieuBanDaoTao;
-using OfficeOpenXml;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -536,6 +536,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                 return Json(new { success = false, message = ex.Message });
             }
         }
+        
         public ActionResult ExportExcel(int? phongBanFilter)
         {
             var username = MyAuthentication.Username;
@@ -552,6 +553,8 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                           join tvTieuBan in db.BDT_ThanhVienTieuBan on nv.ID equals tvTieuBan.NhanVien_ID
                           join vtTieuBan in db.BDT_ViTriTieuBan on tvTieuBan.ViTriTieuBan_ID equals vtTieuBan.ID
                           join tieuBan in db.BDT_TieuBan on tvTieuBan.TieuBan_ID equals tieuBan.ID
+                          where tieuBan.PhongBan_ID == phongBanFilter && tvTieuBan.TrangThai == 2
+                          orderby tvTieuBan.ViTriTieuBan_ID
                           select new ThanhVienTieuBanInfo
                           {
                               Id = tvTieuBan.ID,
@@ -561,58 +564,49 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                               TenViTriTieuBan = vtTieuBan.TenViTri,
                               NgayCapNhatGanNhat = (DateTime)tvTieuBan.NgayCapNhat,
                               NgayDenHanCapNhat = (DateTime)tvTieuBan.NgayDenHanCapNhatLai,
-                              TrangThai = (int)tvTieuBan.TrangThai,
-                              PhongBanID = (int)tieuBan.PhongBan_ID,
-                              ViTriTieuBan_ID = (int)tvTieuBan.ViTriTieuBan_ID
-                          }).Where(x => x.PhongBanID == phongBanFilter && x.TrangThai == 2)
-                          .OrderBy(x => x.ViTriTieuBan_ID);
+                              TrangThai = (int)tvTieuBan.TrangThai
+                          }).ToList();
 
-            using (var package = new ExcelPackage())
+            var templatePath = Server.MapPath("~/App_Data/DanhSachTieuBan_Template.xlsx");
+
+            using (var workbook = new XLWorkbook(templatePath))
             {
-                var ws = package.Workbook.Worksheets.Add("ThanhVienTieuBan");
+                var worksheet = workbook.Worksheet(1);
 
-                ws.Cells[1, 1].Value = "STT";
-                ws.Cells[1, 2].Value = "Mã vị trí KNL";
-                ws.Cells[1, 3].Value = "Thành viên";
-                ws.Cells[1, 4].Value = "Vị trí KNL";
-                ws.Cells[1, 5].Value = "Vị trí trong tiểu ban";
-                ws.Cells[1, 6].Value = "Ngày cập nhật gần nhất";
-                ws.Cells[1, 7].Value = "Ngày đến hạn cập nhật lại";
-                ws.Cells[1, 8].Value = "Trạng thái";
-
-                int row = 2;
+                int startRow = 2;
                 int stt = 1;
                 foreach (var item in result)
                 {
-                    ws.Cells[row, 1].Value = stt++;
-                    ws.Cells[row, 2].Value = item.MaViTriKNL;
-                    ws.Cells[row, 3].Value = item.HoTen;
-                    ws.Cells[row, 4].Value = item.TenViTriKNL;
-                    ws.Cells[row, 5].Value = item.TenViTriTieuBan;
-                    ws.Cells[row, 6].Value = item.NgayCapNhatGanNhat.ToString("dd/MM/yyyy");
-                    ws.Cells[row, 7].Value = item.NgayDenHanCapNhat.ToString("dd/MM/yyyy");
-                    ws.Cells[row, 8].Value = item.TrangThai == 0 ? "Chưa trình ký" : (item.TrangThai == 1 ? "Đang trình ký" : (item.TrangThai == 2 ? "Đang hiệu lực" : "Hết hiệu lực"));
+                    worksheet.Cell(startRow, 1).Value = stt++;
+                    worksheet.Cell(startRow, 2).Value = item.MaViTriKNL;
+                    worksheet.Cell(startRow, 3).Value = item.HoTen;
+                    worksheet.Cell(startRow, 4).Value = item.TenViTriKNL;
+                    worksheet.Cell(startRow, 5).Value = item.TenViTriTieuBan;
+                    worksheet.Cell(startRow, 6).Value = item.NgayCapNhatGanNhat.ToString("dd/MM/yyyy");
+                    worksheet.Cell(startRow, 7).Value = item.NgayDenHanCapNhat.ToString("dd/MM/yyyy");
+                    worksheet.Cell(startRow, 8).Value = item.TrangThai == 0 ? "Chưa trình ký" : (item.TrangThai == 1 ? "Đang trình ký" : item.TrangThai == 2 ? "Đang hiệu lực" : "Hết hiệu lực");
 
-                    row++;
+                    startRow++;
                 }
 
-                ws.Cells[1, 1, row - 1, 8].AutoFitColumns();
-                ws.Cells[1, 1, 1, 8].Style.Font.Bold = true;
-
-                var stream = new MemoryStream();
-                package.SaveAs(stream);
-                stream.Position = 0;
+                worksheet.Columns().AdjustToContents();
 
                 var maPhongBan = db.PhongBans
-                            .Where(p => p.IDPhongBan == phongBanFilter)
-                            .Select(p => p.MaPB)
-                            .FirstOrDefault();
+                    .Where(p => p.IDPhongBan == phongBanFilter)
+                    .Select(p => p.MaPB)
+                    .FirstOrDefault();
 
                 string fileName = "DanhSachTieuBan_" + maPhongBan + ".xlsx";
                 string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-                return File(stream, contentType, fileName);
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    stream.Position = 0;
+                    return File(stream.ToArray(), contentType, fileName);
+                }
             }
         }
+
     }
 }
