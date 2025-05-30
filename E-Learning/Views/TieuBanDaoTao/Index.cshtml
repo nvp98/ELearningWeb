@@ -44,30 +44,74 @@
             <div class="row">
                 <div class="card col-lg-12">
                     <div class="card-header">
-                        <div class="row">
-                            <div class="col-auto gap-2">
+                        @*<div class="row">
+            <div class="col-auto gap-2">
+                @{
+                    var phongBanFilter = Request.QueryString["phongBanFilter"] ?? "0";
+                }
+                <button type="button" id="btn-add" data-phongbanid="@phongBanFilter" class="btn btn-primary">
+                    <i class="fas fa-plus me-1"></i> Thêm mới
+                </button>
+                <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","TieuBanDaoTao")'></div>
+                <button type="button" class="btn btn-secondary">
+                    <i class="fas fa-sync-alt me-1"></i> Cập nhật
+                </button>
+                <button type="button" id="btnTrinhKy" class="btn btn-success">
+                    <i class="fas fa-paper-plane me-1"></i> Trình ký
+                </button>
+                <div class="modal fade" id="myModal_TrinhKy" role="dialog"
+                     data-url='@Url.Action("TrinhKy", "TieuBanDaoTao", new { phongBanFilter = phongBanFilter })'>
+                </div>
+                <button type="button" class="btn btn-info"
+                        onclick="location.href='@Url.Action("ExportExcel", "TieuBanDaoTao")?phongBanFilter=@phongBanFilter'">
+                    <i class="fas fa-file-excel me-1"></i> Xuất Excel
+                </button>
+
+                @using (Html.BeginForm("Import", "TieuBanDaoTao", FormMethod.Post, new { enctype = "multipart/form-data", id = "formImport" }))
+                {
+                    <input type="file" id="fileInput" name="file" accept=".xlsx,.xls" />
+                    <button type="button" id="btnImport" class="btn btn-success">Import Excel</button>
+                }
+            </div>
+        </div>*@
+
+                        <div class="row mb-3">
+                            <div class="col d-flex align-items-center flex-wrap gap-2">
                                 @{
                                     var phongBanFilter = Request.QueryString["phongBanFilter"] ?? "0";
                                 }
+
                                 <button type="button" id="btn-add" data-phongbanid="@phongBanFilter" class="btn btn-primary">
                                     <i class="fas fa-plus me-1"></i> Thêm mới
                                 </button>
+
                                 <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","TieuBanDaoTao")'></div>
-                                <button type="button" class="btn btn-secondary">
+
+                                @*<button type="button" class="btn btn-secondary">
                                     <i class="fas fa-sync-alt me-1"></i> Cập nhật
-                                </button>
+                                </button>*@
+
                                 <button type="button" id="btnTrinhKy" class="btn btn-success">
                                     <i class="fas fa-paper-plane me-1"></i> Trình ký
                                 </button>
+
                                 <div class="modal fade" id="myModal_TrinhKy" role="dialog"
                                      data-url='@Url.Action("TrinhKy", "TieuBanDaoTao", new { phongBanFilter = phongBanFilter })'>
                                 </div>
+
                                 <button type="button" class="btn btn-info"
                                         onclick="location.href='@Url.Action("ExportExcel", "TieuBanDaoTao")?phongBanFilter=@phongBanFilter'">
                                     <i class="fas fa-file-excel me-1"></i> Xuất Excel
                                 </button>
+
+                                @using (Html.BeginForm("Import", "TieuBanDaoTao", FormMethod.Post, new { enctype = "multipart/form-data", id = "formImport", @class = "d-flex align-items-center gap-2" }))
+                                {
+                                    <input type="file" id="fileInput" name="file" accept=".xlsx,.xls" class="form-control form-control-sm" style="width: 200px;" />
+                                    <button type="submit" id="btnImport" class="btn btn-success">Import Excel</button>
+                                }
                             </div>
                         </div>
+
 
                     </div>
                     @using (Html.BeginForm("Index", "TieuBanDaoTao", FormMethod.Get))
@@ -100,8 +144,7 @@
                                     <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                                 </div>
                             </div>
-                        }
-
+                     }
 
                     <div class="card-body">
                         <div class="table-responsive">
@@ -113,7 +156,6 @@
                                             <th class="text-center" width="50px" style="vertical-align:middle;background-color: #f7f7f7;">
                                                 <input type="checkbox" id="selectAll" /> Chọn tất Cả<br />
                                             </th>
-                                            <th class="text-center" width="50px" style="vertical-align:middle">Mã vị trí KNL</th>
                                             <th class="text-center" width="150px" style="vertical-align:middle">Thành viên</th>
                                             <th class="text-center" width="150px" style="vertical-align:middle">Vị trí trong tiểu ban</th>
                                             <th class="text-center" width="300px" style="vertical-align:middle">Vị trí khung năng lực</th>
@@ -144,7 +186,6 @@
                                                     <td style="text-align: center">
                                                         <input type="checkbox" class="cb-item" data-id="@item.Id" @(item.TrangThai == 1 || item.TrangThai == 2 || item.TrangThai == 3 ? "disabled" : "") />
                                                     </td>
-                                                    <td>@item.MaViTriKNL</td>
                                                     <td>@item.HoTen</td>
                                                     <td>@item.TenViTriTieuBan</td>
                                                     <td>@item.TenViTriKNL</td>
@@ -330,6 +371,18 @@
                 }
             });
         })
+
+        $("#btnImport").click(function () {
+            const fileInput = $("#fileInput")[0];
+            if (!fileInput.files.length) {
+                alert("Vui lòng chọn file Excel.");
+                return;
+            }
+
+            if (confirm("Import dữ liệu từ file Excel này?")) {
+                $("#formImport").submit();
+            }
+        });
     });
 </script>
 

@@ -10,6 +10,7 @@ namespace E_Learning.ModelsTieuBanDaoTao
         public int Id { get; set; }
         public int MaViTriKNL { get; set; }
         public string TenViTriKNL { get; set; }
+        public string MaNhanVien { get; set; }
         public string HoTen { get; set; }
         public int ViTriTieuBan_ID { get; set; }
         public string TenViTriTieuBan { get; set; }
@@ -18,7 +19,9 @@ namespace E_Learning.ModelsTieuBanDaoTao
         public int TrangThai { get; set; }
         public int PhongBanID { get; set; }
         public DateTime? NgayPheDuyet { get; set; }
-        public string NguoiTrinhKy { get; set; }
+        public string HoTenNguoiTrinhKy { get; set; }
+        public string MaNhanVienNguoiPheDuyet { get; set; }
+        public string HoTenNguoiPheDuyet { get;set; }
     } 
 
 }
