@@ -103,12 +103,13 @@
                                         onclick="location.href='@Url.Action("ExportExcel", "TieuBanDaoTao")?phongBanFilter=@phongBanFilter'">
                                     <i class="fas fa-file-excel me-1"></i> Xuất Excel
                                 </button>
-
-                                @using (Html.BeginForm("Import", "TieuBanDaoTao", FormMethod.Post, new { enctype = "multipart/form-data", id = "formImport", @class = "d-flex align-items-center gap-2" }))
-                                {
-                                    <input type="file" id="fileInput" name="file" accept=".xlsx,.xls" class="form-control form-control-sm" style="width: 200px;" />
-                                    <button type="submit" id="btnImport" class="btn btn-success">Import Excel</button>
-                                }
+                                <div id="formImportExcel">
+                                    @using (Html.BeginForm("Import", "TieuBanDaoTao", FormMethod.Post, new { enctype = "multipart/form-data", id = "formImport", @class = "d-flex align-items-center gap-2" }))
+                                    {
+                                        <input type="file" id="fileInput" name="file" accept=".xlsx,.xls" class="form-control form-control-sm formImport" style="width: 200px;" />
+                                        <button type="submit" id="btnImport" class="btn btn-success formImport">Import Excel</button>
+                                    }
+                                </div>
                             </div>
                         </div>
 
@@ -141,7 +142,7 @@
                                 </div>
 
                                 <div class="form-group col-md-4 align-self-end">
-                                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                    <button id="btn-search" type="submit" class="btn btn-primary">Tìm kiếm</button>
                                 </div>
                             </div>
                      }
@@ -354,7 +355,7 @@
                 return;
             }
 
-            if (!confirm("Bạn muốn xóa vị trí này?")) return;
+            if (!confirm("Bạn muốn xóa vị trí này ?")) return;
 
             $.ajax({
                 url: '@Url.Action("Delete", "TieuBanDaoTao")',
@@ -383,6 +384,30 @@
                 $("#formImport").submit();
             }
         });
+
+        var currentIDPhongBan = @MyAuthentication.IDPhongban;
+
+        function toggleButtons() {
+            var selectedValue = $("#phongBanFilter").val();
+            if (selectedValue != currentIDPhongBan) {
+                $("#btn-add").hide();
+                $("#btnTrinhKy").hide();
+                $("#formImportExcel").hide();
+            } else {
+                $("#btn-add").show();
+                $("#btnTrinhKy").show();
+                $("#formImportExcel").show();
+            }
+        }
+
+        toggleButtons();
+
+        //$("#phongBanFilter").on("change", function () {
+        //    toggleButtons();
+        //});
+
+        $("#btn-search").click(function () {
+            toggleButtons();
+        });
     });
 </script>
-
