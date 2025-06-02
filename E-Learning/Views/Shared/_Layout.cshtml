@@ -172,15 +172,22 @@
                                 </a>
                             </li>
                             @*@if (checkDGNV == 1 || true)
-        {
-            <li>
-                <a title="Cập nhật KNL" href="@Url.Action("Index","FCheck")"
-                    onclick="return confirm('Cần kiểm tra để đảm bảo Vị trí đánh giá trong danh sách đúng với thực tế trước khi thực hiện đánh giá')">
-                    <i class="metismenu-icon pe-7s-news-paper font-weight-bold">
-                    </i>Đánh giá Khung Năng lực
-                </a>
-            </li>
-        }*@
+                            {
+                                <li>
+                                    <a title="Cập nhật KNL" href="@Url.Action("Index","FCheck")"
+                                        onclick="return confirm('Cần kiểm tra để đảm bảo Vị trí đánh giá trong danh sách đúng với thực tế trước khi thực hiện đánh giá')">
+                                        <i class="metismenu-icon pe-7s-news-paper font-weight-bold">
+                                        </i>Đánh giá Khung Năng lực
+                                    </a>
+                                </li>
+
+                            }*@
+                            <li>
+                                <a href="@Url.Action("Index","ListTestQT", new {IDNV = E_Learning.Models.MyAuthentication.ID,IDVTKNL=E_Learning.Models.MyAuthentication.IDVTKNL})">
+                                    <i class="metismenu-icon pe-7s-share font-weight-bold"></i>
+                                    Đề xuất Đổi mới sáng tạo
+                                </a>
+                            </li>
                             <li>
                                 <a title="Cập nhật KNL" href="@Url.Action("Index","FCheck")"
                                    onclick="return confirm('Cần kiểm tra để đảm bảo Vị trí đánh giá trong danh sách đúng với thực tế trước khi thực hiện đánh giá')">
@@ -244,6 +251,31 @@
                     </a>
                 </li>*@
                                 </ul>
+                            </li>
+                            <li class="app-sidebar__heading">Đổi mới sáng tạo</li>
+                            <li>
+                                <a href="@Url.Action("Index","NoiDungDTTH")">
+                                    <i class="metismenu-icon pe-7s-note2 font-weight-bold"></i>
+                                    Nhiệm vụ được giao
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index","NoiDungDTTH")">
+                                    <i class="metismenu-icon pe-7s-note2 font-weight-bold"></i>
+                                    Ý tưởng tới bạn
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index","NoiDungDTTH")">
+                                    <i class="metismenu-icon pe-7s-note2 font-weight-bold"></i>
+                                    Khám phá các nội dung ĐMST
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index","NoiDungDTTH")">
+                                    <i class="metismenu-icon pe-7s-note2 font-weight-bold"></i>
+                                    Chỉ đạo thực hiện
+                                </a>
                             </li>
                             <li class="app-sidebar__heading">Thủ tục đào tạo</li>
                             @if (ListControll.Contains("NoiDungDTTH"))
@@ -551,6 +583,46 @@
                                 </li>
                                 showKNL = 1;
                             }
+                            <li class=" @((new List<String> { "NoiDungQT", "ResultQTHD/ListNV", "ResultQTHD" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
+                                @if ((new List<String> { "NoiDungQT", "CauHoiQT", "ResultQTHD" }).Any(x => ListControll.Contains(x)))
+                                {
+                                    <a href="#" id="IDTK" class="">
+                                        <i class="metismenu-icon pe-7s-network font-weight-bold">
+                                        </i>Quản lý Đổi mới sáng tạo
+                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                    </a>
+                                }
+
+                                <ul id="LSTK">
+                                    @if (ListControll.Contains("NoiDungQT"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "RenewLinhVuc")" class="font-size-md font-weight-bold @(Context.Request.Path == "/RenewLinhVuc" ? "mm-active" : "")">
+                                                <i class=" pe-7s-note2">
+                                                </i>&nbsp;&nbsp;Lĩnh Vực ĐMST
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (ListControll.Contains("CauHoiQT"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "ResultQTHD")" class="font-size-md font-weight-bold @(Context.Request.Path == "/ResultQTHD/ListNV" ? "mm-active" : "")">
+                                                <i class=" pe-7s-edit">
+                                                </i>&nbsp;&nbsp;Danh sách ban ĐMST
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (ListControll.Contains("ResultQTHD"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("ListNV", "ResultQTHD",new {IDPB = E_Learning.Models.MyAuthentication.IDPhongban})" class="font-size-md font-weight-bold @(Context.Request.Path == "/ResultQTHD" ? "mm-active" : "")">
+                                                <i class=" pe-7s-graph3">
+                                                </i>&nbsp;&nbsp;Danh sách tiểu ban ĐMST
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
                             <li class=" @((new List<String> { "NoiDungDTKCCD", "SuggestKCCD/Approve", "SuggestKCCD" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
 
                                 <a href="#" id="IDTK" class="">
@@ -741,35 +813,35 @@
                                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                                     </a>
                                 }
-                            <ul id="LSTK">
-                                @if (ListControll.Contains("RewardContent"))
-                                {
-                                    <li>
-                                        <a href="@Url.Action("Index", "RewardContent")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Question" ? "mm-active" : "")">
-                                            <i class=" pe-7s-note2">
-                                            </i>&nbsp;&nbsp; Nội dung khen thưởng
-                                        </a>
-                                    </li>
-                                }
-                                @if (ListControll.Contains("RewardType"))
-                                {
-                                    <li>
-                                        <a href="@Url.Action("Index", "RewardType")" class=" font-weight-bold @(Context.Request.Path == "/RewardType" ? "mm-active" : "")">
-                                            <i class=" pe-7s-graph3">
-                                            </i>&nbsp;&nbsp; Danh sách khen thưởng
-                                        </a>
-                                    </li>
-                                }
-                                @if (ListControll.Contains("RewardImage"))
-                                {
-                                    <li>
-                                        <a href="@Url.Action("Index", "RewardImage")" class=" font-weight-bold @(Context.Request.Path == "/RewardImage" ? "mm-active" : "")">
-                                            <i class=" pe-7s-graph3">
-                                            </i>&nbsp;&nbsp; Quản lý hình ảnh
-                                        </a>
-                                    </li>
-                                }
-                            </ul>
+                                <ul id="LSTK">
+                                    @if (ListControll.Contains("RewardContent"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "RewardContent")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Question" ? "mm-active" : "")">
+                                                <i class=" pe-7s-note2">
+                                                </i>&nbsp;&nbsp; Nội dung khen thưởng
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (ListControll.Contains("RewardType"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "RewardType")" class=" font-weight-bold @(Context.Request.Path == "/RewardType" ? "mm-active" : "")">
+                                                <i class=" pe-7s-graph3">
+                                                </i>&nbsp;&nbsp; Danh sách khen thưởng
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (ListControll.Contains("RewardImage"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "RewardImage")" class=" font-weight-bold @(Context.Request.Path == "/RewardImage" ? "mm-active" : "")">
+                                                <i class=" pe-7s-graph3">
+                                                </i>&nbsp;&nbsp; Quản lý hình ảnh
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
                             </li>
 
                             @*@if (User.Identity.IsAuthenticated)

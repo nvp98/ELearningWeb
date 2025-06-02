@@ -114,6 +114,21 @@ namespace E_Learning.Models
         public virtual DbSet<KT_HinhAnh> KT_HinhAnh { get; set; }
         public virtual DbSet<KT_LoaiThuong> KT_LoaiThuong { get; set; }
         public virtual DbSet<KT_NoiDungThuong> KT_NoiDungThuong { get; set; }
+        public virtual DbSet<DMST_ChucVu> DMST_ChucVu { get; set; }
+        public virtual DbSet<DMST_DeXuat> DMST_DeXuat { get; set; }
+        public virtual DbSet<DMST_DeXuat_ChiTiet> DMST_DeXuat_ChiTiet { get; set; }
+        public virtual DbSet<DMST_FileDinhKem> DMST_FileDinhKem { get; set; }
+        public virtual DbSet<DMST_HieuQuaKinhTe> DMST_HieuQuaKinhTe { get; set; }
+        public virtual DbSet<DMST_HoatDong> DMST_HoatDong { get; set; }
+        public virtual DbSet<DMST_LinhVuc> DMST_LinhVuc { get; set; }
+        public virtual DbSet<DMST_NguonLuc> DMST_NguonLuc { get; set; }
+        public virtual DbSet<DMST_PhamViApDung> DMST_PhamViApDung { get; set; }
+        public virtual DbSet<DMST_PheDuyet> DMST_PheDuyet { get; set; }
+        public virtual DbSet<DMST_TacGia> DMST_TacGia { get; set; }
+        public virtual DbSet<DMST_TinhTrang_ApDung> DMST_TinhTrang_ApDung { get; set; }
+        public virtual DbSet<DMST_TinhTrangDeXuat> DMST_TinhTrangDeXuat { get; set; }
+        public virtual DbSet<DMST_ThanhVienBan> DMST_ThanhVienBan { get; set; }
+        public virtual DbSet<DMST_XuLyLinhVuc> DMST_XuLyLinhVuc { get; set; }
     
         public virtual int BaiThi_insert(Nullable<int> iDLH, Nullable<int> iDDeThi, Nullable<int> iDND, Nullable<int> iDNV, Nullable<int> iDPhongBan, Nullable<int> iDViTri, Nullable<double> diemSo, Nullable<System.DateTime> ngayThi, Nullable<bool> tinhTrang, Nullable<int> lanThi, ObjectParameter iDBaiThi)
         {

@@ -130,6 +130,22 @@
         <AssociationConnector Association="ELEARNINGModel.FK_XNHocTap_LopHoc" />
         <EntityTypeShape EntityType="ELEARNINGModel.SH_HoSoDaoTao" Width="1.5" PointX="28.375" PointY="19.75" />
         <AssociationConnector Association="ELEARNINGModel.FK_KNL_KQ_KhungNangLuc" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DMST_ChucVu" Width="1.5" PointX="23.75" PointY="28.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DMST_DeXuat" Width="1.5" PointX="26.75" PointY="29.25" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DMST_DeXuat_ChiTiet" Width="1.5" PointX="29" PointY="28" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DMST_FileDinhKem" Width="1.5" PointX="28.75" PointY="24.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DMST_HieuQuaKinhTe" Width="1.5" PointX="29.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DMST_HoatDong" Width="1.5" PointX="0.75" PointY="29.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DMST_LinhVuc" Width="1.5" PointX="29.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DMST_NguonLuc" Width="1.5" PointX="29.75" PointY="15.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DMST_PhamViApDung" Width="1.5" PointX="2.75" PointY="30.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DMST_PheDuyet" Width="1.5" PointX="30.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DMST_TacGia" Width="1.5" PointX="30.75" PointY="10.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DMST_TinhTrang_ApDung" Width="1.5" PointX="30.75" PointY="18.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DMST_TinhTrangDeXuat" Width="1.5" PointX="30.75" PointY="21.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DMST_ThanhVienBan" Width="1.5" PointX="30.75" PointY="24.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.DMST_XuLyLinhVuc" Width="1.5" PointX="31.75" PointY="0.75" />
+        <AssociationConnector Association="ELEARNINGModel.FK_DMST_DeXuat_ChiTiet_DMST_DeXuat" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,0 +1,25 @@
+﻿@model E_Learning.Models.LinhVucDT
+@using (Ajax.BeginForm("Create", "RenewLinhVuc", new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "modalContent",
+    OnSuccess = "onModalSuccess"
+}, new { @id = "frmCreate" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(m => m.NoiDungDT)
+        @Html.TextBoxFor(m => m.NoiDungDT, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.NoiDungDT, null, new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.NoiDungDT)
+        @Html.TextAreaFor(m => m.NoiDungDT, new { @class = "form-control" })
+    </div>
+    <div class="form-check mb-2">
+        @*@Html.CheckBoxFor(m => m.NoiDungDT, new { @class = "form-check-input" })*@
+        @Html.LabelFor(m => m.NoiDungDT, new { @class = "form-check-label" })
+    </div>
+    <button type="submit" class="btn btn-primary">Thêm mới</button>
+}

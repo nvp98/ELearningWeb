@@ -121,6 +121,168 @@
           <Property Name="GhiChu" Type="nvarchar" MaxLength="50" />
           <Property Name="NgayTao" Type="datetime" />
         </EntityType>
+        <EntityType Name="DMST_ChucVu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenChucVu" Type="nvarchar" MaxLength="100" />
+          <Property Name="MaChucVu" Type="nvarchar" MaxLength="10" />
+          <Property Name="MaToChuc" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="DMST_DeXuat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_HoatDong" Type="int" />
+          <Property Name="ID_LinhVuc" Type="int" />
+          <Property Name="ID_NguoiTao" Type="int" />
+          <Property Name="NgayTao" Type="datetime" />
+          <Property Name="TinhTrang" Type="int" />
+        </EntityType>
+        <EntityType Name="DMST_DeXuat_ChiTiet">
+          <Key>
+            <PropertyRef Name="IDCT" />
+          </Key>
+          <Property Name="IDCT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenDeTai" Type="nvarchar" MaxLength="250" />
+          <Property Name="ThoiGian_ApDung" Type="datetime" />
+          <Property Name="ID_PhamVi_ApDung" Type="int" />
+          <Property Name="ID_TinhTrang_ApDung" Type="int" />
+          <Property Name="TinhTrang_TacGia" Type="int" />
+          <Property Name="ThucTrang" Type="nvarchar" MaxLength="500" />
+          <Property Name="CachThucThucHien" Type="nvarchar" MaxLength="500" />
+          <Property Name="VanDeGapPhai" Type="nvarchar" MaxLength="250" />
+          <Property Name="UuDiem" Type="nvarchar" MaxLength="250" />
+          <Property Name="NhuocDiem" Type="nvarchar" MaxLength="250" />
+          <Property Name="ThuanLoi" Type="nvarchar" MaxLength="250" />
+          <Property Name="KhoKhan" Type="nvarchar" MaxLength="250" />
+          <Property Name="ID_TinhTrangHieuQua" Type="int" />
+          <Property Name="LoiIchXaHoi" Type="nvarchar" MaxLength="250" />
+          <Property Name="DeXuatKienNghi" Type="nvarchar" MaxLength="500" />
+          <Property Name="TinhTrang_CamKet" Type="int" />
+          <Property Name="ID_DeXuat" Type="int" />
+        </EntityType>
+        <EntityType Name="DMST_FileDinhKem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileDinhKem" Type="nvarchar" MaxLength="250" />
+          <Property Name="GhiChu" Type="nvarchar" MaxLength="100" />
+          <Property Name="TenFileDinhKem" Type="nvarchar" MaxLength="50" />
+          <Property Name="ID_DeXuat" Type="int" />
+          <Property Name="FileHinhAnh" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="DMST_HieuQuaKinhTe">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NoiDung" Type="nvarchar" MaxLength="250" />
+          <Property Name="GiaTri" Type="nvarchar" MaxLength="250" />
+          <Property Name="NguonThongTin" Type="nvarchar" MaxLength="250" />
+          <Property Name="GhiChu" Type="nvarchar" MaxLength="250" />
+          <Property Name="ID_DeXuat" Type="int" />
+        </EntityType>
+        <EntityType Name="DMST_HoatDong">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenHoatDong" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DMST_LinhVuc">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenLinhVuc" Type="nvarchar" MaxLength="50" />
+          <Property Name="TrangThai" Type="int" />
+        </EntityType>
+        <EntityType Name="DMST_NguonLuc">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenNguonLuc" Type="nvarchar" MaxLength="250" />
+          <Property Name="ChiPhi" Type="float" />
+          <Property Name="NguonThongTin" Type="nvarchar" MaxLength="100" />
+          <Property Name="GhiChu" Type="nvarchar" MaxLength="200" />
+          <Property Name="ID_DeXuat" Type="int" />
+        </EntityType>
+        <EntityType Name="DMST_PhamViApDung">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="TenPhamVi" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DMST_PheDuyet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_DeXuat" Type="int" />
+          <Property Name="NguoiDeXuat" Type="int" />
+          <Property Name="TinhTrang_NDX" Type="int" />
+          <Property Name="NgayXL_NDX" Type="datetime" />
+          <Property Name="ID_TPBP" Type="int" />
+          <Property Name="TinhTrang_TPBP" Type="int" />
+          <Property Name="NgayXL_TPBP" Type="datetime" />
+          <Property Name="ID_PCHN" Type="int" />
+          <Property Name="TinhTrang_PCHN" Type="int" />
+          <Property Name="NgayXL_PCHN" Type="datetime" />
+        </EntityType>
+        <EntityType Name="DMST_TacGia">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_TacGia" Type="int" />
+          <Property Name="IsNhomTacGia" Type="int" />
+          <Property Name="ID_DeXuat" Type="int" />
+          <Property Name="TiLeDongGop" Type="float" />
+        </EntityType>
+        <EntityType Name="DMST_TinhTrang_ApDung">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="TinhTrang_ApDung" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DMST_TinhTrangDeXuat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="TinhTrangDeXuat" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'ele48457_HPDQ_1210_OK.dbo.DMST_ToChuc' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="DMST_ToChuc">
+          <Property Name="ID" Type="int" />
+          <Property Name="TenToChuc" Type="nvarchar" MaxLength="50" />
+        </EntityType>-->
+        <EntityType Name="DMST_ThanhVienBan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDNV" Type="int" />
+          <Property Name="ID_ChucVu" Type="int" />
+        </EntityType>
+        <EntityType Name="DMST_XuLyLinhVuc">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_LinhVuc" Type="int" />
+          <Property Name="ID_PhongBanXL" Type="int" />
+          <Property Name="ID_ChucVuXL" Type="int" />
+          <Property Name="ID_NhanVienXL" Type="int" />
+        </EntityType>
         <EntityType Name="DSachDG">
           <Key>
             <PropertyRef Name="IDDS" />
@@ -1105,6 +1267,18 @@
             </Principal>
             <Dependent Role="DeThi">
               <PropertyRef Name="IDND" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DMST_DeXuat_ChiTiet_DMST_DeXuat">
+          <End Role="DMST_DeXuat" Type="Self.DMST_DeXuat" Multiplicity="0..1" />
+          <End Role="DMST_DeXuat_ChiTiet" Type="Self.DMST_DeXuat_ChiTiet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DMST_DeXuat">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DMST_DeXuat_ChiTiet">
+              <PropertyRef Name="ID_DeXuat" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2694,6 +2868,21 @@
           <EntitySet Name="DeNghiKCCD" EntityType="Self.DeNghiKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DeThi" EntityType="Self.DeThi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DinhBienVT" EntityType="Self.DinhBienVT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMST_ChucVu" EntityType="Self.DMST_ChucVu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMST_DeXuat" EntityType="Self.DMST_DeXuat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMST_DeXuat_ChiTiet" EntityType="Self.DMST_DeXuat_ChiTiet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMST_FileDinhKem" EntityType="Self.DMST_FileDinhKem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMST_HieuQuaKinhTe" EntityType="Self.DMST_HieuQuaKinhTe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMST_HoatDong" EntityType="Self.DMST_HoatDong" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMST_LinhVuc" EntityType="Self.DMST_LinhVuc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMST_NguonLuc" EntityType="Self.DMST_NguonLuc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMST_PhamViApDung" EntityType="Self.DMST_PhamViApDung" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMST_PheDuyet" EntityType="Self.DMST_PheDuyet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMST_TacGia" EntityType="Self.DMST_TacGia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMST_TinhTrang_ApDung" EntityType="Self.DMST_TinhTrang_ApDung" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMST_TinhTrangDeXuat" EntityType="Self.DMST_TinhTrangDeXuat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMST_ThanhVienBan" EntityType="Self.DMST_ThanhVienBan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMST_XuLyLinhVuc" EntityType="Self.DMST_XuLyLinhVuc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DSachDG" EntityType="Self.DSachDG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HDSD" EntityType="Self.HDSD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KCCD_BaiThi" EntityType="Self.KCCD_BaiThi" Schema="dbo" store:Type="Tables" />
@@ -2792,6 +2981,10 @@
           <AssociationSet Name="FK_DeThi_NoiDungDT" Association="Self.FK_DeThi_NoiDungDT">
             <End Role="NoiDungDT" EntitySet="NoiDungDT" />
             <End Role="DeThi" EntitySet="DeThi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DMST_DeXuat_ChiTiet_DMST_DeXuat" Association="Self.FK_DMST_DeXuat_ChiTiet_DMST_DeXuat">
+            <End Role="DMST_DeXuat" EntitySet="DMST_DeXuat" />
+            <End Role="DMST_DeXuat_ChiTiet" EntitySet="DMST_DeXuat_ChiTiet" />
           </AssociationSet>
           <AssociationSet Name="FK_KCCD_CauHoi_KCCD_DeThi" Association="Self.FK_KCCD_CauHoi_KCCD_DeThi">
             <End Role="KCCD_DeThi" EntitySet="KCCD_DeThi" />
@@ -5801,6 +5994,25 @@
           <EntitySet Name="KT_HinhAnh" EntityType="ELEARNINGModel.KT_HinhAnh" />
           <EntitySet Name="KT_LoaiThuong" EntityType="ELEARNINGModel.KT_LoaiThuong" />
           <EntitySet Name="KT_NoiDungThuong" EntityType="ELEARNINGModel.KT_NoiDungThuong" />
+          <EntitySet Name="DMST_ChucVu" EntityType="ELEARNINGModel.DMST_ChucVu" />
+          <EntitySet Name="DMST_DeXuat" EntityType="ELEARNINGModel.DMST_DeXuat" />
+          <EntitySet Name="DMST_DeXuat_ChiTiet" EntityType="ELEARNINGModel.DMST_DeXuat_ChiTiet" />
+          <EntitySet Name="DMST_FileDinhKem" EntityType="ELEARNINGModel.DMST_FileDinhKem" />
+          <EntitySet Name="DMST_HieuQuaKinhTe" EntityType="ELEARNINGModel.DMST_HieuQuaKinhTe" />
+          <EntitySet Name="DMST_HoatDong" EntityType="ELEARNINGModel.DMST_HoatDong" />
+          <EntitySet Name="DMST_LinhVuc" EntityType="ELEARNINGModel.DMST_LinhVuc" />
+          <EntitySet Name="DMST_NguonLuc" EntityType="ELEARNINGModel.DMST_NguonLuc" />
+          <EntitySet Name="DMST_PhamViApDung" EntityType="ELEARNINGModel.DMST_PhamViApDung" />
+          <EntitySet Name="DMST_PheDuyet" EntityType="ELEARNINGModel.DMST_PheDuyet" />
+          <EntitySet Name="DMST_TacGia" EntityType="ELEARNINGModel.DMST_TacGia" />
+          <EntitySet Name="DMST_TinhTrang_ApDung" EntityType="ELEARNINGModel.DMST_TinhTrang_ApDung" />
+          <EntitySet Name="DMST_TinhTrangDeXuat" EntityType="ELEARNINGModel.DMST_TinhTrangDeXuat" />
+          <EntitySet Name="DMST_ThanhVienBan" EntityType="ELEARNINGModel.DMST_ThanhVienBan" />
+          <EntitySet Name="DMST_XuLyLinhVuc" EntityType="ELEARNINGModel.DMST_XuLyLinhVuc" />
+          <AssociationSet Name="FK_DMST_DeXuat_ChiTiet_DMST_DeXuat" Association="ELEARNINGModel.FK_DMST_DeXuat_ChiTiet_DMST_DeXuat">
+            <End Role="DMST_DeXuat" EntitySet="DMST_DeXuat" />
+            <End Role="DMST_DeXuat_ChiTiet" EntitySet="DMST_DeXuat_ChiTiet" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="CauHoi_DeThi_list_Result">
           <Property Type="Int32" Name="IDCH" Nullable="false" />
@@ -6731,6 +6943,176 @@
           <Property Name="TongTienThuong" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="BannerImage" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="DMST_ChucVu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenChucVu" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MaChucVu" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="MaToChuc" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DMST_DeXuat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_HoatDong" Type="Int32" />
+          <Property Name="ID_LinhVuc" Type="Int32" />
+          <Property Name="ID_NguoiTao" Type="Int32" />
+          <Property Name="NgayTao" Type="DateTime" Precision="3" />
+          <Property Name="TinhTrang" Type="Int32" />
+          <NavigationProperty Name="DMST_DeXuat_ChiTiet" Relationship="ELEARNINGModel.FK_DMST_DeXuat_ChiTiet_DMST_DeXuat" FromRole="DMST_DeXuat" ToRole="DMST_DeXuat_ChiTiet" />
+        </EntityType>
+        <EntityType Name="DMST_DeXuat_ChiTiet">
+          <Key>
+            <PropertyRef Name="IDCT" />
+          </Key>
+          <Property Name="IDCT" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenDeTai" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ThoiGian_ApDung" Type="DateTime" Precision="3" />
+          <Property Name="ID_PhamVi_ApDung" Type="Int32" />
+          <Property Name="ID_TinhTrang_ApDung" Type="Int32" />
+          <Property Name="TinhTrang_TacGia" Type="Int32" />
+          <Property Name="ThucTrang" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CachThucThucHien" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="VanDeGapPhai" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="UuDiem" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="NhuocDiem" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ThuanLoi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="KhoKhan" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ID_TinhTrangHieuQua" Type="Int32" />
+          <Property Name="LoiIchXaHoi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="DeXuatKienNghi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="TinhTrang_CamKet" Type="Int32" />
+          <Property Name="ID_DeXuat" Type="Int32" />
+          <NavigationProperty Name="DMST_DeXuat" Relationship="ELEARNINGModel.FK_DMST_DeXuat_ChiTiet_DMST_DeXuat" FromRole="DMST_DeXuat_ChiTiet" ToRole="DMST_DeXuat" />
+        </EntityType>
+        <EntityType Name="DMST_FileDinhKem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileDinhKem" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="GhiChu" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TenFileDinhKem" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ID_DeXuat" Type="Int32" />
+          <Property Name="FileHinhAnh" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DMST_HieuQuaKinhTe">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NoiDung" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="GiaTri" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="NguonThongTin" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="GhiChu" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ID_DeXuat" Type="Int32" />
+        </EntityType>
+        <EntityType Name="DMST_HoatDong">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenHoatDong" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DMST_LinhVuc">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenLinhVuc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TrangThai" Type="Int32" />
+        </EntityType>
+        <EntityType Name="DMST_NguonLuc">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenNguonLuc" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ChiPhi" Type="Double" />
+          <Property Name="NguonThongTin" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GhiChu" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ID_DeXuat" Type="Int32" />
+        </EntityType>
+        <EntityType Name="DMST_PhamViApDung">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="TenPhamVi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DMST_PheDuyet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_DeXuat" Type="Int32" />
+          <Property Name="NguoiDeXuat" Type="Int32" />
+          <Property Name="TinhTrang_NDX" Type="Int32" />
+          <Property Name="NgayXL_NDX" Type="DateTime" Precision="3" />
+          <Property Name="ID_TPBP" Type="Int32" />
+          <Property Name="TinhTrang_TPBP" Type="Int32" />
+          <Property Name="NgayXL_TPBP" Type="DateTime" Precision="3" />
+          <Property Name="ID_PCHN" Type="Int32" />
+          <Property Name="TinhTrang_PCHN" Type="Int32" />
+          <Property Name="NgayXL_PCHN" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="DMST_TacGia">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_TacGia" Type="Int32" />
+          <Property Name="IsNhomTacGia" Type="Int32" />
+          <Property Name="ID_DeXuat" Type="Int32" />
+          <Property Name="TiLeDongGop" Type="Double" />
+        </EntityType>
+        <EntityType Name="DMST_TinhTrang_ApDung">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="TinhTrang_ApDung" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DMST_TinhTrangDeXuat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="TinhTrangDeXuat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DMST_ThanhVienBan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDNV" Type="Int32" />
+          <Property Name="ID_ChucVu" Type="Int32" />
+        </EntityType>
+        <EntityType Name="DMST_XuLyLinhVuc">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_LinhVuc" Type="Int32" />
+          <Property Name="ID_PhongBanXL" Type="Int32" />
+          <Property Name="ID_ChucVuXL" Type="Int32" />
+          <Property Name="ID_NhanVienXL" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_DMST_DeXuat_ChiTiet_DMST_DeXuat">
+          <End Type="ELEARNINGModel.DMST_DeXuat" Role="DMST_DeXuat" Multiplicity="0..1" />
+          <End Type="ELEARNINGModel.DMST_DeXuat_ChiTiet" Role="DMST_DeXuat_ChiTiet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DMST_DeXuat">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DMST_DeXuat_ChiTiet">
+              <PropertyRef Name="ID_DeXuat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8922,6 +9304,177 @@
                 <ScalarProperty Name="NoiDungKhenThuong" ColumnName="NoiDungKhenThuong" />
                 <ScalarProperty Name="ID_LoaiKhenThuong" ColumnName="ID_LoaiKhenThuong" />
                 <ScalarProperty Name="SoQuyetDinh" ColumnName="SoQuyetDinh" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMST_ChucVu">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DMST_ChucVu">
+              <MappingFragment StoreEntitySet="DMST_ChucVu">
+                <ScalarProperty Name="MaToChuc" ColumnName="MaToChuc" />
+                <ScalarProperty Name="MaChucVu" ColumnName="MaChucVu" />
+                <ScalarProperty Name="TenChucVu" ColumnName="TenChucVu" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMST_DeXuat">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DMST_DeXuat">
+              <MappingFragment StoreEntitySet="DMST_DeXuat">
+                <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+                <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+                <ScalarProperty Name="ID_NguoiTao" ColumnName="ID_NguoiTao" />
+                <ScalarProperty Name="ID_LinhVuc" ColumnName="ID_LinhVuc" />
+                <ScalarProperty Name="ID_HoatDong" ColumnName="ID_HoatDong" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMST_DeXuat_ChiTiet">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DMST_DeXuat_ChiTiet">
+              <MappingFragment StoreEntitySet="DMST_DeXuat_ChiTiet">
+                <ScalarProperty Name="ID_DeXuat" ColumnName="ID_DeXuat" />
+                <ScalarProperty Name="TinhTrang_CamKet" ColumnName="TinhTrang_CamKet" />
+                <ScalarProperty Name="DeXuatKienNghi" ColumnName="DeXuatKienNghi" />
+                <ScalarProperty Name="LoiIchXaHoi" ColumnName="LoiIchXaHoi" />
+                <ScalarProperty Name="ID_TinhTrangHieuQua" ColumnName="ID_TinhTrangHieuQua" />
+                <ScalarProperty Name="KhoKhan" ColumnName="KhoKhan" />
+                <ScalarProperty Name="ThuanLoi" ColumnName="ThuanLoi" />
+                <ScalarProperty Name="NhuocDiem" ColumnName="NhuocDiem" />
+                <ScalarProperty Name="UuDiem" ColumnName="UuDiem" />
+                <ScalarProperty Name="VanDeGapPhai" ColumnName="VanDeGapPhai" />
+                <ScalarProperty Name="CachThucThucHien" ColumnName="CachThucThucHien" />
+                <ScalarProperty Name="ThucTrang" ColumnName="ThucTrang" />
+                <ScalarProperty Name="TinhTrang_TacGia" ColumnName="TinhTrang_TacGia" />
+                <ScalarProperty Name="ID_TinhTrang_ApDung" ColumnName="ID_TinhTrang_ApDung" />
+                <ScalarProperty Name="ID_PhamVi_ApDung" ColumnName="ID_PhamVi_ApDung" />
+                <ScalarProperty Name="ThoiGian_ApDung" ColumnName="ThoiGian_ApDung" />
+                <ScalarProperty Name="TenDeTai" ColumnName="TenDeTai" />
+                <ScalarProperty Name="IDCT" ColumnName="IDCT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMST_FileDinhKem">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DMST_FileDinhKem">
+              <MappingFragment StoreEntitySet="DMST_FileDinhKem">
+                <ScalarProperty Name="FileHinhAnh" ColumnName="FileHinhAnh" />
+                <ScalarProperty Name="ID_DeXuat" ColumnName="ID_DeXuat" />
+                <ScalarProperty Name="TenFileDinhKem" ColumnName="TenFileDinhKem" />
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+                <ScalarProperty Name="FileDinhKem" ColumnName="FileDinhKem" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMST_HieuQuaKinhTe">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DMST_HieuQuaKinhTe">
+              <MappingFragment StoreEntitySet="DMST_HieuQuaKinhTe">
+                <ScalarProperty Name="ID_DeXuat" ColumnName="ID_DeXuat" />
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+                <ScalarProperty Name="NguonThongTin" ColumnName="NguonThongTin" />
+                <ScalarProperty Name="GiaTri" ColumnName="GiaTri" />
+                <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMST_HoatDong">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DMST_HoatDong">
+              <MappingFragment StoreEntitySet="DMST_HoatDong">
+                <ScalarProperty Name="TenHoatDong" ColumnName="TenHoatDong" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMST_LinhVuc">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DMST_LinhVuc">
+              <MappingFragment StoreEntitySet="DMST_LinhVuc">
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="TenLinhVuc" ColumnName="TenLinhVuc" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMST_NguonLuc">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DMST_NguonLuc">
+              <MappingFragment StoreEntitySet="DMST_NguonLuc">
+                <ScalarProperty Name="ID_DeXuat" ColumnName="ID_DeXuat" />
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+                <ScalarProperty Name="NguonThongTin" ColumnName="NguonThongTin" />
+                <ScalarProperty Name="ChiPhi" ColumnName="ChiPhi" />
+                <ScalarProperty Name="TenNguonLuc" ColumnName="TenNguonLuc" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMST_PhamViApDung">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DMST_PhamViApDung">
+              <MappingFragment StoreEntitySet="DMST_PhamViApDung">
+                <ScalarProperty Name="TenPhamVi" ColumnName="TenPhamVi" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMST_PheDuyet">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DMST_PheDuyet">
+              <MappingFragment StoreEntitySet="DMST_PheDuyet">
+                <ScalarProperty Name="NgayXL_PCHN" ColumnName="NgayXL_PCHN" />
+                <ScalarProperty Name="TinhTrang_PCHN" ColumnName="TinhTrang_PCHN" />
+                <ScalarProperty Name="ID_PCHN" ColumnName="ID_PCHN" />
+                <ScalarProperty Name="NgayXL_TPBP" ColumnName="NgayXL_TPBP" />
+                <ScalarProperty Name="TinhTrang_TPBP" ColumnName="TinhTrang_TPBP" />
+                <ScalarProperty Name="ID_TPBP" ColumnName="ID_TPBP" />
+                <ScalarProperty Name="NgayXL_NDX" ColumnName="NgayXL_NDX" />
+                <ScalarProperty Name="TinhTrang_NDX" ColumnName="TinhTrang_NDX" />
+                <ScalarProperty Name="NguoiDeXuat" ColumnName="NguoiDeXuat" />
+                <ScalarProperty Name="ID_DeXuat" ColumnName="ID_DeXuat" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMST_TacGia">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DMST_TacGia">
+              <MappingFragment StoreEntitySet="DMST_TacGia">
+                <ScalarProperty Name="TiLeDongGop" ColumnName="TiLeDongGop" />
+                <ScalarProperty Name="ID_DeXuat" ColumnName="ID_DeXuat" />
+                <ScalarProperty Name="IsNhomTacGia" ColumnName="IsNhomTacGia" />
+                <ScalarProperty Name="ID_TacGia" ColumnName="ID_TacGia" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMST_TinhTrang_ApDung">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DMST_TinhTrang_ApDung">
+              <MappingFragment StoreEntitySet="DMST_TinhTrang_ApDung">
+                <ScalarProperty Name="TinhTrang_ApDung" ColumnName="TinhTrang_ApDung" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMST_TinhTrangDeXuat">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DMST_TinhTrangDeXuat">
+              <MappingFragment StoreEntitySet="DMST_TinhTrangDeXuat">
+                <ScalarProperty Name="TinhTrangDeXuat" ColumnName="TinhTrangDeXuat" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMST_ThanhVienBan">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DMST_ThanhVienBan">
+              <MappingFragment StoreEntitySet="DMST_ThanhVienBan">
+                <ScalarProperty Name="ID_ChucVu" ColumnName="ID_ChucVu" />
+                <ScalarProperty Name="IDNV" ColumnName="IDNV" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMST_XuLyLinhVuc">
+            <EntityTypeMapping TypeName="ELEARNINGModel.DMST_XuLyLinhVuc">
+              <MappingFragment StoreEntitySet="DMST_XuLyLinhVuc">
+                <ScalarProperty Name="ID_NhanVienXL" ColumnName="ID_NhanVienXL" />
+                <ScalarProperty Name="ID_ChucVuXL" ColumnName="ID_ChucVuXL" />
+                <ScalarProperty Name="ID_PhongBanXL" ColumnName="ID_PhongBanXL" />
+                <ScalarProperty Name="ID_LinhVuc" ColumnName="ID_LinhVuc" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

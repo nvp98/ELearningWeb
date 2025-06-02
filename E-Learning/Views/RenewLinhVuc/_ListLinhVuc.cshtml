@@ -1,0 +1,28 @@
+﻿@model PagedList.IPagedList<E_Learning.Models.LinhVucDT>
+@using PagedList.Mvc;
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Tên lĩnh vực</th>
+            <th>Mô tả</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IDLVDT</td>
+                <td>@item.TenLVDT</td>
+                <td>@item.TenLVDT</td>
+                <td>
+                    <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#editModal" data-id="@item.IDLVDT">Sửa</button>
+                    <a href="@Url.Action("Delete", new { id = item.IDLVDT })" class="btn btn-sm btn-danger" onclick="return confirm('Xác nhận xoá?')">Xoá</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.PagedListPager(Model, page => "javascript:loadPage(" + page + ");", PagedListRenderOptions.Classic)

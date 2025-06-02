@@ -1,0 +1,126 @@
+﻿@model PagedList.IPagedList<E_Learning.Models.LinhVucDT>
+@using PagedList.Mvc;
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Danh sách
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input type="text" id="txtSearch" class="form-control" placeholder="Tìm kiếm..." />
+
+                        </div>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" onclick="searchData()">Tìm kiếm</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a class="btn btn-outline-secondary" href="@Url.Action("Export")">Export CSV</a>
+                    <button class="btn btn-success" data-toggle="modal" data-target="#createModal">+ Thêm lĩnh vực</button>
+                </div>
+
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div id="listContainer">
+                        @Html.Partial("_ListLinhVuc", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal thêm -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm lĩnh vực</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <div class="modal-body" id="modalContent">
+                @Html.Partial("_Create", new E_Learning.Models.LinhVucDT())
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal sửa -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chỉnh sửa lĩnh vực</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <div class="modal-body" id="modalContentEdit"></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- jQuery AJAX load phân trang -->
+<script>
+
+    function loadPage(page) {
+        var search = $('#txtSearch').val();
+        $.get('@Url.Action("Index", "RenewLinhVuc")', { page: page, search: search }, function (data) {
+            $('#listContainer').html(data);
+        });
+    }
+     function searchData() {
+        var keyword = $('#txtSearch').val();
+         $.get('@Url.Action("Index", "RenewLinhVuc")', { search: keyword }, function (data) {
+            $('#listContainer').html(data);
+        });
+    }
+
+    $('#editModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('id');
+        $('#modalContentEdit').load('/RenewLinhVuc/EditPartial/' + id);
+    });
+
+
+    //$('#txtSearch').on('keyup', function () {
+    //    loadPage(1);
+    //});
+</script>

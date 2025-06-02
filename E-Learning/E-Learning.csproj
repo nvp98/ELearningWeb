@@ -305,6 +305,8 @@
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\DetailedFieldController.cs" />
     <Compile Include="Controllers\DinhBien\DinhBienController.cs" />
+    <Compile Include="Controllers\DMST\RenewCreativeController.cs" />
+    <Compile Include="Controllers\DMST\RenewLinhVucController.cs" />
     <Compile Include="Controllers\EClassroomController.cs" />
     <Compile Include="Controllers\EGuideController.cs" />
     <Compile Include="Controllers\EmloyeeManageController.cs" />
@@ -360,8 +362,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ModelsDMST\DeXuatDMSTView.cs" />
     <Compile Include="ModelsDTTH\ChuongTrinhDTTHView.cs" />
     <Compile Include="ModelsDTTH\HoSoDaoTaoTH.cs" />
+    <Compile Include="ModelsDTTH\NhanVienViewDTTH.cs" />
     <Compile Include="ModelsDTTH\NhuCauDTTHView.cs" />
     <Compile Include="ModelsDTTH\NoiDungDTTHView.cs" />
     <Compile Include="ModelsDTTH\ToChucDTTHView.cs" />
@@ -430,6 +434,51 @@
     </Compile>
     <Compile Include="Models\DinhBienView.cs" />
     <Compile Include="Models\DinhBienVT.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DMST_ChucVu.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DMST_DeXuat.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DMST_DeXuat_ChiTiet.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DMST_FileDinhKem.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DMST_HieuQuaKinhTe.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DMST_HoatDong.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DMST_LinhVuc.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DMST_NguonLuc.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DMST_PhamViApDung.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DMST_PheDuyet.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DMST_TacGia.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DMST_ThanhVienBan.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DMST_TinhTrangDeXuat.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DMST_TinhTrang_ApDung.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DMST_XuLyLinhVuc.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DSachDG.cs">
@@ -845,6 +894,11 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ChuongTrinhDTService.cs" />
+    <Content Include="Views\RenewLinhVuc\Index.cshtml" />
+    <Content Include="Views\RenewCreative\Create.cshtml" />
+    <Content Include="Views\RenewLinhVuc\_Create.cshtml" />
+    <Content Include="Views\RenewLinhVuc\_Edit.cshtml" />
+    <None Include="Views\RenewLinhVuc\_LayoutRenewLinhVuc.cshtml" />
     <Content Include="Content\assets\css\vd-khen-thuong.css" />
     <Content Include="Content\assets\images\avatars\default.png" />
     <Content Include="Content\assets\images\avatars\Logo-Gang-thep-Trang.png" />
@@ -934,6 +988,8 @@
     <Content Include="Views\RewardType\Edit.cshtml" />
     <Content Include="Views\RewardType\Index.cshtml" />
     <Content Include="Views\RewardType\_DanhSachKhenThuongPartial.cshtml" />
+    <Content Include="Views\NhuCauDTTH\GetNhanViensByNCDT.cshtml" />
+    <Content Include="Views\RenewLinhVuc\_ListLinhVuc.cshtml" />
     <None Include="Views\Shared\LayoutAdmin.cshtml" />
     <Content Include="Views\ToChucDTTH\Index.cshtml" />
     <Content Include="Views\ToChucDTTH\Create.cshtml" />
