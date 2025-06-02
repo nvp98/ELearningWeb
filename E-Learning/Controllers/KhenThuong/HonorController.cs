@@ -192,7 +192,7 @@ namespace E_Learning.Controllers.KhenThuong
                         join danhSachKhenThuong in _context.KT_DanhSachKhenThuong
                         on noiDungThuong.ID equals danhSachKhenThuong.ID_NoiDungThuong
                         where noiDungThuong.NgayQuyetDinh >= startOfWeek
-                              && noiDungThuong.NgayQuyetDinh < endOfWeek
+                              && noiDungThuong.NgayQuyetDinh <= endOfWeek
                         select new
                         {
                             NoiDungKhenThuong = noiDungThuong.NoiDungKhenThuong,
