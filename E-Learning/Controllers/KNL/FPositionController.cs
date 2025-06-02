@@ -3746,12 +3746,12 @@ namespace E_Learning.Controllers
                 XLWorkbook Workbook = new XLWorkbook(fileNamemau);
                 IXLWorksheet Worksheet = Workbook.Worksheet("NhanVien_KNL");
                 List<ExportNhanVienKQKNL> DataKNL = GetNhanVienKNL1(IDPB, IDPX, IDTo,IDNhom);
-                int row = 3;
+                int row = 5;
                 if (DataKNL.Count > 0)
                 {
                     foreach (var data in DataKNL)
                     {
-                        Worksheet.Cell(row, "A").Value = row - 2;
+                        Worksheet.Cell(row, "A").Value = row - 4;
                         Worksheet.Cell(row, "A").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                         Worksheet.Cell(row, "A").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "A").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
@@ -3816,35 +3816,125 @@ namespace E_Learning.Controllers
                         Worksheet.Cell(row, "L").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                         Worksheet.Cell(row, "L").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
-                        Worksheet.Cell(row, "M").Value = data.KDAT;
+                        Worksheet.Cell(row, "M").Value = data.TotalDocKNL;
                         Worksheet.Cell(row, "M").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                         Worksheet.Cell(row, "M").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "M").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                         Worksheet.Cell(row, "M").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
-                        Worksheet.Cell(row, "N").Value = data.DAT;
+                        Worksheet.Cell(row, "N").Value = data.KDATTu;
                         Worksheet.Cell(row, "N").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                         Worksheet.Cell(row, "N").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "N").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                         Worksheet.Cell(row, "N").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
-                        Worksheet.Cell(row, "O").Value = data.VUOT;
+                        Worksheet.Cell(row, "O").Value = data.DATTu;
                         Worksheet.Cell(row, "O").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                         Worksheet.Cell(row, "O").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "O").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                         Worksheet.Cell(row, "O").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
-                        Worksheet.Cell(row, "P").Value = data.CHUADG;
+                        Worksheet.Cell(row, "P").Value = data.VUOTTu;
                         Worksheet.Cell(row, "P").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                         Worksheet.Cell(row, "P").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "P").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                         Worksheet.Cell(row, "P").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
-                        Worksheet.Cell(row, "Q").Value = data.NgayDG;
+                        Worksheet.Cell(row, "Q").Value = data.CHUADGTu;
                         Worksheet.Cell(row, "Q").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                         Worksheet.Cell(row, "Q").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "Q").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                         Worksheet.Cell(row, "Q").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "R").Value = data.NgayDGTu;
+                        Worksheet.Cell(row, "R").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "R").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "R").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        Worksheet.Cell(row, "R").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "S").Value = data.KDATCap1;
+                        Worksheet.Cell(row, "S").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "S").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "S").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        Worksheet.Cell(row, "S").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "T").Value = data.DATCap1;
+                        Worksheet.Cell(row, "T").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "T").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "T").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        Worksheet.Cell(row, "T").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "U").Value = data.VUOTCap1;
+                        Worksheet.Cell(row, "U").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "U").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "U").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        Worksheet.Cell(row, "U").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "V").Value = data.CHUADGCap1;
+                        Worksheet.Cell(row, "V").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "V").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "V").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        Worksheet.Cell(row, "V").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "W").Value = data.NgayDGCap1;
+                        Worksheet.Cell(row, "W").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "W").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "W").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        Worksheet.Cell(row, "W").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "X").Value = data.KDAT;
+                        Worksheet.Cell(row, "X").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "X").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "X").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        Worksheet.Cell(row, "X").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "Y").Value = data.SLQuaHanKDAT;
+                        Worksheet.Cell(row, "Y").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "Y").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "Y").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        Worksheet.Cell(row, "Y").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "Z").Value = data.DAT;
+                        Worksheet.Cell(row, "Z").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "Z").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "Z").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        Worksheet.Cell(row, "Z").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "AA").Value = data.SLQuaHanDAT;
+                        Worksheet.Cell(row, "AA").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "AA").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "AA").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        Worksheet.Cell(row, "AA").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "AB").Value = data.VUOT;
+                        Worksheet.Cell(row, "AB").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "AB").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "AB").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        Worksheet.Cell(row, "AB").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "AC").Value = data.SLQuaHanVuot;
+                        Worksheet.Cell(row, "AC").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "AC").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "AC").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        Worksheet.Cell(row, "AC").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "AD").Value = data.CHUADG;
+                        Worksheet.Cell(row, "AD").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "AD").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "AD").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        Worksheet.Cell(row, "AD").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "AE").Value = data.SLQuaHanChuaDG;
+                        Worksheet.Cell(row, "AE").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "AE").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "AE").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        Worksheet.Cell(row, "AE").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "AF").Value = data.NgayDG;
+                        Worksheet.Cell(row, "AF").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "AF").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "AF").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        Worksheet.Cell(row, "AF").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
                         row = row + 1;
                     }
@@ -4123,6 +4213,10 @@ namespace E_Learning.Controllers
         {
             if (IDPB == null) IDPB = 0;
             var res = (from a in db.NhanVien_ExportKQKNL(IDPB)
+                       let b = db.KNL_LSDG.FirstOrDefault(x => x.NgayDGGN == a.NgayDG && x.NVID == a.ID)
+                       let c = db.KNL_DocBangKNL.Where(x => x.IDNV == a.ID && x.ID_ViTriKNL == a.IDVT)
+                       let d = db.KNL_KQ.Where(x => x.IDNV == a.ID && a.NgayDG.HasValue && x.ThangDG.Value.Year == x.NgayDG.Value.Year &&
+                       x.ThangDG.Value.Month == a.NgayDG.Value.Month && x.VTID == a.IDVT).ToList()
                        select new ExportNhanVienKQKNL
                        {
                            MaNV = a.MaNV,
@@ -4141,11 +4235,25 @@ namespace E_Learning.Controllers
                            TenPhongBan = a.TenPhongBan,
                            TotalNL = a.TotalNL,
                            DAT = a.DAT,
+                           SLQuaHanDAT = d != null?d.Where(x=>x.DiemDG == x.DiemDM && x.NgayDG.HasValue && x.NgayDG.Value.AddMonths(6) <= DateTime.Now).Count():0,
                            VUOT =a.VUOT,
+                           SLQuaHanVuot = d != null ? d.Where(x => x.DiemDG > x.DiemDM && x.NgayDG.HasValue && x.NgayDG.Value.AddMonths(6) <= DateTime.Now).Count() : 0,
                            KDAT =a.KDAT,
+                           SLQuaHanKDAT = d != null ? d.Where(x => x.DiemDG < x.DiemDM && x.NgayDG.HasValue && x.NgayDG.Value.AddMonths(3) <= DateTime.Now).Count() : 0,
                            KDGIA =a.NODG,
                            CHUADG =a.CHUADG,
-                           NgayDG =a.NgayDG == null?"": String.Format("{0:dd/MM/yyyy}", a?.NgayDG)
+                           NgayDG =a.NgayDG == null?"": String.Format("{0:dd/MM/yyyy}", a?.NgayDG),
+                           TotalDocKNL = c?.Count()??0,
+                           KDATTu = b?.KDATTUDG??0,
+                           DATTu = b?.DATTUDG??0,
+                           VUOTTu = b?.VUOTTUDG??0,
+                           CHUADGTu = b?.CHUADGTuDG??0,
+                           NgayDGTu = b?.NgayTuDGGN == null ?"": String.Format("{0:dd/MM/yyyy}", b?.NgayTuDGGN),
+                           KDATCap1 = b?.KDATTUDGLan1 ?? 0,
+                           DATCap1 = b?.DATTUDGLan1 ?? 0,
+                           VUOTCap1 = b?.VUOTTUDGLan1 ?? 0,
+                           CHUADGCap1 = b?.CHUADGTuDGLan1 ?? 0,
+                           NgayDGCap1 = b?.NgayDGGNLan1 == null ? "" : String.Format("{0:dd/MM/yyyy}", b?.NgayDGGNLan1),
                        }).ToList();
             if (IDPX != null) res = res.Where(x => x.IDPX == IDPX).ToList();
             if (IDNhom != null) res = res.Where(x => x.IDNhom == IDNhom).ToList();
@@ -4802,6 +4910,7 @@ namespace E_Learning.Controllers
                            HanDG = a.KDAT > 0?"Cần đánh giá lại sau " + (((DateTime)a.NgayDG).AddMonths(6) - DateTime.Now).Days + " ngày tới" : ""  ,
                            NgayHanDG = a.KDAT > 0 ? String.Format("{0:dd/MM/yyyy}", ((DateTime)a.NgayDG).AddMonths(6)) : "",
                        }).ToList();
+
             if (IDPX != null) employees = employees.Where(x => x.IDPX == IDPX).ToList();
             if (IDNhom != null) employees = employees.Where(x => x.IDNhom == IDNhom).ToList();
             if (IDTo != null) employees = employees.Where(x => x.IDTo == IDTo).ToList();
