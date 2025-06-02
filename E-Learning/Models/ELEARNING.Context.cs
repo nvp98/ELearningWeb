@@ -114,6 +114,10 @@ namespace E_Learning.Models
         public virtual DbSet<KT_HinhAnh> KT_HinhAnh { get; set; }
         public virtual DbSet<KT_LoaiThuong> KT_LoaiThuong { get; set; }
         public virtual DbSet<KT_NoiDungThuong> KT_NoiDungThuong { get; set; }
+        public virtual DbSet<BDT_LichSuPheDuyet> BDT_LichSuPheDuyet { get; set; }
+        public virtual DbSet<BDT_TieuBan> BDT_TieuBan { get; set; }
+        public virtual DbSet<BDT_ThanhVienTieuBan> BDT_ThanhVienTieuBan { get; set; }
+        public virtual DbSet<BDT_ViTriTieuBan> BDT_ViTriTieuBan { get; set; }
         public virtual DbSet<DMST_ChucVu> DMST_ChucVu { get; set; }
         public virtual DbSet<DMST_DeXuat> DMST_DeXuat { get; set; }
         public virtual DbSet<DMST_DeXuat_ChiTiet> DMST_DeXuat_ChiTiet { get; set; }
@@ -129,7 +133,7 @@ namespace E_Learning.Models
         public virtual DbSet<DMST_TinhTrangDeXuat> DMST_TinhTrangDeXuat { get; set; }
         public virtual DbSet<DMST_ThanhVienBan> DMST_ThanhVienBan { get; set; }
         public virtual DbSet<DMST_XuLyLinhVuc> DMST_XuLyLinhVuc { get; set; }
-    
+         
         public virtual int BaiThi_insert(Nullable<int> iDLH, Nullable<int> iDDeThi, Nullable<int> iDND, Nullable<int> iDNV, Nullable<int> iDPhongBan, Nullable<int> iDViTri, Nullable<double> diemSo, Nullable<System.DateTime> ngayThi, Nullable<bool> tinhTrang, Nullable<int> lanThi, ObjectParameter iDBaiThi)
         {
             var iDLHParameter = iDLH.HasValue ?
