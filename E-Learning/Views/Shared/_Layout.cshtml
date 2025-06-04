@@ -584,8 +584,8 @@
                                 </li>
                                 showKNL = 1;
                             }
-                            <li class=" @((new List<String> { "NoiDungQT", "ResultQTHD/ListNV", "ResultQTHD" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
-                                @if ((new List<String> { "NoiDungQT", "CauHoiQT", "ResultQTHD" }).Any(x => ListControll.Contains(x)))
+                            <li class=" @((new List<String> { "NoiDungQT", "RenewLinhVuc", "BanCongTy", "TieuBanBoPhan" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
+                                @if ((new List<String> { "NoiDungQT", "CauHoiQT", "ResultQTHD", "RenewLinhVuc", "BanCongTy", "TieuBanBoPhan" }).Any(x => ListControll.Contains(x)))
                                 {
                                     <a href="#" id="IDTK" class="">
                                         <i class="metismenu-icon pe-7s-network font-weight-bold">
@@ -604,19 +604,19 @@
                                             </a>
                                         </li>
                                     }
-                                    @if (ListControll.Contains("CauHoiQT"))
+                                    @if (ListControll.Contains("BanCongTy"))
                                     {
                                         <li>
-                                            <a href="@Url.Action("Index", "ResultQTHD")" class="font-size-md font-weight-bold @(Context.Request.Path == "/ResultQTHD/ListNV" ? "mm-active" : "")">
+                                            <a href="@Url.Action("Index", "BanCongTy")" class="font-size-md font-weight-bold @(Context.Request.Path == "/BanCongTy" ? "mm-active" : "")">
                                                 <i class=" pe-7s-edit">
                                                 </i>&nbsp;&nbsp;Danh sách ban ĐMST
                                             </a>
                                         </li>
                                     }
-                                    @if (ListControll.Contains("ResultQTHD"))
+                                    @if (ListControll.Contains("TieuBanBoPhan"))
                                     {
                                         <li>
-                                            <a href="@Url.Action("ListNV", "ResultQTHD",new {IDPB = E_Learning.Models.MyAuthentication.IDPhongban})" class="font-size-md font-weight-bold @(Context.Request.Path == "/ResultQTHD" ? "mm-active" : "")">
+                                            <a href="@Url.Action("Index", "TieuBanBoPhan")" class="font-size-md font-weight-bold @(Context.Request.Path == "/TieuBanBoPhan" ? "mm-active" : "")">
                                                 <i class=" pe-7s-graph3">
                                                 </i>&nbsp;&nbsp;Danh sách tiểu ban ĐMST
                                             </a>
