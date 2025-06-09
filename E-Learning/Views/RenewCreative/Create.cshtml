@@ -1,11 +1,27 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 @model E_Learning.ModelsDMST.DeXuatDMSTView
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    .noti,
+    .btnnoti {
+        display: none;
+    }
+
+    a {
+        text-decoration: none;
+    }
+</style>
 @if (TempData["msgSuccess"] != null)
 {
     @Html.Raw(TempData["msgSuccess"])
@@ -14,415 +30,133 @@
 {
     @Html.Raw(TempData["msgError"])
 }
-@*@{
-        EPORTALEntities db = new EPORTALEntities();
-        EPORTAL_REGISTEREntities db_dk = new EPORTAL_REGISTEREntities();
-        var IDDKT = ViewData["id"];
 
-    }*@
-
-<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
-<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
-<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
-<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
-
-<style>
-    /* Đặt chiều cao cố định và thêm cuộn dọc */
-    .table-responsive1 {
-        max-height: 300px; /* Thay đổi 300px thành chiều cao bạn muốn */
-        overflow-y: auto;
-    }
-
-    input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
-    }
-</style>
-<link href="~/Content/PagedList.css" rel="stylesheet" />
 <div class="app-main__outer">
     <div class="app-main__inner">
         <div class="tab-content">
             <div class="row">
                 <div class="card w-100">
-                    <div style="margin-top: 1%; text-align:center;">
-                        <h3>
-                            <b>
-                               LẬP ĐỀ XUẤT ĐỔI MỚI SÁNG TẠO
-                            </b>
+                    <div class="d-flex justify-content-between align-items-center mt-3 px-3">
+                        <h3 class="text-center flex-grow-1">
+                            <b>CHUYÊN TRANG ĐỔI MỚI SÁNG TẠO</b>
                         </h3>
+                        <button class="btn btn-primary ms-3">Lưu</button>
                     </div>
 
                     <div class="card-body" style="padding-top:8px">
-                        @using (Html.BeginForm("Create", "RenewCreative", FormMethod.Post, new { enctype = "multipart/form-data", id = "myFormId" }))
-                        {
-                            <div class="">
-                                <h5 class="mb-4 text-primary">📝 Vui mừng chào đón bạn trở lại. Chúng ta cùng nhau tạo nên những ý tưởng mới mẻ và khám phá vô vàn cơ hội sáng tạo nhé!</h5>
+                        <ul class="nav nav-tabs mb-3" id="innovationTab" role="tablist">
+                            <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tab1">Đăng ký ý tưởng</a></li>
+                            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab2">Trình ký</a></li>
+                            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab3">Chuẩn bị thực hiện</a></li>
+                            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab4">Triển khai thực hiện</a></li>
+                            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab5">Bàn giao đưa vào sử dụng</a></li>
+                            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab6">Đề nghị công nhận</a></li>
+                        </ul>
 
-                                <!-- Nhóm 1: Lĩnh Vực đề xuất -->
-                                <div class="card mb-2">
-                                    <div class="bg-light text-dark font-weight-bold py-1 px-2">
-                                         <i class="fas fa-atom text-warning"></i> 1. Lĩnh Vực đề xuất
-                                    </div>
-                                    <div class="px-3 pt-2 pb-0">
-                                        <small class="text-muted d-block mb-3">
-                                            Người đề xuất lựa chọn một trong hai nội dung chính: Quy trình/Thủ tục và Phương pháp thực hiện công việc.
-                                        </small>
+                        <div class="tab-content">
 
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6 mb-3">
-                                                <label class="label-highlight">Hoạt động Đổi mới sáng tạo</label>
-                                                @Html.DropDownListFor(m => m.TenLinhVuc, new SelectList(new[] {
-                                                    new { Value = "Male", Text = "Quy trình/Thủ tục" },
-                                                    new { Value = "Female", Text = "Phương pháp thực hiện công việc" }
-                                                }, "Value", "Text"), "Chọn hoạt động", new { @class = "form-control form-control-sm" })
-                                            </div>
-
-                                            <div class="form-group col-md-6 mb-3">
-                                                <label class="label-highlight">Lĩnh Vực đề xuất</label>
-                                                @Html.DropDownListFor(m => m.TenLinhVuc, new SelectList(new[] {
-                                                    new { Value = "Male", Text = "Quy trình/Thủ tục" },
-                                                    new { Value = "Female", Text = "Phương pháp thực hiện công việc" }
-                                                }, "Value", "Text"), "Chọn lĩnh vực", new { @class = "form-control form-control-sm" })
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="tab-pane fade show active" id="tab1">
+                                <div class="mb-3">
+                                    <label class="form-label">Tên ý tưởng</label>
+                                    <input type="text" class="form-control" placeholder="Nhập tên ý tưởng">
                                 </div>
-
-
-                                <!-- Nhóm 2: đơn vị/cá nhân đề xuất -->
-                                <div class="card mb-2">
-                                    <div class="bg-light text-dark font-weight-bold py-2 px-3 mb-0">
-                                        <i class="fas fa-user-alt text-warning"></i> 2. Đơn vị và cá nhân đề xuất
-                                    </div>
-                                    @*<small class="form-group text-muted">Người đề xuất lựa chọn một trong hai nội dung chính của mỗi hoạt động là: Quy trình/Thủ tục và Phương pháp thực hiện công việc.</small>*@
-                                    <div class="card-body pt-0">
-                                        <fieldset class="border row  ">
-                                            <legend class="w-auto px-2">Chọn đơn vị và cá nhân bạn muốn gửi đề xuất</legend>
-                                            <div class="form-group col-md-6">
-                                                <label for="TenLinhVuc">Chọn đơn vị </label>
-                                                @Html.DropDownListFor(m => m.TenLinhVuc, new SelectList(new[] {
-                                                    new { Value = "Male", Text = "Quy trình/Thủ tục" },
-                                                    new { Value = "Female", Text = "Phương pháp thực hiện công việc" }
-                                                }, "Value", "Text"), "Chọn đơn vị", new { @class = "form-control form-control-sm" })
-                                            </div>
-
-
-                                            <div class="form-group col-md-6">
-                                                <label for="TenLinhVuc">Chọn nhân viên </label>
-                                                @Html.DropDownListFor(m => m.TenLinhVuc, new SelectList(new[] {
-                                                    new { Value = "Male", Text = "Quy trình/Thủ tục" },
-                                                    new { Value = "Female", Text = "Phương pháp thực hiện công việc" }
-                                                }, "Value", "Text"), "Chọn nhân viên", new { @class = "form-control form-control-sm" })
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" style="top:-5px">
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                    Ban đổi mới sáng tạo <small class="form-group text-muted ">(Nếu người đề xuất không biết cụ thể đơn vị mình muốn đề xuất thì có thể tích chọn mục Ban đổi mới sáng tạo)</small>
-                                                </label>
-                                            </div>
-                                        </fieldset>
-
-                                    </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Lĩnh vực</label>
+                                    <select class="form-select">
+                                        <option>Chọn lĩnh vực</option>
+                                        <option>Công nghệ</option>
+                                        <option>Quản lý</option>
+                                        <option>Sản xuất</option>
+                                    </select>
                                 </div>
-                                <!-- Nhóm 3: Nội dung đề xuất cụ thể -->
-                                <div class="card mb-2">
-                                    <div class="bg-light text-dark font-weight-bold py-2 px-3 mb-0">
-                                        <i class="fas fa-lightbulb text-warning"></i> 3. Nội dung đề xuất cụ thể
-                                    </div>
-                                    @*<small class="form-group text-muted">Người đề xuất lựa chọn một trong hai nội dung chính của mỗi hoạt động là: Quy trình/Thủ tục và Phương pháp thực hiện công việc.</small>*@
-                                    <div class="card-body pt-0">
-                                        <fieldset class="border row  ">
-                                            <legend class="w-auto px-2">3.1 Thông tin đề xuất</legend>
-                                            <div class="form-group col-md-12">
-                                                <label for="TenLinhVuc">Tên đề tài/Ý tưởng Đổi mới sáng tạo <small class="form-group text-muted ">(Hãy ghi ngắn gọn tên ý tưởng Đổi mới sáng tạo bạn muốn đề xuất)</small> </label>
-                                                @Html.TextBoxFor(m => m.TenLinhVuc, new { @class = "form-control form-control-sm", type = "email" })
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="TenLinhVuc">Thời gian áp dụng </label>
-                                                @Html.DropDownListFor(m => m.TenLinhVuc, new SelectList(new[] {
-                                                    new { Value = "Male", Text = "Đã áp dụng" },
-                                                    new { Value = "Female", Text = "Chưa áp dụng" }
-                                                }, "Value", "Text"), "", new { @class = "form-control form-control-sm" })
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="TenLinhVuc">Phạm vi có thể áp dụng </label>
-                                                @Html.DropDownListFor(m => m.TenLinhVuc, new SelectList(new[] {
-                                                    new { Value = "Male", Text = "Đã áp dụng" },
-                                                    new { Value = "Female", Text = "Chưa áp dụng" }
-                                                }, "Value", "Text"), "", new { @class = "form-control form-control-sm" })
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="TenLinhVuc">Tình trạng trước khi có ý tưởng </label>
-                                                @Html.DropDownListFor(m => m.TenLinhVuc, new SelectList(new[] {
-                                                    new { Value = "Male", Text = "Đã áp dụng" },
-                                                    new { Value = "Female", Text = "Chưa áp dụng" }
-                                                }, "Value", "Text"), "", new { @class = "form-control form-control-sm" })
-                                            </div>
-                                        </fieldset>
-                                        <fieldset class="border row  ">
-                                            <legend class="w-auto px-2">3.2 Thông tin tác giả/Nhóm tác giả</legend>
-                                            <div class="form-group col-md-2">
-                                                <label for="TenLinhVuc">Đã xác định? </label>
-                                                @Html.DropDownListFor(m => m.TenLinhVuc, new SelectList(new[] {
-                                                    new { Value = "Male", Text = "Đã áp dụng" },
-                                                    new { Value = "Female", Text = "Chưa áp dụng" }
-                                                }, "Value", "Text"), "", new { @class = "form-control form-control-sm" })
-                                            </div>
-                                            <div class="form-group col-md-5">
-                                                <label for="TenLinhVuc">Tác giả</label>
-                                                @Html.DropDownListFor(m => m.TenLinhVuc, new SelectList(new[] {
-                                                    new { Value = "Male", Text = "Đã áp dụng" },
-                                                    new { Value = "Female", Text = "Chưa áp dụng" }
-                                                }, "Value", "Text"), "", new { @class = "form-control form-control-sm" })
-                                            </div>
-                                            <div class="form-group col-md-5">
-                                                <label for="TenLinhVuc">Nhóm tác giả </label>
-                                                @Html.DropDownListFor(m => m.TenLinhVuc, new SelectList(new[] {
-                                                    new { Value = "Male", Text = "Đã áp dụng" },
-                                                    new { Value = "Female", Text = "Chưa áp dụng" }
-                                                }, "Value", "Text"), "", new { @class = "form-control form-control-sm" })
-                                            </div>
-                                        </fieldset>
-
-                                        <fieldset class="border row  ">
-                                            <legend class="w-auto px-2">3.3 Nội dung ý tưởng</legend>
-                                            <div class="form-group col-md-12 row">
-                                                <label for="tieuDe" class="col-sm-6 col-form-label">Thực trạng <small class="form-group text-muted ">(Nêu thực trạng trước khi tiến hành đổi mới sáng tạo)</small></label>
-                                                <div class="col-sm-6">
-                                                    <input type="text" class="form-control form-control-sm" id="tieuDe" placeholder="">
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-md-12 row">
-                                                <label for="tieuDe" class="col-sm-6 col-form-label">Cách thức thực hiện <small class="form-group text-muted ">(Mô tả phương pháp, các bước thực hiện của vấn đề nội dung đổi mới sáng tạo đề cập tới, có các thông số, dữ liệu cụ thể và hình ảnh nếu có)</small></label>
-                                                <div class="col-sm-6">
-                                                    <input type="text" class="form-control form-control-sm" id="tieuDe" placeholder="">
-                                                </div>
-                                            </div>
-                                            <fieldset class="border m-0 row col-md-12">
-                                                <legend class="w-auto px-2">Vấn đề gặp phải <small class="form-group text-muted ">(Nội dung này không bắt buộc phải điền, tuy nhiên, nếu ý tưởng đổi mới sáng tạo là nội dung lớn, phức tạp thì khuyến nghị nhập đầy đủ thông tin)</small></legend>
-
-                                                <div class="form-group col-md-3">
-                                                    <label for="tieuDe" class=" col-form-label">Ưu điểm</label>
-                                                    <div class="">
-                                                        <input type="text" class="form-control form-control-sm" id="tieuDe" placeholder="">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <label for="tieuDe" class=" col-form-label">Nhược điểm</label>
-                                                    <div class="">
-                                                        <input type="text" class="form-control form-control-sm" id="tieuDe" placeholder="">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <label for="tieuDe" class=" col-form-label">Thuận lợi</label>
-                                                    <div class="">
-                                                        <input type="text" class="form-control form-control-sm" id="tieuDe" placeholder="">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <label for="tieuDe" class=" col-form-label">Khó khăn</label>
-                                                    <div>
-                                                        <input type="text" class="form-control form-control-sm" id="tieuDe" placeholder="">
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-
-                                            <fieldset class="border m-0 row col-md-12">
-                                                <legend class="w-auto px-2">Các nguồn lực đã dùng để đưa nội dung đổi mới sáng tạo vào ứng dụng <small class="form-group text-muted ">(Nội dung này không bắt buộc phải điền, tuy nhiên, nếu ý tưởng đổi mới sáng tạo là nội dung lớn, phức tạp thì khuyến nghị nhập đầy đủ thông tin)</small></legend>
-                                                <div class="table-responsive">
-                                                    <table class="table table-bordered" id="vanDeTable">
-                                                        <thead class="thead-light">
-                                                            <tr>
-                                                                <th>STT</th>
-                                                                <th>Tên nguồn lực</th>
-                                                                <th>Chi phí (đồng)</th>
-                                                                <th>Nguồn thông tin</th>
-                                                                <th>Ghi chú</th>
-                                                                <th style="width: 50px;">#</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td><input type="text" name="UuDiem[]" class="form-control form-control-sm"></td>
-                                                                <td><input type="text" name="NhuocDiem[]" class="form-control form-control-sm"></td>
-                                                                <td><input type="text" name="ThuanLoi[]" class="form-control form-control-sm"></td>
-                                                                <td><input type="text" name="KhoKhan[]" class="form-control form-control-sm"></td>
-                                                                <td><input type="text" name="KhoKhan[]" class="form-control form-control-sm"></td>
-                                                                <td class="text-center align-middle">
-                                                                    <button type="button" class="btn btn-sm btn-danger" onclick="xoaDong(this)">–</button>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <button type="button" class="btn btn-sm btn-primary" onclick="themDong()">+</button>
-                                            </fieldset>
-
-                                            <fieldset class="border m-0 row col-md-12">
-                                                <legend class="w-auto px-2">Hình ảnh/ File đính kèm <small class="form-group text-muted ">(Nội dung này không bắt buộc nhưng khuyến khích)</small></legend>
-                                                <div class="table-responsive">
-                                                    <table class="table table-bordered" id="FileTable">
-                                                        <thead class="thead-light">
-                                                            <tr>
-                                                                <th>STT</th>
-                                                                <th>File đính kèm</th>
-                                                                <th>Tên file</th>
-                                                                <th>Ghi chú</th>
-                                                                <th style="width: 50px;">#</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td><input type="text" name="UuDiem[]" class="form-control form-control-sm"></td>
-                                                                <td><input type="text" name="NhuocDiem[]" class="form-control form-control-sm"></td>
-                                                                <td><input type="text" name="ThuanLoi[]" class="form-control form-control-sm"></td>
-                                                                <td><input type="text" name="KhoKhan[]" class="form-control form-control-sm"></td>
-                                                                <td class="text-center align-middle">
-                                                                    <button type="button" class="btn btn-sm btn-danger" onclick="xoaDongFile(this)">–</button>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <button type="button" class="btn btn-sm btn-primary" onclick="themDongFile()">+</button>
-                                            </fieldset>
-                                        </fieldset>
-                                        <fieldset class="border row  ">
-                                            <legend class="w-auto px-2">3.4 Hiệu quả đạt được</legend>
-                                            <fieldset class="border m-0 row col-md-12">
-                                                <legend class="w-auto px-2">Hiệu quả kinh tế <small class="form-group text-muted ">(Đánh giá hiệu quả kinh tế của nội dung đổi mới sáng tạo thông qua số tiền làm lợi sau tối thiểu 03 tháng ứng dụng đổi mới sáng tạo (hiệu quả kinh tế: nâng cao năng suất, chất lượng lao động, giảm chi phí sản xuất, nâng cao chất lượng sản phẩm, nâng cao tuổi thọ của hệ thống máy móc, thiết bị, tiết kiệm thời gian….) – Thể hiện bằng bảng biểu đầy đủ thông tin, các thông tin về đơn giá, chi phí cần lấy thông tin từ các P.CHN liên quan, như chi phí nhân công lấy thông tin từ P. Nhân sự, chi phí thuê ngoài cần lấy thông tin từ P. Vật tư, thông tin trên SAP…)</small></legend>
-                                                <div class="table-responsive">
-                                                    <table class="table table-bordered" id="FileTable">
-                                                        <thead class="thead-light">
-                                                            <tr>
-                                                                <th>STT</th>
-                                                                <th>Nội dung</th>
-                                                                <th>Giá trị</th>
-                                                                <th>Nguồn thông tin</th>
-                                                                <th>Ghi chú</th>
-                                                                <th style="width: 50px;">#</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td><input type="text" name="UuDiem[]" class="form-control form-control-sm"></td>
-                                                                <td><input type="text" name="NhuocDiem[]" class="form-control form-control-sm"></td>
-                                                                <td><input type="text" name="ThuanLoi[]" class="form-control form-control-sm"></td>
-                                                                <td><input type="text" name="KhoKhan[]" class="form-control form-control-sm"></td>
-                                                                <td><input type="text" name="KhoKhan[]" class="form-control form-control-sm"></td>
-                                                                <td class="text-center align-middle">
-                                                                    <button type="button" class="btn btn-sm btn-danger" onclick="xoaDongFile(this)">–</button>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <button type="button" class="btn btn-sm btn-primary" onclick="themDongFile()">+</button>
-                                            </fieldset>
-                                            <fieldset class="border m-0 row col-md-12">
-                                                <legend class="w-auto px-2">Lợi ích xã hội <small class="form-group text-muted ">(Đánh giá hiệu quả xã hội của việc áp dụng đổi mới sáng tạo, như: nâng cao điều kiện an toàn lao động, cải thiện điều kiện làm việc, bảo vệ môi trường, giảm phát thải, đảm bảo sức khỏe người lao động, nâng cao vị thế, hình ảnh Công ty…)</small></legend>
-                                                @Html.TextBoxFor(m => m.TenLinhVuc, new { @class = "form-control form-control-sm", type = "email" })
-                                            </fieldset>
-                                        </fieldset>
-
-                                        <fieldset class="border row  ">
-                                            <legend class="w-auto px-2">3.5 Đề xuất và cam kết</legend>
-                                            <fieldset class="border m-0 row col-md-12">
-                                                <legend class="w-auto px-2">Đề xuất <small class="form-group text-muted ">(Những kiến nghị, đề xuất để triển khai, ứng dụng nội dung đổi mới sáng tạo có hiệu quả)</small></legend>
-                                                @Html.TextBoxFor(m => m.TenLinhVuc, new { @class = "form-control form-control-sm", type = "email" })
-
-                                            </fieldset>
-                                            <fieldset class="border m-0 row col-md-12">
-                                                <legend class="w-auto px-2">Cam kết <small class="text-danger">(*)</small></legend>
-                                                <div class="form-group">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="camKetCheckbox" required>
-                                                        <label class="form-check-label" for="camKetCheckbox">
-                                                            Tác giả/Nhóm tác giả nội dung đổi mới sáng tạo cam kết:<br />
-                                                            – Những thông tin nêu trong Phiếu đăng ký này là trung thực, đúng sự thật và hoàn toàn chịu trách nhiệm trước pháp luật;<br />
-                                                            – Nội dung đổi mới sáng tạo này là tài sản và sở hữu trí tuệ của Công ty, Công ty có toàn quyền sử dụng.
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </fieldset>
-                                    </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="cb1">
+                                    <label class="form-check-label" for="cb1">Ý tưởng mang tính khả thi</label>
                                 </div>
-
-
-                                <div class="text-right">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fas fa-save"></i> Lưu lại
-                                    </button>
-                                    <button type="reset" class="btn btn-secondary">
-                                        <i class="fas fa-undo"></i> Làm lại
-                                    </button>
-                                </div>
+                                <button class="btn btn-primary">Lưu</button>
                             </div>
 
-                        }
+                            <div class="tab-pane fade" id="tab2">
+                                <div class="mb-3">
+                                    <label class="form-label">Người ký duyệt</label>
+                                    <input type="text" class="form-control" placeholder="Nhập tên người ký">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Ngày ký</label>
+                                    <input type="date" class="form-control">
+                                </div>
+                                <button class="btn btn-success">Trình ký</button>
+                            </div>
 
+                            <div class="tab-pane fade" id="tab3">
+                                <div class="mb-3">
+                                    <label class="form-label">Kế hoạch triển khai</label>
+                                    <textarea class="form-control" rows="3" placeholder="Mô tả kế hoạch"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Loại nguồn lực</label><br>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="nguonluc" id="human" value="human">
+                                        <label class="form-check-label" for="human">Nhân lực</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="nguonluc" id="taiChinh" value="finance">
+                                        <label class="form-check-label" for="taiChinh">Tài chính</label>
+                                    </div>
+                                </div>
+                                <button class="btn btn-secondary">Lưu kế hoạch</button>
+                            </div>
 
+                            <div class="tab-pane fade" id="tab4">
+                                <div class="mb-3">
+                                    <label class="form-label">Tiến độ thực hiện</label>
+                                    <input type="text" class="form-control" placeholder="Ví dụ: Đang thực hiện 50%">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Người phụ trách</label>
+                                    <input type="text" class="form-control" placeholder="Tên người phụ trách">
+                                </div>
+                                <button class="btn btn-warning">Cập nhật tiến độ</button>
+                            </div>
 
+                            <div class="tab-pane fade" id="tab5">
+                                <div class="mb-3">
+                                    <label class="form-label">Ngày bàn giao</label>
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Trạng thái sử dụng</label>
+                                    <select class="form-select">
+                                        <option>Đang sử dụng</option>
+                                        <option>Đang thử nghiệm</option>
+                                        <option>Tạm dừng</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-info">Xác nhận bàn giao</button>
+                            </div>
+
+                            <div class="tab-pane fade" id="tab6">
+                                <div class="mb-3">
+                                    <label class="form-label">Đề xuất công nhận</label>
+                                    <textarea class="form-control" rows="3" placeholder="Mô tả thành quả"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Mức độ hoàn thành</label>
+                                    <select class="form-select">
+                                        <option>Xuất sắc</option>
+                                        <option>Đạt yêu cầu</option>
+                                        <option>Không đạt</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-dark">Gửi đề nghị</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
             </div>
-
-
-            <div class="app-wrapper-footer">
-                <div class="app-footer">
-                    <div class="app-footer__inner">
-
-                    </div>
-                </div>
-            </div>
-
-
         </div>
     </div>
 </div>
-<script>
-    function themDong() {
-        const table = document.getElementById("vanDeTable").getElementsByTagName('tbody')[0];
-        const newRow = table.rows[0].cloneNode(true);
-
-        // Reset giá trị các ô input
-        newRow.querySelectorAll("input").forEach(input => input.value = "");
-        table.appendChild(newRow);
-    }
-
-    function xoaDong(btn) {
-        const row = btn.closest("tr");
-        const table = document.getElementById("vanDeTable").getElementsByTagName('tbody')[0];
-        if (table.rows.length > 1) {
-            row.remove();
-        } else {
-            alert("Phải giữ lại ít nhất 1 dòng.");
-        }
-    }
-
-    function themDong() {
-        const table = document.getElementById("vanDeTable").getElementsByTagName('tbody')[0];
-        const newRow = table.rows[0].cloneNode(true);
-
-        // Reset giá trị các ô input
-        newRow.querySelectorAll("input").forEach(input => input.value = "");
-        table.appendChild(newRow);
-    }
-
-    function xoaDong(btn) {
-        const row = btn.closest("tr");
-        const table = document.getElementById("vanDeTable").getElementsByTagName('tbody')[0];
-        if (table.rows.length > 1) {
-            row.remove();
-        } else {
-            alert("Phải giữ lại ít nhất 1 dòng.");
-        }
-    }
-
-</script>
-
 
 
 
