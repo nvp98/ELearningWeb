@@ -1,0 +1,64 @@
+﻿
+@model E_Learning.Models.DMST_LinhVuc
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+@using (Html.BeginForm("Create", "RenewLinhVuc", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog text-left" style="max-width:800px" id="formE">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="ModalTitle_Create" class="ModalTitle_Create"></h5>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ID, new { id = "LinhVucID" })
+            <div class="modal-body">
+                <form id="formCreateLinhVuc">
+                    <div id="createContainer">
+                        <div class="form-group col-md-4">
+                            <label>Tên Lĩnh vực</label>
+                            @Html.TextBoxFor(model => model.TenLinhVuc, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Tên lĩnh vực",
+                                id = "TenLinhVuc",
+                            })
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="btnSave" class="btn btn-primary">Lưu</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function (e) {
+            var tenLinhVuc = $('#TenLinhVuc').val().trim();
+
+            if (tenLinhVuc === '') {
+                e.preventDefault();
+                alert('Vui lòng nhập tên lĩnh vực.');
+                $('#TenLinhVuc').focus();
+            }
+        });
+    });
+</script>
+
+
+
+

@@ -1,5 +1,11 @@
-﻿@model PagedList.IPagedList<E_Learning.Models.LinhVucDT>
-@using PagedList.Mvc;
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model PagedList.IPagedList<E_Learning.ModelsDMST.XuLyLinhVucViewModel>
+@using PagedList.Mvc
 
 <link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
 <script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
@@ -13,7 +19,6 @@
 {
     @Html.Raw(TempData["msgError"])
 }
-
 <div class="app-main__outer">
     <div class="app-main__inner">
 
@@ -21,11 +26,11 @@
             <div class="page-title-wrapper">
                 <div class="page-title-heading">
                     <div class="page-title-icon">
-                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        <i class="pe-7s-portfolio icon-gradient bg-grow-early">
                         </i>
                     </div>
                     <div>
-                        Danh sách
+                        Lĩnh vực Đổi mới sáng tạo
                         <div class="page-title-subheading">
                         </div>
                     </div>
@@ -33,94 +38,176 @@
             </div>
         </div>
 
-        <div class="card mb-4">
-            <div class="card-header">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <input type="text" id="txtSearch" class="form-control" placeholder="Tìm kiếm..." />
+        <div class="tab-content">
+            <div class="row">
+                <div class="card col-lg-12">
+                    <div class="card-header">
+                        <div class="row mb-3">
+                            <div class="col d-flex align-items-center flex-wrap gap-2">
+                                <button type="button" id="btn-add" class="btn btn-primary">
+                                    <i class="fas fa-plus me-1"></i> Thêm mới
+                                </button>
 
+                                <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","RenewLinhVuc")'></div>
+                            </div>
                         </div>
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button" onclick="searchData()">Tìm kiếm</button>
-                        </div>
+
                     </div>
-                </div>
-                <div class="col-md-6 text-right">
-                    <a class="btn btn-outline-secondary" href="@Url.Action("Export")">Export CSV</a>
-                    <button class="btn btn-success" data-toggle="modal" data-target="#createModal">+ Thêm lĩnh vực</button>
-                </div>
+                    @using (Html.BeginForm("Index", "RenewLinhVuc", FormMethod.Get))
+                    {
+                        <div class="form-row mb-3">
+                            <div class="form-group col-md-3">
+                                <label for="phongBanFilter">Lĩnh vực:</label>
+                                @Html.DropDownList("linhVucFilter", ViewBag.DSLinhVuc as SelectList, "-- Tất cả --", new { @class = "form-control" })
+                            </div>
+                            <div class="form-group col-md-4 align-self-end">
+                                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    }
 
-            </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <form method="post" id="myForm">
+                                <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th width="30px" style="text-align: center">STT</th>
+                                            <th class="text-center" width="100px" style="vertical-align:middle">Tên lĩnh vực</th>
+                                            @*<th class="text-center" width="150px" style="vertical-align:middle">Trạng thái</th>*@
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Phòng ban xử lý</th>
+                                            @*<th class="text-center" width="150px" style="vertical-align:middle">Chức vụ xử lý</th>*@
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Nhân sự xử lý</th>
+                                            <th class="text-center" width="100px" style="vertical-align:middle">Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            int index = (Model.PageNumber - 1) * Model.PageSize + 1;
+                                        }
+                                        @if (!Model.Any())
+                                        {
+                                            <tr>
+                                                <td colspan="10" class="text-center text-muted">
+                                                    Không tìm thấy dữ liệu.
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            foreach (var linhVuc in Model)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">@index</td>
+                                                    <td>@linhVuc.TenLinhVuc</td>
+                                                    <td>
+                                                        @foreach (var pb in linhVuc.PhongBans)
+                                                        {
+                                                            <div>@pb.TenPhongBan</div>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @foreach (var pb in linhVuc.PhongBans)
+                                                        {
+                                                            <div>
+                                                                <strong>@pb.TenPhongBan:</strong>
+                                                                <ul class="mb-2">
+                                                                    @foreach (var nv in pb.NhanViens)
+                                                                    {
+                                                                        <li>@nv.HoTen - @string.Join(", ", nv.ChucVus)</li>
+                                                                    }
+                                                                </ul>
+                                                            </div>
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="javascript:void(0);"
+                                                           class="btn-delete-linhvuc"
+                                                           data-id="@linhVuc.ID_LinhVuc"
+                                                           title="Xóa">
+                                                            Xóa
+                                                        </a>
+                                                        |
+                                                        <a id="btn-edit_@linhVuc.ID_LinhVuc" href="#" title="Sửa" style="cursor:pointer;">Xử lý</a>
+                                                        <div class="modal fade" id="myModale_@linhVuc.ID_LinhVuc" role="dialog" data-url='@Url.Action("Edit","RenewLinhVuc", new { id = @linhVuc.ID_LinhVuc })'></div>
+                                                        <script type="text/javascript">
+                                                        $("#btn-edit_@linhVuc.ID_LinhVuc").click(function () {
+                                                            var url = $('#myModale_@linhVuc.ID_LinhVuc').data('url');
+                                                            $.get(url, function (data) {
+                                                                if (data.error) {
+                                                                    alert(data.message);
+                                                                } else {
+                                                                    $("#myModale_@linhVuc.ID_LinhVuc").html(data);
+                                                                    $(".ModalTitle_Edit").html("Cập nhật Thành viên");
+                                                                    $("#myModale_@linhVuc.ID_LinhVuc").modal('show');
+                                                                }
+                                                            });
+                                                        });
+                                                        </script>
+                                                    </td>
+                                                </tr>
+                                                index++;
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </form>
+                            <div class="pager">
+                                @Html.PagedListPager(Model, page => Url.Action("Index", new
+                                {
+                                    page,
+                                    linhVucFilter = ViewBag.linhVucFilter
+                                }))
+                                <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+                            </div>
 
-            <div class="card-body">
-                <div class="table-responsive">
-                    <div id="listContainer">
-                        @Html.Partial("_ListLinhVuc", Model)
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="app-wrapper-footer">
         <div class="app-footer">
             <div class="app-footer__inner">
+
             </div>
-        </div>
-    </div>
-</div>
-<!-- Modal thêm -->
-<div class="modal fade" id="createModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Thêm lĩnh vực</h5>
-                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-            </div>
-            <div class="modal-body" id="modalContent">
-                @Html.Partial("_Create", new E_Learning.Models.LinhVucDT())
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal sửa -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Chỉnh sửa lĩnh vực</h5>
-                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-            </div>
-            <div class="modal-body" id="modalContentEdit"></div>
         </div>
     </div>
 </div>
 
-
-<!-- jQuery AJAX load phân trang -->
 <script>
-
-    function loadPage(page) {
-        var search = $('#txtSearch').val();
-        $.get('@Url.Action("Index", "RenewLinhVuc")', { page: page, search: search }, function (data) {
-            $('#listContainer').html(data);
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle_Create").html("Thêm mới Lĩnh vực");
+            $("#myModal").modal('show');
         });
-    }
-     function searchData() {
-        var keyword = $('#txtSearch').val();
-         $.get('@Url.Action("Index", "RenewLinhVuc")', { search: keyword }, function (data) {
-            $('#listContainer').html(data);
-        });
-    }
-
-    $('#editModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var id = button.data('id');
-        $('#modalContentEdit').load('/RenewLinhVuc/EditPartial/' + id);
     });
 
+    $(document).on('click', '.btn-delete-linhvuc', function () {
+        var id = $(this).data('id');
 
-    //$('#txtSearch').on('keyup', function () {
-    //    loadPage(1);
-    //});
+        if (confirm('Bạn có chắc chắn muốn xóa?')) {
+            $.ajax({
+                url: '/RenewLinhVuc/Delete',
+                type: 'POST',
+                data: { id: id },
+                success: function (res) {
+                    if (res.success) {
+                        alert('Xóa thành công');
+                        location.reload();
+                    } else {
+                        alert('Xóa thất bại');
+                    }
+                },
+                error: function () {
+                    alert('Lỗi xảy ra khi xóa');
+                }
+            });
+        }
+    });
 </script>
+

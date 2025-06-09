@@ -1,0 +1,59 @@
+﻿@model E_Learning.ModelsDMST.XuLyItem
+
+@{
+    var phongBanList = ViewBag.DSPhongBan as List<SelectListItem> ?? new List<SelectListItem>();
+    var chucVuList = ViewBag.DSChucVu as List<SelectListItem> ?? new List<SelectListItem>();
+    var modelData = Model ?? new E_Learning.ModelsDMST.XuLyItem();
+}
+
+<div class="form-row mb-2 xuLyRow">
+    <div class="col-md-4">
+        <select class="form-control phongban-select" name="PhongBanIDs">
+            <option value="">-- Chọn phòng ban --</option>
+            @foreach (var pb in phongBanList)
+            {
+                <option value="@pb.Value" @(pb.Value == modelData.ID_PhongBanXL.ToString() ? "selected" : "")>@pb.Text</option>
+
+            }
+        </select>
+    </div>
+    <div class="col-md-4">
+        <select class="form-control nhanvien-select" name="NhanVienIDs">
+            <option value="">-- Chọn nhân viên --</option>
+            @{
+                var nhanVienList = new List<SelectListItem>();
+
+                if (modelData.ID_PhongBanXL > 0)
+                {
+                    using (var db = new E_Learning.Models.ELEARNINGEntities())
+                    {
+                        nhanVienList = db.NhanViens
+                            .Where(nv => nv.IDPhongBan == modelData.ID_PhongBanXL)
+                            .Select(nv => new SelectListItem
+                            {
+                                Value = nv.ID.ToString(),
+                                Text = nv.HoTen
+                            }).ToList();
+                    }
+
+                    foreach (var nv in nhanVienList)
+                    {
+                        <option value="@nv.Value" @(nv.Value == modelData.ID_NhanVienXL.ToString() ? "selected" : "")>@nv.Text</option>
+                    }
+                }
+            }
+        </select>
+    </div>
+    <div class="col-md-3">
+        <select class="form-control chucvu-select" name="ChucVuIDs">
+            <option value="">-- Chọn chức vụ --</option>
+            @foreach (var cv in chucVuList)
+            {
+                <option value="@cv.Value" @(cv.Value == modelData.ID_ChucVuXL.ToString() ? "selected" : "")>@cv.Text</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-1">
+        <button type="button" class="btn btn-danger btnRemoveRow">X</button>
+    </div>
+</div>

@@ -1,0 +1,134 @@
+﻿
+@model E_Learning.Models.DMST_LinhVuc
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+@using (Html.BeginForm("InsertXuLyLinhVuc", "RenewLinhVuc", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog text-left" style="max-width:800px" id="formE">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="ModalTitle_Edit" class="ModalTitle_Edit"></h5>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ID, new { id = "LinhVucID" })
+            <div class="modal-body">
+                <form id="formEditLinhVuc">
+                    <div id="xuLyContainer">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="BoPhan" value="Lĩnh vực: @ViewBag.TenLinhVuc" disabled />
+                        </div>
+                        @if (ViewBag.XuLyRows != null)
+                        {
+                            foreach (var item in ViewBag.XuLyRows as List<E_Learning.ModelsDMST.XuLyItem>)
+                            {
+                                Html.RenderPartial("_XuLyLinhVucRow", item);
+                            }
+                        }
+                        else
+                        {
+                            Html.RenderPartial("_XuLyLinhVucRow", new E_Learning.ModelsDMST.XuLyItem());
+                        }
+                    </div>
+                    <button type="button" class="btn btn-primary mt-2" id="btnAddRow">Thêm dòng mới</button>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSaveXuLy" class="btn btn-primary">Lưu</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+    </div>
+}
+<script>
+
+    function loadNhanVien(pbDropdown) {
+        var pbId = $(pbDropdown).val();
+        var row = $(pbDropdown).closest('.xuLyRow');
+        var nvDropdown = row.find('.nhanvien-select');
+        nvDropdown.empty().append($('<option>', { value: '', text: '-- Chọn nhân viên --' }));
+
+        if (pbId) {
+            $.get('/RenewLinhVuc/GetNhanVienTheoPhongBan', { idPB: pbId }, function (data) {
+                $.each(data, function (i, nv) {
+                    nvDropdown.append($('<option>', {
+                        value: nv.Value,
+                        text: nv.Text
+                    }));
+                });
+            });
+        }
+    }
+
+    $('#btnAddRow').on('click', function () {
+        $.get('/RenewLinhVuc/RenderRowPartial', function (html) {
+            $('#xuLyContainer').append(html);
+        });
+    });
+
+    $(document).on('change', '.phongban-select', function () {
+        loadNhanVien(this);
+    });
+
+    $(document).on('click', '.btnRemoveRow', function () {
+        $(this).closest('.xuLyRow').remove();
+    });
+
+    $('#btnSaveXuLy').click(function () {
+        var idLinhVuc = $('#LinhVucID').val();
+        var rows = [];
+
+        $('#xuLyContainer .xuLyRow').each(function () {
+            var row = $(this);
+            var pbId = row.find('.phongban-select').val();
+            var nvId = row.find('.nhanvien-select').val();
+            var cvId = row.find('.chucvu-select').val();
+
+            if (pbId && nvId && cvId) {
+                rows.push({
+                    ID_PhongBanXL: parseInt(pbId),
+                    ID_NhanVienXL: parseInt(nvId),
+                    ID_ChucVuXL: parseInt(cvId)
+                });
+            }
+        });
+
+        if (rows.length > 0) {
+            $.ajax({
+                url: '/RenewLinhVuc/InsertXuLyLinhVuc',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    ID_LinhVuc: parseInt(idLinhVuc),
+                    XuLyList: rows
+                }),
+                success: function (res) {
+                    if (res.success) {
+                        $('.phongban-select').val('');
+                        $('.nhanvien-select').val('');
+                        $('.chucvu-select').val('');
+                        alert("Lưu thành công!");
+                        window.location.href = '/RenewLinhVuc/Index';
+                    }
+                }
+            });
+        } else {
+            alert("Vui lòng chọn đầy đủ dữ liệu.");
+        }
+    });
+</script>
+
+
+
