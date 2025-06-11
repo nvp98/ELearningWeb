@@ -356,6 +356,7 @@
     <Compile Include="Controllers\EmployeeAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SHistoryController.cs" />
+    <Compile Include="Controllers\TieuBanDaoTao\TieuBanDaoTaoController.cs" />
     <Compile Include="Controllers\TLessonController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -383,7 +384,21 @@
     <Compile Include="ModelsQTHD\ListTestQT.cs" />
     <Compile Include="ModelsQTHD\NoiDungQTView.cs" />
     <Compile Include="ModelsQTHD\PhanQuyenQT.cs" />
+    <Compile Include="ModelsTieuBanDaoTao\ThanhVienTieuBanInfo.cs" />
+    <Compile Include="ModelsTieuBanDaoTao\ThanhVienTieuBanViewModel.cs" />
     <Compile Include="Models\BaiThi.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BDT_LichSuPheDuyet.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BDT_ThanhVienTieuBan.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BDT_TieuBan.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BDT_ViTriTieuBan.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CauHoi.cs">
@@ -944,6 +959,11 @@
     <Content Include="Views\ToChucDTTH\XLHS.cshtml" />
     <Content Include="Views\ToChucDTTH\ImportXuLyExcel.cshtml" />
     <Content Include="Views\Shared\_LayoutKhenThuong.cshtml" />
+    <Content Include="Views\TieuBanDaoTao\Create.cshtml" />
+    <Content Include="Views\TieuBanDaoTao\Edit.cshtml" />
+    <Content Include="Views\TieuBanDaoTao\Index.cshtml" />
+    <Content Include="Views\TieuBanDaoTao\PheDuyetTrinhKy.cshtml" />
+    <Content Include="Views\TieuBanDaoTao\TrinhKy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\all.css" />

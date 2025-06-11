@@ -135,13 +135,13 @@ namespace E_Learning.Models
         public Nullable<int> DATTu { get; set; }
         public Nullable<int> VUOTTu { get; set; }
         public Nullable<int> CHUADGTu { get; set; }
-        public string NgayDGTu { get; set; }
+        public DateTime? NgayDGTu { get; set; }
 
         public Nullable<int> KDATCap1 { get; set; }
         public Nullable<int> DATCap1 { get; set; }
         public Nullable<int> VUOTCap1 { get; set; }
         public Nullable<int> CHUADGCap1 { get; set; }
-        public string NgayDGCap1 { get; set; }
+        public DateTime? NgayDGCap1 { get; set; }
 
         public Nullable<int> KDATDuyet { get; set; }
 
@@ -156,6 +156,7 @@ namespace E_Learning.Models
         public Nullable<int> KDGIA { get; set; }
         public Nullable<int> CHUADG { get; set; }
         public string NgayDG { get; set; }
+        public DateTime? NgayDGHN { get; set; }
         public string HanDG { get; set; }
         public string NgayHanDG { get; set; }
     }
