@@ -31,6 +31,7 @@
         int Idquyen = E_Learning.Models.MyAuthentication.IDQuyen;
         var ListControll = new E_Learning.Controllers.HomeController().GetPermisionControll(Idquyen);
         var ListQFPosition = new E_Learning.Controllers.HomeController().GetPermisionCN(Idquyen, "FPosition");
+        var ListQuyenTieuBanDaoTao = new E_Learning.Controllers.HomeController().GetPermisionCN(Idquyen, "TieuBanDaoTao");
         //var checkDGNV = new E_Learning.Controllers.KNL.FCheckController().CheckDGiaNV();
         var checkAppro = new E_Learning.Controllers.KCCD.SuggestKCCDController().CheckApprove();
         var dsloaiNCDT = new E_Learning.Controllers.DaoTaoTH.NhuCauDTTHController().GetDSLoaiNCDT();
@@ -732,6 +733,36 @@
                                     }
                                 </ul>
                             </li>
+                            <li class=" @(Context.Request.Path == "/TieuBanDaoTao" || Context.Request.Path == "/TieuBanDaoTao/PheDuyetTrinhKy" ? "mm-active" : "")">
+                                @if ((new List<String> { "TieuBanDaoTao" }).Any(x => ListControll.Contains(x)))
+                                {
+                                    <a href="#" id="IDTK" class="">
+                                        <i class="metismenu-icon pe-7s-photo-gallery font-weight-bold">
+                                        </i>Tiểu ban đào tạo
+                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                    </a>
+                                }
+                                <ul id="LSTK">
+                                    @if (ListControll.Contains("TieuBanDaoTao"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "TieuBanDaoTao")" class="font-size-md font-weight-bold @(Context.Request.Path == "/TieuBanDaoTao" ? "mm-active" : "")">
+                                                <i class=" pe-7s-note2">
+                                                </i>&nbsp;&nbsp; Danh sách thành viên
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (ListControll.Contains("TieuBanDaoTao") && ListQuyenTieuBanDaoTao.Contains(E_Learning.Models.CONSTKEY.DUYET))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("PheDuyetTrinhKy", "TieuBanDaoTao")" class=" font-weight-bold @(Context.Request.Path == "/TieuBanDaoTao/PheDuyetTrinhKy" ? "mm-active" : "")">
+                                                <i class=" pe-7s-graph3">
+                                                </i>&nbsp;&nbsp; Phê duyệt
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
                             <li class=" @(Context.Request.Path == "/RewardContent" || Context.Request.Path == "/RewardType" ? "mm-active" : "")">
                                 @if ((new List<String> { "RewardContent", "RewardType" }).Any(x => ListControll.Contains(x)))
                                 {
@@ -741,35 +772,35 @@
                                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                                     </a>
                                 }
-                            <ul id="LSTK">
-                                @if (ListControll.Contains("RewardContent"))
-                                {
-                                    <li>
-                                        <a href="@Url.Action("Index", "RewardContent")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Question" ? "mm-active" : "")">
-                                            <i class=" pe-7s-note2">
-                                            </i>&nbsp;&nbsp; Nội dung khen thưởng
-                                        </a>
-                                    </li>
-                                }
-                                @if (ListControll.Contains("RewardType"))
-                                {
-                                    <li>
-                                        <a href="@Url.Action("Index", "RewardType")" class=" font-weight-bold @(Context.Request.Path == "/RewardType" ? "mm-active" : "")">
-                                            <i class=" pe-7s-graph3">
-                                            </i>&nbsp;&nbsp; Danh sách khen thưởng
-                                        </a>
-                                    </li>
-                                }
-                                @if (ListControll.Contains("RewardImage"))
-                                {
-                                    <li>
-                                        <a href="@Url.Action("Index", "RewardImage")" class=" font-weight-bold @(Context.Request.Path == "/RewardImage" ? "mm-active" : "")">
-                                            <i class=" pe-7s-graph3">
-                                            </i>&nbsp;&nbsp; Quản lý hình ảnh
-                                        </a>
-                                    </li>
-                                }
-                            </ul>
+                                <ul id="LSTK">
+                                    @if (ListControll.Contains("RewardContent"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "RewardContent")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Question" ? "mm-active" : "")">
+                                                <i class=" pe-7s-note2">
+                                                </i>&nbsp;&nbsp; Nội dung khen thưởng
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (ListControll.Contains("RewardType"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "RewardType")" class=" font-weight-bold @(Context.Request.Path == "/RewardType" ? "mm-active" : "")">
+                                                <i class=" pe-7s-graph3">
+                                                </i>&nbsp;&nbsp; Danh sách khen thưởng
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (ListControll.Contains("RewardImage"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "RewardImage")" class=" font-weight-bold @(Context.Request.Path == "/RewardImage" ? "mm-active" : "")">
+                                                <i class=" pe-7s-graph3">
+                                                </i>&nbsp;&nbsp; Quản lý hình ảnh
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
                             </li>
 
                             @*@if (User.Identity.IsAuthenticated)

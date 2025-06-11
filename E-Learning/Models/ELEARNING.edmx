@@ -22,6 +22,52 @@
           <Property Name="LanThi" Type="int" />
           <Property Name="Flag" Type="bit" />
         </EntityType>
+        <EntityType Name="BDT_LichSuPheDuyet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TieuBan_ID" Type="int" />
+          <Property Name="NgayTrinhKy" Type="date" />
+          <Property Name="NgayPheDuyet" Type="date" />
+          <Property Name="TrangThai" Type="int" />
+          <Property Name="NguoiPheDuyet_ID" Type="int" />
+          <Property Name="GhiChu" Type="nvarchar" MaxLength="255" />
+          <Property Name="NguoiTrinhKy_ID" Type="int" />
+          <Property Name="ThanhVienTieuBan_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="BDT_TieuBan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenTieuBan" Type="nvarchar" MaxLength="200" />
+          <Property Name="TrangThai" Type="int" />
+          <Property Name="NgayCapNhatGanNhat" Type="date" />
+          <Property Name="NgayDenHanCapNhatLai" Type="date" />
+          <Property Name="NguoiTrinhKy_ID" Type="int" />
+          <Property Name="PhongBan_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="BDT_ThanhVienTieuBan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TieuBan_ID" Type="int" />
+          <Property Name="NhanVien_ID" Type="int" />
+          <Property Name="ViTriKNL_ID" Type="int" />
+          <Property Name="ViTriTieuBan_ID" Type="int" />
+          <Property Name="NgayCapNhat" Type="date" />
+          <Property Name="NgayDenHanCapNhatLai" Type="date" />
+          <Property Name="TrangThai" Type="int" />
+        </EntityType>
+        <EntityType Name="BDT_ViTriTieuBan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenViTri" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="CauHoi">
           <Key>
             <PropertyRef Name="IDCH" />
@@ -2686,6 +2732,10 @@
         </Function>
         <EntityContainer Name="ELEARNINGModelStoreContainer">
           <EntitySet Name="BaiThi" EntityType="Self.BaiThi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BDT_LichSuPheDuyet" EntityType="Self.BDT_LichSuPheDuyet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BDT_TieuBan" EntityType="Self.BDT_TieuBan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BDT_ThanhVienTieuBan" EntityType="Self.BDT_ThanhVienTieuBan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BDT_ViTriTieuBan" EntityType="Self.BDT_ViTriTieuBan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CauHoi" EntityType="Self.CauHoi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CauHoiDeThi" EntityType="Self.CauHoiDeThi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CTBaiThi" EntityType="Self.CTBaiThi" Schema="dbo" store:Type="Tables" />
@@ -5801,6 +5851,10 @@
           <EntitySet Name="KT_HinhAnh" EntityType="ELEARNINGModel.KT_HinhAnh" />
           <EntitySet Name="KT_LoaiThuong" EntityType="ELEARNINGModel.KT_LoaiThuong" />
           <EntitySet Name="KT_NoiDungThuong" EntityType="ELEARNINGModel.KT_NoiDungThuong" />
+          <EntitySet Name="BDT_LichSuPheDuyet" EntityType="ELEARNINGModel.BDT_LichSuPheDuyet" />
+          <EntitySet Name="BDT_TieuBan" EntityType="ELEARNINGModel.BDT_TieuBan" />
+          <EntitySet Name="BDT_ThanhVienTieuBan" EntityType="ELEARNINGModel.BDT_ThanhVienTieuBan" />
+          <EntitySet Name="BDT_ViTriTieuBan" EntityType="ELEARNINGModel.BDT_ViTriTieuBan" />
         </EntityContainer>
         <ComplexType Name="CauHoi_DeThi_list_Result">
           <Property Type="Int32" Name="IDCH" Nullable="false" />
@@ -6730,6 +6784,52 @@
           <Property Name="GiaTriLamLoi" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="TongTienThuong" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="BannerImage" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="BDT_LichSuPheDuyet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TieuBan_ID" Type="Int32" />
+          <Property Name="NgayTrinhKy" Type="DateTime" Precision="0" />
+          <Property Name="NgayPheDuyet" Type="DateTime" Precision="0" />
+          <Property Name="TrangThai" Type="Int32" />
+          <Property Name="NguoiPheDuyet_ID" Type="Int32" />
+          <Property Name="GhiChu" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="NguoiTrinhKy_ID" Type="Int32" />
+          <Property Name="ThanhVienTieuBan_ID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="BDT_TieuBan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenTieuBan" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TrangThai" Type="Int32" />
+          <Property Name="NgayCapNhatGanNhat" Type="DateTime" Precision="0" />
+          <Property Name="NgayDenHanCapNhatLai" Type="DateTime" Precision="0" />
+          <Property Name="NguoiTrinhKy_ID" Type="Int32" />
+          <Property Name="PhongBan_ID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="BDT_ThanhVienTieuBan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TieuBan_ID" Type="Int32" />
+          <Property Name="NhanVien_ID" Type="Int32" />
+          <Property Name="ViTriKNL_ID" Type="Int32" />
+          <Property Name="ViTriTieuBan_ID" Type="Int32" />
+          <Property Name="NgayCapNhat" Type="DateTime" Precision="0" />
+          <Property Name="NgayDenHanCapNhatLai" Type="DateTime" Precision="0" />
+          <Property Name="TrangThai" Type="Int32" />
+        </EntityType>
+        <EntityType Name="BDT_ViTriTieuBan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenViTri" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -8922,6 +9022,56 @@
                 <ScalarProperty Name="NoiDungKhenThuong" ColumnName="NoiDungKhenThuong" />
                 <ScalarProperty Name="ID_LoaiKhenThuong" ColumnName="ID_LoaiKhenThuong" />
                 <ScalarProperty Name="SoQuyetDinh" ColumnName="SoQuyetDinh" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BDT_LichSuPheDuyet">
+            <EntityTypeMapping TypeName="ELEARNINGModel.BDT_LichSuPheDuyet">
+              <MappingFragment StoreEntitySet="BDT_LichSuPheDuyet">
+                <ScalarProperty Name="ThanhVienTieuBan_ID" ColumnName="ThanhVienTieuBan_ID" />
+                <ScalarProperty Name="NguoiTrinhKy_ID" ColumnName="NguoiTrinhKy_ID" />
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+                <ScalarProperty Name="NguoiPheDuyet_ID" ColumnName="NguoiPheDuyet_ID" />
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="NgayPheDuyet" ColumnName="NgayPheDuyet" />
+                <ScalarProperty Name="NgayTrinhKy" ColumnName="NgayTrinhKy" />
+                <ScalarProperty Name="TieuBan_ID" ColumnName="TieuBan_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BDT_TieuBan">
+            <EntityTypeMapping TypeName="ELEARNINGModel.BDT_TieuBan">
+              <MappingFragment StoreEntitySet="BDT_TieuBan">
+                <ScalarProperty Name="PhongBan_ID" ColumnName="PhongBan_ID" />
+                <ScalarProperty Name="NguoiTrinhKy_ID" ColumnName="NguoiTrinhKy_ID" />
+                <ScalarProperty Name="NgayDenHanCapNhatLai" ColumnName="NgayDenHanCapNhatLai" />
+                <ScalarProperty Name="NgayCapNhatGanNhat" ColumnName="NgayCapNhatGanNhat" />
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="TenTieuBan" ColumnName="TenTieuBan" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BDT_ThanhVienTieuBan">
+            <EntityTypeMapping TypeName="ELEARNINGModel.BDT_ThanhVienTieuBan">
+              <MappingFragment StoreEntitySet="BDT_ThanhVienTieuBan">
+                <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
+                <ScalarProperty Name="NgayDenHanCapNhatLai" ColumnName="NgayDenHanCapNhatLai" />
+                <ScalarProperty Name="NgayCapNhat" ColumnName="NgayCapNhat" />
+                <ScalarProperty Name="ViTriTieuBan_ID" ColumnName="ViTriTieuBan_ID" />
+                <ScalarProperty Name="ViTriKNL_ID" ColumnName="ViTriKNL_ID" />
+                <ScalarProperty Name="NhanVien_ID" ColumnName="NhanVien_ID" />
+                <ScalarProperty Name="TieuBan_ID" ColumnName="TieuBan_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BDT_ViTriTieuBan">
+            <EntityTypeMapping TypeName="ELEARNINGModel.BDT_ViTriTieuBan">
+              <MappingFragment StoreEntitySet="BDT_ViTriTieuBan">
+                <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

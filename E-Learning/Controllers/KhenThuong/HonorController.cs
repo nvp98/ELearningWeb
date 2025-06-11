@@ -192,7 +192,7 @@ namespace E_Learning.Controllers.KhenThuong
                         join danhSachKhenThuong in _context.KT_DanhSachKhenThuong
                         on noiDungThuong.ID equals danhSachKhenThuong.ID_NoiDungThuong
                         where noiDungThuong.NgayQuyetDinh >= startOfWeek
-                              && noiDungThuong.NgayQuyetDinh < endOfWeek
+                              && noiDungThuong.NgayQuyetDinh <= endOfWeek
                         select new
                         {
                             NoiDungKhenThuong = noiDungThuong.NoiDungKhenThuong,
@@ -373,30 +373,38 @@ namespace E_Learning.Controllers.KhenThuong
 
         public ActionResult LoadEmployees(int page = 1, int pageSize = 5)
         {
-            List<CaNhanXepHang> danhSachCaNhan = _context.KT_DanhSachKhenThuong
-                                    .Where(x => x.MNV != null)
-                                    .GroupBy(x => new { x.MNV, x.HoTen, x.DonVi })
-                                    .Select(g => new CaNhanXepHang
-                                    {
-                                        MNV = g.Key.MNV,
-                                        HoTen = g.Key.HoTen,
-                                        DonVi = g.Key.DonVi,
-                                        SoLuongDeTai = g.Count(x => x.NoiDungKhenThuong != null),
-                                        Avatar = _context.KT_HinhAnh.FirstOrDefault(x=>x.MaDoiTuong == g.Key.MNV) != null? _context.KT_HinhAnh.FirstOrDefault(x => x.MaDoiTuong == g.Key.MNV).AvatarPath:""
-                                    })
-                                    .OrderByDescending(x => x.SoLuongDeTai)
-                                    .Skip((page - 1) * pageSize)
-                                    .Take(pageSize)
-                                    .ToList();
+            int skipCount = 3 + ((page - 1) * pageSize);
 
-            int totalItems = _context.KT_DanhSachKhenThuong.AsNoTracking().Where(x=>x.MNV != null).GroupBy(x => new { x.MNV, x.HoTen, x.DonVi }).Count();
+            List<CaNhanXepHang> danhSachCaNhan = _context.KT_DanhSachKhenThuong
+                .Where(x => x.MNV != null)
+                .GroupBy(x => new { x.MNV, x.HoTen, x.DonVi })
+                .Select(g => new CaNhanXepHang
+                {
+                    MNV = g.Key.MNV,
+                    HoTen = g.Key.HoTen,
+                    DonVi = g.Key.DonVi,
+                    SoLuongDeTai = g.Count(x => x.NoiDungKhenThuong != null),
+                    Avatar = _context.KT_HinhAnh.FirstOrDefault(x => x.MaDoiTuong == g.Key.MNV) != null ?
+                             _context.KT_HinhAnh.FirstOrDefault(x => x.MaDoiTuong == g.Key.MNV).AvatarPath : ""
+                })
+                .OrderByDescending(x => x.SoLuongDeTai)
+                .Skip(skipCount)
+                .Take(pageSize)
+                .ToList();
+
+            int totalItems = _context.KT_DanhSachKhenThuong
+                .AsNoTracking()
+                .Where(x => x.MNV != null)
+                .GroupBy(x => new { x.MNV, x.HoTen, x.DonVi })
+                .Count() - 3;
 
             return Json(new
             {
                 data = danhSachCaNhan,
-                total = totalItems
+                total = totalItems < 0 ? 0 : totalItems // đảm bảo không âm
             }, JsonRequestBehavior.AllowGet);
         }
+
 
         //private string GetAvatar(string mnv)
         //{

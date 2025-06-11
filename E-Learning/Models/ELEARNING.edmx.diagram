@@ -130,6 +130,10 @@
         <AssociationConnector Association="ELEARNINGModel.FK_XNHocTap_LopHoc" />
         <EntityTypeShape EntityType="ELEARNINGModel.SH_HoSoDaoTao" Width="1.5" PointX="28.375" PointY="19.75" />
         <AssociationConnector Association="ELEARNINGModel.FK_KNL_KQ_KhungNangLuc" />
+        <EntityTypeShape EntityType="ELEARNINGModel.BDT_LichSuPheDuyet" Width="1.5" PointX="26.375" PointY="27.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.BDT_TieuBan" Width="1.5" PointX="23.375" PointY="28.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.BDT_ThanhVienTieuBan" Width="1.5" PointX="28.375" PointY="24.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.BDT_ViTriTieuBan" Width="1.5" PointX="28.375" PointY="28.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

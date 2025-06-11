@@ -129,12 +129,34 @@ namespace E_Learning.Models
         public string TenKip { get; set; }
         public string MaViTri { get; set; }
         public Nullable<int> TotalNL { get; set; }
+
+        public Nullable<int> TotalDocKNL { get; set; }
+        public Nullable<int> KDATTu { get; set; }
+        public Nullable<int> DATTu { get; set; }
+        public Nullable<int> VUOTTu { get; set; }
+        public Nullable<int> CHUADGTu { get; set; }
+        public DateTime? NgayDGTu { get; set; }
+
+        public Nullable<int> KDATCap1 { get; set; }
+        public Nullable<int> DATCap1 { get; set; }
+        public Nullable<int> VUOTCap1 { get; set; }
+        public Nullable<int> CHUADGCap1 { get; set; }
+        public DateTime? NgayDGCap1 { get; set; }
+
+        public Nullable<int> KDATDuyet { get; set; }
+
+        public Nullable<int> SLQuaHanKDAT { get; set; }
+        public Nullable<int> SLQuaHanDAT { get; set; }
+        public Nullable<int> SLQuaHanVuot { get; set; }
+        public Nullable<int> SLQuaHanChuaDG { get; set; }
+
         public Nullable<int> KDAT { get; set; }
         public Nullable<int> DAT { get; set; }
         public Nullable<int> VUOT { get; set; }
         public Nullable<int> KDGIA { get; set; }
         public Nullable<int> CHUADG { get; set; }
         public string NgayDG { get; set; }
+        public DateTime? NgayDGHN { get; set; }
         public string HanDG { get; set; }
         public string NgayHanDG { get; set; }
     }
