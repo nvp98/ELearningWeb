@@ -2,7 +2,7 @@
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 
-@using (Html.BeginForm("Create", "BanCongTy", FormMethod.Post, new { id = "formCreate" }))
+@using (Html.BeginForm("Create", "RenewTieuBanBoPhan", FormMethod.Post, new { id = "formCreate" }))
 {
     @Html.AntiForgeryToken()
     <div class="modal-dialog" style="max-width:800px" id="formF">

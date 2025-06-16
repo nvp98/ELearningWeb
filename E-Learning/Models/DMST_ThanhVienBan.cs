@@ -17,5 +17,6 @@ namespace E_Learning.Models
         public int ID { get; set; }
         public Nullable<int> IDNV { get; set; }
         public Nullable<int> ID_ChucVu { get; set; }
+        public string Email { get; set; }
     }
 }

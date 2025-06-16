@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutDMST.cshtml";
 }
 
 @model PagedList.IPagedList<E_Learning.ModelsDMST.ThanhVienView>
@@ -23,24 +23,15 @@
     <div class="app-main__inner">
 
         <div class="app-page-title">
-            <div class="page-title-wrapper">
-                <div class="page-title-heading">
-                    <div class="page-title-icon">
-                        <i class="pe-7s-portfolio icon-gradient bg-grow-early">
-                        </i>
-                    </div>
-                    <div>
-                        DANH SÁCH TIỂU BAN ĐỔI MỚI SÁNG TẠO
-                        <div class="page-title-subheading">
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="tab-content">
             <div class="row">
                 <div class="card col-lg-12">
+                    <div class="card-header">
+                        Danh sách ban đổi mới sáng tạo công ty
+
+                    </div>
                     <div class="card-header">
                         <div class="row mb-3">
                             <div class="col d-flex align-items-center flex-wrap gap-2">
@@ -49,7 +40,7 @@
                                     <i class="fas fa-plus me-1"></i> Thêm mới
                                 </button>
 
-                                <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","BanCongTy")'></div>
+                                <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","RenewBanCongTy")'></div>
 
                                 @using (Html.BeginForm("Import", "TieuBanDaoTao", FormMethod.Post, new { enctype = "multipart/form-data", id = "formImport", @class = "d-flex align-items-center gap-2" }))
                                 {
@@ -61,29 +52,29 @@
 
 
                     </div>
-                    @using (Html.BeginForm("Index", "BanCongTy", FormMethod.Get))
+                    @using (Html.BeginForm("Index", "RenewBanCongTy", FormMethod.Get))
                     {
-                            <div class="form-row mb-3">
-                                <div class="form-group col-md-3">
-                                    <label for="phongBanFilter">Bộ phận:</label>
-                                    @Html.DropDownList("phongBanFilter", ViewBag.DSPhongBan as SelectList, "-- Tất cả --", new { @class = "form-control" })
-                                </div>
-
-                                <div class="form-group col-md-2">
-                                    <label for="viTriTieuBanFilter">Vị trí trong tiểu ban:</label>
-                                    @Html.DropDownList("viTriTieuBanFilter", ViewBag.DSChucVu as SelectList, "-- Tất cả --", new { @class = "form-control" })
-                                </div>
-
-                                <div class="form-group col-md-3">
-                                    <label for="searchName">Tìm theo tên, mã NV:</label>
-                                    <input type="text" name="searchName" class="form-control" value="@ViewBag.SearchName" />
-                                </div>
-
-                                <div class="form-group col-md-4 align-self-end">
-                                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                                </div>
+                        <div class="form-row mb-3">
+                            <div class="form-group col-md-3">
+                                <label for="phongBanFilter">Bộ phận:</label>
+                                @Html.DropDownList("phongBanFilter", ViewBag.DSPhongBan as SelectList, "-- Tất cả --", new { @class = "form-control" })
                             </div>
-                     }
+
+                            <div class="form-group col-md-2">
+                                <label for="viTriTieuBanFilter">Vị trí trong tiểu ban:</label>
+                                @Html.DropDownList("viTriTieuBanFilter", ViewBag.DSChucVu as SelectList, "-- Tất cả --", new { @class = "form-control" })
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label for="searchName">Tìm theo tên, mã NV:</label>
+                                <input type="text" name="searchName" class="form-control" value="@ViewBag.SearchName" />
+                            </div>
+
+                            <div class="form-group col-md-4 align-self-end">
+                                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    }
 
                     <div class="card-body">
                         <div class="table-responsive">
@@ -131,7 +122,7 @@
                                                            title="Xóa">
                                                         </a>
                                                         <a id="btn-edit_@item.ID" title="Sửa" class="fa fa-edit icon_action" style="cursor:pointer;"></a>
-                                                        <div class="modal fade" id="myModale_@item.ID" role="dialog" data-url='@Url.Action("Edit","BanCongTy", new { id = item.ID })'></div>
+                                                        <div class="modal fade" id="myModale_@item.ID" role="dialog" data-url='@Url.Action("Edit","RenewBanCongTy", new { id = item.ID })'></div>
                                                         <script type="text/javascript">
                                                             $("#btn-edit_@item.ID").click(function () {
                                                                 var url = $('#myModale_@item.ID').data('url');
@@ -197,7 +188,7 @@
             if (!confirm("Bạn muốn xóa vị trí này?")) return;
 
             $.ajax({
-                url: '@Url.Action("Delete", "BanCongTy")',
+                url: '@Url.Action("Delete", "RenewBanCongTy")',
                 type: 'POST',
                 data: { id: id},
                 success: function (response) {

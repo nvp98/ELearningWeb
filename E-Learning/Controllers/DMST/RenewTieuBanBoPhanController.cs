@@ -1,5 +1,6 @@
 ﻿using E_Learning.Models;
 using E_Learning.ModelsDMST;
+using E_Learning.ModelsTieuBanDaoTao;
 using PagedList;
 using System;
 using System.Linq;
@@ -7,12 +8,13 @@ using System.Web.Mvc;
 
 namespace E_Learning.Controllers.DMST
 {
-    public class BanCongTyController : Controller
+    public class RenewTieuBanBoPhanController : Controller
     {
         ELEARNINGEntities db = new ELEARNINGEntities();
         int Idquyen = MyAuthentication.IDQuyen;
-        String ControllerName = "BanCongTy";
-        // GET: BanCongTy
+        String ControllerName = "RenewTieuBanBoPhan";
+
+        // GET: TieuBanBoPhan
         public ActionResult Index(int? page, string phongBanFilter, string viTriTieuBanFilter, string searchName)
         {
             var data = from tv in db.DMST_ThanhVienBan
@@ -20,7 +22,7 @@ namespace E_Learning.Controllers.DMST
                        join pb in db.PhongBans on nv.IDPhongBan equals pb.IDPhongBan
                        join vt in db.ViTriKNLs on nv.IDVTKNL equals vt.IDVT
                        join cv in db.DMST_ChucVu on tv.ID_ChucVu equals cv.ID
-                       where cv.MaToChuc.ToString() == "1"
+                       where cv.MaToChuc.ToString() == "2"
                        select new ThanhVienView
                        {
                            ID = tv.ID,
@@ -58,7 +60,7 @@ namespace E_Learning.Controllers.DMST
             ViewBag.SearchName = searchName;
 
             ViewBag.DSPhongBan = new SelectList(db.PhongBans.OrderBy(x => x.TenPhongBan), "IDPhongBan", "TenPhongBan", phongBanFilter);
-            ViewBag.DSChucVu = new SelectList(db.DMST_ChucVu.Where(x => x.MaToChuc == "1").OrderBy(x => x.TenChucVu), "ID", "TenChucVu", viTriTieuBanFilter);
+            ViewBag.DSChucVu = new SelectList(db.DMST_ChucVu.Where(x => x.MaToChuc == "2").OrderBy(x => x.TenChucVu), "ID", "TenChucVu", viTriTieuBanFilter);
 
             return View(pagedList);
         }
@@ -85,7 +87,7 @@ namespace E_Learning.Controllers.DMST
             ViewBag.DSNhanVien = dsNhanVien;
 
             var dsChucVu = db.DMST_ChucVu
-                .Where(cv => cv.MaToChuc == "1")
+                .Where(cv => cv.MaToChuc == "2")
                .Select(cv => new SelectListItem
                {
                    Value = cv.ID.ToString(),
@@ -134,15 +136,14 @@ namespace E_Learning.Controllers.DMST
                     TempData["msgSuccess"] = "<script>alert('Cập nhật thành công!');</script>";
                 }
                 return RedirectToAction("Index");
-            }
-            catch
+            } catch
             {
                 TempData["msgError"] = "<script>alert('Lỗi khi thêm mới');</script>";
                 return RedirectToAction("Index");
             }
         }
 
-        public ActionResult Edit(int id, int? phongBanFilter)
+        public ActionResult Edit(int id)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             //if (!ListQuyen.Contains(CONSTKEY.EDIT))
@@ -204,5 +205,6 @@ namespace E_Learning.Controllers.DMST
                 return Json(new { success = false, message = "Có lỗi xảy ra khi xóa!" });
             }
         }
+
     }
 }

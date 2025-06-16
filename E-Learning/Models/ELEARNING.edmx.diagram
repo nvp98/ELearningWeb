@@ -146,6 +146,10 @@
         <EntityTypeShape EntityType="ELEARNINGModel.DMST_ThanhVienBan" Width="1.5" PointX="30.75" PointY="24.75" />
         <EntityTypeShape EntityType="ELEARNINGModel.DMST_XuLyLinhVuc" Width="1.5" PointX="31.75" PointY="0.75" />
         <AssociationConnector Association="ELEARNINGModel.FK_DMST_DeXuat_ChiTiet_DMST_DeXuat" />
+        <EntityTypeShape EntityType="ELEARNINGModel.BDT_LichSuPheDuyet" Width="1.5" PointX="5.375" PointY="31.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.BDT_TieuBan" Width="1.5" PointX="10.375" PointY="31.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.BDT_ThanhVienTieuBan" Width="1.5" PointX="12.375" PointY="31.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.BDT_ViTriTieuBan" Width="1.5" PointX="20.375" PointY="31.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -133,7 +133,7 @@ namespace E_Learning.Models
         public virtual DbSet<DMST_TinhTrangDeXuat> DMST_TinhTrangDeXuat { get; set; }
         public virtual DbSet<DMST_ThanhVienBan> DMST_ThanhVienBan { get; set; }
         public virtual DbSet<DMST_XuLyLinhVuc> DMST_XuLyLinhVuc { get; set; }
-         
+    
         public virtual int BaiThi_insert(Nullable<int> iDLH, Nullable<int> iDDeThi, Nullable<int> iDND, Nullable<int> iDNV, Nullable<int> iDPhongBan, Nullable<int> iDViTri, Nullable<double> diemSo, Nullable<System.DateTime> ngayThi, Nullable<bool> tinhTrang, Nullable<int> lanThi, ObjectParameter iDBaiThi)
         {
             var iDLHParameter = iDLH.HasValue ?

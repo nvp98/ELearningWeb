@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutDMST.cshtml";
 }
 
 @model PagedList.IPagedList<E_Learning.ModelsDMST.XuLyLinhVucViewModel>
@@ -23,48 +23,50 @@
     <div class="app-main__inner">
 
         <div class="app-page-title">
-            <div class="page-title-wrapper">
-                <div class="page-title-heading">
-                    <div class="page-title-icon">
-                        <i class="pe-7s-portfolio icon-gradient bg-grow-early">
-                        </i>
-                    </div>
-                    <div>
-                        Lĩnh vực Đổi mới sáng tạo
-                        <div class="page-title-subheading">
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </div>
 
         <div class="tab-content">
             <div class="row">
                 <div class="card col-lg-12">
                     <div class="card-header">
-                        <div class="row mb-3">
-                            <div class="col d-flex align-items-center flex-wrap gap-2">
-                                <button type="button" id="btn-add" class="btn btn-primary">
+                        Lĩnh vực Đổi mới sáng tạo
+                    </div>
+                    
+                    <div class="card-header">
+                        <div class="row w-100 align-items-end g-2">
+
+                            <!-- Bộ lọc -->
+                            <div class="col-md-6 col-12">
+                                @using (Html.BeginForm("Index", "RenewLinhVuc", FormMethod.Get))
+                                {
+                                    <div class="form-group mb-0">
+                                        <label for="linhVucFilter" class="form-label fw-bold small text-uppercase">Lĩnh vực:</label>
+                                        <div class="input-group">
+                                            @Html.DropDownList("linhVucFilter", ViewBag.DSLinhVuc as SelectList, "-- Tất cả --", new
+                                            {
+                                              @class = "form-control form-control-sm",
+                                                id = "linhVucFilter"
+                                            })
+                                            <div class="input-group-append ms-2">
+                                                <button type="submit" class="btn btn-sm btn-primary">Tìm kiếm</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <!-- Nút thêm mới -->
+                            <div class="col-md-6 col-12 text-md-end text-start mt-2 mt-md-0">
+                                <button type="button" id="btn-add" class="btn btn-sm btn-primary">
                                     <i class="fas fa-plus me-1"></i> Thêm mới
                                 </button>
-
                                 <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","RenewLinhVuc")'></div>
                             </div>
-                        </div>
 
-                    </div>
-                    @using (Html.BeginForm("Index", "RenewLinhVuc", FormMethod.Get))
-                    {
-                        <div class="form-row mb-3">
-                            <div class="form-group col-md-3">
-                                <label for="phongBanFilter">Lĩnh vực:</label>
-                                @Html.DropDownList("linhVucFilter", ViewBag.DSLinhVuc as SelectList, "-- Tất cả --", new { @class = "form-control" })
-                            </div>
-                            <div class="form-group col-md-4 align-self-end">
-                                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                            </div>
                         </div>
-                    }
+                    </div>
+
 
                     <div class="card-body">
                         <div class="table-responsive">

@@ -305,8 +305,10 @@
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\DetailedFieldController.cs" />
     <Compile Include="Controllers\DinhBien\DinhBienController.cs" />
+    <Compile Include="Controllers\DMST\RenewBanCongTyController.cs" />
     <Compile Include="Controllers\DMST\RenewCreativeController.cs" />
     <Compile Include="Controllers\DMST\RenewLinhVucController.cs" />
+    <Compile Include="Controllers\DMST\RenewTieuBanBoPhanController.cs" />
     <Compile Include="Controllers\EClassroomController.cs" />
     <Compile Include="Controllers\EGuideController.cs" />
     <Compile Include="Controllers\EmloyeeManageController.cs" />
@@ -364,6 +366,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ModelsDMST\DeXuatDMSTView.cs" />
+    <Compile Include="ModelsDMST\ThanhVienView.cs" />
+    <Compile Include="ModelsDMST\XuLyLinhVucView.cs" />
     <Compile Include="ModelsDTTH\ChuongTrinhDTTHView.cs" />
     <Compile Include="ModelsDTTH\HoSoDaoTaoTH.cs" />
     <Compile Include="ModelsDTTH\NhanVienViewDTTH.cs" />
@@ -909,10 +913,18 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ChuongTrinhDTService.cs" />
+    <Content Include="Content\assets\css\style_dmst.css" />
+    <Content Include="Content\assets\scripts\main_dmst.js" />
     <Content Include="Views\RenewLinhVuc\Index.cshtml" />
     <Content Include="Views\RenewCreative\Create.cshtml" />
     <Content Include="Views\RenewLinhVuc\_Create.cshtml" />
     <Content Include="Views\RenewLinhVuc\_Edit.cshtml" />
+    <Content Include="Views\RenewBanCongTy\Create.cshtml" />
+    <Content Include="Views\RenewBanCongTy\Edit.cshtml" />
+    <Content Include="Views\RenewBanCongTy\Index.cshtml" />
+    <Content Include="Views\RenewLinhVuc\Edit.cshtml" />
+    <Content Include="Views\RenewLinhVuc\Create.cshtml" />
+    <Content Include="Views\RenewCreative\Index.cshtml" />
     <None Include="Views\RenewLinhVuc\_LayoutRenewLinhVuc.cshtml" />
     <Content Include="Content\assets\css\vd-khen-thuong.css" />
     <Content Include="Content\assets\images\avatars\default.png" />
@@ -1005,6 +1017,7 @@
     <Content Include="Views\RewardType\_DanhSachKhenThuongPartial.cshtml" />
     <Content Include="Views\NhuCauDTTH\GetNhanViensByNCDT.cshtml" />
     <Content Include="Views\RenewLinhVuc\_ListLinhVuc.cshtml" />
+    <Content Include="Views\RenewLinhVuc\_XuLyLinhVucRow.cshtml" />
     <None Include="Views\Shared\LayoutAdmin.cshtml" />
     <Content Include="Views\ToChucDTTH\Index.cshtml" />
     <Content Include="Views\ToChucDTTH\Create.cshtml" />
@@ -1018,6 +1031,10 @@
     <Content Include="Views\TieuBanDaoTao\Index.cshtml" />
     <Content Include="Views\TieuBanDaoTao\PheDuyetTrinhKy.cshtml" />
     <Content Include="Views\TieuBanDaoTao\TrinhKy.cshtml" />
+    <Content Include="Views\RenewTieuBanBoPhan\Create.cshtml" />
+    <Content Include="Views\RenewTieuBanBoPhan\Edit.cshtml" />
+    <Content Include="Views\RenewTieuBanBoPhan\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutDMST.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\all.css" />

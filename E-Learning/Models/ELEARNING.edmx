@@ -305,12 +305,6 @@
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="TinhTrangDeXuat" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'ele48457_HPDQ_1210_OK.dbo.DMST_ToChuc' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="DMST_ToChuc">
-          <Property Name="ID" Type="int" />
-          <Property Name="TenToChuc" Type="nvarchar" MaxLength="50" />
-        </EntityType>-->
         <EntityType Name="DMST_ThanhVienBan">
           <Key>
             <PropertyRef Name="ID" />
@@ -318,6 +312,7 @@ warning 6013: The table/view 'ele48457_HPDQ_1210_OK.dbo.DMST_ToChuc' does not ha
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IDNV" Type="int" />
           <Property Name="ID_ChucVu" Type="int" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="DMST_XuLyLinhVuc">
           <Key>
@@ -7144,6 +7139,7 @@ warning 6013: The table/view 'ele48457_HPDQ_1210_OK.dbo.DMST_ToChuc' does not ha
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IDNV" Type="Int32" />
           <Property Name="ID_ChucVu" Type="Int32" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="DMST_XuLyLinhVuc">
           <Key>
@@ -9562,6 +9558,7 @@ warning 6013: The table/view 'ele48457_HPDQ_1210_OK.dbo.DMST_ToChuc' does not ha
           <EntitySetMapping Name="DMST_ThanhVienBan">
             <EntityTypeMapping TypeName="ELEARNINGModel.DMST_ThanhVienBan">
               <MappingFragment StoreEntitySet="DMST_ThanhVienBan">
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="ID_ChucVu" ColumnName="ID_ChucVu" />
                 <ScalarProperty Name="IDNV" ColumnName="IDNV" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
