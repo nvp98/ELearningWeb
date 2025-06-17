@@ -35,7 +35,7 @@
     <div class="app-main__inner">
         <div class="tab-content pt-3">
             @*<div class="app-page-title">
-            </div>*@
+                </div>*@
             <div class="row">
                 <div class="card w-100">
                     <div class="d-flex justify-content-between align-items-center mt-3 px-3">
@@ -47,7 +47,7 @@
                     <div class="alert alert-success fade show text-center" role="alert">Vui mừng chào đón bạn trở lại. Chúng ta cùng nhau tạo nên những ý tưởng mới mẻ và khám phá vô vàn cơ hội sáng tạo nhé!</div>
 
                     <div class="card-body" style="padding-top:8px">
-                       
+
                         <ul class="nav nav-tabs mb-1 nav-justified" id="innovationTab" role="tablist">
                             <li class="nav-item"><a class="nav-link active font-weight-bold" data-bs-toggle="tab" href="#tab1">Đăng ký ý tưởng</a></li>
                             @*<li class="nav-item"><a class="nav-link font-weight-bold" data-bs-toggle="tab" href="#tab2">Trình ký</a></li>*@
@@ -69,7 +69,8 @@
                                     </small>
 
                                     <div class="divider mb-1"></div>
-                                    <div class="text-uppercase text-dark fw-bold">Thông tin cá nhân đại diện</div>
+                                    @*<div class="text-uppercase text-dark fw-bold">1. Thông tin cá nhân đại diện</div>*@
+                                    <h5 class="mt-3">1. Thông tin cá nhân đại diện</h5>
                                     <div class="row">
                                         <div class="mb-1 col">
                                             <label class="form-label">Cá nhân đại diện </label>
@@ -84,7 +85,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="text-uppercase text-dark fw-bold">Thông tin ý tưởng</div>
+                                    @*<div class="text-uppercase text-dark fw-bold">Thông tin ý tưởng</div>*@
+                                    <h5 class="mt-3">2. Thông tin ý tưởng</h5>
 
                                     <div class="mb-1">
                                         <label class="form-label">Tên ý tưởng</label>
@@ -189,9 +191,9 @@
                                                 const tbody = document.querySelector("#TableNguoiThamGia tbody");
                                                 const row = document.createElement("tr");
                                                 row.innerHTML = `
-                                                                                                                                                                                                                                                             <td><input type="text" class="form-control form-control-sm" placeholder="Tên người tham gia" /></td>
-                                                                                                                                                                                                                                                             <td><input type="text" class="form-control form-control-sm" placeholder="Vai trò" /></td>
-                                                                                                                                                                                                                                                            `;
+                                                                                                                                                                                                                                                                                                                                            <td><input type="text" class="form-control form-control-sm" placeholder="Tên người tham gia" /></td>
+                                                                                                                                                                                                                                                                                                                                            <td><input type="text" class="form-control form-control-sm" placeholder="Vai trò" /></td>
+                                                                                                                                                                                                                                                                                                                                                                                    `;
                                                 tbody.appendChild(row);
                                             }
                                         </script>
@@ -231,11 +233,11 @@
                                                 const tbody = document.querySelector("#TableChiPhi tbody");
                                                 const row = document.createElement("tr");
                                                 row.innerHTML = `
-                                                                                                                                                                                                                                                             <td><input type="text" class="form-control form-control-sm" /></td>
-                                                                                                                                                                                                                                                             <td><input type="text" class="form-control form-control-sm" /></td>
-                                                                                                                                                                                                                                                             <td><input type="text" class="form-control form-control-sm" /></td>
-                                                                                                                                                                                                                                                             <td><input type="text" class="form-control form-control-sm" /></td>
-                                                                                                                                                                                                                                                            `;
+                                                                                                                                                                                                                                                                                                                                            <td><input type="text" class="form-control form-control-sm" /></td>
+                                                                                                                                                                                                                                                                                                                                            <td><input type="text" class="form-control form-control-sm" /></td>
+                                                                                                                                                                                                                                                                                                                                            <td><input type="text" class="form-control form-control-sm" /></td>
+                                                                                                                                                                                                                                                                                                                                            <td><input type="text" class="form-control form-control-sm" /></td>
+                                                                                                                                                                                                                                                                                                                                                                                    `;
                                                 tbody.appendChild(row);
                                             }
                                         </script>
@@ -306,33 +308,120 @@
 
                             <div class="tab-pane fade show active " id="tab2" style="overflow-y: auto; overflow-x: hidden;max-height:700px">
                                 @*<div class="mb-1">
-                                    <label class="form-label">Người ký duyệt</label>
-                                    <input type="text" class="form-control" placeholder="Nhập tên người ký">
-                                </div>
-                                <div class="mb-1">
-                                    <label class="form-label">Ngày ký</label>
-                                    <input type="date" class="form-control">
-                                </div>
-                                <button class="btn btn-success">Trình ký</button>*@
+                                        <label class="form-label">Người ký duyệt</label>
+                                        <input type="text" class="form-control" placeholder="Nhập tên người ký">
+                                    </div>
+                                    <div class="mb-1">
+                                        <label class="form-label">Ngày ký</label>
+                                        <input type="date" class="form-control">
+                                    </div>
+                                    <button class="btn btn-success">Trình ký</button>*@
                             </div>
 
-                            <div class="tab-pane fade" id="tab3">
-                                <div class="mb-1">
-                                    <label class="form-label">Kế hoạch triển khai</label>
-                                    <textarea class="form-control" rows="3" placeholder="Mô tả kế hoạch"></textarea>
-                                </div>
-                                <div class="mb-1">
-                                    <label class="form-label">Loại nguồn lực</label><br>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="nguonluc" id="human" value="human">
-                                        <label class="form-check-label" for="human">Nhân lực</label>
+                            <div class="tab-pane fade show active" id="tab3">
+                                <form>
+                                    <h5 class="mt-3">1. Thông tin chung</h5>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="tenYTuong" class="form-label">Tên ý tưởng</label>
+                                            <select class="form-control" id="tenYTuong">
+                                                <option selected disabled>-- Chọn ý tưởng --</option>
+                                                <option>Ý tưởng 1</option>
+                                                <option>Ý tưởng 2</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="boPhan" class="form-label">Bộ phận</label>
+                                            <select class="form-control" id="boPhan">
+                                                <option selected disabled>-- Chọn bộ phận --</option>
+                                                <option>Bộ phận A</option>
+                                                <option>Bộ phận B</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="nguonluc" id="taiChinh" value="finance">
-                                        <label class="form-check-label" for="taiChinh">Tài chính</label>
+
+                                    <!-- Người triển khai -->
+                                    <div class="row mb-4 align-items-end">
+                                        <div class="col-md-9">
+                                            <label for="nguoiTrienKhai" class="form-label">Người triển khai (nhập mã nhân viên cách nhau bởi dấu phẩy hoặc xuống dòng)</label>
+                                            <textarea id="nguoiTrienKhai" class="form-control" rows="3" placeholder="VD: NV001, NV002 hoặc mỗi mã 1 dòng"></textarea>
+                                        </div>
+                                        <div class="col-md-3 text-end">
+                                            <button type="button" class="btn btn-primary mt-3" id="taiNhanVien">Tải dữ liệu</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <button class="btn btn-secondary">Lưu kế hoạch</button>
+
+                                    <!-- Kết quả danh sách nhân viên -->
+                                    <div class="row mb-4">
+                                        <div class="col-md-12">
+                                            <label class="form-label">Danh sách nhân viên</label>
+                                            <ul class="list-group" id="danhSachNhanVien"></ul>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <label for="ngayBatDau" class="form-label">Ngày bắt đầu triển khai</label>
+                                            <input type="date" class="form-control" id="ngayBatDau">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="ngayKetThuc" class="form-label">Dự kiến hoàn thành</label>
+                                            <input type="date" class="form-control" id="ngayKetThuc">
+                                        </div>
+                                    </div>
+
+                                    <h5>2. Mục tiêu thực hiện</h5>
+                                    <div class="mb-4">
+                                        <textarea class="form-control" rows="4" placeholder="Nhập mục tiêu thực hiện..."></textarea>
+                                    </div>
+
+                                    <h5>3. Kế hoạch triển khai chi tiết</h5>
+
+                                    <h6 class="mt-3">3.1 Nguồn lực</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="nguonLucTable">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th style="width: 40px;">STT</th>
+                                                    <th>Nội dung công việc chuẩn bị</th>
+                                                    <th>Số lượng</th>
+                                                    <th>Người thực hiện</th>
+                                                    <th>Thời gian</th>
+                                                    <th>Ghi chú</th>
+                                                    <th style="width: 60px;"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="stt">1</td>
+                                                    <td><input type="text" class="form-control"></td>
+                                                    <td><input type="number" class="form-control"></td>
+                                                    <td><input type="text" class="form-control"></td>
+                                                    <td><input type="text" class="form-control"></td>
+                                                    <td><input type="text" class="form-control"></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" id="addRow"><i class="fa fa-plus"></i>Thêm </button>
+
+                                    <h6>3.2 Chi phí dự kiến</h6>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" placeholder="Nhập chi phí dự kiến">
+                                    </div>
+
+                                    <h6>3.3 Thuận lợi - khó khăn</h6>
+                                    <div class="mb-3">
+                                        <textarea class="form-control" rows="3" placeholder="Nhập thuận lợi và khó khăn..."></textarea>
+                                    </div>
+
+                                    <h6>3.4 Đề nghị hỗ trợ</h6>
+                                    <div class="mb-3">
+                                        <textarea class="form-control" rows="3" placeholder="Nhập đề nghị hỗ trợ..."></textarea>
+                                    </div>
+                                </form>
                             </div>
 
                             <div class="tab-pane fade" id="tab4">
@@ -354,7 +443,7 @@
                                 </div>
                                 <div class="mb-1">
                                     <label class="form-label">Trạng thái sử dụng</label>
-                                    <select class="form-select">
+                                    <select class="form-control">
                                         <option>Đang sử dụng</option>
                                         <option>Đang thử nghiệm</option>
                                         <option>Tạm dừng</option>
@@ -370,7 +459,7 @@
                                 </div>
                                 <div class="mb-1">
                                     <label class="form-label">Mức độ hoàn thành</label>
-                                    <select class="form-select">
+                                    <select class="form-control">
                                         <option>Xuất sắc</option>
                                         <option>Đạt yêu cầu</option>
                                         <option>Không đạt</option>
@@ -380,11 +469,70 @@
                             </div>
                         </div>
                     </div>
-                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $('#addRow').click(function () {
+            const table = $('#nguonLucTable tbody');
+            const stt = table.find('tr').length + 1;
+            const row = `
+        <tr>
+          <td class="stt">${stt}</td>
+          <td><input type="text" class="form-control"></td>
+          <td><input type="number" class="form-control"></td>
+          <td><input type="text" class="form-control"></td>
+          <td><input type="text" class="form-control"></td>
+          <td><input type="text" class="form-control"></td>
+          <td><button type="button" class="btn btn-sm btn-danger remove-row">X</button></td>
+        </tr>`;
+            table.append(row);
+        });
+
+        $('#nguonLucTable').on('click', '.remove-row', function () {
+            $(this).closest('tr').remove();
+            $('#nguonLucTable .stt').each(function (index) {
+                $(this).text(index + 1);
+            });
+        });
+
+        $('#taiNhanVien').click(function () {
+            const rawInput = $('#nguoiTrienKhai').val();
+            const maNhanViens = rawInput.split(/[\n,]+/).map(m => m.trim()).filter(Boolean);
+
+            const danhSachNhanVien = [];
+
+            const allNhanVien = {
+                'NV001': 'Nguyễn Văn A',
+                'NV002': 'Trần Thị B',
+                'NV003': 'Lê Văn C',
+                'NV004': 'Phạm Thị D'
+            };
+
+            $('#danhSachNhanVien').empty();
+
+            const uniqueMaNhanViens = Array.from(new Set(
+                maNhanViens.filter(Boolean)
+            ));
+
+            uniqueMaNhanViens.forEach((ma) => {
+                const ten = allNhanVien[ma] || '(Không tìm thấy)';
+                $('#danhSachNhanVien').append(`<li class="list-group-item">${ma} - ${ten}</li>`);
+            });
+
+            if (uniqueMaNhanViens.length === 0) {
+                $('#danhSachNhanVien').append(`<li class="list-group-item text-muted">Chưa có mã nhân viên hợp lệ.</li>`);
+            }
+
+            if (maNhanViens.length === 0) {
+                $('#danhSachNhanVien').append(`<li class="list-group-item text-muted">Chưa có mã nhân viên hợp lệ.</li>`);
+            }
+        });
+    });
+</script>
 
 
 
