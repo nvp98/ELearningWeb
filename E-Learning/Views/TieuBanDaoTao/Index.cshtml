@@ -44,37 +44,6 @@
             <div class="row">
                 <div class="card col-lg-12">
                     <div class="card-header">
-                        @*<div class="row">
-            <div class="col-auto gap-2">
-                @{
-                    var phongBanFilter = Request.QueryString["phongBanFilter"] ?? "0";
-                }
-                <button type="button" id="btn-add" data-phongbanid="@phongBanFilter" class="btn btn-primary">
-                    <i class="fas fa-plus me-1"></i> Thêm mới
-                </button>
-                <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","TieuBanDaoTao")'></div>
-                <button type="button" class="btn btn-secondary">
-                    <i class="fas fa-sync-alt me-1"></i> Cập nhật
-                </button>
-                <button type="button" id="btnTrinhKy" class="btn btn-success">
-                    <i class="fas fa-paper-plane me-1"></i> Trình ký
-                </button>
-                <div class="modal fade" id="myModal_TrinhKy" role="dialog"
-                     data-url='@Url.Action("TrinhKy", "TieuBanDaoTao", new { phongBanFilter = phongBanFilter })'>
-                </div>
-                <button type="button" class="btn btn-info"
-                        onclick="location.href='@Url.Action("ExportExcel", "TieuBanDaoTao")?phongBanFilter=@phongBanFilter'">
-                    <i class="fas fa-file-excel me-1"></i> Xuất Excel
-                </button>
-
-                @using (Html.BeginForm("Import", "TieuBanDaoTao", FormMethod.Post, new { enctype = "multipart/form-data", id = "formImport" }))
-                {
-                    <input type="file" id="fileInput" name="file" accept=".xlsx,.xls" />
-                    <button type="button" id="btnImport" class="btn btn-success">Import Excel</button>
-                }
-            </div>
-        </div>*@
-
                         <div class="row mb-3">
                             <div class="col d-flex align-items-center flex-wrap gap-2">
                                 @{
@@ -87,12 +56,12 @@
 
                                 <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","TieuBanDaoTao")'></div>
 
-                                @*<button type="button" class="btn btn-secondary">
-                                    <i class="fas fa-sync-alt me-1"></i> Cập nhật
-                                </button>*@
-
                                 <button type="button" id="btnTrinhKy" class="btn btn-success">
                                     <i class="fas fa-paper-plane me-1"></i> Trình ký
+                                </button>
+
+                                <button type="button" id="btnXoa" class="btn btn-danger">
+                                    <i class="fas fa-trash-alt me-1"></i> Xóa
                                 </button>
 
                                 <div class="modal fade" id="myModal_TrinhKy" role="dialog"
@@ -117,35 +86,35 @@
                     </div>
                     @using (Html.BeginForm("Index", "TieuBanDaoTao", FormMethod.Get))
                     {
-                            <div class="form-row mb-3">
-                                <div class="form-group col-md-3">
-                                    <label for="phongBanFilter">Bộ phận:</label>
-                                    @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.VIEW_ALL))
-                                    {
-                                        @Html.DropDownList("phongBanFilter", (SelectList)ViewBag.DSPhongBan, "-- Tất cả --", new { @class = "form-control" })
-                                    }
-                                    else
-                                    {
-                                        @Html.DropDownList("phongBanFilter", (SelectList)ViewBag.DSPhongBan, "-- Tất cả --", new { @class = "form-control", disabled = "disabled" })
-                                    }
+                        <div class="form-row mb-3">
+                            <div class="form-group col-md-3">
+                                <label for="phongBanFilter">Bộ phận:</label>
+                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.VIEW_ALL))
+                                {
+                                    @Html.DropDownList("phongBanFilter", (SelectList)ViewBag.DSPhongBan, "-- Tất cả --", new { @class = "form-control" })
+                                }
+                                else
+                                {
+                                    @Html.DropDownList("phongBanFilter", (SelectList)ViewBag.DSPhongBan, "-- Tất cả --", new { @class = "form-control", disabled = "disabled" })
+                                }
 
-                                </div>
-
-                                <div class="form-group col-md-2">
-                                    <label for="viTriTieuBanFilter">Vị trí trong tiểu ban:</label>
-                                    @Html.DropDownList("viTriTieuBanFilter", (SelectList)ViewBag.DSViTriTieuBan, "-- Tất cả --", new { @class = "form-control" })
-                                </div>
-
-                                <div class="form-group col-md-3">
-                                    <label for="searchName">Tên thành viên:</label>
-                                    <input type="text" name="searchName" class="form-control" placeholder="Nhập tên..." value="@ViewBag.SearchName" />
-                                </div>
-
-                                <div class="form-group col-md-4 align-self-end">
-                                    <button id="btn-search" type="submit" class="btn btn-primary">Tìm kiếm</button>
-                                </div>
                             </div>
-                     }
+
+                            <div class="form-group col-md-2">
+                                <label for="viTriTieuBanFilter">Vị trí trong tiểu ban:</label>
+                                @Html.DropDownList("viTriTieuBanFilter", (SelectList)ViewBag.DSViTriTieuBan, "-- Tất cả --", new { @class = "form-control" })
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label for="searchName">Tên thành viên:</label>
+                                <input type="text" name="searchName" class="form-control" placeholder="Nhập tên..." value="@ViewBag.SearchName" />
+                            </div>
+
+                            <div class="form-group col-md-4 align-self-end">
+                                <button id="btn-search" type="submit" class="btn btn-primary">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    }
 
                     <div class="card-body">
                         <div class="table-responsive">
@@ -162,8 +131,10 @@
                                             <th class="text-center" width="300px" style="vertical-align:middle">Vị trí khung năng lực</th>
                                             <th class="text-center" width="100px" style="vertical-align:middle">Ngày cập nhật gần nhất</th>
                                             <th class="text-center" width="100px" style="vertical-align:middle">Ngày đến hạn cập nhật lại</th>
-                                            <th class="text-center" width="150px" style="vertical-align:middle">Trạng thái</th>
-                                            <th class="text-center" width="100px" style="vertical-align:middle">Thao tác</th>
+                                            <th class="text-center" width="100px" style="vertical-align:middle">Trạng thái</th>
+                                            <th class="text-center" width="100px" style="vertical-align:middle">Người thêm</th>
+                                            <th class="text-center" width="100px" style="vertical-align:middle">Người chỉnh sửa</th>
+                                            <th class="text-center" width="70px" style="vertical-align:middle">Thao tác</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -185,7 +156,7 @@
                                                 <tr>
                                                     <td style="text-align: center">@index</td>
                                                     <td style="text-align: center">
-                                                        <input type="checkbox" class="cb-item" data-id="@item.Id" @(item.TrangThai == 1 || item.TrangThai == 2 || item.TrangThai == 3 ? "disabled" : "") />
+                                                        <input type="checkbox" class="cb-item" data-id="@item.Id" />
                                                     </td>
                                                     <td>@item.HoTen</td>
                                                     <td>@item.TenViTriTieuBan</td>
@@ -215,6 +186,8 @@
                                                             <span class="badge bg-danger">Hết hiệu lực</span>
                                                         }
                                                     </td>
+                                                    <td>@item.HoTenNguoiThem</td>
+                                                    <td>@item.HoTenNguoiSua</td>
                                                     <td class="text-center">
                                                         <a href="javascript:void(0);" class="fa fa-trash icon_action btn-delete"
                                                            data-id="@item.Id"
@@ -224,18 +197,18 @@
                                                         <a id="btn-edit_@item.Id" title="Sửa" class="fa fa-edit icon_action" style="cursor:pointer;"></a>
                                                         <div class="modal fade" id="myModale_@item.Id" role="dialog" data-url='@Url.Action("Edit","TieuBanDaoTao", new { id = item.Id, phongBanFilter = phongBanFilter })'></div>
                                                         <script type="text/javascript">
-                                                            $("#btn-edit_@item.Id").click(function () {
-                                                                var url = $('#myModale_@item.Id').data('url');
-                                                                $.get(url, function (data) {
-                                                                    if (data.error) {
-                                                                        alert(data.message);
-                                                                    } else {
-                                                                        $("#myModale_@item.Id").html(data);
-                                                                        $(".ModalTitle_Edit").html("Cập nhật Thành viên tiểu ban đào tạo");
-                                                                        $("#myModale_@item.Id").modal('show');
-                                                                    }
-                                                                });
-                                                            });
+                                                                        $("#btn-edit_@item.Id").click(function () {
+                                                                            var url = $('#myModale_@item.Id').data('url');
+                                                                            $.get(url, function (data) {
+                                                                                if (data.error) {
+                                                                                    alert(data.message);
+                                                                                } else {
+                                                                                    $("#myModale_@item.Id").html(data);
+                                                                                    $(".ModalTitle_Edit").html("Cập nhật Thành viên tiểu ban đào tạo");
+                                                                                    $("#myModale_@item.Id").modal('show');
+                                                                                }
+                                                                            });
+                                                                        });
                                                         </script>
                                                     </td>
                                                 </tr>
@@ -355,7 +328,7 @@
                 return;
             }
 
-            if (!confirm("Bạn muốn xóa vị trí này ?")) return;
+            if (!confirm("Sau khi xóa dữ liệu sẽ không thể khôi phục. Bạn muốn xóa vị trí này? ")) return;
 
             $.ajax({
                 url: '@Url.Action("Delete", "TieuBanDaoTao")',
@@ -408,6 +381,40 @@
 
         $("#btn-search").click(function () {
             toggleButtons();
+        });
+    });
+</script>
+<script>
+    $('#btnXoa').click(function () {
+        const selectedIDs = [];
+
+        $('.cb-item:checked').each(function () {
+            selectedIDs.push($(this).data('id'));
+        });
+
+        if (selectedIDs.length === 0) {
+            alert('Vui lòng chọn ít nhất một dòng để xóa.');
+            return;
+        }
+
+        if (!confirm('Bạn có chắc chắn muốn xóa các dòng đã chọn? Dữ liệu sẽ không thể khôi phục lại.')) return;
+
+        $.ajax({
+            url: '@Url.Action("XoaThanhVienTieuBan")',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ ids: selectedIDs }),
+            success: function (res) {
+                if (res.success) {
+                    alert('Xóa thành công!');
+                    location.reload();
+                } else {
+                    alert('Xóa thất bại: ' + res.message);
+                }
+            },
+            error: function () {
+                alert('Đã xảy ra lỗi trong quá trình gửi yêu cầu.');
+            }
         });
     });
 </script>
