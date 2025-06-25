@@ -3846,7 +3846,7 @@ namespace E_Learning.Controllers
                         Worksheet.Cell(row, "Q").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                         Worksheet.Cell(row, "Q").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
-                        Worksheet.Cell(row, "R").Value = data.NgayDGTu;
+                        Worksheet.Cell(row, "R").Value = data.NgayDGTu != null?"'"+ data.NgayDGTu.Value.ToString("dd/MM/yyyy"):"";
                         Worksheet.Cell(row, "R").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                         Worksheet.Cell(row, "R").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "R").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
@@ -3876,7 +3876,7 @@ namespace E_Learning.Controllers
                         Worksheet.Cell(row, "V").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                         Worksheet.Cell(row, "V").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
-                        Worksheet.Cell(row, "W").Value = data.NgayDGCap1;
+                        Worksheet.Cell(row, "W").Value =data.NgayDGCap1 != null ? "'" + data.NgayDGCap1.Value.ToString("dd/MM/yyyy") : "";
                         Worksheet.Cell(row, "W").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                         Worksheet.Cell(row, "W").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "W").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
@@ -3930,7 +3930,7 @@ namespace E_Learning.Controllers
                         Worksheet.Cell(row, "AE").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                         Worksheet.Cell(row, "AE").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
-                        Worksheet.Cell(row, "AF").Value = data.NgayDG;
+                        Worksheet.Cell(row, "AF").Value = data.NgayDGHN != null ? "'" + data.NgayDGHN.Value.ToString("dd/MM/yyyy") : "";
                         Worksheet.Cell(row, "AF").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                         Worksheet.Cell(row, "AF").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "AF").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
@@ -4215,7 +4215,7 @@ namespace E_Learning.Controllers
             var res = (from a in db.NhanVien_ExportKQKNL(IDPB)
                        let b = db.KNL_LSDG.FirstOrDefault(x => x.NgayDGGN == a.NgayDG && x.NVID == a.ID)
                        let c = db.KNL_DocBangKNL.Where(x => x.IDNV == a.ID && x.ID_ViTriKNL == a.IDVT)
-                       let d = db.KNL_KQ.Where(x => x.IDNV == a.ID && a.NgayDG.HasValue && x.ThangDG.Value.Year == x.NgayDG.Value.Year &&
+                       let d = db.KNL_KQ.Where(x => x.IDNV == a.ID && a.NgayDG.HasValue && x.ThangDG.Value.Year == a.NgayDG.Value.Year &&
                        x.ThangDG.Value.Month == a.NgayDG.Value.Month && x.VTID == a.IDVT).ToList()
                        select new ExportNhanVienKQKNL
                        {
@@ -4242,18 +4242,18 @@ namespace E_Learning.Controllers
                            SLQuaHanKDAT = d != null ? d.Where(x => x.DiemDG < x.DiemDM && x.NgayDG.HasValue && x.NgayDG.Value.AddMonths(3) <= DateTime.Now).Count() : 0,
                            KDGIA =a.NODG,
                            CHUADG =a.CHUADG,
-                           NgayDG =a.NgayDG == null?"": String.Format("{0:dd/MM/yyyy}", a?.NgayDG),
+                           NgayDGHN = a?.NgayDG,
                            TotalDocKNL = c?.Count()??0,
                            KDATTu = b?.KDATTUDG??0,
                            DATTu = b?.DATTUDG??0,
                            VUOTTu = b?.VUOTTUDG??0,
                            CHUADGTu = b?.CHUADGTuDG??0,
-                           NgayDGTu = b?.NgayTuDGGN == null ?"": String.Format("{0:dd/MM/yyyy}", b?.NgayTuDGGN),
+                           NgayDGTu = b?.NgayTuDGGN,
                            KDATCap1 = b?.KDATTUDGLan1 ?? 0,
                            DATCap1 = b?.DATTUDGLan1 ?? 0,
                            VUOTCap1 = b?.VUOTTUDGLan1 ?? 0,
                            CHUADGCap1 = b?.CHUADGTuDGLan1 ?? 0,
-                           NgayDGCap1 = b?.NgayDGGNLan1 == null ? "" : String.Format("{0:dd/MM/yyyy}", b?.NgayDGGNLan1),
+                           NgayDGCap1 = b?.NgayDGGNLan1,
                        }).ToList();
             if (IDPX != null) res = res.Where(x => x.IDPX == IDPX).ToList();
             if (IDNhom != null) res = res.Where(x => x.IDNhom == IDNhom).ToList();
