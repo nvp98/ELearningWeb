@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_LayoutDMST.cshtml";
 }
 
-@model E_Learning.ModelsDMST.DeXuatDMSTView
+@model E_Learning.ModelsDMST.PhieuDangKyView
 
 <link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
 <script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
@@ -61,7 +61,9 @@
                         <div class="tab-content">
 
                             <div class="tab-pane fade show active " id="tab1" style="overflow-y: auto; overflow-x: hidden;max-height:700px">
-                                <form>
+                                @using (Html.BeginForm("SubmitYTuong", "RenewCreative", FormMethod.Post, new { enctype = "multipart/form-data", id = "formDangKyYTuong" }))
+                                {
+                                    @Html.AntiForgeryToken()
                                     <small class="text-muted">
                                         Người đề xuất lựa chọn một trong hai nội dung chính của mỗi hoạt động là: Quy trình/Thủ tục và Phương pháp thực hiện công việc.<br />
                                         a) Quy trình/Thủ tục: "Bạn chọn mục này nếu đề xuất của bạn liên quan tới các quy trình, thủ tục đã được nêu trong các văn bản quy phạm nội bộ của Công ty hoặc chưa được nêu mà bạn đề xuất bổ sung".<br />
@@ -69,86 +71,94 @@
                                     </small>
 
                                     <div class="divider mb-1"></div>
-                                    @*<div class="text-uppercase text-dark fw-bold">1. Thông tin cá nhân đại diện</div>*@
                                     <h5 class="mt-3">1. Thông tin cá nhân đại diện</h5>
                                     <div class="row">
                                         <div class="mb-1 col">
-                                            <label class="form-label">Cá nhân đại diện </label>
-                                            <select class="form-control form-control-sm">
-                                                <option>Nguyễn Văn A</option>
-                                                <option>Nguyễn B</option>
-                                            </select>
+                                            <div class="row align-items-end mb-2">
+                                                <div class="col-md-8">
+                                                    <label class="form-label">Cá nhân đại diện (Mã nhân viên)</label>
+                                                    @Html.TextBox("MaNhanVien", null, new { @class = "form-control form-control-sm", placeholder = "Nhập mã nhân viên", @id = "MaNhanVien" })
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <button type="button" class="btn btn-sm btn-primary mt-2" id="btnTaiNhanVien">
+                                                        Tải dữ liệu
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2">
+                                                <label class="form-label">Thông tin nhân viên</label>
+                                                <input type="text" class="form-control form-control-sm" id="ThongTinNhanVien" readonly />
+                                                @Html.HiddenFor(m => m.ID_NhanVienDaiDien)
+                                            </div>
+
+
                                         </div>
                                         <div class="mb-1 col">
                                             <label class="form-label">Ngày đề xuất </label>
-                                            <input type="date" class="form-control form-control-sm">
+                                            @Html.TextBoxFor(m => m.NgayDeXuat, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control form-control-sm" })
                                         </div>
                                     </div>
 
-                                    @*<div class="text-uppercase text-dark fw-bold">Thông tin ý tưởng</div>*@
                                     <h5 class="mt-3">2. Thông tin ý tưởng</h5>
 
                                     <div class="mb-1">
                                         <label class="form-label">Tên ý tưởng</label>
-                                        <input type="text" class="form-control form-control-sm" placeholder="Nhập tên ý tưởng">
+                                        @Html.TextBoxFor(m => m.TenYTuong, new { @class = "form-control form-control-sm" })
                                     </div>
 
                                     <div class="row">
                                         <div class="mb-1 col-6">
                                             <label class="form-label">Hoạt động</label>
-                                            <select class="form-control form-control-sm">
-                                                <option>Quy trình/Thủ tục</option>
-                                                <option>Phương pháp thực hiện công việc</option>
-                                            </select>
+                                            @Html.DropDownList("HoatDong", new SelectList(new[] { "Quy trình/Thủ tục", "Phương pháp thực hiện công việc" }), new { @class = "form-control form-control-sm" })
                                         </div>
                                         <div class="mb-1 col-6">
                                             <label class="form-label">Lĩnh vực</label>
-                                            <select class="form-control form-control-sm">
-                                                <option>Chọn lĩnh vực</option>
-                                                <option>Công nghệ</option>
-                                                <option>Quản lý</option>
-                                                <option>Sản xuất</option>
-                                            </select>
+                                            @Html.DropDownListFor(m => m.ID_LinhVuc, new SelectList(ViewBag.DSLinhVuc, "Value", "Text"), "-- Chọn lĩnh vực --", new { @class = "form-control form-control-sm" })
                                         </div>
                                     </div>
 
                                     <p class="text-uppercase text-dark fw-bold">Mô tả ý tưởng</p>
 
                                     <div class="mb-1 row">
-                                        <label for="exampleEmail" class="col-sm-2 col-form-label">Nội dung ý tưởng</label>
+                                        <label class="col-sm-2 col-form-label">Nội dung ý tưởng</label>
                                         <div class="col-sm-10">
-                                            <input id="exampleEmail" type="text" class="form-control form-control-sm" placeholder="Nhập nội dung">
+                                            @Html.TextAreaFor(m => m.NoiDungYTuong, new { @class = "form-control form-control-sm", rows = 3 })
                                         </div>
                                     </div>
 
                                     <div class="mb-1 row">
-                                        <label for="examplePassword" class="col-sm-2 col-form-label">Lý do thực hiện</label>
+                                        <label class="col-sm-2 col-form-label">Lý do thực hiện</label>
                                         <div class="col-sm-10">
-                                            <input id="examplePassword" type="text" class="form-control form-control-sm " placeholder="Lý do">
+                                            @Html.TextAreaFor(m => m.LyDoThucHien, new { @class = "form-control form-control-sm", rows = 3 })
                                         </div>
                                     </div>
 
                                     <div class="mb-1 row">
-                                        <label for="exampleSelect" class="col-sm-2 col-form-label">Vị trí triển khai</label>
+                                        <label class="col-sm-2 col-form-label">Vị trí triển khai</label>
                                         <div class="col-sm-10">
-                                            <input id="exampleEmail" type="text" class="form-control form-control-sm" placeholder="Nhập nội dung">
+                                            @Html.TextBoxFor(m => m.ViTriTrienKhai, new { @class = "form-control form-control-sm" })
                                         </div>
                                     </div>
 
                                     <div class="mb-1 row">
                                         <label for="exampleSelectMulti" class="col-sm-2 col-form-label">Thời gian dự kiến triển khai</label>
                                         <div class="col-sm-6 d-flex">
-                                            <select id="yTuongType" class="form-control form-control-sm">
-                                                <option value="1">Chưa áp dụng</option>
-                                                <option value="2">Đã áp dụng</option>
-                                            </select>
-
+                                            @Html.DropDownListFor(m => m.TinhTrang, new List<SelectListItem> {
+                                                new SelectListItem { Text = "Chưa áp dụng", Value = "1" },
+                                                new SelectListItem { Text = "Đã áp dụng", Value = "2" }
+                                            }, new { @class = "form-control form-control-sm", id = "yTuongType" })
                                         </div>
+
                                         <div class="col-sm-4">
-                                            <div id="timeInputWrapper" class="mb-1 row align-items-center" style="display: none;">
-                                                @*<label for="timeInput" class="col-sm-6 col-form-label">Ngày áp dụng</label>*@
+                                            <div class="row mb-1 row align-items-center" id="timeInputWrapper" style="display: none;">
+                                                <label class="col-form-label">Từ ngày</label>
                                                 <div class="col-sm-6">
-                                                    <input type="date" id="timeInput" class="form-control form-control-sm">
+                                                    @Html.TextBoxFor(m => m.TuNgay, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control form-control-sm" })
+                                                </div>
+                                                <label class="col-form-label">Đến ngày</label>
+                                                <div class="col-sm-6">
+                                                    @Html.TextBoxFor(m => m.DenNgay, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control form-control-sm" })
                                                 </div>
                                             </div>
                                         </div>
@@ -167,42 +177,105 @@
                                         });
                                     </script>
                                     <div class="mb-1 row">
-                                        <label for="exampleText" class="col-sm-2 col-form-label">Người tham gia/vai trò</label>
+                                        <label class="col-sm-2 col-form-label">Người tham gia / Vai trò</label>
                                         <div class="col-sm-10">
                                             <table class="table table-bordered align-middle" id="TableNguoiThamGia">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th style="width: 20%">Tên người tham gia</th>
+                                                        <th style="width: 35%">Mã nhân viên</th>
+                                                        <th style="width: 5%"></th>
                                                         <th style="width: 25%">Vai trò</th>
+                                                        <th style="width: 5%">Xóa</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><input type="text" class="form-control form-control-sm" placeholder="Tên người tham gia" /></td>
-                                                        <td><input type="text" class="form-control form-control-sm" placeholder="Vai trò" /></td>
-                                                    </tr>
-                                                </tbody>
+                                                <tbody></tbody>
                                             </table>
-
-                                            <button class="btn btn-sm btn-outline-primary" type="button" onclick="addRow()"><i class="fa fa-plus"></i>Thêm </button>
+                                            <button class="btn btn-sm btn-outline-primary" type="button" id="btnAddNguoiThamGia"><i class="fa fa-plus"></i> Thêm</button>
                                         </div>
-                                        <script>
-                                            function addRow() {
-                                                const tbody = document.querySelector("#TableNguoiThamGia tbody");
-                                                const row = document.createElement("tr");
-                                                row.innerHTML = `
-                                                                                                                                                                                                                                                                                                                                            <td><input type="text" class="form-control form-control-sm" placeholder="Tên người tham gia" /></td>
-                                                                                                                                                                                                                                                                                                                                            <td><input type="text" class="form-control form-control-sm" placeholder="Vai trò" /></td>
-                                                                                                                                                                                                                                                                                                                                                                                    `;
-                                                tbody.appendChild(row);
-                                            }
-                                        </script>
                                     </div>
+
+                                    @Html.HiddenFor(m => m.NguoiThamGiaJson, new { id = "NguoiThamGiaJson" })
+
+                                    <script>
+                                        let indexNguoi = 0;
+
+                                        $('#btnAddNguoiThamGia').on('click', function () {
+                                            const row = `
+                                                <tr>
+                                                    <td>
+                                                        <input type="text" class="form-control form-control-sm ma-nv" placeholder="Nhập mã nhân viên" />
+                                                        <input type="hidden" class="id-nv-hidden" />
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-sm btn-secondary btn-tai">Tải</button>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control form-control-sm vai-tro" placeholder="Vai trò" />
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-sm btn-danger btn-xoa">X</button>
+                                                    </td>
+                                                </tr>`;
+                                            $('#TableNguoiThamGia tbody').append(row);
+                                        });
+
+                                        $(document).on('click', '.btn-xoa', function () {
+                                            $(this).closest('tr').remove();
+                                        });
+
+                                        $(document).on('click', '.btn-tai', function () {
+                                            const row = $(this).closest('tr');
+                                            const ma = row.find('.ma-nv').val().trim();
+                                            const input = row.find('.ma-nv');
+
+                                            if (!ma) {
+                                                return alert("Nhập mã nhân viên!");
+                                            }
+
+                                            $.get('@Url.Action("LayNhanVienTheoMa", "RenewCreative")', { maNhanVien: ma }, function (res) {
+                                                if (res && res.id > 0) {
+                                                    row.find('.ma-nv').val(`${res.ma} - ${res.ten}`).removeClass('is-invalid');
+                                                    row.find('.id-nv-hidden').val(res.id);
+                                                } else {
+                                                    input.addClass('is-invalid');
+                                                }
+                                            });
+                                        });
+
+                                        // truoc khi submit form
+                                        $('#formDangKyYTuong').on('submit', function (e) {
+                                            let ds = [];
+                                            let isValid = true;
+
+                                            $('#TableNguoiThamGia tbody tr').each(function () {
+                                                const id = $(this).find('.id-nv-hidden').val();
+                                                const vaiTro = $(this).find('.vai-tro').val();
+                                                const maInput = $(this).find('.ma-nv');
+
+                                                if (!id) {
+                                                    isValid = false;
+                                                    maInput.addClass('is-invalid');
+                                                } else {
+                                                    ds.push({ ID_NhanVien: id, VaiTro: vaiTro });
+                                                }
+                                            });
+
+                                            if (!isValid) {
+                                                alert('Vui lòng kiểm tra lại thông tin mã nhân viên!');
+                                                e.preventDefault();
+                                                return false;
+                                            }
+
+                                            $('#NguoiThamGiaJson').val(JSON.stringify(ds));
+                                            return true;
+                                        });
+                                    </script>
                                     <div class="mb-1 row">
                                         <label for="exampleEmail" class="col-sm-2 col-form-label">Cách thức thực hiện</label>
                                         <div class="col-sm-10">
-                                            <input id="exampleEmail" type="text" class="form-control form-control-sm myTextarea" placeholder="Nhập nội dung">
+                                            @Html.TextBoxFor(m => m.CachThucThucHien, new { @class = "form-control form-control-sm myTextarea" })
                                         </div>
+
                                     </div>
                                     <div class="mb-1 row">
                                         <label for="exampleText" class="col-sm-2 col-form-label">Dự kiến chi phí triển khai</label>
@@ -217,30 +290,57 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td><input type="text" class="form-control form-control-sm" /></td>
-                                                        <td><input type="text" class="form-control form-control-sm" /></td>
-                                                        <td><input type="text" class="form-control form-control-sm" /></td>
-                                                        <td><input type="text" class="form-control form-control-sm" /></td>
-                                                    </tr>
+                                                    @if (Model != null && Model.KinhPhiDuKien != null && Model.KinhPhiDuKien.Count > 0)
+                                                    {
+                                                        for (int i = 0; i < Model.KinhPhiDuKien.Count; i++)
+                                                        {
+                                                            <tr>
+                                                                <td>@Html.TextBoxFor(m => m.KinhPhiDuKien[i].TenNguonLuc, new { @class = "form-control form-control-sm" })
+                                                                <td>
+                                                                <td>@Html.TextBoxFor(m => m.KinhPhiDuKien[i].ChiPhi, new { @class = "form-control form-control-sm" })</td>
+                                                                <td>@Html.TextBoxFor(m => m.KinhPhiDuKien[i].NguonThongTin, new { @class = "form-control form-control-sm" })</td>
+                                                                <td>@Html.TextBoxFor(m => m.KinhPhiDuKien[i].GhiChu, new { @class = "form-control form-control-sm" })</td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td><input type="text" name="KinhPhiDuKien[0].TenNguonLuc" class="form-control form-control-sm" /></td>
+                                                            <td><input type="text" name="KinhPhiDuKien[0].ChiPhi" class="form-control form-control-sm" /></td>
+                                                            <td><input type="text" name="KinhPhiDuKien[0].NguonThongTin" class="form-control form-control-sm" /></td>
+                                                            <td><input type="text" name="KinhPhiDuKien[0].GhiChu" class="form-control form-control-sm" /></td>
+                                                        </tr>
+                                                    }
+
                                                 </tbody>
                                             </table>
 
-                                            <button class="btn btn-sm btn-outline-primary" type="button" onclick="addRowChiPhi()"><i class="fa fa-plus"></i>Thêm </button>
+                                            <button type="button" class="btn btn-sm btn-outline-primary" id="btnAddChiPhi">
+                                                <i class="fa fa-plus"></i> Thêm
+                                            </button>
                                         </div>
+                                        @{
+                                            var chiPhiIndex = (Model?.KinhPhiDuKien != null) ? Model.KinhPhiDuKien.Count : 1;
+                                        }
                                         <script>
-                                            function addRowChiPhi() {
+                                            let chiPhiIndex = @chiPhiIndex;
+
+                                            document.getElementById("btnAddChiPhi").addEventListener("click", function () {
                                                 const tbody = document.querySelector("#TableChiPhi tbody");
                                                 const row = document.createElement("tr");
+
                                                 row.innerHTML = `
-                                                                                                                                                                                                                                                                                                                                            <td><input type="text" class="form-control form-control-sm" /></td>
-                                                                                                                                                                                                                                                                                                                                            <td><input type="text" class="form-control form-control-sm" /></td>
-                                                                                                                                                                                                                                                                                                                                            <td><input type="text" class="form-control form-control-sm" /></td>
-                                                                                                                                                                                                                                                                                                                                            <td><input type="text" class="form-control form-control-sm" /></td>
-                                                                                                                                                                                                                                                                                                                                                                                    `;
+                                                    <td><input type="text" name="KinhPhiDuKien[${chiPhiIndex}].TenNguonLuc" class="form-control form-control-sm" /></td>
+                                                    <td><input type="text" name="KinhPhiDuKien[${chiPhiIndex}].ChiPhi" class="form-control form-control-sm" /></td>
+                                                    <td><input type="text" name="KinhPhiDuKien[${chiPhiIndex}].NguonThongTin" class="form-control form-control-sm" /></td>
+                                                    <td><input type="text" name="KinhPhiDuKien[${chiPhiIndex}].GhiChu" class="form-control form-control-sm" /></td>
+                                                `;
                                                 tbody.appendChild(row);
-                                            }
+                                                chiPhiIndex++;
+                                            });
                                         </script>
+
                                     </div>
                                     <div class="text-uppercase text-dark fw-bold">Khả năng triển khai</div>
                                     <div class="row">
@@ -248,15 +348,15 @@
                                         <div class="col-sm-10">
                                             <div class="d-flex flex-wrap gap-4 mt-2">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="sx1">
+                                                    @Html.RadioButtonFor(m => m.ThucHienKhi, 0, new { @class = "form-check-input", id = "sx1" })
                                                     <label class="form-check-label" for="sx1">Đang sản xuất</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="sx2">
+                                                    @Html.RadioButtonFor(m => m.ThucHienKhi, 1, new { @class = "form-check-input", id = "sx2" })
                                                     <label class="form-check-label" for="sx2">Dừng sản xuất</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="sx3" checked>
+                                                    @Html.RadioButtonFor(m => m.ThucHienKhi, 2, new { @class = "form-check-input", id = "sx3" })
                                                     <label class="form-check-label" for="sx3">Thời gian bất kỳ</label>
                                                 </div>
                                             </div>
@@ -265,30 +365,30 @@
                                         <div class="col-sm-10">
                                             <div class="d-flex flex-wrap gap-4 mt-2">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="thu1">
+                                                    @Html.RadioButtonFor(m => m.CanThuNghiemThem, 1, new { @class = "form-check-input", id = "thu1" })
                                                     <label class="form-check-label" for="thu1">Có</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="thu2" checked>
+                                                    @Html.RadioButtonFor(m => m.CanThuNghiemThem, 0, new { @class = "form-check-input", id = "thu2" })
                                                     <label class="form-check-label" for="thu2">Không</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <label class="col-sm-2 col-form-label">Cần hỗ trợ gì khi triển khai?</label>
                                         <div class="col-sm-10">
-                                            <input id="exampleEmail" type="text" class="form-control form-control-sm " placeholder="Nhập nội dung">
+                                            @Html.TextBoxFor(m => m.CanHoTro, new { @class = "form-control form-control-sm" })
                                         </div>
                                     </div>
                                     <div class="mb-1 row">
                                         <label for="exampleEmail" class="col-sm-2 col-form-label">Lợi ích/hiệu quả kỳ vọng</label>
                                         <div class="col-sm-10">
-                                            <input id="exampleEmail" type="text" class="form-control form-control-sm myTextarea" placeholder="Nhập nội dung">
+                                            @Html.TextAreaFor(m => m.HieuQuaKyVong, new { @class = "form-control form-control-sm myTextarea", rows = 3 })
                                         </div>
                                     </div>
                                     <div class="mb-1 row">
                                         <label for="exampleEmail" class="col-sm-2 col-form-label">Đề xuất người/BP triển khai (nếu có)</label>
                                         <div class="col-sm-10">
-                                            <input id="exampleEmail" type="text" class="form-control form-control-sm " placeholder="Nhập nội dung">
+                                            @Html.TextAreaFor(m => m.DeXuatNguoiBoPhan, new { @class = "form-control form-control-sm", rows = 3 })
                                         </div>
                                     </div>
 
@@ -300,9 +400,12 @@
                                         </div>
                                     </div>
 
+                                    <button class="btn btn-sm btn-primary mt-2" type="submit">
+                                        Lưu ý tưởng
+                                    </button>
+                                    @*<button class="btn btn-sm btn-primary mt-2" type="submit">Lưu ý tưởng</button>*@
+                                }
 
-                                    <button class="btn btn-sm btn-primary mt-2" type="submit">Lưu ý tưởng</button>
-                                </form>
                             </div>
 
 
@@ -318,7 +421,7 @@
                                     <button class="btn btn-success">Trình ký</button>*@
                             </div>
 
-                            <div class="tab-pane fade show active" id="tab3">
+                            <div class="tab-pane fade show" id="tab3">
                                 <form>
                                     <h5 class="mt-3">1. Thông tin chung</h5>
                                     <div class="row mb-3">
@@ -530,6 +633,35 @@
             if (maNhanViens.length === 0) {
                 $('#danhSachNhanVien').append(`<li class="list-group-item text-muted">Chưa có mã nhân viên hợp lệ.</li>`);
             }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#btnTaiNhanVien').click(function () {
+            const maNV = $('#MaNhanVien').val();
+            if (!maNV) {
+                alert('Vui lòng nhập mã nhân viên.');
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("LayNhanVienTheoMa", "RenewCreative")',
+                type: 'GET',
+                data: { maNhanVien: maNV },
+                success: function (res) {
+                    if (res && res.id > 0) {
+                        $('#ThongTinNhanVien').val(res.ma + " - " + res.ten);
+                        $('#ID_NhanVienDaiDien').val(res.id);
+                    } else {
+                        $('#ThongTinNhanVien').val('Không tìm thấy nhân viên');
+                        $('#ID_NhanVienDaiDien').val('');
+                    }
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra!');
+                }
+            });
         });
     });
 </script>
