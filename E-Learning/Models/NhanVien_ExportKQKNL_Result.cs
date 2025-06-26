@@ -35,5 +35,18 @@ namespace E_Learning.Models
         public Nullable<int> NODG { get; set; }
         public Nullable<int> CHUADG { get; set; }
         public Nullable<System.DateTime> NgayDG { get; set; }
+        public Nullable<System.DateTime> ThangDG { get; set; }
+        public Nullable<int> DATTUDGLan1 { get; set; }
+        public Nullable<int> KDATTUDGLan1 { get; set; }
+        public Nullable<int> VUOTTUDGLan1 { get; set; }
+        public Nullable<int> KDGiaTuDGLan1 { get; set; }
+        public Nullable<int> CHUADGTuDGLan1 { get; set; }
+        public Nullable<System.DateTime> NgayDGGNLan1 { get; set; }
+        public Nullable<int> DATTUDG { get; set; }
+        public Nullable<int> KDATTUDG { get; set; }
+        public Nullable<int> VUOTTUDG { get; set; }
+        public Nullable<int> KDATTUDG1 { get; set; }
+        public Nullable<int> CHUADGTuDG { get; set; }
+        public Nullable<System.DateTime> NgayTuDGGN { get; set; }
     }
 }

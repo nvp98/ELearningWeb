@@ -4212,11 +4212,25 @@ namespace E_Learning.Controllers
         private List<ExportNhanVienKQKNL> GetNhanVienKNL1(int? IDPB, int? IDPX, int? IDTo, int? IDNhom)
         {
             if (IDPB == null) IDPB = 0;
-            var res = (from a in db.NhanVien_ExportKQKNL(IDPB)
-                       let b = db.KNL_LSDG.FirstOrDefault(x => x.NgayDGGN == a.NgayDG && x.NVID == a.ID)
-                       let c = db.KNL_DocBangKNL.Where(x => x.IDNV == a.ID && x.ID_ViTriKNL == a.IDVT)
-                       let d = db.KNL_KQ.Where(x => x.IDNV == a.ID && a.NgayDG.HasValue && x.ThangDG.Value.Year == a.NgayDG.Value.Year &&
-                       x.ThangDG.Value.Month == a.NgayDG.Value.Month && x.VTID == a.IDVT).ToList()
+            var allKQ = db.KNL_KQ
+                        .Where(x => x.NgayDG.HasValue && x.ThangDG.HasValue)
+                        .Select(x => new {
+                            x.IDNV,
+                            x.VTID,
+                            x.ThangDG,
+                            x.DiemDG,
+                            x.DiemDM,
+                            x.NgayDG
+                        })
+                        .ToList();
+            var nhanVien = db.NhanVien_ExportKQKNL(IDPB).ToList();
+            var docKNL = db.KNL_DocBangKNL.ToList();
+
+            var res = (from a in nhanVien
+                       let kq = allKQ.Where(x => x.IDNV == a.ID && x.VTID == a.IDVT
+                                  && x.ThangDG.Value.Year == a.NgayDG.Value.Year
+                                  && x.ThangDG.Value.Month == a.NgayDG.Value.Month).ToList()
+                       let c = docKNL.Where(x => x.IDNV == a.ID && x.ID_ViTriKNL == a.IDVT)
                        select new ExportNhanVienKQKNL
                        {
                            MaNV = a.MaNV,
@@ -4235,25 +4249,25 @@ namespace E_Learning.Controllers
                            TenPhongBan = a.TenPhongBan,
                            TotalNL = a.TotalNL,
                            DAT = a.DAT,
-                           SLQuaHanDAT = d != null?d.Where(x=>x.DiemDG == x.DiemDM && x.NgayDG.HasValue && x.NgayDG.Value.AddMonths(6) <= DateTime.Now).Count():0,
-                           VUOT =a.VUOT,
-                           SLQuaHanVuot = d != null ? d.Where(x => x.DiemDG > x.DiemDM && x.NgayDG.HasValue && x.NgayDG.Value.AddMonths(6) <= DateTime.Now).Count() : 0,
-                           KDAT =a.KDAT,
-                           SLQuaHanKDAT = d != null ? d.Where(x => x.DiemDG < x.DiemDM && x.NgayDG.HasValue && x.NgayDG.Value.AddMonths(3) <= DateTime.Now).Count() : 0,
-                           KDGIA =a.NODG,
-                           CHUADG =a.CHUADG,
+                           SLQuaHanDAT = kq.Count(x => x.DiemDG == x.DiemDM && x.NgayDG.Value.AddMonths(6) <= DateTime.Now),
+                           VUOT = a.VUOT,
+                           SLQuaHanVuot = kq.Count(x => x.DiemDG > x.DiemDM && x.NgayDG.Value.AddMonths(6) <= DateTime.Now),
+                           KDAT = a.KDAT,
+                           SLQuaHanKDAT = kq.Count(x => x.DiemDG < x.DiemDM && x.NgayDG.Value.AddMonths(3) <= DateTime.Now),
+                           KDGIA = a.NODG,
+                           CHUADG = a.CHUADG,
                            NgayDGHN = a?.NgayDG,
-                           TotalDocKNL = c?.Count()??0,
-                           KDATTu = b?.KDATTUDG??0,
-                           DATTu = b?.DATTUDG??0,
-                           VUOTTu = b?.VUOTTUDG??0,
-                           CHUADGTu = b?.CHUADGTuDG??0,
-                           NgayDGTu = b?.NgayTuDGGN,
-                           KDATCap1 = b?.KDATTUDGLan1 ?? 0,
-                           DATCap1 = b?.DATTUDGLan1 ?? 0,
-                           VUOTCap1 = b?.VUOTTUDGLan1 ?? 0,
-                           CHUADGCap1 = b?.CHUADGTuDGLan1 ?? 0,
-                           NgayDGCap1 = b?.NgayDGGNLan1,
+                           TotalDocKNL = c.Count(),
+                           KDATTu = a?.KDATTUDG ?? 0,
+                           DATTu = a?.DATTUDG ?? 0,
+                           VUOTTu = a?.VUOTTUDG ?? 0,
+                           CHUADGTu = a?.CHUADGTuDG ?? 0,
+                           NgayDGTu = a?.NgayTuDGGN,
+                           KDATCap1 = a?.KDATTUDGLan1 ?? 0,
+                           DATCap1 = a?.DATTUDGLan1 ?? 0,
+                           VUOTCap1 = a?.VUOTTUDGLan1 ?? 0,
+                           CHUADGCap1 = a?.CHUADGTuDGLan1 ?? 0,
+                           NgayDGCap1 = a?.NgayDGGNLan1,
                        }).ToList();
             if (IDPX != null) res = res.Where(x => x.IDPX == IDPX).ToList();
             if (IDNhom != null) res = res.Where(x => x.IDNhom == IDNhom).ToList();

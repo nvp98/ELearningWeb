@@ -339,15 +339,15 @@ namespace E_Learning.Controllers.KNL
         public ActionResult Value(int? IDNV, DateTime dt,string capDG)
         {
             if(IDNV ==null) IDNV = 0;
-            var nv = (from a in db.NhanVien_selectByIDNV(IDNV)
-                      select new FCheckValidation
-                      {
-                          TenNV = a.HoTen,
-                          TenVT = a.TenViTri,
-                          IDVT =a.IDVT,
-                          IDNV =a.ID,
-                          IDPB =a.IDPB,
-                      }).FirstOrDefault();
+            var n = db.NhanVien_selectByIDNV(IDNV).FirstOrDefault();
+            var nv = n != null ? new FCheckValidation
+            {
+                TenNV = n.HoTen,
+                TenVT = n.TenViTri,
+                IDVT = n.IDVT,
+                IDNV = n.ID,
+                IDPB = n.IDPB,
+            } : null;
             ViewBag.TenNV = nv.TenNV??"";
             ViewBag.TenVT = nv.TenVT??"";
             ViewBag.ThangDG = (DateTime?)dt ?? default(DateTime);
@@ -376,12 +376,14 @@ namespace E_Learning.Controllers.KNL
                 var kqt = db.KNL_KQ_Select(IDNV, a).ToList();
                 //var Fnew = db.KhungNangLucs.Where(x => x.IDVT == nv.IDVT && (x.IDLoaiNL == 1 || x.IDLoaiNL == 2 || (x.IDLoaiNL != 1 && x.IDLoaiNL != 2 && x.IsDanhGia == 1))).ToList();
                 var Fnew = db.KhungNangLuc_SearchByIDVT(nv.IDVT).Where(x => x.IsDuyet ==1 && (x.IDLoaiNL == 1 || x.IDLoaiNL == 2 || (x.IDLoaiNL != 1 && x.IDLoaiNL != 2 && x.IsDanhGia == 1))).ToList();
+                var kqtDict = kqt.ToDictionary(x => x.IDNL, x => x);
                 if (kqt.Count > 0 && Fnew.Count > 0)
                 {
                     foreach (var KQ in Fnew)
                     {
-                        var aa = kqt.FirstOrDefault(x => x.IDNL == KQ.IDNL);
-                        if (aa != null)
+                        //var aa = kqt.FirstOrDefault(x => x.IDNL == KQ.IDNL);
+                        //if (aa != null)
+                        if (kqtDict.TryGetValue(KQ.IDNL, out var aa))
                         {
                             db.KNL_KQ_insert(aa.IDNV, aa.IDNL, aa.IDNVDG, aa.DiemDG, dt, aa.NgayDG, CheckKQID(aa.DiemDG, aa.DinhMuc, aa.IsDanhGia), KQ.DinhMuc, KQ.IDVT, aa.Note, null, null);
                             var knlkq = db.KNL_KQ_Select(aa.IDNV,dt).ToList();
@@ -436,6 +438,23 @@ namespace E_Learning.Controllers.KNL
                           capDG = capDG
                       }).ToList().OrderBy(x => x.OrderBy);
 
+            List<int> danhSachGiuaLai = new List<int> { };
+            foreach (var item in res)
+            {
+                if(item.IDKQ != null)
+                {
+                    danhSachGiuaLai.Add((int)item.IDKQ);
+                }
+            }
+            var duLieuXoa = db.KNL_KQ
+                    .Where(x => !danhSachGiuaLai.Contains(x.IDKQ) && x.IDNV == IDNV && x.ThangDG == dt)
+                    .ToList();
+            if(duLieuXoa.Count != 0)
+            {
+                db.KNL_KQ.RemoveRange(duLieuXoa);
+                db.SaveChanges();
+            }
+            
 
             var distinctIDLoaiNLs = res.Where(x => x.IDLoaiNL != 1 && x.IDLoaiNL != 2)
                    .Select(x => x.IDLoaiNL)
@@ -510,6 +529,7 @@ namespace E_Learning.Controllers.KNL
                     }
                     else // các NL được đánh giá
                     {
+                        
                         if (KQ.IDKQ == null) // chưa có thêm mới
                         {
                             if(KQ.DiemDG != null && KQ.DiemDG != 0) // có điểm đánh giá
