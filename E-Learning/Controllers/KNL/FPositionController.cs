@@ -4225,11 +4225,13 @@ namespace E_Learning.Controllers
                         .ToList();
             var nhanVien = db.NhanVien_ExportKQKNL(IDPB).ToList();
             var docKNL = db.KNL_DocBangKNL.ToList();
-
             var res = (from a in nhanVien
-                       let kq = allKQ.Where(x => x.IDNV == a.ID && x.VTID == a.IDVT
-                                  && x.ThangDG.Value.Year == a.NgayDG.Value.Year
-                                  && x.ThangDG.Value.Month == a.NgayDG.Value.Month).ToList()
+                       let kq = allKQ.Where(x => x.IDNV == a.ID &&
+                               x.VTID == a.IDVT &&
+                               x.ThangDG.HasValue &&
+                               a.NgayDG.HasValue &&
+                               x.ThangDG.Value.Year == a.NgayDG.Value.Year &&
+                               x.ThangDG.Value.Month == a.NgayDG.Value.Month).ToList()
                        let c = docKNL.Where(x => x.IDNV == a.ID && x.ID_ViTriKNL == a.IDVT)
                        select new ExportNhanVienKQKNL
                        {
@@ -4248,16 +4250,16 @@ namespace E_Learning.Controllers
                            TenKip = a.TenKip,
                            TenPhongBan = a.TenPhongBan,
                            TotalNL = a.TotalNL,
-                           DAT = a.DAT,
-                           SLQuaHanDAT = kq.Count(x => x.DiemDG == x.DiemDM && x.NgayDG.Value.AddMonths(6) <= DateTime.Now),
-                           VUOT = a.VUOT,
-                           SLQuaHanVuot = kq.Count(x => x.DiemDG > x.DiemDM && x.NgayDG.Value.AddMonths(6) <= DateTime.Now),
-                           KDAT = a.KDAT,
-                           SLQuaHanKDAT = kq.Count(x => x.DiemDG < x.DiemDM && x.NgayDG.Value.AddMonths(3) <= DateTime.Now),
-                           KDGIA = a.NODG,
-                           CHUADG = a.CHUADG,
+                           DAT = a?.DAT ?? 0,
+                           SLQuaHanDAT = kq?.Count(x => x.DiemDG == x.DiemDM && x.NgayDG.Value.AddMonths(6) <= DateTime.Now),
+                           VUOT = a?.VUOT ?? 0,
+                           SLQuaHanVuot = kq?.Count(x => x.DiemDG > x.DiemDM && x.NgayDG.Value.AddMonths(6) <= DateTime.Now),
+                           KDAT = a?.KDAT ?? 0,
+                           SLQuaHanKDAT = kq?.Count(x => x.DiemDG < x.DiemDM && x.NgayDG.Value.AddMonths(3) <= DateTime.Now),
+                           KDGIA = a?.NODG ?? 0,
+                           CHUADG = a?.CHUADG ?? 0,
                            NgayDGHN = a?.NgayDG,
-                           TotalDocKNL = c.Count(),
+                           TotalDocKNL = c?.Count(),
                            KDATTu = a?.KDATTUDG ?? 0,
                            DATTu = a?.DATTUDG ?? 0,
                            VUOTTu = a?.VUOTTUDG ?? 0,

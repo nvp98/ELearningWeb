@@ -6191,7 +6191,6 @@
           <Property Type="Int32" Name="DATTUDG" Nullable="true" />
           <Property Type="Int32" Name="KDATTUDG" Nullable="true" />
           <Property Type="Int32" Name="VUOTTUDG" Nullable="true" />
-          <Property Type="Int32" Name="KDATTUDG1" Nullable="true" />
           <Property Type="Int32" Name="CHUADGTuDG" Nullable="true" />
           <Property Type="DateTime" Name="NgayTuDGGN" Nullable="true" />
         </ComplexType>
@@ -8331,7 +8330,6 @@
                 <ScalarProperty Name="DATTUDG" ColumnName="DATTUDG" />
                 <ScalarProperty Name="KDATTUDG" ColumnName="KDATTUDG" />
                 <ScalarProperty Name="VUOTTUDG" ColumnName="VUOTTUDG" />
-                <ScalarProperty Name="KDATTUDG1" ColumnName="KDATTUDG1" />
                 <ScalarProperty Name="CHUADGTuDG" ColumnName="CHUADGTuDG" />
                 <ScalarProperty Name="NgayTuDGGN" ColumnName="NgayTuDGGN" />
               </ComplexTypeMapping>
