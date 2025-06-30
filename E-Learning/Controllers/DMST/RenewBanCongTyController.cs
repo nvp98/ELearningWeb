@@ -142,7 +142,7 @@ namespace E_Learning.Controllers.DMST
             }
         }
 
-        public ActionResult Edit(int id, int? phongBanFilter)
+        public ActionResult Edit(int id)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             //if (!ListQuyen.Contains(CONSTKEY.EDIT))

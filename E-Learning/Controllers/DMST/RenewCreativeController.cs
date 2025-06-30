@@ -1,10 +1,10 @@
 ﻿using E_Learning.Models;
 using E_Learning.ModelsDMST;
 using Newtonsoft.Json;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace E_Learning.Controllers.DMST
@@ -18,6 +18,28 @@ namespace E_Learning.Controllers.DMST
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult ViewList(int? page)
+        {
+            var data = from dt in db.DMST_PhieuDangKy
+                       select new DeTaiDMSTView
+                       {
+                           ID = dt.ID,
+                           TenYTuong = dt.TenYTuong,
+                           NoiDungYTuong = dt.NoiDungYTuong,
+                           ViTriTrienKhai = dt.ViTriTrienKhai,
+                           HieuQuaKyVong = dt.HieuQuaKyVong,
+                           NgayBatDau = (DateTime) dt.NgayTao,
+                           //NgayKetThuc = (DateTime) dt.DenNgay,
+                           ID_NhanVienDaiDien = (int) dt.ID_NhanVienDaiDien
+                       };
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            var pagedList = data.OrderBy(x => x.TenYTuong).ToPagedList(pageNumber, pageSize);
+
+            return View(pagedList);
         }
 
         public ActionResult Create()
@@ -38,6 +60,17 @@ namespace E_Learning.Controllers.DMST
                 KinhPhiDuKien = new List<ChiPhiDuKienModel>(),
                 NguoiThamGia = new List<NguoiThamGiaModel>()
             };
+
+            var dsYTuong = db.DMST_PhieuDangKy
+                 .OrderBy(lv => lv.ID)
+                 .Select(lv => new SelectListItem
+                 {
+                     Value = lv.ID.ToString(),
+                     Text = lv.TenYTuong
+                 })
+                 .ToList();
+
+            ViewBag.DSYTuong = dsYTuong;
 
             return View();
         }
@@ -126,6 +159,70 @@ namespace E_Learning.Controllers.DMST
                 }
 
                 TempData["msgSuccess"] = "<script>alert('Lưu ý tưởng thành công!');</script>";
+                return RedirectToAction("Create");
+            }
+            catch (Exception ex)
+            {
+                TempData["msgError"] = "<script>alert('Có lỗi xảy ra: " + ex.Message + "');</script>";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpGet]
+        public JsonResult LayNguoiThucHienTheoPhieu(int idPhieu)
+        {
+            var ds = (from ntg in db.DMST_NguoiThamGia
+                      join nv in db.NhanViens on ntg.ID_NhanVien equals nv.ID
+                      where ntg.ID_Phieu == idPhieu
+                      select new
+                      {
+                          id = ntg.ID_NhanVien,
+                          ma = nv.MaNV,
+                          ten = nv.HoTen
+                      }).ToList();
+
+            return Json(ds, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SubmitKeHoachThucHien(PhieuDangKyView model)
+        {
+            try
+            {
+                var entity = new DMST_ChuanBiThucHien
+                {
+                    ID_Phieu = model.KeHoachThucHien.ID_Phieu,
+                    NgayBatDauTrienKhai = (DateTime) model.KeHoachThucHien.NgayBatDauTrienKhai,
+                    NgayDuKienHoanThanh = (DateTime) model.KeHoachThucHien.NgayDuKienHoanThanh,
+                    MucTieuThucHien = model.KeHoachThucHien.MucTieuThucHien,
+                    ChiPhiDuKien = model.KeHoachThucHien.ChiPhiDuKien,
+                    ThuanLoiKhoKhan = model.KeHoachThucHien.ThuanLoiKhoKhan,
+                    DeNghiHoTro = model.KeHoachThucHien.DeNghiHoTro
+                };
+
+                db.DMST_ChuanBiThucHien.Add(entity);
+                db.SaveChanges();
+
+                if (model.NhanVienThucHien != null)
+                {
+                    foreach (var item in model.NhanVienThucHien)
+                    {
+                        var row = new DMST_DanhSachThucHien
+                        {
+                            ID_Phieu = model.KeHoachThucHien.ID_Phieu,
+                            NoiDungCongViec = item.NoiDungCongViec,
+                            SoLuong = item.SoLuong,
+                            ID_NhanVien = item.ID_NhanVien,
+                            ThoiGian = item.ThoiGian,
+                            GhiChu = item.GhiChu
+                        };
+                        db.DMST_DanhSachThucHien.Add(row);
+                    }
+                    db.SaveChanges();
+                }
+
+                TempData["msgSuccess"] = "<script>alert('Lưu kế hoạch thành công!');</script>";
                 return RedirectToAction("Create");
             }
             catch (Exception ex)

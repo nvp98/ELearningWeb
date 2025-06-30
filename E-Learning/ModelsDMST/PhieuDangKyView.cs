@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
 namespace E_Learning.ModelsDMST
@@ -53,6 +54,10 @@ namespace E_Learning.ModelsDMST
         public List<NguoiThamGiaModel> NguoiThamGia { get; set; }
 
         public string NguoiThamGiaJson { get; set; }
+
+        public KeHoachThucHienModel KeHoachThucHien { get; set; }
+
+        public List<NhanVienThucHienModel> NhanVienThucHien { get; set; }
     }
 
     public class ChiPhiDuKienModel
@@ -68,5 +73,37 @@ namespace E_Learning.ModelsDMST
         public int? ID_NhanVien { get; set; }
         public string MaNhanVien { get; set; }
         public string VaiTro { get; set; }
+    }
+
+    public class KeHoachThucHienModel
+    {
+        public int ID_Phieu { get; set; }
+
+        public DateTime? NgayBatDauTrienKhai { get; set; }
+
+        public DateTime? NgayDuKienHoanThanh { get; set; }
+
+        public string MucTieuThucHien { get; set; }
+
+        public double ChiPhiDuKien { get; set; }
+
+        public string ThuanLoiKhoKhan { get; set; }
+
+        public string DeNghiHoTro { get; set; }
+    }
+
+    public class NhanVienThucHienModel
+    {
+        public int ID_Phieu { get; set; }
+
+        public int ID_NhanVien { get; set; }
+
+        public string NoiDungCongViec { get; set; }
+
+        public int SoLuong { get; set; }
+
+        public string ThoiGian { get; set; }
+
+        public string GhiChu { get; set; }
     }
 }

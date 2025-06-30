@@ -40,7 +40,7 @@
                 <div class="card w-100">
                     <div class="d-flex justify-content-between align-items-center mt-3 px-3">
                         <h3 class="text-center flex-grow-1">
-                            <b>ĐỀ XUẤT ĐỔI MỚI SÁNG TẠO</b>
+                            <b>CHUYÊN TRANG ĐỔI MỚI SÁNG TẠO</b>
                         </h3>
                         <button class="btn btn-primary ms-3">Lưu</button>
                     </div>
@@ -278,7 +278,7 @@
 
                                     </div>
                                     <div class="mb-1 row">
-                                        <label for="exampleText" class="col-sm-2 col-form-label">Dự kiến chi phí triển khai</label>
+                                        <label for="exampleText" class="col-sm-2 col-form-label">Dự kiến nguồn lực/chi phí triển khai</label>
                                         <div class="col-sm-10">
                                             <table class="table table-bordered align-middle" id="TableChiPhi">
                                                 <thead class="table-light">
@@ -403,13 +403,12 @@
                                     <button class="btn btn-sm btn-primary mt-2" type="submit">
                                         Lưu ý tưởng
                                     </button>
-                                    @*<button class="btn btn-sm btn-primary mt-2" type="submit">Lưu ý tưởng</button>*@
                                 }
 
                             </div>
 
 
-                            <div class="tab-pane fade show active " id="tab2" style="overflow-y: auto; overflow-x: hidden;max-height:700px">
+                            <div class="tab-pane fade show" id="tab2" style="overflow-y: auto; overflow-x: hidden;max-height:700px">
                                 @*<div class="mb-1">
                                         <label class="form-label">Người ký duyệt</label>
                                         <input type="text" class="form-control" placeholder="Nhập tên người ký">
@@ -422,66 +421,52 @@
                             </div>
 
                             <div class="tab-pane fade show" id="tab3">
-                                <form>
+                                @using (Html.BeginForm("SubmitKeHoachThucHien", "RenewCreative", FormMethod.Post, new { enctype = "multipart/form-data", id = "formKeHoachThucHien" }))
+                                {
+                                    @Html.AntiForgeryToken()
                                     <h5 class="mt-3">1. Thông tin chung</h5>
                                     <div class="row mb-3">
                                         <div class="col-md-6">
                                             <label for="tenYTuong" class="form-label">Tên ý tưởng</label>
-                                            <select class="form-control" id="tenYTuong">
-                                                <option selected disabled>-- Chọn ý tưởng --</option>
-                                                <option>Ý tưởng 1</option>
-                                                <option>Ý tưởng 2</option>
-                                            </select>
+                                            @Html.DropDownListFor(m => m.KeHoachThucHien.ID_Phieu, new SelectList(ViewBag.DSYTuong, "Value", "Text"), "-- Chọn ý tưởng --", new { @class = "form-control form-control-sm", id = "yTuongDropdown" })
                                         </div>
                                         <div class="col-md-6">
                                             <label for="boPhan" class="form-label">Bộ phận</label>
                                             <select class="form-control" id="boPhan">
-                                                <option selected disabled>-- Chọn bộ phận --</option>
+                                                <option selected>-- Chọn bộ phận --</option>
                                                 <option>Bộ phận A</option>
                                                 <option>Bộ phận B</option>
                                             </select>
                                         </div>
                                     </div>
 
-                                    <!-- Người triển khai -->
-                                    <div class="row mb-4 align-items-end">
-                                        <div class="col-md-9">
-                                            <label for="nguoiTrienKhai" class="form-label">Người triển khai (nhập mã nhân viên cách nhau bởi dấu phẩy hoặc xuống dòng)</label>
-                                            <textarea id="nguoiTrienKhai" class="form-control" rows="3" placeholder="VD: NV001, NV002 hoặc mỗi mã 1 dòng"></textarea>
-                                        </div>
-                                        <div class="col-md-3 text-end">
-                                            <button type="button" class="btn btn-primary mt-3" id="taiNhanVien">Tải dữ liệu</button>
-                                        </div>
-                                    </div>
-
-                                    <!-- Kết quả danh sách nhân viên -->
                                     <div class="row mb-4">
                                         <div class="col-md-12">
-                                            <label class="form-label">Danh sách nhân viên</label>
-                                            <ul class="list-group" id="danhSachNhanVien"></ul>
+                                            <label class="form-label">Danh sách nhân viên thực hiện</label>
+                                            <div id="danhSachNhanVien" class="border rounded p-2 bg-light"></div>
                                         </div>
                                     </div>
-
 
                                     <div class="row mb-4">
                                         <div class="col-md-6">
                                             <label for="ngayBatDau" class="form-label">Ngày bắt đầu triển khai</label>
-                                            <input type="date" class="form-control" id="ngayBatDau">
+                                            @Html.TextBoxFor(m => m.KeHoachThucHien.NgayBatDauTrienKhai, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control form-control-sm" })
                                         </div>
                                         <div class="col-md-6">
                                             <label for="ngayKetThuc" class="form-label">Dự kiến hoàn thành</label>
-                                            <input type="date" class="form-control" id="ngayKetThuc">
+                                            @Html.TextBoxFor(m => m.KeHoachThucHien.NgayDuKienHoanThanh, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control form-control-sm" })
                                         </div>
                                     </div>
 
                                     <h5>2. Mục tiêu thực hiện</h5>
                                     <div class="mb-4">
-                                        <textarea class="form-control" rows="4" placeholder="Nhập mục tiêu thực hiện..."></textarea>
+                                        @Html.TextAreaFor(m => m.KeHoachThucHien.MucTieuThucHien, new { @class = "form-control form-control-sm", rows = 3 })
                                     </div>
 
                                     <h5>3. Kế hoạch triển khai chi tiết</h5>
 
                                     <h6 class="mt-3">3.1 Nguồn lực</h6>
+
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="nguonLucTable">
                                             <thead class="table-light">
@@ -498,33 +483,41 @@
                                             <tbody>
                                                 <tr>
                                                     <td class="stt">1</td>
-                                                    <td><input type="text" class="form-control"></td>
-                                                    <td><input type="number" class="form-control"></td>
-                                                    <td><input type="text" class="form-control"></td>
-                                                    <td><input type="text" class="form-control"></td>
-                                                    <td><input type="text" class="form-control"></td>
+                                                    <td><input type="text" name="NhanVienThucHien[0].NoiDungCongViec" class="form-control" /></td>
+                                                    <td><input type="number" name="NhanVienThucHien[0].SoLuong" class="form-control" /></td>
+                                                    <td>
+                                                        <select name="NhanVienThucHien[0].ID_NhanVien" class="form-control form-control-sm nguoi-thuc-hien">
+                                                            <option value="">-- Chọn nhân viên --</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><input type="text" name="NhanVienThucHien[0].ThoiGian" class="form-control" /></td>
+                                                    <td><input type="text" name="NhanVienThucHien[0].GhiChu" class="form-control" /></td>
                                                     <td></td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
-                                    <button type="button" class="btn btn-sm btn-outline-primary" id="addRow"><i class="fa fa-plus"></i>Thêm </button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" id="addRowTab3"><i class="fa fa-plus"></i>Thêm </button>
 
                                     <h6>3.2 Chi phí dự kiến</h6>
                                     <div class="mb-3">
-                                        <input type="text" class="form-control" placeholder="Nhập chi phí dự kiến">
+                                        @Html.TextBoxFor(m => m.KeHoachThucHien.ChiPhiDuKien, new { @class = "form-control form-control-sm", type = "number", step = "1000", min = "0" })
                                     </div>
 
                                     <h6>3.3 Thuận lợi - khó khăn</h6>
                                     <div class="mb-3">
-                                        <textarea class="form-control" rows="3" placeholder="Nhập thuận lợi và khó khăn..."></textarea>
+                                        @Html.TextAreaFor(m => m.KeHoachThucHien.ThuanLoiKhoKhan, new { @class = "form-control form-control-sm", rows = 3 })
                                     </div>
 
                                     <h6>3.4 Đề nghị hỗ trợ</h6>
                                     <div class="mb-3">
-                                        <textarea class="form-control" rows="3" placeholder="Nhập đề nghị hỗ trợ..."></textarea>
+                                        @Html.TextAreaFor(m => m.KeHoachThucHien.DeNghiHoTro, new { @class = "form-control form-control-sm", rows = 3 })
                                     </div>
-                                </form>
+                                    <button class="btn btn-sm btn-primary mt-2" type="submit">
+                                        Lưu kế hoạch
+                                    </button>
+                                }
+
                             </div>
 
                             <div class="tab-pane fade" id="tab4">
@@ -577,21 +570,23 @@
         </div>
     </div>
 </div>
+
+@*script for tab 1*@
 <script>
     $(document).ready(function () {
         $('#addRow').click(function () {
             const table = $('#nguonLucTable tbody');
             const stt = table.find('tr').length + 1;
             const row = `
-        <tr>
-          <td class="stt">${stt}</td>
-          <td><input type="text" class="form-control"></td>
-          <td><input type="number" class="form-control"></td>
-          <td><input type="text" class="form-control"></td>
-          <td><input type="text" class="form-control"></td>
-          <td><input type="text" class="form-control"></td>
-          <td><button type="button" class="btn btn-sm btn-danger remove-row">X</button></td>
-        </tr>`;
+            <tr>
+              <td class="stt">${stt}</td>
+              <td><input type="text" class="form-control"></td>
+              <td><input type="number" class="form-control"></td>
+              <td><input type="text" class="form-control"></td>
+              <td><input type="text" class="form-control"></td>
+              <td><input type="text" class="form-control"></td>
+              <td><button type="button" class="btn btn-sm btn-danger remove-row">X</button></td>
+            </tr>`;
             table.append(row);
         });
 
@@ -602,42 +597,6 @@
             });
         });
 
-        $('#taiNhanVien').click(function () {
-            const rawInput = $('#nguoiTrienKhai').val();
-            const maNhanViens = rawInput.split(/[\n,]+/).map(m => m.trim()).filter(Boolean);
-
-            const danhSachNhanVien = [];
-
-            const allNhanVien = {
-                'NV001': 'Nguyễn Văn A',
-                'NV002': 'Trần Thị B',
-                'NV003': 'Lê Văn C',
-                'NV004': 'Phạm Thị D'
-            };
-
-            $('#danhSachNhanVien').empty();
-
-            const uniqueMaNhanViens = Array.from(new Set(
-                maNhanViens.filter(Boolean)
-            ));
-
-            uniqueMaNhanViens.forEach((ma) => {
-                const ten = allNhanVien[ma] || '(Không tìm thấy)';
-                $('#danhSachNhanVien').append(`<li class="list-group-item">${ma} - ${ten}</li>`);
-            });
-
-            if (uniqueMaNhanViens.length === 0) {
-                $('#danhSachNhanVien').append(`<li class="list-group-item text-muted">Chưa có mã nhân viên hợp lệ.</li>`);
-            }
-
-            if (maNhanViens.length === 0) {
-                $('#danhSachNhanVien').append(`<li class="list-group-item text-muted">Chưa có mã nhân viên hợp lệ.</li>`);
-            }
-        });
-    });
-</script>
-<script>
-    $(document).ready(function () {
         $('#btnTaiNhanVien').click(function () {
             const maNV = $('#MaNhanVien').val();
             if (!maNV) {
@@ -666,6 +625,75 @@
     });
 </script>
 
+@*script for tab 3*@
+<script>
+    let dsNguoiThucHien = [];
+
+    function renderNguoiThucHienDropdown($select) {
+        $select.empty().append('<option value="">-- Chọn nhân viên --</option>');
+        dsNguoiThucHien.forEach(item => {
+            $select.append(`<option value="${item.id}">${item.ma} - ${item.ten}</option>`);
+        });
+    }
+
+    $('#yTuongDropdown').on('change', function () {
+        const idPhieu = $(this).val();
+        if (!idPhieu) return;
+
+        $.get('@Url.Action("LayNguoiThucHienTheoPhieu", "RenewCreative")', { idPhieu }, function (res) {
+            dsNguoiThucHien = res || [];
+
+            const $dsNhanVien = $('#danhSachNhanVien');
+            $dsNhanVien.empty();
+
+            if (dsNguoiThucHien.length > 0) {
+                dsNguoiThucHien.forEach(nv => {
+                    $dsNhanVien.append(`<div class="mb-1">${nv.ma} - ${nv.ten}</div>`);
+
+                });
+            } else {
+                $dsNhanVien.append(`<div class="text-muted fst-italic">Không có nhân viên nào</div>`);
+            }
+
+            $('.nguoi-thuc-hien').each(function () {
+                renderNguoiThucHienDropdown($(this));
+            });
+        });
+    });
+
+    let thucHienIndex = 1;
+
+    $('#addRowTab3').click(function () {
+        const table = $('#nguonLucTable tbody');
+        const stt = table.find('tr').length + 1;
+
+        const row = `
+        <tr>
+            <td class="stt">${stt}</td>
+            <td><input type="text" name="NhanVienThucHien[${thucHienIndex}].NoiDungCongViec" class="form-control" /></td>
+            <td><input type="number" name="NhanVienThucHien[${thucHienIndex}].SoLuong" class="form-control" /></td>
+            <td>
+                <select name="NhanVienThucHien[${thucHienIndex}].ID_NhanVien" class="form-control form-control-sm nguoi-thuc-hien">
+                    <option value="">-- Chọn người --</option>
+                </select>
+            </td>
+            <td><input type="text" name="NhanVienThucHien[${thucHienIndex}].ThoiGian" class="form-control" /></td>
+            <td><input type="text" name="NhanVienThucHien[${thucHienIndex}].GhiChu" class="form-control" /></td>
+            <td><button type="button" class="btn btn-sm btn-danger remove-row">X</button></td>
+        </tr>`;
+
+        const $row = $(row);
+        table.append($row);
+        renderNguoiThucHienDropdown($row.find('.nguoi-thuc-hien'));
+
+        thucHienIndex++;
+    });
+
+    $(document).on('click', '.remove-row', function () {
+        $(this).closest('tr').remove();
+        $('#nguonLucTable tbody tr').each((i, tr) => $(tr).find('.stt').text(i + 1));
+    });
+</script>
 
 
 

@@ -1,0 +1,124 @@
+﻿
+@{
+ViewBag.Title = "Index";
+Layout = "~/Views/Shared/_LayoutDMST.cshtml";
+}
+@model PagedList.IPagedList<E_Learning.ModelsDMST.DeTaiDMSTView>
+@using PagedList.Mvc
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="card col-lg-12">
+                    <div class="card-header">
+                        Danh sách ban đổi mới sáng tạo công ty
+
+                    </div>
+                    <div class="card-header">
+                        <div class="row mb-3">
+                            <div class="col d-flex align-items-center flex-wrap gap-2">
+
+                                @*<button type="button" id="btn-add" class="btn btn-primary">
+                                        <i class="fas fa-plus me-1"></i> Thêm mới
+                                    </button>
+
+                                    <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","RenewBanCongTy")'></div>*@
+                            </div>
+                        </div>
+
+
+                    </div>
+                    @using (Html.BeginForm("Index", "RenewBanCongTy", FormMethod.Get))
+                    {
+                        <div class="form-row mb-3">
+                            <div class="form-group col-md-3">
+                                <label for="phongBanFilter">Bộ phận:</label>
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <label for="viTriTieuBanFilter">Vị trí trong tiểu ban:</label>
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label for="searchName">Tìm theo tên, mã NV:</label>
+                                @*<input type="text" name="searchName" class="form-control" value="@ViewBag.SearchName" />*@
+                            </div>
+
+                            <div class="form-group col-md-4 align-self-end">
+                                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <form method="post" id="myForm">
+                                <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th width="30px" style="text-align: center">STT</th>
+                                            <th class="text-center" width="100px" style="vertical-align:middle">Tên ý tưởng</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Nội dung ý tưởng</th>
+                                            <th class="text-center" width="200px" style="vertical-align:middle">Vị trí triển khai</th>
+                                            <th class="text-center" width="250px" style="vertical-align:middle">Hiệu quả kỳ vọng</th>
+                                            <th class="text-center" width="150px" style="vertical-align:middle">Thời gian triển khai</th>
+                                            <th class="text-center" width="100px" style="vertical-align:middle">Cá nhân đại diện</th>
+                                            <th class="text-center" width="100px" style="vertical-align:middle">Thành viên tham gia</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            int index = (Model.PageNumber - 1) * Model.PageSize + 1;
+                                        }
+                                        @if (!Model.Any())
+                                        {
+                                            <tr>
+                                                <td colspan="10" class="text-center text-muted">
+                                                    Không tìm thấy dữ liệu.
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">@index</td>
+                                                    <td>@item.TenYTuong</td>
+                                                    <td>@item.NoiDungYTuong</td>
+                                                    <td>@item.ViTriTrienKhai</td>
+                                                    <td>@Html.Raw(HttpUtility.HtmlDecode(item.HieuQuaKyVong))</td>
+                                                    <td>@item.NgayBatDau</td>
+                                                    <td>@item.ID_NhanVienDaiDien</td>
+                                                </tr>
+                                                index++;
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </form>
+                            <div class="pager">
+
+                                @*<span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>*@
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+
+            </div>
+        </div>
+    </div>
+</div>
