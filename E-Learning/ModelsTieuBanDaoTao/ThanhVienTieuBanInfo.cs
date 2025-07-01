@@ -12,6 +12,7 @@ namespace E_Learning.ModelsTieuBanDaoTao
         public string TenViTriKNL { get; set; }
         public string MaNhanVien { get; set; }
         public string HoTen { get; set; }
+        public string Email { get; set; }
         public int ViTriTieuBan_ID { get; set; }
         public string TenViTriTieuBan { get; set; }
         public DateTime NgayCapNhatGanNhat { get; set; }

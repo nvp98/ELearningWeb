@@ -48,7 +48,8 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                               ViTriTieuBan_ID = (int)tvTieuBan.ViTriTieuBan_ID,
                               HoTenNguoiThem = tvTieuBan.NhanVienThem_ID != null ? db.NhanViens.Where(nv => nv.ID == tvTieuBan.NhanVienThem_ID).Select(nv =>
                               nv.HoTen).FirstOrDefault() ?? "" : "",
-                              HoTenNguoiSua = tvTieuBan.NhanVienSua_ID != null ? db.NhanViens.Where(nv => nv.ID == tvTieuBan.NhanVienSua_ID).Select(nv => nv.HoTen).FirstOrDefault() ?? "" : ""
+                              HoTenNguoiSua = tvTieuBan.NhanVienSua_ID != null ? db.NhanViens.Where(nv => nv.ID == tvTieuBan.NhanVienSua_ID).Select(nv => nv.HoTen).FirstOrDefault() ?? "" : "",
+                              Email = tvTieuBan.Email != null ? tvTieuBan.Email.ToString() : ""
                           });
 
             if (phongBanFilter.HasValue && phongBanFilter != 0)
@@ -638,6 +639,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                               HoTenNguoiPheDuyet = lichSu != null
                                   ? db.NhanViens.Where(x => x.ID == lichSu.NguoiPheDuyet_ID).Select(x => x.HoTen).FirstOrDefault()
                                   : "",
+                              Email = tvTieuBan.Email ?? ""
                           }).ToList();
 
 
@@ -661,6 +663,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                     worksheet.Cell(startRow, 8).Value = item.TrangThai == 0 ? "Chưa trình ký" : (item.TrangThai == 1 ? "Đang trình ký" : item.TrangThai == 2 ? "Đang hiệu lực" : "Hết hiệu lực");
                     worksheet.Cell(startRow, 9).Value = item.NgayCapNhatGanNhat.ToString("dd/MM/yyyy");
                     worksheet.Cell(startRow, 10).Value = item.NgayDenHanCapNhat.ToString("dd/MM/yyyy");
+                    worksheet.Cell(startRow, 11).Value = item.Email ?? "";
 
                     startRow++;
                 }
@@ -717,6 +720,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                         string viTriTieuBanStr = row.Cell(4).GetString().Trim();
                         string maNguoiPheDuyet = row.Cell(6).GetString().Trim();
                         string trangThaiStr = row.Cell(8).GetString().Trim();
+                        string email = row.Cell(11).GetString().Trim() ?? "";
 
                         var nhanVien = db.NhanViens.FirstOrDefault(x => x.MaNV == maNV);
                         if (nhanVien == null) continue;
@@ -747,6 +751,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                                 NgayCapNhat = DateTime.Now,
                                 NgayDenHanCapNhatLai = DateTime.Now.AddMonths(6),
                                 NhanVienThem_ID = MyAuthentication.ID,
+                                Email = email
                             };
 
                             db.BDT_ThanhVienTieuBan.Add(thanhVien);
