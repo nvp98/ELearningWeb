@@ -231,5 +231,33 @@ namespace E_Learning.Controllers.DMST
                 return RedirectToAction("Index");
             }
         }
+        
+        public ActionResult Edit(int id)
+        {
+            var item = (from p in db.DMST_PhieuDangKy
+                        join lv in db.DMST_LinhVuc on p.ID_LinhVuc equals lv.ID into lvJoin
+                        from lv in lvJoin.DefaultIfEmpty()
+                        where p.ID == id
+                        select new PhieuDangKyView
+                        {
+                            ID = p.ID,
+                            TenYTuong = p.TenYTuong,
+                            NoiDungYTuong = p.NoiDungYTuong,
+                            LyDoThucHien = p.LyDoThucHien,
+                            ViTriTrienKhai = p.ViTriTrienKhai,
+                            CachThucThucHien = p.CachThucThucHien,
+                            HieuQuaKyVong = p.HieuQuaKyVong,
+                            TenLinhVuc = lv.TenLinhVuc
+                        }).FirstOrDefault();
+
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(item);
+        }
+
+
     }
 }

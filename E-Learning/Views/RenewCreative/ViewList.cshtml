@@ -87,15 +87,17 @@ Layout = "~/Views/Shared/_LayoutDMST.cshtml";
                                         {
                                             foreach (var item in Model)
                                             {
-                                                <tr>
-                                                    <td class="text-center">@index</td>
-                                                    <td>@item.TenYTuong</td>
-                                                    <td>@item.NoiDungYTuong</td>
-                                                    <td>@item.ViTriTrienKhai</td>
-                                                    <td>@Html.Raw(HttpUtility.HtmlDecode(item.HieuQuaKyVong))</td>
-                                                    <td>@item.NgayBatDau</td>
-                                                    <td>@item.ID_NhanVienDaiDien</td>
-                                                </tr>
+                                    <tr>
+                                        <td class="text-center">@index</td>
+                                        <td>
+                                            @Html.ActionLink(item.TenYTuong, "Edit", "RenewCreative", new { id = item.ID }, null)
+                                        </td>
+                                        <td>@item.NoiDungYTuong</td>
+                                        <td>@item.ViTriTrienKhai</td>
+                                        <td>@Html.Raw(HttpUtility.HtmlDecode(item.HieuQuaKyVong))</td>
+                                        <td>@item.NgayBatDau</td>
+                                        <td>@item.ID_NhanVienDaiDien</td>
+                                    </tr>
                                                 index++;
                                             }
                                         }
