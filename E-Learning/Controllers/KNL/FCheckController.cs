@@ -376,7 +376,7 @@ namespace E_Learning.Controllers.KNL
                 var kqt = db.KNL_KQ_Select(IDNV, a).ToList();
                 //var Fnew = db.KhungNangLucs.Where(x => x.IDVT == nv.IDVT && (x.IDLoaiNL == 1 || x.IDLoaiNL == 2 || (x.IDLoaiNL != 1 && x.IDLoaiNL != 2 && x.IsDanhGia == 1))).ToList();
                 var Fnew = db.KhungNangLuc_SearchByIDVT(nv.IDVT).Where(x => x.IsDuyet ==1 && (x.IDLoaiNL == 1 || x.IDLoaiNL == 2 || (x.IDLoaiNL != 1 && x.IDLoaiNL != 2 && x.IsDanhGia == 1))).ToList();
-                var kqtDict = kqt.ToDictionary(x => x.IDNL, x => x);
+                var kqtDict = kqt.GroupBy(x => x.IDNL).ToDictionary(g => g.Key, g => g.First());
                 if (kqt.Count > 0 && Fnew.Count > 0)
                 {
                     foreach (var KQ in Fnew)
@@ -674,31 +674,42 @@ namespace E_Learning.Controllers.KNL
                     if(nvdg.IDNV == nv.ID) // tự đánh giá
                     {
                         db.KNL_LSDG_insert(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, null, 0, 0, 0, 0, 0, TONGNL,DateTime.Now);
-                        var a = db.KNL_LSDG.FirstOrDefault(x => x.NVID == nvdg.IDNV && x.ThangDG == nvdg.ThangDG && x.VTID == nvdg.IDVT);
-                        if(a != null)
-                        {
-                            a.DATTUDG = DATTu;
-                            a.KDATTUDG = KDATTu;
-                            a.VUOTTUDG = VUOTTu;
-                            a.KDGiaTuDG = KDGIATu;
-                            a.CHUADGTuDG = CHUADGTu;
+                        //var a = db.KNL_LSDG.FirstOrDefault(x => x.NVID == nvdg.IDNV && x.ThangDG == nvdg.ThangDG && x.VTID == nvdg.IDVT);
+                        //if(a != null)
+                        //{
+                        //    a.DATTUDG = DATTu;
+                        //    a.KDATTUDG = KDATTu;
+                        //    a.VUOTTUDG = VUOTTu;
+                        //    a.KDGiaTuDG = KDGIATu;
+                        //    a.CHUADGTuDG = CHUADGTu;
                             
-                        }   
+                        //}
+                        GtriLS.DATTUDG = DATTu;
+                        GtriLS.KDATTUDG = KDATTu;
+                        GtriLS.VUOTTUDG = VUOTTu;
+                        GtriLS.KDGiaTuDG = KDGIATu;
+                        GtriLS.CHUADGTuDG = CHUADGTu;
                         db.SaveChanges();
                     }
                     else if (ListKQ[0].capDG =="1") // đánh giá lần 1
                     {
                         db.KNL_LSDG_insert(nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, null, 0, 0, 0, 0, 0, TONGNL, DateTime.Now);
-                        var a = db.KNL_LSDG.FirstOrDefault(x => x.NVID == nvdg.IDNV && x.ThangDG == nvdg.ThangDG && x.VTID == nvdg.IDVT);
-                        if (a != null)
-                        {
-                            a.DATTUDGLan1 = DATLan1;
-                            a.KDATTUDGLan1 = KDATLan1;
-                            a.VUOTTUDGLan1 = VUOTLan1;
-                            a.KDGiaTuDGLan1 = KDGIALan1;
-                            a.CHUADGTuDGLan1 = KDGIALan1;
-                            a.NgayDGGNLan1 = DateTime.Now;
-                        }
+                        //var a = db.KNL_LSDG.FirstOrDefault(x => x.NVID == nvdg.IDNV && x.ThangDG == nvdg.ThangDG && x.VTID == nvdg.IDVT);
+                        //if (a != null)
+                        //{
+                        //    a.DATTUDGLan1 = DATLan1;
+                        //    a.KDATTUDGLan1 = KDATLan1;
+                        //    a.VUOTTUDGLan1 = VUOTLan1;
+                        //    a.KDGiaTuDGLan1 = KDGIALan1;
+                        //    a.CHUADGTuDGLan1 = KDGIALan1;
+                        //    a.NgayDGGNLan1 = DateTime.Now;
+                        //}
+                        GtriLS.DATTUDGLan1 = DATLan1;
+                        GtriLS.KDATTUDGLan1 = KDATLan1;
+                        GtriLS.VUOTTUDGLan1 = VUOTLan1;
+                        GtriLS.KDGiaTuDGLan1 = KDGIALan1;
+                        GtriLS.CHUADGTuDGLan1 = KDGIALan1;
+                        GtriLS.NgayDGGNLan1 = DateTime.Now;
                         db.SaveChanges();
                     }
                     else
@@ -712,29 +723,40 @@ namespace E_Learning.Controllers.KNL
                     if(nvdg.IDNV == nv.ID)
                     {
                         //db.KNL_LSDG_update(GtriLS.IDLS, nvdg.IDNV, nvdg.IDVT, nvdg.ThangDG, GtriLS.NgayDGGN, DAT, KDAT, VUOT, KDGIA, CHUADG, TONGNL,DateTime.Now);
-                        var a = db.KNL_LSDG.FirstOrDefault(x => x.IDLS == GtriLS.IDLS);
-                        if (a != null)
-                        {
-                            a.DATTUDG = DATTu;
-                            a.KDATTUDG = KDATTu;
-                            a.VUOTTUDG = VUOTTu;
-                            a.KDGiaTuDG = KDGIATu;
-                            a.CHUADGTuDG = CHUADGTu;
-                        }
+                        //var a = db.KNL_LSDG.FirstOrDefault(x => x.IDLS == GtriLS.IDLS);
+                        //if (a != null)
+                        //{
+                        //    a.DATTUDG = DATTu;
+                        //    a.KDATTUDG = KDATTu;
+                        //    a.VUOTTUDG = VUOTTu;
+                        //    a.KDGiaTuDG = KDGIATu;
+                        //    a.CHUADGTuDG = CHUADGTu;
+                        //}
+                        GtriLS.DATTUDG = DATTu;
+                        GtriLS.KDATTUDG = KDATTu;
+                        GtriLS.VUOTTUDG = VUOTTu;
+                        GtriLS.KDGiaTuDG = KDGIATu;
+                        GtriLS.CHUADGTuDG = CHUADGTu;
                         db.SaveChanges();
                     }
                     else if (ListKQ[0].capDG == "1") // đánh giá lần 1
                     {
-                        var a = db.KNL_LSDG.FirstOrDefault(x => x.IDLS == GtriLS.IDLS);
-                        if (a != null)
-                        {
-                            a.DATTUDGLan1 = DATLan1;
-                            a.KDATTUDGLan1 = KDATLan1;
-                            a.VUOTTUDGLan1 = VUOTLan1;
-                            a.KDGiaTuDGLan1 = KDGIALan1;
-                            a.CHUADGTuDGLan1 = KDGIALan1;
-                            a.NgayDGGNLan1 = DateTime.Now;
-                        }
+                        //var a = db.KNL_LSDG.FirstOrDefault(x => x.IDLS == GtriLS.IDLS);
+                        //if (a != null)
+                        //{
+                        //    a.DATTUDGLan1 = DATLan1;
+                        //    a.KDATTUDGLan1 = KDATLan1;
+                        //    a.VUOTTUDGLan1 = VUOTLan1;
+                        //    a.KDGiaTuDGLan1 = KDGIALan1;
+                        //    a.CHUADGTuDGLan1 = KDGIALan1;
+                        //    a.NgayDGGNLan1 = DateTime.Now;
+                        //}
+                        GtriLS.DATTUDGLan1 = DATLan1;
+                        GtriLS.KDATTUDGLan1 = KDATLan1;
+                        GtriLS.VUOTTUDGLan1 = VUOTLan1;
+                        GtriLS.KDGiaTuDGLan1 = KDGIALan1;
+                        GtriLS.CHUADGTuDGLan1 = KDGIALan1;
+                        GtriLS.NgayDGGNLan1 = DateTime.Now;
                         db.SaveChanges();
                     }
                     else

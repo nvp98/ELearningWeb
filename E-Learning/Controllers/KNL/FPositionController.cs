@@ -2097,7 +2097,7 @@ namespace E_Learning.Controllers
             }
 
             var res = (from a in db.KhungNangLucs.Where(x=>x.IDVT ==id && x.IsDuyet == null)
-                      join b in db.LoaiKNLs
+                      join b in db.LoaiKNLs.Where(x=>x.IDVT == id || x.IDLoai ==1 || x.IDLoai ==2)
                        on a.IDLoaiNL equals b.IDLoai
                       join c in db.ViTriKNLs
                       on a.IDVT equals c.IDVT
@@ -2520,7 +2520,8 @@ namespace E_Learning.Controllers
                        join c in db.ViTriKNLs
                        on a.IDVT equals c.IDVT
                        join d in db.PhongBans
-                       on a.IDPB equals d.IDPhongBan
+                       on a.IDPB equals d.IDPhongBan into gj
+                       from d in gj.DefaultIfEmpty()
                        select new KhungNangLucValidation
                        {
                            IDNL = a.IDNL,
@@ -5232,7 +5233,19 @@ namespace E_Learning.Controllers
                         // update đọc bảng KNL Delete
                         db.Database.ExecuteSqlCommand("DELETE FROM KNL_DocBangKNL WHERE ID_ViTriKNL = {0}", item.IDVT);
                         // Cập nhật lại trạng thái phê duyệt năng lực
+                        var lsLoaiKNL = db.LoaiKNLs.Where(x => x.IDLoai == 1 || x.IDLoai == 2 || x.IDVT == item.IDVT).Select(x => x.IDLoai).ToList();
                         var knl = db.KhungNangLuc_SearchByIDVT(item.IDVT).ToList();
+                        // cập nhật các NL xóa thành cũ
+                        var checkNLcu = knl.Where(x => !lsLoaiKNL.Contains((int)x.IDLoaiNL)).ToList();
+                        if(checkNLcu.Count != 0)
+                        {
+                            foreach (var item1 in checkNLcu)
+                            {
+                                var nl = db.KhungNangLucs.FirstOrDefault(x => x.IDNL == item1.IDNL);
+                                nl.IsDuyet = 2;
+                            }
+                            db.SaveChanges();
+                        }
                         var knl1 = knl.Where(x => x.IsDuyet == 1).ToList();
                         var knl12 = knl.Where(x => x.IsDuyet == null).ToList();
                         var Knlxoa = knl.Where(x => x.IsDuyet == 0).ToList();
@@ -5454,6 +5467,18 @@ namespace E_Learning.Controllers
                     db.SaveChanges();
                     // Cập nhật lại trạng thái phê duyệt năng lực
                     var knl = db.KhungNangLuc_SearchByIDVT(_DO.IDVT).ToList();
+                    // cập nhật các NL xóa thành cũ
+                    var lsLoaiKNL = db.LoaiKNLs.Where(x => x.IDLoai == 1 || x.IDLoai == 2 || x.IDVT == _DO.IDVT).Select(x=>x.IDLoai).ToList();
+                    var checkNLcu = knl.Where(x => !lsLoaiKNL.Contains((int)x.IDLoaiNL)).ToList();
+                    if (checkNLcu.Count != 0)
+                    {
+                        foreach (var item1 in checkNLcu)
+                        {
+                            var nl = db.KhungNangLucs.FirstOrDefault(x => x.IDNL == item1.IDNL);
+                            nl.IsDuyet = 2;
+                        }
+                        db.SaveChanges();
+                    }
                     var knl1 = knl.Where(x => x.IsDuyet == 1).ToList();
                     var knl12 = knl.Where(x => x.IsDuyet == null).ToList();
                     var Knlxoa = knl.Where(x => x.IsDuyet == 0).ToList();

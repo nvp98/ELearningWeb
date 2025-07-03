@@ -24,5 +24,6 @@ namespace E_Learning.Models
         public Nullable<int> TrangThai { get; set; }
         public Nullable<int> NhanVienThem_ID { get; set; }
         public Nullable<int> NhanVienSua_ID { get; set; }
+        public string Email { get; set; }
     }
 }
