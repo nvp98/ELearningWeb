@@ -14,6 +14,7 @@ namespace E_Learning.ModelsDMST
         public string HieuQuaKyVong { get; set; }
         public DateTime NgayBatDau { get; set; }
         public DateTime NgayKetThuc { get; set; }
+        public int ID_LinhVuc { get; set; }
         public int ID_NhanVienDaiDien { get; set; }
     }
 }

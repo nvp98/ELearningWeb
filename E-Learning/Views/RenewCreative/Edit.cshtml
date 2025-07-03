@@ -75,7 +75,7 @@
                                         <div class="mb-1 col">
                                             <div class="mb-2">
                                                 <label class="form-label">Thông tin nhân viên đại diện</label>
-                                                <input type="text" class="form-control form-control-sm" id="ThongTinNhanVien" readonly />
+                                                <input type="text" class="form-control form-control-sm" id="ThongTinNhanVien" value="@ViewBag.MaNVDaiDien - @ViewBag.TenNhanVienDaiDien " readonly />
                                                 @Html.HiddenFor(m => m.ID_NhanVienDaiDien)
                                             </div>
                                         </div>
@@ -99,7 +99,15 @@
                                         </div>
                                         <div class="mb-1 col-6">
                                             <label class="form-label">Lĩnh vực</label>
-                                            @Html.DropDownListFor(m => m.ID_LinhVuc, new SelectList(ViewBag.DSLinhVuc, "Value", "Text"), "-- Chọn lĩnh vực --", new { @class = "form-control form-control-sm" })
+                                            @Html.DropDownListFor(
+                                                m => m.ID_LinhVuc,
+                                                new SelectList(
+                                                    ViewBag.DSLinhVuc, "Value", "Text", Model.ID_LinhVuc
+                                                ),
+                                                "-- Chọn lĩnh vực --",
+                                                new { @class = "form-control form-control-sm" }
+                                            )
+
                                         </div>
                                     </div>
 
@@ -167,13 +175,38 @@
                                             <table class="table table-bordered align-middle" id="TableNguoiThamGia">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th style="width: 35%">Mã nhân viên</th>
+                                                        <th style="width: 35%">Nhân viên</th>
                                                         <th style="width: 5%"></th>
                                                         <th style="width: 25%">Vai trò</th>
                                                         <th style="width: 5%">Xóa</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody></tbody>
+                                                <tbody>
+                                                    @if (Model != null && Model.NguoiThamGia != null && Model.NguoiThamGia.Any())
+                                                    {
+                                                        foreach (var n in Model.NguoiThamGia)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="text" readonly class="form-control form-control-sm" value="@($"{n.MaNhanVien} - {n.HoTen}")" />
+                                                                </td>
+                                                                <td></td>
+                                                                <td>
+                                                                    <input type="text" readonly class="form-control form-control-sm" value="@n.VaiTro" />
+                                                                </td>
+                                                                <td>
+                                                                    <button type="button" class="btn btn-sm btn-danger btn-xoa">X</button>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="4" class="text-center text-muted">Chưa có dữ liệu</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
                                             </table>
                                             <button class="btn btn-sm btn-outline-primary" type="button" id="btnAddNguoiThamGia"><i class="fa fa-plus"></i> Thêm</button>
                                         </div>
@@ -206,21 +239,17 @@
                                                         for (int i = 0; i < Model.KinhPhiDuKien.Count; i++)
                                                         {
                                                             <tr>
-                                                                <td>@Html.TextBoxFor(m => m.KinhPhiDuKien[i].TenNguonLuc, new { @class = "form-control form-control-sm" })
-                                                                <td>
-                                                                <td>@Html.TextBoxFor(m => m.KinhPhiDuKien[i].ChiPhi, new { @class = "form-control form-control-sm" })</td>
-                                                                <td>@Html.TextBoxFor(m => m.KinhPhiDuKien[i].NguonThongTin, new { @class = "form-control form-control-sm" })</td>
-                                                                <td>@Html.TextBoxFor(m => m.KinhPhiDuKien[i].GhiChu, new { @class = "form-control form-control-sm" })</td>
+                                                                <td>@Html.TextBoxFor(m => m.KinhPhiDuKien[i].TenNguonLuc, new { @class = "form-control form-control-sm", @readonly = "readonly" })</td>
+                                                                <td>@Html.TextBoxFor(m => m.KinhPhiDuKien[i].ChiPhi, new { @class = "form-control form-control-sm", @readonly = "readonly" })</td>
+                                                                <td>@Html.TextBoxFor(m => m.KinhPhiDuKien[i].NguonThongTin, new { @class = "form-control form-control-sm", @readonly = "readonly" })</td>
+                                                                <td>@Html.TextBoxFor(m => m.KinhPhiDuKien[i].GhiChu, new { @class = "form-control form-control-sm", @readonly = "readonly" })</td>
                                                             </tr>
                                                         }
                                                     }
                                                     else
                                                     {
                                                         <tr>
-                                                            <td><input type="text" name="KinhPhiDuKien[0].TenNguonLuc" class="form-control form-control-sm" /></td>
-                                                            <td><input type="text" name="KinhPhiDuKien[0].ChiPhi" class="form-control form-control-sm" /></td>
-                                                            <td><input type="text" name="KinhPhiDuKien[0].NguonThongTin" class="form-control form-control-sm" /></td>
-                                                            <td><input type="text" name="KinhPhiDuKien[0].GhiChu" class="form-control form-control-sm" /></td>
+                                                            <td colspan="4" class="text-center text-muted">Chưa có dữ liệu</td>
                                                         </tr>
                                                     }
 
@@ -339,7 +368,7 @@
                                     <div class="row mb-3">
                                         <div class="col-md-6">
                                             <label for="tenYTuong" class="form-label">Tên ý tưởng</label>
-                                            @Html.DropDownListFor(m => m.KeHoachThucHien.ID_Phieu, new SelectList(ViewBag.DSYTuong, "Value", "Text"), "-- Chọn ý tưởng --", new { @class = "form-control form-control-sm", id = "yTuongDropdown" })
+                                            @*@Html.DropDownListFor(m => m.KeHoachThucHien.ID_Phieu, new SelectList(ViewBag.DSYTuong, "Value", "Text"), "-- Chọn ý tưởng --", new { @class = "form-control form-control-sm", id = "yTuongDropdown" })*@
                                         </div>
                                         <div class="col-md-6">
                                             <label for="boPhan" class="form-label">Bộ phận</label>

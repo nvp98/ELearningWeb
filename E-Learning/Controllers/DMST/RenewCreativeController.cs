@@ -32,7 +32,8 @@ namespace E_Learning.Controllers.DMST
                            HieuQuaKyVong = dt.HieuQuaKyVong,
                            NgayBatDau = (DateTime) dt.NgayTao,
                            //NgayKetThuc = (DateTime) dt.DenNgay,
-                           ID_NhanVienDaiDien = (int) dt.ID_NhanVienDaiDien
+                           ID_NhanVienDaiDien = (int) dt.ID_NhanVienDaiDien,
+                           ID_LinhVuc = (int) dt.ID_LinhVuc
                        };
 
             int pageSize = 10;
@@ -231,32 +232,67 @@ namespace E_Learning.Controllers.DMST
                 return RedirectToAction("Index");
             }
         }
-        
+
         public ActionResult Edit(int id)
         {
-            var item = (from p in db.DMST_PhieuDangKy
+            var data = (from p in db.DMST_PhieuDangKy
                         join lv in db.DMST_LinhVuc on p.ID_LinhVuc equals lv.ID into lvJoin
                         from lv in lvJoin.DefaultIfEmpty()
                         where p.ID == id
                         select new PhieuDangKyView
                         {
                             ID = p.ID,
+                            ID_NhanVienDaiDien = p.ID_NhanVienDaiDien,
                             TenYTuong = p.TenYTuong,
                             NoiDungYTuong = p.NoiDungYTuong,
                             LyDoThucHien = p.LyDoThucHien,
                             ViTriTrienKhai = p.ViTriTrienKhai,
                             CachThucThucHien = p.CachThucThucHien,
                             HieuQuaKyVong = p.HieuQuaKyVong,
-                            TenLinhVuc = lv.TenLinhVuc
+                            ID_LinhVuc = (int) p.ID_LinhVuc,
+                            TenLinhVuc = lv.TenLinhVuc,
+                            CanHoTro = p.CanHoTro,
+                            DeXuatNguoiBoPhan = p.DeXuatNguoiBoPhan,
+                            NgayDeXuat = p.NgayDeXuat,
+                            KinhPhiDuKien = db.DMST_KinhPhiDuKien
+                                      .Where(k => k.ID_Phieu == id)
+                                      .Select(k => new ChiPhiDuKienModel
+                                      {
+                                          TenNguonLuc = k.TenNguonLuc,
+                                          ChiPhi = (float) k.ChiPhi,
+                                          NguonThongTin = k.NguonThongTin,
+                                          GhiChu = k.GhiChu
+                                      }).ToList(),
+                            NguoiThamGia = db.DMST_NguoiThamGia
+                                       .Where(ntg => ntg.ID_Phieu == id)
+                                       .Join(db.NhanViens, ntg => ntg.ID_NhanVien, nv => nv.ID, (ntg, nv) => new NguoiThamGiaModel
+                                       {
+                                           ID_NhanVien = ntg.ID_NhanVien ?? 0,
+                                           MaNhanVien = nv.MaNV,
+                                           HoTen = nv.HoTen,
+                                           VaiTro = ntg.VaiTro
+                                       }).ToList()
                         }).FirstOrDefault();
 
-            if (item == null)
+            if (data == null)
             {
                 return HttpNotFound();
             }
 
-            return View(item);
+            var nhanVienDaiDien = db.NhanViens
+                .Where(nv => nv.ID == data.ID_NhanVienDaiDien)
+                .FirstOrDefault();
+
+            ViewBag.TenNhanVienDaiDien = nhanVienDaiDien.HoTen;
+            ViewBag.MaNVDaiDien = nhanVienDaiDien.MaNV;
+
+            ViewBag.DSLinhVuc = db.DMST_LinhVuc
+                .Select(x => new { Value = x.ID, Text = x.TenLinhVuc })
+                .ToList();
+
+            return View(data);
         }
+
 
 
     }

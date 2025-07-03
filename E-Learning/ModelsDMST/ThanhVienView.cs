@@ -14,6 +14,7 @@ namespace E_Learning.ModelsDMST
         public string MaNhanVien { get; set; }
 
         public string HoTen { get; set; }
+        public string VaiTro { get; set; }
 
         public int BoPhanID { get; set; }
 
