@@ -215,7 +215,8 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                             NgayCapNhat = DateTime.Now,
                             NgayDenHanCapNhatLai = DateTime.Now.AddMonths(6),
                             TrangThai = 0,
-                            NhanVienThem_ID = MyAuthentication.ID
+                            NhanVienThem_ID = MyAuthentication.ID,
+                            Email = tv.Email
                         };
 
                         db.BDT_ThanhVienTieuBan.Add(thanhVien);
@@ -288,17 +289,18 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                 Id = nhanVien.ID,
                 HoTen = nhanVien.HoTen,
                 TenViTriTieuBan =  viTriTieuBan.TenViTri,
-                ViTriTieuBan_ID = viTriTieuBan.ID
+                ViTriTieuBan_ID = viTriTieuBan.ID,
+                Email = data.Email
             };
 
             ViewBag.NhanVienDangChon = DTO.HoTen;
+            ViewBag.EmailNhanVien = DTO.Email;
 
             var danhSachViTriTieuBan = db.BDT_ViTriTieuBan
                 .Select(vt => new { vt.ID, vt.TenViTri })
                 .ToList();
 
             ViewBag.DSViTriTieuBan = new SelectList(danhSachViTriTieuBan, "ID", "TenViTri", DTO.ViTriTieuBan_ID);
-
 
             return PartialView(DTO);
         }
@@ -676,6 +678,35 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                     .FirstOrDefault();
 
                 string fileName = "DanhSachTieuBan_" + maPhongBan + ".xlsx";
+                string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    stream.Position = 0;
+                    return File(stream.ToArray(), contentType, fileName);
+                }
+            }
+        }
+
+        public ActionResult ExportExcelTemplate()
+        {
+            var username = MyAuthentication.Username;
+            if (username == null)
+            {
+                TempData["msgError"] = "<script>alert('Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');</script>";
+                return RedirectToAction("Index", "Login");
+            }
+
+            var templatePath = Server.MapPath("~/App_Data/DanhSachTieuBan_Template.xlsx");
+
+            using (var workbook = new XLWorkbook(templatePath))
+            {
+                var worksheet = workbook.Worksheet(1);
+
+                worksheet.Columns().AdjustToContents();
+
+                string fileName = "DanhSachTieuBan_Template.xlsx";
                 string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
                 using (var stream = new MemoryStream())

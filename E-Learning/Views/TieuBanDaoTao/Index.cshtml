@@ -72,6 +72,10 @@
                                         onclick="location.href='@Url.Action("ExportExcel", "TieuBanDaoTao")?phongBanFilter=@phongBanFilter'">
                                     <i class="fas fa-file-excel me-1"></i> Xuất Excel
                                 </button>
+                                <button type="button" class="btn btn-secondary"
+                                        onclick="location.href='@Url.Action("ExportExcelTemplate", "TieuBanDaoTao")'">
+                                    <i class="fas fa-file-excel me-1"></i> Tải file mẫu Import
+                                </button>
                                 <div id="formImportExcel">
                                     @using (Html.BeginForm("Import", "TieuBanDaoTao", FormMethod.Post, new { enctype = "multipart/form-data", id = "formImport", @class = "d-flex align-items-center gap-2" }))
                                     {

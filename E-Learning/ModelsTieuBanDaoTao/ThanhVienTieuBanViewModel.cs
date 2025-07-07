@@ -16,6 +16,7 @@ namespace E_Learning.ModelsTieuBanDaoTao
     {
         public int Id { get; set; }
         public int ViTri { get; set; }
+        public string Email { get; set; }
     }
 
 }
