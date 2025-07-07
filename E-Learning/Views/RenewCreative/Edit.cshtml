@@ -231,6 +231,7 @@
                                                         <th style="width: 25%">Chi phí (đồng)</th>
                                                         <th style="width: 25%">Nguồn thông tin</th>
                                                         <th style="width: 25%">Ghi chú</th>
+                                                        <th style="width: 5%">Xóa</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -243,6 +244,7 @@
                                                                 <td>@Html.TextBoxFor(m => m.KinhPhiDuKien[i].ChiPhi, new { @class = "form-control form-control-sm", @readonly = "readonly" })</td>
                                                                 <td>@Html.TextBoxFor(m => m.KinhPhiDuKien[i].NguonThongTin, new { @class = "form-control form-control-sm", @readonly = "readonly" })</td>
                                                                 <td>@Html.TextBoxFor(m => m.KinhPhiDuKien[i].GhiChu, new { @class = "form-control form-control-sm", @readonly = "readonly" })</td>
+                                                                <td><button type="button" class="btn btn-sm btn-danger btnRemoveChiPhi">X</button></td>
                                                             </tr>
                                                         }
                                                     }
@@ -263,8 +265,21 @@
                                         @{
                                             var chiPhiIndex = (Model?.KinhPhiDuKien != null) ? Model.KinhPhiDuKien.Count : 1;
                                         }
+                                        
                                         <script>
                                             let chiPhiIndex = @chiPhiIndex;
+
+                                            function reindexChiPhi() {
+                                                const rows = document.querySelectorAll("#TableChiPhi tbody tr");
+                                                rows.forEach((row, index) => {
+                                                    const inputs = row.querySelectorAll("input");
+                                                    inputs[0].name = `KinhPhiDuKien[${index}].TenNguonLuc`;
+                                                    inputs[1].name = `KinhPhiDuKien[${index}].ChiPhi`;
+                                                    inputs[2].name = `KinhPhiDuKien[${index}].NguonThongTin`;
+                                                    inputs[3].name = `KinhPhiDuKien[${index}].GhiChu`;
+                                                });
+                                                chiPhiIndex = rows.length;
+                                            }
 
                                             document.getElementById("btnAddChiPhi").addEventListener("click", function () {
                                                 const tbody = document.querySelector("#TableChiPhi tbody");
@@ -275,12 +290,19 @@
                                                     <td><input type="text" name="KinhPhiDuKien[${chiPhiIndex}].ChiPhi" class="form-control form-control-sm" /></td>
                                                     <td><input type="text" name="KinhPhiDuKien[${chiPhiIndex}].NguonThongTin" class="form-control form-control-sm" /></td>
                                                     <td><input type="text" name="KinhPhiDuKien[${chiPhiIndex}].GhiChu" class="form-control form-control-sm" /></td>
+                                                    <td><button type="button" class="btn btn-sm btn-danger btnRemoveChiPhi">X</button></td>
                                                 `;
                                                 tbody.appendChild(row);
                                                 chiPhiIndex++;
                                             });
-                                        </script>
 
+                                            document.querySelector("#TableChiPhi tbody").addEventListener("click", function (e) {
+                                                if (e.target && e.target.classList.contains("btnRemoveChiPhi")) {
+                                                    e.target.closest("tr").remove();
+                                                    reindexChiPhi();
+                                                }
+                                            });
+                                        </script>
                                     </div>
                                     <div class="text-uppercase text-dark fw-bold">Khả năng triển khai</div>
                                     <div class="row">
