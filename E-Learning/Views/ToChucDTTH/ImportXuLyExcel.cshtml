@@ -27,7 +27,7 @@
                         <div class="form-group col-md-6">
                             <label class="mb-1">Ngày kết thúc thực tế</label>
                             <div class="col-md-12">
-                                @Html.EditorFor(model => model.NgayKTThucTe, new { htmlAttributes = new { @class = "form-control", @type = "date", required = "required" } })
+                                @Html.EditorFor(model => model.NgayKTThucTe, new { htmlAttributes = new { @class = "form-control", @type = "date", required = "required",id= "NgayKTThucTe" } })
                                 @Html.ValidationMessageFor(model => model.NgayKTThucTe, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -147,7 +147,7 @@
     $("#btnSubmit").on('click', function (e) {
         e.preventDefault();
         //kiểm tra điều kiện ngày kết thúc thực tế
-        var ngayKTTT = $("input[name='NgayKTThucTe']").val();
+        var ngayKTTT = $("#NgayKTThucTe").val();
         let ngayKT = new Date(ngayKTTT);
         ngayKT.setDate(ngayKT.getDate() + 10);
         var ngay = new Date();
