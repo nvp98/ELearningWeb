@@ -117,7 +117,7 @@
             <input type="submit" value="Import" id="btnSubmit" class="btn btn-primary" />
         </div>*@
                         <div class="btn-margin-top  mt-2 m-auto">
-                            <input type="submit" value="Nộp hồ sơ" class="btn btn-primary button_submit " />
+                            <input type="submit" value="Nộp hồ sơ" id="btnSubmit"  class="btn btn-primary button_submit " />
                         </div>
                     </div>
                 </fieldset>
@@ -144,7 +144,17 @@
         else { return true; }
     };
 
-    $("#btnSubmit").on('click', function () {
+    $("#btnSubmit").on('click', function (e) {
+        e.preventDefault();
+        //kiểm tra điều kiện ngày kết thúc thực tế
+        var ngayKTTT = $("input[name='NgayKTThucTe']").val();
+        let ngayKT = new Date(ngayKTTT);
+        ngayKT.setDate(ngayKT.getDate() + 10);
+        var ngay = new Date();
+        if (ngayKT < ngay) {
+            alert('Hạn nộp hồ sơ không quá 10 ngày kể từ ngày kết thúc đào tạo.');
+            return false;
+        }
         var file = $('#FileUpload').val();
         if (file.length == 0) {
             alert('Vui lòng chọn file Import.');

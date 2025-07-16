@@ -107,7 +107,7 @@ namespace E_Learning.Controllers
             if (IDNhom != null) res = res.Where(x => x.IDNhom == IDNhom).ToList();
             if (IDTo != null) res = res.Where(x => x.IDTo == IDTo).ToList();
             if (!String.IsNullOrEmpty(search)) res = res.Where(x => x.MaViTri == search).ToList();
-            if (!String.IsNullOrEmpty(searchVT)) res = res.Where(x => x.TenViTri?.IndexOf(searchVT, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+            if (!String.IsNullOrEmpty(searchVT)) res = res.Where(x => x.TenViTri?.ToLower().Contains(searchVT.ToLower())??false).ToList();
 
             if (ListQuyen.Contains(CONSTKEY.V_BP)) res = res.Where(x => x.IDPB == idpb).ToList();
             //if(Idquyen != 1 && IdquyenKNL ==0 ) res = res.Where(x => x.IDPB == 0).ToList();
