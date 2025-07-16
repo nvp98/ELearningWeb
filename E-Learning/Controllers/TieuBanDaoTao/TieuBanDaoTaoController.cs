@@ -651,7 +651,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
             {
                 var worksheet = workbook.Worksheet(1);
 
-                int startRow = 2;
+                int startRow = 3;
                 int stt = 1;
                 foreach (var item in result)
                 {
