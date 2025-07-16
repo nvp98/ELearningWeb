@@ -98,7 +98,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
 
             ViewBag.SearchName = searchName;
 
-            int pageSize = 100;
+            int pageSize = 50;
             int pageNumber = (page ?? 1);
 
             var pagedResult = result.OrderBy(x => x.ViTriTieuBan_ID).ToPagedList(pageNumber, pageSize);
@@ -641,7 +641,8 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                               HoTenNguoiPheDuyet = lichSu != null
                                   ? db.NhanViens.Where(x => x.ID == lichSu.NguoiPheDuyet_ID).Select(x => x.HoTen).FirstOrDefault()
                                   : "",
-                              Email = tvTieuBan.Email ?? ""
+                              Email = tvTieuBan.Email ?? "",
+                              TenDonVi = db.PhongBans.Where(x => x.IDPhongBan == nv.IDPhongBan).FirstOrDefault().TenPhongBan
                           }).ToList();
 
 
@@ -666,6 +667,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                     worksheet.Cell(startRow, 9).Value = item.NgayCapNhatGanNhat.ToString("dd/MM/yyyy");
                     worksheet.Cell(startRow, 10).Value = item.NgayDenHanCapNhat.ToString("dd/MM/yyyy");
                     worksheet.Cell(startRow, 11).Value = item.Email ?? "";
+                    worksheet.Cell(startRow, 12).Value = item.TenDonVi ?? "";
 
                     startRow++;
                 }
@@ -760,7 +762,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                                              viTriTieuBanStr == "Phó tiểu ban" ? 2 :
                                              viTriTieuBanStr == "Thành viên thường trực" ? 3 : 4;
 
-                        int trangThai = trangThaiStr == "Chưa trình ký" ? 0 : 1;
+                        int trangThai = string.IsNullOrWhiteSpace(trangThaiStr) || trangThaiStr == "Chưa trình ký" ? 0 : 1;
 
                         var tonTaiThanhVien = db.BDT_ThanhVienTieuBan
                             .Where(x => x.TieuBan_ID == tieuBanID && x.NhanVien_ID == nhanVien.ID)

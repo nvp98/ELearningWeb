@@ -25,6 +25,7 @@ namespace E_Learning.ModelsTieuBanDaoTao
         public string HoTenNguoiPheDuyet { get;set; }
         public string HoTenNguoiThem { get; set; }
         public string HoTenNguoiSua { get; set; }
+        public string TenDonVi { get; set; }
     } 
 
 }
