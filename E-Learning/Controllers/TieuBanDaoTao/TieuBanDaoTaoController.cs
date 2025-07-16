@@ -732,7 +732,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                 using (var workbook = new XLWorkbook(file.InputStream))
                 {
                     var worksheet = workbook.Worksheet(1);
-                    var rows = worksheet.RangeUsed().RowsUsed().Skip(1);
+                    var rows = worksheet.RangeUsed().RowsUsed().Skip(2);
 
                     if (rows.Any(row => row.Cell(8).GetString().Trim() == "Đang hiệu lực"))
                     {
