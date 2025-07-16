@@ -98,7 +98,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
 
             ViewBag.SearchName = searchName;
 
-            int pageSize = 20;
+            int pageSize = 100;
             int pageNumber = (page ?? 1);
 
             var pagedResult = result.OrderBy(x => x.ViTriTieuBan_ID).ToPagedList(pageNumber, pageSize);
