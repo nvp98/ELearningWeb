@@ -105,6 +105,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
 
             var LichSuXoaList = (from ls in db.BDT_LichSuXoa
                                  join nv in db.NhanViens on ls.ID_NhanVien equals nv.ID
+                                 where nv.IDPhongBan == MyAuthentication.IDPhongban
                                  select new NguoiXoaViewModel
                                  {
                                      TenNV = nv.HoTen,
