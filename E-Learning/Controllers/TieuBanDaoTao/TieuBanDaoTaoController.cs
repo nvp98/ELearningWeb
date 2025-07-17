@@ -49,7 +49,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                               HoTenNguoiThem = tvTieuBan.NhanVienThem_ID != null ? db.NhanViens.Where(nv => nv.ID == tvTieuBan.NhanVienThem_ID).Select(nv =>
                               nv.HoTen).FirstOrDefault() ?? "" : "",
                               HoTenNguoiSua = tvTieuBan.NhanVienSua_ID != null ? db.NhanViens.Where(nv => nv.ID == tvTieuBan.NhanVienSua_ID).Select(nv => nv.HoTen).FirstOrDefault() ?? "" : "",
-                              Email = tvTieuBan.Email != null ? tvTieuBan.Email.ToString() : ""
+                              Email = tvTieuBan.Email != null ? tvTieuBan.Email.ToString() : "",
                           });
 
             if (phongBanFilter.HasValue && phongBanFilter != 0)
@@ -102,6 +102,17 @@ namespace E_Learning.Controllers.TieuBanDaoTao
             int pageNumber = (page ?? 1);
 
             var pagedResult = result.OrderBy(x => x.ViTriTieuBan_ID).ToPagedList(pageNumber, pageSize);
+
+            var LichSuXoaList = (from ls in db.BDT_LichSuXoa
+                                 join nv in db.NhanViens on ls.ID_NhanVien equals nv.ID
+                                 select new NguoiXoaViewModel
+                                 {
+                                     TenNV = nv.HoTen,
+                                     MaNV = nv.MaNV,
+                                     ThoiGianXoa = ls.ThoiGianXoa
+                                 }).ToList();
+
+            ViewBag.LichSuXoa = LichSuXoaList;
 
             return View(pagedResult);
         }
@@ -361,6 +372,15 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                 }
 
                 db.BDT_ThanhVienTieuBan.Remove(record);
+
+                var lichSuXoa = new BDT_LichSuXoa()
+                {
+                    ID_NhanVien = MyAuthentication.ID,
+                    ThoiGianXoa = DateTime.Now
+                };
+
+                db.BDT_LichSuXoa.Add(lichSuXoa);
+
                 db.SaveChanges();
 
                 return Json(new { success = true, message = "Xóa thành viên khỏi tiểu ban thành công!" });
@@ -841,6 +861,14 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                     .Where(x => ids.Contains(x.ID))
                     .ToList();
                 db.BDT_ThanhVienTieuBan.RemoveRange(thanhViens);
+
+                var lichSuXoa = new BDT_LichSuXoa()
+                {
+                    ID_NhanVien = MyAuthentication.ID,
+                    ThoiGianXoa = DateTime.Now
+                };
+
+                db.BDT_LichSuXoa.Add(lichSuXoa);
 
                 db.SaveChanges();
 
