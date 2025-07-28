@@ -119,6 +119,20 @@
                             </div>
                         </div>
                     }
+                    @{
+                        var danhSach = ViewBag.LichSuXoa as List<E_Learning.ModelsTieuBanDaoTao.NguoiXoaViewModel>;
+                    }
+
+                    @if (danhSach != null && danhSach.Any())
+                    {
+                        <h5>Lịch sử xóa dữ liệu:</h5>
+                        <ul>
+                            @foreach (var item in danhSach)
+                            {
+                                <li>@item.MaNV - @item.TenNV - @item.ThoiGianXoa.ToString("dd/MM/yyyy HH:mm:ss")</li>
+                            }
+                        </ul>
+                    }
 
                     <div class="card-body">
                         <div class="table-responsive">
@@ -172,7 +186,7 @@
                                                     <td style="text-align: center">
                                                         @if (item.TrangThai == 0)
                                                         {
-                                                            <span class="badge bg-secondary">Chưa trình ký</span>
+                                                            <span class="badge bg-warning text-dark">Chưa trình ký</span>
                                                         }
                                                         else if (item.TrangThai == 1)
                                                         {

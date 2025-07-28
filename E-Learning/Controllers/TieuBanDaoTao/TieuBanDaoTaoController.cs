@@ -49,7 +49,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                               HoTenNguoiThem = tvTieuBan.NhanVienThem_ID != null ? db.NhanViens.Where(nv => nv.ID == tvTieuBan.NhanVienThem_ID).Select(nv =>
                               nv.HoTen).FirstOrDefault() ?? "" : "",
                               HoTenNguoiSua = tvTieuBan.NhanVienSua_ID != null ? db.NhanViens.Where(nv => nv.ID == tvTieuBan.NhanVienSua_ID).Select(nv => nv.HoTen).FirstOrDefault() ?? "" : "",
-                              Email = tvTieuBan.Email != null ? tvTieuBan.Email.ToString() : ""
+                              Email = tvTieuBan.Email != null ? tvTieuBan.Email.ToString() : "",
                           });
 
             if (phongBanFilter.HasValue && phongBanFilter != 0)
@@ -98,10 +98,22 @@ namespace E_Learning.Controllers.TieuBanDaoTao
 
             ViewBag.SearchName = searchName;
 
-            int pageSize = 20;
+            int pageSize = 50;
             int pageNumber = (page ?? 1);
 
             var pagedResult = result.OrderBy(x => x.ViTriTieuBan_ID).ToPagedList(pageNumber, pageSize);
+
+            var LichSuXoaList = (from ls in db.BDT_LichSuXoa
+                                 join nv in db.NhanViens on ls.ID_NhanVien equals nv.ID
+                                 where nv.IDPhongBan == MyAuthentication.IDPhongban
+                                 select new NguoiXoaViewModel
+                                 {
+                                     TenNV = nv.HoTen,
+                                     MaNV = nv.MaNV,
+                                     ThoiGianXoa = ls.ThoiGianXoa
+                                 }).ToList();
+
+            ViewBag.LichSuXoa = LichSuXoaList;
 
             return View(pagedResult);
         }
@@ -361,6 +373,15 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                 }
 
                 db.BDT_ThanhVienTieuBan.Remove(record);
+
+                var lichSuXoa = new BDT_LichSuXoa()
+                {
+                    ID_NhanVien = MyAuthentication.ID,
+                    ThoiGianXoa = DateTime.Now
+                };
+
+                db.BDT_LichSuXoa.Add(lichSuXoa);
+
                 db.SaveChanges();
 
                 return Json(new { success = true, message = "Xóa thành viên khỏi tiểu ban thành công!" });
@@ -641,7 +662,8 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                               HoTenNguoiPheDuyet = lichSu != null
                                   ? db.NhanViens.Where(x => x.ID == lichSu.NguoiPheDuyet_ID).Select(x => x.HoTen).FirstOrDefault()
                                   : "",
-                              Email = tvTieuBan.Email ?? ""
+                              Email = tvTieuBan.Email ?? "",
+                              TenDonVi = db.PhongBans.Where(x => x.IDPhongBan == nv.IDPhongBan).FirstOrDefault().TenPhongBan
                           }).ToList();
 
 
@@ -651,7 +673,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
             {
                 var worksheet = workbook.Worksheet(1);
 
-                int startRow = 2;
+                int startRow = 3;
                 int stt = 1;
                 foreach (var item in result)
                 {
@@ -666,6 +688,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                     worksheet.Cell(startRow, 9).Value = item.NgayCapNhatGanNhat.ToString("dd/MM/yyyy");
                     worksheet.Cell(startRow, 10).Value = item.NgayDenHanCapNhat.ToString("dd/MM/yyyy");
                     worksheet.Cell(startRow, 11).Value = item.Email ?? "";
+                    worksheet.Cell(startRow, 12).Value = item.TenDonVi ?? "";
 
                     startRow++;
                 }
@@ -732,7 +755,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                 using (var workbook = new XLWorkbook(file.InputStream))
                 {
                     var worksheet = workbook.Worksheet(1);
-                    var rows = worksheet.RangeUsed().RowsUsed().Skip(1);
+                    var rows = worksheet.RangeUsed().RowsUsed().Skip(2);
 
                     if (rows.Any(row => row.Cell(8).GetString().Trim() == "Đang hiệu lực"))
                     {
@@ -760,7 +783,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                                              viTriTieuBanStr == "Phó tiểu ban" ? 2 :
                                              viTriTieuBanStr == "Thành viên thường trực" ? 3 : 4;
 
-                        int trangThai = trangThaiStr == "Chưa trình ký" ? 0 : 1;
+                        int trangThai = string.IsNullOrWhiteSpace(trangThaiStr) || trangThaiStr == "Chưa trình ký" ? 0 : 1;
 
                         var tonTaiThanhVien = db.BDT_ThanhVienTieuBan
                             .Where(x => x.TieuBan_ID == tieuBanID && x.NhanVien_ID == nhanVien.ID)
@@ -839,6 +862,14 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                     .Where(x => ids.Contains(x.ID))
                     .ToList();
                 db.BDT_ThanhVienTieuBan.RemoveRange(thanhViens);
+
+                var lichSuXoa = new BDT_LichSuXoa()
+                {
+                    ID_NhanVien = MyAuthentication.ID,
+                    ThoiGianXoa = DateTime.Now
+                };
+
+                db.BDT_LichSuXoa.Add(lichSuXoa);
 
                 db.SaveChanges();
 
