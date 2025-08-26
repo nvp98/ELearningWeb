@@ -182,7 +182,7 @@
                                                                     @Html.HiddenFor(m => m[i].IDVT)
                                                                     <tr>
                                                                         <td class="text-center">
-                                                                            <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("DeleteKNL", "FPosition" , new { id=Model[i].IDNL,idvt =Model[i].IDVT,IDPB =Model[i].IDPB })"
+                                                                            <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("DeleteKNLDuyet", "FPosition" , new { id=Model[i].IDNL,idvt =Model[i].IDVT,IDPB =Model[i].IDPB, IdDuyet= ViewBag.IDDuyet })"
                                                                                onclick="return confirm('Bạn muốn Cập nhật Vị trí: @Model[i].IDNL ')">
                                                                             </a>
                                                                         </td>
@@ -239,8 +239,8 @@
                                                             }
                                                         }
                                                         @*<tr id="qly"><th colspan="4" class="font-weight-bold font-size-lg"><button id="add-qly" type="button" class="btn btn-light border border-white"><i class="fas fa-plus"></i></button></th></tr>*@
-                                                        <tr id="qly"><th colspan="4" class="font-weight-bold font-size-lg"><button id="add-qly" type="button" class="btn btn-light border border-white"><i class="fas fa-plus"></i></button></th></tr>
-                                                        <tr id="qly"><th colspan="5" class="font-weight-bold font-size-lg"><button id="add-qly" type="button" class="btn btn-light border border-white"><i class="fas fa-plus"></i></button></th></tr>
+                                                        @*<tr id="qly"><th colspan="4" class="font-weight-bold font-size-lg"><button id="add-qly" type="button" class="btn btn-light border border-white"><i class="fas fa-plus"></i></button></th></tr>
+                                                        <tr id="qly"><th colspan="5" class="font-weight-bold font-size-lg"><button id="add-qly" type="button" class="btn btn-light border border-white"><i class="fas fa-plus"></i></button></th></tr>*@
                                                     </tbody>
                                                 </table>
                                             </div>

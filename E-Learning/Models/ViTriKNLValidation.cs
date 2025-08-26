@@ -31,6 +31,9 @@ namespace E_Learning.Models
         public Nullable<int> CountNVDDG { get; set; }
         public Nullable<int> TinhTrang { get; set; }
         public Nullable<int> CountSLNDDT { get; set; }
+        public Nullable<int> TinhTrang_DuyetKNL { get; set; }
+        public Nullable<int> TongNLDuyet { get; set; }
+        public Nullable<int> ID_NguoiTrinhKy { get; set; }
     }
     public class KNLDGiaTCValidation
     {

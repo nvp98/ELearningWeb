@@ -10,24 +10,23 @@
 namespace E_Learning.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class ViTriKNL
+    public partial class NhanVien_SelectKQKNL_V2_Result
     {
+        public int ID { get; set; }
+        public string MaNV { get; set; }
+        public string HoTen { get; set; }
+        public Nullable<int> IDKip { get; set; }
+        public string TenKip { get; set; }
+        public string TenPhongBan { get; set; }
         public int IDVT { get; set; }
         public string TenViTri { get; set; }
-        public string MaViTri { get; set; }
-        public Nullable<int> IDPB { get; set; }
-        public Nullable<int> IDKhoi { get; set; }
-        public Nullable<int> IDPX { get; set; }
-        public Nullable<int> IDNhom { get; set; }
-        public Nullable<int> IDTo { get; set; }
         public string FilePath { get; set; }
-        public Nullable<int> IDVTParent { get; set; }
-        public Nullable<int> TinhTrang { get; set; }
+        public Nullable<System.DateTime> NgayDG { get; set; }
+        public Nullable<System.DateTime> NgayTuDG { get; set; }
+        public Nullable<System.DateTime> NgayDGGNLan1 { get; set; }
         public Nullable<int> TinhTrang_DuyetKNL { get; set; }
-        public Nullable<System.DateTime> NgayDuyetKNL { get; set; }
+        public Nullable<int> TinhTrangKNL { get; set; }
         public Nullable<int> TongNLDuyet { get; set; }
-        public Nullable<int> ID_NguoiTrinhKy { get; set; }
     }
 }

@@ -22,9 +22,9 @@
     @Html.Raw(TempData["msgError"])
 }
 @{
-    var checkDGNV = new E_Learning.Controllers.KNL.FCheckController().CheckDGiaNV();
+    //var checkDGNV = new E_Learning.Controllers.KNL.FCheckController().CheckDGiaNV();
     ELEARNINGEntities db = new ELEARNINGEntities();
-    var listPheDuyet = db.KNL_PheDuyetKNL.Where(x => x.TinhTrang == 0).ToList();
+    //var listPheDuyet = db.KNL_PheDuyetKNL.Where(x => x.TinhTrang == 0).ToList();
 }
 
 <style type="text/css">
@@ -54,24 +54,6 @@
         </div>
 
         <div class="card mb-4">
-            <!--<div class="card-header">
-
-        <div class="col-md-9">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row">-->
-            @*@Html.DropDownList("IDPB", null, "--Bộ Phận--", new { id = "IDPB", @class = "form-control marginTB5", @style = "width:100%", })*@
-            <!--</div>
-
-        </div>
-
-        <div class="col-md-2">-->
-            @*<div class="input-group-btn"><button class="btn btn-primary marginTB5" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button></div>*@
-            <!--</div>
-                </div>
-            </div>
-
-        </div>-->
             <div class="card-header " style="border:none;">
                 <div class="font-italic text-danger"><p>Lưu ý: Cá nhân tự thực hiện đánh giá Khung năng lực cá nhân theo định kỳ </p></div>
             </div>
@@ -104,7 +86,7 @@
                             }*@
                             @foreach (var item in ViewBag.ListUserNV)
                             {
-                                var checkduyet = listPheDuyet.Where(x => x.IDVT == item.IDVT).FirstOrDefault();
+                                //var checkduyet = listPheDuyet.Where(x => x.IDVT == item.IDVT).FirstOrDefault();
                                 <tr>
                                     <td class="text-center"> 1 </td>
                                     <td class="">@item.MaNV</td>
@@ -117,7 +99,7 @@
                                     <td class="text-center">@item.NgayTuDG</td>
                                     <td class="text-center">@item.NgayDG</td>
                                     <td class="text-center">
-                                        @if (checkduyet == null)
+                                        @if (item.TinhTrang_DuyetKNL == 1)
                                         {
                                             <a class="text-danger font-weight-bold" title="Đọc bảng KNL" href="@Url.Action("ReadKNL", "FCheck", new { IDNV = item.IDNV })"
                                                onclick="return confirm('Bạn muốn đọc bảng KNL : @item.TenNV')">
@@ -128,7 +110,7 @@
                                             </a>
                                         }
                                     </td>
-                                    @if (checkduyet == null && item.TotalDat >= item.Total && item.Total != 0)
+                                    @if (item.TinhTrang_DuyetKNL == 1 && item.TotalDat >= item.Total && item.Total != 0)
                                     {
                                         <td class="text-center p-0">
                                             <a class="fa fa-check-square-o fa-2x" title="Đánh giá" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
@@ -136,7 +118,7 @@
                                             </a>
                                         </td>
                                     }
-                                    else if(checkduyet != null)
+                                    else if (item.TinhTrang_DuyetKNL != 1)
                                     {
                                         <td class="text-danger">Bảng KNL chưa duyệt</td>
                                     }
@@ -158,27 +140,9 @@
 
         </div>
 
-        @if (checkDGNV != 0)
+        @if (Model.Count != 0)
         {
             <div class="card mb-4">
-                <!--<div class="card-header">
-
-            <div class="col-md-9">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="row">-->
-                @*@Html.DropDownList("IDPB", null, "--Bộ Phận--", new { id = "IDPB", @class = "form-control marginTB5", @style = "width:100%", })*@
-                <!--</div>
-
-            </div>
-
-            <div class="col-md-2">-->
-                @*<div class="input-group-btn"><button class="btn btn-primary marginTB5" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button></div>*@
-                <!--</div>
-                    </div>
-                </div>
-
-            </div>-->
                 <div class="card-header " style="border:none;">
                     <div class="font-italic text-danger"><p>Lưu ý: Cần kiểm tra để đảm bảo <strong style="color: rgba(13, 27, 62, 0.7)"> Vị trí đánh giá</strong> trong danh sách đúng với thực tế trước khi thực hiện đánh giá </p></div>
                 </div>
@@ -221,48 +185,31 @@
                                         </td>
                                         <td class="text-center">@item.NgayDG</td>
 
-                                        @if (item.Total == 1)
+                                        @if (item.TinhTrang_DuyetKNL == 1 && item.NgayTuDG != "")
                                         {
                                             <td class="text-center p-0">
                                                 <a class="fa fa-check-square-o" title="Đánh giá lần 1" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1),capDG ="1" })"
-                                                   onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">Thẩm định
+                                                   onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
+                                                    Thẩm định
                                                 </a>
                                             </td>
                                             <td class="text-center p-0">
                                                 <a class="fa fa-check-square-o " title="Đánh giá" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
-                                                   onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">Phê duyệt
+                                                   onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
+                                                    Phê duyệt
                                                 </a>
                                             </td>
                                         }
-                                        else
+                                        else if(item.TinhTrang_DuyetKNL == 1 && item.NgayTuDG == "")
                                         {
                                             <td></td>
-                                            <td class="text-danger">Bảng KNL chưa duyệt</td>
+                                            <td class="text-danger">CBNV Chưa đánh giá</td>
                                         }
-                                        @*<td class="text-center">
-            @if (ViewBag.DELETE == 1)
-            {
-                <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "FDepartment", new { id = item.IDVT })"
-                   onclick="return confirm('Bạn muốn xóa : @item.TenPhongBan')">
-                </a>
-            }
-            @if (ViewBag.EDIT == 1)
-            {
-                <a id="btn-edit_@item.IDVT" title="Sửa" class="fa fa-edit icon_action "></a>
-                <div class=" modal fade" id="myModale_@item.IDVT" role="dialog" data-url='@Url.Action("Edit","FDepartment", new { id = item.IDVT })'></div>
-                <script type="text/javascript">
-                    $("#btn-edit_@item.IDVT").click(function () {
-                        var url = $('#myModale_@item.IDVT').data('url');
-                        $.get(url, function (data) {
-                            $("#myModale_@item.IDVT").html(data);
-                            $("#ModalTitle").html("Cập nhật Vị trí");
-                            $("#myModale_@item.IDVT").modal('show');
-                            });
-                        });
-                </script>
-            }
-
-        </td>*@
+                                        else
+                                        {
+                                        <td></td>
+                                        <td class="text-danger">Bảng KNL chưa duyệt</td>
+                                        }
                                     </tr>
                                 }
                             </tbody>
@@ -272,6 +219,12 @@
 
 
             </div>
+        }
+        @{
+            var ListUserView = ViewBag.ListUserView as IEnumerable<FCheckValidation>; // ép kiểu
+        }
+        @if (ListUserView != null && ListUserView.Any())
+        {
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="card-header" style="background-color: azure">
@@ -310,7 +263,7 @@
                                             <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
                                         </td>
                                         <td class="text-center">@item.NgayDG</td>
-                                        @if (item.Total == 1)
+                                        @if (item.TinhTrang_DuyetKNL == 1 && item.NgayTuDG != "")
                                         {
                                             <td class="text-center p-0">
                                                 <a class="fa fa-check-square-o " title="Đánh giá lần 1" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1),capDG ="1" })"
@@ -320,40 +273,21 @@
                                             </td>
                                             <td class="text-center p-0">
                                                 <a class="fa fa-check-square-o " title="Đánh giá" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
-                                                   onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">Phê duyệt
+                                                   onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
+                                                    Phê duyệt
                                                 </a>
                                             </td>
+                                        }
+                                        else if (item.TinhTrang_DuyetKNL == 1 && item.NgayTuDG == "")
+                                        {
+                                            <td></td>
+                                            <td class="text-danger">CBNV Chưa đánh giá</td>
                                         }
                                         else
                                         {
                                             <td></td>
                                             <td class="text-danger">Bảng KNL chưa duyệt</td>
                                         }
-
-                                        @*<td class="text-center">
-            @if (ViewBag.DELETE == 1)
-            {
-                <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("Delete", "FDepartment", new { id = item.IDVT })"
-                   onclick="return confirm('Bạn muốn xóa : @item.TenPhongBan')">
-                </a>
-            }
-            @if (ViewBag.EDIT == 1)
-            {
-                <a id="btn-edit_@item.IDVT" title="Sửa" class="fa fa-edit icon_action "></a>
-                <div class=" modal fade" id="myModale_@item.IDVT" role="dialog" data-url='@Url.Action("Edit","FDepartment", new { id = item.IDVT })'></div>
-                <script type="text/javascript">
-                    $("#btn-edit_@item.IDVT").click(function () {
-                        var url = $('#myModale_@item.IDVT').data('url');
-                        $.get(url, function (data) {
-                            $("#myModale_@item.IDVT").html(data);
-                            $("#ModalTitle").html("Cập nhật Vị trí");
-                            $("#myModale_@item.IDVT").modal('show');
-                            });
-                        });
-                </script>
-            }
-
-        </td>*@
                                     </tr>
                                 }
                             </tbody>
@@ -361,8 +295,8 @@
                     </div>
                 </div>
             </div>
-        }
 
+        }
 
 
     </div>
@@ -430,7 +364,7 @@
         $('#table2').DataTable({
             "pageLength": 10,
             "lengthChange": false,
-            "info": false
+            "info": false,
             columnDefs: [{
                 "targets": [4],
                 "searchable": false,

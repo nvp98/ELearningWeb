@@ -12,12 +12,10 @@ namespace E_Learning.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class LoaiKNL
+    public partial class BDT_LichSuXoa
     {
-        public int IDLoai { get; set; }
-        public string TenLoai { get; set; }
-        public Nullable<int> IDVT { get; set; }
-        public Nullable<int> OrderBy { get; set; }
-        public Nullable<int> TinhTrang { get; set; }
+        public int ID { get; set; }
+        public int ID_NhanVien { get; set; }
+        public System.DateTime ThoiGianXoa { get; set; }
     }
 }

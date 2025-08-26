@@ -143,7 +143,7 @@
                                                                 @Html.HiddenFor(m => m[i].DinhMuc)
                                                                 if (Model[i].IDLoaiNL == 1)
                                                                 {
-                                                                    if (Model[i].IsDanhGia == 1)
+                                                                    if (Model[i].IsDanhGia == 1 || true)
                                                                     {
                                                                         <tr class="@(@Model[i].CapNhatDG ? "bg-clor" :"") ">
                                                                             <td class="text-center"> @(b+1)</td>
@@ -238,7 +238,7 @@
                                                                 @Html.HiddenFor(m => m[i].DinhMuc)
                                                                 if (Model[i].IDLoaiNL == 2)
                                                                 {
-                                                                    if (Model[i].IsDanhGia == 1)
+                                                                    if (Model[i].IsDanhGia == 1 || true)
                                                                     {
                                                                         <tr class="@(@Model[i].CapNhatDG ? "bg-clor" :"") ">
                                                                             <td class="text-center"> @(c+1)</td>

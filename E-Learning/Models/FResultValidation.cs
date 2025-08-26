@@ -11,6 +11,8 @@ namespace E_Learning.Models
         public string MaNV { get; set; }
         public string HoTen { get; set; }
         public string DGThang { get; set; }
+        public int? DGQuy { get; set; }
+        public int? DGNam { get; set; }
         public DateTime DGThangDate { get; set; }
         public int? Total { get; set; }
         public int? TotalVuot { get; set; }

@@ -3,8 +3,6 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
 @using E_Learning.Models
 @model List<KhungNangLucValidation>
 @using PagedList.Mvc
@@ -21,25 +19,6 @@
 {
     @Html.Raw(TempData["msgError"])
 }
-@*<style type="text/css">
-        .table-responsive {
-            height: 720px;
-            overflow-y: scroll;
-            /*overflow:auto;*/
-            /*height:70vh;*/
-        }
-
-        thead tr:nth-child(1) th {
-            background: white;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        .table-responsive::-webkit-scrollbar {
-            width: 2px;
-        }
-    </style>*@
 <style>
     input[type="checkbox"] {
         zoom: 1.3;
@@ -77,7 +56,7 @@
             {
                 <div class="col-md-12">
                     <button type="button" id="btn-trinhky" class="btn btn-success m-l-auto"><i class="fa fa-plane">&nbsp;</i>&nbsp;Trình ký Bảng Khung năng lực </button>
-                    <div class=" modal fade" id="myModaleTK" role="dialog" data-url='@Url.Action("TrinhKyBangKNL","FPosition",new {IDVT = ViewBag.SLIDVT,IDPB = ViewBag.PBIDD})'></div>
+                    <div class=" modal fade" id="myModaleTK" role="dialog" data-url='@Url.Action("TrinhKyBangKNL", "FPosition", new { IDVT = ViewBag.SLIDVT, IDPB = ViewBag.PBIDD })'></div>
                     <script type="text/javascript">
                         $("#btn-trinhky").click(function () {
                             var url = $('#myModaleTK').data('url');
@@ -90,345 +69,371 @@
                     </script>
                 </div>
             }
-            @*@if (listduyet.Count != 0)
-            {
-                <a class="btn btn-primary fa fa-download" title="Dowload bảng KNL" href="@Url.Action("PheDuyetBangKNL", "FPosition" ,new {IDVT=ViewBag.SLIDVT} )">
-                    Phê duyệt Bảng KNL
-                </a>
-            }*@
         </div>
 
 
 
         <div class="card mb-4">
-            <div class="card-header d-none">
-
-            </div>
             <div class="card-body">
-                @using (Html.BeginForm("CreateKNL", "FPosition", FormMethod.Post))
-                {
-                    @Html.AntiForgeryToken()
-                    <div class="" id="formF">
-                        <div class="modal-content">
-                            <div class="modal-header d-none">
-                                <h5 id="ModalTitle"></h5>
-                                @*<a href="#" class="close" data-dismiss="modal">&times;</a>*@
-                            </div>
+                <div class="" id="formF">
+                    <div class="modal-content">
+                        <div class="modal-header d-none">
+                            <h5 id="ModalTitle"></h5>
+                        </div>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="modal-body">
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            @*@Html.HiddenFor(model => model.IDNL)*@
-                            <div class="modal-body">
-
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                <fieldset id="SubmitForm">
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label class="font-weight-bold mb-1">Bộ Phận</label>
-                                            @Html.DropDownList("IDPB", null, null, new { id = "IDPB", @class = "form-control marginTB5", @style = "width:100%", })
-                                        </div>
-                                        <div class="form-group col-md-7">
-                                            <label class="font-weight-bold mb-1">Vị Trí Khung Năng Lực</label>
-                                            @Html.DropDownList("IDVT", null, null, new { id = "IDVT", @class = "form-control marginTB5", @style = "width:100%", })
-                                        </div>
-
-                                        <div id="list_vt" style="width:100%" class="row form-group col-md-12">
-                                            <div class="table-responsive col-md-12">
-                                                <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
-                                                    <thead class="thead-light">
-                                                        <tr>
-                                                            <th class="text-center" width="100px">Thao tác</th>
-                                                            <th class="text-center">Yêu cầu năng lực</th>
-                                                            <th class="text-center" width="100px">Định mức</th>
-                                                            <th class="text-center small font-weight-bold" width="100px">Không đánh giá</th>
-                                                            <th class="text-center" width="100px">Thứ Tự</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr><th colspan="5" class="font-weight-bold font-size-lg">I. Năng lực chung</th></tr>
-                                                        @for (int i = 0; i < Model.Count; i++)
-                                                        {
-                                                            if (Model[i].IDLoaiNL == 1)
-                                                            {
-                                                                @Html.HiddenFor(m => m[i].IDNL)
-                                                                @Html.HiddenFor(m => m[i].IDLoaiNL)
-                                                                @Html.HiddenFor(m => m[i].IDPB)
-                                                                @Html.HiddenFor(m => m[i].IDVT)
-                                                                <tr>
-                                                                    <td class="text-center">
-                                                                    </td>
-                                                                    <td class="">
-                                                                        @Html.TextAreaFor(m => m[i].TenNL, new { @class = "form-control", @rows = 1, placeholder = "Yêu cầu năng lực", @readonly = "readonly" })
-                                                                        @Html.ValidationMessageFor(m => m[i].TenNL, "", new { @class = "text-danger" })
-                                                                    </td>
-                                                                    <td style="width:100px">
-                                                                        @Html.EditorFor(m => m[i].DinhMuc, new { htmlAttributes = new { @class = "form-control", placeholder = "", @type = "text", maxlength = 1 } })
-                                                                        @*@Html.TextBoxFor(m => m[i].DinhMuc, new { @class = "form-control", placeholder = "", maxlength = "1", @id = "DinhMuc" })*@
-                                                                        @Html.ValidationMessageFor(m => m[i].DinhMuc, "", new { @class = "text-danger" })
-                                                                    </td>
-                                                                    <td style="width:100px" class="text-center">
-                                                                        @Html.CheckBoxFor(m => m[i].DanhGia, false)
-                                                                    </td>
-                                                                    <td></td>
-                                                                </tr>
-                                                            }
-                                                        }
-
-                                                        @*<tr id="chung"><th colspan="4" class="font-weight-bold font-size-lg"><button id="add-chung" type="button" class="btn btn-light border border-white"><i class="fas fa-plus"></i></button></th></tr>*@
-
-                                                        <tr><th colspan="5" class="font-weight-bold font-size-lg">II. Năng lực chuyên môn</th></tr>
-                                                        @foreach (var item in ViewBag.IDLoaiNL)
-                                                        {
-                                                            int b = int.Parse(item.Value);
-                                                            var a = db.LoaiKNLs.Where(x => x.IDLoai == b).FirstOrDefault().OrderBy;
-                                                            <tr class="text-center">
-                                                                <th class="small font-weight-bold">
-                                                                    @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.D_KNL))
-                                                                    {
-                                                                        <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("DeleteLoaiKNL", "FPosition", new { id = @item.Value,IDVT =@ViewBag.SLIDVT,IDPB =@ViewBag.PBIDD })"
-                                                                           onclick="return confirm('Bạn muốn Xóa loại Vị trí: ')">
-                                                                        </a>
-                                                                    }
-
-                                                                    Chuyên môn
-                                                                </th>
-                                                                <th colspan='3' class='font-weight-bold font-size-lg flexible-wrap'>
-                                                                    @*@item.Text*@
-                                                                    <input type='text' class='form-control font-weight-bold' id=Loai_@item.Value name="Loai_@item.Value" value="@item.Text">
-                                                                    @*@Html.EditorFor(k=> k[i].TenLoaiNL, new { htmlAttributes = new { @class = "form-control", placeholder = "", maxlength = 1 } })*@
-                                                                </th>
-                                                                <td style="width:100px" class="text-center">
-                                                                    <input type="number" class='form-control font-weight-bold' id=OrderLoai_@item.Value name="OrderLoai_@item.Value" value=@a>
-                                                                </td>
-                                                            </tr>
-                                                            for (int i = 0; i < Model.Count; i++)
-                                                            {
-                                                                if (Model[i].IDLoaiNL.ToString() == @item.Value)
-                                                                {
-                                                                    @Html.HiddenFor(m => m[i].IDNL)
-                                                                    @Html.HiddenFor(m => m[i].IDLoaiNL)
-                                                                    @Html.HiddenFor(m => m[i].IDPB)
-                                                                    @Html.HiddenFor(m => m[i].IDVT)
-                                                                    <tr>
-                                                                        <td class="text-center">
-                                                                            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.D_KNL))
-                                                                            {
-                                                                                <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("DeleteKNL", "FPosition" , new { id=Model[i].IDNL,idvt =Model[i].IDVT,IDPB =Model[i].IDPB })"
-                                                                                   onclick="return confirm('Bạn muốn Cập nhật Vị trí: @Model[i].IDNL ')">
-                                                                                </a>
-                                                                            }
-                                                                        </td>
-                                                                        <td class="">
-                                                                            @Html.TextAreaFor(m => m[i].TenNL, new { @class = "form-control", @rows = 1, placeholder = "Yêu cầu năng lực", })
-                                                                            @Html.ValidationMessageFor(m => m[i].TenNL, "", new { @class = "text-danger" })
-                                                                        </td>
-                                                                        <td style="width:100px">
-                                                                            @Html.EditorFor(m => m[i].DinhMuc, new { htmlAttributes = new { @class = "form-control", placeholder = "", @type = "text", maxlength = 1 } })
-                                                                            @*@Html.TextBoxFor(m => m[i].DinhMuc, new { @class = "form-control", placeholder = "", maxlength = "1", @id = "DinhMuc" })*@
-                                                                            @Html.ValidationMessageFor(m => m[i].DinhMuc, "", new { @class = "text-danger" })
-                                                                        </td>
-                                                                        <td style="width:100px" class="text-center">
-                                                                            @Html.CheckBoxFor(m => m[i].DanhGia, false)
-                                                                        </td>
-                                                                        <td style="width:100px">
-                                                                            @Html.EditorFor(m => m[i].OrderBy, new { htmlAttributes = new { @class = "form-control", placeholder = "", @type = "number", @min = "0" } })
-                                                                            @*@Html.TextBoxFor(m => m[i].DinhMuc, new { @class = "form-control", placeholder = "", maxlength = "1", @id = "DinhMuc" })*@
-                                                                            @Html.ValidationMessageFor(m => m[i].OrderBy, "", new { @class = "text-danger" })
-                                                                        </td>
-                                                                    </tr>
-                                                                }
-                                                            }
-                                                            <tr id='add-cmonLoai_@item.Value'><th colspan='1'></th><th colspan='4' class='font-weight-bold font-size-lg'><button id='cmonLoai_@item.Value' type='button' class='btn btn-light border border-white addcmonLoai'><i class='fas fa-plus'></i></button></th></tr>
-                                                        }
-
-                                                        <tr id="cmon"><th colspan="5" class="font-weight-bold font-size-lg"><button id="add-cmon" type="button" class="btn btn-light border border-white"><i class="fas fa-plus"></i></button></th></tr>
-                                                        <tr><th colspan="5" class="font-weight-bold font-size-lg">III. Năng lực quản lý</th></tr>
-                                                        @for (int i = 0; i < Model.Count; i++)
-                                                        {
-                                                            if (Model[i].IDLoaiNL == 2)
-                                                            {
-                                                                @Html.HiddenFor(m => m[i].IDNL)
-                                                                @Html.HiddenFor(m => m[i].IDLoaiNL)
-                                                                @Html.HiddenFor(m => m[i].IDPB)
-                                                                @Html.HiddenFor(m => m[i].IDVT)
-                                                                <tr>
-                                                                    <td class="text-center">
-                                                                    </td>
-                                                                    <td class="">
-                                                                        @Html.TextAreaFor(m => m[i].TenNL, new { @class = "form-control", @rows = 1, placeholder = "Yêu cầu năng lực", @readonly = "readonly" })
-                                                                        @Html.ValidationMessageFor(m => m[i].TenNL, "", new { @class = "text-danger" })
-                                                                    </td>
-                                                                    <td style="width:100px">
-                                                                        @Html.EditorFor(m => m[i].DinhMuc, new { htmlAttributes = new { @class = "form-control", placeholder = "", @type = "text", maxlength = 1 } })
-                                                                        @*@Html.TextBoxFor(m => m[i].DinhMuc, new { @class = "form-control", placeholder = "", maxlength = "1", @id = "DinhMuc" })*@
-                                                                        @Html.ValidationMessageFor(m => m[i].DinhMuc, "", new { @class = "text-danger" })
-                                                                    </td>
-                                                                    <td style="width:100px" class="text-center">
-                                                                        @Html.CheckBoxFor(m => m[i].DanhGia, false)
-                                                                    </td>
-                                                                    <td></td>
-                                                                </tr>
-                                                            }
-                                                        }
-                                                        @*<tr id="qly"><th colspan="4" class="font-weight-bold font-size-lg"><button id="add-qly" type="button" class="btn btn-light border border-white"><i class="fas fa-plus"></i></button></th></tr>*@
-                                                        <tr id="qly"><th colspan="5" class="font-weight-bold font-size-lg"><button id="add-qly" type="button" class="btn btn-light border border-white"><i class="fas fa-plus"></i></button></th></tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
+                            <fieldset id="SubmitForm">
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="font-weight-bold mb-1">Bộ Phận</label>
+                                        @Html.DropDownList("IDPB", null, null, new { id = "IDPB", @class = "form-control marginTB5", @style = "width:100%", })
+                                    </div>
+                                    <div class="form-group col-md-7">
+                                        <label class="font-weight-bold mb-1">Vị Trí Khung Năng Lực</label>
+                                        @Html.DropDownList("IDVT", null, null, new { id = "IDVT", @class = "form-control marginTB5", @style = "width:100%", })
                                     </div>
 
-                                    <div class="btn-margin-top text-center ">
-                                        @if (MyAuthentication.IDQuyen != 9 && MyAuthentication.IDQuyen != 10)
-                                        {
-                                            <input type="submit" value="Cập nhật" class="btn btn-primary pull-right " />
-                                            <div class="btn btn-danger pull-right button_cancel mr-1">
-                                                <a class="text-light" title="Chi tiết" href="@Url.Action("Index", "FPosition" )"
-                                                   onclick="return confirm('Hủy cập nhật nội dung')">
-                                                    Hủy
-                                                </a>
-                                            </div>
-                                        }
-
-
-                                       
-
+                                    <div id="list_vt" style="width:100%" class="row form-group col-md-12">
+                                        <div class="table-responsive col-md-12">
+                                            <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th class="text-center" width="100px">Thao tác</th>
+                                                        <th class="text-center">Yêu cầu năng lực</th>
+                                                        <th class="text-center" width="100px">Định mức</th>
+                                                        <th class="text-center small font-weight-bold" width="100px">Không đánh giá</th>
+                                                        <th class="text-center" width="100px">Thứ Tự</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr id="nl-chung"><th colspan="5" class="font-weight-bold font-size-lg">I. Năng lực chung</th></tr>
+                                                    <tr id="nl-chuyenmon"><th colspan="5" class="font-weight-bold font-size-lg">II. Năng lực chuyên môn</th></tr>
+                                                    <tr id="cmon">
+                                                        <th colspan="5" class="font-weight-bold font-size-lg">
+                                                            <button id="add-new-chuyenmon" type="button" class="btn btn-light border border-white"><i class="fas fa-plus"></i></button>
+                                                        </th>
+                                                    </tr>
+                                                    <tr id="nl-quanly"><th colspan="5" class="font-weight-bold font-size-lg">III. Năng lực quản lý</th></tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
-                                </fieldset>
+                                </div>
 
-                            </div>
+                                <div class="btn-margin-top text-center ">
+                                    @if (MyAuthentication.IDQuyen != 9 && MyAuthentication.IDQuyen != 10)
+                                    {
+                                        <input type="button" value="Cập nhật" class="btn btn-primary pull-right " id="btn-save" />
+                                        <div class="btn btn-danger pull-right button_cancel mr-1">
+                                            <a class="text-light" title="Chi tiết" href="@Url.Action("Index", "FPosition")"
+                                               onclick="return confirm('Hủy cập nhật nội dung')">
+                                                Hủy
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </fieldset>
+
                         </div>
                     </div>
-
-                }
-
-
-                <script>
-                    $("#formF #IDVT").chosen({
-                        width: "100%"
-                    });
+                </div>
 
 
+                <script defer>
+
+                var idVT = '@ViewBag.SLIDVT';
+                var idPB = '@ViewBag.PBIDD';
+                    var loaiKNLs = @Html.Raw(Json.Encode((List<LoaiKNL>)ViewBag.IDLoaiNL));
+                    function reloadLoaiKNLs() {
+                        fetch(`/FPosition/GetLoaiKNLs?id=${idVT}`)
+                            .then(res => res.json())
+                            .then(data => {
+                                loaiKNLs = data; // Gán lại biến loaiKNLs phía JS
+                                //console.log('Reloaded LoaiKNL:', loaiKNLs);
+                            })
+                            .catch(err => console.error('Lỗi load:', err));
+                    }
+                    function renderInitialTbody() {
+                        const tbody = document.querySelector('#table tbody');
+                        $('#table tbody').empty();
+                        const htmlbody = `<tr id="nl-chung"><th colspan="5" class="font-weight-bold font-size-lg">I. Năng lực chung</th></tr>
+                        <tr id="nl-chuyenmon"><th colspan="5" class="font-weight-bold font-size-lg">II. Năng lực chuyên môn</th></tr>
+                        <tr id="cmon">
+                            <th colspan="5" class="font-weight-bold font-size-lg">
+                                <button id="add-new-chuyenmon" type="button" class="btn btn-light border border-white"><i class="fas fa-plus"></i></button>
+                            </th>
+                        </tr>
+                        <tr id="nl-quanly"><th colspan="5" class="font-weight-bold font-size-lg">III. Năng lực quản lý</th></tr>`;
+                        $('#table tbody').append(htmlbody);
+                    }
+                    function loadData() {
+                        reloadLoaiKNLs();
+                        $.ajax({
+                            url: '/FPosition/GetKhungNangLucAsync',
+                            type: 'GET',
+                            data: { id: idVT },
+                            success: function (data) {
+                                // Reload tbody
+                                renderInitialTbody()
+                                let htmlChung = '';
+                                let htmlChuyenMon = '';
+                                let htmlQLy = '';
+                                data.forEach((item, index) => {
+                                    if (item.IDLoaiNL == 1) {
+                                        htmlChung += `
+                                           <tr>
+                                               <td class="text-center"></td>
+                                               <td>
+                                                   <textarea readonly rows="1" class="form-control txt-tennl" data-IDVT="${item.IDVT}" data-IDLoaiNL="${item.IDLoaiNL}" data-IDPB="${item.IDPB}"  data-idnl="${item.IDNL}">${item.TenNL}</textarea>
+                                               </td>
+                                               <td style="width:100px">
+                                                   <input type="text" ${item.IsDanhGia != 1 ? 'readonly' : ''} class="form-control dinhmuc" maxlength="1" value="${item.DinhMuc ?? ''}" />
+                                               </td>
+                                               <td class="text-center" style="width:100px">
+                                                   <input type="checkbox" class="danhgia" ${item.IsDanhGia != 1 ? 'checked' : ''} />
+                                               </td>
+                                               <td></td>
+                                           </tr>`;
+                                    }
+                                    else if (item.IDLoaiNL == 2) {
+                                        htmlQLy += `
+                                           <tr>
+                                              <td class="text-center"></td>
+                                               <td>
+                                                   <textarea readonly rows="1" class="form-control txt-tennl" data-IDVT="${item.IDVT}" data-IDLoaiNL="${item.IDLoaiNL}" data-IDPB="${item.IDPB}"  data-idnl="${item.IDNL}">${item.TenNL}</textarea>
+                                               </td>
+                                              <td style="width:100px">
+                                                  <input type="text" ${item.IsDanhGia != 1 ? 'readonly' : ''} class="form-control dinhmuc" maxlength="1" value="${item.DinhMuc ?? ''}" />
+                                              </td>
+                                              <td class="text-center" style="width:100px">
+                                                  <input type="checkbox" class="danhgia" ${item.IsDanhGia != 1 ? 'checked' : ''} />
+                                              </td>
+                                              <td></td>
+                                          </tr>`;
+                                    }
+                                });
+                                loaiKNLs.forEach((loai, index) => {
+                                    htmlChuyenMon += `
+                                  <tr class="text-center" id="nhom_${loai.IDLoai}">
+                                      <th class="small font-weight-bold">
+                                          <button class="btn fa fa-trash icon_action btn-delete-loaiKNL" data-id="${loai.IDLoai}">
+                                          </button>
+                                          Chuyên môn
+                                      </th>
+                                      <th colspan="3" class="font-weight-bold font-size-lg flexible-wrap">
+                                          <input type="text" class="form-control font-weight-bold txt-tennhomnl"
+                                                 value="${loai.TenLoai}"  data-idloai="${loai.IDLoai}">
+                                      </th>
+                                      <td style="width:100px" class="text-center">
+                                          <input type="number" class="form-control font-weight-bold"
+                                                 value="${loai.OrderBy}">
+                                      </td>
+                                  </tr>`;
+                                    data.forEach((item, index) => {
+                                        if (item.IDLoaiNL == loai.IDLoai) {
+                                            htmlChuyenMon += `
+                                                <tr id="row_${item.IDNL}" class="nhom_${loai.IDLoai}">
+                                                  <td class="text-center">
+                                                      <button class="btn fa fa-trash icon_action btn-delete-knl" data-id="${item.IDNL}">
+                                                      </button>
+                                                  </td>
+                                                   <td>
+                                                       <textarea rows="1" class="form-control txt-tennl" data-IDVT="${item.IDVT}" data-IDLoaiNL="${item.IDLoaiNL}" data-IDPB="${item.IDPB}"  data-idnl="${item.IDNL}">${item.TenNL}</textarea>
+                                                   </td>
+                                                  <td style="width:100px">
+                                                      <input type="text" ${item.IsDanhGia != 1 ? 'readonly' : ''} class="form-control dinhmuc" maxlength="1" value="${item.DinhMuc ?? ''}" />
+                                                  </td>
+                                                  <td class="text-center" style="width:100px">
+                                                      <input type="checkbox" class="danhgia" ${item.IsDanhGia != 1 ? 'checked' : ''} />
+                                                  </td>
+                                                  <td><input type="number" class="form-control font-weight-bold sapxep" value="${item.OrderBy}">
+                                                  </td>
+                                              </tr>`;
+                                        }
+                                    });
+                                    // Thêm +
+                                    htmlChuyenMon += `
+                                      <tr id="add-row-${loai.IDLoai}">
+                                          <td colspan='1'></td>
+                                              <td colspan='3' class='font-weight-bold font-size-lg'>
+                                              <button type='button' class='btn btn-light border border-white btn-add-cmon' data-idloai="${loai.IDLoai}"><i class='fas fa-plus'></i></button>
+                                          </td>
+                                      </tr>
+                                      `;
+                                })
+                                // Chèn HTML sau thẻ có id="nl-chung"
+                                $('#nl-chung').after(htmlChung);
+                                $('#nl-chuyenmon').after(htmlChuyenMon);
+                                $('#nl-quanly').after(htmlQLy);
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("Lỗi khi gọi API:", error);
+                                alert("Không tải được dữ liệu năng lực.");
+                            }
+                        });
+                    }
                 $(document).ready(function () {
-                    var i = 2;
-                    $("#add-chung").click(function () {
-                        var renderList = $(`<tr>
-                                                            <td class='text-center delItem' > <i class="fa fa-trash icon_action btn" aria-hidden="true"></i> </td>
-                                                            <td class=''>
-                                                                <textarea class='form-control' cols='20' id='nlchung_${i}' name='nlchung_${i}' placeholder='Yêu cầu năng lực' rows='1'></textarea>
-                                                                <span class='field-validation-valid text-danger' data-valmsg-for='TenViTri' data-valmsg-replace='true'></span>
-                                                            </td>
-                                                            <td style='width:100px'>
-
-                                                                <input class='form-control' data-val='true' data-val-number='The field DinhMuc must be a number.' id='dmchung_${i}' maxlength='1' name='dmchung_${i}' placeholder='' type='text' value=''>
-                                                                <span class='field-validation-valid text-danger' data-valmsg-for='DinhMuc' data-valmsg-replace='true'></span>
-                                                            </td>
-                                                            <td style='width:100px' class='text-center'>
-                                                                <input data-val='true' data-val-required='The field IsDanhGia must be a number.' id='IsDanhGiachung_${i}' name='IsDanhGiachung_${i}' type='checkbox' value='true' ><input name="IsDanhGiachung_${i}" type="hidden" value="false">
-                                                            </td>
-                                                        </tr>`);
-                        $("#chung").before(renderList);
-                        i++;
-                    });
+                    loadData();
                 });
+                //get data KNL
+                    function collectKNLData() {
+                        let data = [];
 
-                    $(document).ready(function () {
-                            var i = 2;
-                            $('#table').on('click', ".addcmonLoai", function () {
-                                var id = $(this).attr('id');
-                                console.log(id);
-                                var renderList = $(`<tr>
-                                                            <td class='text-center delItem' ><i class="fa fa-trash icon_action btn" aria-hidden="true"></i></td>
-                                                            <td class=''>
-                                                                <textarea class='form-control' cols='20' id='nlLoai_${i}_${id}' name='nlLoai_${i}_${id}' placeholder='Yêu cầu năng lực' rows='1'></textarea>
-                                                                <span class='field-validation-valid text-danger' data-valmsg-for='TenViTri' data-valmsg-replace='true'></span>
-                                                            </td>
-                                                            <td style='width:100px'>
+                        $('tr').each(function () {
+                            const tenLoaiNL = $(this).find('.txt-tennhomnl').val();
+                            const tenNL = $(this).find('.txt-tennl').val();
+                            const idNL = $(this).find('.txt-tennl').data('idnl');
+                            const idPhongBan = $(this).find('.txt-tennl').data('idpb');
+                            const idLoaiNL = $(this).find('.txt-tennl').data('idloainl') || $(this).find('.txt-tennhomnl').data('idloai');
+                            const dinhMuc = $(this).find('.dinhmuc').val();
+                            const danhGia = $(this).find('.danhgia').is(':checked');
+                            const Orderby = $(this).find('.sapxep').val();
+                            //if (idNL) {
 
-                                                                <input class='form-control' data-val='true' data-val-number='The field DinhMuc must be a number.' id='dmLoai_${i}_${id}' maxlength='1' name='dmLoai_${i}_${id}' placeholder='' type='text' value=''>
-                                                                <span class='field-validation-valid text-danger' data-valmsg-for='DinhMuc' data-valmsg-replace='true'></span>
-                                                            </td>
-                                                            <td style='width:100px' class='text-center'>
-                                                                <input data-val='true' data-val-required='The field IsDanhGia must be a number.' id='IsDanhGiaLoai_${i}_${id}' name='IsDanhGiaLoai_${i}_${id}' type='checkbox' value='true' ><input name="IsDanhGiaLoai_${i}_${id}" type="hidden" value="false">
-                                                            </td>
-                                                        </tr>`);
-                                $('#add-' + id).before(renderList);
-                                i++;
+                            //}
+                            data.push({
+                                IDNL: idNL || 0,
+                                TenNL: tenNL,
+                                DinhMuc: parseInt(dinhMuc),
+                                DanhGia: danhGia,
+                                IDPhongBan: idPhongBan,
+                                IDLoaiNL: idLoaiNL,
+                                TenLoaiNL: tenLoaiNL,
+                                OrderBy: Orderby,
+                                IsDuyet: null,
+                                IDVT: idVT,
+                                IDPB: idPB,
                             });
                         });
 
-                    $(document).ready(function () {
-                        var i = 1;
-                        $("#add-cmon").click(function () {
-                            var renderList = $(`<tr><th class="small font-weight-bold">Chuyên môn </th><th colspan='3' class='font-weight-bold font-size-lg flexible-wrap'>
-                                                                 <input type='text' list='tenloai' class='form-control font-weight-bold' id='loai_cmon_${i}' name='loai_cmon_${i}' placeholder=''>
-                                                                <datalist id='tenloai'>
-                                                                    @foreach (var item in ViewBag.IDLoaiNL)
-                                                                    {
-                                                                      <option value='@item.Text'></option>
-                                                                    }
-                                                                </datalist>
-                                                            </th>
-                                                        </tr>
-                                                        <tr id='add-cmon_${i}' ><th colspan='1'></th><th colspan='3' class='font-weight-bold font-size-lg'><button id='cmon_${i}' type='button' class='btn btn-light border border-white addcmon'><i class='fas fa-plus'></i></button></th></tr>`);
-                            $("#cmon").before(renderList);
-                            i++;
-                        });
-
-                    });
-                    $(document).ready(function () {
-                        var i = 1;
-                        $('#table').on('click', ".addcmon", function () {
-                            var id = $(this).attr('id');
-                            console.log("add-" + id);
-                            var renderList = $(`<tr>
-                                                            <td class='text-center delItem'> <i class="fa fa-trash icon_action btn" aria-hidden="true"></i></td>
-                                                            <td class=''>
-                                                                <textarea class='form-control' cols='20' id='nlcmon_${i}_${id}' name='nlcmon_${i}_${id}' placeholder='Yêu cầu năng lực' rows='1'></textarea>
-                                                                <span class='field-validation-valid text-danger' data-valmsg-for='TenViTri' data-valmsg-replace='true'></span>
-                                                            </td>
-                                                            <td style='width:100px'>
-
-                                                                <input class='form-control' data-val='true' data-val-number='The field DinhMuc must be a number.' id='dmcmon_${i}_${id}' maxlength='1' name='dmcmon_${i}_${id}' placeholder='' type='text' value=''>
-                                                                <span class='field-validation-valid text-danger' data-valmsg-for='DinhMuc' data-valmsg-replace='true'></span>
-                                                            </td>
-                                                            <td style='width:100px' class='text-center'>
-                                                                <input data-val='true' data-val-required='The field IsDanhGia must be a number.' id='IsDanhGiacmon_${i}_${id}' name='IsDanhGiacmon_${i}_${id}' type='checkbox' value='true'><input name='IsDanhGiacmon_${i}_${id}' type='hidden' value='false'>
-                                                            </td>
-                                                        </tr>`);
-                            $('#add-'+id).before(renderList);
-                            i++;
-                        });
-
-                    });
-
-
-                    $(document).ready(function () {
-                        var i = 1;
-                        $("#add-qly").click(function () {
-                            var renderList = $(`<tr>
-                                                            <td class='text-center delItem'> <i class="fa fa-trash icon_action btn" aria-hidden="true"></i></td>
-                                                            <td class=''>
-                                                                <textarea class='form-control' cols='20' id='nlqly_${i}' name='nlqly_${i}' placeholder='Yêu cầu năng lực' rows='1'></textarea>
-                                                                <span class='field-validation-valid text-danger' data-valmsg-for='TenViTri' data-valmsg-replace='true'></span>
-                                                            </td>
-                                                            <td style='width:100px'>
-
-                                                                <input class='form-control' data-val='true' data-val-number='The field DinhMuc must be a number.' id='dmqly_${i}' maxlength='1' name='dmqly_${i}' placeholder='' type='text' value=''>
-                                                                <span class='field-validation-valid text-danger' data-valmsg-for='DinhMuc' data-valmsg-replace='true'></span>
-                                                            </td>
-                                                            <td style='width:100px' class='text-center'>
-                                                                <input data-val='true' data-val-required='The field IsDanhGia must be a number.' id='IsDanhGiaqly_${i}' name='IsDanhGiaqly_${i}' type='checkbox' value='true'><input name='IsDanhGiaqly_${i}' type='hidden' value='false'>
-                                                            </td>
-                                                        </tr>`);
-                            $("#qly").before(renderList);
-                            i++;
+                        return data;
+                    }
+                    // cập nhật dữ liệu
+                    $('#btn-save').on('click', function () {
+                        const dataToSend = collectKNLData();
+                        //console.log(dataToSend);
+                        $.ajax({
+                            url: '/FPosition/UpdateKNL',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify(dataToSend),
+                            success: function (res) {
+                                alert('Cập nhật thành công!');
+                                loadData();
+                            },
+                            error: function (err) {
+                                alert('Lỗi khi cập nhật!');
+                                loadData();
+                                console.error(err);
+                            }
                         });
                     });
-                $(document).ready(function () {
-                    $("#table").on("click", ".delItem", function () {
-                        $(this).closest("tr").remove();
-                    });
-                });
+                    // Gán sự kiện xóa
+                    $(document).on('click', '.btn-delete-knl', function () {
+                        const id = $(this).data('id');
+                        const row = $('#row_' + id);
 
+                        if (confirm('Bạn có chắc chắn muốn xóa năng lực này?')) {
+                            $.ajax({
+                                url: '/FPosition/DeleteKNL', // Controller xử lý
+                                type: 'POST',
+                                data: { id: id },
+                                success: function (res) {
+                                    if (res.success) {
+                                        alert('Xóa dữ liệu thành công.');
+                                        row.remove(); // Xóa khỏi UI
+                                    } else {
+                                        alert('Không thể xóa.');
+                                    }
+                                },
+                                error: function () {
+                                    alert('Đã xảy ra lỗi khi xóa.');
+                                }
+                            });
+                        }
+                    });
+
+                    // Gán sự kiện xóa loại NL
+                    $(document).on('click', '.btn-delete-loaiKNL', function () {
+                        const id = $(this).data('id');
+                        const row = $('#nhom_' + id);
+                        const classNL  = $('.nhom_' + id);
+
+                        if (confirm('Bạn có chắc chắn muốn xóa năng lực này?')) {
+                            $.ajax({
+                                url: '/FPosition/DeleteLoaiKNL', // Controller xử lý
+                                type: 'POST',
+                                data: { id: id },
+                                success: function (res) {
+                                    if (res.success) {
+                                        alert('Xóa dữ liệu thành công.');
+                                        row.remove(); // Xóa khỏi UI
+                                        classNL.remove();
+                                    } else {
+                                        alert('Không thể xóa.');
+                                    }
+                                },
+                                error: function () {
+                                    alert('Đã xảy ra lỗi khi xóa.');
+                                }
+                            });
+                        }
+                    });
+                    //Thêm năng lực
+                    $(document).ready(function () {
+                        $(document).on('click', '.btn-add-cmon', function () {
+                            const idLoai = $(this).data('idloai');
+                            const $currentAddRow = $(this).closest('tr'); // dòng hiện tại có dấu cộng
+                            const newRowHtml = `
+                            <tr>
+                                <td class="text-center">
+                                    <button class="btn fa fa-trash icon_action btn-delete-newknl"></button>
+                                </td>
+                                <td>
+                                    <textarea rows="1" class="form-control txt-tennl"
+                                              data-IDLoaiNL="${idLoai}" data-idnl=""></textarea>
+                                </td>
+                                <td style="width:100px">
+                                    <input type="number" class="form-control dinhmuc" maxlength="1" value="" />
+                                </td>
+                                <td class="text-center" style="width:100px">
+                                    <input type="checkbox" class="danhgia" />
+                                </td>
+                                <td><input type="number" class="form-control font-weight-bold sapxep" value=""></td>
+                            </tr>`;
+                            $currentAddRow.before(newRowHtml);
+                            //$(`#add-row-${idLoai}`).before(newRowHtml);
+                        });
+                    });
+
+                    // Cho phép xóa dòng mới bằng nút
+                    $(document).on('click', '.btn-delete-newknl', function () {
+                        $(this).closest('tr').remove();
+                    });
+                    // thêm chuyên môn mới
+                    let tempLoaiId = -1;
+                    $(document).on('click', '#add-new-chuyenmon', function () {
+                        var renderList = $(`<tr class="text-center" id="nhom_${tempLoaiId}">
+                                         <th class="small font-weight-bold">
+                                             <button class="btn fa fa-trash icon_action btn-delete-newloaiKNL" data-id="${tempLoaiId}">
+                                             </button>
+                                             Chuyên môn
+                                         </th>
+                                         <th colspan="3" class="font-weight-bold font-size-lg flexible-wrap">
+                                             <input type="text" class="form-control font-weight-bold txt-tennhomnl" data-idloai="${tempLoaiId}">
+                                         </th>
+                                         <td style="width:100px" class="text-center">
+                                             <input type="number" class="form-control font-weight-bold sapxep">
+                                         </td>
+                                     </tr>
+                                      <tr>
+                                      <th colspan='1'></th>
+                                      <th colspan='3' class='font-weight-bold font-size-lg'><button type='button' class='btn btn-light border border-white btn-add-cmon' data-idloai="${tempLoaiId}"><i class='fas fa-plus'></i></button>
+                                      </th></tr>`);
+                        $("#cmon").before(renderList);
+                        tempLoaiId--;
+                    });
                 </script>
             </div>
         </div>
@@ -481,23 +486,23 @@
 
 <style>
     .chosen-container-single .chosen-single {
-        color: #495057;
-        background: #fff;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid #ced4da;
-        border-radius: .25rem;
-        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 1.8;
-        text-transform: capitalize;
-    }
+         color: #495057;
+         background: #fff;
+         background-color: #fff;
+         background-clip: padding-box;
+         border: 1px solid #ced4da;
+         border-radius: .25rem;
+         transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+         font-size: 1rem;
+         font-weight: 400;
+         line-height: 1.8;
+         text-transform: capitalize;
+     }
 
-        .chosen-container-single .chosen-single span {
-            text-transform: capitalize !important;
-            font-size: 16px !important;
-        }
+     .chosen-container-single .chosen-single span {
+         text-transform: capitalize !important;
+         font-size: 16px !important;
+     }
 </style>
 
 

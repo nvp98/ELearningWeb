@@ -82,7 +82,7 @@
                         <thead class="thead-light">
                             <tr>
                                 @*<th class="text-center" width="30px">STT</th>*@
-                                <th rowspan="2" class="text-center">Tháng Đánh giá</th>
+                                <th rowspan="2" class="text-center">Quý Đánh giá</th>
                                 <th rowspan="2" class="text-center"> Tổng NL</th>
                                 <th colspan="5" class="text-center">CBNV Tự đánh giá</th>
                                 <th colspan="5" class="text-center">Thẩm định đánh giá</th>
@@ -121,7 +121,7 @@
                             {
                                 <tr>
                                     @*<td class="text-center"> @RowNo@{RowNo++;}</td>*@
-                                    <td class="font-weight-bold text-center">@item.DGThang</td>
+                                    <td class="font-weight-bold text-center">@item.DGQuy / @item.DGNam</td>
                                     <td class="text-center font-weight-bold">@item.Total</td>
                                     <td class="text-center font-weight-bold">@item.TotalKDatTu / @item.Total</td>
                                     <td class="text-center font-weight-bold">@item.TotalDatTu / @item.Total</td>
@@ -154,36 +154,14 @@
                                     <td class="text-center">
                                         @if (item.Total > 0)
                                         {
-                                            <a class="fa fa-th-list fa-2x" title="Xem kết quả" href="@Url.Action("FView", "FResult", new { IDNV = item.IDNV, dt =item.DGThangDate,IDVT =item.IDVT })">
+                                            <a class="fa fa-th-list fa-2x" target="_blank" title="Xem kết quả" href="@Url.Action("FView", "FResult", new { IDNV = item.IDNV, Quy =item.DGQuy,Nam=item.DGNam,IDVT =item.IDVT })">
                                             </a>
                                         }
-
-
-                                        @*@if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
-            {
-                <a id="btn-edit_@item.IDPhongBan" title="Sửa" class="fa fa-edit icon_action "></a>
-                <div class=" modal fade" id="myModale_@item.IDPhongBan" role="dialog" data-url='@Url.Action("Edit","FDepartment", new { id = item.IDPhongBan })'></div>
-                <script type="text/javascript">
-                $("#btn-edit_@item.IDPhongBan").click(function () {
-                    var url = $('#myModale_@item.IDPhongBan').data('url');
-                            $.get(url, function (data) {
-                                $("#myModale_@item.IDPhongBan").html(data);
-                                $("#ModalTitle").html("Cập nhật Vị trí");
-                                $("#myModale_@item.IDPhongBan").modal('show');
-                            });
-                        });
-                </script>
-            }*@
-
                                     </td>
                                 </tr>
                             }
                         </tbody>
                     </table>
-                    @*<div class="pager">
-                    @Html.PagedListPager(Model, page => Url.Action("Index", "FDepartment", new { page, IDPB = Request.QueryString["IDPB"] }))
-                    <span class="pageoff">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
-                </div>*@
                 </div>
             </div>
         </div>
@@ -247,7 +225,7 @@
         
         const NV = urlParams.get('IDNV');
 
-        window.location.href = '@Url.Action("Index", "FResult")?IDNV=' + NV + "&begind=" + beginDate + "&endd=" + endDate;
+        window.location.href = '@Url.Action("Index", "FResult")?IDNV=' + NV + "&Nam=" + y;
     });
 </script>
 

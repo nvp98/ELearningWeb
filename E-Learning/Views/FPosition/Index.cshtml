@@ -272,6 +272,7 @@
                                 {
                                     <th class="text-center" style="width:70px;font-size:11px">Khung Năng lực</th>
                                     <th class="text-center" style="width: 70px; font-size: 10px"> Bản mô tả công việc</th>
+                                    <th class="text-center" style="width:70px;font-size:11px">Tình trạng KNL</th>
                                 }
 
                                 @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.U_KNL))
@@ -335,18 +336,25 @@
                                         }
                                         else
                                         {
-                                        <td class="text-left">
-                                            <a class="fa fa-history" title="Danh sách KNL đã duyệt" href="@Url.Action("HistoryBangKNL", "FPosition", new { IDVT = item.IDVT })">
-                                            </a>
-                                            <a class="fa fa-download" title="Dowload bảng KNL" href="@Url.Action("ExportToBMKNL", "FPosition", new { IDVT = item.IDVT })">
-                                            </a>
-                                            <a class="fa fa-file-text-o" title="Bảng khung năng lực" href="@Url.Action("FBMView", "FPosition", new { IDVT = item.IDVT })">
-                                            </a>
-                                            <a class="fa fa-list-alt ml-1" title="Cập nhật KNL" href="@Url.Action("CreateKNL", "FPosition", new { id = item.IDVT, IDPB = item.IDPB })"
-                                               onclick="return confirm('Cập nhật nội dung: @item.TenViTri \n  Lưu ý khi cập nhật nội dung KNL: \n - Tick chọn không đánh giá đối với dòng năng lực không xóa được. \n - Sửa nội dung sẽ thay đổi cả lịch sử đánh giá, nên chỉ sửa khi có thay đổi nhỏ, và thay đổi lớn về bản chất thì nên tạo năng lực mới (không sửa).')">
-                                            </a>
-                                        </td>
+                                            <td class="text-left">
+                                                @if (item.ID_NguoiTrinhKy == MyAuthentication.ID && item.TinhTrang_DuyetKNL == 0)
+                                                {
+                                                    <a href="javascript:void(0);" class="btn-huy-trinhky" data-id="@item.IDVT" title="Hủy trình ký">
+                                                        <i class="fas fa-times-circle text-danger"></i>
+                                                    </a>
+                                                }
+                                                <a class="fa fa-history" title="Danh sách KNL đã duyệt" href="@Url.Action("HistoryBangKNL", "FPosition", new { IDVT = item.IDVT })">
+                                                </a>
+                                                <a class="fa fa-download" title="Dowload bảng KNL" href="@Url.Action("ExportToBMKNL", "FPosition", new { IDVT = item.IDVT })">
+                                                </a>
+                                                <a class="fa fa-file-text-o" title="Bảng khung năng lực" href="@Url.Action("FBMView", "FPosition", new { IDVT = item.IDVT })">
+                                                </a>
+                                                <a class="fa fa-list-alt ml-1" title="Cập nhật KNL" href="@Url.Action("CreateKNL", "FPosition", new { id = item.IDVT, IDPB = item.IDPB })"
+                                                   onclick="return confirm('Cập nhật nội dung: @item.TenViTri \n  Lưu ý khi cập nhật nội dung KNL: \n - Tick chọn không đánh giá đối với dòng năng lực không xóa được. \n - Sửa nội dung sẽ thay đổi cả lịch sử đánh giá, nên chỉ sửa khi có thay đổi nhỏ, và thay đổi lớn về bản chất thì nên tạo năng lực mới (không sửa).')">
+                                                </a>
+                                            </td>
                                         }
+
                                         if (@item.FilePath != null)
                                         {
                                             <td class="text-right">
@@ -384,6 +392,25 @@
                                                 </script>
                                             </td>
                                         }
+                                    }
+
+                                    @if (item.TinhTrang_DuyetKNL == 1)
+                                    {
+                                        <td>
+                                            <button class="btn btn-success">@item.TongNLDuyet NL - Đã duyệt</button>
+                                        </td>
+                                    }
+                                    else if(item.TinhTrang_DuyetKNL == 0)
+                                    {
+                                        <td>
+                                            <button class="btn btn-warning">Chờ duyệt</button>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                    <td>
+                                        <button class="btn btn-primary">Chưa trình ký</button>
+                                    </td>
                                     }
 
                                     @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.U_KNL))
@@ -599,6 +626,40 @@
 
 
     </div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".btn-huy-trinhky").forEach(btn => {
+            btn.addEventListener("click", async function () {
+                const id = this.getAttribute("data-id");
+
+                if (!confirm("Bạn có chắc muốn hủy trình ký năng lực vị trí này?")) return;
+
+                try {
+                    const res = await fetch(`/FPosition/HuyTrinhKyKNL?id=${id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                        }
+                    });
+
+                    const result = await res.json();
+
+                    if (result.success) {
+                        alert(result.message || "Đã hủy trình ký thành công");
+                        location.reload(); // hoặc tự cập nhật DOM nếu không muốn reload
+                    } else {
+                        alert(result.message || "Không thể hủy trình ký");
+                    }
+                } catch (err) {
+                    alert("Lỗi kết nối: " + err.message);
+                }
+            });
+        });
+    });
+</script>
 
 @*<script src="~/Content/Chonse/chosen.jquery.js"></script>*@
 <script type="text/javascript">

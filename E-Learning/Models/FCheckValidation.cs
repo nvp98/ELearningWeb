@@ -35,6 +35,21 @@ namespace E_Learning.Models
         public int? TotalQTHD { get; set; }
         public int? TotalHTQTHD { get; set; }
         public string NgayTuDG { get; set; }
+        public int? TinhTrang_DuyetKNL { get; set; }
+        public int? DGQuy { get; set; }
+        public int? DGNam { get; set; }
+        public int? TotalKDGiaTu { get; set; }
+        public int? TotalChuaDGiaTu { get; set; }
+
+        public int? TotalVuotTuLan1 { get; set; }
+        public int? TotalDatTuLan1 { get; set; }
+        public int? TotalKDatTuLan1 { get; set; }
+        public int? TotalKDGiaTuLan1 { get; set; }
+        public int? TotalChuaDGiaTuLan1 { get; set; }
+        public int? TotalVuotTu { get; set; }
+        public int? TotalDatTu { get; set; }
+        public int? TotalKDatTu { get; set; }
+        public int? TotalChuaDGia { get; set; }
 
     }
 
