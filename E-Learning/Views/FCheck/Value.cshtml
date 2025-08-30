@@ -364,88 +364,102 @@
                                                                         @Html.HiddenFor(m => m[i].capDG)*@
                                                                         if (Model[i].IDLoaiNL != 1 && Model[i].IDLoaiNL != 2)
                                                                         {
-                                                                            <tr class="row-kq" data-idnv="@Model[i].IDNV" data-idkq="@Model[i].IDKQ" data-idnl="@Model[i].IDNL"
-                                                                                data-idnvdg="@Model[i].IDNVDG" data-idvt="@Model[i].IDVT" data-idloainl="@Model[i].IDLoaiNL"
-                                                                                data-isdanhgia="@Model[i].IsDanhGia" data-dinhmuc="@Model[i].DinhMuc"
-                                                                                data-diemcbnvdg="@Model[i].DiemCBNVDG" data-diemdglan1="@Model[i].DiemDGLan1" data-capdg="@Model[i].capDG">
-                                                                                <td class="text-center "> @(a+1)</td>
-                                                                                <td class="">@Model[i].TenNL</td>
-                                                                                <td class="text-center">@Model[i].DinhMuc</td>
-                                                                                <td class="text-center @(Model[i].DiemCBNVDG > Model[i].DinhMuc ?"bg-success":Model[i].DiemCBNVDG <= Model[i].DinhMuc ?"bg-warning":"")">
-                                                                                    @Model[i].DiemCBNVDG
-                                                                                </td>
-                                                                                @if (@Model[i].NgayCBNVDG != null)
-                                                                                {
-                                                                                    <td>
-                                                                                        @(((DateTime)Model[i].NgayCBNVDG).ToString("dd/MM/yyyy"))
-                                                                                    </td>
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    <td></td>
-                                                                                }
+                                                        <tr class="row-kq" data-idnv="@Model[i].IDNV" data-idkq="@Model[i].IDKQ" data-idnl="@Model[i].IDNL"
+                                                            data-idnvdg="@Model[i].IDNVDG" data-idvt="@Model[i].IDVT" data-idloainl="@Model[i].IDLoaiNL"
+                                                            data-isdanhgia="@Model[i].IsDanhGia" data-dinhmuc="@Model[i].DinhMuc"
+                                                            data-diemcbnvdg="@Model[i].DiemCBNVDG" data-diemdglan1="@Model[i].DiemDGLan1" data-capdg="@Model[i].capDG">
+                                                            <td class="text-center "> @(a+1)</td>
+                                                            <td class="">@Model[i].TenNL</td>
+                                                            <td class="text-center">@Model[i].DinhMuc</td>
+                                                            <td class="text-center @(Model[i].DiemCBNVDG > Model[i].DinhMuc ?"bg-success":Model[i].DiemCBNVDG <= Model[i].DinhMuc ?"bg-warning":"")">
+                                                                @Model[i].DiemCBNVDG
+                                                            </td>
+                                                            @if (@Model[i].NgayCBNVDG != null)
+                                                            {
+                                                                <td>
+                                                                    @(((DateTime)Model[i].NgayCBNVDG).ToString("dd/MM/yyyy"))
+                                                                </td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td></td>
+                                                            }
 
-                                                                                <td class="text-center @(Model[i].DiemDGLan1 > Model[i].DinhMuc ?"bg-success":Model[i].DiemDGLan1 <= Model[i].DinhMuc ?"bg-warning":"")">
-                                                                                    @Model[i].DiemDGLan1
-                                                                                </td>
-                                                                                @if (@Model[i].NgayDGLan1 != null)
-                                                                                {
-                                                                                    <td>
-                                                                                        @(((DateTime)Model[i].NgayDGLan1).ToString("dd/MM/yyyy"))
-                                                                                    </td>
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    <td></td>
-                                                                                }
+                                                            <td class="text-center @(Model[i].DiemDGLan1 > Model[i].DinhMuc ?"bg-success":Model[i].DiemDGLan1 <= Model[i].DinhMuc ?"bg-warning":"")">
+                                                                @Model[i].DiemDGLan1
+                                                            </td>
+                                                            @if (@Model[i].NgayDGLan1 != null)
+                                                            {
+                                                                <td>
+                                                                    @(((DateTime)Model[i].NgayDGLan1).ToString("dd/MM/yyyy"))
+                                                                </td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td></td>
+                                                            }
 
-                                                                                <td class="text-center font-weight-bold @(Model[i].DiemDG != null?"text-success":"")">
-                                                                                    @Model[i].DiemDuyetDG
-                                                                                </td>
-                                                                                <td class="text-success">
-                                                                                    @Model[i].StrNgayDG
-                                                                                </td>
-                                                                                <td class="text-center @(@Model[i].DinhMuc == 0 ? "bg-secondary" :"bg-clor")">@Html.RadioButtonFor(m => m[i].DiemDG, 0, new { disabled = "disabled" }) </td>
-                                                                                <td class="text-center @(@Model[i].DinhMuc == 1 ? "bg-secondary" :(@Model[i].DiemDG ==1?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 1) </td>
-                                                                                <td class="text-center @(@Model[i].DinhMuc == 2 ? "bg-secondary" : (@Model[i].DiemDG ==2?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 2) </td>
-                                                                                <td class="text-center @(@Model[i].DinhMuc == 3 ? "bg-secondary" : (@Model[i].DiemDG ==3?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 3)</td>
-                                                                                <td class="text-center @(@Model[i].DinhMuc == 4 ? "bg-secondary" : (@Model[i].DiemDG ==4?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 4)</td>
-                                                                                <td class="text-center @(@Model[i].DinhMuc == 5 ? "bg-secondary" : (@Model[i].DiemDG ==5?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 5)</td>
-                                                                                <td class="text-center @(@Model[i].DinhMuc == 6 ? "bg-secondary" : (@Model[i].DiemDG ==6?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 6)</td>
-                                                                                <td class="text-center">
-                                                                                    @Html.CheckBoxFor(m => m[i].CapNhatDG)
-                                                                                </td>
-                                                                                <td class="text-center" width="60px">@Model[i].StrNgayDG</td>
-                                                                                <td class="text-center">@Model[i].TenNVDG</td>
-                                                                                @if (@Model[i].NgayCanhBao < 0 && @Model[i].NgayCanhBao != -1000)
-                                                                                {
-                                                                                    <td class="bg-danger text-white">
-                                                                                        @Model[i].NgayHanDG.ToString("dd/MM/yyyy")
-                                                                                    </td>
-                                                                                    <td class="bg-danger text-white">
-                                                                                        Quá hạn đánh giá
-                                                                                    </td>
-                                                                                }
-                                                                                else if (@Model[i].NgayCanhBao > 0)
-                                                                                {
-                                                                                    <td class="bg-danger text-white">
-                                                                                        @Model[i].NgayHanDG.ToString("dd/MM/yyyy")
-                                                                                    </td>
-                                                                                    <td class="text-danger">
-                                                                                        Cần đánh giá lại trong  @Model[i].NgayCanhBao Ngày tới
-                                                                                    </td>
-                                                                                }
-                                                                                else if (@Model[i].NgayCanhBao == -1000)
-                                                                                {
-                                                                                    <td class="text-danger">
-                                                                                    </td>
-                                                                                    <td class="text-danger">
-                                                                                    </td>
-                                                                                }
-                                                                                <td class="">
-                                                                                    @Html.TextBoxFor(m => m[i].Note, new { @class = "border border-white w-100" })
-                                                                                </td>
-                                                                            </tr>
+                                                            <td class="text-center font-weight-bold @(Model[i].DiemDG != null?"text-success":"")">
+                                                                @Model[i].DiemDuyetDG
+                                                            </td>
+                                                            <td class="text-success">
+                                                                @Model[i].StrNgayDG
+                                                            </td>
+                                                            @if (Model[i].IsDanhGia == 1)
+                                                            {
+                                                                <td class="text-center @(@Model[i].DinhMuc == 0 ? "bg-secondary" :"bg-clor")">@Html.RadioButtonFor(m => m[i].DiemDG, 0, new { disabled = "disabled" }) </td>
+                                                                <td class="text-center @(@Model[i].DinhMuc == 1 ? "bg-secondary" :(@Model[i].DiemDG ==1?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 1) </td>
+                                                                <td class="text-center @(@Model[i].DinhMuc == 2 ? "bg-secondary" : (@Model[i].DiemDG ==2?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 2) </td>
+                                                                <td class="text-center @(@Model[i].DinhMuc == 3 ? "bg-secondary" : (@Model[i].DiemDG ==3?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 3)</td>
+                                                                <td class="text-center @(@Model[i].DinhMuc == 4 ? "bg-secondary" : (@Model[i].DiemDG ==4?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 4)</td>
+                                                                <td class="text-center @(@Model[i].DinhMuc == 5 ? "bg-secondary" : (@Model[i].DiemDG ==5?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 5)</td>
+                                                                <td class="text-center @(@Model[i].DinhMuc == 6 ? "bg-secondary" : (@Model[i].DiemDG ==6?Model[i].ColorKQ:"bg-clor")) ">@Html.RadioButtonFor(m => m[i].DiemDG, 6)</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="text-center @(@Model[i].DinhMuc == 0 ? "bg-secondary" :"bg-clor")">@Html.RadioButtonFor(m => m[i].DiemDG, 0, new { disabled = "disabled" }) </td>
+                                                                <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 1, new { disabled = "disabled" }) </td>
+                                                                <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 2, new { disabled = "disabled" }) </td>
+                                                                <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 3, new { disabled = "disabled" })</td>
+                                                                <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 4, new { disabled = "disabled" })</td>
+                                                                <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 5, new { disabled = "disabled" })</td>
+                                                                <td class="text-center ">@Html.RadioButtonFor(m => m[i].DiemDG, 6, new { disabled = "disabled" })</td>
+                                                            }
+
+                                                            <td class="text-center">
+                                                                @Html.CheckBoxFor(m => m[i].CapNhatDG)
+                                                            </td>
+                                                            <td class="text-center" width="60px">@Model[i].StrNgayDG</td>
+                                                            <td class="text-center">@Model[i].TenNVDG</td>
+                                                            @if (@Model[i].NgayCanhBao < 0 && @Model[i].NgayCanhBao != -1000)
+                                                            {
+                                                                <td class="bg-danger text-white">
+                                                                    @Model[i].NgayHanDG.ToString("dd/MM/yyyy")
+                                                                </td>
+                                                                <td class="bg-danger text-white">
+                                                                    Quá hạn đánh giá
+                                                                </td>
+                                                            }
+                                                            else if (@Model[i].NgayCanhBao > 0)
+                                                            {
+                                                                <td class="bg-danger text-white">
+                                                                    @Model[i].NgayHanDG.ToString("dd/MM/yyyy")
+                                                                </td>
+                                                                <td class="text-danger">
+                                                                    Cần đánh giá lại trong  @Model[i].NgayCanhBao Ngày tới
+                                                                </td>
+                                                            }
+                                                            else if (@Model[i].NgayCanhBao == -1000)
+                                                            {
+                                                                <td class="text-danger">
+                                                                </td>
+                                                                <td class="text-danger">
+                                                                </td>
+                                                            }
+                                                            <td class="">
+                                                                @Html.TextBoxFor(m => m[i].Note, new { @class = "border border-white w-100" })
+                                                            </td>
+                                                        </tr>
                                                                             a++;
                                                                         }
                                                                     }
@@ -668,26 +682,24 @@
             var $row = $(this);
 
             var item = {
-                IDNV: $row.data("idnv"),
-                IDKQ: $row.data("idkq"),
-                IDNL: $row.data("idnl"),
-                IDNVDG: $row.data("idnvdg"),
-                IDVT: $row.data("idvt"),
-                IDLoaiNL: $row.data("idloainl"),
-                IsDanhGia: $row.data("isdanhgia"),
-                DinhMuc: $row.data("dinhmuc"),
-                DiemCBNVDG: $row.data("diemcbnvdg"),
-                DiemDGLan1: $row.data("diemdglan1"),
-                CapDG: $row.data("capdg"),
+                IDNV: $row.data("idnv") || 0,                // nếu thiếu thì 0
+                IDKQ: $row.data("idkq") || null,
+                IDNL: $row.data("idnl") || 0,
+                IDNVDG: $row.data("idnvdg") || null,
+                IDVT: $row.data("idvt") || 0,
+                IDLoaiNL: $row.data("idloainl") || null,
+                IsDanhGia: $row.data("isdanhgia") || 0,
+                DinhMuc: $row.data("dinhmuc") || 0,
+                DiemCBNVDG: $row.data("diemcbnvdg") || null,
+                DiemDGLan1: $row.data("diemdglan1") || null,
+                capDG: $row.data("capdg") || null,
+                //NgayHanDG: new Date().toISOString(),
+                // Radio button: nếu không chọn thì null
+                DiemDG: $row.find("input[type=radio]:checked").val() || null,
+                // Note: nếu không nhập thì chuỗi rỗng
+                Note: $row.find("input[name*='Note']").val() || "",
 
-                // Nếu có textbox/checkbox/radio input cần cập nhật (ví dụ Note hoặc DiemDG)
-                // Lấy điểm được chọn (radio button) nếu bạn có radio không disabled
-                DiemDG: $row.find("input[type=radio]:checked").val(),
-
-                // Lấy ghi chú nếu có textbox cho note
-                Note: $row.find("input[name*='Note']").val(),
-
-                // Nếu có checkbox cập nhật đánh giá
+                // Checkbox: luôn trả true/false
                 CapNhatDG: $row.find("input[type='checkbox']").is(":checked")
             };
 

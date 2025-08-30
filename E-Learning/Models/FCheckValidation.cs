@@ -63,9 +63,9 @@ namespace E_Learning.Models
         public Nullable<int> IDNVDG { get; set; }
         public string TenNVDG { get; set; }
         public Nullable<int> DiemDG { get; set; }
-        public DateTime ThangDG { get; set; }
+        public DateTime? ThangDG { get; set; }
         public DateTime NgayHanDG { get; set; }
-        public DateTime NgayDG { get; set; }
+        public DateTime? NgayDG { get; set; }
         public Nullable<int> NgayCanhBao { get; set; }
         public string StrNgayDG { get; set; }
         public string Note { get; set; }
@@ -91,6 +91,24 @@ namespace E_Learning.Models
         public DateTime? NgayDGLan1 { get; set; }
         public int? IsDuyet { get; set; }
         public string capDG { get; set; }   
+    }
+
+    public class FValueDto
+    {
+        public int? IDKQ { get; set; }
+        public int? IDNV { get; set; }
+        public int? IDNL { get; set; }
+        public int? IDNVDG { get; set; }
+        public int? IDVT { get; set; }
+        public int? IDLoaiNL { get; set; }
+        public int IsDanhGia { get; set; }   // mặc định 0 hoặc 1
+        public int? DinhMuc { get; set; }
+        public int? DiemCBNVDG { get; set; }
+        public int? DiemDGLan1 { get; set; }
+        public string CapDG { get; set; }
+        public int? DiemDG { get; set; }
+        public string Note { get; set; }
+        public bool CapNhatDG { get; set; }
     }
 
 

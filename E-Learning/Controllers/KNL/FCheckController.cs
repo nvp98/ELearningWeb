@@ -1,10 +1,12 @@
 ﻿using DocumentFormat.OpenXml.Vml;
 using E_Learning.Models;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -850,84 +852,102 @@ namespace E_Learning.Controllers.KNL
             return RedirectToAction("Value", "FCheck", new { IDNV =ListKQ[0].IDNV ,dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1), capDG = ListKQ[0].capDG });
         }
         [HttpPost]
-        public ActionResult ValueAjax(List<FValueValidation> ListKQ)
+        public ActionResult ValueAjax()
         {
             try
             {
                 string manv = MyAuthentication.Username;
                 var nv = db.NhanViens.FirstOrDefault(x => x.MaNV == manv);
-
-                int? IDNVDDG = ListKQ[0].IDNV;
-                int? IDVTDDG = ListKQ[0].IDVT;
-                int Quy = GetQuarter(DateTime.Now);
-                int Nam = DateTime.Now.Year;
-
-                var LSDG = db.KNL_LSDG_TheoQuy(Nam, Quy, IDNVDDG).FirstOrDefault(x => x.VTID == IDVTDDG);
-                var KNL_KQCu = db.KNL_KQ_TheoQuy(Nam, Quy, IDNVDDG).Where(x => x.VTID == IDVTDDG).ToList();
-
-                var LSDG_New = new KNL_LSDG()
+                Request.InputStream.Position = 0;
+                using (var reader = new StreamReader(Request.InputStream)) // xử lý dữ liệu lớn
                 {
-                    NVID = IDNVDDG,
-                    VTID = IDVTDDG,
-                    Quy = Quy,
-                    Nam = Nam
-                };
+                    var body = reader.ReadToEnd();
 
-                if (LSDG == null)
-                {
-                    db.KNL_LSDG.Add(LSDG_New);
-                    db.SaveChanges();
-                }
+                    // Deserialize JSON list
+                    var listKQ = JsonConvert.DeserializeObject<List<FValueDto>>(body);
 
-                int IDLS = LSDG == null ? LSDG_New.IDLS : LSDG.IDLS;
+                    if (listKQ == null)
+                        return Json(new { success = false, message = "Không parse được JSON" });
 
-                foreach (var item in ListKQ)
-                {
-                    var checkKQ = KNL_KQCu.FirstOrDefault(x => x.IDNL == item.IDNL);
-                    int IDKQ = CheckKQID(item.DiemDG, item.DinhMuc, item.IsDanhGia);
+                    // Lấy item đầu tiên
+                    var firstItem = listKQ.FirstOrDefault();
 
-                    if (checkKQ == null)
+                    int? IDNVDDG = firstItem.IDNV;
+                    int? IDVTDDG = firstItem.IDVT;
+                    int Quy = GetQuarter(DateTime.Now);
+                    int Nam = DateTime.Now.Year;
+
+                    var LSDG = db.KNL_LSDG_TheoQuy(Nam, Quy, IDNVDDG).FirstOrDefault(x => x.VTID == IDVTDDG);
+                    var KNL_KQCu = db.KNL_KQ_TheoQuy(Nam, Quy, IDNVDDG).Where(x => x.VTID == IDVTDDG).ToList();
+
+                    var LSDG_New = new KNL_LSDG()
                     {
-                        var KNL_KQ_New = new KNL_KQ()
-                        {
-                            IDNV = item.IDNV,
-                            IDNL = item.IDNL,
-                            Quy = Quy,
-                            Nam = Nam,
-                            IDLS = IDLS,
-                            VTID = item.IDVT,
-                            DiemDM = item.DinhMuc
-                        };
-                        db.KNL_KQ.Add(KNL_KQ_New);
+                        NVID = IDNVDDG,
+                        VTID = IDVTDDG,
+                        Quy = Quy,
+                        Nam = Nam
+                    };
+
+                    if (LSDG == null)
+                    {
+                        db.KNL_LSDG.Add(LSDG_New);
                         db.SaveChanges();
-                        item.IDKQ = KNL_KQ_New.IDKQ;
                     }
 
-                    var searchKQ = db.KNL_KQ.Find(item.IDKQ);
-                    if (item.IDNV == nv.ID)
+                    int IDLS = LSDG == null ? LSDG_New.IDLS : LSDG.IDLS;
+
+                    foreach (var item in listKQ)
                     {
-                        searchKQ.DiemTuDG = item.DiemDG;
-                        searchKQ.NgayTuDG = DateTime.Now;
+                        var checkKQ = KNL_KQCu.FirstOrDefault(x => x.IDNL == item.IDNL);
+                        int IDKQ = CheckKQID(item.DiemDG, item.DinhMuc, item.IsDanhGia);
+
+                        if (checkKQ == null)
+                        {
+                            var KNL_KQ_New = new KNL_KQ()
+                            {
+                                IDNV = item.IDNV,
+                                IDNL = item.IDNL,
+                                Quy = Quy,
+                                Nam = Nam,
+                                IDLS = IDLS,
+                                VTID = item.IDVT,
+                                DiemDM = item.DinhMuc
+                            };
+                            db.KNL_KQ.Add(KNL_KQ_New);
+                            db.SaveChanges();
+                            item.IDKQ = KNL_KQ_New.IDKQ;
+                        }
+
+                        var searchKQ = db.KNL_KQ.Find(item.IDKQ);
+                        if (item.IDNV == nv.ID)
+                        {
+                            searchKQ.DiemTuDG = item.DiemDG;
+                            searchKQ.NgayTuDG = DateTime.Now;
+                        }
+                        else if (item.CapDG == "1")
+                        {
+                            searchKQ.DiemDG_Lan1 = item.DiemDG;
+                            searchKQ.NgayDG_Lan1 = DateTime.Now;
+                            searchKQ.IDNguoiDG_Lan1 = nv.ID;
+                        }
+                        else
+                        {
+                            searchKQ.DiemDG = item.DiemDG;
+                            searchKQ.NgayDG = DateTime.Now;
+                            searchKQ.IDNVDG = nv.ID;
+                            searchKQ.Note = item.Note;
+                            searchKQ.KQID = IDKQ;
+                        }
+                        searchKQ.DiemDM = item.DinhMuc;
+                        db.SaveChanges();
                     }
-                    else if (item.capDG == "1")
-                    {
-                        searchKQ.DiemDG_Lan1 = item.DiemDG;
-                        searchKQ.NgayDG_Lan1 = DateTime.Now;
-                        searchKQ.IDNguoiDG_Lan1 = nv.ID;
-                    }
-                    else
-                    {
-                        searchKQ.DiemDG = item.DiemDG;
-                        searchKQ.NgayDG = DateTime.Now;
-                        searchKQ.IDNVDG = nv.ID;
-                        searchKQ.Note = item.Note;
-                        searchKQ.KQID = IDKQ;
-                    }
-                    searchKQ.DiemDM = item.DinhMuc;
-                    db.SaveChanges();
+
+                    return Json(new { success = true, message = "Đánh giá thành công" });
+
                 }
 
-                return Json(new { success = true, message = "Đánh giá thành công" });
+
+                
             }
             catch (Exception e)
             {
@@ -936,7 +956,11 @@ namespace E_Learning.Controllers.KNL
         }
 
 
-
+        [HttpPost]
+        public ActionResult TestAjax(List<FValueValidation> listKQ)
+        {
+            return Json(new { success = true, count = listKQ?.Count ?? 0 });
+        }
 
         public ActionResult ReadKNL(int? IDNV)
         {
