@@ -5,9 +5,11 @@ using Newtonsoft.Json;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
@@ -914,7 +916,7 @@ namespace E_Learning.Controllers.KNL
                                 DiemDM = item.DinhMuc
                             };
                             db.KNL_KQ.Add(KNL_KQ_New);
-                            db.SaveChanges();
+                            //db.SaveChanges();
                             item.IDKQ = KNL_KQ_New.IDKQ;
                         }
 
@@ -939,27 +941,19 @@ namespace E_Learning.Controllers.KNL
                             searchKQ.KQID = IDKQ;
                         }
                         searchKQ.DiemDM = item.DinhMuc;
-                        db.SaveChanges();
                     }
-
+                    db.SaveChanges();
                     return Json(new { success = true, message = "Đánh giá thành công" });
 
                 }
 
 
-                
+
             }
             catch (Exception e)
             {
                 return Json(new { success = false, message = "Cập nhật thất bại: " + e.Message });
             }
-        }
-
-
-        [HttpPost]
-        public ActionResult TestAjax(List<FValueValidation> listKQ)
-        {
-            return Json(new { success = true, count = listKQ?.Count ?? 0 });
         }
 
         public ActionResult ReadKNL(int? IDNV)
