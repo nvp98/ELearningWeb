@@ -903,7 +903,7 @@ namespace E_Learning.Controllers.KNL
                         var checkKQ = KNL_KQCu.FirstOrDefault(x => x.IDNL == item.IDNL);
                         int IDKQ = CheckKQID(item.DiemDG, item.DinhMuc, item.IsDanhGia);
 
-                        if (checkKQ == null)
+                        if (checkKQ == null) // thêm kết quả mới
                         {
                             var KNL_KQ_New = new KNL_KQ()
                             {
@@ -917,30 +917,58 @@ namespace E_Learning.Controllers.KNL
                             };
                             db.KNL_KQ.Add(KNL_KQ_New);
                             //db.SaveChanges();
-                            item.IDKQ = KNL_KQ_New.IDKQ;
+                            //item.IDKQ = KNL_KQ_New.IDKQ;
+                            if (item.IDNV == nv.ID)
+                            {
+                                KNL_KQ_New.DiemTuDG = item.DiemDG;
+                                KNL_KQ_New.NgayTuDG = DateTime.Now;
+                            }
+                            else if (item.CapDG == "1")
+                            {
+                                KNL_KQ_New.DiemDG_Lan1 = item.DiemDG;
+                                KNL_KQ_New.NgayDG_Lan1 = DateTime.Now;
+                                KNL_KQ_New.IDNguoiDG_Lan1 = nv.ID;
+                            }
+                            else
+                            {
+                                KNL_KQ_New.DiemDG = item.DiemDG;
+                                KNL_KQ_New.NgayDG = DateTime.Now;
+                                KNL_KQ_New.IDNVDG = nv.ID;
+                                KNL_KQ_New.Note = item.Note;
+                                KNL_KQ_New.KQID = IDKQ;
+                            }
+                            KNL_KQ_New.DiemDM = item.DinhMuc;
+                        }
+                        else // update kq cũ
+                        {
+                            var searchKQ = db.KNL_KQ.Find(item.IDKQ);
+                            if(searchKQ != null)
+                            {
+                                if (item.IDNV == nv.ID)
+                                {
+                                    searchKQ.DiemTuDG = item.DiemDG;
+                                    searchKQ.NgayTuDG = DateTime.Now;
+                                }
+                                else if (item.CapDG == "1")
+                                {
+                                    searchKQ.DiemDG_Lan1 = item.DiemDG;
+                                    searchKQ.NgayDG_Lan1 = DateTime.Now;
+                                    searchKQ.IDNguoiDG_Lan1 = nv.ID;
+                                }
+                                else
+                                {
+                                    searchKQ.DiemDG = item.DiemDG;
+                                    searchKQ.NgayDG = DateTime.Now;
+                                    searchKQ.IDNVDG = nv.ID;
+                                    searchKQ.Note = item.Note;
+                                    searchKQ.KQID = IDKQ;
+                                }
+                                searchKQ.DiemDM = item.DinhMuc;
+                            }
                         }
 
-                        var searchKQ = db.KNL_KQ.Find(item.IDKQ);
-                        if (item.IDNV == nv.ID)
-                        {
-                            searchKQ.DiemTuDG = item.DiemDG;
-                            searchKQ.NgayTuDG = DateTime.Now;
-                        }
-                        else if (item.CapDG == "1")
-                        {
-                            searchKQ.DiemDG_Lan1 = item.DiemDG;
-                            searchKQ.NgayDG_Lan1 = DateTime.Now;
-                            searchKQ.IDNguoiDG_Lan1 = nv.ID;
-                        }
-                        else
-                        {
-                            searchKQ.DiemDG = item.DiemDG;
-                            searchKQ.NgayDG = DateTime.Now;
-                            searchKQ.IDNVDG = nv.ID;
-                            searchKQ.Note = item.Note;
-                            searchKQ.KQID = IDKQ;
-                        }
-                        searchKQ.DiemDM = item.DinhMuc;
+                        //var searchKQ = db.KNL_KQ.Find(item.IDKQ);
+                        
                     }
                     db.SaveChanges();
                     return Json(new { success = true, message = "Đánh giá thành công" });
