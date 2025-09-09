@@ -1,18 +1,15 @@
-﻿using System;
-using System.IO;
+﻿using E_Learning.Models;
+using ExcelDataReader;
+using PagedList;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using E_Learning.Models;
-using E_Learning.Common;
-using ExcelDataReader;
 using ClosedXML.Excel;
-using System.Data.Entity.Core.Objects;
-using System.Globalization;
-using PagedList;
-using System.Data;
-using System.Web.Hosting;
+using System.Text.RegularExpressions;
 
 namespace E_Learning.Controllers
 {
@@ -351,6 +348,76 @@ namespace E_Learning.Controllers
                 db_context.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult ExportToExcel(int IDND)
+        {
+            var res = (from c in db_context.CauHois
+                       join d in db_context.DanhSachDAs on c.IDDAĐung equals d.IDDSĐA
+                       select new ManageQuestionValidation
+                       {
+                           IDCH = c.IDCH,
+                           NoiDungCH = c.NoiDungCH,
+                           DapAnA = c.DapAnA,
+                           DapAnB = c.DapAnB,
+                           DapAnC = c.DapAnC,
+                           DapAnD = c.DapAnD,
+                           IDDAĐung = (int)c.IDDAĐung,
+                           DapAnĐung = d.TenĐA,
+                           IDND = (int)c.IDND,
+                           GVID = (int)c.GVID,
+                       }).ToList();
+
+            var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
+            int id = MyAuthentication.ID;
+            if (ListQuyen.Contains(CONSTKEY.V_GV))
+            {
+                res = res.Where(x => x.GVID == id).ToList();
+            }
+
+            if (IDND != 0)
+            {
+                res = res.Where(x => x.IDND == IDND).ToList();
+            }
+
+            using (var workbook = new XLWorkbook())
+            {
+                var ws = workbook.Worksheets.Add("DanhSachCauHoi");
+
+                ws.Cell(1, 1).Value = "STT";
+                ws.Cell(1, 2).Value = "Nội dung câu hỏi";
+                ws.Cell(1, 3).Value = "Đáp án A";
+                ws.Cell(1, 4).Value = "Đáp án B";
+                ws.Cell(1, 5).Value = "Đáp án C";
+                ws.Cell(1, 6).Value = "Đáp án D";
+                ws.Cell(1, 7).Value = "Đáp án đúng";
+
+                int row = 2;
+                int stt = 1;
+                foreach (var item in res)
+                {
+                    ws.Cell(row, 1).Value = stt++;
+                    string plainText = Regex.Replace(item.NoiDungCH ?? "", "<.*?>", string.Empty);
+                    plainText = HttpUtility.HtmlDecode(plainText);
+
+                    ws.Cell(row, 2).Value = plainText;
+                    ws.Cell(row, 3).Value = item.DapAnA;
+                    ws.Cell(row, 4).Value = item.DapAnB;
+                    ws.Cell(row, 5).Value = item.DapAnC;
+                    ws.Cell(row, 6).Value = item.DapAnD;
+                    ws.Cell(row, 7).Value = item.DapAnĐung;
+                    row++;
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "DanhSachCauHoi.xlsx");
+                }
+            }
         }
     }
 }

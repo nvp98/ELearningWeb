@@ -61,6 +61,13 @@
                                 <div class="col-md-2">
                                     <div class="input-group-btn"><button class="btn btn-primary marginTB5" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button></div>
                                 </div>
+                                <div class="col-md-2">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-success" id="btn-export">
+                                            <i class="fa fa-file-excel"></i> Xuất Excel
+                                        </button>
+                                    </div>
+                                </div>
 
                             </div>
 
@@ -187,6 +194,21 @@
     });
     $("#btn-search").on('click', function () {
         window.location.href = '@Url.Action("Index", "Question")?IDND=' + $('#IDND').val();
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#btn-export").click(function () {
+            var urlParams = new URLSearchParams(window.location.search);
+            var IDND = urlParams.get("IDND");
+
+            if (IDND) {
+                window.location.href = '/Question/ExportToExcel?IDND=' + IDND;
+            } else {
+                alert("Có lỗi xảy ra!");
+            }
+        });
     });
 </script>
 
