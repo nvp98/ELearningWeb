@@ -10,14 +10,18 @@
 namespace E_Learning.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class LoaiKNL
+    public partial class KNL_DocBangKNL_IDNV_Result
     {
-        public int IDLoai { get; set; }
-        public string TenLoai { get; set; }
+        public Nullable<int> IDNV { get; set; }
+        public int IDNL { get; set; }
+        public string TenNL { get; set; }
+        public Nullable<int> IDLoaiNL { get; set; }
         public Nullable<int> IDVT { get; set; }
-        public Nullable<int> OrderBy { get; set; }
+        public Nullable<int> IDPB { get; set; }
         public Nullable<int> TinhTrang { get; set; }
+        public Nullable<int> IsDanhGia { get; set; }
+        public Nullable<int> DinhMuc { get; set; }
+        public Nullable<int> OrderBy { get; set; }
     }
 }

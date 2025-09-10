@@ -6,7 +6,7 @@
 
 
 @using E_Learning.Models
-@model PagedList.IPagedList<FViewValidation>
+@model PagedList.IPagedList<FResultValidation>
 @using PagedList.Mvc
 
 <link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
@@ -71,7 +71,7 @@
             </div>
             <div class="mt-2">
                 <div class="text-uppercase font-weight-bold text-center">
-                    Vị trí Khung năng lực:&nbsp;<span class="font-italic text-danger">@ViewBag.TenVT</span>
+                    @*Vị trí Khung năng lực:&nbsp;<span class="font-italic text-danger">@ViewBag.TenVT</span>*@
                 </div>
             </div>
             <div class="card-body">
@@ -82,80 +82,80 @@
                     <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
                         <thead class="thead-light">
                             <tr>
-                                <th class="text-center" width="30px">STT</th>
-                                <th class="text-center">Mã nhân viên</th>
-                                <th class="text-center">Họ tên</th>
-                                <th class="text-center">Kíp</th>
-                                <th class="text-center">Vị trí đánh giá</th>
-                                <th class="text-center">BMTCV</th>
-                                <th class="text-center">Ngày đánh giá gần nhất</th>
-                                <th class="text-center" width="70px">Tổng NL</th>
-                                <th class="text-center" width="70px">Không Đạt</th>
-                                <th class="text-center" width="70px">Đạt</th>
-                                <th class="text-center" width="70px">Vượt yêu cầu</th>
-                                <th class="text-center" width="70px">Chưa đánh giá</th>
+                                @*<th class="text-center" width="30px">STT</th>*@
+                                <th rowspan="2" class="text-center">Họ tên</th>
+                                <th rowspan="2" class="text-center">Quý Đánh giá</th>
+                                <th rowspan="2" class="text-center"> Tổng NL</th>
+                                <th colspan="5" class="text-center">CBNV Tự đánh giá</th>
+                                <th colspan="5" class="text-center">Thẩm định đánh giá</th>
+                                <th colspan="5" class="text-center">Phê duyệt</th>
+                                <th rowspan="2" class="text-center">Vị trí đánh giá</th>
+                                <th rowspan="2" class="text-center">BMTCV</th>
+                                <th rowspan="2" class="text-center">Kết quả</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center"> Không đạt</th>
+                                <th class="text-center"> Đạt </th>
+                                <th class="text-center"> Vượt yêu cầu</th>
+                                <th class="text-center"> Chưa đánh giá</th>
+                                <th class="text-center"> Không đánh giá</th>
+                                <th class="text-center"> Không đạt</th>
+                                <th class="text-center"> Đạt </th>
+                                <th class="text-center"> Vượt yêu cầu</th>
+                                <th class="text-center"> Chưa đánh giá</th>
+                                <th class="text-center"> Không đánh giá</th>
+                                <th class="text-center"> Không đạt</th>
+                                <th class="text-center"> Đạt </th>
+                                <th class="text-center"> Vượt yêu cầu</th>
+                                <th class="text-center"> Chưa đánh giá</th>
+                                <th class="text-center"> Không đánh giá</th>
 
-                                <th class="text-center ">Xem chi tiết</th>
+
                             </tr>
                         </thead>
                         <tbody>
-                            @{
-                                int pageno = (int)Model.PageNumber;
-                                int itemperpage = (int)Model.PageSize;
-                                int RowNo = ((pageno - 1) * itemperpage) + 1;
-
-                                DateTime date = DateTime.Now;
-                                //var firstMont = new DateTime(date.Year, 1, 1);
-                                var lastMont = new DateTime(date.Year, date.Month, 1);
-
-                            }
+                            
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td class="text-center"> @RowNo@{RowNo++;}</td>
-                                    <td class="">@item.MaNV</td>
-                                    <td class="">@item.TenNV</td>
-                                    <td class="">@item.TenKip</td>
-                                    <td>@item.TenVT</td>
-                                    <td class="text-center">
-                                        <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
-                                    </td>
-                                    <td class="text-center">@item.NgayDG</td>
-                                    <td class="text-center">@item.Total</td>
-                                    @if (item.TotalKDat != 0 && item.TotalKDat != null)
-                                    {
-                                        <td class="text-center" style="background-color: #ffcccc">@item.TotalKDat</td>
-                                    }
-                                    else
-                                    {
-                                        <td class="text-center">@item.TotalKDat</td>
-                                    }
+                                    @*<td class="text-center"> @RowNo@{RowNo++;}</td>*@
+                                    <td class="font-weight-bold text-center" width="200px"> @item.HoTen</td>
+                                    <td class="font-weight-bold text-center">@item.DGQuy / @item.DGNam</td>
+                                    <td class="text-center font-weight-bold">@item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalKDatTu / @item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalDatTu / @item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalVuotTu /@item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalChuaDGiaTu / @item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalKDGiaTu / @item.Total</td>
 
-                                    <td class="text-center">@item.TotalDat</td>
-                                    @if (item.TotalVuot != 0 && item.TotalVuot != null)
-                                    {
-                                        <td class="text-center bg-success">@item.TotalVuot</td>
-                                    }
-                                    else
-                                    {
-                                        <td class="text-center">@item.TotalVuot</td>
-                                    }
-                                    <td class="text-center">@item.TotalKDGia</td>
-                                    <td class="text-center p-0">
-                                        <a class="fas fa-history fa-2x" href="@Url.Action("Index","FResult",new { IDNV = item.IDNV,begind = new DateTime(DateTime.Now.Year, 1, 1),endd =new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)})" title="Lịch sử đánh giá">
-                                        </a>
-                                        @if (item.ThangDG == null)
+
+
+                                    <td class="text-center font-weight-bold">@item.TotalKDatTuLan1 / @item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalDatTuLan1 / @item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalVuotTuLan1 /@item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalChuaDGiaTuLan1 / @item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalKDGiaTuLan1 / @item.Total</td>
+
+                                    <td class="text-center font-weight-bold">@item.TotalKDat / @item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalDat / @item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalVuot /@item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalChuaDGia / @item.Total</td>
+                                    <td class="text-center font-weight-bold">@item.TotalKDGia / @item.Total</td>
+
+                                    <td class="text-center font-weight-bold">@item.TenViTri</td>
+                                    <td class="text-center">
+                                        @if (item.Total > 0)
                                         {
-                                            <a class="fa fa-th-list icon_action fa-2x" title="Xem kết quả" href="@Url.Action("FView", "FResult", new { IDNV = item.IDNV,dt =lastMont,IDVT =item.IDVT})">
+                                            <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.FilePath))" class="" title="Xem BMTCV" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                                        }
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if (item.Total > 0)
+                                        {
+                                            <a class="fa fa-th-list fa-2x" target="_blank" title="Xem kết quả" href="@Url.Action("FView", "FResult", new { IDNV = item.IDNV, Quy =item.DGQuy,Nam=item.DGNam,IDVT =item.IDVT })">
                                             </a>
                                         }
-                                        else
-                                        {
-                                            <a class="fa fa-th-list icon_action fa-2x" title="Xem kết quả" href="@Url.Action("FView", "FResult", new { IDNV = item.IDNV,dt =item.ThangDG,IDVT =item.IDVT})">
-                                            </a>
-                                        }
-                                        @*<a class="fa fa-th-list fa-2x" title="Xem kết quả" href="@Url.Action("FView", "FResult", new { IDNV = item.IDNV, dt =item.ThangDG,IDVT =item.IDVT })">
-                                        </a>*@
                                     </td>
                                 </tr>
                             }

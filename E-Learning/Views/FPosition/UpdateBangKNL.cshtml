@@ -74,7 +74,7 @@
             </div>
             @if (listduyet.Count != 0)
             {
-                <a class="btn btn-primary fa fa-download" title="Dowload bảng KNL" href="@Url.Action("PheDuyetBangKNL", "FPosition" ,new {IDVT=ViewBag.SLIDVT} )">
+                <a class="btn btn-primary fa fa-download" title="Duyệt bảng KNL" href="@Url.Action("PheDuyetBangKNL", "FPosition" ,new {IDVT=ViewBag.SLIDVT} )">
                     Phê duyệt Bảng KNL
                 </a>
             }
@@ -193,7 +193,7 @@
                                                                     @Html.HiddenFor(m => m[i].IDVT)
                                                                     <tr>
                                                                         <td class="text-center">
-                                                                            <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("DeleteKNL", "FPosition" , new { id=Model[i].IDNL,idvt =Model[i].IDVT,IDPB =Model[i].IDPB })"
+                                                                            <a class="fa fa-trash icon_action" title="Xóa" href="@Url.Action("DeleteKNLCu", "FPosition" , new { id=Model[i].IDNL,idvt =Model[i].IDVT,IDPB =Model[i].IDPB })"
                                                                                onclick="return confirm('Bạn muốn Cập nhật Vị trí: @Model[i].IDNL ')">
                                                                             </a>
                                                                         </td>

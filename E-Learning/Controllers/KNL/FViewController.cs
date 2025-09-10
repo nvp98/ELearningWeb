@@ -1,4 +1,5 @@
-﻿using E_Learning.Models;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using E_Learning.Models;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -14,61 +15,44 @@ namespace E_Learning.Controllers.KNL
         // GET: FView
         public ActionResult Index(int? page,int? IDVT)
         {
+            int month = DateTime.Now.Month; // hoặc date.Month
+            int quy = (month - 1) / 3 + 1;
+            int nam = DateTime.Now.Year;
+            var kqQuy = db.KNL_LSDG_TheoQuy(nam,quy, null).Where(x=>x.IDVTKNL == IDVT).ToList();
+            var nhanvien = db.NhanViens.Where(x => x.IDTinhTrangLV == 1 && x.IDVTKNL == IDVT).ToList();
             //var res = new List<FCheckValidation>();
-            var res = (from a in db.NhanViens.Where(x => x.IDTinhTrangLV ==1)
-                        join b in db.ViTriKNLs.Where(x=>x.IDVT == IDVT) on a.IDVTKNL equals b.IDVT
-                        join d in db.PhongBans
-                        on b.IDPB equals d.IDPhongBan
-                        join e in db.KNL_PhanXuong
-                         on b.IDPX equals e.ID into ul
-                        from e in ul.DefaultIfEmpty()
-                        join f in db.KNL_Nhom
-                        on b.IDNhom equals f.IDNhom into uls
-                        from f in uls.DefaultIfEmpty()
-                        join g in db.KNL_To
-                        on b.IDTo equals g.IDTo into ulk
-                        from g in ulk.DefaultIfEmpty()
-                        join h in db.Kips
-                        on a.IDKip equals h.IDKip into ulkh
-                        from h in ulkh.DefaultIfEmpty()
-                        select new FViewValidation
+            var res = (from a in nhanvien
+                        join kq in kqQuy on a.ID equals kq.NVID into ulkh
+                        from kq in ulkh.DefaultIfEmpty()
+                        select new FResultValidation
                         {
-                            MaNV = a.MaNV,
                             IDNV = a.ID,
-                            IDVT = b.IDVT,
-                            TenVT = b.TenViTri + "-" + f.TenNhom + "-" + g.TenTo + "-" + e.TenPX + "-" + d.MaPB,
-                            TenNV = a.HoTen,
-                            IDNhom = b.IDNhom,
-                            IDPX = b.IDPX,
-                            IDKip = a.IDKip,
-                            TenKip = h.TenKip,
-                            MaViTri = b.MaViTri,
-                            fileBMTCV = b.FilePath,
+                            MaNV = a.MaNV,
+                            HoTen = a.MaNV + "-" + a.HoTen,
+                            DGQuy = quy, // có thể để 0 nếu muốn mặc định khác
+                            DGNam = nam,
+                            Total = kq.TONGNL ?? 0,
+                            TotalDat = kq.DAT ?? 0,
+                            TotalVuot = kq.VUOT ?? 0,
+                            TotalKDat = kq.KDAT ?? 0,
+                            TotalKDGia = kq.KDGia ?? 0,
+                            TotalChuaDGia = kq.CHUADG ?? 0,
+                            TotalDatTu = kq.DATTUDG ?? 0,
+                            TotalVuotTu = kq.VUOTTUDG ?? 0,
+                            TotalKDatTu = kq.KDATTUDG ?? 0,
+                            TotalKDGiaTu = kq.KDGiaTuDG ?? 0,
+                            TotalChuaDGiaTu = kq.CHUADGTuDG ?? 0,
+                            TotalDatTuLan1 = kq.DATTUDGLan1 ?? 0,
+                            TotalVuotTuLan1 = kq.VUOTTUDGLan1 ?? 0,
+                            TotalKDatTuLan1 = kq.KDATTUDGLan1 ?? 0,
+                            TotalKDGiaTuLan1 = kq.KDGiaTuDGLan1 ?? 0,
+                            TotalChuaDGiaTuLan1 = kq.CHUADGTuDGLan1 ?? 0,
+                            IDVT = kq.VTID ?? 0,
+                            TenViTri = kq.TenViTri ?? "",
+                            FilePath = kq.FilePath
                         }).ToList();
-            foreach (var item in res)
-            {
-                //var KQ = db.KNL_KQ.Where(x => x.IDNV == item.IDNV).OrderByDescending(i => i.NgayDG).ToList();
-                //var lastCheck = KQ.FirstOrDefault();
-                var KQ = db.KNL_KQ_SelectNV(item.IDNV).ToList();
-                var lastCheck = KQ.FirstOrDefault();
-                int? IDVTT = 0;
-                var KQDG = db.KNL_KQ_Select(item.IDNV, lastCheck?.ThangDG).Where(x => x.IDVT == item.IDVT).ToList();
-                IDVTT = KQDG.LastOrDefault()?.IDVT;
-                KQDG = KQDG.Where(x => x.IDVT == IDVTT).ToList();
 
-                if (lastCheck != null  && KQDG.Count>0)
-                {
-                    item.NgayDG = KQ.FirstOrDefault()?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", KQ.FirstOrDefault()?.NgayDG) : "";
-                    item.Total = lastCheck.ThangDG != null ? db.KNL_KQ_searchByIDNV(item.IDNV, lastCheck?.ThangDG, IDVTT).Count() - KQDG.Where(x => x.IsDanhGia == 0 && x.DiemDG == null).Count() : 0;
-                    item.TotalDat = KQDG != null ? KQDG.Where(x => x.DiemDG == x.DinhMuc && x.DiemDG != null).Count() : 0;
-                    item.TotalKDat = KQDG != null ? KQDG.Where(x => x.DiemDG < x.DinhMuc && x.DiemDG != null).Count() : 0;
-                    item.TotalVuot = KQDG != null ? KQDG.Where(x => x.DiemDG > x.DinhMuc && x.DiemDG != null).Count() : 0;
-                    item.TotalKDGia = KQDG != null ? KQDG.Where(x => x.IsDanhGia == 1 && x.DiemDG == null).Count() : 0;
-                    item.ThangDG = lastCheck?.ThangDG;
-                }
-                
-            }
-            ViewBag.TenVT = res.FirstOrDefault()?.TenVT;
+            //ViewBag.TenVT = res.FirstOrDefault()?.TenVT;
             //Session["ListUser"] = res;
             if (page == null) page = 1;
             int pageSize = res.Count() > 0 ? res.Count() : 50;

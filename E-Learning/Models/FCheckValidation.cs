@@ -35,6 +35,21 @@ namespace E_Learning.Models
         public int? TotalQTHD { get; set; }
         public int? TotalHTQTHD { get; set; }
         public string NgayTuDG { get; set; }
+        public int? TinhTrang_DuyetKNL { get; set; }
+        public int? DGQuy { get; set; }
+        public int? DGNam { get; set; }
+        public int? TotalKDGiaTu { get; set; }
+        public int? TotalChuaDGiaTu { get; set; }
+
+        public int? TotalVuotTuLan1 { get; set; }
+        public int? TotalDatTuLan1 { get; set; }
+        public int? TotalKDatTuLan1 { get; set; }
+        public int? TotalKDGiaTuLan1 { get; set; }
+        public int? TotalChuaDGiaTuLan1 { get; set; }
+        public int? TotalVuotTu { get; set; }
+        public int? TotalDatTu { get; set; }
+        public int? TotalKDatTu { get; set; }
+        public int? TotalChuaDGia { get; set; }
 
     }
 
@@ -48,9 +63,9 @@ namespace E_Learning.Models
         public Nullable<int> IDNVDG { get; set; }
         public string TenNVDG { get; set; }
         public Nullable<int> DiemDG { get; set; }
-        public DateTime ThangDG { get; set; }
+        public DateTime? ThangDG { get; set; }
         public DateTime NgayHanDG { get; set; }
-        public DateTime NgayDG { get; set; }
+        public DateTime? NgayDG { get; set; }
         public Nullable<int> NgayCanhBao { get; set; }
         public string StrNgayDG { get; set; }
         public string Note { get; set; }
@@ -76,6 +91,24 @@ namespace E_Learning.Models
         public DateTime? NgayDGLan1 { get; set; }
         public int? IsDuyet { get; set; }
         public string capDG { get; set; }   
+    }
+
+    public class FValueDto
+    {
+        public int? IDKQ { get; set; }
+        public int? IDNV { get; set; }
+        public int? IDNL { get; set; }
+        public int? IDNVDG { get; set; }
+        public int? IDVT { get; set; }
+        public int? IDLoaiNL { get; set; }
+        public int IsDanhGia { get; set; }   // mặc định 0 hoặc 1
+        public int? DinhMuc { get; set; }
+        public int? DiemCBNVDG { get; set; }
+        public int? DiemDGLan1 { get; set; }
+        public string CapDG { get; set; }
+        public int? DiemDG { get; set; }
+        public string Note { get; set; }
+        public bool CapNhatDG { get; set; }
     }
 
 

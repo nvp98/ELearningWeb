@@ -1144,6 +1144,14 @@ namespace E_Learning.Controllers.DaoTaoTH
             //    TempData["msgError"] = "<script>alert('Bạn không có quyền thực hiện chức năng này');</script>";
             //    return RedirectToAction("", "Home");
             //}
+
+            var deThi = db.DeThis.FirstOrDefault(x => x.IDDeThi == id);
+
+            if (deThi != null && !string.IsNullOrEmpty(deThi.FileDeThi))
+            {
+                return Redirect(deThi.FileDeThi);
+            }
+
             var model = (from a in db.CauHoiDeThis.Where(x => x.IDDeThi == id)
                          join b in db.CauHois on a.IDCauHoi equals b.IDCH
                          join c in db.DanhSachDAs on b.IDDAĐung equals c.IDDSĐA

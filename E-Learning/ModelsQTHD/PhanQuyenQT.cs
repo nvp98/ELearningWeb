@@ -36,6 +36,7 @@ namespace E_Learning.ModelsQTHD
 
         public virtual QT_DinhKy QT_DinhKy { get; set; }
         public virtual QT_NoiDungQT QT_NoiDungQT { get; set; }
+        public string IDVTCopy { get; set; }
     }
     public class ViTriPhanQuyenView
     {

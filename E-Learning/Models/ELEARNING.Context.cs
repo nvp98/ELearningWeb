@@ -118,7 +118,9 @@ namespace E_Learning.Models
         public virtual DbSet<BDT_TieuBan> BDT_TieuBan { get; set; }
         public virtual DbSet<BDT_ThanhVienTieuBan> BDT_ThanhVienTieuBan { get; set; }
         public virtual DbSet<BDT_ViTriTieuBan> BDT_ViTriTieuBan { get; set; }
-    
+        public virtual DbSet<BDT_LichSuXoa> BDT_LichSuXoa { get; set; }
+        public virtual DbSet<KhungNangLuc_DG> KhungNangLuc_DG { get; set; }
+
         public virtual int BaiThi_insert(Nullable<int> iDLH, Nullable<int> iDDeThi, Nullable<int> iDND, Nullable<int> iDNV, Nullable<int> iDPhongBan, Nullable<int> iDViTri, Nullable<double> diemSo, Nullable<System.DateTime> ngayThi, Nullable<bool> tinhTrang, Nullable<int> lanThi, ObjectParameter iDBaiThi)
         {
             var iDLHParameter = iDLH.HasValue ?
@@ -4251,6 +4253,92 @@ namespace E_Learning.Models
                 new ObjectParameter("IDVT", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<KhungNangLuc_Total_Result>("KhungNangLuc_Total", iDVTParameter);
+        }
+    
+        public virtual ObjectResult<KNL_LSDG_TheoQuy_Result> KNL_LSDG_TheoQuy(Nullable<int> nam, Nullable<int> quy, Nullable<int> iDNV)
+        {
+            var namParameter = nam.HasValue ?
+                new ObjectParameter("Nam", nam) :
+                new ObjectParameter("Nam", typeof(int));
+    
+            var quyParameter = quy.HasValue ?
+                new ObjectParameter("Quy", quy) :
+                new ObjectParameter("Quy", typeof(int));
+    
+            var iDNVParameter = iDNV.HasValue ?
+                new ObjectParameter("IDNV", iDNV) :
+                new ObjectParameter("IDNV", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<KNL_LSDG_TheoQuy_Result>("KNL_LSDG_TheoQuy", namParameter, quyParameter, iDNVParameter);
+        }
+    
+        public virtual int KNL_LSDG_delete(Nullable<int> iDLS)
+        {
+            var iDLSParameter = iDLS.HasValue ?
+                new ObjectParameter("IDLS", iDLS) :
+                new ObjectParameter("IDLS", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_LSDG_delete", iDLSParameter);
+        }
+    
+        public virtual int KNL_KQ_LSDG_delete(Nullable<int> iDLS)
+        {
+            var iDLSParameter = iDLS.HasValue ?
+                new ObjectParameter("IDLS", iDLS) :
+                new ObjectParameter("IDLS", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_KQ_LSDG_delete", iDLSParameter);
+        }
+    
+        public virtual ObjectResult<KNL_KQ_TheoQuy_Result> KNL_KQ_TheoQuy(Nullable<int> nam, Nullable<int> quy, Nullable<int> iDNV)
+        {
+            var namParameter = nam.HasValue ?
+                new ObjectParameter("Nam", nam) :
+                new ObjectParameter("Nam", typeof(int));
+    
+            var quyParameter = quy.HasValue ?
+                new ObjectParameter("Quy", quy) :
+                new ObjectParameter("Quy", typeof(int));
+    
+            var iDNVParameter = iDNV.HasValue ?
+                new ObjectParameter("IDNV", iDNV) :
+                new ObjectParameter("IDNV", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<KNL_KQ_TheoQuy_Result>("KNL_KQ_TheoQuy", namParameter, quyParameter, iDNVParameter);
+        }
+    
+        public virtual ObjectResult<NhanVien_SelectKQKNL_V2_Result> NhanVien_SelectKQKNL_V2(Nullable<int> iDNV, Nullable<int> iDVT, Nullable<int> iDNhom, Nullable<int> iDTo)
+        {
+            var iDNVParameter = iDNV.HasValue ?
+                new ObjectParameter("IDNV", iDNV) :
+                new ObjectParameter("IDNV", typeof(int));
+    
+            var iDVTParameter = iDVT.HasValue ?
+                new ObjectParameter("IDVT", iDVT) :
+                new ObjectParameter("IDVT", typeof(int));
+    
+            var iDNhomParameter = iDNhom.HasValue ?
+                new ObjectParameter("IDNhom", iDNhom) :
+                new ObjectParameter("IDNhom", typeof(int));
+    
+            var iDToParameter = iDTo.HasValue ?
+                new ObjectParameter("IDTo", iDTo) :
+                new ObjectParameter("IDTo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<NhanVien_SelectKQKNL_V2_Result>("NhanVien_SelectKQKNL_V2", iDNVParameter, iDVTParameter, iDNhomParameter, iDToParameter);
+        }
+    
+        public virtual ObjectResult<KNL_DocBangKNL_IDNV_Result> KNL_DocBangKNL_IDNV(Nullable<int> iDVT, Nullable<int> iDNV)
+        {
+            var iDVTParameter = iDVT.HasValue ?
+                new ObjectParameter("IDVT", iDVT) :
+                new ObjectParameter("IDVT", typeof(int));
+    
+            var iDNVParameter = iDNV.HasValue ?
+                new ObjectParameter("IDNV", iDNV) :
+                new ObjectParameter("IDNV", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<KNL_DocBangKNL_IDNV_Result>("KNL_DocBangKNL_IDNV", iDVTParameter, iDNVParameter);
         }
     }
 }

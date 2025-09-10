@@ -12,6 +12,7 @@ namespace E_Learning.ModelsTieuBanDaoTao
         public string TenViTriKNL { get; set; }
         public string MaNhanVien { get; set; }
         public string HoTen { get; set; }
+        public string Email { get; set; }
         public int ViTriTieuBan_ID { get; set; }
         public string TenViTriTieuBan { get; set; }
         public DateTime NgayCapNhatGanNhat { get; set; }
@@ -22,6 +23,15 @@ namespace E_Learning.ModelsTieuBanDaoTao
         public string HoTenNguoiTrinhKy { get; set; }
         public string MaNhanVienNguoiPheDuyet { get; set; }
         public string HoTenNguoiPheDuyet { get;set; }
-    } 
+        public string HoTenNguoiThem { get; set; }
+        public string HoTenNguoiSua { get; set; }
+        public string TenDonVi { get; set; }
+    }
 
+    public class NguoiXoaViewModel
+    {
+        public string TenNV { get; set; }
+        public string MaNV { get; set; }
+        public DateTime ThoiGianXoa { get; set; }
+    }
 }

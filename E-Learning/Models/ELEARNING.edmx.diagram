@@ -27,7 +27,6 @@
         <EntityTypeShape EntityType="ELEARNINGModel.KNL_KQ" Width="1.5" PointX="0.75" PointY="19" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.KNL_Khoi" Width="1.5" PointX="17.75" PointY="11" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.KNL_LoaiKQ" Width="1.5" PointX="17.75" PointY="14" IsExpanded="true" />
-        <EntityTypeShape EntityType="ELEARNINGModel.KNL_LSDG" Width="1.5" PointX="2.75" PointY="23" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.KNL_NVKiemNhiem" Width="1.5" PointX="13.75" PointY="20" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.KNL_Nhom" Width="1.5" PointX="19.75" PointY="11" IsExpanded="true" />
         <EntityTypeShape EntityType="ELEARNINGModel.KNL_PhanXuong" Width="1.5" PointX="21.75" PointY="11" IsExpanded="true" />
@@ -134,6 +133,9 @@
         <EntityTypeShape EntityType="ELEARNINGModel.BDT_TieuBan" Width="1.5" PointX="23.375" PointY="28.75" />
         <EntityTypeShape EntityType="ELEARNINGModel.BDT_ThanhVienTieuBan" Width="1.5" PointX="28.375" PointY="24.75" />
         <EntityTypeShape EntityType="ELEARNINGModel.BDT_ViTriTieuBan" Width="1.5" PointX="28.375" PointY="28.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.BDT_LichSuXoa" Width="1.5" PointX="29.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.KhungNangLuc_DG" Width="1.5" PointX="0.75" PointY="29.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.KNL_LSDG" Width="1.5" PointX="30.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -41,6 +41,9 @@
 publish/
 dist/
 
+## package
+packages/
+
 ## Tệp nén hoặc đóng gói
 *.zip
 *.tar.gz

@@ -152,7 +152,7 @@
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a class="fa fa-file-excel float-right btn btn-primary m-1" title="Export dữ liệu" href="@Url.Action("ExportToExcelNV1", "FPosition",new { IDPB = Request.QueryString["IDPB"],IDPX =Request.QueryString["IDPX"],IDTo= Request.QueryString["IDTo"],IDNhom =Request.QueryString["IDNhom"] })"
+                    <a class="fa fa-file-excel float-right btn btn-primary m-1" title="Export dữ liệu" href="@Url.Action("ExportToExcelNew", "FPosition",new { IDPB = Request.QueryString["IDPB"],IDPX =Request.QueryString["IDPX"],IDTo= Request.QueryString["IDTo"],IDNhom =Request.QueryString["IDNhom"] })"
                        onclick="return confirm('Export dữ liệu?')">
                         &nbsp;Thống kê kết quả đánh giá 2025
                     </a>
@@ -259,8 +259,8 @@
                                     <th class="text-center">Ngày đánh giá gần nhất</th>
                                     <th class="text-center">Ngày đến hạn đánh giá lại</th>
                                     <th class="text-center">Hạn đánh giá lại</th>
-                                    <th class="text-center">SL QT/HD</th>
-                                    <th class="text-center">SL Hoàn Thành QT/HD</th>
+                                    @*<th class="text-center">SL QT/HD</th>
+                                    <th class="text-center">SL Hoàn Thành QT/HD</th>*@
                                     <th class="text-center ">Xem chi tiết</th>
                                 }
                                 <th class="text-center">Thao tác</th>
@@ -330,19 +330,19 @@
                                             <td></td>
                                             <td></td>
                                         }
-                                        <td class="text-center">@item.TotalQTHD</td>
-                                        <td class="text-center">@item.TotalHTQTHD</td>
+                                        @*<td class="text-center">@item.TotalQTHD</td>
+                                        <td class="text-center">@item.TotalHTQTHD</td>*@
                                         <td>
                                             <a class="fas fa-history" title="Lịch sử đánh giá" href="@Url.Action("Index", "FResult", new { IDNV = item.IDNV,begind =firstMont,endd =lastMont })">
                                             </a>
                                             @if (item.ThangDG == null)
                                             {
-                                                <a class="fa fa-th-list icon_action" title="Xem kết quả" href="@Url.Action("FView", "FResult", new { IDNV = item.IDNV,dt =lastMont,IDVT =item.IDVT})">
+                                                <a class="fa fa-th-list icon_action" title="Xem kết quả" href="@Url.Action("FView", "FResult", new { IDNV = item.IDNV, Quy =item.DGQuy,Nam=item.DGNam,IDVT =item.IDVT })">
                                                 </a>
                                             }
                                             else
                                             {
-                                                <a class="fa fa-th-list icon_action" title="Xem kết quả" href="@Url.Action("FView", "FResult", new { IDNV = item.IDNV,dt =item.ThangDG,IDVT =item.IDVT})">
+                                                <a class="fa fa-th-list icon_action" title="Xem kết quả" href="@Url.Action("FView", "FResult", new { IDNV = item.IDNV, Quy =item.DGQuy,Nam=item.DGNam,IDVT =item.IDVT })">
                                                 </a>
                                             }
                                             <a class="fas fa-project-diagram icon_action" title="Chi tiết QT/HD" href="@Url.Action("ListQTView", "ListTestQT", new { IDNV = item.IDNV,IDVTKNL =item.IDVT})">

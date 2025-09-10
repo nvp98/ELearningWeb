@@ -1203,6 +1203,36 @@ namespace E_Learning.Controllers.QTHD
             //var vt = db.ViTriKNLs.Where(x => x.IDVT == _DO.IDVTKNL).FirstOrDefault();
             try
             {
+                if (!String.IsNullOrEmpty(_DO.IDVTCopy))
+                {
+                    //Regex.Replace(_DO.NVDG, @"[^0-9a-zA-Z]+", " ");
+                    string tx = Regex.Replace(_DO.IDVTCopy, @"[^0-9a-zA-Z]+", " ");
+                    string[] NVS = tx.Split(new char[] { ' ' });
+
+                    foreach (var item in NVS)
+                    {
+                        int intValue = int.TryParse(item, out int result) ? result : 0;
+
+                        if (intValue != 0)
+                        {
+                            var vt = db.ViTriKNLs.Where(x => x.IDVT == intValue).ToList();
+                            if (vt.Count > 0)
+                            {
+                                bool isDuplicate = db.QT_PhanQuyen.Any(u => u.IDVTKNL == intValue && u.QTHDID == _DO.QTHDID );
+                                if (!isDuplicate)
+                                {
+                                    // Thêm một bản ghi mới
+                                    var newRecord = new QT_PhanQuyen { IDVTKNL = intValue, DKID = _DO.DKID, QTHDID = _DO.QTHDID };
+                                    db.QT_PhanQuyen.Add(newRecord);
+
+                                    // Thực hiện lưu thay đổi vào cơ sở dữ liệu
+                                    db.SaveChanges();
+                                }
+                            }
+
+                        }
+                    }
+                }
                 //update QT
                 var listFile = db.QT_PhanQuyen.Where(x => x.QTHDID == _DO.QTHDID ).ToList();
                 if (listFile != null)

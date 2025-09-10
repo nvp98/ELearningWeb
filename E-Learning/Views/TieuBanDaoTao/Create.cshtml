@@ -46,6 +46,10 @@
                                     }
                                 </select>
                             </div>
+                            <div class="form-group col-md-4">
+                                <label>Email</label>
+                                <input type="email" name="ThanhVienList[0].Email" class="form-control" placeholder="Nhập email nhân viên" required />
+                            </div>
                         </div>
                     </div>
 
@@ -76,10 +80,13 @@
                 ${$('#thanhVienContainer select[name="ThanhVienList[0].Id"]').html()}
             </select>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
             <select name="ThanhVienList[${thanhVienIndex}].ViTri" class="form-control">
                 ${$('#thanhVienContainer select[name="ThanhVienList[0].ViTri"]').html()}
             </select>
+        </div>
+        <div class="form-group col-md-3">
+             <input type="email" name="ThanhVienList[${thanhVienIndex}].Email" class="form-control" placeholder="Nhập email nhân viên" />
         </div>
         <div class="form-group col-md-2 d-flex align-items-end">
             <button type="button" class="btn btn-danger btnRemove">Xóa</button>

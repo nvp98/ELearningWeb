@@ -10,14 +10,17 @@
 namespace E_Learning.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class KNL_KQ
+    public partial class KNL_KQ_TheoQuy_Result
     {
         public int IDKQ { get; set; }
         public Nullable<int> IDNV { get; set; }
+        public string TenNhanVien { get; set; }
         public Nullable<int> IDNL { get; set; }
+        public string TenNL { get; set; }
+        public Nullable<int> IDLoaiNL { get; set; }
         public Nullable<int> IDNVDG { get; set; }
+        public string TenNguoiDanhGia { get; set; }
         public Nullable<int> DiemDG { get; set; }
         public Nullable<System.DateTime> ThangDG { get; set; }
         public Nullable<System.DateTime> NgayDG { get; set; }
@@ -25,15 +28,17 @@ namespace E_Learning.Models
         public Nullable<int> DiemDM { get; set; }
         public Nullable<int> KQID { get; set; }
         public Nullable<int> VTID { get; set; }
+        public string TenViTri { get; set; }
         public Nullable<int> DiemTuDG { get; set; }
         public Nullable<System.DateTime> NgayTuDG { get; set; }
         public Nullable<int> IDNguoiDG_Lan1 { get; set; }
+        public string TenNguoiDG_Lan1 { get; set; }
         public Nullable<int> DiemDG_Lan1 { get; set; }
         public Nullable<System.DateTime> NgayDG_Lan1 { get; set; }
         public Nullable<int> Quy { get; set; }
         public Nullable<int> Nam { get; set; }
-        public Nullable<int> IDLS { get; set; }
-    
-        public virtual KhungNangLuc KhungNangLuc { get; set; }
+        public Nullable<long> rn { get; set; }
+        public Nullable<int> IsDanhGia { get; set; }
+        public Nullable<int> OrderBy { get; set; }
     }
 }

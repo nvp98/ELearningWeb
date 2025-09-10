@@ -10,13 +10,17 @@
 namespace E_Learning.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class KNL_LSDG
+    public partial class KNL_LSDG_TheoQuy_Result
     {
         public int IDLS { get; set; }
         public Nullable<int> NVID { get; set; }
+        public string TenNhanVien { get; set; }
+        public Nullable<int> IDPhongBan { get; set; }
+        public Nullable<int> IDVTKNL { get; set; }
+        public Nullable<int> IDTinhTrangLV { get; set; }
         public Nullable<int> VTID { get; set; }
+        public string TenViTri { get; set; }
         public Nullable<System.DateTime> ThangDG { get; set; }
         public Nullable<System.DateTime> NgayDGGN { get; set; }
         public Nullable<int> DAT { get; set; }
@@ -39,5 +43,7 @@ namespace E_Learning.Models
         public Nullable<System.DateTime> NgayDGGNLan1 { get; set; }
         public Nullable<int> Quy { get; set; }
         public Nullable<int> Nam { get; set; }
+        public Nullable<long> rn { get; set; }
+        public string FilePath { get; set; }
     }
 }
