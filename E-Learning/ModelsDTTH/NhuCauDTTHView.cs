@@ -57,6 +57,7 @@ namespace E_Learning.ModelsDTTH
         public Nullable<int> BoPhanLNC_ID { get; set; }
         public string TenBoPhan_LNC { get; set; }
         public Nullable<int> NoiDungDT_ID { get; set; }
+        public string MaNoiDungDT { get; set; }
         public string TenNoiDungDT { get; set; }
         public string FileDinhKem { get; set; }
 

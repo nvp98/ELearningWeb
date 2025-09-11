@@ -52,47 +52,57 @@ namespace E_Learning.Controllers.DaoTaoTH
                 return RedirectToAction("", "Home");
             }
             if (IDLoaiDT == null) IDLoaiDT = 1;
+
             var noiDungDTs = (from a in db.SH_NhuCauDT.Where(x =>
-                              (search == null || x.NoiDungDT.NoiDung.Contains(search)) &&
-                              (IDLoaiDT == null || x.PhanLoaiNCDT_ID == IDLoaiDT))
+                      (search == null
+                          || x.NoiDungDT.NoiDung.Contains(search)
+                          || (x.NhanVien.MaNV + "-" + x.NhanVien.HoTen).Contains(search))
+                      && (IDLoaiDT == null || x.PhanLoaiNCDT_ID == IDLoaiDT))
                               join b in db.SH_ChiTiet_NCDT on a.ID equals b.NhuCauDT_ID
-                              join c in db.PhongBans on a.BoPhanLNC_ID equals c.IDPhongBan into uli from c in uli.DefaultIfEmpty()
-                              join d in db.NhanViens on b.GiangVien_ID equals d.ID into ulis from d in ulis.DefaultIfEmpty()
+                              join c in db.PhongBans on a.BoPhanLNC_ID equals c.IDPhongBan into uli
+                              from c in uli.DefaultIfEmpty()
+                              join d in db.NhanViens on b.GiangVien_ID equals d.ID into ulis
+                              from d in ulis.DefaultIfEmpty()
                               select new NhuCauDTTHView
                               {
-                                 ID_NCDT = a.ID,
-                                 NoiDungDT_ID = a.NoiDungDT_ID,
-                                 TenNoiDungDT = a.NoiDungDT.NoiDung,
-                                 Quy = a.Quy,
-                                 Nam =a.Nam,
-                                 BoPhanLNC_ID = a.BoPhanLNC_ID,
-                                 TenBoPhan_LNC = c.TenPhongBan,
-                                 NguoiTao = a.NhanVien.MaNV +"-" + a.NhanVien.HoTen,
-                                 TinhTrang =a.TinhTrang,
-                                 PhuongPhapDT_ID = a.PhuongPhapDT_ID,
-                                 FileDinhKem = a.FileDinhKem,
-                                 TenPPDT = db.SH_PhuongPhapDT.Where(x=>x.ID == a.PhuongPhapDT_ID).FirstOrDefault().TenPhuongPhapDT,
-                                 chiTietNhuCauDTTHView = new ChiTietNhuCauDTTHView
+                                  ID_NCDT = a.ID,
+                                  NoiDungDT_ID = a.NoiDungDT_ID,
+                                  TenNoiDungDT = a.NoiDungDT.NoiDung,
+                                  Quy = a.Quy,
+                                  Nam = a.Nam,
+                                  BoPhanLNC_ID = a.BoPhanLNC_ID,
+                                  TenBoPhan_LNC = c.TenPhongBan,
+                                  NguoiTao = a.NhanVien.MaNV + "-" + a.NhanVien.HoTen,
+                                  TinhTrang = a.TinhTrang,
+                                  PhuongPhapDT_ID = a.PhuongPhapDT_ID,
+                                  FileDinhKem = a.FileDinhKem,
+                                  TenPPDT = db.SH_PhuongPhapDT
+                                              .Where(x => x.ID == a.PhuongPhapDT_ID)
+                                              .FirstOrDefault().TenPhuongPhapDT,
+                                  chiTietNhuCauDTTHView = new ChiTietNhuCauDTTHView
                                   {
                                       SoLuongNguoi = b.SoLuongNguoi,
                                       GiangVien_ID = b.GiangVien_ID,
                                       DiaDiemDT = b.DiaDiemDT,
                                       GhiChu = b.GhiChu,
-                                      DonViDT =b.DonViDT,
-                                      ThoiLuong =b.ThoiLuong_DT,
-                                      ThoiGianDT =b.ThoiGian_DT,
-                                      TenGiangVien= b.GiangVien_ID != null? d.HoTen: b.GiangVien_HoTen,
-                                      TenViTri =b.GiangVien_Vitri,
-                                      DoiTuongDT =b.DoiTuongDT,
+                                      DonViDT = b.DonViDT,
+                                      ThoiLuong = b.ThoiLuong_DT,
+                                      ThoiGianDT = b.ThoiGian_DT,
+                                      TenGiangVien = b.GiangVien_ID != null ? d.HoTen : b.GiangVien_HoTen,
+                                      TenViTri = b.GiangVien_Vitri,
+                                      DoiTuongDT = b.DoiTuongDT,
                                       TenNhom = a.NoiDungDT.NhomNLKCCD.NoiDung,
-                                      TenLVDT=a.NoiDungDT.LinhVucDT.TenLVDT,
-                                      MaNV= d.MaNV,
+                                      TenLVDT = a.NoiDungDT.LinhVucDT.TenLVDT,
+                                      MaNV = d.MaNV,
                                   },
-                                 PhanLoaiNCDT_ID = a.PhanLoaiNCDT_ID,
-                                 ID_NguoiTao = (int)a.NguoiTao_ID,
-                                 SLCauHoi = db.CauHois.Where(x=>x.IDND == a.NoiDungDT_ID).Count(),
-                                 SLDeThi = db.DeThis.Where(x=>x.IDND == a.NoiDungDT_ID).Count()
-                              }).OrderBy(x => x.ID_NCDT).ToList();
+                                  PhanLoaiNCDT_ID = a.PhanLoaiNCDT_ID,
+                                  ID_NguoiTao = (int)a.NguoiTao_ID,
+                                  SLCauHoi = db.CauHois.Count(x => x.IDND == a.NoiDungDT_ID),
+                                  SLDeThi = db.DeThis.Count(x => x.IDND == a.NoiDungDT_ID)
+                              })
+                  .OrderBy(x => x.ID_NCDT)
+                  .ToList();
+
             if (!ListQuyen.Contains(CONSTKEY.VIEW_ALL) && !ListQuyen.Contains(CONSTKEY.V_BP)) noiDungDTs = noiDungDTs.Where(x => x.ID_NguoiTao == MyAuthentication.ID).ToList();
             else if (ListQuyen.Contains(CONSTKEY.V_BP)) noiDungDTs = noiDungDTs.Where(x => x.BoPhanLNC_ID == MyAuthentication.IDPhongban).ToList();
 
@@ -1137,45 +1147,49 @@ namespace E_Learning.Controllers.DaoTaoTH
                 queryNC = queryNC.Where(x => x.BoPhanLNC_ID == MyAuthentication.IDPhongban);
             }
             var data = (from a in queryNC
-                              join b in db.SH_ChiTiet_NCDT on a.ID equals b.NhuCauDT_ID
-                              join c in db.PhongBans on a.BoPhanLNC_ID equals c.IDPhongBan into uli
-                              from c in uli.DefaultIfEmpty()
-                              join d in db.NhanViens on b.GiangVien_ID equals d.ID into ulis
-                              from d in ulis.DefaultIfEmpty()
-                              select new NhuCauDTTHView
-                              {
-                                  ID_NCDT = a.ID,
-                                  NoiDungDT_ID = a.NoiDungDT_ID,
-                                  TenNoiDungDT = a.NoiDungDT.NoiDung,
-                                  Quy = a.Quy,
-                                  Nam = a.Nam,
-                                  BoPhanLNC_ID = a.BoPhanLNC_ID,
-                                  TenBoPhan_LNC = c.TenPhongBan,
-                                  NguoiTao = a.NhanVien.MaNV + "-" + a.NhanVien.HoTen,
-                                  TinhTrang = a.TinhTrang,
-                                  PhuongPhapDT_ID = a.PhuongPhapDT_ID,
-                                  FileDinhKem = a.FileDinhKem,
-                                  TenPPDT = db.SH_PhuongPhapDT.Where(x => x.ID == a.PhuongPhapDT_ID).FirstOrDefault().TenPhuongPhapDT,
-                                  TenLoai_NCDT = a.SH_PhanLoaiNCDT.TenLoaiNCDT,
-                                  chiTietNhuCauDTTHView = new ChiTietNhuCauDTTHView
-                                  {
-                                      SoLuongNguoi = b.SoLuongNguoi,
-                                      GiangVien_ID = b.GiangVien_ID,
-                                      DiaDiemDT = b.DiaDiemDT,
-                                      GhiChu = b.GhiChu,
-                                      DonViDT = b.DonViDT,
-                                      ThoiLuong = b.ThoiLuong_DT,
-                                      ThoiGianDT = b.ThoiGian_DT,
-                                      TenGiangVien = b.GiangVien_ID != null ? d.HoTen : b.GiangVien_HoTen,
-                                      TenViTri = b.GiangVien_Vitri,
-                                      DoiTuongDT = b.DoiTuongDT,
-                                      TenNhom = a.NoiDungDT.NhomNLKCCD.NoiDung,
-                                      TenLVDT = a.NoiDungDT.LinhVucDT.TenLVDT,
-                                      MaNV = d.MaNV,
-                                  },
-                                  PhanLoaiNCDT_ID = a.PhanLoaiNCDT_ID,
-                                  ID_NguoiTao = (int)a.NguoiTao_ID
-                              }).OrderBy(x => x.ID_NCDT).ToList();
+                        join b in db.SH_ChiTiet_NCDT on a.ID equals b.NhuCauDT_ID
+                        join c in db.PhongBans on a.BoPhanLNC_ID equals c.IDPhongBan into uli
+                        from c in uli.DefaultIfEmpty()
+                        join d in db.NhanViens on b.GiangVien_ID equals d.ID into ulis
+                        from d in ulis.DefaultIfEmpty()
+                        join e in db.SH_NhuCauDT on b.NhuCauDT_ID equals e.ID
+                        join f in db.SH_DinhKy on e.MaDinhKy equals f.MaDK
+                        select new NhuCauDTTHView
+                        {
+                            ID_NCDT = a.ID,
+                            NoiDungDT_ID = a.NoiDungDT_ID,
+                            TenNoiDungDT = a.NoiDungDT.NoiDung,
+                            MaNoiDungDT = a.NoiDungDT.MaND,
+                            Quy = a.Quy,
+                            Nam = a.Nam,
+                            BoPhanLNC_ID = a.BoPhanLNC_ID,
+                            TenBoPhan_LNC = c.TenPhongBan,
+                            NguoiTao = a.NhanVien.MaNV + "-" + a.NhanVien.HoTen,
+                            TinhTrang = a.TinhTrang,
+                            PhuongPhapDT_ID = a.PhuongPhapDT_ID,
+                            FileDinhKem = a.FileDinhKem,
+                            TenPPDT = db.SH_PhuongPhapDT.Where(x => x.ID == a.PhuongPhapDT_ID).FirstOrDefault().TenPhuongPhapDT,
+                            TenLoai_NCDT = a.SH_PhanLoaiNCDT.TenLoaiNCDT,
+                            chiTietNhuCauDTTHView = new ChiTietNhuCauDTTHView
+                            {
+                                SoLuongNguoi = b.SoLuongNguoi,
+                                GiangVien_ID = b.GiangVien_ID,
+                                DiaDiemDT = b.DiaDiemDT,
+                                GhiChu = b.GhiChu,
+                                DonViDT = b.DonViDT,
+                                ThoiLuong = b.ThoiLuong_DT,
+                                ThoiGianDT = b.ThoiGian_DT,
+                                TenGiangVien = b.GiangVien_ID != null ? d.HoTen : b.GiangVien_HoTen,
+                                TenViTri = b.GiangVien_Vitri,
+                                DoiTuongDT = b.DoiTuongDT,
+                                TenNhom = a.NoiDungDT.NhomNLKCCD.NoiDung,
+                                TenLVDT = a.NoiDungDT.LinhVucDT.TenLVDT,
+                                MaNV = d.MaNV,
+                            },
+                            PhanLoaiNCDT_ID = a.PhanLoaiNCDT_ID,
+                            ID_NguoiTao = (int)a.NguoiTao_ID,
+                            NgayTao = e.NgayTao.Value
+                        }).OrderBy(x => x.ID_NCDT).ToList();
             using (var workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("NCĐT");
@@ -1199,6 +1213,8 @@ namespace E_Learning.Controllers.DaoTaoTH
                 worksheet.Cell(1, 17).Value = "Tình trạng";
                 worksheet.Cell(1, 18).Value = "Nhóm nhu cầu đào tạo";
                 worksheet.Cell(1, 19).Value = "Ghi chú";
+                worksheet.Cell(1, 20).Value = "Mã nội dung";
+                worksheet.Cell(1, 21).Value = "Ngày tạo";
                 //value
                 //worksheet.Cell(2, 1).Value = 1;
                 //worksheet.Cell(2, 2).Value = "John Doe";
@@ -1240,6 +1256,8 @@ namespace E_Learning.Controllers.DaoTaoTH
                     }
                     worksheet.Cell(row, 18).Value = item.TenLoai_NCDT;
                     worksheet.Cell(row, 19).Value = item.chiTietNhuCauDTTHView.GhiChu;
+                    worksheet.Cell(row, 20).Value = item.MaNoiDungDT;
+                    worksheet.Cell(row, 21).Value = item.NgayTao.ToString("dd/MM/yyyy");
                     row++; stt++;
                 }
 
