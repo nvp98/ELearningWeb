@@ -24,7 +24,7 @@ namespace E_Learning.Controllers.DaoTaoTH
         int Idquyen = MyAuthentication.IDQuyen;
         String ControllerName = "ToChucDTTH";
         // GET: ToChucDTTH
-        public ActionResult Index(int? page,string search, int? NCDT_ID, int? PhuongPhapDT_ID,int? PhanLoaiNCDT_ID , int? IDLH, int? IDPB, int? IDND)
+        public ActionResult Index(int? page,string search, int? NCDT_ID, int? PhuongPhapDT_ID,int? PhanLoaiNCDT_ID , int? IDLH, int? IDPB, int? IDND, int? TinhTrangHoSo)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             ViewBag.QUYENCN = ListQuyen;
@@ -39,7 +39,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                 }
                 var res = new List<ManageClassValidation>();
                 res = (from l in db_context.LopHocs.Where(x => (search == null || x.TenLH.Contains(search)) &&
-                              (NCDT_ID == null || x.NCDT_ID == NCDT_ID) && (IDLH == null || x.IDLH == IDLH) && (IDPB == null || x.BoPhan_ID == IDPB))
+                              (NCDT_ID == null || x.NCDT_ID == NCDT_ID) && (IDLH == null || x.IDLH == IDLH) && (IDPB == null || x.BoPhan_ID == IDPB) && (TinhTrangHoSo == null || x.TinhTrang == TinhTrangHoSo) )
                        join b in db_context.SH_NhuCauDT.Where(x=> (PhanLoaiNCDT_ID == null || x.PhanLoaiNCDT_ID == PhanLoaiNCDT_ID) && (PhuongPhapDT_ID == null || x.PhuongPhapDT_ID == PhuongPhapDT_ID)) on l.NCDT_ID equals b.ID
                        join n in db_context.NoiDungDTs.Where(x=>(IDND == null || x.IDND == IDND)) on l.NDID equals n.IDND
                        //join g in db_context.NhanViens on l.GVID equals g.ID
@@ -100,6 +100,19 @@ namespace E_Learning.Controllers.DaoTaoTH
 
                 List<NoiDungDT> nd = db_context.NoiDungDTs.ToList();
                 ViewBag.IDND = new SelectList(nd, "IDND", "NoiDung");
+
+                var tinhTrang = new List<SelectListItem>
+                {
+                    new SelectListItem { Value = "1", Text = "Hoàn tất" },
+                    new SelectListItem { Value = "0", Text = "Đang lưu" },
+                    new SelectListItem { Value = "2", Text = "Đang trình ký" },
+                    new SelectListItem { Value = "3", Text = "Không phê duyệt" },
+                    new SelectListItem { Value = "4", Text = "Đang trình hồ sơ" },
+                    new SelectListItem { Value = "5", Text = "Đã duyệt hồ sơ" },
+                    new SelectListItem { Value = "6", Text = "Từ chối hồ sơ" }
+                };
+
+                ViewBag.TinhTrang = new SelectList(tinhTrang, "Value", "Text");
 
                 if (page == null) page = 1;
                 int pageSize = 50;

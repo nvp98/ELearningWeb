@@ -67,6 +67,18 @@
                                         @Html.DropDownList("IDPB", null, "--Bộ Phận--", new { id = "IDPB", @class = "form-control marginTB5", @style = "width:100%", })
                                     </div>
                                 </div>
+                                &nbsp;&nbsp;
+                                <div class="col-md-2">
+                                    <div class="row">
+                                        @Html.DropDownList(
+                                            "TinhTrang",
+                                            (SelectList)ViewBag.TinhTrang,
+                                            "--Tình trạng--",
+                                            new { id = "TinhTrang", @class = "form-control marginTB5", @style = "width:100%" }
+                                        )
+
+                                    </div>
+                                </div>
 
                                 <div class="col-md-2">
                                     <div class="input-group-btn"><button class="btn btn-primary marginTB5" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button></div>
@@ -274,14 +286,15 @@
         window.location.href = "/ManageClass/ExportToExcelLH";
     });
 
-    $("#IDPB,#IDLH,#IDND").chosen({
+    $("#IDPB,#IDLH,#IDND, #TinhTrang").chosen({
         width: "100%"
     });
     $("#btn-search").on('click', function () {
         const params = new URLSearchParams(window.location.search);
         const PhuongPhapDT_ID = params.get('PhuongPhapDT_ID');
         const PhanLoaiNCDT_ID = params.get('PhanLoaiNCDT_ID');
-        window.location.href = '@Url.Action("Index", "ToChucDTTH")?IDPB=' + $('#IDPB').val() + '&IDLH=' + $('#IDLH').val() + '&IDND=' + $('#IDND').val() + '&PhuongPhapDT_ID=' + PhuongPhapDT_ID + '&PhanLoaiNCDT_ID=' + PhanLoaiNCDT_ID ;
+
+        window.location.href = '@Url.Action("Index", "ToChucDTTH")?IDPB=' + $('#IDPB').val() + '&IDLH=' + $('#IDLH').val() + '&IDND=' + $('#IDND').val() + '&PhuongPhapDT_ID=' + PhuongPhapDT_ID + '&PhanLoaiNCDT_ID=' + PhanLoaiNCDT_ID + '&TinhTrangHoSo=' + $('#TinhTrang').val() ;
     });
 </script>
 
