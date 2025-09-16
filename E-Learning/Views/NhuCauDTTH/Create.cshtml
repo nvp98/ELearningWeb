@@ -256,7 +256,10 @@
                                     <tr>
                                         <td>Tháng bắt đầu đào tạo(Tháng)</td>
                                         <td>
-                                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.ThoiGianDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "ThoiGianDT", @type = "number", required = "required" })
+                                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.ThoiGianDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "ThoiGianDT", @type = "number", required = "required",
+                                           min = "1",
+                                           max = "12"
+                                       })
                                             @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.ThoiGianDT, "", new { @class = "text-danger" })
                                         </td>
                                     </tr>
