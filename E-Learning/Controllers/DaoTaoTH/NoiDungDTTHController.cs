@@ -1285,6 +1285,13 @@ namespace E_Learning.Controllers.DaoTaoTH
             return Json(ListNV, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public ActionResult UpdateNamQuy()
+        {
+            db.Database.ExecuteSqlCommand("EXEC sp_UpdateAD_NamQuy");
+
+            return Json(new { success = true, message = "Cập nhật năm/quý thành công!" });
+        }
 
         //protected override void Dispose(bool disposing)
         //{

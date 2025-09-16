@@ -56,6 +56,11 @@
 
                 @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD))
                 {
+                    <button type="button" id="btn-update-year" class="btn btn-success float-right ml-2"><i class="fa fa-refresh">&nbsp;</i>&nbsp;Cập nhật năm/quý</button>
+                }
+
+                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD))
+                {
 
                     @*<button type="button" id="btn-Process" class="btn btn-success float-right ml-2"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Xử lý phân quyền vị trí </button>
             <span class="modal fade" id="ProcessModal" role="dialog" data-url='@Url.Action("Process", "NoiDungDTTH",new {IDPhanLoaiDT = Request.QueryString["IDLoaiDT"]})'></span>
@@ -332,5 +337,24 @@
         var search = $('#txtsearch').val();
         window.location.href = '@Url.Action("Index", "NoiDungDTTH")?search=' + search + "&IDLVDT=" + $('#LVDTID').val() + "&IDGV=" + $('#IDGV').val() + "&IDLoaiDT=" + $('#IDLoaiDT').val() + "&IDPPDT=" + $('#IDPPDT').val() + "&IDNhomDT=" + $('#IDNhomDT').val();
     });
+
+    $('#btn-update-year').click(function () {
+        $.ajax({
+            url: '/NoiDungDTTH/UpdateNamQuy',
+            type: 'POST',
+            success: function (res) {
+                if (res.success) {
+                    alert(res.message);
+                    location.reload();
+                } else {
+                    alert("Có lỗi xảy ra!");
+                }
+            },
+            error: function () {
+                alert("Lỗi server");
+            }
+        });
+    });
+
 </script>
 
