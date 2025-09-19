@@ -251,7 +251,7 @@
             <PropertyRef Name="IDNL" />
           </Key>
           <Property Name="IDNL" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TenNL" Type="nvarchar(max)" />
+          <Property Name="TenNL" Type="nvarchar" MaxLength="1000" />
           <Property Name="IDLoaiNL" Type="int" />
           <Property Name="IDVT" Type="int" />
           <Property Name="IDPB" Type="int" />
@@ -260,8 +260,6 @@
           <Property Name="OrderBy" Type="int" />
           <Property Name="IsDuyet" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ELEARNING2025.dbo.KhungNangLuc_DG' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="KhungNangLuc_DG">
           <Key>
             <PropertyRef Name="IDNL" />
@@ -830,7 +828,7 @@ warning 6002: The table/view 'ELEARNING2025.dbo.KhungNangLuc_DG' does not have a
           <Property Name="ThoiGian_DT" Type="int" />
           <Property Name="ThoiLuong_DT" Type="int" />
           <Property Name="DiaDiemDT" Type="nvarchar" MaxLength="150" />
-          <Property Name="GhiChu" Type="nvarchar" MaxLength="150" />
+          <Property Name="GhiChu" Type="nvarchar" MaxLength="50" />
           <Property Name="DonViDT" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="SH_ChiTietCTDT">
@@ -1127,10 +1125,10 @@ warning 6002: The table/view 'ELEARNING2025.dbo.KhungNangLuc_DG' does not have a
           <Property Name="DiemThucHanh" Type="float" />
           <Property Name="DiemVanDap" Type="float" />
           <Property Name="KetLuan" Type="int" />
-          <Property Name="LyDoKhongTGia" Type="nvarchar" MaxLength="250" />
-          <Property Name="TinhTrang" Type="int" />
           <Property Name="IDND" Type="int" />
           <Property Name="ID_PhuongPhapDT" Type="int" />
+          <Property Name="LyDoKhongTGia" Type="nvarchar" MaxLength="250" />
+          <Property Name="TinhTrang" Type="int" />
         </EntityType>
         <Association Name="FK_CauHoiDeThi_CauHoi">
           <End Role="CauHoi" Type="Self.CauHoi" Multiplicity="0..1" />
@@ -1225,18 +1223,6 @@ warning 6002: The table/view 'ELEARNING2025.dbo.KhungNangLuc_DG' does not have a
             </Principal>
             <Dependent Role="KCCD_CTBaiThi">
               <PropertyRef Name="IDCauHoi" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_KNL_KQ_KhungNangLuc">
-          <End Role="KhungNangLuc" Type="Self.KhungNangLuc" Multiplicity="0..1" />
-          <End Role="KNL_KQ" Type="Self.KNL_KQ" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="KhungNangLuc">
-              <PropertyRef Name="IDNL" />
-            </Principal>
-            <Dependent Role="KNL_KQ">
-              <PropertyRef Name="IDNL" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1345,6 +1331,54 @@ warning 6002: The table/view 'ELEARNING2025.dbo.KhungNangLuc_DG' does not have a
             </Principal>
             <Dependent Role="NoiDungDT">
               <PropertyRef Name="LVDTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NoiDungDT_NhomNLKCCD">
+          <End Role="NhomNLKCCD" Type="Self.NhomNLKCCD" Multiplicity="0..1" />
+          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NhomNLKCCD">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NoiDungDT">
+              <PropertyRef Name="IDNhomNL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NoiDungDT_SH_HoatDongDT">
+          <End Role="SH_HoatDongDT" Type="Self.SH_HoatDongDT" Multiplicity="0..1" />
+          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SH_HoatDongDT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NoiDungDT">
+              <PropertyRef Name="IDHoatDongDT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NoiDungDT_SH_NguonGV">
+          <End Role="SH_NguonGV" Type="Self.SH_NguonGV" Multiplicity="0..1" />
+          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SH_NguonGV">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NoiDungDT">
+              <PropertyRef Name="IDNguonGV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NoiDungDT_SH_PhanLoaiNDDT">
+          <End Role="SH_PhanLoaiNDDT" Type="Self.SH_PhanLoaiNDDT" Multiplicity="0..1" />
+          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SH_PhanLoaiNDDT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NoiDungDT">
+              <PropertyRef Name="IDPhanLoaiDT" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1525,6 +1559,18 @@ warning 6002: The table/view 'ELEARNING2025.dbo.KhungNangLuc_DG' does not have a
             </Principal>
             <Dependent Role="SH_ChuongTrinhDT">
               <PropertyRef Name="IDPhongBan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SH_NhuCauDT_NhanVien">
+          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="0..1" />
+          <End Role="SH_NhuCauDT" Type="Self.SH_NhuCauDT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NhanVien">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SH_NhuCauDT">
+              <PropertyRef Name="NguoiTao_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2762,6 +2808,7 @@ warning 6002: The table/view 'ELEARNING2025.dbo.KhungNangLuc_DG' does not have a
           <EntitySet Name="KCCD_CTBaiThi" EntityType="Self.KCCD_CTBaiThi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KCCD_DeThi" EntityType="Self.KCCD_DeThi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KhungNangLuc" EntityType="Self.KhungNangLuc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KhungNangLuc_DG" EntityType="Self.KhungNangLuc_DG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kip" EntityType="Self.Kip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_DG" EntityType="Self.KNL_DG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_DGiaTC" EntityType="Self.KNL_DGiaTC" Schema="dbo" store:Type="Tables" />
@@ -2834,19 +2881,6 @@ warning 6002: The table/view 'ELEARNING2025.dbo.KhungNangLuc_DG' does not have a
           <EntitySet Name="Vitri" EntityType="Self.Vitri" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ViTriKNL" EntityType="Self.ViTriKNL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="XNHocTap" EntityType="Self.XNHocTap" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="KhungNangLuc_DG" EntityType="Self.KhungNangLuc_DG" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [KhungNangLuc_DG].[IDNL] AS [IDNL], 
-    [KhungNangLuc_DG].[TenNL] AS [TenNL], 
-    [KhungNangLuc_DG].[IDLoaiNL] AS [IDLoaiNL], 
-    [KhungNangLuc_DG].[IDVT] AS [IDVT], 
-    [KhungNangLuc_DG].[IDPB] AS [IDPB], 
-    [KhungNangLuc_DG].[DinhMuc] AS [DinhMuc], 
-    [KhungNangLuc_DG].[IsDanhGia] AS [IsDanhGia], 
-    [KhungNangLuc_DG].[OrderBy] AS [OrderBy], 
-    [KhungNangLuc_DG].[IsDuyet] AS [IsDuyet]
-    FROM [dbo].[KhungNangLuc_DG] AS [KhungNangLuc_DG]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_CauHoiDeThi_CauHoi" Association="Self.FK_CauHoiDeThi_CauHoi">
             <End Role="CauHoi" EntitySet="CauHoi" />
             <End Role="CauHoiDeThi" EntitySet="CauHoiDeThi" />
@@ -2878,10 +2912,6 @@ warning 6002: The table/view 'ELEARNING2025.dbo.KhungNangLuc_DG' does not have a
           <AssociationSet Name="FK_KCCD_CTBaiThi_KCCD_CauHoi" Association="Self.FK_KCCD_CTBaiThi_KCCD_CauHoi">
             <End Role="KCCD_CauHoi" EntitySet="KCCD_CauHoi" />
             <End Role="KCCD_CTBaiThi" EntitySet="KCCD_CTBaiThi" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KNL_KQ_KhungNangLuc" Association="Self.FK_KNL_KQ_KhungNangLuc">
-            <End Role="KhungNangLuc" EntitySet="KhungNangLuc" />
-            <End Role="KNL_KQ" EntitySet="KNL_KQ" />
           </AssociationSet>
           <AssociationSet Name="FK_KNL_PheDuyetKNL_NhanVien" Association="Self.FK_KNL_PheDuyetKNL_NhanVien">
             <End Role="NhanVien" EntitySet="NhanVien" />
@@ -2917,6 +2947,22 @@ warning 6002: The table/view 'ELEARNING2025.dbo.KhungNangLuc_DG' does not have a
           </AssociationSet>
           <AssociationSet Name="FK_NoiDungDT_LinhVucDT" Association="Self.FK_NoiDungDT_LinhVucDT">
             <End Role="LinhVucDT" EntitySet="LinhVucDT" />
+            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NoiDungDT_NhomNLKCCD" Association="Self.FK_NoiDungDT_NhomNLKCCD">
+            <End Role="NhomNLKCCD" EntitySet="NhomNLKCCD" />
+            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NoiDungDT_SH_HoatDongDT" Association="Self.FK_NoiDungDT_SH_HoatDongDT">
+            <End Role="SH_HoatDongDT" EntitySet="SH_HoatDongDT" />
+            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NoiDungDT_SH_NguonGV" Association="Self.FK_NoiDungDT_SH_NguonGV">
+            <End Role="SH_NguonGV" EntitySet="SH_NguonGV" />
+            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NoiDungDT_SH_PhanLoaiNDDT" Association="Self.FK_NoiDungDT_SH_PhanLoaiNDDT">
+            <End Role="SH_PhanLoaiNDDT" EntitySet="SH_PhanLoaiNDDT" />
             <End Role="NoiDungDT" EntitySet="NoiDungDT" />
           </AssociationSet>
           <AssociationSet Name="FK_NoiDungDTKCCD_NhomNLKCCD" Association="Self.FK_NoiDungDTKCCD_NhomNLKCCD">
@@ -2978,6 +3024,10 @@ warning 6002: The table/view 'ELEARNING2025.dbo.KhungNangLuc_DG' does not have a
           <AssociationSet Name="FK_SH_ChuongTrinhDT_PhongBan" Association="Self.FK_SH_ChuongTrinhDT_PhongBan">
             <End Role="PhongBan" EntitySet="PhongBan" />
             <End Role="SH_ChuongTrinhDT" EntitySet="SH_ChuongTrinhDT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SH_NhuCauDT_NhanVien" Association="Self.FK_SH_NhuCauDT_NhanVien">
+            <End Role="NhanVien" EntitySet="NhanVien" />
+            <End Role="SH_NhuCauDT" EntitySet="SH_NhuCauDT" />
           </AssociationSet>
           <AssociationSet Name="FK_SH_NhuCauDT_PhongBan" Association="Self.FK_SH_NhuCauDT_PhongBan">
             <End Role="PhongBan" EntitySet="PhongBan" />
@@ -3337,7 +3387,7 @@ warning 6002: The table/view 'ELEARNING2025.dbo.KhungNangLuc_DG' does not have a
             <PropertyRef Name="IDNL" />
           </Key>
           <Property Name="IDNL" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TenNL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TenNL" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="IDLoaiNL" Type="Int32" />
           <Property Name="IDVT" Type="Int32" />
           <Property Name="IDPB" Type="Int32" />
