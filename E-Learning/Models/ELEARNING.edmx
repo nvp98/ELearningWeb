@@ -44,18 +44,6 @@
           <Property Name="ID_NhanVien" Type="int" Nullable="false" />
           <Property Name="ThoiGianXoa" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="BDT_TieuBan">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TenTieuBan" Type="nvarchar" MaxLength="200" />
-          <Property Name="TrangThai" Type="int" />
-          <Property Name="NgayCapNhatGanNhat" Type="date" />
-          <Property Name="NgayDenHanCapNhatLai" Type="date" />
-          <Property Name="NguoiTrinhKy_ID" Type="int" />
-          <Property Name="PhongBan_ID" Type="int" />
-        </EntityType>
         <EntityType Name="BDT_ThanhVienTieuBan">
           <Key>
             <PropertyRef Name="ID" />
@@ -71,6 +59,18 @@
           <Property Name="NhanVienThem_ID" Type="int" />
           <Property Name="NhanVienSua_ID" Type="int" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="BDT_TieuBan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenTieuBan" Type="nvarchar" MaxLength="200" />
+          <Property Name="TrangThai" Type="int" />
+          <Property Name="NgayCapNhatGanNhat" Type="date" />
+          <Property Name="NgayDenHanCapNhatLai" Type="date" />
+          <Property Name="NguoiTrinhKy_ID" Type="int" />
+          <Property Name="PhongBan_ID" Type="int" />
         </EntityType>
         <EntityType Name="BDT_ViTriTieuBan">
           <Key>
@@ -246,6 +246,36 @@
           <Property Name="KCCDID" Type="int" />
           <Property Name="CTDT_ID" Type="int" />
         </EntityType>
+        <EntityType Name="KhungNangLuc">
+          <Key>
+            <PropertyRef Name="IDNL" />
+          </Key>
+          <Property Name="IDNL" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenNL" Type="nvarchar(max)" />
+          <Property Name="IDLoaiNL" Type="int" />
+          <Property Name="IDVT" Type="int" />
+          <Property Name="IDPB" Type="int" />
+          <Property Name="DinhMuc" Type="int" />
+          <Property Name="IsDanhGia" Type="int" />
+          <Property Name="OrderBy" Type="int" />
+          <Property Name="IsDuyet" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ELEARNING2025.dbo.KhungNangLuc_DG' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="KhungNangLuc_DG">
+          <Key>
+            <PropertyRef Name="IDNL" />
+          </Key>
+          <Property Name="IDNL" Type="int" Nullable="false" />
+          <Property Name="TenNL" Type="nvarchar" MaxLength="1000" />
+          <Property Name="IDLoaiNL" Type="int" />
+          <Property Name="IDVT" Type="int" />
+          <Property Name="IDPB" Type="int" />
+          <Property Name="DinhMuc" Type="int" />
+          <Property Name="IsDanhGia" Type="int" />
+          <Property Name="OrderBy" Type="int" />
+          <Property Name="IsDuyet" Type="int" />
+        </EntityType>
         <EntityType Name="Kip">
           <Key>
             <PropertyRef Name="IDKip" />
@@ -282,6 +312,14 @@
           <Property Name="NgayTao" Type="datetime" />
           <Property Name="IsDelete" Type="bit" />
         </EntityType>
+        <EntityType Name="KNL_Khoi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaKhoi" Type="nvarchar" MaxLength="30" />
+          <Property Name="TenKhoi" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="KNL_KQ">
           <Key>
             <PropertyRef Name="IDKQ" />
@@ -305,14 +343,6 @@
           <Property Name="Quy" Type="int" />
           <Property Name="Nam" Type="int" />
           <Property Name="IDLS" Type="int" />
-        </EntityType>
-        <EntityType Name="KNL_Khoi">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MaKhoi" Type="nvarchar" MaxLength="30" />
-          <Property Name="TenKhoi" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="KNL_LoaiKQ">
           <Key>
@@ -351,14 +381,6 @@
           <Property Name="Quy" Type="int" />
           <Property Name="Nam" Type="int" />
         </EntityType>
-        <EntityType Name="KNL_NVKiemNhiem">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IDNV" Type="int" />
-          <Property Name="IDVTKN" Type="int" />
-        </EntityType>
         <EntityType Name="KNL_Nhom">
           <Key>
             <PropertyRef Name="IDNhom" />
@@ -369,6 +391,14 @@
           <Property Name="IDPhongBan" Type="int" />
           <Property Name="IDPhanXuong" Type="int" />
           <Property Name="IDKhoi" Type="int" />
+        </EntityType>
+        <EntityType Name="KNL_NVKiemNhiem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDNV" Type="int" />
+          <Property Name="IDVTKN" Type="int" />
         </EntityType>
         <EntityType Name="KNL_PhanXuong">
           <Key>
@@ -461,34 +491,6 @@
           <Property Name="TongTienThuong" Type="decimal" Precision="18" Scale="0" />
           <Property Name="BannerImage" Type="nvarchar" MaxLength="500" />
         </EntityType>
-        <EntityType Name="KhungNangLuc">
-          <Key>
-            <PropertyRef Name="IDNL" />
-          </Key>
-          <Property Name="IDNL" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TenNL" Type="nvarchar" MaxLength="1000" />
-          <Property Name="IDLoaiNL" Type="int" />
-          <Property Name="IDVT" Type="int" />
-          <Property Name="IDPB" Type="int" />
-          <Property Name="DinhMuc" Type="int" />
-          <Property Name="IsDanhGia" Type="int" />
-          <Property Name="OrderBy" Type="int" />
-          <Property Name="IsDuyet" Type="int" />
-        </EntityType>
-        <EntityType Name="KhungNangLuc_DG">
-          <Key>
-            <PropertyRef Name="IDNL" />
-          </Key>
-          <Property Name="IDNL" Type="int" Nullable="false" />
-          <Property Name="TenNL" Type="nvarchar" MaxLength="1000" />
-          <Property Name="IDLoaiNL" Type="int" />
-          <Property Name="IDVT" Type="int" />
-          <Property Name="IDPB" Type="int" />
-          <Property Name="DinhMuc" Type="int" />
-          <Property Name="IsDanhGia" Type="int" />
-          <Property Name="OrderBy" Type="int" />
-          <Property Name="IsDuyet" Type="int" />
-        </EntityType>
         <EntityType Name="LinhVucDT">
           <Key>
             <PropertyRef Name="IDLVDT" />
@@ -544,6 +546,37 @@
           <Property Name="NgayTao" Type="datetime" />
           <Property Name="NgayKiemTra" Type="datetime" />
           <Property Name="IsCoCTDT" Type="int" />
+        </EntityType>
+        <EntityType Name="NhanVien">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaNV" Type="varchar" MaxLength="10" />
+          <Property Name="MatKhau" Type="nvarchar" MaxLength="50" />
+          <Property Name="HoTen" Type="nvarchar" MaxLength="50" />
+          <Property Name="HoTenKhongDau" Type="nvarchar" MaxLength="50" />
+          <Property Name="NgaySinh" Type="date" />
+          <Property Name="DiaChi" Type="nvarchar" MaxLength="150" />
+          <Property Name="DienThoai" Type="varchar" MaxLength="11" />
+          <Property Name="NgayVaoLam" Type="date" />
+          <Property Name="IDPhongBan" Type="int" />
+          <Property Name="IDTinhTrangLV" Type="int" />
+          <Property Name="IDViTri" Type="int" />
+          <Property Name="IsGV" Type="bit" />
+          <Property Name="IDQuyen" Type="int" />
+          <Property Name="IDVTKNL" Type="int" />
+          <Property Name="IDQuyenKNL" Type="int" />
+          <Property Name="MaViTri" Type="varchar" MaxLength="50" />
+          <Property Name="IDKip" Type="int" />
+          <Property Name="ChuKy" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="NhomNLKCCD">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NoiDung" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="NoiDungDT">
           <Key>
@@ -606,37 +639,6 @@
           <Property Name="NgayTG" Type="date" />
           <Property Name="NgayHT" Type="date" />
           <Property Name="TinhTrang" Type="int" />
-        </EntityType>
-        <EntityType Name="NhanVien">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MaNV" Type="varchar" MaxLength="10" />
-          <Property Name="MatKhau" Type="nvarchar" MaxLength="50" />
-          <Property Name="HoTen" Type="nvarchar" MaxLength="50" />
-          <Property Name="HoTenKhongDau" Type="nvarchar" MaxLength="50" />
-          <Property Name="NgaySinh" Type="date" />
-          <Property Name="DiaChi" Type="nvarchar" MaxLength="150" />
-          <Property Name="DienThoai" Type="varchar" MaxLength="11" />
-          <Property Name="NgayVaoLam" Type="date" />
-          <Property Name="IDPhongBan" Type="int" />
-          <Property Name="IDTinhTrangLV" Type="int" />
-          <Property Name="IDViTri" Type="int" />
-          <Property Name="IsGV" Type="bit" />
-          <Property Name="IDQuyen" Type="int" />
-          <Property Name="IDVTKNL" Type="int" />
-          <Property Name="IDQuyenKNL" Type="int" />
-          <Property Name="MaViTri" Type="varchar" MaxLength="50" />
-          <Property Name="IDKip" Type="int" />
-          <Property Name="ChuKy" Type="nvarchar" MaxLength="100" />
-        </EntityType>
-        <EntityType Name="NhomNLKCCD">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NoiDung" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="PhanQuyenHT">
           <Key>
@@ -827,9 +829,9 @@
           <Property Name="GiangVien_Vitri" Type="nvarchar" MaxLength="250" />
           <Property Name="ThoiGian_DT" Type="int" />
           <Property Name="ThoiLuong_DT" Type="int" />
-          <Property Name="DiaDiemDT" Type="nvarchar" MaxLength="50" />
-          <Property Name="GhiChu" Type="nvarchar" MaxLength="50" />
-          <Property Name="DonViDT" Type="nvarchar" MaxLength="50" />
+          <Property Name="DiaDiemDT" Type="nvarchar" MaxLength="150" />
+          <Property Name="GhiChu" Type="nvarchar" MaxLength="150" />
+          <Property Name="DonViDT" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="SH_ChiTietCTDT">
           <Key>
@@ -852,7 +854,7 @@
           <Property Name="MaNV_GV" Type="nvarchar" MaxLength="20" />
           <Property Name="HoTenGV" Type="nvarchar" MaxLength="50" />
           <Property Name="ViTriCV_GV" Type="nvarchar" MaxLength="200" />
-          <Property Name="DonVi_GV" Type="nvarchar" MaxLength="50" />
+          <Property Name="DonVi_GV" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="SH_ChuongTrinhDT">
           <Key>
@@ -1064,13 +1066,6 @@
           <Property Name="TB_Nam" Type="int" />
           <Property Name="TB_File" Type="nvarchar(max)" />
         </EntityType>
-        <EntityType Name="TinhTrangLV">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="TinhTrangLV" Type="nvarchar" MaxLength="50" />
-        </EntityType>
         <EntityType Name="ThongBao">
           <Key>
             <PropertyRef Name="ID" />
@@ -1079,6 +1074,13 @@
           <Property Name="NoiDungTB" Type="nvarchar(max)" />
           <Property Name="NgayTB" Type="date" />
           <Property Name="TinhTrang" Type="int" />
+        </EntityType>
+        <EntityType Name="TinhTrangLV">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="TinhTrangLV" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Vitri">
           <Key>
@@ -1125,10 +1127,10 @@
           <Property Name="DiemThucHanh" Type="float" />
           <Property Name="DiemVanDap" Type="float" />
           <Property Name="KetLuan" Type="int" />
-          <Property Name="IDND" Type="int" />
-          <Property Name="ID_PhuongPhapDT" Type="int" />
           <Property Name="LyDoKhongTGia" Type="nvarchar" MaxLength="250" />
           <Property Name="TinhTrang" Type="int" />
+          <Property Name="IDND" Type="int" />
+          <Property Name="ID_PhuongPhapDT" Type="int" />
         </EntityType>
         <Association Name="FK_CauHoiDeThi_CauHoi">
           <End Role="CauHoi" Type="Self.CauHoi" Multiplicity="0..1" />
@@ -1226,6 +1228,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_KNL_KQ_KhungNangLuc">
+          <End Role="KhungNangLuc" Type="Self.KhungNangLuc" Multiplicity="0..1" />
+          <End Role="KNL_KQ" Type="Self.KNL_KQ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhungNangLuc">
+              <PropertyRef Name="IDNL" />
+            </Principal>
+            <Dependent Role="KNL_KQ">
+              <PropertyRef Name="IDNL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_KNL_PheDuyetKNL_NhanVien">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="0..1" />
           <End Role="KNL_PheDuyetKNL" Type="Self.KNL_PheDuyetKNL" Multiplicity="*" />
@@ -1259,78 +1273,6 @@
             </Principal>
             <Dependent Role="LopHoc">
               <PropertyRef Name="NDID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NoiDungDT_LinhVucDT">
-          <End Role="LinhVucDT" Type="Self.LinhVucDT" Multiplicity="0..1" />
-          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LinhVucDT">
-              <PropertyRef Name="IDLVDT" />
-            </Principal>
-            <Dependent Role="NoiDungDT">
-              <PropertyRef Name="LVDTID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NoiDungDT_NhomNLKCCD">
-          <End Role="NhomNLKCCD" Type="Self.NhomNLKCCD" Multiplicity="0..1" />
-          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NhomNLKCCD">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="NoiDungDT">
-              <PropertyRef Name="IDNhomNL" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NoiDungDT_SH_HoatDongDT">
-          <End Role="SH_HoatDongDT" Type="Self.SH_HoatDongDT" Multiplicity="0..1" />
-          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SH_HoatDongDT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="NoiDungDT">
-              <PropertyRef Name="IDHoatDongDT" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NoiDungDT_SH_NguonGV">
-          <End Role="SH_NguonGV" Type="Self.SH_NguonGV" Multiplicity="0..1" />
-          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SH_NguonGV">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="NoiDungDT">
-              <PropertyRef Name="IDNguonGV" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NoiDungDT_SH_PhanLoaiNDDT">
-          <End Role="SH_PhanLoaiNDDT" Type="Self.SH_PhanLoaiNDDT" Multiplicity="0..1" />
-          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SH_PhanLoaiNDDT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="NoiDungDT">
-              <PropertyRef Name="IDPhanLoaiDT" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NoiDungDTKCCD_NhomNLKCCD">
-          <End Role="NhomNLKCCD" Type="Self.NhomNLKCCD" Multiplicity="0..1" />
-          <End Role="NoiDungDTKCCD" Type="Self.NoiDungDTKCCD" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NhomNLKCCD">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="NoiDungDTKCCD">
-              <PropertyRef Name="NhomNLID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1391,6 +1333,30 @@
             </Principal>
             <Dependent Role="SH_NhuCauDT">
               <PropertyRef Name="PhanLoaiNCDT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NoiDungDT_LinhVucDT">
+          <End Role="LinhVucDT" Type="Self.LinhVucDT" Multiplicity="0..1" />
+          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LinhVucDT">
+              <PropertyRef Name="IDLVDT" />
+            </Principal>
+            <Dependent Role="NoiDungDT">
+              <PropertyRef Name="LVDTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NoiDungDTKCCD_NhomNLKCCD">
+          <End Role="NhomNLKCCD" Type="Self.NhomNLKCCD" Multiplicity="0..1" />
+          <End Role="NoiDungDTKCCD" Type="Self.NoiDungDTKCCD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NhomNLKCCD">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NoiDungDTKCCD">
+              <PropertyRef Name="NhomNLID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1526,18 +1492,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SH_ChuongTrinhDT_NoiDungDT">
-          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="0..1" />
-          <End Role="SH_ChuongTrinhDT" Type="Self.SH_ChuongTrinhDT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NoiDungDT">
-              <PropertyRef Name="IDND" />
-            </Principal>
-            <Dependent Role="SH_ChuongTrinhDT">
-              <PropertyRef Name="ID_NoiDungDT" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SH_ChuongTrinhDT_NhanVien">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="0..1" />
           <End Role="SH_ChuongTrinhDT" Type="Self.SH_ChuongTrinhDT" Multiplicity="*" />
@@ -1550,6 +1504,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SH_ChuongTrinhDT_NoiDungDT">
+          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="0..1" />
+          <End Role="SH_ChuongTrinhDT" Type="Self.SH_ChuongTrinhDT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NoiDungDT">
+              <PropertyRef Name="IDND" />
+            </Principal>
+            <Dependent Role="SH_ChuongTrinhDT">
+              <PropertyRef Name="ID_NoiDungDT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SH_ChuongTrinhDT_PhongBan">
           <End Role="PhongBan" Type="Self.PhongBan" Multiplicity="0..1" />
           <End Role="SH_ChuongTrinhDT" Type="Self.SH_ChuongTrinhDT" Multiplicity="*" />
@@ -1559,18 +1525,6 @@
             </Principal>
             <Dependent Role="SH_ChuongTrinhDT">
               <PropertyRef Name="IDPhongBan" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SH_NhuCauDT_NhanVien">
-          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="0..1" />
-          <End Role="SH_NhuCauDT" Type="Self.SH_NhuCauDT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NhanVien">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SH_NhuCauDT">
-              <PropertyRef Name="NguoiTao_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1962,9 +1916,6 @@
           <Parameter Name="DiemTuDG" Type="int" Mode="In" />
           <Parameter Name="NgayTuDG" Type="date" Mode="In" />
         </Function>
-        <Function Name="KNL_KQ_LSDG_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IDLS" Type="int" Mode="In" />
-        </Function>
         <Function Name="KNL_KQ_searchByIDNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDNL" Type="int" Mode="In" />
           <Parameter Name="ThangDG" Type="date" Mode="In" />
@@ -2007,9 +1958,6 @@
           <Parameter Name="IDKQ" Type="int" Mode="In" />
           <Parameter Name="DiemTuDG" Type="int" Mode="In" />
           <Parameter Name="NgayTuDG" Type="date" Mode="In" />
-        </Function>
-        <Function Name="KNL_LSDG_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IDLS" Type="int" Mode="In" />
         </Function>
         <Function Name="KNL_LSDG_insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDNV" Type="int" Mode="In" />
@@ -2796,8 +2744,8 @@
           <EntitySet Name="BaiThi" EntityType="Self.BaiThi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BDT_LichSuPheDuyet" EntityType="Self.BDT_LichSuPheDuyet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BDT_LichSuXoa" EntityType="Self.BDT_LichSuXoa" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="BDT_TieuBan" EntityType="Self.BDT_TieuBan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BDT_ThanhVienTieuBan" EntityType="Self.BDT_ThanhVienTieuBan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BDT_TieuBan" EntityType="Self.BDT_TieuBan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BDT_ViTriTieuBan" EntityType="Self.BDT_ViTriTieuBan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CauHoi" EntityType="Self.CauHoi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CauHoiDeThi" EntityType="Self.CauHoiDeThi" Schema="dbo" store:Type="Tables" />
@@ -2813,16 +2761,17 @@
           <EntitySet Name="KCCD_CauHoi" EntityType="Self.KCCD_CauHoi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KCCD_CTBaiThi" EntityType="Self.KCCD_CTBaiThi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KCCD_DeThi" EntityType="Self.KCCD_DeThi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KhungNangLuc" EntityType="Self.KhungNangLuc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kip" EntityType="Self.Kip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_DG" EntityType="Self.KNL_DG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_DGiaTC" EntityType="Self.KNL_DGiaTC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_DocBangKNL" EntityType="Self.KNL_DocBangKNL" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="KNL_KQ" EntityType="Self.KNL_KQ" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_Khoi" EntityType="Self.KNL_Khoi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KNL_KQ" EntityType="Self.KNL_KQ" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_LoaiKQ" EntityType="Self.KNL_LoaiKQ" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_LSDG" EntityType="Self.KNL_LSDG" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="KNL_NVKiemNhiem" EntityType="Self.KNL_NVKiemNhiem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_Nhom" EntityType="Self.KNL_Nhom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KNL_NVKiemNhiem" EntityType="Self.KNL_NVKiemNhiem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_PhanXuong" EntityType="Self.KNL_PhanXuong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_PheDuyetKNL" EntityType="Self.KNL_PheDuyetKNL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KNL_Quyen" EntityType="Self.KNL_Quyen" Schema="dbo" store:Type="Tables" />
@@ -2831,18 +2780,16 @@
           <EntitySet Name="KT_HinhAnh" EntityType="Self.KT_HinhAnh" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KT_LoaiThuong" EntityType="Self.KT_LoaiThuong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KT_NoiDungThuong" EntityType="Self.KT_NoiDungThuong" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="KhungNangLuc" EntityType="Self.KhungNangLuc" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="KhungNangLuc_DG" EntityType="Self.KhungNangLuc_DG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LinhVucDT" EntityType="Self.LinhVucDT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ListController" EntityType="Self.ListController" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoaiKNL" EntityType="Self.LoaiKNL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LopHoc" EntityType="Self.LopHoc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NhanVien" EntityType="Self.NhanVien" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NhomNLKCCD" EntityType="Self.NhomNLKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NoiDungDT" EntityType="Self.NoiDungDT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NoiDungDTKCCD" EntityType="Self.NoiDungDTKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NQ_Chuong" EntityType="Self.NQ_Chuong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NQ_KetQua" EntityType="Self.NQ_KetQua" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="NhanVien" EntityType="Self.NhanVien" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="NhomNLKCCD" EntityType="Self.NhomNLKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhanQuyenHT" EntityType="Self.PhanQuyenHT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhieuXacNhanKCCD" EntityType="Self.PhieuXacNhanKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhongBan" EntityType="Self.PhongBan" Schema="dbo" store:Type="Tables" />
@@ -2882,11 +2829,24 @@
           <EntitySet Name="SH_TrinhKy" EntityType="Self.SH_TrinhKy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SH_ViTri_NDDT" EntityType="Self.SH_ViTri_NDDT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TB_KyLuat" EntityType="Self.TB_KyLuat" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TinhTrangLV" EntityType="Self.TinhTrangLV" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThongBao" EntityType="Self.ThongBao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TinhTrangLV" EntityType="Self.TinhTrangLV" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vitri" EntityType="Self.Vitri" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ViTriKNL" EntityType="Self.ViTriKNL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="XNHocTap" EntityType="Self.XNHocTap" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KhungNangLuc_DG" EntityType="Self.KhungNangLuc_DG" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [KhungNangLuc_DG].[IDNL] AS [IDNL], 
+    [KhungNangLuc_DG].[TenNL] AS [TenNL], 
+    [KhungNangLuc_DG].[IDLoaiNL] AS [IDLoaiNL], 
+    [KhungNangLuc_DG].[IDVT] AS [IDVT], 
+    [KhungNangLuc_DG].[IDPB] AS [IDPB], 
+    [KhungNangLuc_DG].[DinhMuc] AS [DinhMuc], 
+    [KhungNangLuc_DG].[IsDanhGia] AS [IsDanhGia], 
+    [KhungNangLuc_DG].[OrderBy] AS [OrderBy], 
+    [KhungNangLuc_DG].[IsDuyet] AS [IsDuyet]
+    FROM [dbo].[KhungNangLuc_DG] AS [KhungNangLuc_DG]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_CauHoiDeThi_CauHoi" Association="Self.FK_CauHoiDeThi_CauHoi">
             <End Role="CauHoi" EntitySet="CauHoi" />
             <End Role="CauHoiDeThi" EntitySet="CauHoiDeThi" />
@@ -2919,6 +2879,10 @@
             <End Role="KCCD_CauHoi" EntitySet="KCCD_CauHoi" />
             <End Role="KCCD_CTBaiThi" EntitySet="KCCD_CTBaiThi" />
           </AssociationSet>
+          <AssociationSet Name="FK_KNL_KQ_KhungNangLuc" Association="Self.FK_KNL_KQ_KhungNangLuc">
+            <End Role="KhungNangLuc" EntitySet="KhungNangLuc" />
+            <End Role="KNL_KQ" EntitySet="KNL_KQ" />
+          </AssociationSet>
           <AssociationSet Name="FK_KNL_PheDuyetKNL_NhanVien" Association="Self.FK_KNL_PheDuyetKNL_NhanVien">
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="KNL_PheDuyetKNL" EntitySet="KNL_PheDuyetKNL" />
@@ -2930,30 +2894,6 @@
           <AssociationSet Name="FK_LopHoc_NoiDungDT" Association="Self.FK_LopHoc_NoiDungDT">
             <End Role="NoiDungDT" EntitySet="NoiDungDT" />
             <End Role="LopHoc" EntitySet="LopHoc" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NoiDungDT_LinhVucDT" Association="Self.FK_NoiDungDT_LinhVucDT">
-            <End Role="LinhVucDT" EntitySet="LinhVucDT" />
-            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NoiDungDT_NhomNLKCCD" Association="Self.FK_NoiDungDT_NhomNLKCCD">
-            <End Role="NhomNLKCCD" EntitySet="NhomNLKCCD" />
-            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NoiDungDT_SH_HoatDongDT" Association="Self.FK_NoiDungDT_SH_HoatDongDT">
-            <End Role="SH_HoatDongDT" EntitySet="SH_HoatDongDT" />
-            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NoiDungDT_SH_NguonGV" Association="Self.FK_NoiDungDT_SH_NguonGV">
-            <End Role="SH_NguonGV" EntitySet="SH_NguonGV" />
-            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NoiDungDT_SH_PhanLoaiNDDT" Association="Self.FK_NoiDungDT_SH_PhanLoaiNDDT">
-            <End Role="SH_PhanLoaiNDDT" EntitySet="SH_PhanLoaiNDDT" />
-            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NoiDungDTKCCD_NhomNLKCCD" Association="Self.FK_NoiDungDTKCCD_NhomNLKCCD">
-            <End Role="NhomNLKCCD" EntitySet="NhomNLKCCD" />
-            <End Role="NoiDungDTKCCD" EntitySet="NoiDungDTKCCD" />
           </AssociationSet>
           <AssociationSet Name="FK_NhanVien_PhongBan" Association="Self.FK_NhanVien_PhongBan">
             <End Role="PhongBan" EntitySet="PhongBan" />
@@ -2974,6 +2914,14 @@
           <AssociationSet Name="FK_NhuCauDT_PhanLoaiNCDT" Association="Self.FK_NhuCauDT_PhanLoaiNCDT">
             <End Role="SH_PhanLoaiNCDT" EntitySet="SH_PhanLoaiNCDT" />
             <End Role="SH_NhuCauDT" EntitySet="SH_NhuCauDT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NoiDungDT_LinhVucDT" Association="Self.FK_NoiDungDT_LinhVucDT">
+            <End Role="LinhVucDT" EntitySet="LinhVucDT" />
+            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NoiDungDTKCCD_NhomNLKCCD" Association="Self.FK_NoiDungDTKCCD_NhomNLKCCD">
+            <End Role="NhomNLKCCD" EntitySet="NhomNLKCCD" />
+            <End Role="NoiDungDTKCCD" EntitySet="NoiDungDTKCCD" />
           </AssociationSet>
           <AssociationSet Name="FK_PhieuXacNhanKCCD_DeNghiKCCD" Association="Self.FK_PhieuXacNhanKCCD_DeNghiKCCD">
             <End Role="DeNghiKCCD" EntitySet="DeNghiKCCD" />
@@ -3019,21 +2967,17 @@
             <End Role="SH_ChuongTrinhDT" EntitySet="SH_ChuongTrinhDT" />
             <End Role="SH_ChiTietCTDT" EntitySet="SH_ChiTietCTDT" />
           </AssociationSet>
-          <AssociationSet Name="FK_SH_ChuongTrinhDT_NoiDungDT" Association="Self.FK_SH_ChuongTrinhDT_NoiDungDT">
-            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
-            <End Role="SH_ChuongTrinhDT" EntitySet="SH_ChuongTrinhDT" />
-          </AssociationSet>
           <AssociationSet Name="FK_SH_ChuongTrinhDT_NhanVien" Association="Self.FK_SH_ChuongTrinhDT_NhanVien">
             <End Role="NhanVien" EntitySet="NhanVien" />
+            <End Role="SH_ChuongTrinhDT" EntitySet="SH_ChuongTrinhDT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SH_ChuongTrinhDT_NoiDungDT" Association="Self.FK_SH_ChuongTrinhDT_NoiDungDT">
+            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
             <End Role="SH_ChuongTrinhDT" EntitySet="SH_ChuongTrinhDT" />
           </AssociationSet>
           <AssociationSet Name="FK_SH_ChuongTrinhDT_PhongBan" Association="Self.FK_SH_ChuongTrinhDT_PhongBan">
             <End Role="PhongBan" EntitySet="PhongBan" />
             <End Role="SH_ChuongTrinhDT" EntitySet="SH_ChuongTrinhDT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SH_NhuCauDT_NhanVien" Association="Self.FK_SH_NhuCauDT_NhanVien">
-            <End Role="NhanVien" EntitySet="NhanVien" />
-            <End Role="SH_NhuCauDT" EntitySet="SH_NhuCauDT" />
           </AssociationSet>
           <AssociationSet Name="FK_SH_NhuCauDT_PhongBan" Association="Self.FK_SH_NhuCauDT_PhongBan">
             <End Role="PhongBan" EntitySet="PhongBan" />
@@ -3393,7 +3337,7 @@
             <PropertyRef Name="IDNL" />
           </Key>
           <Property Name="IDNL" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TenNL" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="TenNL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IDLoaiNL" Type="Int32" />
           <Property Name="IDVT" Type="Int32" />
           <Property Name="IDPB" Type="Int32" />
@@ -3755,9 +3699,9 @@
           <Property Name="GiangVien_Vitri" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="ThoiGian_DT" Type="Int32" />
           <Property Name="ThoiLuong_DT" Type="Int32" />
-          <Property Name="DiaDiemDT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GhiChu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DonViDT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DiaDiemDT" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="GhiChu" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="DonViDT" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SH_NhuCauDT" Relationship="Self.FK_SH_ChiTiet_NCDT_SH_NhuCauDT" FromRole="SH_ChiTiet_NCDT" ToRole="SH_NhuCauDT" />
         </EntityType>
         <EntityType Name="SH_ChiTietCTDT">
@@ -6682,7 +6626,7 @@
           <Property Name="MaNV_GV" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="HoTenGV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ViTriCV_GV" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="DonVi_GV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DonVi_GV" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="XNHocTap">
           <Key>
@@ -9350,8 +9294,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="KNL_LSDG_delete" FunctionName="ELEARNINGModel.Store.KNL_LSDG_delete" />
-          <FunctionImportMapping FunctionImportName="KNL_KQ_LSDG_delete" FunctionName="ELEARNINGModel.Store.KNL_KQ_LSDG_delete" />
           <FunctionImportMapping FunctionImportName="KNL_KQ_TheoQuy" FunctionName="ELEARNINGModel.Store.KNL_KQ_TheoQuy">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ELEARNINGModel.KNL_KQ_TheoQuy_Result">

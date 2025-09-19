@@ -233,7 +233,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label class=" mb-1 font-weight-bold">Đơn vị đào tạo <span class="text-danger">(*)</span></label>
-                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.DonViDT, new { @class = "form-control ", @rows = 1, placeholder = "Đơn vị đào tạo", @id = "DonViDT", })
+                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.DonViDT, new { @class = "form-control ", @rows = 1, placeholder = "Đơn vị đào tạo", @id = "DonViDT", maxlength = "150" })
                             @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.DonViDT, "", new { @class = "text-danger" })
                         </div>
                         @*<div class="form-group col-md-4">
@@ -250,7 +250,7 @@
                                     <tr>
                                         <td>Đối tượng tham gia đào tạo</td>
                                         <td>
-                                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.DoiTuongDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "DoiTuongDT", required = "required" })
+                                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.DoiTuongDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "DoiTuongDT", required = "required", maxlength = "250" })
                                         </td>
                                     </tr>
                                     <tr>
@@ -280,14 +280,14 @@
                                     <tr>
                                         <td>Địa điểm đào tạo</td>
                                         <td>
-                                            @Html.TextAreaFor(model => model.chiTietNhuCauDTTHView.DiaDiemDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "DiaDiemDT", required = "required" })
+                                            @Html.TextAreaFor(model => model.chiTietNhuCauDTTHView.DiaDiemDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "DiaDiemDT", required = "required", maxlength = "150" })
                                             @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.DiaDiemDT, "", new { @class = "text-danger" })
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Ghi chú</td>
                                         <td>
-                                            @Html.TextAreaFor(model => model.chiTietNhuCauDTTHView.GhiChu, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "GhiChu", })
+                                            @Html.TextAreaFor(model => model.chiTietNhuCauDTTHView.GhiChu, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "GhiChu", maxlength = "150" })
                                             @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.GhiChu, "", new { @class = "text-danger" })
                                         </td>
                                     </tr>
