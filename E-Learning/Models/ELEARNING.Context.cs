@@ -4272,24 +4272,6 @@ namespace E_Learning.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<KNL_LSDG_TheoQuy_Result>("KNL_LSDG_TheoQuy", namParameter, quyParameter, iDNVParameter);
         }
     
-        public virtual int KNL_LSDG_delete(Nullable<int> iDLS)
-        {
-            var iDLSParameter = iDLS.HasValue ?
-                new ObjectParameter("IDLS", iDLS) :
-                new ObjectParameter("IDLS", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_LSDG_delete", iDLSParameter);
-        }
-    
-        public virtual int KNL_KQ_LSDG_delete(Nullable<int> iDLS)
-        {
-            var iDLSParameter = iDLS.HasValue ?
-                new ObjectParameter("IDLS", iDLS) :
-                new ObjectParameter("IDLS", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_KQ_LSDG_delete", iDLSParameter);
-        }
-    
         public virtual ObjectResult<KNL_KQ_TheoQuy_Result> KNL_KQ_TheoQuy(Nullable<int> nam, Nullable<int> quy, Nullable<int> iDNV)
         {
             var namParameter = nam.HasValue ?
@@ -4339,6 +4321,24 @@ namespace E_Learning.Models
                 new ObjectParameter("IDNV", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<KNL_DocBangKNL_IDNV_Result>("KNL_DocBangKNL_IDNV", iDVTParameter, iDNVParameter);
+        }
+    
+        public virtual int KNL_LSDG_delete(Nullable<int> iDLS)
+        {
+            var iDLSParameter = iDLS.HasValue ?
+                new ObjectParameter("IDLS", iDLS) :
+                new ObjectParameter("IDLS", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_LSDG_delete", iDLSParameter);
+        }
+    
+        public virtual int KNL_KQ_LSDG_delete(Nullable<int> iDLS)
+        {
+            var iDLSParameter = iDLS.HasValue ?
+                new ObjectParameter("IDLS", iDLS) :
+                new ObjectParameter("IDLS", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_KQ_LSDG_delete", iDLSParameter);
         }
     }
 }

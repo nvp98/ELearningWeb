@@ -828,7 +828,7 @@
           <Property Name="ThoiGian_DT" Type="int" />
           <Property Name="ThoiLuong_DT" Type="int" />
           <Property Name="DiaDiemDT" Type="nvarchar" MaxLength="150" />
-          <Property Name="GhiChu" Type="nvarchar" MaxLength="50" />
+          <Property Name="GhiChu" Type="nvarchar" MaxLength="150" />
           <Property Name="DonViDT" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="SH_ChiTietCTDT">
@@ -1962,6 +1962,9 @@
           <Parameter Name="DiemTuDG" Type="int" Mode="In" />
           <Parameter Name="NgayTuDG" Type="date" Mode="In" />
         </Function>
+        <Function Name="KNL_KQ_LSDG_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDLS" Type="int" Mode="In" />
+        </Function>
         <Function Name="KNL_KQ_searchByIDNL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDNL" Type="int" Mode="In" />
           <Parameter Name="ThangDG" Type="date" Mode="In" />
@@ -2004,6 +2007,9 @@
           <Parameter Name="IDKQ" Type="int" Mode="In" />
           <Parameter Name="DiemTuDG" Type="int" Mode="In" />
           <Parameter Name="NgayTuDG" Type="date" Mode="In" />
+        </Function>
+        <Function Name="KNL_LSDG_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDLS" Type="int" Mode="In" />
         </Function>
         <Function Name="KNL_LSDG_insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDNV" Type="int" Mode="In" />
@@ -5899,12 +5905,6 @@
             <Parameter Name="Quy" Mode="In" Type="Int32" />
             <Parameter Name="IDNV" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="KNL_LSDG_delete">
-          <Parameter Name="IDLS" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="KNL_KQ_LSDG_delete">
-          <Parameter Name="IDLS" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="KNL_KQ_TheoQuy" ReturnType="Collection(ELEARNINGModel.KNL_KQ_TheoQuy_Result)">
             <Parameter Name="Nam" Mode="In" Type="Int32" />
             <Parameter Name="Quy" Mode="In" Type="Int32" />
@@ -5922,6 +5922,12 @@
             <Parameter Name="IDNV" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="KNL_LSDG" EntityType="ELEARNINGModel.KNL_LSDG" />
+          <FunctionImport Name="KNL_LSDG_delete">
+          <Parameter Name="IDLS" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="KNL_KQ_LSDG_delete">
+            <Parameter Name="IDLS" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="CauHoi_DeThi_list_Result">
           <Property Type="Int32" Name="IDCH" Nullable="false" />
@@ -9460,6 +9466,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="KNL_LSDG_delete" FunctionName="ELEARNINGModel.Store.KNL_LSDG_delete" />
+          <FunctionImportMapping FunctionImportName="KNL_KQ_LSDG_delete" FunctionName="ELEARNINGModel.Store.KNL_KQ_LSDG_delete" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -9475,7 +9483,7 @@
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="False" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
