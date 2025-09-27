@@ -232,6 +232,21 @@ namespace E_Learning.Controllers.QTHD
                         Worksheet.Cell(row, "J").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                         Worksheet.Cell(row, "J").Style.DateFormat.Format = "dd/MM/yyyy";
 
+                        Worksheet.Cell(row, "K").Value = data.TenPX != null ? data.TenPX.ToString() : "";
+                        Worksheet.Cell(row, "K").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "K").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "K").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "L").Value = data.TenNhom != null ? data.TenNhom.ToString() : "";
+                        Worksheet.Cell(row, "L").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "L").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "L").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        Worksheet.Cell(row, "M").Value = data.TenTo != null ? data.TenTo.ToString() : "";
+                        Worksheet.Cell(row, "M").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                        Worksheet.Cell(row, "M").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                        Worksheet.Cell(row, "M").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
                         row = row + 1;
                     }
 
@@ -285,9 +300,27 @@ namespace E_Learning.Controllers.QTHD
                            MaViTri = a.MaViTri,
                            NgayHieuLuc = a.NgayHieuLuc,
                            NgayHetHieuLuc = a.NgayHetHieuLuc,
-                           TinhTrangHL = a.NgayHieuLuc < DateTime.Now && (a.NgayHetHieuLuc == null || a.NgayHetHieuLuc == default || a.NgayHetHieuLuc > DateTime.Now) ? 1 : a.NgayHieuLuc > DateTime.Now ? 2 : 0,
-                           TinhTrangKT = a.DKID != 1 && a.NgayHT != null && DateTime.Now > ((DateTime)a.NgayHT).AddMonths((int)db.QT_DinhKy.Where(x=>x.IDDK == a.DKID).FirstOrDefault().MaDinhKy) ?1:0 
-                       }).ToList().Where(x => x.TinhTrangHL == 1).OrderBy(x => x.MaNV).OrderBy(x=>x.IDPB);
+                           TenPX = a.TenPX,
+                           TenNhom = a.TenNhom,
+                           TenTo = a.TenTo,
+                           TinhTrangHL = a.NgayHieuLuc < DateTime.Now
+                                            && (a.NgayHetHieuLuc == null
+                                                || a.NgayHetHieuLuc == default
+                                                || a.NgayHetHieuLuc > DateTime.Now)
+                                            ? 1 : a.NgayHieuLuc > DateTime.Now ? 2 : 0,
+                           TinhTrangKT = a.DKID != 1
+                                         && a.NgayHT != null
+                                         && DateTime.Now > ((DateTime)a.NgayHT)
+                                            .AddMonths((int)db.QT_DinhKy
+                                                         .Where(x => x.IDDK == a.DKID)
+                                                         .FirstOrDefault().MaDinhKy)
+                                            ? 1 : 0
+                       })
+                       .ToList()
+                       .Where(x => x.TinhTrangHL == 1)
+                       .OrderBy(x => x.MaNV)
+                       .OrderBy(x => x.IDPB);
+
 
             if (IDMahieu != 0) res = res.Where(x => x.IDQTHD == IDMahieu).ToList().OrderBy(x => x.MaNV).OrderBy(x => x.IDPB);
             if (IDQT != 0) res = res.Where(x => x.IDQTHD == IDQT).ToList().OrderBy(x => x.MaNV).OrderBy(x => x.IDPB);

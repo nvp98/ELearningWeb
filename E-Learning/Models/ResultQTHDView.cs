@@ -31,5 +31,8 @@ namespace E_Learning.Models
         public DateTime? NgayHetHieuLuc { get; set; }
         public int? TinhTrangHL { get; set; }
         public int? TinhTrangKT { get; set; }
+        public string TenPX { get; set; }
+        public string TenNhom { get; set; }
+        public string TenTo { get; set; }
     }
 }

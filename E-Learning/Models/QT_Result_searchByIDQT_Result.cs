@@ -32,5 +32,8 @@ namespace E_Learning.Models
         public Nullable<int> TinhTrang { get; set; }
         public Nullable<System.DateTime> NgayHT { get; set; }
         public Nullable<System.DateTime> NgayKTTT { get; set; }
+        public string TenPX { get; set; }
+        public string TenNhom { get; set; }
+        public string TenTo { get; set; }
     }
 }
