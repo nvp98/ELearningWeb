@@ -44,12 +44,23 @@
             <div class="col float-right">
                 @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EX))
                 {
-                    <button type="button" id="btn-Export" class="btn btn-success float-right ml-2"><i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Export Danh sách NDĐT</button>
+                    <button type="button" id="btn-Export" class="btn btn-success float-right ml-2">
+                        <i class="fa fa-file-excel-o">&nbsp;</i>&nbsp;Export Danh sách NDĐT
+                    </button>
+
                     <script>
-                        const urlParams = new URLSearchParams(window.location.search);
-                        const myParam = urlParams.get('IDLoaiDT');
-                        $('#btn-Export').click(function () {
-                            window.location.href = "/NoiDungDTTH/ExportExcel?IDPhanLoaiDT=" + myParam;
+                        $(document).ready(function () {
+                            const urlParams = new URLSearchParams(window.location.search);
+                            const myParam = urlParams.get('IDLoaiDT');
+
+                            $('#btn-Export').click(function () {
+                                let exportUrl = "/NoiDungDTTH/ExportExcel";
+
+                                if (myParam && myParam.trim() !== "" && !isNaN(myParam)) {
+                                    exportUrl += "?IDPhanLoaiDT=" + encodeURIComponent(myParam);
+                                }
+                                window.location.href = exportUrl;
+                            });
                         });
                     </script>
                 }

@@ -582,16 +582,18 @@ namespace E_Learning.Controllers.DaoTaoTH
             return model.ID;
         }
 
-
-        public ActionResult ExportExcel(int IDPhanLoaiDT)
+        public ActionResult ExportExcel(int? IDPhanLoaiDT)
         {
             try
             {
                 string fileNamemau = AppDomain.CurrentDomain.BaseDirectory + @"App_Data\DS_NoiDungDTTH.xlsx";
                 string fileNamemaunew = AppDomain.CurrentDomain.BaseDirectory + @"App_Data\DS_NoiDungDTTH_Temp.xlsx";
+
                 XLWorkbook Workbook = new XLWorkbook(fileNamemau);
                 IXLWorksheet Worksheet = Workbook.Worksheet("NDDTTH");
+
                 List<NoiDungDTTHView> DataKNL = ListNDDT(IDPhanLoaiDT);
+
                 int row = 2;
                 if (DataKNL.Count > 0)
                 {
@@ -603,78 +605,36 @@ namespace E_Learning.Controllers.DaoTaoTH
                         Worksheet.Cell(row, "A").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
                         Worksheet.Cell(row, "B").Value = data.IDND;
-                        Worksheet.Cell(row, "B").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                        Worksheet.Cell(row, "B").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                        Worksheet.Cell(row, "B").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-
                         Worksheet.Cell(row, "C").Value = data.NoiDung;
-                        Worksheet.Cell(row, "C").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                        Worksheet.Cell(row, "C").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                        Worksheet.Cell(row, "C").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-
                         Worksheet.Cell(row, "D").Value = data.TenNguonGV;
-                        Worksheet.Cell(row, "D").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                        Worksheet.Cell(row, "D").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                        Worksheet.Cell(row, "D").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-
                         Worksheet.Cell(row, "E").Value = data.TenLVDT;
-                        Worksheet.Cell(row, "E").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                        Worksheet.Cell(row, "E").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                        Worksheet.Cell(row, "E").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-
                         Worksheet.Cell(row, "F").Value = data.TenHoatDongDT;
-                        Worksheet.Cell(row, "F").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                        Worksheet.Cell(row, "F").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                        Worksheet.Cell(row, "F").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-
-
                         Worksheet.Cell(row, "G").Value = data.TenNhomNL;
-                        Worksheet.Cell(row, "G").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                        Worksheet.Cell(row, "G").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                        Worksheet.Cell(row, "G").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-                        //Worksheet.Cell(row, "F").Style.Fill.BackgroundColor = XLColor.Yellow;
-
                         Worksheet.Cell(row, "H").Value = data.TenPPDT;
-                        Worksheet.Cell(row, "H").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                        Worksheet.Cell(row, "H").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                        Worksheet.Cell(row, "H").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-                        //Worksheet.Cell(row, "H").Style.DateFormat.Format = "dd/MM/yyyy";
-
                         Worksheet.Cell(row, "I").Value = data.TenLoaiDT;
-                        Worksheet.Cell(row, "I").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                        Worksheet.Cell(row, "I").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                        Worksheet.Cell(row, "I").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
-                        row = row + 1;
+                        row++;
                     }
-
-                    Workbook.SaveAs(fileNamemaunew);
-                    byte[] fileBytes = System.IO.File.ReadAllBytes(fileNamemaunew);
-                    string fileName = "ThongKe_DS_NoiDungDTTH - " + DateTime.Now.Date.ToString("dd/MM/yyyy") + ".xlsx";
-                    return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-                }
-                else
-                {
-
-                    //Worksheet.Cell("A1").Value = "Ngày xuất file: " + DateTime.Now.Date.ToString("dd/MM/yyyy");
-                    Workbook.SaveAs(fileNamemaunew);
-                    byte[] fileBytes = System.IO.File.ReadAllBytes(fileNamemaunew);
-                    string fileName = "ThongKe_DS_NoiDungDTTH - " + DateTime.Now.Date.ToString("dd/MM/yyyy") + ".xlsx";
-                    return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
                 }
 
+                Workbook.SaveAs(fileNamemaunew);
+                byte[] fileBytes = System.IO.File.ReadAllBytes(fileNamemaunew);
+                string fileName = "ThongKe_DS_NoiDungDTTH - " + DateTime.Now.ToString("dd-MM-yyyy") + ".xlsx";
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
             catch (Exception ex)
             {
-                TempData["msg"] = "<script>alert('" + ex + "');window.location.href = '/Everyday/'</script>";
+                TempData["msg"] = "<script>alert('" + ex.Message + "');window.location.href = '/Everyday/'</script>";
                 return View(TempData);
             }
         }
-        public List<NoiDungDTTHView> ListNDDT(int IDLoaiDT)
+
+        public List<NoiDungDTTHView> ListNDDT(int? IDLoaiDT)
         {
-            var noiDungDTs = (from a in db.NoiDungDTs.Where(x => (IDLoaiDT == null || x.IDPhanLoaiDT == IDLoaiDT))
+            var noiDungDTs = (from a in db.NoiDungDTs
+                              where (IDLoaiDT == null || a.IDPhanLoaiDT == IDLoaiDT)
                               join d in db.SH_PhuongPhapDT
-                              on a.IDPhuongPhapDT equals d.ID into uli
+                                  on a.IDPhuongPhapDT equals d.ID into uli
                               from d in uli.DefaultIfEmpty()
                               select new NoiDungDTTHView
                               {
@@ -686,7 +646,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                   IDNhomNL = a.IDNhomNL,
                                   TenNhomNL = a.NhomNLKCCD.NoiDung,
                                   IDPPDT = a.IDPhuongPhapDT,
-                                  TenPPDT = a.IDPhuongPhapDT != null && a.IDPhuongPhapDT != 0 ? db.SH_PhuongPhapDT.FirstOrDefault().TenPhuongPhapDT : "",
+                                  TenPPDT = a.IDPhuongPhapDT != null && a.IDPhuongPhapDT != 0
+                                            ? d.TenPhuongPhapDT
+                                            : "",
                                   BPLID = a.BPLID,
                                   FileDinhKem = a.FileDinhKem,
                                   IDCTLVDT = a.IDCTLVDT,
@@ -702,8 +664,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                                   TenHoatDongDT = a.SH_HoatDongDT.TenHoatDong,
                                   VideoND = a.VideoND,
                                   ThoiLuongDT = a.ThoiLuongDT,
-                                  SLViTri = db.SH_ViTri_NDDT.Where(x => x.NoiDungDT_ID == a.IDND).Count(),
+                                  SLViTri = db.SH_ViTri_NDDT.Count(x => x.NoiDungDT_ID == a.IDND),
                               }).ToList();
+
             return noiDungDTs;
         }
 
