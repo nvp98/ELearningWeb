@@ -120,132 +120,173 @@ namespace E_Learning.Controllers.KNL
             int pageNumber = (page ?? 1);
             return View(res.ToList().ToPagedList(pageNumber, pageSize));
         }
-        public int CheckDGiaNV()
-        {
-            string manv = MyAuthentication.Username;
-            int idpb = MyAuthentication.IDPhongban;
-            int? IDVTKNL = MyAuthentication.IDVTKNL;
-            if (IDVTKNL == 0 || manv ==null || idpb ==0) return 0;
+        //public int CheckDGiaNV()
+        //{
+        //    string manv = MyAuthentication.Username;
+        //    int idpb = MyAuthentication.IDPhongban;
+        //    int? IDVTKNL = MyAuthentication.IDVTKNL;
+        //    if (IDVTKNL == 0 || manv ==null || idpb ==0) return 0;
 
-            var res = new List<FCheckValidation>();
-            var resView = new List<FCheckValidation>();
-            var nv = db.NhanViens.Where(x => x.MaNV == manv).FirstOrDefault();
-            var vt = db.ViTriKNLs.Where(x => x.IDVT == IDVTKNL).FirstOrDefault();
-            if (nv ==null || vt == null) return 0;
-            if(vt != null &&  nv != null)
-            {
-                resView = getListUerView(vt, idpb, nv);
-                res = getListUser(vt, idpb, nv);
-                if (res.Count != 0 || resView.Count != 0) return 1;
-            }
-            var aa = db.KNL_NVKiemNhiem.Where(x => x.IDNV == nv.ID).ToList();
-            if (aa.Count > 0)
-            {
-                foreach (var item in aa)
-                {
-                    var vt1 = db.ViTriKNLs.Where(x => x.IDVT == item.IDVTKN).FirstOrDefault();
-                    if(vt1 != null)
-                    {
-                        var res1 = getListUser(vt1, vt1.IDPB, nv);
-                        var resV = getListUerView(vt1, vt1.IDPB, nv);
-                        resView.AddRange(resV);
-                        res.AddRange(res1);
-                    }
+        //    var res = new List<FCheckValidation>();
+        //    var resView = new List<FCheckValidation>();
+        //    var nv = db.NhanViens.Where(x => x.MaNV == manv).FirstOrDefault();
+        //    var vt = db.ViTriKNLs.Where(x => x.IDVT == IDVTKNL).FirstOrDefault();
+        //    if (nv ==null || vt == null) return 0;
+        //    if(vt != null &&  nv != null)
+        //    {
+        //        resView = getListUerView(vt, idpb, nv);
+        //        res = getListUser(vt, idpb, nv);
+        //        if (res.Count != 0 || resView.Count != 0) return 1;
+        //    }
+        //    var aa = db.KNL_NVKiemNhiem.Where(x => x.IDNV == nv.ID).ToList();
+        //    if (aa.Count > 0)
+        //    {
+        //        foreach (var item in aa)
+        //        {
+        //            var vt1 = db.ViTriKNLs.Where(x => x.IDVT == item.IDVTKN).FirstOrDefault();
+        //            if(vt1 != null)
+        //            {
+        //                var res1 = getListUser(vt1, vt1.IDPB, nv);
+        //                var resV = getListUerView(vt1, vt1.IDPB, nv);
+        //                resView.AddRange(resV);
+        //                res.AddRange(res1);
+        //            }
                     
-                }
-            }
-            if (resView.Count == 0 && res.Count == 0)
-            {
-                return 0;
-            }
-            return 1;
-        }
+        //        }
+        //    }
+        //    if (resView.Count == 0 && res.Count == 0)
+        //    {
+        //        return 0;
+        //    }
+        //    return 1;
+        //}
         public List<FCheckValidation> getListUser( ViTriKNL vt ,int? idpb,NhanVien nv)
         {
             var vt2 = checkMVT2(vt.MaViTri);
             var vt3 = checkMVT3(vt.MaViTri);
-            var res = new List<FCheckValidation>();
-            if(idpb ==null) idpb = 0;
+            var res = (from a in db.KNL_GetNhanVienDanhGiaTT(vt.IDVT)
+                                 select new FCheckValidation
+                                 {
+                                     MaNV = a.MaNV,
+                                     IDNV = a.ID,
+                                     IDVT = a.IDVT,
+                                     TenVT = a.TenViTri,
+                                     TenNV = a.HoTen,
+                                     IDKip = a.IDKip,
+                                     //TenKip = a.TenKip,
+                                     fileBMTCV = a.FilePath,
+                                     NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+                                     Total = a.TongNLDuyet,
+                                     TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
+                                     NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
+                                 }).ToList();
+            //if(idpb ==null) idpb = 0;
 
-            if (vt.IDNhom != null && vt2 == "PT")
-            {
-                res  = (from a in db.NhanVien_SelectKQKNL_V2(null, null, vt.IDNhom,null)
-                        select new FCheckValidation
-                           {
-                               MaNV = a.MaNV,
-                               IDNV = a.ID,
-                               IDVT = a.IDVT,
-                               TenVT = a.TenViTri,
-                               TenNV = a.HoTen,
-                               IDKip = a.IDKip,
-                               TenKip = a.TenKip,
-                               fileBMTCV = a.FilePath,
-                               NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
-                               Total = a.TongNLDuyet,
-                               TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
-                               NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
-                        }).Where(x=>x.IDVT != vt.IDVT).ToList();
-            }
-            else if (vt.IDTo != null && vt2 == "TT")
-            {
-                res = (from a in db.NhanVien_SelectKQKNL_V2(null,null,null,vt.IDTo)
-                       select new FCheckValidation
-                       {
-                           MaNV = a.MaNV,
-                           IDNV = a.ID,
-                           IDVT = a.IDVT,
-                           TenVT = a.TenViTri,
-                           TenNV = a.HoTen,
-                           IDKip = a.IDKip,
-                           TenKip = a.TenKip,
-                           fileBMTCV = a.FilePath,
-                           NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
-                           Total = a.TongNLDuyet,
-                           TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
-                           NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
-                       }).Where(x => x.IDVT != vt.IDVT).ToList();
-            }
+            //if (vt.IDNhom != null && vt2 == "PT")
+            //{
+            //    res  = (from a in db.NhanVien_SelectKQKNL_V2(null, null, vt.IDNhom,null)
+            //            select new FCheckValidation
+            //               {
+            //                   MaNV = a.MaNV,
+            //                   IDNV = a.ID,
+            //                   IDVT = a.IDVT,
+            //                   TenVT = a.TenViTri,
+            //                   TenNV = a.HoTen,
+            //                   IDKip = a.IDKip,
+            //                   TenKip = a.TenKip,
+            //                   fileBMTCV = a.FilePath,
+            //                   NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+            //                   Total = a.TongNLDuyet,
+            //                   TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
+            //                   NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
+            //            }).Where(x=>x.IDVT != vt.IDVT).ToList();
+            //}
+            //else if (vt.IDTo != null && vt2 == "TT")
+            //{
+            //    res = (from a in db.NhanVien_SelectKQKNL_V2(null,null,null,vt.IDTo)
+            //           select new FCheckValidation
+            //           {
+            //               MaNV = a.MaNV,
+            //               IDNV = a.ID,
+            //               IDVT = a.IDVT,
+            //               TenVT = a.TenViTri,
+            //               TenNV = a.HoTen,
+            //               IDKip = a.IDKip,
+            //               TenKip = a.TenKip,
+            //               fileBMTCV = a.FilePath,
+            //               NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+            //               Total = a.TongNLDuyet,
+            //               TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
+            //               NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
+            //           }).Where(x => x.IDVT != vt.IDVT).ToList();
+            //}
 
-            List<KNLDGiaTCValidation> lsVTTT = (from a in db.KNLDGiaTC_select(vt.IDVT).Where(x=> x.IDVTDGTT != null)
-                                                select new KNLDGiaTCValidation
-                                                {
-                                                    ID = a.ID,
-                                                    IDVT = (int)a.IDVT,
-                                                    TenViTri = a.TenViTri,
-                                                    MaViTri = a.MaViTri,
-                                                    IDPB = a.IDPhongBan,
-                                                    IDVTDGTC = a.IDVTDGTC,
-                                                    IDVTDGTT = a.IDVTDGTT
-                                                }).ToList();
-            if (lsVTTT.Count > 0)
+            //List<KNLDGiaTCValidation> lsVTTT = (from a in db.KNLDGiaTC_select(vt.IDVT).Where(x=> x.IDVTDGTT != null)
+            //                                    select new KNLDGiaTCValidation
+            //                                    {
+            //                                        ID = a.ID,
+            //                                        IDVT = (int)a.IDVT,
+            //                                        TenViTri = a.TenViTri,
+            //                                        MaViTri = a.MaViTri,
+            //                                        IDPB = a.IDPhongBan,
+            //                                        IDVTDGTC = a.IDVTDGTC,
+            //                                        IDVTDGTT = a.IDVTDGTT
+            //                                    }).ToList();
+            //if (lsVTTT.Count > 0)
+            //{
+            //    var resVT=new List<FCheckValidation>();
+            //    var aa = new List<FCheckValidation>();
+            //    //foreach (var item in lsVTTT)
+            //    //{
+            //    //    var nhanvienDG = (from a in db.NhanVien_SelectKQKNL_V2(null, item.IDVTDGTT,null,null)
+            //    //                      select new FCheckValidation
+            //    //                      {
+            //    //                          MaNV = a.MaNV,
+            //    //                          IDNV = a.ID,
+            //    //                          IDVT = a.IDVT,
+            //    //                          TenVT = a.TenViTri,
+            //    //                          TenNV = a.HoTen,
+            //    //                          IDKip = a.IDKip,
+            //    //                          TenKip = a.TenKip,
+            //    //                          fileBMTCV = a.FilePath,
+            //    //                          NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+            //    //                          Total = a.TongNLDuyet,
+            //    //                          TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
+            //    //                          NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
+            //    //                      });
+            //    //    aa.AddRange(nhanvienDG);
+            //    //}
+            //    if (vt2 == "TK" || vt2 =="PK" || vt2 =="TP")
+            //    {
+            //        aa = aa.Where(x =>  x.IDKip == nv.IDKip || (x.IDKip != 1 && x.IDKip != 2 & x.IDKip != 3)).ToList();
+            //    }
+            //    var nhanvienDG = (from a in db.KNL_GetNhanVienDanhGiaTT(vt.IDVT)
+            //                      select new FCheckValidation
+            //                      {
+            //                          MaNV = a.MaNV,
+            //                          IDNV = a.ID,
+            //                          IDVT = a.IDVT,
+            //                          TenVT = a.TenViTri,
+            //                          TenNV = a.HoTen,
+            //                          IDKip = a.IDKip,
+            //                          //TenKip = a.TenKip,
+            //                          fileBMTCV = a.FilePath,
+            //                          NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+            //                          Total = a.TongNLDuyet,
+            //                          TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
+            //                          NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
+            //                      });
+            //    aa.AddRange(nhanvienDG);
+            //    if (vt2 == "TK" || vt2 == "PK" || vt2 == "TP")
+            //    {
+            //        aa = aa.Where(x => x.IDKip == nv.IDKip || (x.IDKip != 1 && x.IDKip != 2 & x.IDKip != 3)).ToList();
+            //    }
+
+            //    aa.ForEach(res.Add);
+            //}
+            if (vt2 == "TK" || vt2 == "PK" || vt2 == "TP")
             {
-                var resVT=new List<FCheckValidation>();
-                var aa = new List<FCheckValidation>();
-                foreach (var item in lsVTTT)
-                {
-                    var nhanvienDG = (from a in db.NhanVien_SelectKQKNL_V2(null, item.IDVTDGTT,null,null)
-                                      select new FCheckValidation
-                                      {
-                                          MaNV = a.MaNV,
-                                          IDNV = a.ID,
-                                          IDVT = a.IDVT,
-                                          TenVT = a.TenViTri,
-                                          TenNV = a.HoTen,
-                                          IDKip = a.IDKip,
-                                          TenKip = a.TenKip,
-                                          fileBMTCV = a.FilePath,
-                                          NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
-                                          Total = a.TongNLDuyet,
-                                          TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
-                                          NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
-                                      });
-                    aa.AddRange(nhanvienDG);
-                }
-                if (vt2 == "TK" || vt2 =="PK" || vt2 =="TP")
-                {
-                    aa = aa.Where(x =>  x.IDKip == nv.IDKip || (x.IDKip != 1 && x.IDKip != 2 & x.IDKip != 3)).ToList();
-                }
-                aa.ForEach(res.Add);
+                res = res.Where(x => x.IDKip == nv.IDKip || (x.IDKip != 1 && x.IDKip != 2 & x.IDKip != 3)).ToList();
             }
             return res;
         }
@@ -254,50 +295,105 @@ namespace E_Learning.Controllers.KNL
         {
             var vt2 = checkMVT2(vt.MaViTri);
             var vt3 = checkMVT3(vt.MaViTri);
-            var res = new List<FCheckValidation>();
-            if (idpb == null) idpb = 0;
+            var res = (from a in db.KNL_GetNhanVienDanhGiaTC(vt.IDVT)
+                          select new FCheckValidation
+                          {
+                              MaNV = a.MaNV,
+                              IDNV = a.ID,
+                              IDVT = a.IDVT,
+                              TenVT = a.TenViTri,
+                              TenNV = a.HoTen,
+                              IDKip = a.IDKip,
+                              //TenKip = a.TenKip,
+                              fileBMTCV = a.FilePath,
+                              NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+                              Total = a.TongNLDuyet,
+                              TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
+                              NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
+                          }).ToList();
+            //if (idpb == null) idpb = 0;
+
+
  
-            List<KNLDGiaTCValidation> lsVTTC = (from a in db.KNLDGiaTC_select(vt.IDVT).Where(x => x.IDVTDGTC != null)
-                                                select new KNLDGiaTCValidation
-                                                {
-                                                    ID = a.ID,
-                                                    IDVT = (int)a.IDVT,
-                                                    TenViTri = a.TenViTri,
-                                                    MaViTri = a.MaViTri,
-                                                    IDPB = a.IDPhongBan,
-                                                    IDVTDGTC = a.IDVTDGTC,
-                                                    IDVTDGTT = a.IDVTDGTT
-                                                }).ToList();
+            //List<KNLDGiaTCValidation> lsVTTC = (from a in db.KNLDGiaTC_select(vt.IDVT).Where(x => x.IDVTDGTC != null)
+            //                                    select new KNLDGiaTCValidation
+            //                                    {
+            //                                        ID = a.ID,
+            //                                        IDVT = (int)a.IDVT,
+            //                                        TenViTri = a.TenViTri,
+            //                                        MaViTri = a.MaViTri,
+            //                                        IDPB = a.IDPhongBan,
+            //                                        IDVTDGTC = a.IDVTDGTC,
+            //                                        IDVTDGTT = a.IDVTDGTT
+            //                                    }).ToList();
          
-            if (lsVTTC.Count > 0)
+            //if (lsVTTC.Count > 0)
+            //{
+            //    var resVT = (from a in db.KNL_GetNhanVienDanhGiaTC(vt.IDVT)
+            //                 select new FCheckValidation
+            //                 {
+            //                     MaNV = a.MaNV,
+            //                     IDNV = a.ID,
+            //                     IDVT = a.IDVT,
+            //                     TenVT = a.TenViTri,
+            //                     TenNV = a.HoTen,
+            //                     IDKip = a.IDKip,
+            //                     //TenKip = a.TenKip,
+            //                     fileBMTCV = a.FilePath,
+            //                     NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+            //                     Total = a.TongNLDuyet,
+            //                     TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
+            //                     NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
+            //                 });
+            //    var aa = new List<FCheckValidation>();
+            //    foreach (var item in lsVTTC)
+            //    {
+            //        var nhanvienDG = (from a in db.NhanVien_SelectKQKNL_V2(null,item.IDVTDGTC,null,null)
+            //                  select new FCheckValidation
+            //                  {
+            //                      MaNV = a.MaNV,
+            //                      IDNV = a.ID,
+            //                      IDVT = a.IDVT,
+            //                      TenVT = a.TenViTri,
+            //                      TenNV = a.HoTen,
+            //                      IDKip = a.IDKip,
+            //                      TenKip = a.TenKip,
+            //                      fileBMTCV = a.FilePath,
+            //                      NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+            //                      Total = a.TongNLDuyet,
+            //                      TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
+            //                      NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
+            //                  });
+            //        aa.AddRange(nhanvienDG);
+            //    }
+            //    var nhanvienDG = (from a in db.KNL_GetNhanVienDanhGiaTC(vt.IDVT)
+            //                      select new FCheckValidation
+            //                      {
+            //                          MaNV = a.MaNV,
+            //                          IDNV = a.ID,
+            //                          IDVT = a.IDVT,
+            //                          TenVT = a.TenViTri,
+            //                          TenNV = a.HoTen,
+            //                          IDKip = a.IDKip,
+            //                          //TenKip = a.TenKip,
+            //                          fileBMTCV = a.FilePath,
+            //                          NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+            //                          Total = a.TongNLDuyet,
+            //                          TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
+            //                          NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
+            //                      });
+            //    aa.AddRange(nhanvienDG);
+
+
+            //    if (vt2 == "TK"  || vt2 == "PK" || vt2 == "TP")
+            //    {
+            //        aa = aa.Where(x => x.IDKip == nv.IDKip || (x.IDKip != 1 && x.IDKip != 2 & x.IDKip != 3)).ToList();
+            //    }
+            //    aa.ForEach(res.Add);
+            //}
+            if (vt2 == "TK" || vt2 == "PK" || vt2 == "TP")
             {
-                var resVT = new List<FCheckValidation>();
-                var aa = new List<FCheckValidation>();
-                foreach (var item in lsVTTC)
-                {
-                    var nhanvienDG = (from a in db.NhanVien_SelectKQKNL_V2(null,item.IDVTDGTC,null,null)
-                              select new FCheckValidation
-                              {
-                                  MaNV = a.MaNV,
-                                  IDNV = a.ID,
-                                  IDVT = a.IDVT,
-                                  TenVT = a.TenViTri,
-                                  TenNV = a.HoTen,
-                                  IDKip = a.IDKip,
-                                  TenKip = a.TenKip,
-                                  fileBMTCV = a.FilePath,
-                                  NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
-                                  Total = a.TongNLDuyet,
-                                  TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
-                                  NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
-                              });
-                    aa.AddRange(nhanvienDG);
-                }
-                if (vt2 == "TK"  || vt2 == "PK" || vt2 == "TP")
-                {
-                    aa = aa.Where(x => x.IDKip == nv.IDKip || (x.IDKip != 1 && x.IDKip != 2 & x.IDKip != 3)).ToList();
-                }
-                aa.ForEach(res.Add);
+                res = res.Where(x => x.IDKip == nv.IDKip || (x.IDKip != 1 && x.IDKip != 2 & x.IDKip != 3)).ToList();
             }
             return res;
         }

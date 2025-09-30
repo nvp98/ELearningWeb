@@ -4340,5 +4340,23 @@ namespace E_Learning.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_KQ_LSDG_delete", iDLSParameter);
         }
+    
+        public virtual ObjectResult<KNL_GetNhanVienDanhGiaTC_Result> KNL_GetNhanVienDanhGiaTC(Nullable<int> iDVT)
+        {
+            var iDVTParameter = iDVT.HasValue ?
+                new ObjectParameter("IDVT", iDVT) :
+                new ObjectParameter("IDVT", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<KNL_GetNhanVienDanhGiaTC_Result>("KNL_GetNhanVienDanhGiaTC", iDVTParameter);
+        }
+    
+        public virtual ObjectResult<KNL_GetNhanVienDanhGiaTT_Result> KNL_GetNhanVienDanhGiaTT(Nullable<int> iDVT)
+        {
+            var iDVTParameter = iDVT.HasValue ?
+                new ObjectParameter("IDVT", iDVT) :
+                new ObjectParameter("IDVT", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<KNL_GetNhanVienDanhGiaTT_Result>("KNL_GetNhanVienDanhGiaTT", iDVTParameter);
+        }
     }
 }

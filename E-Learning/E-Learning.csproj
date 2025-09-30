@@ -525,6 +525,12 @@
     <Compile Include="Models\KNL_DocBangKNL_IDNV_Result.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\KNL_GetNhanVienDanhGiaTC_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KNL_GetNhanVienDanhGiaTT_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\KNL_Khoi.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
