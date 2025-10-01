@@ -2678,6 +2678,10 @@
           <Parameter Name="IDQuyenCN" Type="int" Mode="In" />
           <Parameter Name="isActive" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_KhoiTaoDanhGiaMoiTuQuyTruoc" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nam" Type="int" Mode="In" />
+          <Parameter Name="Quy" Type="int" Mode="In" />
+        </Function>
         <Function Name="TaiKhoan_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
@@ -4990,7 +4994,6 @@
           <FunctionImport Name="KhungNangLuc_delete_VT">
           <Parameter Name="IDVT" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="KhungNangLuc_DongBoDuLieu" />
           <FunctionImport Name="KhungNangLuc_insert">
             <Parameter Name="TenNL" Mode="In" Type="String" />
             <Parameter Name="IDLoaiNL" Mode="In" Type="Int32" />
@@ -5935,10 +5938,14 @@
           <Parameter Name="IDLS" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="KNL_GetNhanVienDanhGiaTC" ReturnType="Collection(ELEARNINGModel.KNL_GetNhanVienDanhGiaTC_Result)">
-            <Parameter Name="IDVT" Mode="In" Type="Int32" />
+          <Parameter Name="IDVT" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="KNL_GetNhanVienDanhGiaTT" ReturnType="Collection(ELEARNINGModel.KNL_GetNhanVienDanhGiaTT_Result)">
-            <Parameter Name="IDVT" Mode="In" Type="Int32" />
+          <Parameter Name="IDVT" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_KhoiTaoDanhGiaMoiTuQuyTruoc">
+            <Parameter Name="Nam" Mode="In" Type="Int32" />
+            <Parameter Name="Quy" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="CauHoi_DeThi_list_Result">
@@ -9554,6 +9561,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_KhoiTaoDanhGiaMoiTuQuyTruoc" FunctionName="ELEARNINGModel.Store.sp_KhoiTaoDanhGiaMoiTuQuyTruoc" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

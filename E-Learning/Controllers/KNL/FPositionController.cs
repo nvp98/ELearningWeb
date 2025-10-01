@@ -5902,6 +5902,34 @@ namespace E_Learning.Controllers
             return RedirectToAction("PheDuyetKNL", "FPosition");
         }
 
+        [HttpPost]
+        public async Task<ActionResult> DongBoDuLieu(int? Quy, int? Nam)
+        {
+            try
+            {
+                // Ví dụ: gọi hàm xử lý đồng bộ dữ liệu
+                //var result = await db.sp_KhoiTaoDanhGiaMoiTuQuyTruoc(Quy,Nam);
+                var result = await db.Database.ExecuteSqlCommandAsync(
+                                     "EXEC sp_KhoiTaoDanhGiaMoiTuQuyTruoc @Nam, @Quy",
+                                     new SqlParameter("@Nam", Nam ?? (object)DBNull.Value),
+                                     new SqlParameter("@Quy", Quy ?? (object)DBNull.Value)
+                                 );
+
+                if (result != null)
+                {
+                    return Json(new { status = 200, msg = "Đồng bộ dữ liệu thành công." }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { status = 400, msg = "Đồng bộ dữ liệu thất bại." }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { status = 500, msg = "Lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public async Task<ActionResult> PheDuyetBangKNL(int? IDVT) // duyệt từng KNL riêng
         {
 

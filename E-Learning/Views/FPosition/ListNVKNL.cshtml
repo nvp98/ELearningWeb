@@ -71,7 +71,7 @@
 <div class="app-main__outer">
     <div class="app-main__inner">
 
-        <div class="app-page-title">
+        @*<div class="app-page-title">
             <div class="page-title-wrapper">
                 <div class="page-title-heading">
                     <div class="page-title-icon">
@@ -86,6 +86,41 @@
                 </div>
 
             </div>
+        </div>*@
+        <div class="row">
+            @if (MyAuthentication.IDQuyen == 1 && MyAuthentication.Username == "HPDQ18461")
+            {
+                <div class="col-md-2">
+                    <a class="fa fa-file-excel  float-right btn btn-success m-1" id="btnSync" title="Xử lý dữ liệu"
+                       onclick="return confirm('Xử lý dữ liệu?')">
+                        &nbsp;Xử lý dữ liệu
+                    </a>
+                </div>
+                <script>
+                    $(function () {
+                        $("#btnSync").click(function (e) {
+                            var quy = $("#ddlQuy").val();
+                            var nam = $("#yearpicker").val();
+                            $.ajax({
+                                url: '/FPosition/DongBoDuLieu',
+                                type: 'POST',
+                                data: { Quy: quy, Nam: nam },
+                                success: function (res) {
+                                    if (res.status === 200) {
+                                        alert(res.msg);
+                                    } else {
+                                        alert("Thất bại: " + res.msg);
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    alert("Có lỗi xảy ra: " + error);
+                                }
+                            });
+                        });
+                    });
+                </script>
+            }
+
         </div>
         <div class="row m-2 ">
             <table class="table table-bordered table-striped d-none col" id="tblNhanVien">
