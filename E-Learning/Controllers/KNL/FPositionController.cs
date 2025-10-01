@@ -3878,7 +3878,7 @@ namespace E_Learning.Controllers
             }
         }
 
-        public ActionResult ExportToExcelNew(int? IDPB,int? IDPX, int? IDTo, int? IDNhom)
+        public ActionResult ExportToExcelNew(int? IDPB,int? IDPX, int? IDTo, int? IDNhom, int? Quy, int? Nam)
         {
             try
             {
@@ -3886,7 +3886,7 @@ namespace E_Learning.Controllers
                 string fileNamemaunew = AppDomain.CurrentDomain.BaseDirectory + @"App_Data\ThongKeKQua_KNL_Temp.xlsx";
                 XLWorkbook Workbook = new XLWorkbook(fileNamemau);
                 IXLWorksheet Worksheet = Workbook.Worksheet("NhanVien_KNL");
-                List<ExportNhanVienKQKNL> DataKNL = GetNhanVienKNL1(IDPB, IDPX, IDTo,IDNhom);
+                List<ExportNhanVienKQKNL> DataKNL = GetNhanVienKNL1(IDPB, IDPX, IDTo,IDNhom, Quy,Nam);
                 int row = 5;
                 if (DataKNL.Count > 0)
                 {
@@ -4350,12 +4350,14 @@ namespace E_Learning.Controllers
             return res;
         }
 
-        private List<ExportNhanVienKQKNL> GetNhanVienKNL1(int? IDPB, int? IDPX, int? IDTo, int? IDNhom)
+        private List<ExportNhanVienKQKNL> GetNhanVienKNL1(int? IDPB, int? IDPX, int? IDTo, int? IDNhom, int? Quy, int? Nam)
         {
             if (IDPB == null) IDPB = 0;
             int month = DateTime.Now.Month; // hoặc date.Month
-            int quy = (month - 1) / 3 + 1;
-            int nam = DateTime.Now.Year;
+            //int quy = (month - 1) / 3 + 1;
+            int quy = (int)Quy;
+            //int nam = DateTime.Now.Year;
+            int nam = (int)Nam;
             var knlKQ = db.KNL_KQ_TheoQuy(nam, quy, null).ToList();
             var LSDG_KQ = db.KNL_LSDG_TheoQuy(nam, quy, null).ToList();
             //var allKQ = db.KNL_KQ

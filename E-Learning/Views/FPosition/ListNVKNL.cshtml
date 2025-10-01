@@ -140,23 +140,58 @@
             @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EX))
             {
                 @*<div class="col-md-2">
-                    <a class="fa fa-file-excel float-right btn btn-success m-1" title="Export dữ liệu" href="@Url.Action("ExportToExcelNV", "FPosition",new { IDPB = Request.QueryString["IDPB"] })"
-                       onclick="return confirm('Export dữ liệu?')">
-                        &nbsp;Export Nhân viên
-                    </a>
-                </div>*@
+                <a class="fa fa-file-excel float-right btn btn-success m-1" title="Export dữ liệu" href="@Url.Action("ExportToExcelNV", "FPosition",new { IDPB = Request.QueryString["IDPB"] })"
+                   onclick="return confirm('Export dữ liệu?')">
+                    &nbsp;Export Nhân viên
+                </a>
+            </div>*@
                 <div class="col-md-2">
                     <a class="fa fa-file-excel  float-right btn btn-success m-1" title="Export dữ liệu" href="@Url.Action("ExportToExcelViTri", "FPosition")"
                        onclick="return confirm('Export dữ liệu?')">
                         &nbsp;Export Định danh VT KNL
                     </a>
                 </div>
+                <div class="col-md-1">
+                    <select id="ddlQuy" class="form-control">
+                        <option value="1">Quý I</option>
+                        <option value="2">Quý II</option>
+                        <option value="3">Quý III</option>
+                        <option value="4">Quý IV</option>
+                    </select>
+                    
+                </div>
+                <div class="col-md-1">
+                    <select name="yearpicker" id="yearpicker" class="form-control"></select>
+                </div>
                 <div class="col-md-2">
-                    <a class="fa fa-file-excel float-right btn btn-primary m-1" title="Export dữ liệu" href="@Url.Action("ExportToExcelNew", "FPosition",new { IDPB = Request.QueryString["IDPB"],IDPX =Request.QueryString["IDPX"],IDTo= Request.QueryString["IDTo"],IDNhom =Request.QueryString["IDNhom"] })"
+                    <a class="fa fa-file-excel float-right btn btn-primary m-1" href="#" id="btnExport" title="Export dữ liệu"
                        onclick="return confirm('Export dữ liệu?')">
-                        &nbsp;Thống kê kết quả đánh giá 2025
+                        &nbsp;Thống kê kết quả đánh giá
                     </a>
                 </div>
+                <script>
+                    $(function () {
+                        $("#btnExport").click(function (e) {
+                            var quy = $("#ddlQuy").val();
+                            var nam = $("#yearpicker").val();
+                            var url = '@Url.Action("ExportToExcelNew", "FPosition")'
+                                + '?IDPB=@Request.QueryString["IDPB"]'
+                                + '&IDPX=@Request.QueryString["IDPX"]'
+                                + '&IDTo=@Request.QueryString["IDTo"]'
+                                + '&IDNhom=@Request.QueryString["IDNhom"]'
+                                + '&Quy=' + quy
+                                + '&Nam=' + nam;
+
+                            $(this).attr("href", url);
+                        });
+                    });
+                    let startYear = 2024;
+                    let endYear = new Date().getFullYear();
+                    for (i = endYear; i > startYear; i--) {
+                        $('#yearpicker').append($('<option />').val(i).html(i));
+
+                    }
+                </script>
                 <div class="col-md-2">
                     <a class="fa fa-file-excel float-right btn btn-primary m-1" title="Export dữ liệu" href="@Url.Action("ExportToExcelBoPhan", "FPosition")"
                        onclick="return confirm('Export dữ liệu?')">
@@ -174,10 +209,10 @@
             }
 
             @*<div class="clo-md-3 m-l-auto">
-                <a class="btn btn-primary" title="Chi tiết" href="@Url.Action("CreateVTKNL", "ViTriKNL")">
-                    <i class="fa fa-plus">&nbsp;</i>&nbsp;Danh sách mã vị trí
-                </a>
-            </div>*@
+            <a class="btn btn-primary" title="Chi tiết" href="@Url.Action("CreateVTKNL", "ViTriKNL")">
+                <i class="fa fa-plus">&nbsp;</i>&nbsp;Danh sách mã vị trí
+            </a>
+        </div>*@
 
             <div class="col-md-2">
                 <button type="button" id="btn-add" class="btn btn-primary m-l-auto" style="font-size:0.7rem"><i class="fa fa-user-plus">&nbsp;</i>&nbsp;Điều động nhân viên </button>
@@ -776,132 +811,132 @@
 
     var checkRS = '@((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EX))';
     if (checkRS.toLowerCase() == "true") {
-        //console.log("check true")
-        let table = new DataTable('#tblStudent', {
-            // options
-            dom: 'Blfrtip',
-            buttons: [
-                {
-                    "extend": 'excel',
-                    "text": '<button class="btn"><i class="fa fa-file-excel-o" style="color: green;"></i>  Thống kê kết quả đánh giá</button>',
-                    "titleAttr": 'Thống kê kết quả đánh giá',
-                    "action": newexportaction
-                }
-            ],
-            "sAjaxSource": "/FPosition/GetDataNVExport",
-            "bServerSide": true,
-            "bProcessing": true,
-            "searching": false,
-            "paging": false,
-            "bInfo": false,
-            "order": [[1, 'asc']],
-            "language": {
-                "emptyTable": "No record found.",
-                "processing":
-                    '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
-            },
-            "columns": [
-                {
-                    "render": function (data, type, full, meta) {
-                        return meta.settings._iDisplayStart + meta.row + 1;
-                    },
-                    "autoWidth": true,
-                    "searchable": false,
-                    "className": 'text-center'
-                },
-                {
-                    "data": "MaNV",
-                    "autoWidth": true,
-                    "searchable": false
-                },
-                {
-                    "data": "TenNV",
-                    "autoWidth": true,
-                    "searchable": false
-                },
-                {
-                    "data": "TenKip",
-                    "autoWidth": true,
-                    "searchable": false
-                },
-                {
-                    "data": "TenViTri",
-                    "autoWidth": true,
-                    "searchable": false
-                },
-                {
-                    "data": "IDVT",
-                    "autoWidth": true,
-                    "searchable": false
-                },
-                {
-                    "data": "TenPhongBan",
-                    "autoWidth": true,
-                    "searchable": false
-                },
-                {
-                    "data": "TenPX",
-                    "autoWidth": true,
-                    "searchable": false
-                },
-                {
-                    "data": "TenNhom",
-                    "autoWidth": true,
-                    "searchable": false
-                },
-                {
-                    "data": "TenTo",
-                    "autoWidth": true,
-                    "searchable": false
-                },
-                {
-                    "data": "TotalNL",
-                    "autoWidth": true,
-                    "searchable": false
-                },
-                {
-                    "data": "KDGIA",
-                    "autoWidth": true,
-                    "searchable": false
-                },
-                {
-                    "data": "KDAT",
-                    "autoWidth": true,
-                    "searchable": false
-                },
-                {
-                    "data": "DAT",
-                    "autoWidth": true,
-                    "searchable": false
-                },
-                {
-                    "data": "VUOT",
-                    "autoWidth": true,
-                    "searchable": false
-                },
-                {
-                    "data": "CHUADG",
-                    "autoWidth": true,
-                    "searchable": false
-                },
-                {
-                    "data": "NgayDG",
-                    "autoWidth": true,
-                    "searchable": false
-                },
-                {
-                    "data": "NgayHanDG",
-                    "autoWidth": true,
-                    "searchable": false
-                },
-                {
-                    "data": "HanDG",
-                    "autoWidth": true,
-                    "searchable": false
-                },
+    //    //console.log("check true")
+    //    let table = new DataTable('#tblStudent', {
+    //        // options
+    //        dom: 'Blfrtip',
+    //        buttons: [
+    //            {
+    //                "extend": 'excel',
+    //                "text": '<button class="btn"><i class="fa fa-file-excel-o" style="color: green;"></i>  Thống kê kết quả đánh giá</button>',
+    //                "titleAttr": 'Thống kê kết quả đánh giá',
+    //                "action": newexportaction
+    //            }
+    //        ],
+    //        "sAjaxSource": "/FPosition/GetDataNVExport",
+    //        "bServerSide": true,
+    //        "bProcessing": true,
+    //        "searching": false,
+    //        "paging": false,
+    //        "bInfo": false,
+    //        "order": [[1, 'asc']],
+    //        "language": {
+    //            "emptyTable": "No record found.",
+    //            "processing":
+    //                '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+    //        },
+    //        "columns": [
+    //            {
+    //                "render": function (data, type, full, meta) {
+    //                    return meta.settings._iDisplayStart + meta.row + 1;
+    //                },
+    //                "autoWidth": true,
+    //                "searchable": false,
+    //                "className": 'text-center'
+    //            },
+    //            {
+    //                "data": "MaNV",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
+    //            {
+    //                "data": "TenNV",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
+    //            {
+    //                "data": "TenKip",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
+    //            {
+    //                "data": "TenViTri",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
+    //            {
+    //                "data": "IDVT",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
+    //            {
+    //                "data": "TenPhongBan",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
+    //            {
+    //                "data": "TenPX",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
+    //            {
+    //                "data": "TenNhom",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
+    //            {
+    //                "data": "TenTo",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
+    //            {
+    //                "data": "TotalNL",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
+    //            {
+    //                "data": "KDGIA",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
+    //            {
+    //                "data": "KDAT",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
+    //            {
+    //                "data": "DAT",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
+    //            {
+    //                "data": "VUOT",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
+    //            {
+    //                "data": "CHUADG",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
+    //            {
+    //                "data": "NgayDG",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
+    //            {
+    //                "data": "NgayHanDG",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
+    //            {
+    //                "data": "HanDG",
+    //                "autoWidth": true,
+    //                "searchable": false
+    //            },
                
-            ]
-        });
+    //        ]
+    //    });
 
         //export data NhanVien
         let table1 = new DataTable('#tblNhanVien', {
