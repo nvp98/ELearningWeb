@@ -1,9 +1,7 @@
 ﻿using E_Learning.Models;
 using E_Learning.ModelsDMST;
-using Newtonsoft.Json;
 using PagedList;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -45,255 +43,96 @@ namespace E_Learning.Controllers.DMST
 
         public ActionResult Create()
         {
-            var dsLinhVuc = db.DMST_LinhVuc
-                 .OrderBy(lv => lv.ID)
-                 .Select(lv => new SelectListItem
-                 {
-                     Value = lv.ID.ToString(),
-                     Text = lv.TenLinhVuc
-                 })
-                 .ToList();
-
-            ViewBag.DSLinhVuc = dsLinhVuc;
-
-            var model = new PhieuDangKyView
+            var model = new DeTaiDMSTView
             {
-                KinhPhiDuKien = new List<ChiPhiDuKienModel>(),
-                NguoiThamGia = new List<NguoiThamGiaModel>()
+                LinhVucList = db.DMST_LinhVuc
+                       .Select(lv => new SelectListItem
+                       {
+                           Value = lv.ID.ToString(),
+                           Text = lv.TenLinhVuc
+                       })
+                       .ToList(),
+
+                PhongBanList = db.PhongBans
+                        .Select(pb => new SelectListItem
+                        {
+                            Value = pb.IDPhongBan.ToString(),
+                            Text = pb.TenPhongBan
+                        })
+                        .OrderBy(x => x.Text)
+                        .ToList()
             };
 
-            var dsYTuong = db.DMST_PhieuDangKy
-                 .OrderBy(lv => lv.ID)
-                 .Select(lv => new SelectListItem
-                 {
-                     Value = lv.ID.ToString(),
-                     Text = lv.TenYTuong
-                 })
-                 .ToList();
-
-            ViewBag.DSYTuong = dsYTuong;
-
-            return View();
-        }
-
-        [HttpGet]
-        public JsonResult LayNhanVienTheoMa(string maNhanVien)
-        {
-            var nhanVien = db.NhanViens
-                             .Where(nv => nv.MaNV == maNhanVien)
-                             .Select(nv => new
-                             {
-                                 id = nv.ID,
-                                 ma = nv.MaNV,
-                                 ten = nv.HoTen
-                             })
-                             .FirstOrDefault();
-
-            return Json(nhanVien, JsonRequestBehavior.AllowGet);
+            return View(model);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult SubmitYTuong(PhieuDangKyView model)
+        public ActionResult Create(DeTaiDMSTView model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var entity = new DMST_PhieuDangKy
+                var deTai = new DMST_DeTai
                 {
-                    ID_LinhVuc = model.ID_LinhVuc,
-                    ID_NguoiTao = MyAuthentication.ID,
+                    TenDeTai = model.TenDeTai,
+                    LinhVucID = model.LinhVucID,
+                    PhamViApDung = model.PhamViApDung,
+                    MoTaNgan = model.MoTaNgan,
+                    NguoiDangKyID = model.NguoiDangKyID,
+                    //FileDinhKem = model.FileDinhKem != null ? model.FileDinhKem.FileName : null,
+                    TrangThai = 0,
                     NgayTao = DateTime.Now,
-                    TinhTrang = model.TinhTrang,
-
-                    TenYTuong = model.TenYTuong,
-                    ID_NhanVienDaiDien = model.ID_NhanVienDaiDien,
-                    NgayDeXuat = model.NgayDeXuat,
-
-                    NoiDungYTuong = model.NoiDungYTuong,
-                    LyDoThucHien = model.LyDoThucHien,
-                    ViTriTrienKhai = model.ViTriTrienKhai,
-
-                    TuNgay = model.TuNgay,
-                    DenNgay = model.DenNgay,
-
-                    CachThucThucHien = model.CachThucThucHien,
-                    ThucHienKhi = model.ThucHienKhi,
-                    CanThuNghiemThem = model.CanThuNghiemThem,
-                    CanHoTro = model.CanHoTro,
-                    HieuQuaKyVong = model.HieuQuaKyVong,
-                    DeXuatNguoiBoPhan = model.DeXuatNguoiBoPhan
                 };
-
-                db.DMST_PhieuDangKy.Add(entity);
+                db.DMST_DeTai.Add(deTai);
                 db.SaveChanges();
 
-                if (model.KinhPhiDuKien != null)
+                if (model.PhongBanThamGiaIDs != null && model.PhongBanThamGiaIDs.Any())
                 {
-                    foreach (var cp in model.KinhPhiDuKien)
+                    foreach (var pbid in model.PhongBanThamGiaIDs)
                     {
-                        var chiPhi = new DMST_KinhPhiDuKien
+                        db.DMST_DeTai_PhongBanThamGia.Add(new DMST_DeTai_PhongBanThamGia
                         {
-                            TenNguonLuc = cp.TenNguonLuc,
-                            ChiPhi = cp.ChiPhi ?? 0,
-                            NguonThongTin = cp.NguonThongTin,
-                            GhiChu = cp.GhiChu,
-                            ID_Phieu = entity.ID
-                        };
-                        db.DMST_KinhPhiDuKien.Add(chiPhi);
+                            DeTaiID = deTai.ID,
+                            PhongBanID = pbid
+                        });
+
                     }
                     db.SaveChanges();
                 }
 
-                if (!string.IsNullOrEmpty(model.NguoiThamGiaJson))
+                if (model.PhongBanApDungIDs != null && model.PhongBanApDungIDs.Any())
                 {
-                    var ds = JsonConvert.DeserializeObject<List<NguoiThamGiaModel>>(model.NguoiThamGiaJson);
-                    foreach (var item in ds)
+                    foreach (var pbid in model.PhongBanApDungIDs)
                     {
-                        db.DMST_NguoiThamGia.Add(new DMST_NguoiThamGia
+                        db.DMST_DeTai_PhongBanApDung.Add(new DMST_DeTai_PhongBanApDung
                         {
-                            ID_Phieu = entity.ID,
-                            ID_NhanVien = item.ID_NhanVien,
-                            VaiTro = item.VaiTro
+                            DeTaiID = deTai.ID,
+                            PhongBanID = pbid
                         });
                     }
                     db.SaveChanges();
                 }
 
-                TempData["msgSuccess"] = "<script>alert('Lưu ý tưởng thành công!');</script>";
                 return RedirectToAction("Create");
             }
-            catch (Exception ex)
-            {
-                TempData["msgError"] = "<script>alert('Có lỗi xảy ra: " + ex.Message + "');</script>";
-                return RedirectToAction("Index");
-            }
+
+            // Reload if ModelState invalid
+            model.LinhVucList = db.DMST_LinhVuc
+                                  .Select(lv => new SelectListItem
+                                  {
+                                      Value = lv.ID.ToString(),
+                                      Text = lv.TenLinhVuc
+                                  })
+                                  .ToList();
+            model.PhongBanList = db.PhongBans
+                                  .Select(pb => new SelectListItem
+                                  {
+                                      Value = pb.IDPhongBan.ToString(),
+                                      Text = pb.TenPhongBan
+                                  })
+                                  .ToList();
+
+            return View(model);
         }
-
-        [HttpGet]
-        public JsonResult LayNguoiThucHienTheoPhieu(int idPhieu)
-        {
-            var ds = (from ntg in db.DMST_NguoiThamGia
-                      join nv in db.NhanViens on ntg.ID_NhanVien equals nv.ID
-                      where ntg.ID_Phieu == idPhieu
-                      select new
-                      {
-                          id = ntg.ID_NhanVien,
-                          ma = nv.MaNV,
-                          ten = nv.HoTen
-                      }).ToList();
-
-            return Json(ds, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult SubmitKeHoachThucHien(PhieuDangKyView model)
-        {
-            try
-            {
-                var entity = new DMST_ChuanBiThucHien
-                {
-                    ID_Phieu = model.KeHoachThucHien.ID_Phieu,
-                    NgayBatDauTrienKhai = (DateTime) model.KeHoachThucHien.NgayBatDauTrienKhai,
-                    NgayDuKienHoanThanh = (DateTime) model.KeHoachThucHien.NgayDuKienHoanThanh,
-                    MucTieuThucHien = model.KeHoachThucHien.MucTieuThucHien,
-                    ChiPhiDuKien = model.KeHoachThucHien.ChiPhiDuKien,
-                    ThuanLoiKhoKhan = model.KeHoachThucHien.ThuanLoiKhoKhan,
-                    DeNghiHoTro = model.KeHoachThucHien.DeNghiHoTro
-                };
-
-                db.DMST_ChuanBiThucHien.Add(entity);
-                db.SaveChanges();
-
-                if (model.NhanVienThucHien != null)
-                {
-                    foreach (var item in model.NhanVienThucHien)
-                    {
-                        var row = new DMST_DanhSachThucHien
-                        {
-                            ID_Phieu = model.KeHoachThucHien.ID_Phieu,
-                            NoiDungCongViec = item.NoiDungCongViec,
-                            SoLuong = item.SoLuong,
-                            ID_NhanVien = item.ID_NhanVien,
-                            ThoiGian = item.ThoiGian,
-                            GhiChu = item.GhiChu
-                        };
-                        db.DMST_DanhSachThucHien.Add(row);
-                    }
-                    db.SaveChanges();
-                }
-
-                TempData["msgSuccess"] = "<script>alert('Lưu kế hoạch thành công!');</script>";
-                return RedirectToAction("Create");
-            }
-            catch (Exception ex)
-            {
-                TempData["msgError"] = "<script>alert('Có lỗi xảy ra: " + ex.Message + "');</script>";
-                return RedirectToAction("Index");
-            }
-        }
-
-        public ActionResult Edit(int id)
-        {
-            var data = (from p in db.DMST_PhieuDangKy
-                        join lv in db.DMST_LinhVuc on p.ID_LinhVuc equals lv.ID into lvJoin
-                        from lv in lvJoin.DefaultIfEmpty()
-                        where p.ID == id
-                        select new PhieuDangKyView
-                        {
-                            ID = p.ID,
-                            ID_NhanVienDaiDien = p.ID_NhanVienDaiDien,
-                            TenYTuong = p.TenYTuong,
-                            NoiDungYTuong = p.NoiDungYTuong,
-                            LyDoThucHien = p.LyDoThucHien,
-                            ViTriTrienKhai = p.ViTriTrienKhai,
-                            CachThucThucHien = p.CachThucThucHien,
-                            HieuQuaKyVong = p.HieuQuaKyVong,
-                            ID_LinhVuc = (int) p.ID_LinhVuc,
-                            TenLinhVuc = lv.TenLinhVuc,
-                            CanHoTro = p.CanHoTro,
-                            DeXuatNguoiBoPhan = p.DeXuatNguoiBoPhan,
-                            NgayDeXuat = p.NgayDeXuat,
-                            KinhPhiDuKien = db.DMST_KinhPhiDuKien
-                                      .Where(k => k.ID_Phieu == id)
-                                      .Select(k => new ChiPhiDuKienModel
-                                      {
-                                          TenNguonLuc = k.TenNguonLuc,
-                                          ChiPhi = (float) k.ChiPhi,
-                                          NguonThongTin = k.NguonThongTin,
-                                          GhiChu = k.GhiChu
-                                      }).ToList(),
-                            NguoiThamGia = db.DMST_NguoiThamGia
-                                       .Where(ntg => ntg.ID_Phieu == id)
-                                       .Join(db.NhanViens, ntg => ntg.ID_NhanVien, nv => nv.ID, (ntg, nv) => new NguoiThamGiaModel
-                                       {
-                                           ID_NhanVien = ntg.ID_NhanVien ?? 0,
-                                           MaNhanVien = nv.MaNV,
-                                           HoTen = nv.HoTen,
-                                           VaiTro = ntg.VaiTro
-                                       }).ToList()
-                        }).FirstOrDefault();
-
-            if (data == null)
-            {
-                return HttpNotFound();
-            }
-
-            var nhanVienDaiDien = db.NhanViens
-                .Where(nv => nv.ID == data.ID_NhanVienDaiDien)
-                .FirstOrDefault();
-
-            ViewBag.TenNhanVienDaiDien = nhanVienDaiDien.HoTen;
-            ViewBag.MaNVDaiDien = nhanVienDaiDien.MaNV;
-
-            ViewBag.DSLinhVuc = db.DMST_LinhVuc
-                .Select(x => new { Value = x.ID, Text = x.TenLinhVuc })
-                .ToList();
-
-            return View(data);
-        }
-
-
 
     }
 }

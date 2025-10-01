@@ -1,20 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Web;
+using System.Web.Mvc;
 
 namespace E_Learning.ModelsDMST
 {
     public class DeTaiDMSTView
     {
         public int ID { get; set; }
-        public string TenYTuong { get; set; }
-        public string NoiDungYTuong { get; set; }
-        public string ViTriTrienKhai { get; set; }
-        public string HieuQuaKyVong { get; set; }
-        public DateTime NgayBatDau { get; set; }
-        public DateTime NgayKetThuc { get; set; }
-        public int ID_LinhVuc { get; set; }
-        public int ID_NhanVienDaiDien { get; set; }
+        public string TenDeTai { get; set; }
+        public int LinhVucID { get; set; }
+        public IEnumerable<SelectListItem> LinhVucList { get; set; }
+        public int PhamViApDung { get; set; }
+        public int? DonViSelect { get; set; }
+        public IEnumerable<SelectListItem> PhongBanList { get; set; }
+        public List<int> PhongBanThamGiaIDs { get; set; }
+        public List<int> PhongBanApDungIDs { get; set; }
+        public string MoTaNgan { get; set; }
+        public HttpPostedFileBase TepDinhKem { get; set; }
+        public int NguoiDangKyID { get; set; }
     }
 }
