@@ -263,12 +263,15 @@
                                                                                 <span class="btn-transition btn btn-outline-success">Làm bài thi lại</span>
                                                                             </a>
                                                                         }
-                                                                        else if (baithi.Count == 0 && lanthi.Count == 0)
+                                                                        @*else if (baithi.Count == 0 && lanthi.Count == 0)
                                                                         {
                                                                             <a id="@item.LHID" href="/STest/Index?LHID=@item.LHID">
                                                                                 <span class="btn-transition btn btn-outline-success">Làm bài thi</span>
                                                                             </a>
-                                                                        }
+                                                                        }*@
+                                                                        <a id="@item.LHID" href="/STest/Index?LHID=@item.LHID">
+                                                                            <span class="btn-transition btn btn-outline-success">Làm bài thi</span>
+                                                                        </a>
 
                                                                     }
 
