@@ -18,28 +18,28 @@ namespace E_Learning.Controllers.DMST
             return View();
         }
 
-        public ActionResult ViewList(int? page)
-        {
-            var data = from dt in db.DMST_PhieuDangKy
-                       select new DeTaiDMSTView
-                       {
-                           ID = dt.ID,
-                           TenYTuong = dt.TenYTuong,
-                           NoiDungYTuong = dt.NoiDungYTuong,
-                           ViTriTrienKhai = dt.ViTriTrienKhai,
-                           HieuQuaKyVong = dt.HieuQuaKyVong,
-                           NgayBatDau = (DateTime) dt.NgayTao,
-                           //NgayKetThuc = (DateTime) dt.DenNgay,
-                           ID_NhanVienDaiDien = (int) dt.ID_NhanVienDaiDien,
-                           ID_LinhVuc = (int) dt.ID_LinhVuc
-                       };
+        //public ActionResult ViewList(int? page)
+        //{
+        //    var data = from dt in db.DMST_PhieuDangKy
+        //               select new DeTaiDMSTView
+        //               {
+        //                   ID = dt.ID,
+        //                   TenYTuong = dt.TenYTuong,
+        //                   NoiDungYTuong = dt.NoiDungYTuong,
+        //                   ViTriTrienKhai = dt.ViTriTrienKhai,
+        //                   HieuQuaKyVong = dt.HieuQuaKyVong,
+        //                   NgayBatDau = (DateTime) dt.NgayTao,
+        //                   //NgayKetThuc = (DateTime) dt.DenNgay,
+        //                   ID_NhanVienDaiDien = (int) dt.ID_NhanVienDaiDien,
+        //                   ID_LinhVuc = (int) dt.ID_LinhVuc
+        //               };
 
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
-            var pagedList = data.OrderBy(x => x.TenYTuong).ToPagedList(pageNumber, pageSize);
+        //    int pageSize = 10;
+        //    int pageNumber = (page ?? 1);
+        //    var pagedList = data.OrderBy(x => x.TenYTuong).ToPagedList(pageNumber, pageSize);
 
-            return View(pagedList);
-        }
+        //    return View(pagedList);
+        //}
 
         public ActionResult Create()
         {
@@ -63,6 +63,10 @@ namespace E_Learning.Controllers.DMST
                         .ToList()
             };
 
+            string username = MyAuthentication.Username;
+            string tenNhanVien = db.NhanViens.Where(x => x.ID == MyAuthentication.ID).FirstOrDefault().HoTenKhongDau;
+            ViewBag.Username = MyAuthentication.Username + " – " + tenNhanVien;
+
             return View(model);
         }
 
@@ -77,7 +81,7 @@ namespace E_Learning.Controllers.DMST
                     LinhVucID = model.LinhVucID,
                     PhamViApDung = model.PhamViApDung,
                     MoTaNgan = model.MoTaNgan,
-                    NguoiDangKyID = model.NguoiDangKyID,
+                    NguoiDangKyID = MyAuthentication.ID,
                     //FileDinhKem = model.FileDinhKem != null ? model.FileDinhKem.FileName : null,
                     TrangThai = 0,
                     NgayTao = DateTime.Now,

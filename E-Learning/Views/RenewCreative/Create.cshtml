@@ -120,15 +120,23 @@
                                         </div>
 
                                         <div class="mb-3" id="donViSelectDiv">
-                                            <label class="form-label">Chọn đơn vị</label>
-                                            @Html.DropDownListFor(m => m.PhongBanApDungIDs, Model.PhongBanList, "-- Chọn đơn vị --",
+                                            <label class="form-label">Chọn phạm vi áp dụng</label>
+                                            @Html.DropDownListFor(m => m.PhongBanApDungIDs, Model.PhongBanList,
                                                 new { @class = "form-select", id = "donViSelect" })
+                                        </div>
+
+                                        <div class="mb-3 d-none" id="selectedUnitsDiv">
+                                            <ul class="list-group" id="selectedUnits"></ul>
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label fw-bold">Các bộ phận tham gia đề tài</label>
                                             @Html.ListBoxFor(m => m.PhongBanThamGiaIDs, Model.PhongBanList,
                                                 new { @class = "form-select", id = "boPhan", multiple = "multiple" })
+                                        </div>
+
+                                        <div class="mb-3 d-none" id="selectedBoPhanDiv">
+                                            <ul class="list-group" id="selectedBoPhan"></ul>
                                         </div>
 
                                         <div class="mb-3">
@@ -143,7 +151,7 @@
 
                                         <div class="mb-3">
                                             <label class="form-label fw-bold">Người đăng ký</label>
-                                            <input type="text" class="form-control" value="test" readonly />
+                                            <input type="text" class="form-control" value="@ViewBag.Username" readonly />
                                             @Html.HiddenFor(m => m.NguoiDangKyID)
                                         </div>
 
@@ -221,36 +229,6 @@
                             });
                         }
 
-                        //$(function () {
-                        //    renderTable();
-
-                        //    $("#searchInput, #filterTrangThai").on("input change", renderTable);
-
-                        //    $("#formDangKy").on("submit", function (e) {
-                        //        e.preventDefault();
-                        //        let ten = $("#tenDeTai").val();
-                        //        let nguoi = "Nguyễn Văn A";
-                        //        let boPhan = $("#boPhan").val().join(", ");
-                        //        dsDeTai.push({ ten: ten, nguoi: nguoi, bophan: boPhan, trangthai: "chua" });
-                        //        $("#tenDeTai").val("");
-                        //        $("#boPhan").val([]);
-                        //        $("#moTa").val("");
-                        //        alert("Đăng ký thành công! Đề tài đã gửi trưởng bộ phận duyệt.");
-                        //        renderTable();
-                        //        $('a[href="#danhsach"]').tab("show");
-                        //    });
-                        //});
-
-                        //$(function () {
-                        //    $('input[name="linhVuc"]').on("change", function () {
-                        //        if ($(this).val() === "Khác") {
-                        //            $("#inputLinhVucKhac").removeClass("d-none").focus();
-                        //        } else {
-                        //            $("#inputLinhVucKhac").addClass("d-none").val("");
-                        //        }
-                        //    });
-                        //});
-
                         $(function () {
                             $("input[name='LinhVucID']").change(function () {
                                 if ($("#lvKhac").is(":checked")) {
@@ -264,19 +242,60 @@
                                 let val = $("input[name='PhamViApDung']:checked").val();
                                 let $select = $("#donViSelect");
                                 let $div = $("#donViSelectDiv");
+                                let $selectedDiv = $("#selectedUnitsDiv");
 
                                 if (val === "1") {
                                     $div.show();
                                     $select.prop("disabled", false).prop("multiple", false);
+                                    $selectedDiv.addClass("d-none").find("#selectedUnits").empty();
                                 }
                                 else if (val === "2") {
                                     $div.show();
                                     $select.prop("disabled", false).prop("multiple", true);
+                                    $selectedDiv.removeClass("d-none");
                                 }
                                 else if (val === "3") {
                                     $div.hide();
+                                    $selectedDiv.addClass("d-none").find("#selectedUnits").empty();
                                 }
                             }
+
+                            $("#donViSelect").on("change", function () {
+                                let $selectedUnits = $("#selectedUnits");
+                                $selectedUnits.empty();
+
+                                $("#donViSelect option:selected").each(function () {
+                                    $selectedUnits.append(
+                                        $("<li>").addClass("list-group-item").text($(this).text())
+                                    );
+                                });
+                            });
+
+                            $("#boPhan").on("change", function () {
+                                let $selectedDiv = $("#selectedBoPhanDiv");
+                                let $list = $("#selectedBoPhan");
+
+                                $list.empty();
+
+                                let selected = $("#boPhan option:selected");
+                                $selectedDiv.removeClass("d-none");
+                                selected.each(function () {
+                                    $list.append(
+                                        $("<li>").addClass("list-group-item").text($(this).text())
+                                    );
+                                });
+                                //if (selected.length > 0) {
+                                //    $selectedDiv.removeClass("d-none");
+                                //    selected.each(function () {
+                                //        $list.append(
+                                //            $("<li>").addClass("list-group-item").text($(this).text())
+                                //        );
+                                //    });
+                                //} else {
+                                //    //$selectedDiv.addClass("d-none");
+                                //}
+                            });
+
 
                             updateCombo();
                             $("input[name='PhamViApDung']").on("change", updateCombo);
