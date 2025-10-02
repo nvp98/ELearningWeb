@@ -1945,6 +1945,12 @@
           <Parameter Name="IDVT" Type="int" Mode="In" />
           <Parameter Name="IDNV" Type="int" Mode="In" />
         </Function>
+        <Function Name="KNL_GetNhanVienDanhGiaTC" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDVT" Type="int" Mode="In" />
+        </Function>
+        <Function Name="KNL_GetNhanVienDanhGiaTT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDVT" Type="int" Mode="In" />
+        </Function>
         <Function Name="KNL_KQ_delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDKQ" Type="int" Mode="In" />
         </Function>
@@ -2671,6 +2677,10 @@
           <Parameter Name="IDController" Type="int" Mode="In" />
           <Parameter Name="IDQuyenCN" Type="int" Mode="In" />
           <Parameter Name="isActive" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_KhoiTaoDanhGiaMoiTuQuyTruoc" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nam" Type="int" Mode="In" />
+          <Parameter Name="Quy" Type="int" Mode="In" />
         </Function>
         <Function Name="TaiKhoan_ID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
@@ -4984,7 +4994,6 @@
           <FunctionImport Name="KhungNangLuc_delete_VT">
           <Parameter Name="IDVT" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="KhungNangLuc_DongBoDuLieu" />
           <FunctionImport Name="KhungNangLuc_insert">
             <Parameter Name="TenNL" Mode="In" Type="String" />
             <Parameter Name="IDLoaiNL" Mode="In" Type="Int32" />
@@ -5926,7 +5935,17 @@
           <Parameter Name="IDLS" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="KNL_KQ_LSDG_delete">
-            <Parameter Name="IDLS" Mode="In" Type="Int32" />
+          <Parameter Name="IDLS" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="KNL_GetNhanVienDanhGiaTC" ReturnType="Collection(ELEARNINGModel.KNL_GetNhanVienDanhGiaTC_Result)">
+          <Parameter Name="IDVT" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="KNL_GetNhanVienDanhGiaTT" ReturnType="Collection(ELEARNINGModel.KNL_GetNhanVienDanhGiaTT_Result)">
+          <Parameter Name="IDVT" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_KhoiTaoDanhGiaMoiTuQuyTruoc">
+            <Parameter Name="Nam" Mode="In" Type="Int32" />
+            <Parameter Name="Quy" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="CauHoi_DeThi_list_Result">
@@ -6549,11 +6568,14 @@
           <Property Type="String" Name="HoTen" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="MaNV" Nullable="true" MaxLength="10" />
           <Property Type="Int32" Name="IDPhongBan" Nullable="false" />
-          <Property Type="String" Name="TenPhongBan" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TenPhongBan" Nullable="true" MaxLength="250" />
           <Property Type="Double" Name="Diem" Nullable="true" />
           <Property Type="Int32" Name="TinhTrang" Nullable="true" />
           <Property Type="DateTime" Name="NgayHT" Nullable="true" />
           <Property Type="DateTime" Name="NgayKTTT" Nullable="true" />
+          <Property Type="String" Name="TenPX" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TenNhom" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="TenTo" Nullable="true" MaxLength="200" />
         </ComplexType>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -7063,6 +7085,36 @@
           <Property Name="Quy" Type="Int32" />
           <Property Name="Nam" Type="Int32" />
         </EntityType>
+        <ComplexType Name="KNL_GetNhanVienDanhGiaTC_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="MaNV" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="HoTen" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IDKip" Nullable="true" />
+          <Property Type="Int32" Name="IDVT" Nullable="true" />
+          <Property Type="String" Name="TenViTri" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="FilePath" Nullable="true" />
+          <Property Type="Int32" Name="TinhTrang_DuyetKNL" Nullable="true" />
+          <Property Type="DateTime" Name="NgayDG" Nullable="true" />
+          <Property Type="DateTime" Name="NgayTuDG" Nullable="true" />
+          <Property Type="Int32" Name="IDVTDGTC" Nullable="true" />
+          <Property Type="Int32" Name="IDVTDGTT" Nullable="true" />
+          <Property Type="Int32" Name="TongNLDuyet" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="KNL_GetNhanVienDanhGiaTT_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="MaNV" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="HoTen" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IDKip" Nullable="true" />
+          <Property Type="Int32" Name="IDVT" Nullable="true" />
+          <Property Type="String" Name="TenViTri" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="FilePath" Nullable="true" />
+          <Property Type="Int32" Name="TinhTrang_DuyetKNL" Nullable="true" />
+          <Property Type="DateTime" Name="NgayDG" Nullable="true" />
+          <Property Type="DateTime" Name="NgayTuDG" Nullable="true" />
+          <Property Type="Int32" Name="IDVTDGTC" Nullable="true" />
+          <Property Type="Int32" Name="IDVTDGTT" Nullable="true" />
+          <Property Type="Int32" Name="TongNLDuyet" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8931,6 +8983,9 @@
                 <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
                 <ScalarProperty Name="NgayHT" ColumnName="NgayHT" />
                 <ScalarProperty Name="NgayKTTT" ColumnName="NgayKTTT" />
+                <ScalarProperty Name="TenPX" ColumnName="TenPX" />
+                <ScalarProperty Name="TenNhom" ColumnName="TenNhom" />
+                <ScalarProperty Name="TenTo" ColumnName="TenTo" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9468,6 +9523,45 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="KNL_LSDG_delete" FunctionName="ELEARNINGModel.Store.KNL_LSDG_delete" />
           <FunctionImportMapping FunctionImportName="KNL_KQ_LSDG_delete" FunctionName="ELEARNINGModel.Store.KNL_KQ_LSDG_delete" />
+          <FunctionImportMapping FunctionImportName="KNL_GetNhanVienDanhGiaTC" FunctionName="ELEARNINGModel.Store.KNL_GetNhanVienDanhGiaTC">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ELEARNINGModel.KNL_GetNhanVienDanhGiaTC_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+                <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+                <ScalarProperty Name="IDKip" ColumnName="IDKip" />
+                <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+                <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="TinhTrang_DuyetKNL" ColumnName="TinhTrang_DuyetKNL" />
+                <ScalarProperty Name="NgayDG" ColumnName="NgayDG" />
+                <ScalarProperty Name="NgayTuDG" ColumnName="NgayTuDG" />
+                <ScalarProperty Name="IDVTDGTC" ColumnName="IDVTDGTC" />
+                <ScalarProperty Name="IDVTDGTT" ColumnName="IDVTDGTT" />
+                <ScalarProperty Name="TongNLDuyet" ColumnName="TongNLDuyet" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="KNL_GetNhanVienDanhGiaTT" FunctionName="ELEARNINGModel.Store.KNL_GetNhanVienDanhGiaTT">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ELEARNINGModel.KNL_GetNhanVienDanhGiaTT_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+                <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+                <ScalarProperty Name="IDKip" ColumnName="IDKip" />
+                <ScalarProperty Name="IDVT" ColumnName="IDVT" />
+                <ScalarProperty Name="TenViTri" ColumnName="TenViTri" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="TinhTrang_DuyetKNL" ColumnName="TinhTrang_DuyetKNL" />
+                <ScalarProperty Name="NgayDG" ColumnName="NgayDG" />
+                <ScalarProperty Name="NgayTuDG" ColumnName="NgayTuDG" />
+                <ScalarProperty Name="IDVTDGTC" ColumnName="IDVTDGTC" />
+                <ScalarProperty Name="IDVTDGTT" ColumnName="IDVTDGTT" />
+                <ScalarProperty Name="TongNLDuyet" ColumnName="TongNLDuyet" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_KhoiTaoDanhGiaMoiTuQuyTruoc" FunctionName="ELEARNINGModel.Store.sp_KhoiTaoDanhGiaMoiTuQuyTruoc" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

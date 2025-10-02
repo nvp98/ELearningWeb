@@ -1166,11 +1166,6 @@ namespace E_Learning.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KhungNangLuc_delete_VT", iDVTParameter);
         }
     
-        public virtual int KhungNangLuc_DongBoDuLieu()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KhungNangLuc_DongBoDuLieu");
-        }
-    
         public virtual int KhungNangLuc_insert(string tenNL, Nullable<int> iDLoaiNL, Nullable<int> iDVT, Nullable<int> iDPB, Nullable<int> dinhMuc, Nullable<int> isDanhGia, Nullable<int> orderBy, Nullable<int> isDuyet)
         {
             var tenNLParameter = tenNL != null ?
@@ -4339,6 +4334,37 @@ namespace E_Learning.Models
                 new ObjectParameter("IDLS", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("KNL_KQ_LSDG_delete", iDLSParameter);
+        }
+    
+        public virtual ObjectResult<KNL_GetNhanVienDanhGiaTC_Result> KNL_GetNhanVienDanhGiaTC(Nullable<int> iDVT)
+        {
+            var iDVTParameter = iDVT.HasValue ?
+                new ObjectParameter("IDVT", iDVT) :
+                new ObjectParameter("IDVT", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<KNL_GetNhanVienDanhGiaTC_Result>("KNL_GetNhanVienDanhGiaTC", iDVTParameter);
+        }
+    
+        public virtual ObjectResult<KNL_GetNhanVienDanhGiaTT_Result> KNL_GetNhanVienDanhGiaTT(Nullable<int> iDVT)
+        {
+            var iDVTParameter = iDVT.HasValue ?
+                new ObjectParameter("IDVT", iDVT) :
+                new ObjectParameter("IDVT", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<KNL_GetNhanVienDanhGiaTT_Result>("KNL_GetNhanVienDanhGiaTT", iDVTParameter);
+        }
+    
+        public virtual int sp_KhoiTaoDanhGiaMoiTuQuyTruoc(Nullable<int> nam, Nullable<int> quy)
+        {
+            var namParameter = nam.HasValue ?
+                new ObjectParameter("Nam", nam) :
+                new ObjectParameter("Nam", typeof(int));
+    
+            var quyParameter = quy.HasValue ?
+                new ObjectParameter("Quy", quy) :
+                new ObjectParameter("Quy", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_KhoiTaoDanhGiaMoiTuQuyTruoc", namParameter, quyParameter);
         }
     }
 }
