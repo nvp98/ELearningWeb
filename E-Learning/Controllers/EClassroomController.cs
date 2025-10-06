@@ -49,8 +49,8 @@ namespace E_Learning.Controllers
                                NgayHT = h.NgayHT != null?(DateTime)h.NgayHT:default(DateTime),
                                XNTG = (bool)h.XNTG,
                                XNHT = (bool)h.XNHT,
-                               //ToChucThi=(bool)l.ToChucThi
-                               ToChucThi = true
+                               ToChucThi=(bool)l.ToChucThi
+                               //ToChucThi = true,
                            }).OrderBy(x => x.TGBDLH).ToList();
 
                 return View(res.ToList());
