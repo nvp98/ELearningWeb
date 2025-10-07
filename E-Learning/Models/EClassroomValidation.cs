@@ -54,6 +54,7 @@ namespace E_Learning.Models
 
         public string TenBaiThi { get; set; }
         public bool ToChucThi { get; set; }
+        public int? IDDeThi { get; set; }
 
     }
 }
