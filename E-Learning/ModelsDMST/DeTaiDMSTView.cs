@@ -18,5 +18,15 @@ namespace E_Learning.ModelsDMST
         public string MoTaNgan { get; set; }
         public HttpPostedFileBase TepDinhKem { get; set; }
         public int NguoiDangKyID { get; set; }
+        public string BoPhanThamGia { get; set; }
+        public int TrangThai { get; set; }
+        public List<DeTaiListItemViewModel> DanhSachDeTai { get; set; }
+    }
+
+    public class DeTaiListItemViewModel
+    {
+        public string TenDeTai { get; set; }
+        public string BoPhanThamGia { get; set; }
+        public int TrangThai { get; set; }
     }
 }

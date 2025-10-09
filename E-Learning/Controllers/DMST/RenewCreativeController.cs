@@ -2,6 +2,7 @@
 using E_Learning.ModelsDMST;
 using PagedList;
 using System;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -17,29 +18,6 @@ namespace E_Learning.Controllers.DMST
         {
             return View();
         }
-
-        //public ActionResult ViewList(int? page)
-        //{
-        //    var data = from dt in db.DMST_PhieuDangKy
-        //               select new DeTaiDMSTView
-        //               {
-        //                   ID = dt.ID,
-        //                   TenYTuong = dt.TenYTuong,
-        //                   NoiDungYTuong = dt.NoiDungYTuong,
-        //                   ViTriTrienKhai = dt.ViTriTrienKhai,
-        //                   HieuQuaKyVong = dt.HieuQuaKyVong,
-        //                   NgayBatDau = (DateTime) dt.NgayTao,
-        //                   //NgayKetThuc = (DateTime) dt.DenNgay,
-        //                   ID_NhanVienDaiDien = (int) dt.ID_NhanVienDaiDien,
-        //                   ID_LinhVuc = (int) dt.ID_LinhVuc
-        //               };
-
-        //    int pageSize = 10;
-        //    int pageNumber = (page ?? 1);
-        //    var pagedList = data.OrderBy(x => x.TenYTuong).ToPagedList(pageNumber, pageSize);
-
-        //    return View(pagedList);
-        //}
 
         public ActionResult Create()
         {
@@ -60,21 +38,161 @@ namespace E_Learning.Controllers.DMST
                             Text = pb.TenPhongBan
                         })
                         .OrderBy(x => x.Text)
-                        .ToList()
+                        .ToList(),
+                PhamViApDung = 1
             };
 
-            string username = MyAuthentication.Username;
-            string tenNhanVien = db.NhanViens.Where(x => x.ID == MyAuthentication.ID).FirstOrDefault().HoTenKhongDau;
+            string tenNhanVien = db.NhanViens
+                .Where(x => x.ID == MyAuthentication.ID)
+                .Select(x => x.HoTenKhongDau)
+                .FirstOrDefault();
+
             ViewBag.Username = MyAuthentication.Username + " – " + tenNhanVien;
 
             return View(model);
         }
 
+        [HttpGet]
+        public JsonResult GetDanhSachDeTaiJson(int page = 1)
+        {
+            int pageSize = 30;
+
+            var dsKhenThuongRaw = (from k in db.KT_DanhSachKhenThuong
+                                   select new { k.NoiDungKhenThuong, k.DonVi }).ToList();
+
+            var dsKhenThuong = dsKhenThuongRaw
+                .GroupBy(x => x.NoiDungKhenThuong)
+                .Select(g => new DeTaiListItemViewModel
+                {
+                    TenDeTai = g.Key,
+                    BoPhanThamGia = string.Join(" - ", g.Select(x => x.DonVi)),
+                    TrangThai = 2
+                }).ToList();
+
+            var dsDeTaiRaw = (from d in db.DMST_DeTai
+                              join dp in db.DMST_DeTai_PhongBanThamGia on d.ID equals dp.DeTaiID
+                              join p in db.PhongBans on dp.PhongBanID equals p.IDPhongBan
+                              select new
+                              {
+                                  d.TenDeTai,
+                                  d.TrangThai,
+                                  p.MaPB
+                              }).ToList();
+
+            var dsDeTai = dsDeTaiRaw
+                .GroupBy(x => new { x.TenDeTai, x.TrangThai })
+                .Select(g => new DeTaiListItemViewModel
+                {
+                    TenDeTai = g.Key.TenDeTai,
+                    BoPhanThamGia = string.Join(" - ", g.Select(x => x.MaPB)),
+                    TrangThai = g.Key.TrangThai
+                }).ToList();
+
+            var danhSach = dsKhenThuong.Union(dsDeTai).ToList();
+
+            int totalItems = danhSach.Count;
+            var pageData = danhSach.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+            return Json(new
+            {
+                Data = pageData,
+                CurrentPage = page,
+                TotalPages = totalPages
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        //public ActionResult Create()
+        //{
+        //    var model = new DeTaiDMSTView
+        //    {
+        //        LinhVucList = db.DMST_LinhVuc
+        //               .Select(lv => new SelectListItem
+        //               {
+        //                   Value = lv.ID.ToString(),
+        //                   Text = lv.TenLinhVuc
+        //               })
+        //               .ToList(),
+
+        //        PhongBanList = db.PhongBans
+        //                .Select(pb => new SelectListItem
+        //                {
+        //                    Value = pb.IDPhongBan.ToString(),
+        //                    Text = pb.TenPhongBan
+        //                })
+        //                .OrderBy(x => x.Text)
+        //                .ToList(),
+        //        PhamViApDung = 1
+        //    };
+
+        //    string username = MyAuthentication.Username;
+        //    string tenNhanVien = db.NhanViens.Where(x => x.ID == MyAuthentication.ID).FirstOrDefault().HoTenKhongDau;
+        //    ViewBag.Username = MyAuthentication.Username + " – " + tenNhanVien;
+
+        //    var dsKhenThuongRaw = (from k in db.KT_DanhSachKhenThuong
+        //                           select new { k.NoiDungKhenThuong, k.DonVi }).ToList();
+
+        //    var dsKhenThuong = dsKhenThuongRaw
+        //        .GroupBy(x => x.NoiDungKhenThuong)
+        //        .Select(g => new DeTaiListItemViewModel
+        //        {
+        //            TenDeTai = g.Key,
+        //            BoPhanThamGia = string.Join(" - ", g.Select(x => x.DonVi)),
+        //            TrangThai = 2 // vinh danh
+        //        }).ToList();
+
+        //    var dsDeTaiRaw = (from d in db.DMST_DeTai
+        //                      join dp in db.DMST_DeTai_PhongBanThamGia on d.ID equals dp.DeTaiID
+        //                      join p in db.PhongBans on dp.PhongBanID equals p.IDPhongBan
+        //                      select new
+        //                      {
+        //                          d.TenDeTai,
+        //                          d.TrangThai,
+        //                          p.MaPB
+        //                      }).ToList();
+
+        //    var dsDeTai = dsDeTaiRaw
+        //        .GroupBy(x => new { x.TenDeTai, x.TrangThai })
+        //        .Select(g => new DeTaiListItemViewModel
+        //        {
+        //            TenDeTai = g.Key.TenDeTai,
+        //            BoPhanThamGia = string.Join(" - ", g.Select(x => x.MaPB)),
+        //            TrangThai = g.Key.TrangThai
+        //        }).ToList();
+
+        //    var danhSach = dsKhenThuong.Union(dsDeTai).ToList();
+
+        //    model.DanhSachDeTai = danhSach;
+
+        //    return View(model);
+        //}
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(DeTaiDMSTView model)
         {
             if (ModelState.IsValid)
             {
+                string filePathInDb = null;
+
+                if (model.TepDinhKem != null && model.TepDinhKem.ContentLength > 0)
+                {
+                    var uploadDir = Server.MapPath("~/Uploads/DoiMoiSangTao/");
+                    if (!Directory.Exists(uploadDir))
+                    {
+                        Directory.CreateDirectory(uploadDir);
+                    }
+
+                    string fileName = Path.GetFileNameWithoutExtension(model.TepDinhKem.FileName);
+                    string extension = Path.GetExtension(model.TepDinhKem.FileName);
+                    string safeFileName = fileName + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + extension;
+
+                    string path = Path.Combine(uploadDir, safeFileName);
+                    model.TepDinhKem.SaveAs(path);
+
+                    filePathInDb = "/Uploads/DoiMoiSangTao/" + safeFileName;
+                }
+
                 var deTai = new DMST_DeTai
                 {
                     TenDeTai = model.TenDeTai,
@@ -82,7 +200,7 @@ namespace E_Learning.Controllers.DMST
                     PhamViApDung = model.PhamViApDung,
                     MoTaNgan = model.MoTaNgan,
                     NguoiDangKyID = MyAuthentication.ID,
-                    //FileDinhKem = model.FileDinhKem != null ? model.FileDinhKem.FileName : null,
+                    TepDinhKem = filePathInDb,
                     TrangThai = 0,
                     NgayTao = DateTime.Now,
                 };

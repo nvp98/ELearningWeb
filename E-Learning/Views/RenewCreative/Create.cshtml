@@ -81,6 +81,7 @@
                                     <h5 class="mb-3">Đăng ký đề tài Đổi mới sáng tạo</h5>
                                     @using (Html.BeginForm("Create", "RenewCreative", FormMethod.Post, new { enctype = "multipart/form-data" }))
                                     {
+                                        @Html.AntiForgeryToken()
                                         <div class="mb-3">
                                             <label class="form-label d-block fw-bold">Tên đề tài</label>
                                             @Html.TextBoxFor(m => m.TenDeTai, new { @class = "form-control", required = "required" })
@@ -120,8 +121,9 @@
                                         </div>
 
                                         <div class="mb-3" id="donViSelectDiv">
-                                            <label class="form-label">Chọn phạm vi áp dụng</label>
-                                            @Html.DropDownListFor(m => m.PhongBanApDungIDs, Model.PhongBanList,
+                                            @Html.DropDownListFor(m => m.PhongBanApDungIDs,
+                                                new SelectList(Model.PhongBanList, "Value", "Text"),
+                                                "-- Chọn đơn vị --",
                                                 new { @class = "form-select", id = "donViSelect" })
                                         </div>
 
@@ -171,7 +173,7 @@
                                     </select>
                                 </div>
 
-                                <table class="table table-bordered table-striped align-middle">
+                                <table class="table table-bordered table-striped align-middle" id="tblDeTai">
                                     <thead class="table-light">
                                         <tr>
                                             <th>#</th>
@@ -179,57 +181,99 @@
                                             <th>Người đăng ký</th>
                                             <th>Bộ phận tham gia</th>
                                             <th>Phạm vi áp dụng</th>
-                                            <th>Mô tả ngắn</th>
                                             <th>File đính kèm</th>
                                             <th>Trạng thái</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tableDeTai">
-
-                                    </tbody>
+                                    <tbody></tbody>
+                                    @*<tbody id="tableDeTai">
+                                        @foreach (var item in Model.DanhSachDeTai)
+                                        {
+                                            <tr>
+                                                <td></td>
+                                                <td>@item.TenDeTai</td>
+                                                <td></td>
+                                                <td>@item.BoPhanThamGia</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>@item.TrangThai</td>
+                                            </tr>
+                                        }
+                                    </tbody>*@
                                 </table>
                             </div>
+                            <nav class="mt-3">
+                                <ul class="pagination justify-content-center" id="pagination"></ul>
+                            </nav>
                         </div>
                     </div>
 
                     <script>
-                        let dsDeTai = [
-                            { ten: "Ứng dụng AI vào quản lý kho", nguoi: "Nguyễn Văn A", bophan: "Phòng Kỹ thuật, Phòng Tài chính", trangthai: "chua" },
-                            { ten: "Tối ưu quy trình bán hàng", nguoi: "Trần Thị B", bophan: "Phòng Kinh doanh", trangthai: "duyet" },
-                            { ten: "Xây dựng hệ thống ERP", nguoi: "Lê Văn C", bophan: "Phòng Kỹ thuật, Phòng Nhân sự", trangthai: "thanhcong" }
-                        ];
-
-                        function renderTable() {
-                            let tbody = $("#tableDeTai");
-                            tbody.empty();
-                            let search = $("#searchInput").val().toLowerCase();
-                            let filter = $("#filterTrangThai").val();
-
-                            dsDeTai.forEach((d, i) => {
-                                if ((search && !d.ten.toLowerCase().includes(search)) ||
-                                    (filter && d.trangthai !== filter)) return;
-
-                                let badge = "";
-                                if (d.trangthai === "chua") badge = '<span class="badge bg-secondary">Chờ duyệt</span>';
-                                if (d.trangthai === "duyet") badge = '<span class="badge bg-info text-dark">Đã duyệt</span>';
-                                if (d.trangthai === "thanhcong") badge = '<span class="badge bg-success">Vinh danh</span>';
-
-                                tbody.append(`
-                                    <tr>
-                                        <td>${i + 1}</td>
-                                        <td>${d.ten}</td>
-                                        <td>${d.nguoi}</td>
-                                        <td>${d.bophan}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>File đính kèm</td>
-                                        <td>${badge}</td>
-                                    </tr>
-                                `);
-                            });
-                        }
 
                         $(function () {
+
+                            function loadDanhSach(page) {
+                                $.ajax({
+                                    url: '@Url.Action("GetDanhSachDeTaiJson")',
+                                    type: 'GET',
+                                    data: { page: page },
+                                    success: function (res) {
+                                        let tbody = $("#tblDeTai tbody");
+                                        tbody.empty();
+
+                                        if (res.Data && res.Data.length > 0) {
+                                            $.each(res.Data, function (i, item) {
+                                                let trangThai = "Khác";
+                                                if (item.TrangThai === 0) trangThai = "Chưa duyệt";
+                                                else if (item.TrangThai === 1) trangThai = "Đang thực hiện";
+                                                else if (item.TrangThai === 2) trangThai = "Khen thưởng";
+
+                                                tbody.append(`
+                                                    <tr>
+                                                        <td>${item.TenDeTai}</td>
+                                                        <td>${item.BoPhanThamGia}</td>
+                                                        <td>${trangThai}</td>
+                                                    </tr>
+                                                `);
+                                            });
+                                        } else {
+                                            tbody.append('<tr><td colspan="3" class="text-center">Không có dữ liệu</td></tr>');
+                                        }
+
+                                        renderPagination(res.CurrentPage, res.TotalPages);
+                                    },
+                                    error: function () {
+                                        alert("Không thể tải danh sách đề tài!");
+                                    }
+                                });
+                            }
+
+                            function renderPagination(current, total) {
+                                let $pagination = $("#pagination");
+                                $pagination.empty();
+
+                                const disabledFirst = current === 1 ? "disabled" : "";
+                                const disabledLast = current === total ? "disabled" : "";
+
+                                $pagination.append(`
+                                    <li class="page-item ${disabledFirst}">
+                                        <button class="page-link" onclick="loadDanhSach(1)">Trang đầu</button>
+                                    </li>
+                                    <li class="page-item ${disabledFirst}">
+                                        <button class="page-link" onclick="loadDanhSach(${current - 1})">Trước</button>
+                                    </li>
+                                    <li class="page-item active">
+                                        <span class="page-link">${current} / ${total}</span>
+                                    </li>
+                                    <li class="page-item ${disabledLast}">
+                                        <button class="page-link" onclick="loadDanhSach(${current + 1})">Sau</button>
+                                    </li>
+                                    <li class="page-item ${disabledLast}">
+                                        <button class="page-link" onclick="loadDanhSach(${total})">Trang cuối</button>
+                                    </li>
+                                `);
+                            }
+
                             $("input[name='LinhVucID']").change(function () {
                                 if ($("#lvKhac").is(":checked")) {
                                     $("#inputLinhVucKhac").removeClass("d-none");
@@ -246,12 +290,12 @@
 
                                 if (val === "1") {
                                     $div.show();
-                                    $select.prop("disabled", false).prop("multiple", false);
+                                    $select.prop("disabled", false).prop("multiple", false).val(""); // reset rỗng
                                     $selectedDiv.addClass("d-none").find("#selectedUnits").empty();
                                 }
                                 else if (val === "2") {
                                     $div.show();
-                                    $select.prop("disabled", false).prop("multiple", true);
+                                    $select.prop("disabled", false).prop("multiple", true).val([]); // reset rỗng
                                     $selectedDiv.removeClass("d-none");
                                 }
                                 else if (val === "3") {
@@ -296,9 +340,11 @@
                                 //}
                             });
 
-
+                            loadDanhSach(1);
                             updateCombo();
                             $("input[name='PhamViApDung']").on("change", updateCombo);
+
+
                         });
 
                     </script>
