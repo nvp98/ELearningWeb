@@ -199,7 +199,7 @@
                                     @foreach (var item in Model)
                                     {
                                         //Review Compare TGKTLH and Datetime Now
-                                        if (@item.XNHT == true && (DateTime.Now - Convert.ToDateTime(@item.TGKTLH)).TotalDays <= 1 && !String.IsNullOrEmpty(item.VideoLH))
+                                        if (@item.XNHT == true && (DateTime.Now - Convert.ToDateTime(@item.TGKTLH)).TotalDays <= 1 && (!String.IsNullOrEmpty(item.VideoLH) || item.ToChucThi == true ))
                                         {
                                             <div class="col-md-6 col-xl-3">
                                                 <div class="card mb-3">
@@ -263,15 +263,15 @@
                                                                                 <span class="btn-transition btn btn-outline-success">Làm bài thi lại</span>
                                                                             </a>
                                                                         }
-                                                                        @*else if (baithi.Count == 0 && lanthi.Count == 0)
+                                                                        else if (baithi.Count == 0 && lanthi.Count == 0)
                                                                         {
                                                                             <a id="@item.LHID" href="/STest/Index?LHID=@item.LHID">
                                                                                 <span class="btn-transition btn btn-outline-success">Làm bài thi</span>
                                                                             </a>
-                                                                        }*@
-                                                                        <a id="@item.LHID" href="/STest/Index?LHID=@item.LHID">
+                                                                        }
+                                                                        @*<a id="@item.LHID" href="/STest/Index?LHID=@item.LHID">
                                                                             <span class="btn-transition btn btn-outline-success">Làm bài thi</span>
-                                                                        </a>
+                                                                        </a>*@
 
                                                                     }
 
