@@ -53,9 +53,9 @@ namespace E_Learning.Controllers.DMST
         }
 
         [HttpGet]
-        public JsonResult GetDanhSachDeTaiJson(int page = 1)
+        public JsonResult GetDanhSachDeTaiJson_(int page = 1, string keyword = "")
         {
-            int pageSize = 30;
+            int pageSize = 20;
 
             var dsKhenThuongRaw = (from k in db.KT_DanhSachKhenThuong
                                    select new { k.NoiDungKhenThuong, k.DonVi }).ToList();
@@ -66,17 +66,24 @@ namespace E_Learning.Controllers.DMST
                 {
                     TenDeTai = g.Key,
                     BoPhanThamGia = string.Join(" - ", g.Select(x => x.DonVi)),
+                    BoPhanApDung = "Toàn công ty",
                     TrangThai = 2
                 }).ToList();
+
 
             var dsDeTaiRaw = (from d in db.DMST_DeTai
                               join dp in db.DMST_DeTai_PhongBanThamGia on d.ID equals dp.DeTaiID
                               join p in db.PhongBans on dp.PhongBanID equals p.IDPhongBan
+                              join da in db.DMST_DeTai_PhongBanApDung on d.ID equals da.DeTaiID into apDung
+                              from da in apDung.DefaultIfEmpty()
+                              join pbApDung in db.PhongBans on da.PhongBanID equals pbApDung.IDPhongBan into pbApDungJoin
+                              from pbApDung in pbApDungJoin.DefaultIfEmpty()
                               select new
                               {
                                   d.TenDeTai,
                                   d.TrangThai,
-                                  p.MaPB
+                                  BoPhanThamGia = p.MaPB,
+                                  BoPhanApDung = pbApDung != null ? pbApDung.MaPB : "Toàn công ty"
                               }).ToList();
 
             var dsDeTai = dsDeTaiRaw
@@ -84,11 +91,82 @@ namespace E_Learning.Controllers.DMST
                 .Select(g => new DeTaiListItemViewModel
                 {
                     TenDeTai = g.Key.TenDeTai,
-                    BoPhanThamGia = string.Join(" - ", g.Select(x => x.MaPB)),
+                    BoPhanThamGia = string.Join(" - ", g.Select(x => x.BoPhanThamGia)),
+                    BoPhanApDung = string.Join(" - ", g.Select(x => x.BoPhanApDung).Distinct()),
                     TrangThai = g.Key.TrangThai
                 }).ToList();
 
             var danhSach = dsKhenThuong.Union(dsDeTai).ToList();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                danhSach = danhSach.Where(x => x.TenDeTai.ToLower().Contains(keyword.ToLower())).ToList();
+            }
+
+            int totalItems = danhSach.Count;
+            var pageData = danhSach.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            int totalPages = (int) Math.Ceiling((double)totalItems / pageSize);
+
+            return Json(new
+            {
+                Data = pageData,
+                CurrentPage = page,
+                TotalPages = totalPages
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetDanhSachDeTaiJson(int page = 1, string keyword = "")
+        {
+            int pageSize = 20;
+
+            var dsKhenThuongRaw = (from k in db.KT_DanhSachKhenThuong
+                                   select new { k.NoiDungKhenThuong, k.DonVi }).ToList();
+
+            var dsKhenThuong = dsKhenThuongRaw
+                .GroupBy(x => x.NoiDungKhenThuong)
+                .Select(g => new DeTaiListItemViewModel
+                {
+                    TenDeTai = g.Key,
+                    BoPhanThamGia = string.Join(" - ", g.Select(x => x.DonVi)),
+                    BoPhanApDung = "Toàn công ty",
+                    TrangThai = 2,
+                    TepDinhKem = null
+                }).ToList();
+
+            var dsDeTaiRaw = (from d in db.DMST_DeTai
+                              join dp in db.DMST_DeTai_PhongBanThamGia on d.ID equals dp.DeTaiID
+                              join p in db.PhongBans on dp.PhongBanID equals p.IDPhongBan
+                              join da in db.DMST_DeTai_PhongBanApDung on d.ID equals da.DeTaiID into apDung
+                              from da in apDung.DefaultIfEmpty()
+                              join pbApDung in db.PhongBans on da.PhongBanID equals pbApDung.IDPhongBan into pbApDungJoin
+                              from pbApDung in pbApDungJoin.DefaultIfEmpty()
+                              select new
+                              {
+                                  d.TenDeTai,
+                                  d.TrangThai,
+                                  BoPhanThamGia = p.MaPB,
+                                  BoPhanApDung = pbApDung != null ? pbApDung.MaPB : "Toàn công ty",
+                                  d.TepDinhKem
+                              }).ToList();
+
+            var dsDeTai = dsDeTaiRaw
+                .GroupBy(x => new { x.TenDeTai, x.TrangThai })
+                .Select(g => new DeTaiListItemViewModel
+                {
+                    TenDeTai = g.Key.TenDeTai,
+                    BoPhanThamGia = string.Join(" - ", g.Select(x => x.BoPhanThamGia)),
+                    BoPhanApDung = string.Join(" - ", g.Select(x => x.BoPhanApDung).Distinct()),
+                    TrangThai = g.Key.TrangThai,
+                    TepDinhKem = g.Select(x => x.TepDinhKem).FirstOrDefault(f => !string.IsNullOrEmpty(f))
+                }).ToList();
+
+            var danhSach = dsKhenThuong.Union(dsDeTai).ToList();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                danhSach = danhSach.Where(x => x.TenDeTai.ToLower().Contains(keyword.ToLower())).ToList();
+            }
 
             int totalItems = danhSach.Count;
             var pageData = danhSach.Skip((page - 1) * pageSize).Take(pageSize).ToList();
@@ -102,70 +180,6 @@ namespace E_Learning.Controllers.DMST
             }, JsonRequestBehavior.AllowGet);
         }
 
-        //public ActionResult Create()
-        //{
-        //    var model = new DeTaiDMSTView
-        //    {
-        //        LinhVucList = db.DMST_LinhVuc
-        //               .Select(lv => new SelectListItem
-        //               {
-        //                   Value = lv.ID.ToString(),
-        //                   Text = lv.TenLinhVuc
-        //               })
-        //               .ToList(),
-
-        //        PhongBanList = db.PhongBans
-        //                .Select(pb => new SelectListItem
-        //                {
-        //                    Value = pb.IDPhongBan.ToString(),
-        //                    Text = pb.TenPhongBan
-        //                })
-        //                .OrderBy(x => x.Text)
-        //                .ToList(),
-        //        PhamViApDung = 1
-        //    };
-
-        //    string username = MyAuthentication.Username;
-        //    string tenNhanVien = db.NhanViens.Where(x => x.ID == MyAuthentication.ID).FirstOrDefault().HoTenKhongDau;
-        //    ViewBag.Username = MyAuthentication.Username + " – " + tenNhanVien;
-
-        //    var dsKhenThuongRaw = (from k in db.KT_DanhSachKhenThuong
-        //                           select new { k.NoiDungKhenThuong, k.DonVi }).ToList();
-
-        //    var dsKhenThuong = dsKhenThuongRaw
-        //        .GroupBy(x => x.NoiDungKhenThuong)
-        //        .Select(g => new DeTaiListItemViewModel
-        //        {
-        //            TenDeTai = g.Key,
-        //            BoPhanThamGia = string.Join(" - ", g.Select(x => x.DonVi)),
-        //            TrangThai = 2 // vinh danh
-        //        }).ToList();
-
-        //    var dsDeTaiRaw = (from d in db.DMST_DeTai
-        //                      join dp in db.DMST_DeTai_PhongBanThamGia on d.ID equals dp.DeTaiID
-        //                      join p in db.PhongBans on dp.PhongBanID equals p.IDPhongBan
-        //                      select new
-        //                      {
-        //                          d.TenDeTai,
-        //                          d.TrangThai,
-        //                          p.MaPB
-        //                      }).ToList();
-
-        //    var dsDeTai = dsDeTaiRaw
-        //        .GroupBy(x => new { x.TenDeTai, x.TrangThai })
-        //        .Select(g => new DeTaiListItemViewModel
-        //        {
-        //            TenDeTai = g.Key.TenDeTai,
-        //            BoPhanThamGia = string.Join(" - ", g.Select(x => x.MaPB)),
-        //            TrangThai = g.Key.TrangThai
-        //        }).ToList();
-
-        //    var danhSach = dsKhenThuong.Union(dsDeTai).ToList();
-
-        //    model.DanhSachDeTai = danhSach;
-
-        //    return View(model);
-        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -256,5 +270,23 @@ namespace E_Learning.Controllers.DMST
             return View(model);
         }
 
+        [HttpGet]
+        public JsonResult GetDeTaiCuaToi()
+        {
+            int currentUserId = MyAuthentication.ID;
+
+            var deTaiCuaToi = (from d in db.DMST_DeTai
+                               where d.NguoiDangKyID == currentUserId
+                               select new
+                               {
+                                   d.TenDeTai,
+                                   d.TrangThai
+                               }).ToList();
+
+            return Json(new
+            {
+                Data = deTaiCuaToi
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

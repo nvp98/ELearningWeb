@@ -27,6 +27,8 @@ namespace E_Learning.ModelsDMST
     {
         public string TenDeTai { get; set; }
         public string BoPhanThamGia { get; set; }
+        public string BoPhanApDung { get; set; }
         public int TrangThai { get; set; }
+        public string TepDinhKem { get; set; }
     }
 }
