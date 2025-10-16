@@ -97,6 +97,7 @@
                         
                         @{
                             bool isReadOnly = ViewBag.IsReadOnly != null && (bool)ViewBag.IsReadOnly;
+                            bool isTPBP = ViewBag.IsTPBP != null && (bool)ViewBag.IsTPBP;
                         }
 
                         <div class="tab-content">
@@ -108,11 +109,18 @@
                                         @Html.AntiForgeryToken()
                                         @Html.HiddenFor(m => m.ID)
 
-                                        <div class="mb-3">
-                                            <label class="form-label d-block fw-bold">Tên đề tài</label>
-                                            @Html.TextBoxFor(m => m.TenDeTai, new { @class = "form-control", required = "required" })
-                                            @Html.ValidationMessageFor(m => m.TenDeTai, "", new { @class = "text-danger" })
-                                        </div>
+                                <div class="mb-3">
+                                    <label class="form-label d-block fw-bold">Tên đề tài</label>
+                                    @if (isTPBP)
+                                    {
+                                        @Html.TextBoxFor(m => m.TenDeTai, new { @class = "form-control", required = "required", @readonly = "readonly" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(m => m.TenDeTai, new { @class = "form-control", required = "required" })
+                                    }
+                                    @Html.ValidationMessageFor(m => m.TenDeTai, "", new { @class = "text-danger" })
+                                </div>
 
                                         <div class="mb-3">
                                             <label class="form-label fw-bold">Lĩnh vực</label>
@@ -120,8 +128,16 @@
                                                 @foreach (var item in Model.LinhVucList)
                                                 {
                                                     <div class="form-check">
-                                                        @Html.RadioButtonFor(m => m.LinhVucID, item.Value,
-                                                        new { @class = "form-check-input", id = "lv_" + item.Value, required = "required" })
+                                                        @if (isTPBP)
+                                                        {
+                                                            @Html.RadioButtonFor(m => m.LinhVucID, item.Value,
+                                                            new { @class = "form-check-input", id = "lv_" + item.Value, required = "required", disabled = "disabled" })
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.RadioButtonFor(m => m.LinhVucID, item.Value,
+                                                            new { @class = "form-check-input", id = "lv_" + item.Value, required = "required" })
+                                                        }
                                                         <label class="form-check-label" for="@(" lv_" + item.Value)">
                                                             @item.Text
                                                         </label>
@@ -133,23 +149,53 @@
                                         <div class="mb-3">
                                             <label class="form-label d-block fw-bold">Phạm vi áp dụng</label>
                                             <div class="form-check form-check-inline">
-                                                @Html.RadioButtonFor(m => m.PhamViApDung, 1, new { @class = "form-check-input", id = "pvNoiBo" })
+                                                @if (isTPBP)
+                                                {
+                                                    @Html.RadioButtonFor(m => m.PhamViApDung, 1, new { @class = "form-check-input", id = "pvNoiBo", disabled = "disabled" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.RadioButtonFor(m => m.PhamViApDung, 1, new { @class = "form-check-input", id = "pvNoiBo" })
+                                                }
                                                 <label class="form-check-label" for="pvNoiBo">Nội bộ đơn vị</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                @Html.RadioButtonFor(m => m.PhamViApDung, 2, new { @class = "form-check-input", id = "pvNhieu" })
+                                                @if (isTPBP)
+                                                {
+                                                    @Html.RadioButtonFor(m => m.PhamViApDung, 2, new { @class = "form-check-input", id = "pvNhieu", disabled = "disabled" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.RadioButtonFor(m => m.PhamViApDung, 2, new { @class = "form-check-input", id = "pvNhieu" })
+                                                }
                                                 <label class="form-check-label" for="pvNhieu">Nhiều đơn vị</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                @Html.RadioButtonFor(m => m.PhamViApDung, 3, new { @class = "form-check-input", id = "pvToan" })
+                                                @if (isTPBP)
+                                                {
+                                                    @Html.RadioButtonFor(m => m.PhamViApDung, 3, new { @class = "form-check-input", id = "pvToan", disabled = "disabled" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.RadioButtonFor(m => m.PhamViApDung, 3, new { @class = "form-check-input", id = "pvToan" })
+                                                }
                                                 <label class="form-check-label" for="pvToan">Toàn công ty</label>
                                             </div>
                                         </div>
 
                                         <div class="mb-3" id="donViSelectDiv">
-                                            @Html.ListBoxFor(m => m.PhongBanApDungIDs,
-                                            new MultiSelectList(Model.PhongBanList, "Value", "Text", Model.PhongBanApDungIDs),
-                                            new { @class = "form-select", id = "donViSelect", multiple = "multiple" })
+                                            @if (isTPBP)
+                                            {
+                                                @Html.ListBoxFor(m => m.PhongBanApDungIDs,
+                                                new MultiSelectList(Model.PhongBanList, "Value", "Text", Model.PhongBanApDungIDs),
+                                                new { @class = "form-select", id = "donViSelect", multiple = "multiple", disabled = "disabled" })
+                                            }
+                                            else
+                                            {
+                                                @Html.ListBoxFor(m => m.PhongBanApDungIDs,
+                                                new MultiSelectList(Model.PhongBanList, "Value", "Text", Model.PhongBanApDungIDs),
+                                                new { @class = "form-select", id = "donViSelect", multiple = "multiple" })
+                                            }
                                         </div>
 
                                         <div class="mb-3 d-none" id="selectedUnitsDiv">
@@ -158,8 +204,16 @@
 
                                         <div class="mb-3">
                                             <label class="form-label fw-bold">Các bộ phận tham gia đề tài</label>
-                                            @Html.ListBoxFor(m => m.PhongBanThamGiaIDs, Model.PhongBanList,
-                                            new { @class = "form-select", id = "boPhan", multiple = "multiple", required = "required" })
+                                            @if (isTPBP)
+                                            {
+                                                @Html.ListBoxFor(m => m.PhongBanThamGiaIDs, Model.PhongBanList,
+                                                new { @class = "form-select", id = "boPhan", multiple = "multiple", required = "required", disabled = "disabled" })
+                                            }
+                                            else
+                                            {
+                                                @Html.ListBoxFor(m => m.PhongBanThamGiaIDs, Model.PhongBanList,
+                                                new { @class = "form-select", id = "boPhan", multiple = "multiple", required = "required" })
+                                            }
                                         </div>
 
                                         <div class="mb-3 d-none" id="selectedBoPhanDiv">
@@ -168,7 +222,15 @@
 
                                         <div class="mb-3">
                                             <label class="form-label d-block fw-bold">Mô tả ngắn</label>
-                                            @Html.TextAreaFor(m => m.MoTaNgan, new { @class = "form-control", rows = "3", id = "moTa" })
+                                            @if (isTPBP)
+                                            {
+                                                @Html.TextAreaFor(m => m.MoTaNgan, new { @class = "form-control", rows = "3", id = "moTa", disabled = "disabled" })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextAreaFor(m => m.MoTaNgan, new { @class = "form-control", rows = "3", id = "moTa" })
+                                            }
+
                                         </div>
 
                                         <div class="mb-3">
@@ -182,8 +244,14 @@
                                                     </a>
                                                 </div>
                                             }
-
-                                            <input class="form-control" type="file" name="TepDinhKem" id="fileDinhKem" />
+                                            @if (isTPBP)
+                                            {
+                                                <input class="form-control" type="file" name="TepDinhKem" id="fileDinhKem" disabled="disabled" />
+                                            }
+                                            else
+                                            {
+                                                <input class="form-control" type="file" name="TepDinhKem" id="fileDinhKem" />
+                                            }
                                         </div>
 
                                         <div class="mb-3">
@@ -210,8 +278,13 @@
                                             <input type="text" class="form-control" value="@ViewBag.Username" readonly />
                                             @Html.HiddenFor(m => m.NguoiDangKyID)
                                         </div>
-
-                                        <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                        if (ViewBag.IsTPBP == true)
+                                        {
+                                            <button type="submit" class="btn btn-primary">Duyệt đề tài</button>
+                                        } else
+                                        {
+                                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                        }
                                     }
                                 </div>
                             </div>

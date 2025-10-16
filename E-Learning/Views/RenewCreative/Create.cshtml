@@ -104,6 +104,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" data-bs-toggle="tab" href="#detaicuatoi" role="tab">Đề tài của tôi</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#detaidentoi" role="tab">Đề tài đến tôi</a>
+                            </li>
                         </ul>
 
                         <div class="tab-content">
@@ -237,6 +240,19 @@
                                         </tr>
                                     </thead>
                                     <tbody id="deTaiCuaToiBody"></tbody>
+                                </table>
+                            </div>
+
+                            <div class="tab-pane fade" id="detaidentoi" role="tabpanel">
+                                <table class="table table-bordered table-striped align-middle" id="tblDeTaiDenToi">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Tên đề tài</th>
+                                            <th>Trạng thái</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="deTaiDenToiBody"></tbody>
                                 </table>
                             </div>
 
@@ -422,7 +438,7 @@
 
                         loadDanhSachPage(1);
                         updateCombo();
-                        
+
                         $("input[name='PhamViApDung']").on("change", updateCombo);
 
                         let allData = [];
@@ -532,9 +548,56 @@
                             });
                         }
 
+                        function loadDeTaiDenToi() {
+                            $.ajax({
+                                url: '@Url.Action("GetDeTaiDenToi")',
+                                type: 'GET',
+                                success: function (res) {
+                                    const tbody = $("#tblDeTaiDenToi tbody");
+                                    tbody.empty();
+
+                                    if (res.Data && res.Data.length > 0) {
+                                        $.each(res.Data, function (i, item) {
+                                            let trangThaiText = "";
+                                            let trangThaiClass = "";
+
+                                            switch (item.TrangThai) {
+                                                case 0:
+                                                    trangThaiText = "Chưa duyệt";
+                                                    trangThaiClass = "badge-warning";
+                                                    break;
+                                                case 1:
+                                                    trangThaiText = "Đang thực hiện";
+                                                    trangThaiClass = "badge-info";
+                                                    break;
+                                                case 2:
+                                                    trangThaiText = "Vinh danh";
+                                                    trangThaiClass = "badge-success";
+                                                    break;
+                                            }
+
+                                            tbody.append(`
+                                                <tr>
+                                                    <td>${i + 1}</td>
+                                                    <td><a href="/RenewCreative/Edit?id=${item.ID}" class="text-primary">${item.TenDeTai}</a></td>
+                                                    <td><span class="badge ${trangThaiClass}">${trangThaiText}</span></td>
+                                                </tr>
+                                            `);
+                                        });
+                                    } else {
+                                        tbody.append('<tr><td colspan="3" class="text-center">Không có dữ liệu</td></tr>');
+                                    }
+                                },
+                                error: function () {
+                                    alert("Có lỗi xảy ra!");
+                                }
+                            });
+                        }
+
                         $(document).ready(function () {
                             loadDanhSachPage(1);
                             loadDeTaiCuaToi();
+                            loadDeTaiDenToi()
 
                             $("#btnSearch").click(filterData);
                             $("#searchInput").on("keyup", function (e) {

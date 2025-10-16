@@ -243,6 +243,26 @@ namespace E_Learning.Controllers.DMST
         }
 
         [HttpGet]
+        public JsonResult GetDeTaiDenToi()
+        {
+            int currentUserId = MyAuthentication.ID;
+
+            var deTaiDenToi = (from d in db.DMST_DeTai
+                               where d.TrinhKyDenID == currentUserId && d.TrangThai == 0
+                               select new
+                               {
+                                   d.ID,
+                                   d.TenDeTai,
+                                   d.TrangThai
+                               }).ToList();
+
+            return Json(new
+            {
+                Data = deTaiDenToi
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         public ActionResult Edit(int id)
         {
             var model = (from d in db.DMST_DeTai
@@ -297,6 +317,7 @@ namespace E_Learning.Controllers.DMST
                 .Select(x => x.HoTen)
                 .FirstOrDefault();
 
+            ViewBag.IsTPBP = (MyAuthentication.MaViTri.Equals("TBP") || MyAuthentication.MaViTri.Equals("PBP")) ? true : false;
             ViewBag.IsReadOnly = true;
             ViewBag.Username = MyAuthentication.Username + " - " + tenNhanVien;
 
