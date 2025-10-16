@@ -47,6 +47,20 @@ namespace E_Learning.Controllers.DMST
                 .Select(x => x.HoTenKhongDau)
                 .FirstOrDefault();
 
+            int idPhongBan = MyAuthentication.IDPhongban;
+
+            var danhSachTrinhKy = db.NhanViens
+                .Where(nv => nv.IDPhongBan == idPhongBan &&
+                             (nv.MaViTri == "TBP" || nv.MaViTri == "PBP"))
+                .Select(nv => new
+                {
+                    nv.ID,
+                    nv.HoTen
+                })
+                .ToList();
+
+            ViewBag.DanhSachTrinhKy = new SelectList(danhSachTrinhKy, "ID", "HoTen");
+
             ViewBag.IsReadOnly = false;
             ViewBag.Username = MyAuthentication.Username + " – " + tenNhanVien;
 
@@ -154,6 +168,7 @@ namespace E_Learning.Controllers.DMST
                     TepDinhKem = filePathInDb,
                     TrangThai = 0,
                     NgayTao = DateTime.Now,
+                    TrinhKyDenID = model.TrinhKyDenID
                 };
                 db.DMST_DeTai.Add(deTai);
                 db.SaveChanges();
@@ -248,7 +263,7 @@ namespace E_Learning.Controllers.DMST
                                  .ToList(),
                              MoTaNgan = d.MoTaNgan,
                              TepDinhKemPath = d.TepDinhKem,
-                             NguoiDangKyID = d.NguoiDangKyID
+                             NguoiDangKyID = d.NguoiDangKyID,
                          }).FirstOrDefault();
 
             if (model == null)

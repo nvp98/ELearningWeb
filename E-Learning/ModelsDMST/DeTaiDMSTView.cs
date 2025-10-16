@@ -22,6 +22,7 @@ namespace E_Learning.ModelsDMST
         public string BoPhanThamGia { get; set; }
         public int TrangThai { get; set; }
         public List<DeTaiListItemViewModel> DanhSachDeTai { get; set; }
+        public int TrinhKyDenID { get; set; }
     }
 
     public class DeTaiListItemViewModel
