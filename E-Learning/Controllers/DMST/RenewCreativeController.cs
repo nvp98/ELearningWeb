@@ -47,6 +47,7 @@ namespace E_Learning.Controllers.DMST
                 .Select(x => x.HoTenKhongDau)
                 .FirstOrDefault();
 
+            ViewBag.IsReadOnly = false;
             ViewBag.Username = MyAuthentication.Username + " – " + tenNhanVien;
 
             return View(model);
@@ -215,6 +216,7 @@ namespace E_Learning.Controllers.DMST
                                where d.NguoiDangKyID == currentUserId
                                select new
                                {
+                                   d.ID,
                                    d.TenDeTai,
                                    d.TrangThai
                                }).ToList();
@@ -223,6 +225,139 @@ namespace E_Learning.Controllers.DMST
             {
                 Data = deTaiCuaToi
             }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            var model = (from d in db.DMST_DeTai
+                         where d.ID == id
+                         select new DeTaiDMSTView
+                         {
+                             ID = d.ID,
+                             TenDeTai = d.TenDeTai,
+                             LinhVucID = d.LinhVucID,
+                             PhamViApDung = d.PhamViApDung,
+                             PhongBanApDungIDs = db.DMST_DeTai_PhongBanApDung
+                                 .Where(x => x.DeTaiID == d.ID)
+                                 .Select(x => x.PhongBanID)
+                                 .ToList(),
+                             PhongBanThamGiaIDs = db.DMST_DeTai_PhongBanThamGia
+                                 .Where(x => x.DeTaiID == d.ID)
+                                 .Select(x => x.PhongBanID)
+                                 .ToList(),
+                             MoTaNgan = d.MoTaNgan,
+                             TepDinhKemPath = d.TepDinhKem,
+                             NguoiDangKyID = d.NguoiDangKyID
+                         }).FirstOrDefault();
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            model.LinhVucList = db.DMST_LinhVuc
+                .Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.TenLinhVuc })
+                .ToList();
+
+            model.PhongBanList = db.PhongBans
+                .Select(x => new SelectListItem { Value = x.IDPhongBan.ToString(), Text = x.TenPhongBan })
+                .ToList();
+
+            ViewBag.IsReadOnly = true;
+            ViewBag.Username = MyAuthentication.Username;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(DeTaiDMSTView model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.LinhVucList = db.DMST_LinhVuc
+                    .Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.TenLinhVuc })
+                    .ToList();
+
+                model.PhongBanList = db.PhongBans
+                    .Select(x => new SelectListItem { Value = x.IDPhongBan.ToString(), Text = x.TenPhongBan })
+                    .ToList();
+
+                return View(model);
+            }
+
+            var deTai = db.DMST_DeTai.FirstOrDefault(x => x.ID == model.ID);
+            if (deTai == null)
+            {
+                return HttpNotFound();
+            }
+
+            deTai.TenDeTai = model.TenDeTai;
+            deTai.LinhVucID = model.LinhVucID;
+            deTai.PhamViApDung = model.PhamViApDung;
+            deTai.MoTaNgan = model.MoTaNgan;
+            deTai.NguoiDangKyID = model.NguoiDangKyID;
+
+            if (model.TepDinhKem != null && model.TepDinhKem.ContentLength > 0)
+            {
+                if (!string.IsNullOrEmpty(deTai.TepDinhKem))
+                {
+                    string oldFilePath = Server.MapPath(deTai.TepDinhKem);
+                    if (System.IO.File.Exists(oldFilePath))
+                    {
+                        System.IO.File.Delete(oldFilePath);
+                    }
+                }
+
+                string folderPath = Server.MapPath("~/Uploads/DoiMoiSangTao/");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                string fileName = Path.GetFileName(model.TepDinhKem.FileName);
+                string filePath = Path.Combine(folderPath, fileName);
+                model.TepDinhKem.SaveAs(filePath);
+
+                deTai.TepDinhKem = "/Uploads/DoiMoiSangTao/" + fileName;
+            }
+
+            var oldApDung = db.DMST_DeTai_PhongBanApDung.Where(x => x.DeTaiID == deTai.ID).ToList();
+            db.DMST_DeTai_PhongBanApDung.RemoveRange(oldApDung);
+
+            if (model.PhongBanApDungIDs != null)
+            {
+                foreach (var pbID in model.PhongBanApDungIDs)
+                {
+                    db.DMST_DeTai_PhongBanApDung.Add(new DMST_DeTai_PhongBanApDung
+                    {
+                        DeTaiID = deTai.ID,
+                        PhongBanID = pbID
+                    });
+                }
+            }
+
+            var oldThamGia = db.DMST_DeTai_PhongBanThamGia.Where(x => x.DeTaiID == deTai.ID).ToList();
+            db.DMST_DeTai_PhongBanThamGia.RemoveRange(oldThamGia);
+
+            if (model.PhongBanThamGiaIDs != null)
+            {
+                foreach (var pbID in model.PhongBanThamGiaIDs)
+                {
+                    db.DMST_DeTai_PhongBanThamGia.Add(new DMST_DeTai_PhongBanThamGia
+                    {
+                        DeTaiID = deTai.ID,
+                        PhongBanID = pbID
+                    });
+                }
+            }
+
+            db.SaveChanges();
+
+            TempData["msgSuccess"] = "<script>alert('Cập nhật đề tài thành công');</script>";
+
+            return RedirectToAction("Edit", new { id = model.ID });
         }
     }
 }

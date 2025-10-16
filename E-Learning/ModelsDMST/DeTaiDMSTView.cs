@@ -17,6 +17,7 @@ namespace E_Learning.ModelsDMST
         public List<int> PhongBanApDungIDs { get; set; }
         public string MoTaNgan { get; set; }
         public HttpPostedFileBase TepDinhKem { get; set; }
+        public string TepDinhKemPath { get; set; }
         public int NguoiDangKyID { get; set; }
         public string BoPhanThamGia { get; set; }
         public int TrangThai { get; set; }
@@ -25,6 +26,7 @@ namespace E_Learning.ModelsDMST
 
     public class DeTaiListItemViewModel
     {
+        public int ID { get; set; }
         public string TenDeTai { get; set; }
         public string BoPhanThamGia { get; set; }
         public string BoPhanApDung { get; set; }
