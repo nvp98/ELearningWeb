@@ -44,7 +44,7 @@ namespace E_Learning.Controllers.DMST
 
             string tenNhanVien = db.NhanViens
                 .Where(x => x.ID == MyAuthentication.ID)
-                .Select(x => x.HoTenKhongDau)
+                .Select(x => x.HoTen)
                 .FirstOrDefault();
 
             int idPhongBan = MyAuthentication.IDPhongban;
@@ -264,12 +264,25 @@ namespace E_Learning.Controllers.DMST
                              MoTaNgan = d.MoTaNgan,
                              TepDinhKemPath = d.TepDinhKem,
                              NguoiDangKyID = d.NguoiDangKyID,
+                             HoTenNguoiTrinhKy = db.NhanViens
+                             .Where(nv => nv.ID == d.TrinhKyDenID)
+                             .Select(nv => nv.HoTen)
+                             .FirstOrDefault()
                          }).FirstOrDefault();
 
             if (model == null)
             {
                 return HttpNotFound();
             }
+
+            int idPhongBan = MyAuthentication.IDPhongban;
+            var danhSachTrinhKy = db.NhanViens
+                .Where(nv => nv.IDPhongBan == idPhongBan &&
+                             (nv.MaViTri == "TBP" || nv.MaViTri == "PBP"))
+                .Select(nv => new { nv.ID, nv.HoTen })
+                .ToList();
+
+            ViewBag.DanhSachTrinhKy = new SelectList(danhSachTrinhKy, "ID", "HoTen");
 
             model.LinhVucList = db.DMST_LinhVuc
                 .Select(x => new SelectListItem { Value = x.ID.ToString(), Text = x.TenLinhVuc })
@@ -279,8 +292,13 @@ namespace E_Learning.Controllers.DMST
                 .Select(x => new SelectListItem { Value = x.IDPhongBan.ToString(), Text = x.TenPhongBan })
                 .ToList();
 
+            string tenNhanVien = db.NhanViens
+                .Where(x => x.ID == MyAuthentication.ID)
+                .Select(x => x.HoTen)
+                .FirstOrDefault();
+
             ViewBag.IsReadOnly = true;
-            ViewBag.Username = MyAuthentication.Username;
+            ViewBag.Username = MyAuthentication.Username + " - " + tenNhanVien;
 
             return View(model);
         }

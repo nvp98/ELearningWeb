@@ -183,6 +183,14 @@
                                         </div>
 
                                         <div class="mb-3">
+                                            <label for="TrinhKyDenID" class="form-label fw-bold">Trình ký đến</label>
+                                            @Html.DropDownListFor(model => model.TrinhKyDenID,
+                                                (SelectList)ViewBag.DanhSachTrinhKy,
+                                                "-- Chọn người trình ký --",
+                                                new { @class = "form-select" })
+                                        </div>
+
+                                        <div class="mb-3">
                                             <label class="form-label fw-bold">Người đăng ký</label>
                                             <input type="text" class="form-control" value="@ViewBag.Username" readonly />
                                             @Html.HiddenFor(m => m.NguoiDangKyID)
