@@ -200,7 +200,7 @@
                                     {
                                         //Review Compare TGKTLH and Datetime Now
                                         if ((@item.XNHT == true && (DateTime.Now - Convert.ToDateTime(@item.TGKTLH)).TotalDays <= 1 && !String.IsNullOrEmpty(item.VideoLH)) 
-                                            || (@item.XNHT == false && (DateTime.Now - Convert.ToDateTime(@item.TGKTLH)).TotalDays <= 1 && item.IDDeThi != null))
+                                            || (@item.XNHT == false && (DateTime.Now - Convert.ToDateTime(@item.TGKTLH)).TotalDays <= 1 && item.IDDeThi != null) && String.IsNullOrEmpty(item.VideoLH))
                                         {
                                             <div class="col-md-6 col-xl-3">
                                                 <div class="card mb-3">
