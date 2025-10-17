@@ -282,6 +282,7 @@ namespace E_Learning.Controllers.DMST
                                  .Select(x => x.PhongBanID)
                                  .ToList(),
                              MoTaNgan = d.MoTaNgan,
+                             TrangThai = d.TrangThai,
                              TepDinhKemPath = d.TepDinhKem,
                              NguoiDangKyID = d.NguoiDangKyID,
                              HoTenNguoiTrinhKy = db.NhanViens
@@ -317,6 +318,7 @@ namespace E_Learning.Controllers.DMST
                 .Select(x => x.HoTen)
                 .FirstOrDefault();
 
+            ViewBag.IsApproved = (model.TrangThai == 1);
             ViewBag.IsTPBP = (MyAuthentication.MaViTri.Equals("TBP") || MyAuthentication.MaViTri.Equals("PBP")) ? true : false;
             ViewBag.IsReadOnly = true;
             ViewBag.Username = MyAuthentication.Username + " - " + tenNhanVien;
@@ -337,7 +339,7 @@ namespace E_Learning.Controllers.DMST
                 model.PhongBanList = db.PhongBans
                     .Select(x => new SelectListItem { Value = x.IDPhongBan.ToString(), Text = x.TenPhongBan })
                     .ToList();
-
+                
                 return View(model);
             }
 
@@ -412,6 +414,28 @@ namespace E_Learning.Controllers.DMST
             TempData["msgSuccess"] = "<script>alert('Cập nhật đề tài thành công');</script>";
 
             return RedirectToAction("Edit", new { id = model.ID });
+        }
+
+        [HttpPost]
+        public JsonResult DuyetDeTai(int id)
+        {
+            try
+            {
+                var deTai = db.DMST_DeTai.FirstOrDefault(x => x.ID == id);
+                if (deTai == null)
+                {
+                    return Json(new { success = false, message = "Không tìm thấy đề tài." });
+                }
+
+                deTai.TrangThai = 1;
+                db.SaveChanges();
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
     }
 }

@@ -94,7 +94,7 @@
                     </nav>
 
                     <div class="container">
-                        
+
                         @{
                             bool isReadOnly = ViewBag.IsReadOnly != null && (bool)ViewBag.IsReadOnly;
                             bool isTPBP = ViewBag.IsTPBP != null && (bool)ViewBag.IsTPBP;
@@ -109,18 +109,18 @@
                                         @Html.AntiForgeryToken()
                                         @Html.HiddenFor(m => m.ID)
 
-                                <div class="mb-3">
-                                    <label class="form-label d-block fw-bold">Tên đề tài</label>
-                                    @if (isTPBP)
-                                    {
-                                        @Html.TextBoxFor(m => m.TenDeTai, new { @class = "form-control", required = "required", @readonly = "readonly" })
-                                    }
-                                    else
-                                    {
-                                        @Html.TextBoxFor(m => m.TenDeTai, new { @class = "form-control", required = "required" })
-                                    }
-                                    @Html.ValidationMessageFor(m => m.TenDeTai, "", new { @class = "text-danger" })
-                                </div>
+                                        <div class="mb-3">
+                                            <label class="form-label d-block fw-bold">Tên đề tài</label>
+                                            @if (isTPBP)
+                                            {
+                                                @Html.TextBoxFor(m => m.TenDeTai, new { @class = "form-control", required = "required", @readonly = "readonly" })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(m => m.TenDeTai, new { @class = "form-control", required = "required" })
+                                            }
+                                            @Html.ValidationMessageFor(m => m.TenDeTai, "", new { @class = "text-danger" })
+                                        </div>
 
                                         <div class="mb-3">
                                             <label class="form-label fw-bold">Lĩnh vực</label>
@@ -280,8 +280,16 @@
                                         </div>
                                         if (ViewBag.IsTPBP == true)
                                         {
-                                            <button type="submit" class="btn btn-primary">Duyệt đề tài</button>
-                                        } else
+                                            if (Model.TrangThai == 1)
+                                            {
+                                                <span class="btn btn-secondary disabled" style="pointer-events: none;">Đã duyệt</span>
+                                            }
+                                            else
+                                            {
+                                                <button type="submit" id="btnDuyetDeTai" class="btn btn-primary">Duyệt đề tài</button>
+                                            }
+                                        }
+                                        else
                                         {
                                             <button type="submit" class="btn btn-primary">Cập nhật</button>
                                         }
@@ -295,3 +303,25 @@
         </div>
     </div>
 </body>
+<script>
+    $("#btnDuyetDeTai").click(function () {
+        if (confirm("Bạn có chắc muốn duyệt đề tài này không?")) {
+            $.ajax({
+                url: '@Url.Action("DuyetDeTai", "RenewCreative")',
+                type: 'POST',
+                data: { id: '@Model.ID' },
+                success: function (res) {
+                    if (res.success) {
+                        alert("Duyệt đề tài thành công!");
+                        location.reload();
+                    } else {
+                        alert(res.message);
+                    }
+                },
+                error: function () {
+                    alert("Không thể kết nối máy chủ.");
+                }
+            });
+        }
+    });
+</script>
