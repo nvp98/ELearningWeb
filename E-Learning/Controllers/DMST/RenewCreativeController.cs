@@ -248,7 +248,7 @@ namespace E_Learning.Controllers.DMST
             int currentUserId = MyAuthentication.ID;
 
             var deTaiDenToi = (from d in db.DMST_DeTai
-                               where d.TrinhKyDenID == currentUserId && d.TrangThai == 0
+                               where d.TrinhKyDenID == currentUserId 
                                select new
                                {
                                    d.ID,
@@ -286,8 +286,8 @@ namespace E_Learning.Controllers.DMST
                              TepDinhKemPath = d.TepDinhKem,
                              NguoiDangKyID = d.NguoiDangKyID,
                              HoTenNguoiTrinhKy = db.NhanViens
-                             .Where(nv => nv.ID == d.TrinhKyDenID)
-                             .Select(nv => nv.HoTen)
+                             .Where(x => x.ID == d.TrinhKyDenID)
+                             .Select(x => x.HoTen)
                              .FirstOrDefault()
                          }).FirstOrDefault();
 
@@ -298,9 +298,9 @@ namespace E_Learning.Controllers.DMST
 
             int idPhongBan = MyAuthentication.IDPhongban;
             var danhSachTrinhKy = db.NhanViens
-                .Where(nv => nv.IDPhongBan == idPhongBan &&
-                             (nv.MaViTri == "TBP" || nv.MaViTri == "PBP"))
-                .Select(nv => new { nv.ID, nv.HoTen })
+                .Where(x => x.IDPhongBan == idPhongBan &&
+                             (x.MaViTri == "TBP" || x.MaViTri == "PBP"))
+                .Select(x => new { x.ID, x.HoTen })
                 .ToList();
 
             ViewBag.DanhSachTrinhKy = new SelectList(danhSachTrinhKy, "ID", "HoTen");
@@ -313,16 +313,16 @@ namespace E_Learning.Controllers.DMST
                 .Select(x => new SelectListItem { Value = x.IDPhongBan.ToString(), Text = x.TenPhongBan })
                 .ToList();
 
-            string tenNhanVien = db.NhanViens
-                .Where(x => x.ID == MyAuthentication.ID)
-                .Select(x => x.HoTen)
-                .FirstOrDefault();
+            var nv = (from n in db.NhanViens
+                      where n.ID == model.NguoiDangKyID
+                      select new { n.MaNV, n.HoTen })
+              .FirstOrDefault();
 
+            ViewBag.TenNguoiDangKy = nv.MaNV + " - " + nv.HoTen;
             ViewBag.IsApproved = (model.TrangThai == 1);
             ViewBag.IsTPBP = (MyAuthentication.MaViTri.Equals("TBP") || MyAuthentication.MaViTri.Equals("PBP")) ? true : false;
             ViewBag.IsReadOnly = true;
-            ViewBag.Username = MyAuthentication.Username + " - " + tenNhanVien;
-
+            
             return View(model);
         }
 
@@ -339,7 +339,18 @@ namespace E_Learning.Controllers.DMST
                 model.PhongBanList = db.PhongBans
                     .Select(x => new SelectListItem { Value = x.IDPhongBan.ToString(), Text = x.TenPhongBan })
                     .ToList();
-                
+
+                ViewBag.DanhSachTrinhKy = new SelectList(
+                    db.NhanViens
+                        .Where(x => x.IDPhongBan == MyAuthentication.IDPhongban
+                                 && (x.MaViTri == "TBP" || x.MaViTri == "PBP"))
+                        .Select(x => new { x.ID, x.HoTen })
+                        .ToList(),
+                    "ID",
+                    "HoTen",
+                    model.TrinhKyDenID
+                );
+
                 return View(model);
             }
 
