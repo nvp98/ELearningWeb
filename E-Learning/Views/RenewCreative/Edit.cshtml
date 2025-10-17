@@ -291,7 +291,13 @@
                                         }
                                         else
                                         {
-                                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                            if (Model.TrangThai == 1)
+                                            {
+                                                <span class="btn btn-secondary disabled" style="pointer-events: none;">Đã duyệt</span>
+                                            } else
+                                            {
+                                                <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                            }
                                         }
                                     }
                                 </div>
