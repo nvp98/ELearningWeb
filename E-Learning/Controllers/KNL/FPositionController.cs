@@ -1422,7 +1422,11 @@ namespace E_Learning.Controllers
                                 TotalKDatTuLan1 = kq?.KDATTUDGLan1 ?? 0,
                                 TotalKDGiaTuLan1 = kq?.KDGiaTuDGLan1 ?? 0,
                                 TotalChuaDGiaTuLan1 = kq?.CHUADGTuDGLan1 ?? 0,
-                                NgayDG = kq?.NgayDGGN != null ? kq?.NgayDGGN.Value.ToString("dd/MM/yyyy") : ""
+                                NgayDG = kq?.NgayDGGN != null ? kq?.NgayDGGN.Value.ToString("dd/MM/yyyy") : "",
+                                NgayTuDG = kq?.NgayTuDGGN != null ? kq?.NgayTuDGGN.Value.ToString("dd/MM/yyyy") : "",
+                                NgayDGLan1 = kq?.NgayDGGNLan1 != null ? kq?.NgayDGGNLan1.Value.ToString("dd/MM/yyyy") : "",
+                                NgayHanDGStr = kq?.KDAT != 0 && kq?.NgayDGGN != null ? kq?.NgayDGGN.Value.AddMonths(3).ToString("dd/MM/yyyy"):
+                                kq?.NgayDGGN != null? kq?.NgayDGGN.Value.AddMonths(6).ToString("dd/MM/yyyy"):""
                             }).ToList();
                
             }
@@ -3882,6 +3886,10 @@ namespace E_Learning.Controllers
         {
             try
             {
+                if(Idquyen != 1) // Tài khoản admin xem tất cả
+                {
+                    IDPB = MyAuthentication.IDPhongban;
+                }
                 string fileNamemau = AppDomain.CurrentDomain.BaseDirectory + @"App_Data\ThongKeKQua_KNL.xlsx";
                 string fileNamemaunew = AppDomain.CurrentDomain.BaseDirectory + @"App_Data\ThongKeKQua_KNL_Temp.xlsx";
                 XLWorkbook Workbook = new XLWorkbook(fileNamemau);

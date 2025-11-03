@@ -22,6 +22,8 @@ namespace E_Learning.Models
         public string TenKip { get; set; }
         public string MaViTri { get; set; }
         public string NgayDG { get; set; }
+        public string NgayDGLan1 { get; set; }
+        public string NgayHanDGStr { get; set; }
         public string fileBMTCV { get; set; }
         public DateTime NgayHanDG { get; set; }
         public string ThangDG { get; set; }
@@ -68,6 +70,8 @@ namespace E_Learning.Models
         public DateTime? NgayDG { get; set; }
         public Nullable<int> NgayCanhBao { get; set; }
         public string StrNgayDG { get; set; }
+        public string StrNgayTuDG { get; set; }
+        public string StrNgayDGLan1 { get; set; }
         public string Note { get; set; }
 
         public Nullable<int> IDLoaiNL { get; set; }

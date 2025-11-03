@@ -7087,7 +7087,7 @@
         </EntityType>
         <ComplexType Name="KNL_GetNhanVienDanhGiaTC_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="MaNV" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="MaNV" Nullable="true" MaxLength="11" />
           <Property Type="String" Name="HoTen" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="IDKip" Nullable="true" />
           <Property Type="Int32" Name="IDVT" Nullable="true" />
@@ -7099,10 +7099,11 @@
           <Property Type="Int32" Name="IDVTDGTC" Nullable="true" />
           <Property Type="Int32" Name="IDVTDGTT" Nullable="true" />
           <Property Type="Int32" Name="TongNLDuyet" Nullable="true" />
+          <Property Type="DateTime" Name="NgayDGGNLan1" Nullable="true" />
         </ComplexType>
         <ComplexType Name="KNL_GetNhanVienDanhGiaTT_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="MaNV" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="MaNV" Nullable="true" MaxLength="11" />
           <Property Type="String" Name="HoTen" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="IDKip" Nullable="true" />
           <Property Type="Int32" Name="IDVT" Nullable="true" />
@@ -7114,6 +7115,7 @@
           <Property Type="Int32" Name="IDVTDGTC" Nullable="true" />
           <Property Type="Int32" Name="IDVTDGTT" Nullable="true" />
           <Property Type="Int32" Name="TongNLDuyet" Nullable="true" />
+          <Property Type="DateTime" Name="NgayDGGNLan1" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -9539,6 +9541,7 @@
                 <ScalarProperty Name="IDVTDGTC" ColumnName="IDVTDGTC" />
                 <ScalarProperty Name="IDVTDGTT" ColumnName="IDVTDGTT" />
                 <ScalarProperty Name="TongNLDuyet" ColumnName="TongNLDuyet" />
+                <ScalarProperty Name="NgayDGGNLan1" ColumnName="NgayDGGNLan1" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9558,6 +9561,7 @@
                 <ScalarProperty Name="IDVTDGTC" ColumnName="IDVTDGTC" />
                 <ScalarProperty Name="IDVTDGTT" ColumnName="IDVTDGTT" />
                 <ScalarProperty Name="TongNLDuyet" ColumnName="TongNLDuyet" />
+                <ScalarProperty Name="NgayDGGNLan1" ColumnName="NgayDGGNLan1" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

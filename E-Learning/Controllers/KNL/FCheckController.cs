@@ -106,6 +106,7 @@ namespace E_Learning.Controllers.KNL
                              TotalDat =  tongNLDoc,
                              Total = a.TongNLDuyet, // tổng NL duyệt
                              NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
+                             NgayDGLan1 = a?.NgayDGGNLan1 != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDGGNLan1) : "",
                              TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL
                          }).ToList();
             }
@@ -179,6 +180,7 @@ namespace E_Learning.Controllers.KNL
                                      Total = a.TongNLDuyet,
                                      TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
                                      NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
+                                     NgayDGLan1 = a?.NgayDGGNLan1 != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDGGNLan1) : "",
                                  }).ToList();
             //if(idpb ==null) idpb = 0;
 
@@ -310,6 +312,7 @@ namespace E_Learning.Controllers.KNL
                               Total = a.TongNLDuyet,
                               TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
                               NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
+                              NgayDGLan1 = a?.NgayDGGNLan1 != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDGGNLan1) : "",
                           }).ToList();
             //if (idpb == null) idpb = 0;
 

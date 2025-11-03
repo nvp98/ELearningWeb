@@ -97,6 +97,8 @@ namespace E_Learning.Controllers.KNL
                            //ThangDG = (DateTime?)dt ?? default(DateTime),
                            NgayDG = (DateTime?)a.NgayDG ?? default(DateTime),
                            StrNgayDG = a.NgayDG != null ? a.NgayDG.Value.ToString("dd/MM/yyyy") : "",
+                           StrNgayTuDG = a.NgayTuDG != null ? a.NgayTuDG.Value.ToString("dd/MM/yyyy") : "",
+                           StrNgayDGLan1 = a.NgayDG_Lan1 != null ? a.NgayDG_Lan1.Value.ToString("dd/MM/yyyy") : "",
                            OrderBy = a.OrderBy,
                            //OrderByLoai = a.orByLoai,
                            ColorKQ = a.DiemDG < a.DiemDM ? "bg-danger" : "bg-success",

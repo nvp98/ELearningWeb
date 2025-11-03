@@ -144,7 +144,7 @@ namespace E_Learning.Controllers
                 TempData["msgError"] = "<script>alert('Bạn không có quyền thực hiện chức năng này');</script>";
                 return RedirectToAction("", "Home");
             }
-            string MaNV, sMaNV, sMaNV5;
+            string MaNV, sMaNV, sMaNV5, sMaNV3;
             int IDViTri, IDPhongBan;
             int dtc = 0;
             string msg = "";
@@ -161,13 +161,14 @@ namespace E_Learning.Controllers
                             if (item.manv != null)
                             {
                                 MaNV = item.manv;
+                                sMaNV3 = MaNV.Substring(0, 3);
                                 sMaNV = MaNV.Substring(0, 4);
                                 sMaNV5 = MaNV.Substring(0, 5);
 
                                 var rsnv = LNV.Where(x => x.MaNV == MaNV).FirstOrDefault();
                                 if (rsnv == null)
                                 {
-                                    if (sMaNV == "HPDQ" || sMaNV5 == "KCNHT" || sMaNV5 == "CBGPY")
+                                    if (sMaNV == "HPDQ" || sMaNV3 == "RAY" || sMaNV5 == "KCNHT" || sMaNV5 == "CBGPY")
                                     {
                                         ObjectParameter IDPhongBanout = new ObjectParameter("IDPhongBan", typeof(int));
                                         ObjectParameter IDViTriout = new ObjectParameter("IDViTri", typeof(int));
@@ -190,7 +191,7 @@ namespace E_Learning.Controllers
                                 }
                                 else
                                 {
-                                    if (sMaNV == "HPDQ" || sMaNV5 == "KCNHT" || sMaNV5 == "CBGPY")
+                                    if (sMaNV == "HPDQ" || sMaNV3 == "RAY" || sMaNV5 == "KCNHT" || sMaNV5 == "CBGPY")
                                     {
                                         //if (item.tinhtranglamviec == 0)
                                         //{
