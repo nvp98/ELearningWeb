@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+@model List<E_Learning.ModelsBangMTCV.DeKiemTraModel>
+
+<style>
+    body {
+        background: #f8f9fa;
+    }
+
+    table {
+        background: #fff;
+    }
+
+    th {
+        vertical-align: middle !important;
+    }
+
+    td {
+        vertical-align: top !important;
+    }
+
+    .table thead th {
+        background-color: #1d4c90;
+        color: white;
+    }
+
+    textarea.form-control {
+        min-height: 70px;
+        resize: vertical;
+    }
+
+    .score-input {
+        width: 80px;
+        text-align: center;
+    }
+
+    .sticky-top {
+        position: sticky;
+        top: 0;
+        background-color: #0d6efd;
+    }
+</style>
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Bảng Mô tả công việc – Danh sách đề kiểm tra
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle">
+                    <thead class="sticky-top">
+                        <tr class="text-center">
+                            <th style="width:5%">#</th>
+                            <th>Tên đề</th>
+                            <th>Ngày tạo</th>
+                            <th>Ngày đến hạn</th>
+                            <th>Trạng thái</th>
+                            <th style="width:15%">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.Any())
+                        {
+                            <tr><td colspan="5" class="text-center">Không có dữ liệu</td></tr>
+                        }
+                        else
+                        {
+                            {
+                                int stt = 1;
+                                foreach (var item in Model)
+                                {
+                                    <tr class="@(item.LaDeChinhThuc ? "table-success" : "")">
+                                        <td class="text-center">@stt</td>
+                                        <td>@item.TenDe</td>
+                                        <td class="text-center">@item.NgayTao</td>
+                                        <td class="text-center">@item.NgayDenHan</td>
+                                        <td class="text-center">
+                                            @if (item.LaDeChinhThuc)
+                                            {
+                                                <span class="badge bg-success">Đề chính thức</span>
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="@Url.Action("ChiTietDe", "MoTaCongViec", new { id = item.ID })" class="btn btn-sm btn-info">
+                                                <i class="bi bi-eye"></i> Xem chi tiết
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    stt++;
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+
+</div>

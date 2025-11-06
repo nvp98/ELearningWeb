@@ -246,6 +246,36 @@
                 </li>*@
                                 </ul>
                             </li>
+                            <li>
+                                <a href="">
+                                    <i class="metismenu-icon pe-7s-display1 font-weight-bold"></i>
+                                    Bảng Mô tả công việc
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="@Url.Action("Index", "MoTaCongViec")" class="font-size-md font-weight-bold ">
+                                            <i class="pe-7s-users"></i>
+                                            &nbsp;&nbsp;Xem phổ biến và làm bài
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        <a href="@Url.Action("KetQuaLamBai", "MoTaCongViec")" class="font-size-md font-weight-bold ">
+                                            <i class="pe-7s-users"></i>
+                                            &nbsp;&nbsp;Kết quả làm bài
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        <a href="@Url.Action("ChamDiem", "MoTaCongViec")" class="font-size-md font-weight-bold ">
+                                            <i class="pe-7s-users"></i>
+                                            &nbsp;&nbsp;Bài thi đến tôi
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                             <li class="app-sidebar__heading">Thủ tục đào tạo</li>
                             @if (ListControll.Contains("NoiDungDTTH"))
                             {
@@ -797,6 +827,39 @@
                                             <a href="@Url.Action("Index", "RewardImage")" class=" font-weight-bold @(Context.Request.Path == "/RewardImage" ? "mm-active" : "")">
                                                 <i class=" pe-7s-graph3">
                                                 </i>&nbsp;&nbsp; Quản lý hình ảnh
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                            <li class=" @(Context.Request.Path == "/MoTaCongViec/DanhSachDe" || Context.Request.Path == "/MoTaCongViec/TaoDeKiemTra" ? "mm-active" : "")">
+                                @if ((new List<String> { "MoTaCongViec", "MoTaCongViec" }).Any(x => ListControll.Contains(x)))
+                                {
+                                    <a href="#" id="IDTK" class="">
+                                        <i class="metismenu-icon pe-7s-photo-gallery font-weight-bold">
+                                        </i>Bảng Mô tả công việc
+                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                    </a>
+                                }
+                                <ul>
+                                    @if (ListControll.Contains("MoTaCongViec"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("TaoDeKiemTra", "MoTaCongViec")" class=" font-weight-bold @(Context.Request.Path == "/MoTaCongViec/TaoDeKiemTra" ? "mm-active" : "")">
+                                                <i class=" pe-7s-graph3">
+                                                </i>&nbsp;&nbsp; Tạo đề kiểm tra
+                                            </a>
+                                        </li>
+                                    }
+
+                                </ul>
+                                <ul>
+                                    @if (ListControll.Contains("MoTaCongViec"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("DanhSachDe", "MoTaCongViec")" class=" font-weight-bold @(Context.Request.Path == "/MoTaCongViec/DanhSachDe" ? "mm-active" : "")">
+                                                <i class=" pe-7s-graph3">
+                                                </i>&nbsp;&nbsp; Danh sách đề
                                             </a>
                                         </li>
                                     }
