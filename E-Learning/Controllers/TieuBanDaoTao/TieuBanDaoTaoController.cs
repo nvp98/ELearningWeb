@@ -98,7 +98,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
 
             ViewBag.SearchName = searchName;
 
-            int pageSize = 50;
+            int pageSize = 100;
             int pageNumber = (page ?? 1);
 
             var pagedResult = result.OrderBy(x => x.ViTriTieuBan_ID).ToPagedList(pageNumber, pageSize);
@@ -561,7 +561,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                 result = result.Where(x => x.HoTen.Contains(searchName));
             }
 
-            int pageSize = 20;
+            int pageSize = 100;
             int pageNumber = (page ?? 1);
 
             var pagedResult = result.OrderBy(x => x.TrangThai).ToPagedList(pageNumber, pageSize);
