@@ -58,8 +58,11 @@ namespace E_Learning.Controllers.TieuBanDaoTao
             }
             else
             {
-                phongBanFilter = MyAuthentication.IDPhongban;
-                result = result.Where(x => x.PhongBanID == MyAuthentication.IDPhongban);
+                if (!ListQuyen.Contains(CONSTKEY.VIEW_ALL))
+                {
+                    phongBanFilter = MyAuthentication.IDPhongban;
+                    result = result.Where(x => x.PhongBanID == MyAuthentication.IDPhongban);
+                }
             }
 
             var danhSachPhongBan = db.PhongBans
@@ -98,7 +101,7 @@ namespace E_Learning.Controllers.TieuBanDaoTao
 
             ViewBag.SearchName = searchName;
 
-            int pageSize = 100;
+            int pageSize = 1000;
             int pageNumber = (page ?? 1);
 
             var pagedResult = result.OrderBy(x => x.ViTriTieuBan_ID).ToPagedList(pageNumber, pageSize);
