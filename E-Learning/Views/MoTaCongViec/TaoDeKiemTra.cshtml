@@ -1,0 +1,212 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .question-card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .question-header {
+        font-weight: 600;
+    }
+
+    .option-input {
+        margin-bottom: 10px;
+    }
+
+    .remove-btn {
+        color: #dc3545;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+
+    .remove-btn:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Bảng Mô tả công việc
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="mb-3">
+                <label for="ngayDenHan" class="form-label fw-bold">Ngày đến hạn làm bài</label>
+                <input type="date" id="ngayDenHan" class="form-control" />
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="laDeChinhThuc" />
+                <label class="form-check-label fw-bold" for="laDeChinhThuc">
+                    Đặt là đề chính thức
+                </label>
+            </div>
+
+            <ul class="nav nav-tabs mb-3" id="quizTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="tracnghiem-tab" data-bs-toggle="tab" data-bs-target="#tabTracNghiem" type="button" role="tab">Phần trắc nghiệm</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tuluan-tab" data-bs-toggle="tab" data-bs-target="#tabTuLuan" type="button" role="tab">Phần tự luận</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="quizTabsContent">
+                <div class="tab-pane fade show active" id="tabTracNghiem" role="tabpanel">
+                    <div id="multipleChoiceContainer"></div>
+                    <button class="btn btn-primary" id="btnAddTracNghiem">
+                        <i class="bi bi-plus-circle"></i> Thêm câu trắc nghiệm
+                    </button>
+                </div>
+
+                <div class="tab-pane fade" id="tabTuLuan" role="tabpanel">
+                    <div id="essayContainer"></div>
+                    <button class="btn btn-success mt-2" id="btnAddTuLuan">
+                        <i class="bi bi-plus-circle"></i> Thêm câu tự luận
+                    </button>
+                </div>
+            </div>
+
+            <hr class="my-4">
+            <div class="text-center">
+                <button class="btn btn-lg btn-success" id="btnSave">
+                    <i class="bi bi-save"></i> Lưu đề kiểm tra
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+        let mcIndex = 0;
+        let essayIndex = 0;
+
+        $("#btnAddTracNghiem").click(function () {
+            mcIndex++;
+            const mcHtml = `
+              <div class="card p-3 mb-3" id="mc-${mcIndex}">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h5>Câu hỏi trắc nghiệm ${mcIndex}</h5>
+                  <button type="button" class="btn btn-sm btn-danger" onclick="$('#mc-${mcIndex}').remove()">Xóa</button>
+                </div>
+                <textarea class="form-control mb-3 mt-2" placeholder="Nhập nội dung câu hỏi"></textarea>
+                <div class="row">
+                  ${['A', 'B', 'C', 'D'].map(i => `
+                    <div class="col-md-6 mb-2">
+                      <input type="text" class="form-control" placeholder="Lựa chọn ${i}">
+                    </div>`).join('')}
+                </div>
+                <label class="form-label mt-2">Đáp án đúng:</label>
+                <select class="form-control w-auto">
+                  <option value="">-- Chọn đáp án đúng --</option>
+                  <option value="1">Lựa chọn A</option>
+                  <option value="2">Lựa chọn B</option>
+                  <option value="3">Lựa chọn C</option>
+                  <option value="4">Lựa chọn D</option>
+                </select>
+              </div>`;
+            $("#multipleChoiceContainer").append(mcHtml);
+        });
+
+        $("#btnAddTuLuan").click(function () {
+            essayIndex++;
+            const essayHtml = `
+              <div class="card p-3 mb-3" id="essay-${essayIndex}">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h5>Câu hỏi tự luận ${essayIndex}</h5>
+                  <button type="button" class="btn btn-sm btn-danger" onclick="$('#essay-${essayIndex}').remove()">Xóa</button>
+                </div>
+                <textarea class="form-control mt-2" rows="3" placeholder="Nhập nội dung câu hỏi tự luận"></textarea>
+              </div>`;
+            $("#essayContainer").append(essayHtml);
+        });
+
+        $("#btnSave").click(function () {
+            const de = {
+                TenDe: prompt("Nhập tên đề kiểm tra:"),
+                NgayDenHan: $('#ngayDenHan').val(),
+                LaDeChinhThuc: $('#laDeChinhThuc').is(':checked'),
+                CauHoiList: []
+            };
+
+            $("#multipleChoiceContainer .card").each(function () {
+                const q = {
+                    LoaiCauHoi: "TracNghiem",
+                    NoiDung: $(this).find("textarea").val(),
+                    LuaChonList: []
+                };
+                const options = $(this).find("input[type=text]");
+                const answer = $(this).find("select").val();
+
+                options.each(function (i) {
+                    q.LuaChonList.push({
+                        NoiDung: $(this).val(),
+                        LaDapAnDung: (answer == (i + 1))
+                    });
+                });
+
+                de.CauHoiList.push(q);
+            });
+
+            $("#essayContainer .card").each(function () {
+                de.CauHoiList.push({
+                    LoaiCauHoi: "TuLuan",
+                    NoiDung: $(this).find("textarea").val(),
+                });
+            });
+
+            $.ajax({
+                url: '/MoTaCongViec/LuuDe',
+                type: 'POST',
+                data: JSON.stringify(de),
+                contentType: 'application/json; charset=utf-8',
+                success: function (res) {
+                    alert(res.message);
+                    window.location = "/MoTaCongViec/DanhSachDe";
+                },
+                error: function () {
+                    alert("Có lỗi khi lưu đề kiểm tra!");
+                }
+            });
+        });
+    });
+</script>
