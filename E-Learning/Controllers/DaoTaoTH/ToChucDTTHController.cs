@@ -785,7 +785,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             ViewBag.MaLH = data?.MaLH;
             
             return View(data);
-        }
+        } 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -1098,6 +1098,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                         ViTriCV_GV = chitietGV.ViTriCV_GV,
                     };
                 }
+                data.NgayTao = res.NgayTao ?? null;
             }
 
             ViewBag.NCDT_DATA = new SelectList(ncdtData, "ID_NCDT", "TenNoiDungDT", data.NCDT_ID);

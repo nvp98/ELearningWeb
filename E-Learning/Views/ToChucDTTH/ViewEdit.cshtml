@@ -61,8 +61,8 @@
                             <p class="">Hòa Phát Dung Quất</p>
                         </div>
                         <div class="col-md-6" style="float:right;text-align:right; font-weight: bold; margin-left: auto;">
-                            <span>BM.15/QT.04</span>
-                            <p><span style="font-style:italic;">Ngày hiệu lực:</span> 01/09/2024</p>
+                            <span>BM.16/QT.04</span>
+                            <p><span style="font-style:italic;">Ngày hiệu lực:</span> 25/09/2025</p>
                             <p><span style="font-style:italic;">Lần sửa đổi:</span> 01</p>
                         </div>
                         <div class="col-md-12" style="padding-bottom: 1rem;">
@@ -92,22 +92,22 @@
                         </div>
 
                         <div class="col-md-12 row" style="padding-left: 20px;">
-                             
+
                             <div class="col-2">+ Giảng viên 1: Mã nhân viên: @Model.chiTietToChucDTTH.MaNV_GV</div>
                             <div class="col-6">Họ và tên: @Model.chiTietToChucDTTH.HoTenGV</div>
                         </div>
                         <div class="col-md-12 row" style="padding-left: 40px;">
-                            
+
                             <div class="col-2">Vị trí công việc: @Model.chiTietToChucDTTH.ViTriCV_GV</div>
                             <div class="col-6"> Bộ phận: @Model.chiTietToChucDTTH.DonVi_GV</div>
                         </div>
 
                         @*<div class="col-md-12" style="padding-left: 20px;">
-                            + Giảng viên 2: Mã nhân viên: ..................................................... Họ và tên: .....................................................
-                        </div>
-                        <div class="col-md-12" style="padding-left: 40px;">
-                            Vị trí công việc: ..................................................... Bộ phận: .....................................................
-                        </div>*@
+            + Giảng viên 2: Mã nhân viên: ..................................................... Họ và tên: .....................................................
+        </div>
+        <div class="col-md-12" style="padding-left: 40px;">
+            Vị trí công việc: ..................................................... Bộ phận: .....................................................
+        </div>*@
 
                         <div class="col-md-12 font-weight-bold">
                             – Chương trình đào tạo:
@@ -196,38 +196,48 @@
                             }
                         </table>
                         <div>&nbsp;</div>
-                    &nbsp;&nbsp;
-                    <div style="width: 100%; text-align: right; font-style: italic;">
-                        Quảng Ngãi, ngày ...... tháng ...... năm .........
-                    </div>
+                        &nbsp;&nbsp;
+                        @if (Model.NgayTao.HasValue)
+                        {
+                            var d = Model.NgayTao.Value;
+                            <div style="width: 100%; text-align: right; font-style: italic;">
+                                Quảng Ngãi, ngày @d.Day tháng @d.Month năm @d.Year
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="width: 100%; text-align: right; font-style: italic;">
+                                Quảng Ngãi, ngày ...... tháng ...... năm .........
+                            </div>
+                        }
 
-                    <div style="width: 100%; display: flex; justify-content: space-between; font-weight: bold; margin-top: 20px;">
-                        <div style="text-align: center; width: 50%;">
-                            NGƯỜI KIỂM TRA
-                            <div class="font-weight-bold">
-                                @nguoikiemtra.HoTen
+                        <div style="width: 100%; display: flex; justify-content: space-between; font-weight: bold; margin-top: 20px;">
+                            <div style="text-align: center; width: 50%;">
+                                NGƯỜI KIỂM TRA
+                                <div class="font-weight-bold">
+                                    @nguoikiemtra.HoTen
+                                </div>
+                            </div>
+                            <div style="text-align: center; width: 50%;">
+                                NGƯỜI LẬP
+                                <div class="font-weight-bold">
+                                    @nguoitao.HoTen
+                                </div>
                             </div>
                         </div>
-                        <div style="text-align: center; width: 50%;">
-                            NGƯỜI LẬP
-                            <div class="font-weight-bold">
-                                @nguoitao.HoTen
-                            </div>
+                        <br><br>
+                        <div style="margin-top: 20px; font-style: italic; font-weight: bold;">
+                            Ghi chú:
                         </div>
-                    </div>
-                    <br><br>
-                    <div style="margin-top: 20px; font-style: italic; font-weight: bold;">
-                        Ghi chú:
-                    </div>
-                    <ul style="margin-top: 5px; padding-left: 20px; font-style: italic;">
-                        <li>
-                            Sau khi đào tạo, giảng viên hoàn thiện các nội dung còn thiếu của biểu mẫu này và ký tên xác nhận.
-                            Giảng viên chịu trách nhiệm về tính chính xác các thông tin như: Thời gian đào tạo thực tế, kết quả đào tạo của học viên…;
-                        </li>
-                        <li>Người lập: Có thể là giảng viên của khóa đào tạo hoặc người được bộ phận phân công, từ cấp KTV trở lên;</li>
-                    </ul>
+                        <ul style="margin-top: 5px; padding-left: 20px; font-style: italic;">
+                            <li>
+                                Sau khi đào tạo, giảng viên hoàn thiện các nội dung còn thiếu của biểu mẫu này và ký tên xác nhận.
+                                Giảng viên chịu trách nhiệm về tính chính xác các thông tin như: Thời gian đào tạo thực tế, kết quả đào tạo của học viên…;
+                            </li>
+                            <li>Người lập: Có thể là giảng viên của khóa đào tạo hoặc người được bộ phận phân công, từ cấp KTV trở lên;</li>
+                        </ul>
 
-                </div>
+                    </div>
             </div>
         </div>
     </div>
