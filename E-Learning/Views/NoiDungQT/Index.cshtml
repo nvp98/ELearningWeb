@@ -211,6 +211,7 @@
                                         <th class="text-center">Nội dung cập nhật</th>
                                         <th class="text-center">Văn bản liên quan</th>
                                         <th class="text-center">Kết quả sát hạch</th>
+                                        <th class="text-center">Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -316,16 +317,16 @@
                                                 </td>
                                             }
 
-                                        <td class="text-center">
-                                            @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.P_QTHD) && item.TinhTrang == 1 && item.TinhTrangHL == 1)
-                                            {
-                                                <span class="float-right">
-                                                    <a id="btn-editVT_@item.IDQTHD" title="Sửa VTCV" class="fas fa-folder-plus icon_action "></a>
-                                                </span>
-                                                @*<a class="font-italic fas fa-folder-plus icon_action" title="Sửa VTCV" href="@Url.Action("EditVTCV","NoiDungQT", new { IDQTHD = item.IDQTHD })">
-                                                </a>*@
-                                                <div class="modal fade" style="z-index:5000 !important" id="myModaleVTCV_@item.IDQTHD" role="dialog" data-url='@Url.Action("EditVTCV","NoiDungQT", new { IDQTHD = item.IDQTHD })'></div>
-                                                <script type="text/javascript">
+                                            <td class="text-center">
+                                                @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.P_QTHD) && item.TinhTrang == 1 && item.TinhTrangHL == 1)
+                                                {
+                                                    <span class="float-right">
+                                                        <a id="btn-editVT_@item.IDQTHD" title="Sửa VTCV" class="fas fa-folder-plus icon_action "></a>
+                                                    </span>
+                                                    @*<a class="font-italic fas fa-folder-plus icon_action" title="Sửa VTCV" href="@Url.Action("EditVTCV","NoiDungQT", new { IDQTHD = item.IDQTHD })">
+                </a>*@
+                                                    <div class="modal fade" style="z-index:5000 !important" id="myModaleVTCV_@item.IDQTHD" role="dialog" data-url='@Url.Action("EditVTCV","NoiDungQT", new { IDQTHD = item.IDQTHD })'></div>
+                                                    <script type="text/javascript">
                                                     $("#btn-editVT_@item.IDQTHD").click(function () {
                                                         var url = $('#myModaleVTCV_@item.IDQTHD').data('url');
                                                         //window.location.href = url;
@@ -335,11 +336,11 @@
                                                             $("#myModaleVTCV_@item.IDQTHD").modal('show');
                                                         });
                                                     });
-                                                </script>
-                                            }
+                                                    </script>
+                                                }
 
-                                            @item.SL_VTCVLQ
-                                        </td>
+                                                @item.SL_VTCVLQ
+                                            </td>
                                             <td class="text-center">@item.SL_NVHT</td>
                                             <td class="text-center">@item.LanCapNhat</td>
                                             <td>@item.NoiDungCapNhat</td>
@@ -368,7 +369,17 @@
                                                     @item.SL_NVHT / @item.Total_SL_NV
                                                 </a>
                                             </td>
-                                            @*<td class="text-center">@item.SL_NVHT / @item.Total_SL_NV</td>*@
+                                            <td class="text-center">
+                                                <button type="button" class="btn-addQTHD btn btn-success float-right ml-2">
+                                                    &nbsp;Chuyển QT/HD sang đơn vị khác
+                                                </button>
+
+                                                <div class="modal modalQTHD"
+                                                     style="z-index: 5000 !important"
+                                                     data-url='@Url.Action("LuanChuyenQTHD", "NoiDungQT", new { id = item.IDQTHD })'>
+                                                </div>
+                                            </td>
+
                                         </tr>
                                     }
                                 </tbody>
@@ -437,5 +448,52 @@
         var search = $('#txtsearch').val();
         window.location.href = '@Url.Action("Index", "NoiDungQT")?search=' + search + "&IDQT=" + $('#NoiDungQT').val() + "&IDTinhTrang=" + $('#IDTinhTrang').val() + "&IDMahieu=" + $('#MaHieuQT').val() + "&IDPB=" + $('#IDPB').val() + "&IDLVDT=" + $('#LVDTID').val();
     });
-</script>
 
+    $(document).on('click', '.btn-addQTHD', function () {
+
+        var modal = $(this).closest('td').find('.modal');
+        var url = modal.data('url');
+
+        $.get(url, function (data) {
+            modal.html(data);
+
+            modal.find("#ModalTitle").text("Luân chuyển QT/HD");
+
+            modal.modal('show');
+
+            var ddl = modal.find("#PhongBanID");
+
+            if (ddl.data('chosen')) {
+                ddl.chosen("destroy");
+            }
+
+            ddl.chosen({
+                width: "100%"
+            });
+        });
+    });
+
+    $(document).on("submit", "#formUpdateQTHD", function (e) {
+        e.preventDefault();
+
+        var form = $(this);
+
+        $.ajax({
+            url: form.attr("action"),
+            type: "POST",
+            data: form.serialize(),
+            success: function (res) {
+                if (res.success) {
+                    alert("Cập nhật thành công!");
+                    $('.modal').modal("hide");
+
+                    location.reload();
+                }
+            },
+            error: function () {
+                alert("Có lỗi xảy ra!");
+            }
+        });
+    });
+
+</script>

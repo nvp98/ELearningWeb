@@ -1441,6 +1441,36 @@ namespace E_Learning.Controllers.QTHD
             return res;
         }
 
+        public ActionResult LuanChuyenQTHD(int id)
+        {
+            var phongBans = db.PhongBans
+                               .Select(x => new { x.IDPhongBan, x.TenPhongBan })
+                               .OrderBy(x => x.TenPhongBan)
+                               .ToList();
 
+            ViewBag.PhongBanList = new SelectList(phongBans, "IDPhongBan", "TenPhongBan");
+
+            ViewBag.IDQTHD = id;
+
+            return PartialView();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LuanChuyenQTHD(int IDQTHD, int PhongBanID)
+        {
+            var record = db.QT_NoiDungQT.FirstOrDefault(x => x.IDQTHD == IDQTHD);
+
+            if (record == null)
+            {
+                return HttpNotFound();
+            }
+
+            record.IDPhongBan = PhongBanID;
+
+            db.SaveChanges();
+
+            return Json(new { success = true });
+        }
     }
 }
