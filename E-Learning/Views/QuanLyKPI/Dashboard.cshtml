@@ -1,0 +1,356 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .chart-container {
+        height: 400px;
+    }
+</style>
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        KPI Dashboard
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+
+                <div class="col-md-9">
+                    <div class="row">
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="card p-3">
+                            <h5 class="card-title text-center">Số lượng công việc theo trạng thái</h5>
+                            <div class="chart-container">
+                                <canvas id="barChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="card p-3">
+                            <h5 class="card-title text-center">Tỷ lệ trạng thái công việc</h5>
+                            <div class="chart-container">
+                                <canvas id="pieChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-4">
+                    <h5 class="card-title p-3 text-primary">Danh sách công việc theo thành viên</h5>
+                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                        <table class="table table-bordered table-hover align-middle" style="min-width: 1500px;">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Đầu mục công việc</th>
+                                    <th>Trạng thái</th>
+                                    <th style="width: 350px;">Mô tả công việc</th>
+                                    <th>Ngày bắt đầu</th>
+                                    <th>Ngày hoàn thành dự kiến</th>
+                                    <th>Nhóm công việc</th>
+                                    <th>Bộ phận liên quan</th>
+                                    <th>Tình trạng</th>
+                                    <th>KPI tiến độ</th>
+                                    <th>KPI chất lượng</th>
+                                    <th>KPI trách nhiệm</th>
+                                    <th>KPI sáng kiến</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table-info fw-bold">
+                                    <td colspan="12">HPDQ18461 - Nguyễn Vĩnh Phước</td>
+                                </tr>
+                                <tr>
+                                    <td>[P.KH] Nhật ký sản xuất </td>
+                                    <td>Đang thực hiện</td>
+                                    <td>Triển khai cập nhật API</td>
+                                    <td>01/11/2025</td>
+                                    <td>15/11/2025</td>
+                                    <td>IT</td>
+                                    <td>P.NS</td>
+                                    <td>Normal</td>
+                                    <td>80%</td>
+                                    <td>90%</td>
+                                    <td>100%</td>
+                                    <td>20%</td>
+                                </tr>
+                                <tr>
+                                    <td>[NM] - Biểu đồ Gantt - Luyện thép</td>
+                                    <td>Hoàn thành</td>
+                                    <td>Tích hợp dữ liệu từ Đúc TSC1,2 lên biểu đồ</td>
+                                    <td>05/11/2025</td>
+                                    <td>12/11/2025</td>
+                                    <td>Dự án</td>
+                                    <td>IT</td>
+                                    <td>Normal</td>
+                                    <td>100%</td>
+                                    <td>95%</td>
+                                    <td>100%</td>
+                                    <td>15%</td>
+                                </tr>
+
+                                <tr class="table-info fw-bold">
+                                    <td colspan="12">HPDQ19383 - Lý Thành Nam</td>
+                                </tr>
+                                <tr>
+                                    <td>[LG1] Report Dashboard điều độ thùng gang</td>
+                                    <td>Chờ phối hợp</td>
+                                    <td>App nhập liệu từng thùng gang qua các công đoạn</td>
+                                    <td>10/11/2025</td>
+                                    <td>22/11/2025</td>
+                                    <td>Phát sinh</td>
+                                    <td>IT</td>
+                                    <td>Normal</td>
+                                    <td>40%</td>
+                                    <td>70%</td>
+                                    <td>90%</td>
+                                    <td>5%</td>
+                                </tr>
+
+                                <tr class="table-info fw-bold">
+                                    <td colspan="12">HPDQ18238 - Lê Thanh Sang</td>
+                                </tr>
+                                <tr>
+                                    <td>Hỗ trợ phần mềm nội bộ</td>
+                                    <td>Hoàn thành</td>
+                                    <td>E-Learning, Portal,... Hỗ trợ tài khoản, quy trình, kiểm tra check lỗi cho user</td>
+                                    <td>10/11/2025</td>
+                                    <td>22/11/2025</td>
+                                    <td>Hằng ngày</td>
+                                    <td>P.NS</td>
+                                    <td>Normal</td>
+                                    <td>40%</td>
+                                    <td>70%</td>
+                                    <td>90%</td>
+                                    <td>5%</td>
+                                </tr>
+                                <tr>
+                                    <td>[Tích hợp] Tích hợp dữ liệu từ các NM phục vụ báo cáo sản xuất P.KH</td>
+                                    <td>Chờ phối hợp</td>
+                                    <td>LG2 - Thu thập dữ liệu Thùng gang -> khối lượng</td>
+                                    <td>10/11/2025</td>
+                                    <td>22/11/2025</td>
+                                    <td>Dự án</td>
+                                    <td>P.ATMT</td>
+                                    <td>Normal</td>
+                                    <td>40%</td>
+                                    <td>70%</td>
+                                    <td>90%</td>
+                                    <td>5%</td>
+                                </tr>
+
+                                <tr class="table-info fw-bold">
+                                    <td colspan="12">HPDQ32889 - Cao Anh Dũng</td>
+                                </tr>
+                                <tr>
+                                    <td>[LOGISTICS] - So sánh kỹ thuật</td>
+                                    <td>Hoàn thành</td>
+                                    <td>Xây dựng nội dung PVCC để trao đổi với các nhà</td>
+                                    <td>10/11/2025</td>
+                                    <td>22/11/2025</td>
+                                    <td>Hằng ngày</td>
+                                    <td>P.IT</td>
+                                    <td>Normal</td>
+                                    <td>40%</td>
+                                    <td>70%</td>
+                                    <td>90%</td>
+                                    <td>5%</td>
+                                </tr>
+                                <tr>
+                                    <td>Bổ sung thêm tiêu chí SSKT</td>
+                                    <td>Chờ phối hợp</td>
+                                    <td>Gửi mail yêu cầu bổ sung thông tin</td>
+                                    <td>10/11/2025</td>
+                                    <td>22/11/2025</td>
+                                    <td>Hằng ngày</td>
+                                    <td>P.IT</td>
+                                    <td>Normal</td>
+                                    <td>40%</td>
+                                    <td>70%</td>
+                                    <td>90%</td>
+                                    <td>5%</td>
+                                </tr>
+                                <tr>
+                                    <td>[APS] - Làm rõ PAKT</td>
+                                    <td>Hoàn thành</td>
+                                    <td>Tham gia họp nghe trao đổi với BaoSight</td>
+                                    <td>10/11/2025</td>
+                                    <td>22/11/2025</td>
+                                    <td>Hằng ngày</td>
+                                    <td>P.IT</td>
+                                    <td>Normal</td>
+                                    <td>40%</td>
+                                    <td>70%</td>
+                                    <td>90%</td>
+                                    <td>5%</td>
+                                </tr>
+
+                                <tr class="table-info fw-bold">
+                                    <td colspan="12">HPDQ32889 - Nguyễn Võ Tuấn Nhân</td>
+                                </tr>
+                                <tr><td colspan="12" class="text-muted">Đang cập nhật dữ liệu...</td></tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+
+    // Danh sách trạng thái
+    const labels = ['Chưa thực hiện', 'Đang thực hiện', 'Hoàn thành', 'Chờ phối hợp', 'Không áp dụng'];
+
+    const dataCounts = [12, 18, 30, 5, 2];
+
+    // Danh sách thành viên nhóm (5 người)
+    const members = ['Nguyễn Vĩnh Phước', 'Lý Thành Nam', 'Lê Thanh Sang', 'Cao Anh Dũng', 'Nguyễn Võ Tuấn Nhân'];
+
+    // Dữ liệu mẫu: 5 thành viên * 5 trạng thái
+    // Có thể thay bằng dữ liệu thật từ Backend sau
+    const memberData = [
+        [3, 5, 10, 1, 0],  // A
+        [2, 6, 8, 2, 1],   // B
+        [4, 4, 7, 1, 0],   // C
+        [1, 2, 5, 0, 0],   // D
+        [2, 1, 0, 1, 1]    // E
+    ];
+
+    const colors = ['#FF6384', '#36A2EB', '#4BC0C0', '#FFCE56', '#9966FF'];
+
+    const weights = [10, 20, 40, 15, 15];
+
+    // Tính tổng theo từng member
+    const totals = memberData.map(row => row.reduce((a, b) => a + b, 0));
+
+    // Chuyển dữ liệu về dạng multiple dataset (mỗi trạng thái 1 dataset)
+    const datasets = labels.map((label, stateIndex) => ({
+        label: label,
+        data: memberData.map(row => row[stateIndex]),
+        backgroundColor: colors[stateIndex],
+        borderRadius: 5
+    }));
+
+    const ctxBar = document.getElementById('barChart').getContext('2d');
+    new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: members,
+            datasets: datasets
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            const index = context.dataIndex;
+                            const value = context.parsed.x;
+                            const percent = ((value / totals[index]) * 100).toFixed(0);
+                            return `${context.dataset.label}: ${value} (${percent}%)`;
+                        }
+                    }
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                    beginAtZero: true,
+                    ticks: { precision: 0 }
+                },
+                y: {
+                    stacked: true
+                }
+            }
+        }
+    });
+
+    const ctxPie = document.getElementById('pieChart').getContext('2d');
+    new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels: labels.map((l, i) => `${l} (${weights[i]}%)`),
+            datasets: [{
+                data: dataCounts,
+                backgroundColor: colors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            const index = context.dataIndex;
+                            const label = context.label.split(' ')[0];
+                            const value = context.dataset.data[index];
+                            const weight = weights[index];
+                            return `${label}: ${value} (Trọng số: ${weight}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+

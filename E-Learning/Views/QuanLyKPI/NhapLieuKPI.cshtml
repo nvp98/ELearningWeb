@@ -1,0 +1,179 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+<style>
+    table td, table th {
+        vertical-align: middle;
+        min-width: 150px;
+    }
+
+    .col-mo-ta {
+        min-width: 350px !important;
+    }
+
+    .col-title {
+        min-width: 200px !important;
+    }
+
+    textarea {
+        resize: vertical;
+    }
+</style>
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Quản lí công việc
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-6">
+                            Quản lí công việc hằng ngày
+                        </div>
+
+                        <div class="col-md-2">
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <button id="btnAddRow" class="mb-3 btn btn-primary">
+                        + Thêm bản ghi
+                    </button>
+                </div>
+                <div class="table-responsive">
+
+                    <table class="table table-bordered align-middle" id="kpiTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Đầu mục công việc</th>
+                                @*<th>Nhân sự tham gia</th>*@
+                                <th>Trạng thái</th>
+                                <th>Mô tả công việc</th>
+                                <th>Ngày bắt đầu</th>
+                                <th>Ngày hoàn thành dự kiến</th>
+                                <th>Nhóm công việc</th>
+                                <th>Bộ phận liên quan</th>
+                                <th>Tình trạng</th>
+                            </tr>
+                        </thead>
+                        <tbody id="kpiBody">
+                        </tbody>
+                    </table>
+                    <div class="mt-3 text-end">
+                        <button id="btnSaveData" class="btn btn-success">
+                            Lưu dữ liệu
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    const currentUser = "Nguyễn Võ Tuấn Nhân";
+
+    function newRow() {
+        return `
+            <tr>
+                <td class="col-title"><input type="text" class="form-control" placeholder="Nhập đầu mục..."></td>
+
+                <td>
+                    <select class="form-control input-title">
+                        <option value="">----</option>
+                        <option>Chưa thực hiện</option>
+                        <option>Đang thực hiện</option>
+                        <option>Hoàn thành</option>
+                        <option>Chờ phối hợp</option>
+                        <option>Không áp dụng</option>
+                    </select>
+                </td>
+
+                <td class="col-mo-ta">
+                    <textarea class="form-control" rows="3" placeholder="Mô tả công việc"></textarea>
+                </td>
+
+
+                <td><input type="date" class="form-control"></td>
+                <td><input type="date" class="form-control"></td>
+
+                <td>
+                    <select class="form-control input-group">
+                        <option value="">----</option>
+                        <option>Hằng ngày</option>
+                        <option>Phát sinh</option>
+                        <option>Dự án</option>
+                        <option>Xử lí gấp</option>
+                    </select>
+                </td>
+
+                <td>
+                    <select class="form-control input-department">
+                        <option value="">----</option>
+                        <option>P.NS</option>
+                        <option>NM.HRC1</option>
+                        <option>P.IT</option>
+                        <option>NM.CĐ</option>
+                        <option>NM.NĐ</option>
+                    </select>
+                </td>
+
+                <td>
+                    <select class="form-control input-status">
+                        <option value="">----</option>
+                        <option>Bình thường</option>
+                        <option>Quan trọng</option>
+                    </select>
+                </td>
+            </tr>
+        `;
+    }
+
+    document.getElementById("btnAddRow").addEventListener("click", function () {
+        document.getElementById("kpiBody").insertAdjacentHTML("beforeend", newRow());
+    });
+
+    document.getElementById("kpiBody").insertAdjacentHTML("beforeend", newRow());
+</script>

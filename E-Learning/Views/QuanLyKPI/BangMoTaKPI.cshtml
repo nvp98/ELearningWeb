@@ -1,0 +1,339 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .chart-container {
+        height: 400px;
+    }
+</style>
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        KPI Dashboard
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+
+                <div class="col-md-9">
+                    <div class="row">
+                        Bảng Mô tả KPI
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped align-middle">
+                        <thead class="table-light text-center">
+                            <tr>
+                                <th>Tên KPI</th>
+                                <th>Mã KPI</th>
+                                <th>Mô tả</th>
+                                <th>Điểm</th>
+                                <th>Trọng số</th>
+                                <th>Phương pháp đo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <!-- S1 -->
+                            <tr class="kpi-group table-info">
+                                <td colspan="6">S1: Tiến độ công việc (20%)</td>
+                            </tr>
+                            <tr>
+                                <td>Hoàn thành trước thời gian</td>
+                                <td>S1-T1</td>
+                                <td>Hoàn thiện sớm so với kế hoạch > 1 ngày</td>
+                                <td>5</td>
+                                <td>25%</td>
+                                <td>Xác định thời gian bắt đầu - thời gian hoàn thiện</td>
+                            </tr>
+                            <tr>
+                                <td>Trễ hạn ít (1 - 2 ngày)</td>
+                                <td>S1-T2</td>
+                                <td>Trễ nhẹ</td>
+                                <td>-2</td>
+                                <td>25%</td>
+                                <td>Xác định thời gian bắt đầu - thời gian hoàn thiện</td>
+                            </tr>
+                            <tr>
+                                <td>Trễ hạn nhiều (&gt; 2 ngày)</td>
+                                <td>S1-T3</td>
+                                <td>Trễ nặng</td>
+                                <td>-10</td>
+                                <td>25%</td>
+                                <td>Xác định thời gian bắt đầu - thời gian hoàn thiện</td>
+                            </tr>
+                            <tr>
+                                <td>Không hoàn thành</td>
+                                <td>S1-T4</td>
+                                <td>Không thực hiện được, bỏ công việc</td>
+                                <td>-15</td>
+                                <td>25%</td>
+                                <td>Chuyển đầu mục công việc cho người khác do không thực hiện</td>
+                            </tr>
+
+                            <!-- S2 -->
+                            <tr class="kpi-group table-info">
+                                <td colspan="6">S2: Chất lượng công việc (40%)</td>
+                            </tr>
+                            <tr>
+                                <td>Sản phẩm được đánh giá tốt</td>
+                                <td>S2-C1</td>
+                                <td>Được BP liên quan ghi nhận</td>
+                                <td>5</td>
+                                <td>25%</td>
+                                <td>Nhận thông tin qua các hình thức trao đổi</td>
+                            </tr>
+                            <tr>
+                                <td>Sản phẩm vượt mức mong đợi</td>
+                                <td>S2-C2</td>
+                                <td>Tạo ấn tượng tốt, ghi nhận nhiều khen ngợi</td>
+                                <td>10</td>
+                                <td>25%</td>
+                                <td>Nhận thông tin qua các hình thức trao đổi</td>
+                            </tr>
+                            <tr>
+                                <td>Sản phẩm lỗi/Bugs</td>
+                                <td>S2-C3</td>
+                                <td>Nhiều hơn 5 lỗi</td>
+                                <td>-5</td>
+                                <td>25%</td>
+                                <td>Nhận thông tin qua các hình thức trao đổi</td>
+                            </tr>
+                            <tr>
+                                <td>Làm lại hoàn toàn</td>
+                                <td>S2-C4</td>
+                                <td>Gây ảnh hưởng đến tiến độ</td>
+                                <td>-15</td>
+                                <td>25%</td>
+                                <td>Nhận thông tin qua các hình thức trao đổi</td>
+                            </tr>
+
+                            <!-- S3 -->
+                            <tr class="kpi-group table-info">
+                                <td colspan="6">S3: Tinh thần trách nhiệm (30%)</td>
+                            </tr>
+                            <tr>
+                                <td>Sẵn sàng nhận việc khó</td>
+                                <td>S3-T5</td>
+                                <td>Chủ động nhận công việc khó, hỗ trợ anh em</td>
+                                <td>2</td>
+                                <td>25%</td>
+                                <td>Nhận thông tin qua các hình thức trao đổi</td>
+                            </tr>
+                            <tr>
+                                <td>Chủ động tìm hiểu</td>
+                                <td>S3-T6</td>
+                                <td>Chủ động công việc, không đợi nhắc nhở</td>
+                                <td>4</td>
+                                <td>25%</td>
+                                <td>Nhận thông tin qua các hình thức trao đổi</td>
+                            </tr>
+                            <tr>
+                                <td>Né tránh công việc</td>
+                                <td>S3-T7</td>
+                                <td>Né tránh công việc khó</td>
+                                <td>-5</td>
+                                <td>25%</td>
+                                <td>Nhận thông tin qua các hình thức trao đổi</td>
+                            </tr>
+                            <tr>
+                                <td>Không báo cáo</td>
+                                <td>S3-T8</td>
+                                <td>Không phản hồi, không cập nhật</td>
+                                <td>-10</td>
+                                <td>25%</td>
+                                <td>Nhận thông tin qua các hình thức trao đổi</td>
+                            </tr>
+
+                            <!-- S4 -->
+                            <tr class="kpi-group table-info">
+                                <td colspan="6">S4: Sáng tạo (10%)</td>
+                            </tr>
+                            <tr>
+                                <td>Đề xuất ý tưởng/cải tạo</td>
+                                <td>S4-S1</td>
+                                <td>Đóng góp ý tưởng, cải tạo tối ưu trong quá trình làm việc</td>
+                                <td>5</td>
+                                <td>25%</td>
+                                <td>Nhận thông tin qua các hình thức trao đổi</td>
+                            </tr>
+                            <tr>
+                                <td>Tối ưu quy trình/rút ngắn thời gian</td>
+                                <td>S4-S2</td>
+                                <td>Chủ động thí điểm, thử nghiệm giúp ngắn thời gian</td>
+                                <td>10</td>
+                                <td>25%</td>
+                                <td>Nhận thông tin qua các hình thức trao đổi</td>
+                            </tr>
+                            <tr>
+                                <td>Không áp dụng cái mới</td>
+                                <td>S4-S3</td>
+                                <td>Không chịu thay đổi, cập nhật công nghệ mới</td>
+                                <td>-10</td>
+                                <td>25%</td>
+                                <td>Nhận thông tin qua các hình thức trao đổi</td>
+                            </tr>
+                            <tr>
+                                <td>Tham gia đào tạo (Giảng viên)</td>
+                                <td>S4-S4</td>
+                                <td>Đào tạo trực tiếp, online, Elearning, kèm cặp chỉ dẫn,..</td>
+                                <td>5</td>
+                                <td>25%</td>
+                                <td>Thống kê tuần, tháng</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    const labels = ['Chưa thực hiện', 'Đang thực hiện', 'Hoàn thành', 'Chờ phối hợp', 'Không áp dụng'];
+
+    const dataCounts = [12, 18, 30, 5, 2];
+
+    const members = ['Nguyễn Vĩnh Phước', 'Lý Thành Nam', 'Lê Thanh Sang', 'Cao Anh Dũng', 'Nguyễn Võ Tuấn Nhân'];
+
+    const memberData = [
+        [3, 5, 10, 1, 0],
+        [2, 6, 8, 2, 1],
+        [4, 4, 7, 1, 0],
+        [1, 2, 5, 0, 0],
+        [2, 1, 0, 1, 1]
+    ];
+
+    const colors = ['#FF6384', '#36A2EB', '#4BC0C0', '#FFCE56', '#9966FF'];
+
+    const weights = [10, 20, 40, 15, 15];
+
+    const totals = memberData.map(row => row.reduce((a, b) => a + b, 0));
+
+    // convert data
+    const datasets = labels.map((label, stateIndex) => ({
+        label: label,
+        data: memberData.map(row => row[stateIndex]),
+        backgroundColor: colors[stateIndex],
+        borderRadius: 5
+    }));
+
+    const ctxBar = document.getElementById('barChart').getContext('2d');
+    new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: members,
+            datasets: datasets
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            const index = context.dataIndex;
+                            const value = context.parsed.x;
+                            const percent = ((value / totals[index]) * 100).toFixed(0);
+                            return `${context.dataset.label}: ${value} (${percent}%)`;
+                        }
+                    }
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                    beginAtZero: true,
+                    ticks: { precision: 0 }
+                },
+                y: {
+                    stacked: true
+                }
+            }
+        }
+    });
+
+    const ctxPie = document.getElementById('pieChart').getContext('2d');
+    new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels: labels.map((l, i) => `${l} (${weights[i]}%)`),
+            datasets: [{
+                data: dataCounts,
+                backgroundColor: colors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            const index = context.dataIndex;
+                            const label = context.label.split(' ')[0];
+                            const value = context.dataset.data[index];
+                            const weight = weights[index];
+                            return `${label}: ${value} (Trọng số: ${weight}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+
