@@ -1,10 +1,10 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 @model E_Learning.Models.LoginValidation
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -21,6 +21,7 @@
 {
     @Html.Raw(TempData["msglg"])
 }
+
 <body class="bg-login">
 
     <div class="container" style="height:100%">
@@ -31,7 +32,8 @@
 
                 <div class="card shadow-lg border-0 rounded-lg" style="">
                     <div class="card-header">
-                        <img src="~/Content/assets/images/logo-inverse.png" style="width:100%; height:auto; max-width:230px; margin: 0 auto;" />
+                        <img src="~/Content/assets/images/logo-inverse.png"
+                            style="width:100%; height:auto; max-width:230px; margin: 0 auto;" />
                     </div>
                     <div class="card-body">
 
@@ -39,22 +41,29 @@
 
                         @using (Html.BeginForm("LoginUser", "Login", new { id = "myForm" }))
                         {
+                            <h5 id="formTitle" class="text-center mb-3">Đăng nhập E-Learning</h5>
                             <div class="form-group">
-                                @*<label class="small mb-1" for="inputEmailAddress">Tài khoản</label>*@
                                 @Html.TextBoxFor(m => m.MaNV, new { @class = "form-control", @placeholder = "Mã Nhân Viên" })
                                 @Html.ValidationMessageFor(m => m.MaNV, "", new { @class = "text-danger" })
                                 <div id="show_error_user"></div>
                             </div>
                             <div class="form-group">
-                                @*<label class="small mb-1" for="inputPassword">Mật khẩu</label>*@
                                 @Html.PasswordFor(m => m.MatKhau, new { @class = "form-control", @placeholder = "Mật khẩu" })
                                 @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
                                 <div id="show_error_pass"></div>
                             </div>
 
-
                             <div class="form-group">
-                                <button id="LoginUser" type="submit" class="form-control btn btn-primary submit px-3"><strong>Đăng Nhập</strong></button>
+                                <button id="LoginUser" type="submit"
+                                    class="form-control btn btn-primary submit px-3"><strong>Đăng Nhập</strong></button>
+                            </div>
+
+                            <!-- Nút chuyển đổi chế độ đăng nhập -->
+                            <div class="form-group">
+                                <button type="button" id="toggleLoginMode"
+                                    class="form-control btn btn-outline-secondary submit px-3">
+                                    <strong>Đăng nhập bằng Time365</strong>
+                                </button>
                             </div>
 
                             <div class="form-group">
@@ -64,8 +73,14 @@
                                 </div>
                             </div>
                             <div class="form-group text-center">
-                                <a class="app-Android" target="_blank" href="https://apps.apple.com/us/app/e-learning-hpdq/id6472882908"><img alt="" style="max-height:34px" title="Tải app IOS" src="~/Content/assets/images/AppStore.png"></a>
-                                <a class="app-Android" target="_blank" href="https://play.google.com/store/apps/details?id=com.mysticacademy.app"><img alt="" style="max-height:34px" title="Tải app IOS" src="~/Content/assets/images/GooglePlay.png"></a>
+                                <a class="app-Android" target="_blank"
+                                    href="https://apps.apple.com/us/app/e-learning-hpdq/id6472882908"><img alt=""
+                                        style="max-height:34px" title="Tải app IOS"
+                                        src="~/Content/assets/images/AppStore.png"></a>
+                                <a class="app-Android" target="_blank"
+                                    href="https://play.google.com/store/apps/details?id=com.mysticacademy.app"><img alt=""
+                                        style="max-height:34px" title="Tải app IOS"
+                                        src="~/Content/assets/images/GooglePlay.png"></a>
                             </div>
                         }
 
@@ -80,7 +95,8 @@
         <footer class="">
             <div class="">
                 <div class="">
-                    <div class="text-c">Copyright &copy; @DateTime.Now.Year Ban Công nghệ thông tin.<br /> Công ty CP Thép Hòa Phát Dung Quất </div>
+                    <div class="text-c">Copyright &copy; @DateTime.Now.Year Ban Công nghệ thông tin.<br /> Công ty CP
+                        Thép Hòa Phát Dung Quất </div>
                 </div>
             </div>
         </footer>
@@ -96,68 +112,56 @@
         Html.RenderAction("Details", "Notification");
     }
 </body>
+
 </html>
 <script>
+    // Biến theo dõi chế độ đăng nhập hiện tại
+    var isTime365Mode = false;
+
+    // Xử lý chuyển đổi chế độ đăng nhập
+    $("#toggleLoginMode").on('click', function (e) {
+        e.preventDefault();
+        isTime365Mode = !isTime365Mode;
+
+        if (isTime365Mode) {
+            // Chuyển sang chế độ Time365
+            $("#formTitle").text("Đăng nhập bằng Time365");
+            $("#toggleLoginMode").html("<strong>Quay lại Đăng nhập E-Learning</strong>");
+            $("#toggleLoginMode").removeClass("btn-outline-secondary").addClass("btn-warning");
+        } else {
+            // Chuyển về chế độ E-Learning
+            $("#formTitle").text("Đăng nhập E-Learning");
+            $("#toggleLoginMode").html("<strong>Đăng nhập bằng Time365</strong>");
+            $("#toggleLoginMode").removeClass("btn-warning").addClass("btn-outline-secondary");
+        }
+    });
+
+    // Xử lý Enter key
     $("#MatKhau").keyup(function (event) {
         if (event.keyCode == 13) {
-            // LoginUser();
             $("#LoginUser").click();
         }
     });
-    var LoginUser = function () {
 
-        //var data = $("#myForm").serialize();
-        var tendangnhap = $('#TenDangNhap').val();
-        var matkhau = $('#MatKhau').val();
-        if (tendangnhap == "") {
-            $('#show_error_user').html('Nhập tài khoản!');
+    // Xử lý sự kiện khi click nút Đăng nhập
+    $("#LoginUser").on('click', function (e) {
+        // Clear thông báo lỗi trước đó
+        $('#show_error_user').html('');
+        $('#show_error_pass').html('');
+
+        var maNV = $('#MaNV').val();
+        var matKhau = $('#MatKhau').val();
+
+        if (maNV == "") {
+            $('#show_error_user').html('Nhập mã nhân viên!');
             $('#show_error_user').css('color', 'red');
             return false;
         }
-        if (matkhau == "") {
+        if (matKhau == "") {
             $('#show_error_pass').html('Nhập mật khẩu!');
             $('#show_error_pass').css('color', 'red');
             return false;
         }
-        //if (tendangnhap != "" && matkhau != "") {
-        //    $.ajax({
-        //        type: "Post",
-        //        url: "/Login/LoginUser",
-        //        data: data,
-        //        success: function (response) {
-        //            debugger
-        //            if (response == "fail") {
-
-        //                window.location.href = "Login";
-        //            }
-        //            else if (response == "Admin") {
-
-        //                window.location.href = "/Home/Index";
-        //            }
-        //            else {
-
-        //                window.location.href = "/Home/Index";
-        //            }
-        //        }
-        //    })
-        //}
-    }
-
-    $("#LoginUser").on('click', function () {
-        var tendangnhap = $('#TenDangNhap').val();
-        var matkhau = $('#MatKhau').val();
-        if (tendangnhap == "") {
-            $('#show_error_user').html('Nhập tài khoản!');
-            $('#show_error_user').css('color', 'red');
-            return false;
-        }
-        if (matkhau == "") {
-            $('#show_error_pass').html('Nhập mật khẩu!');
-            $('#show_error_pass').css('color', 'red');
-            return false;
-        }
-        if (tendangnhap != "" && matkhau != "") { return true; }
-        else { return false; }
-    })
-
+        return true;
+    });
 </script>
