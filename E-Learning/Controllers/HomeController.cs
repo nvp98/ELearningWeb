@@ -1,7 +1,9 @@
 ﻿using E_Learning.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 
@@ -9,10 +11,18 @@ namespace E_Learning.Controllers
 {
     public class HomeController : Controller
     {
-        ELEARNINGEntities db = new ELEARNINGEntities();
+        readonly ELEARNINGEntities db = new ELEARNINGEntities();
+        readonly int Idquyen = MyAuthentication.IDQuyen;
+        readonly String ControllerName = "Home";
+
         public ActionResult Index()
         {
-            return View();
+            var banners = db.Banners
+                    .Where(x => x.IsActive == true)
+                    .OrderBy(x => x.SortOrder)
+                    .ToList();
+
+            return View(banners);
         }
         public List<String> GetPermisionCN(int? Idquyen, string ControllerName)
         {
@@ -90,6 +100,107 @@ namespace E_Learning.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult ManageBanner()
+        {
+            var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
+            ViewBag.QUYENCN = ListQuyen;
+            if (!ListQuyen.Contains(CONSTKEY.V))
+            {
+                TempData["msgError"] = "<script>alert('Bạn không có quyền truy cập chức năng này');</script>";
+                return RedirectToAction("", "Home");
+            }
+            var banners = db.Banners.OrderBy(x => x.SortOrder).ToList();
+            return View(banners);
+        }
+
+        [HttpPost]
+        public ActionResult AddBanner(List<HttpPostedFileBase> files)
+        {
+            if (files == null || !files.Any(file => file != null && file.ContentLength > 0))
+            {
+                return RedirectToAction("ManageBanner");
+            }
+
+            int currentOrder = db.Banners.Any() ? db.Banners.Max(x => x.SortOrder) : 0;
+
+            string uploadFolder = Server.MapPath("~/Uploads/Banners/");
+            if (!Directory.Exists(uploadFolder))
+            {
+                Directory.CreateDirectory(uploadFolder);
+            }
+
+            foreach (var file in files.Where(file => file != null && file.ContentLength > 0))
+            {
+                string ext = Path.GetExtension(file.FileName);
+                string uniqueName = Guid.NewGuid().ToString("N") + ext;
+
+                string fullPath = Path.Combine(uploadFolder, uniqueName);
+                file.SaveAs(fullPath);
+
+                currentOrder++;
+
+                db.Banners.Add(new Banners
+                {
+                    BannerPath = "/Uploads/Banners/" + uniqueName,
+                    SortOrder = currentOrder,
+                    IsActive = true,
+                    CreatedDate = DateTime.Now,
+                });
+            }
+
+            db.SaveChanges();
+
+            return RedirectToAction("ManageBanner");
+        }
+
+        public ActionResult MoveBanner(int id, string direction)
+        {
+            var item = db.Banners.Find(id);
+            if (item == null)
+            {
+                return RedirectToAction("ManageBanner");
+            }
+
+            Banners swapItem = null;
+
+            if (direction == "up")
+            {
+                swapItem = db.Banners
+                              .Where(x => x.SortOrder < item.SortOrder)
+                              .OrderByDescending(x => x.SortOrder)
+                              .FirstOrDefault();
+            }
+            else if (direction == "down")
+            {
+                swapItem = db.Banners
+                              .Where(x => x.SortOrder > item.SortOrder)
+                              .OrderBy(x => x.SortOrder)
+                              .FirstOrDefault();
+            }
+
+            if (swapItem != null)
+            {
+                int temp = item.SortOrder;
+                item.SortOrder = swapItem.SortOrder;
+                swapItem.SortOrder = temp;
+
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("ManageBanner");
+        }
+
+        public ActionResult DeleteBanner(int id)
+        {
+            var item = db.Banners.Find(id);
+            if (item != null)
+            {
+                db.Banners.Remove(item);
+                db.SaveChanges();
+            }
+            return RedirectToAction("ManageBanner");
         }
     }
 }

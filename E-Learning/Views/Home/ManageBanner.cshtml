@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model List<E_Learning.Models.Banners>
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-id icon-gradient bg-grow-early">
+                        </i>
+                    </div>
+                    <div>
+                        Banners
+                        <div class="page-title-subheading">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+
+                <div class="col-md-9">
+                    <div class="row">
+                        <form method="post" enctype="multipart/form-data" action="/Home/AddBanner">
+                            <input type="file" name="files" multiple class="form-control mb-2" />
+                            <button type="submit" class="btn btn-primary">Thêm Banner</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+
+                    <table class="table table-bordered mt-4">
+                        <tr class="text-center">
+                            <th>Banner</th>
+                            <th>Di chuyển</th>
+                            <th>Hành động</th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td width="250">
+                                    <img src="@item.BannerPath" class="img-fluid" />
+                                </td>
+                                <td class="text-center">
+                                    <a href="/Home/MoveBanner/@item.ID?direction=up" class="btn btn-sm btn-outline-info">▲</a>
+                                    <a href="/Home/MoveBanner/@item.ID?direction=down" class="btn btn-sm btn-outline-info">▼</a>
+                                </td>
+                                <td class="text-center">
+                                    <a href="/Home/DeleteBanner/@item.ID"
+                                       onclick="return confirm('Xóa banner này?');"
+                                       class="btn btn-sm btn-danger">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner">
+            </div>
+        </div>
+    </div>
+
+</div>
+
