@@ -633,42 +633,52 @@ namespace E_Learning.Controllers.TieuBanDaoTao
                 return RedirectToAction("Index", "Login");
             }
 
-            phongBanFilter = phongBanFilter.HasValue && phongBanFilter > 0 ? phongBanFilter : MyAuthentication.IDPhongban;
+            int? filter = (phongBanFilter.HasValue && phongBanFilter.Value > 0)
+                ? phongBanFilter
+                : (int?)null;
 
-            var result = (from nv in db.NhanViens
-                          join vtKNL in db.ViTriKNLs on nv.IDVTKNL equals vtKNL.IDVT
-                          join tvTieuBan in db.BDT_ThanhVienTieuBan on nv.ID equals tvTieuBan.NhanVien_ID
-                          join vtTieuBan in db.BDT_ViTriTieuBan on tvTieuBan.ViTriTieuBan_ID equals vtTieuBan.ID
-                          join tieuBan in db.BDT_TieuBan on tvTieuBan.TieuBan_ID equals tieuBan.ID
-                          where tieuBan.PhongBan_ID == phongBanFilter
+            var result = (
+                from nv in db.NhanViens
+                join vtKNL in db.ViTriKNLs on nv.IDVTKNL equals vtKNL.IDVT
+                join tvTieuBan in db.BDT_ThanhVienTieuBan on nv.ID equals tvTieuBan.NhanVien_ID
+                join vtTieuBan in db.BDT_ViTriTieuBan on tvTieuBan.ViTriTieuBan_ID equals vtTieuBan.ID
+                join tieuBan in db.BDT_TieuBan on tvTieuBan.TieuBan_ID equals tieuBan.ID
 
-                          // LEFT JOIN với LichSuPheDuyet
-                          join lichSuGroup in db.BDT_LichSuPheDuyet
-                              on tvTieuBan.ID equals lichSuGroup.ThanhVienTieuBan_ID into lichSuLeftJoin
-                          from lichSu in lichSuLeftJoin.DefaultIfEmpty()
+                where (filter == null || tieuBan.PhongBan_ID == filter)
 
-                          orderby tvTieuBan.ViTriTieuBan_ID
-                          select new ThanhVienTieuBanInfo
-                          {
-                              Id = tvTieuBan.ID,
-                              MaViTriKNL = (int)tvTieuBan.ViTriKNL_ID,
-                              TenViTriKNL = vtKNL.TenViTri,
-                              MaNhanVien = nv.MaNV,
-                              HoTen = nv.HoTen,
-                              TenViTriTieuBan = vtTieuBan.TenViTri,
-                              NgayCapNhatGanNhat = (DateTime)tvTieuBan.NgayCapNhat,
-                              NgayDenHanCapNhat = (DateTime)tvTieuBan.NgayDenHanCapNhatLai,
-                              TrangThai = (int)tvTieuBan.TrangThai,
-                              MaNhanVienNguoiPheDuyet = lichSu != null
-                                  ? db.NhanViens.Where(x => x.ID == lichSu.NguoiPheDuyet_ID).Select(x => x.MaNV).FirstOrDefault()
-                                  : "",
-                              HoTenNguoiPheDuyet = lichSu != null
-                                  ? db.NhanViens.Where(x => x.ID == lichSu.NguoiPheDuyet_ID).Select(x => x.HoTen).FirstOrDefault()
-                                  : "",
-                              Email = tvTieuBan.Email ?? "",
-                              TenDonVi = db.PhongBans.Where(x => x.IDPhongBan == nv.IDPhongBan).FirstOrDefault().TenPhongBan
-                          }).ToList();
+                join lichSuGroup in db.BDT_LichSuPheDuyet
+                    on tvTieuBan.ID equals lichSuGroup.ThanhVienTieuBan_ID into lichSuLeftJoin
+                from lichSu in lichSuLeftJoin.DefaultIfEmpty()
 
+                orderby tvTieuBan.ViTriTieuBan_ID
+
+                select new ThanhVienTieuBanInfo
+                {
+                    Id = tvTieuBan.ID,
+                    MaViTriKNL = (int)tvTieuBan.ViTriKNL_ID,
+                    TenViTriKNL = vtKNL.TenViTri,
+                    MaNhanVien = nv.MaNV,
+                    HoTen = nv.HoTen,
+                    TenViTriTieuBan = vtTieuBan.TenViTri,
+                    NgayCapNhatGanNhat = (DateTime)tvTieuBan.NgayCapNhat,
+                    NgayDenHanCapNhat = (DateTime)tvTieuBan.NgayDenHanCapNhatLai,
+                    TrangThai = (int)tvTieuBan.TrangThai,
+
+                    MaNhanVienNguoiPheDuyet = lichSu != null
+                        ? db.NhanViens.Where(x => x.ID == lichSu.NguoiPheDuyet_ID)
+                                      .Select(x => x.MaNV).FirstOrDefault()
+                        : "",
+
+                    HoTenNguoiPheDuyet = lichSu != null
+                        ? db.NhanViens.Where(x => x.ID == lichSu.NguoiPheDuyet_ID)
+                                      .Select(x => x.HoTen).FirstOrDefault()
+                        : "",
+
+                    Email = tvTieuBan.Email ?? "",
+                    TenDonVi = db.PhongBans.Where(x => x.IDPhongBan == nv.IDPhongBan)
+                                           .Select(x => x.TenPhongBan).FirstOrDefault()
+                }
+            ).ToList();
 
             var templatePath = Server.MapPath("~/App_Data/DanhSachTieuBan_Template.xlsx");
 
