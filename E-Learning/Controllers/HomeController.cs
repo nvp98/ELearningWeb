@@ -105,12 +105,13 @@ namespace E_Learning.Controllers
         public ActionResult ManageBanner()
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
-            ViewBag.QUYENCN = ListQuyen;
+
             if (!ListQuyen.Contains(CONSTKEY.V))
             {
                 TempData["msgError"] = "<script>alert('Bạn không có quyền truy cập chức năng này');</script>";
                 return RedirectToAction("", "Home");
             }
+
             var banners = db.Banners.OrderBy(x => x.SortOrder).ToList();
             return View(banners);
         }
@@ -195,7 +196,7 @@ namespace E_Learning.Controllers
         public ActionResult DeleteBanner(int id)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
-            ViewBag.QUYENCN = ListQuyen;
+
             if (!ListQuyen.Contains(CONSTKEY.V))
             {
                 TempData["msgError"] = "<script>alert('Bạn không có quyền truy cập chức năng này');</script>";
