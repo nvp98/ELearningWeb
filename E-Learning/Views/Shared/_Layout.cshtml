@@ -421,8 +421,8 @@
                                 </a>
                             </li>
                             <li id="QuanTri" style="display: none" class="app-sidebar__heading">Quản trị</li>
-                            <li class=" @((new List<String> { "Account", "FPermision", "Notification" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
-                                @if ((new List<String> { "Account", "FPermision", "Notification" }).Any(x => ListControll.Contains(x)))
+                            <li class=" @((new List<String> { "Account", "FPermision", "Notification", "Home/ManageBanner" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
+                                @if ((new List<String> { "Account", "FPermision", "Notification", "Home/ManageBanner" }).Any(x => ListControll.Contains(x)))
                                 {
                                     <a href="#" id="IDTK" class="">
                                         <i class="metismenu-icon pe-7s-tools font-weight-bold">
@@ -430,38 +430,48 @@
                                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                                     </a>
                                 }
-                                <ul id="LSTK">
-                                    @if (ListControll.Contains("Account"))
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Index", "Account")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Account" ? "mm-active" : "")">
-                                                <i class="pe-7s-users"></i>
-                                                &nbsp;&nbsp;Tài khoản
-                                            </a>
-                                        </li>
-                                        showQuanTri = 1;
-                                    }
-                                    @if (ListControll.Contains("FPermision"))
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Index","FPermision")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FPermision" ? "mm-active" : "")">
-                                                <i class="pe-7s-config">
-                                                </i>&nbsp;&nbsp;Phân Quyền
-                                            </a>
-                                        </li>
-                                        showQuanTri = 1;
-                                    }
-                                    @if (ListControll.Contains("Notification"))
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("Index","Notification")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Notification" ? "mm-active" : "")">
-                                                <i class=" pe-7s-volume2">
-                                                </i>&nbsp;&nbsp;Cấu hình thông báo
-                                            </a>
-                                        </li>
-                                        showQuanTri = 1;
-                                    }
-                                </ul>
+                            <ul id="LSTK">
+                                @if (ListControll.Contains("Account"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index", "Account")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Account" ? "mm-active" : "")">
+                                            <i class="pe-7s-users"></i>
+                                            &nbsp;&nbsp;Tài khoản
+                                        </a>
+                                    </li>
+                                    showQuanTri = 1;
+                                }
+                                @if (ListControll.Contains("FPermision"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index","FPermision")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FPermision" ? "mm-active" : "")">
+                                            <i class="pe-7s-config">
+                                            </i>&nbsp;&nbsp;Phân Quyền
+                                        </a>
+                                    </li>
+                                    showQuanTri = 1;
+                                }
+                                @if (ListControll.Contains("Notification"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Index","Notification")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Notification" ? "mm-active" : "")">
+                                            <i class=" pe-7s-volume2">
+                                            </i>&nbsp;&nbsp;Cấu hình thông báo
+                                        </a>
+                                    </li>
+                                    showQuanTri = 1;
+                                }
+                                @if (ListControll.Contains("Home"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("ManageBanner","Home")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Home/ManageBanner" ? "mm-active" : "")">
+                                            <i class="pe-7s-photo"></i>
+                                            &nbsp;&nbsp;Cấu hình banner
+                                        </a>
+                                    </li>
+                                    showQuanTri = 1;
+                                }
+                            </ul>
                             </li>
                             <li class=" @((new List<String> { "FPosition/ListNVKNL", "FPosition/UpdateNVKN", "FPosition/SetVTPermision" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
                                 @if ((new List<String> { "USER_KNL", "KN_KNL", "PER_KNL" }).Any(x => ListQFPosition.Contains(x)))
@@ -832,7 +842,7 @@
                                     }
                                 </ul>
                             </li>
-                            <li class=" @(Context.Request.Path == "/MoTaCongViec/DanhSachDe" || Context.Request.Path == "/MoTaCongViec/TaoDeKiemTra" ? "mm-active" : "")">
+                            @*<li class=" @(Context.Request.Path == "/MoTaCongViec/DanhSachDe" || Context.Request.Path == "/MoTaCongViec/TaoDeKiemTra" ? "mm-active" : "")">
                                 @if ((new List<String> { "MoTaCongViec", "MoTaCongViec" }).Any(x => ListControll.Contains(x)))
                                 {
                                     <a href="#" id="IDTK" class="">
@@ -853,18 +863,7 @@
                                     }
 
                                 </ul>
-                                <ul>
-                                    @if (ListControll.Contains("MoTaCongViec"))
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("DanhSachDe", "MoTaCongViec")" class=" font-weight-bold @(Context.Request.Path == "/MoTaCongViec/DanhSachDe" ? "mm-active" : "")">
-                                                <i class=" pe-7s-graph3">
-                                                </i>&nbsp;&nbsp; Danh sách đề
-                                            </a>
-                                        </li>
-                                    }
-                                </ul>
-                            </li>
+                            </li>*@
 
                             @*@if (User.Identity.IsAuthenticated)
         {
