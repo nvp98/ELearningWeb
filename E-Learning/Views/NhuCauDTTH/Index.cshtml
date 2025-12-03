@@ -271,6 +271,7 @@
                                         <th class="text-center" width="150px" style="vertical-align:middle">Thời gian bắt đầu đào tạo</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Thời lượng đào tạo dự kiến</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Địa điểm đào tạo dự kiến</th>
+                                        <th class="text-center" style="vertical-align:middle">Định kỳ nhắc lại</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Người tạo</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Tình trạng</th>
                                         <th>Câu hỏi đề thi</th>
@@ -337,6 +338,7 @@
                                             <td class="text-center">@item.chiTietNhuCauDTTHView.ThoiLuong (Giờ)</td>
                                             <td>@item.chiTietNhuCauDTTHView.DiaDiemDT</td>
                                             @*<td class="">@item.chiTietNhuCauDTTHView.SoLuongNguoi</td>*@
+                                            <td>@item.TenDinhKy</td>
                                             <td class="">@item.NguoiTao</td>
                                             @if (item.TinhTrang == 0)
                                             {

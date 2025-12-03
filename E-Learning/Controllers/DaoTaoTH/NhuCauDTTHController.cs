@@ -98,7 +98,8 @@ namespace E_Learning.Controllers.DaoTaoTH
                                   PhanLoaiNCDT_ID = a.PhanLoaiNCDT_ID,
                                   ID_NguoiTao = (int)a.NguoiTao_ID,
                                   SLCauHoi = db.CauHois.Count(x => x.IDND == a.NoiDungDT_ID),
-                                  SLDeThi = db.DeThis.Count(x => x.IDND == a.NoiDungDT_ID)
+                                  SLDeThi = db.DeThis.Count(x => x.IDND == a.NoiDungDT_ID),
+                                  TenDinhKy = db.SH_DinhKy.Where(x => x.MaDK == a.MaDinhKy).FirstOrDefault().DKNhacLai
                               })
                   .OrderBy(x => x.ID_NCDT)
                   .ToList();
