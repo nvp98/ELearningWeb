@@ -24,7 +24,7 @@ namespace E_Learning.Controllers.DaoTaoTH
         int Idquyen = MyAuthentication.IDQuyen;
         String ControllerName = "ToChucDTTH";
         // GET: ToChucDTTH
-        public ActionResult Index(int? page,string search, int? NCDT_ID, int? PhuongPhapDT_ID,int? PhanLoaiNCDT_ID , int? IDLH, int? IDPB, int? IDND, int? TinhTrangHoSo)
+        public ActionResult Index(int? page, string search, int? NCDT_ID, int? PhuongPhapDT_ID, int? PhanLoaiNCDT_ID, int? IDLH, int? IDPB, int? IDND, int? TinhTrangHoSo)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             ViewBag.QUYENCN = ListQuyen;
@@ -39,9 +39,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                 }
                 var res = new List<ManageClassValidation>();
                 res = (from l in db_context.LopHocs.Where(x => (search == null || x.TenLH.Contains(search)) &&
-                              (NCDT_ID == null || x.NCDT_ID == NCDT_ID) && (IDLH == null || x.IDLH == IDLH) && (IDPB == null || x.BoPhan_ID == IDPB) && (TinhTrangHoSo == null || x.TinhTrang == TinhTrangHoSo) )
-                       join b in db_context.SH_NhuCauDT.Where(x=> (PhanLoaiNCDT_ID == null || x.PhanLoaiNCDT_ID == PhanLoaiNCDT_ID) && (PhuongPhapDT_ID == null || x.PhuongPhapDT_ID == PhuongPhapDT_ID)) on l.NCDT_ID equals b.ID
-                       join n in db_context.NoiDungDTs.Where(x=>(IDND == null || x.IDND == IDND)) on l.NDID equals n.IDND
+                              (NCDT_ID == null || x.NCDT_ID == NCDT_ID) && (IDLH == null || x.IDLH == IDLH) && (IDPB == null || x.BoPhan_ID == IDPB) && (TinhTrangHoSo == null || x.TinhTrang == TinhTrangHoSo))
+                       join b in db_context.SH_NhuCauDT.Where(x => (PhanLoaiNCDT_ID == null || x.PhanLoaiNCDT_ID == PhanLoaiNCDT_ID) && (PhuongPhapDT_ID == null || x.PhuongPhapDT_ID == PhuongPhapDT_ID)) on l.NCDT_ID equals b.ID
+                       join n in db_context.NoiDungDTs.Where(x => (IDND == null || x.IDND == IDND)) on l.NDID equals n.IDND
                        //join g in db_context.NhanViens on l.GVID equals g.ID
                        join hv in db_context.XNHocTaps on l.IDLH equals hv.LHID into LopHocHV
                        join d in db_context.DeThis on l.IDDeThi equals d.IDDeThi into uli
@@ -65,8 +65,8 @@ namespace E_Learning.Controllers.DaoTaoTH
                            IDDeThi = (int)l.IDDeThi,
                            TenDeThi = d.TenDe,
                            TinhTrang = l.TinhTrang,
-                           DiaDiemDT =l.DiaDiemDT,
-                           ThoiLuongDT =l.ThoiLuongDT,
+                           DiaDiemDT = l.DiaDiemDT,
+                           ThoiLuongDT = l.ThoiLuongDT,
                            NoiDungTrichYeu = l.NoiDungTrichYeu,
                            NguoiTao_ID = l.NguoiTao_ID,
 
@@ -79,10 +79,10 @@ namespace E_Learning.Controllers.DaoTaoTH
                            TSLHV = LopHocHV.Count(),
                            IDPB = l.BoPhan_ID,
                            TenBoPhan = db_context.PhongBans.FirstOrDefault(x => x.IDPhongBan == l.BoPhan_ID).TenPhongBan,
-                           TenNguoiTao = db_context.NhanViens.FirstOrDefault(x=>x.ID == l.NguoiTao_ID).HoTen,
+                           TenNguoiTao = db_context.NhanViens.FirstOrDefault(x => x.ID == l.NguoiTao_ID).HoTen,
                            TenNguoiKiemTra = db_context.NhanViens.FirstOrDefault(x => x.ID == l.NguoiKiemTra_ID).HoTen,
                            CTDT_ID = l.CTDT_ID,
-                           TenGV = db_context.SH_ChiTietTCDT.FirstOrDefault(x => x.CTDT_ID == l.IDLH).MaNV_GV +" - "+ db_context.SH_ChiTietTCDT.FirstOrDefault(x=>x.CTDT_ID == l.IDLH).HoTenGV 
+                           TenGV = db_context.SH_ChiTietTCDT.FirstOrDefault(x => x.CTDT_ID == l.IDLH).MaNV_GV + " - " + db_context.SH_ChiTietTCDT.FirstOrDefault(x => x.CTDT_ID == l.IDLH).HoTenGV
                        }).ToList();
 
                 if (!ListQuyen.Contains(CONSTKEY.VIEW_ALL) && !ListQuyen.Contains(CONSTKEY.V_BP)) res = res.Where(x => x.NguoiTao_ID == MyAuthentication.ID).ToList();
@@ -139,11 +139,11 @@ namespace E_Learning.Controllers.DaoTaoTH
             ViewBag.PhanLoaiNCDT_ID = PhanLoaiNCDT_ID;
             ViewBag.LoaiNCDT = PhanLoaiNCDT_ID;
             ViewBag.LoaiHinh_DT = db_context.SH_PhanLoaiNCDT.Where(x => x.IDLoai == PhanLoaiNCDT_ID).FirstOrDefault().LoaiHinhDT_ID;
-            List<NhuCauDTTHView> ncdt = (from a in db_context.SH_NhuCauDT.Where(x => (PhanLoaiNCDT_ID == null || x.PhanLoaiNCDT_ID == PhanLoaiNCDT_ID) && (PhuongPhapDT_ID == null || x.PhuongPhapDT_ID == PhuongPhapDT_ID) && x.BoPhanLNC_ID == MyAuthentication.IDPhongban && x.TinhTrang ==1)
+            List<NhuCauDTTHView> ncdt = (from a in db_context.SH_NhuCauDT.Where(x => (PhanLoaiNCDT_ID == null || x.PhanLoaiNCDT_ID == PhanLoaiNCDT_ID) && (PhuongPhapDT_ID == null || x.PhuongPhapDT_ID == PhuongPhapDT_ID) && x.BoPhanLNC_ID == MyAuthentication.IDPhongban && x.TinhTrang == 1)
                                          select new NhuCauDTTHView
                                          {
                                              ID_NCDT = a.ID,
-                                             TenNoiDungDT = "Mã NCĐT: "+a.ID+" - "+ a.NoiDungDT.NoiDung
+                                             TenNoiDungDT = "Mã NCĐT: " + a.ID + " - " + a.NoiDungDT.NoiDung
                                          }).ToList();
 
             ViewBag.NCDT_ID = new SelectList(ncdt, "ID_NCDT", "TenNoiDungDT");
@@ -192,7 +192,7 @@ namespace E_Learning.Controllers.DaoTaoTH
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ManageClassValidation tochucdt, FormCollection form, IEnumerable<HttpPostedFileBase> files, HttpPostedFileBase fileUpload, string action,int? PhuongPhapDT_ID, int? PhanLoaiNCDT_ID)
+        public ActionResult Create(ManageClassValidation tochucdt, FormCollection form, IEnumerable<HttpPostedFileBase> files, HttpPostedFileBase fileUpload, string action, int? PhuongPhapDT_ID, int? PhanLoaiNCDT_ID)
         {
 
             try
@@ -201,7 +201,8 @@ namespace E_Learning.Controllers.DaoTaoTH
                 {
 
                     // check điều kiện Giáo viên
-                    if(tochucdt.chiTietToChucDTTH.ID_GVCty == null && tochucdt.chiTietToChucDTTH.HoTenGV == null) {
+                    if (tochucdt.chiTietToChucDTTH.ID_GVCty == null && tochucdt.chiTietToChucDTTH.HoTenGV == null)
+                    {
                         TempData["msg"] = "<script>alert('Vui lòng điền đầy đủ thông tin giảng viên');</script>";
                         return RedirectToAction("Index", "ToChucDTTH", new { PhuongPhapDT_ID = PhuongPhapDT_ID, PhanLoaiNCDT_ID = PhanLoaiNCDT_ID });
                     }
@@ -246,9 +247,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                     };
                     if (tochucdt.chiTietToChucDTTH.ID_GVCty != 0)
                     {
-                        var gv = db_context.NhanViens.Where(x=>x.ID == tochucdt.chiTietToChucDTTH.ID_GVCty).FirstOrDefault();
+                        var gv = db_context.NhanViens.Where(x => x.ID == tochucdt.chiTietToChucDTTH.ID_GVCty).FirstOrDefault();
                         chitietCTDT.HoTenGV = gv.HoTen;
-                        chitietCTDT.MaNV_GV =gv.MaNV;
+                        chitietCTDT.MaNV_GV = gv.MaNV;
                         chitietCTDT.ViTriCV_GV = gv.Vitri.TenViTri;
                         chitietCTDT.DonVi_GV = gv.PhongBan.TenPhongBan;
                         lophoc.GVID = gv.ID; // lưu IDGV vào LopHoc
@@ -313,7 +314,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                                         VTID = nhanvien.IDViTri,
                                         NgayTG = default(DateTime),
                                         NgayHT = default(DateTime),
-                                        XNHT =false,
+                                        XNHT = false,
                                         XNTG = false,
                                         IDND = ncdt.NoiDungDT_ID,
                                         ID_PhuongPhapDT = ncdt.PhuongPhapDT_ID
@@ -387,8 +388,8 @@ namespace E_Learning.Controllers.DaoTaoTH
                         for (int i = 1; i < dt.Rows.Count; i++)
                         {
                             string manv = dt.Rows[i][1].ToString().Trim();
-                            var nv = db_context.NhanViens.Where(x=>x.MaNV == manv).FirstOrDefault();
-                            if(nv != null)
+                            var nv = db_context.NhanViens.Where(x => x.MaNV == manv).FirstOrDefault();
+                            if (nv != null)
                             {
                                 //var checktrung = db_context.XNHocTaps.Where(x => x.NVID == nv.ID && x.LHID == lophoc.IDLH).ToList();
                                 bool check = CheckDKHocVien(nv.ID, lophoc.IDLH, ncdt.NoiDungDT_ID, ncdt.PhuongPhapDT_ID, ncdt.ID);
@@ -420,7 +421,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                         lophoc.TinhTrang = 0; // Đang lưu
                         db_context.SaveChanges();
                     }
-                    
+
                     TempData["msgSuccess"] = "<script>alert('Thêm mới thành công ');</script>";
                     return RedirectToAction("Index", "ToChucDTTH", new { PhuongPhapDT_ID = PhuongPhapDT_ID, PhanLoaiNCDT_ID = PhanLoaiNCDT_ID });
                 }
@@ -429,7 +430,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             {
                 TempData["msgSuccess"] = "<script>alert('Cập nhập thất bại " + ex.Message + " ');</script>";
             }
-            return RedirectToAction("Index","ToChucDTTH", new { PhuongPhapDT_ID = PhuongPhapDT_ID, PhanLoaiNCDT_ID = PhanLoaiNCDT_ID });
+            return RedirectToAction("Index", "ToChucDTTH", new { PhuongPhapDT_ID = PhuongPhapDT_ID, PhanLoaiNCDT_ID = PhanLoaiNCDT_ID });
         }
 
         public JsonResult GetDSHocVien(int? ID_NCDT)
@@ -440,23 +441,23 @@ namespace E_Learning.Controllers.DaoTaoTH
                 var dsvt = db_context.SH_ViTri_NDDT.Where(x => x.NCDT_ID == ID_NCDT).ToList();
                 foreach (var item in dsvt)
                 {
-                    var nhanvien = db_context.NhanViens.Where(x=>x.IDVTKNL == item.Vitri_ID && x.IDTinhTrangLV ==1).ToList();
+                    var nhanvien = db_context.NhanViens.Where(x => x.IDVTKNL == item.Vitri_ID && x.IDTinhTrangLV == 1).ToList();
                     foreach (var item1 in nhanvien)
                     {
-                        var checknv = ListNV.Where(x=>x.ID == item1.ID).FirstOrDefault();
-                        if(checknv ==null)ListNV.Add(new EmployeeValidation { MaNV = item1.MaNV,HoTen = item1.MaNV + " - " + item1.HoTen,ID =item1.ID });
+                        var checknv = ListNV.Where(x => x.ID == item1.ID).FirstOrDefault();
+                        if (checknv == null) ListNV.Add(new EmployeeValidation { MaNV = item1.MaNV, HoTen = item1.MaNV + " - " + item1.HoTen, ID = item1.ID });
                     }
                 }
                 var dsnv = db_context.SH_KetQuaDaoTao.Where(x => x.NCDT_ID == ID_NCDT).ToList();
                 foreach (var item in dsnv)
                 {
-                    var nhanvien = db_context.NhanViens.Where(x => x.ID == item.NhanVien_ID && x.IDTinhTrangLV ==1).FirstOrDefault();
-                    if(nhanvien != null)
+                    var nhanvien = db_context.NhanViens.Where(x => x.ID == item.NhanVien_ID && x.IDTinhTrangLV == 1).FirstOrDefault();
+                    if (nhanvien != null)
                     {
                         var checknv = ListNV.Where(x => x.ID == item.NhanVien_ID).FirstOrDefault();
-                        if (checknv == null) ListNV.Add(new EmployeeValidation { MaNV = nhanvien.MaNV, HoTen = nhanvien.MaNV +" - "+ nhanvien.HoTen, ID = nhanvien.ID });
+                        if (checknv == null) ListNV.Add(new EmployeeValidation { MaNV = nhanvien.MaNV, HoTen = nhanvien.MaNV + " - " + nhanvien.HoTen, ID = nhanvien.ID });
                     }
-                    
+
                 }
             }
             return Json(ListNV, JsonRequestBehavior.AllowGet);
@@ -495,15 +496,15 @@ namespace E_Learning.Controllers.DaoTaoTH
             var ListNV = new List<ChuongTrinhDTTHView>();
             if (ID_NCDT != null)
             {
-                var ncdt = db_context.SH_NhuCauDT.Where(x=>x.ID == ID_NCDT).FirstOrDefault();
+                var ncdt = db_context.SH_NhuCauDT.Where(x => x.ID == ID_NCDT).FirstOrDefault();
                 ListNV = (from a in db_context.SH_ChuongTrinhDT.Where(x => x.ID_NoiDungDT == ncdt.NoiDungDT_ID)
                           select new ChuongTrinhDTTHView
                           {
                               IDCTDT = a.IDCTDT,
                               TenChuongTrinhDT = a.TenChuongTrinhDT,
-                              NoiDungTrichYeu =a.NoiDungTrichYeu
+                              NoiDungTrichYeu = a.NoiDungTrichYeu
                           }).ToList();
-               
+
             }
             return Json(ListNV, JsonRequestBehavior.AllowGet);
         }
@@ -515,7 +516,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             var ls = new NoiDungDTTHView();
             if (NCDT_ID != null)
             {
-                var ncdt = db_context.SH_NhuCauDT.Where(x=>x.ID ==NCDT_ID).FirstOrDefault();    
+                var ncdt = db_context.SH_NhuCauDT.Where(x => x.ID == NCDT_ID).FirstOrDefault();
                 ls = (from a in db_context.NoiDungDTs.Where(x => x.IDND == ncdt.NoiDungDT_ID)
                       select new NoiDungDTTHView()
                       {
@@ -529,7 +530,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             }
             return Json(ls, JsonRequestBehavior.AllowGet);
         }
-        public bool CheckDKHocVien(int? IDNV, int? IDLH, int? IDND, int? IDPhuongPhap,int? NCDT_ID )
+        public bool CheckDKHocVien(int? IDNV, int? IDLH, int? IDND, int? IDPhuongPhap, int? NCDT_ID)
         {
             int dinhky = db_context.SH_NhuCauDT.FirstOrDefault(x => x.ID == NCDT_ID)?.MaDinhKy ?? 0;
             var thoiGianSoSanh = DateTime.Now.AddMonths(-dinhky);
@@ -600,7 +601,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             if (ID_NCDT != null)
             {
                 var ncdt = db_context.SH_NhuCauDT.Where(x => x.ID == ID_NCDT).FirstOrDefault();
-                ListNV = db_context.DeThis.Where(x => x.IDND == ncdt.NoiDungDT_ID).Select(x => new CauHoiDeThiCTDTTH { ID = x.IDDeThi, TenDeThi = x.TenDe,MaDeThi = x.MaDe,TongSoCau = x.TongSoCau,ThoiGianLamBai = x.ThoiGianLamBai,DiemChuan = x.DiemChuan }).ToList();
+                ListNV = db_context.DeThis.Where(x => x.IDND == ncdt.NoiDungDT_ID).Select(x => new CauHoiDeThiCTDTTH { ID = x.IDDeThi, TenDeThi = x.TenDe, MaDeThi = x.MaDe, TongSoCau = x.TongSoCau, ThoiGianLamBai = x.ThoiGianLamBai, DiemChuan = x.DiemChuan }).ToList();
             }
             return Json(ListNV, JsonRequestBehavior.AllowGet);
         }
@@ -683,7 +684,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                                     }
                                 }
                             }
-                            
+
 
                             excelData.Add(rowData);
                         }
@@ -702,13 +703,13 @@ namespace E_Learning.Controllers.DaoTaoTH
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
 
-            var res = db_context.LopHocs.FirstOrDefault(x=>x.IDLH ==IDLH);
+            var res = db_context.LopHocs.FirstOrDefault(x => x.IDLH == IDLH);
             List<NhuCauDTTHView> ncdtData = (from a in db_context.SH_NhuCauDT.Where(x => x.ID == res.NCDT_ID)
-                                   select new NhuCauDTTHView
-                                   {
-                                       ID_NCDT = a.ID,
-                                       TenNoiDungDT = "Mã NCĐT: " + a.ID + " - " + a.NoiDungDT.NoiDung
-                                   }).ToList();
+                                             select new NhuCauDTTHView
+                                             {
+                                                 ID_NCDT = a.ID,
+                                                 TenNoiDungDT = "Mã NCĐT: " + a.ID + " - " + a.NoiDungDT.NoiDung
+                                             }).ToList();
             var IDPB = res.BoPhan_ID;
             var data = new ManageClassValidation();
             if (res != null)
@@ -721,23 +722,24 @@ namespace E_Learning.Controllers.DaoTaoTH
                 data.TGKTLH = res.TGKTLH.Value;
                 data.DiaDiemDT = res.DiaDiemDT;
                 data.ThoiLuongDT = res.ThoiLuongDT;
-                data.NCDT_ID = (int) res.NCDT_ID;
-                data.QuyDT = (int) res.QuyDT;
-                data.NamDT = (int) res.NamDT;
-                data.IDDeThi = (int) res.IDDeThi;
+                data.NCDT_ID = (int)res.NCDT_ID;
+                data.QuyDT = (int)res.QuyDT;
+                data.NamDT = (int)res.NamDT;
+                data.IDDeThi = (int)res.IDDeThi;
                 data.NguoiKiemTra_ID = res.NguoiKiemTra_ID;
                 data.IDLH = res.IDLH;
                 data.IsCoCTDT = res.IsCoCTDT;
                 data.CTDT_ID = res.CTDT_ID;
                 data.NDID = (int)res.NDID;
                 data.IsAll = true;
-                if(chitietGV != null)
+                if (chitietGV != null)
                 {
-                    data.chiTietToChucDTTH = new ChiTietToChucDTTHView() { 
-                    DonVi_GV = chitietGV.DonVi_GV,
-                    HoTenGV = chitietGV.HoTenGV,
-                    MaNV_GV = chitietGV.MaNV_GV,
-                    ViTriCV_GV = chitietGV.ViTriCV_GV,
+                    data.chiTietToChucDTTH = new ChiTietToChucDTTHView()
+                    {
+                        DonVi_GV = chitietGV.DonVi_GV,
+                        HoTenGV = chitietGV.HoTenGV,
+                        MaNV_GV = chitietGV.MaNV_GV,
+                        ViTriCV_GV = chitietGV.ViTriCV_GV,
                     };
                 }
             }
@@ -768,7 +770,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                 .Select(x => new EmployeeValidation { ID = x.ID, HoTen = x.MaNV + " - " + x.HoTen, IDPhongBan = (int)x.IDPhongBan })
                 .ToList();
 
-            int IDGVCty = db_context.SH_ChiTietTCDT.Where(x => x.CTDT_ID == data.IDLH).SingleOrDefault()?.ID_GVCty??0;
+            int IDGVCty = db_context.SH_ChiTietTCDT.Where(x => x.CTDT_ID == data.IDLH).SingleOrDefault()?.ID_GVCty ?? 0;
 
             ViewBag.ID_NhanVien = new SelectList(listNhanVien, "ID", "HoTen", IDGVCty);
             ViewBag.ID_NguoiKiemTra = new SelectList(listNhanVien.Where(x => x.IDPhongBan == IDPB), "ID", "HoTen", data?.NguoiKiemTra_ID);
@@ -776,14 +778,14 @@ namespace E_Learning.Controllers.DaoTaoTH
             ViewBag.PhanLoaiNCDT_ID = PhanLoaiNCDT_ID;
             ViewBag.LoaiNCDT = PhanLoaiNCDT_ID;
             ViewBag.LoaiHinh_DT = db_context.SH_PhanLoaiNCDT.Where(x => x.IDLoai == PhanLoaiNCDT_ID).FirstOrDefault().LoaiHinhDT_ID;
-            ViewBag.ChuongTrinhDT_ID = new SelectList(db_context.SH_ChuongTrinhDT.Where(x=>x.ID_NoiDungDT == data.NDID), "IDCTDT", "TenChuongTrinhDT", data?.CTDT_ID);
+            ViewBag.ChuongTrinhDT_ID = new SelectList(db_context.SH_ChuongTrinhDT.Where(x => x.ID_NoiDungDT == data.NDID), "IDCTDT", "TenChuongTrinhDT", data?.CTDT_ID);
 
-           
+
             ViewBag.Nam = res.NamDT;
             ViewBag.Quy = res.QuyDT;
             ViewBag.BoPhan_ID = new SelectList(db_context.PhongBans.Where(x => x.IDPhongBan == IDPB), "IDPhongBan", "TenPhongBan", IDPB);
             ViewBag.MaLH = data?.MaLH;
-            
+
             return View(data);
         }
 
@@ -805,7 +807,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                         lopHocExisting.TGKTLH = DTO.TGKTLH;
                         lopHocExisting.ThoiLuongDT = DTO.ThoiLuongDT;
                         lopHocExisting.DiaDiemDT = DTO.DiaDiemDT;
-                        lopHocExisting.CTDT_ID =DTO.CTDT_ID;
+                        lopHocExisting.CTDT_ID = DTO.CTDT_ID;
                         var nhuCauDT = db_context.SH_NhuCauDT.Where(x => x.ID == lopHocExisting.NCDT_ID).FirstOrDefault();
                         lopHocExisting.NDID = nhuCauDT.NoiDungDT_ID;
 
@@ -849,7 +851,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                     if (DTO.IsAll)
                     {
                         var dsvt = db_context.SH_ViTri_NDDT.Where(x => x.NCDT_ID == DTO.NCDT_ID).ToList();
-                       
+
                         foreach (var item in dsvt)
                         {
                             var nhanvien = db_context.NhanViens.Where(x => x.IDVTKNL == item.Vitri_ID && x.IDTinhTrangLV == 1).ToList();
@@ -1003,7 +1005,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                         lopHocExisting.NgayKiemTra = null;
                         db_context.SaveChanges();
                     }
-                    else if(action == "Trình ký tổ chức đào tạo")
+                    else if (action == "Trình ký tổ chức đào tạo")
                     {
                         lopHocExisting.TinhTrang = 2; // Đang trình ký
                         lopHocExisting.NgayKiemTra = null;
@@ -1011,14 +1013,14 @@ namespace E_Learning.Controllers.DaoTaoTH
                     }
                     // kiểm tra có nộp hồ sơ chưa thì xóa
                     var checkhoso = db_context.SH_HoSoDaoTao.FirstOrDefault(x => x.LHID == lopHocExisting.IDLH);
-                    if(checkhoso != null)
+                    if (checkhoso != null)
                     {
                         db_context.SH_HoSoDaoTao.Remove(checkhoso);
                         db_context.SaveChanges();
                     }
 
                     TempData["msgSuccess"] = "<script>alert('Cập nhật thành công ');</script>";
-                    
+
                     return RedirectToAction("Index", new { PhuongPhapDT_ID = PhuongPhapDT_ID, PhanLoaiNCDT_ID = PhanLoaiNCDT_ID });
                 }
             }
@@ -1026,7 +1028,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             {
                 TempData["msgSuccess"] = "<script>alert('Cập nhật thất bại " + ex.Message + " ');</script>";
             }
-            
+
             return RedirectToAction("Index", "ToChucDTTH", new { PhuongPhapDT_ID = PhuongPhapDT_ID, PhanLoaiNCDT_ID = PhanLoaiNCDT_ID });
         }
 
@@ -1106,39 +1108,39 @@ namespace E_Learning.Controllers.DaoTaoTH
             //                  select b).ToList();
 
             ViewBag.HocVien = (from h in db_context.XNHocTaps.Where(x => x.LHID == data.IDLH)
-                         join l in db_context.LopHocs on h.LHID equals l.IDLH
-                         join n in db_context.NhanViens on h.NVID equals n.ID
-                         join p in db_context.PhongBans on h.PBID equals p.IDPhongBan
-                         join v in db_context.Vitris on h.VTID equals v.IDViTri
-                         select new ConfirmEStudyValidation()
-                         {
-                             IDHT = h.IDHT,
-                             PBID = (int)h.PBID,
-                             NVID = n.ID,
-                             MaNV = n.MaNV,
-                             HoTenHV = n.HoTen,
-                             TenPB = p.TenPhongBan,
-                             VTID = (int)h.VTID,
-                             TenVT = v.TenViTri,
-                             LHID = l.IDLH,
-                             TenLH = l.TenLH,
-                             TGBDLH = (DateTime)l.TGBDLH,
-                             TGKTLH = (DateTime)l.TGKTLH,
-                             LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
-                             TenND = l.NoiDungDT.NoiDung,
-                             TLDT = l.NoiDungDT.ThoiLuongDT ?? 0,
-                             NgayTG = (DateTime)(h.NgayTG ?? default(DateTime)),
-                             NgayHT = (DateTime)(h.NgayHT ?? default(DateTime)),
-                             XNTG = (bool)h.XNTG,
-                             XNHT = (bool)h.XNHT,
-                             DiemOnline = h.DiemOnline,
-                             DiemLyThuyet = h.DiemLyThuyet,
-                             DiemThucHanh = h.DiemThucHanh,
-                             DiemVanDap = h.DiemVanDap,
-                             KetLuan = h.KetLuan,
-                             LyDoKhongTGia = h.LyDoKhongTGia,
-                             TinhTrang = h.TinhTrang,
-                         }).ToList();
+                               join l in db_context.LopHocs on h.LHID equals l.IDLH
+                               join n in db_context.NhanViens on h.NVID equals n.ID
+                               join p in db_context.PhongBans on h.PBID equals p.IDPhongBan
+                               join v in db_context.Vitris on h.VTID equals v.IDViTri
+                               select new ConfirmEStudyValidation()
+                               {
+                                   IDHT = h.IDHT,
+                                   PBID = (int)h.PBID,
+                                   NVID = n.ID,
+                                   MaNV = n.MaNV,
+                                   HoTenHV = n.HoTen,
+                                   TenPB = p.TenPhongBan,
+                                   VTID = (int)h.VTID,
+                                   TenVT = v.TenViTri,
+                                   LHID = l.IDLH,
+                                   TenLH = l.TenLH,
+                                   TGBDLH = (DateTime)l.TGBDLH,
+                                   TGKTLH = (DateTime)l.TGKTLH,
+                                   LinhVuc = l.NoiDungDT.LinhVucDT.TenLVDT,
+                                   TenND = l.NoiDungDT.NoiDung,
+                                   TLDT = l.NoiDungDT.ThoiLuongDT ?? 0,
+                                   NgayTG = (DateTime)(h.NgayTG ?? default(DateTime)),
+                                   NgayHT = (DateTime)(h.NgayHT ?? default(DateTime)),
+                                   XNTG = (bool)h.XNTG,
+                                   XNHT = (bool)h.XNHT,
+                                   DiemOnline = h.DiemOnline,
+                                   DiemLyThuyet = h.DiemLyThuyet,
+                                   DiemThucHanh = h.DiemThucHanh,
+                                   DiemVanDap = h.DiemVanDap,
+                                   KetLuan = h.KetLuan,
+                                   LyDoKhongTGia = h.LyDoKhongTGia,
+                                   TinhTrang = h.TinhTrang,
+                               }).ToList();
 
 
             var listDeThi = new List<CauHoiDeThiCTDTTH>();
@@ -1161,7 +1163,7 @@ namespace E_Learning.Controllers.DaoTaoTH
 
             ViewBag.DETHI_DATA = new SelectList(listDeThi, "ID", "TenDeThi", data.IDDeThi);
 
-            ViewBag.NoiDung = db_context.NoiDungDTs.Where(x=>x.IDND == data.NDID).FirstOrDefault();
+            ViewBag.NoiDung = db_context.NoiDungDTs.Where(x => x.IDND == data.NDID).FirstOrDefault();
 
             var listNhanVien = db_context.NhanViens.Where(x => x.IDTinhTrangLV == 1)
                 .Select(x => new EmployeeValidation { ID = x.ID, HoTen = x.MaNV + " - " + x.HoTen, IDPhongBan = (int)x.IDPhongBan })
@@ -1169,8 +1171,8 @@ namespace E_Learning.Controllers.DaoTaoTH
 
             int IDGVCty = db_context.SH_ChiTietTCDT.Where(x => x.CTDT_ID == data.IDLH).SingleOrDefault()?.ID_GVCty ?? 0;
 
-            ViewBag.NguoiTao = db_context.NhanViens.FirstOrDefault(x=>x.ID == data.NguoiTao_ID);
-            ViewBag.NguoiKiemTra = db_context.NhanViens.FirstOrDefault(x=>x.ID == data.NguoiKiemTra_ID);
+            ViewBag.NguoiTao = db_context.NhanViens.FirstOrDefault(x => x.ID == data.NguoiTao_ID);
+            ViewBag.NguoiKiemTra = db_context.NhanViens.FirstOrDefault(x => x.ID == data.NguoiKiemTra_ID);
             //ViewBag.PhuongPhapDT_ID = PhuongPhapDT_ID;
             //ViewBag.PhanLoaiNCDT_ID = PhanLoaiNCDT_ID;
             //ViewBag.LoaiNCDT = PhanLoaiNCDT_ID;
@@ -1186,7 +1188,8 @@ namespace E_Learning.Controllers.DaoTaoTH
             return View(data);
         }
 
-        public ActionResult XLHS(int id, int? page, int? IDPhongBan, string search) {
+        public ActionResult XLHS(int id, int? page, int? IDPhongBan, string search)
+        {
             List<PhongBan> pb = db_context.PhongBans.ToList();
             ViewBag.PBList = new SelectList(pb, "IDPhongBan", "TenPhongBan", IDPhongBan);
             if (IDPhongBan == null) IDPhongBan = 0;
@@ -1221,20 +1224,20 @@ namespace E_Learning.Controllers.DaoTaoTH
                              XNHT = (bool)h.XNHT,
                              DiemOnline = h.DiemOnline,
                              DiemLyThuyet = h.DiemLyThuyet,
-                             DiemThucHanh =h.DiemThucHanh,
-                             DiemVanDap =h.DiemVanDap,
+                             DiemThucHanh = h.DiemThucHanh,
+                             DiemVanDap = h.DiemVanDap,
                              KetLuan = h.KetLuan,
-                             LyDoKhongTGia =h.LyDoKhongTGia,
+                             LyDoKhongTGia = h.LyDoKhongTGia,
                              TinhTrang = h.TinhTrang,
                          }).ToList();
-            ViewBag.ID_NguoiTao = db_context.LopHocs.FirstOrDefault(x=>x.IDLH == id).NguoiTao_ID;
+            ViewBag.ID_NguoiTao = db_context.LopHocs.FirstOrDefault(x => x.IDLH == id).NguoiTao_ID;
             var lh = db_context.LopHocs.FirstOrDefault(x => x.IDLH == id).TinhTrang;
-            List<int> numbers = new List<int> { 0, 2, 3, 5};
-            ViewBag.TinhTrangLH =numbers.Contains(lh??0) == true ?0:1;
+            List<int> numbers = new List<int> { 0, 2, 3, 5 };
+            ViewBag.TinhTrangLH = numbers.Contains(lh ?? 0) == true ? 0 : 1;
             if (page == null) page = 1;
             int pageSize = 50;
             int pageNumber = (page ?? 1);
-            return View(model.ToPagedList(pageNumber, pageSize)); 
+            return View(model.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult ExportToExcel(int? id)
@@ -1315,7 +1318,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                     worksheet.Cell(row, 9).Value = item.DiemLyThuyet;
                     worksheet.Cell(row, 10).Value = item.DiemThucHanh;
                     worksheet.Cell(row, 11).Value = item.DiemVanDap;
-                    worksheet.Cell(row, 12).Value = item.KetLuan ==1?"X":"";
+                    worksheet.Cell(row, 12).Value = item.KetLuan == 1 ? "X" : "";
                     worksheet.Cell(row, 13).Value = item.KetLuan == 2 ? "X" : "";
                     worksheet.Cell(row, 14).Value = item.KetLuan == 3 ? "X" : "";
                     worksheet.Cell(row, 15).Value = item.LyDoKhongTGia;
@@ -1349,19 +1352,33 @@ namespace E_Learning.Controllers.DaoTaoTH
             var LHID = id;
             string filePath = string.Empty;
             // Kiểm tra thông tin
-            if(_DO.NgayBDThucTe == null || _DO.NgayKTThucTe == null)
+            if (_DO.NgayBDThucTe == null || _DO.NgayKTThucTe == null)
             {
                 TempData["msg"] = "<script>alert('Vui lòng chọn ngày bắt đầu và kết thúc');</script>";
                 return RedirectToAction("XLHS", "ToChucDTTH", new { id = LHID });
             }
+
+            if (_DO.NgayBDThucTe > _DO.NgayKTThucTe)
+            {
+                TempData["msg"] = "<script>alert('Ngày bắt đầu thực tế phải nhỏ hơn ngày kết thúc thực tế');</script>";
+                return RedirectToAction("XLHS", "ToChucDTTH", new { id = LHID });
+            }
+
             if (_DO.ID_GiangVien == null && _DO.HoTenGV == null)
             {
                 TempData["msg"] = "<script>alert('Vui lòng bổ sung thông tin giảng viên thực tế');</script>";
                 return RedirectToAction("XLHS", "ToChucDTTH", new { id = LHID });
             }
-            if(_DO.ID_GiangVien != null)
+
+            if (_DO.ThoiLuongDT == null)
             {
-                var gv = db_context.NhanViens.FirstOrDefault(x=>x.ID == _DO.ID_GiangVien);
+                TempData["msg"] = "<script>alert('Vui lòng chọn thời lượng đào tạo');</script>";
+                return RedirectToAction("XLHS", "ToChucDTTH", new { id = LHID });
+            }
+
+            if (_DO.ID_GiangVien != null)
+            {
+                var gv = db_context.NhanViens.FirstOrDefault(x => x.ID == _DO.ID_GiangVien);
                 _DO.HoTenGV = gv.HoTen;
                 _DO.MaGiangVien = gv.MaNV;
                 _DO.DonViGV = gv.PhongBan.TenPhongBan;
@@ -1424,17 +1441,17 @@ namespace E_Learning.Controllers.DaoTaoTH
                                     var KetLuanKTGia = dt.Rows[i][13]?.ToString();
                                     var LyDo = dt.Rows[i][14]?.ToString();
                                     var nhanvien = db_context.NhanViens.FirstOrDefault(x => x.MaNV == MaNV);
-                                    if(nhanvien != null)
+                                    if (nhanvien != null)
                                     {
                                         var xnht = db_context.XNHocTaps.FirstOrDefault(x => x.IDHT == MaXNHT && x.NVID == nhanvien.ID);
-                                        if(xnht != null)
+                                        if (xnht != null)
                                         {
                                             xnht.DiemOnline = diemOnline;
                                             xnht.DiemLyThuyet = diemLyThuyet;
                                             xnht.DiemThucHanh = diemThuchanh;
                                             xnht.DiemVanDap = diemVanDap;
                                             xnht.LyDoKhongTGia = LyDo;
-                                            if(KetLuanDat == "X" || KetLuanDat == "x")
+                                            if (KetLuanDat == "X" || KetLuanDat == "x")
                                             {
                                                 xnht.KetLuan = 1;
                                             }
@@ -1474,7 +1491,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             }
 
             //File đính kèm
-            if(_DO.fileScanHoSoViews != null)
+            if (_DO.fileScanHoSoViews != null)
             {
                 var filehoso = db_context.SH_FileScanHoSo.Where(x => x.IDLH == lophoc.IDLH).ToList();
                 string filedinhkem = null;
@@ -1485,7 +1502,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                 }
                 foreach (var item in _DO.fileScanHoSoViews)
                 {
-                   if(item.FileDinhKem != null )
+                    if (item.FileDinhKem != null)
                     {
                         //Use Namespace called :  System.IO  
                         string FileName = item.FileDinhKem.FileName;
@@ -1526,7 +1543,8 @@ namespace E_Learning.Controllers.DaoTaoTH
             }
             // trình ký hồ sơ
             var checkky = db_context.SH_HoSoDaoTao.FirstOrDefault(x => x.LHID == lophoc.IDLH);
-            if(checkky != null) { // xóa hồ sơ
+            if (checkky != null)
+            { // xóa hồ sơ
                 db_context.SH_HoSoDaoTao.Remove(checkky);
             }
             var trinhkyhoso = new SH_HoSoDaoTao()
@@ -1543,7 +1561,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                 NgayNopHS = DateTime.Now,
                 TinhTrang = 0
             };
-           
+
             db_context.SH_HoSoDaoTao.Add(trinhkyhoso);
             db_context.SaveChanges();
             TempData["msgError"] = "<script>alert('Nộp hồ sơ thành công');</script>";

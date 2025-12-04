@@ -20,7 +20,7 @@ namespace E_Learning.Controllers.DaoTaoTH
         int Idquyen = MyAuthentication.IDQuyen;
         String ControllerName = "HoSoDTTH";
         // GET: HoSoDTTH
-        public ActionResult Index(int? page, string search, int? ID_TrangThai, int? ID_NoiDung,int? IDPhongBan)
+        public ActionResult Index(int? page, string search, int? ID_TrangThai, int? ID_NoiDung, int? IDPhongBan)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             ViewBag.QUYENCN = ListQuyen;
@@ -29,17 +29,20 @@ namespace E_Learning.Controllers.DaoTaoTH
                 TempData["msgError"] = "<script>alert('Bạn không có quyền truy cập chức năng này');</script>";
                 return RedirectToAction("", "Home");
             }
+
+            ViewBag.CanViewAll = ListQuyen.Contains(CONSTKEY.VIEW_ALL);
+
             if (search == null) search = "";
             //if (ID_TrangThai == null) ID_TrangThai = 0;
-            var data = (from a in db_context.SH_HoSoDaoTao.Where(x=> ID_TrangThai ==null || x.TinhTrang == ID_TrangThai)
+            var data = (from a in db_context.SH_HoSoDaoTao.Where(x => ID_TrangThai == null || x.TinhTrang == ID_TrangThai)
                         join b in db_context.LopHocs on a.LHID equals b.IDLH
                         join nc in db_context.SH_NhuCauDT on b.NCDT_ID equals nc.ID
-                        join n in db_context.NoiDungDTs.Where(x=> search == ""|| x.NoiDung.Contains(search)) on b.NDID equals n.IDND
+                        join n in db_context.NoiDungDTs.Where(x => search == "" || x.NoiDung.Contains(search)) on b.NDID equals n.IDND
                         join c in db_context.NhanViens on a.ID_NguoiNopHS equals c.ID
                         join d in db_context.NhanViens on a.ID_NguoiXuLy equals d.ID into dGroup
                         from d in dGroup.DefaultIfEmpty() // LEFT JOIN
-                        //join e in db_context.SH_FileScanHoSo on a.LHID equals e.IDLH into dj
-                        //from e in dj.DefaultIfEmpty()
+                                                          //join e in db_context.SH_FileScanHoSo on a.LHID equals e.IDLH into dj
+                                                          //from e in dj.DefaultIfEmpty()
                         select new HoSoDaoTaoTH
                         {
                             ID = a.ID,
@@ -50,12 +53,12 @@ namespace E_Learning.Controllers.DaoTaoTH
                             NgayNopHS = a.NgayNopHS,
                             TinhTrang = a.TinhTrang,
                             ID_NguoiXuLy = a.ID_NguoiXuLy,
-                            TenNguoiXuLy = d != null? string.Concat(d.MaNV, "-", d.HoTen):"",
+                            TenNguoiXuLy = d != null ? string.Concat(d.MaNV, "-", d.HoTen) : "",
                             NgayXuLy = a.NgayXuLy,
                             NgayBDThucTe = a.NgayBDThucTe,
                             NgayKTThucTe = a.NgayKTThucTe,
                             ThoiLuongDT = a.ThoiLuongDT,
-                            manageClassValidation = 
+                            manageClassValidation =
                             new ManageClassValidation()
                             {
                                 IDLH = b.IDLH,
@@ -70,19 +73,19 @@ namespace E_Learning.Controllers.DaoTaoTH
                                 TGBDLH = (DateTime)b.TGBDLH,
                                 TGKTLH = (DateTime)b.TGKTLH,
                                 ID_PPDT = nc.PhuongPhapDT_ID,
-                                TenPPDT = db_context.SH_PhuongPhapDT.FirstOrDefault(x=>x.ID ==nc.PhuongPhapDT_ID).TenPhuongPhapDT,
-                                TenGV = a.MaGiangVien +" - " + a.HoTenGV,
+                                TenPPDT = db_context.SH_PhuongPhapDT.FirstOrDefault(x => x.ID == nc.PhuongPhapDT_ID).TenPhuongPhapDT,
+                                TenGV = a.MaGiangVien + " - " + a.HoTenGV,
                                 TenBoPhan = db_context.PhongBans.FirstOrDefault(x => x.IDPhongBan == b.BoPhan_ID).TenPhongBan,
                                 TenNguoiTao = db_context.NhanViens.FirstOrDefault(x => x.ID == b.NguoiTao_ID).HoTen,
                                 TenNguoiKiemTra = db_context.NhanViens.FirstOrDefault(x => x.ID == b.NguoiKiemTra_ID).HoTen,
                                 LinhVuc = n.LinhVucDT.TenLVDT,
-                                IDDeThi = b.IDDeThi??0,
-                                TenDeThi = b.IDDeThi != null?db_context.DeThis.FirstOrDefault(x=>x.IDDeThi == b.IDDeThi).TenDe:""
+                                IDDeThi = b.IDDeThi ?? 0,
+                                TenDeThi = b.IDDeThi != null ? db_context.DeThis.FirstOrDefault(x => x.IDDeThi == b.IDDeThi).TenDe : ""
                             }
                         }).ToList();
-            if(ID_NoiDung != null)
+            if (ID_NoiDung != null)
             {
-                data = data.Where(x=>x.manageClassValidation.NDID == ID_NoiDung).ToList();
+                data = data.Where(x => x.manageClassValidation.NDID == ID_NoiDung).ToList();
             }
 
             if (IDPhongBan != null)
@@ -91,7 +94,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             }
 
             if (!ListQuyen.Contains(CONSTKEY.VIEW_ALL) && !ListQuyen.Contains(CONSTKEY.V_BP)) data = data.Where(x => x.ID_NguoiNopHS == MyAuthentication.ID).ToList();
-            else if (ListQuyen.Contains(CONSTKEY.V_BP)) data =  data.Where(x => x.manageClassValidation.BoPhan_ID == MyAuthentication.IDPhongban).ToList();
+            else if (ListQuyen.Contains(CONSTKEY.V_BP)) data = data.Where(x => x.manageClassValidation.BoPhan_ID == MyAuthentication.IDPhongban).ToList();
 
             List<PhongBan> pb = db_context.PhongBans.ToList();
             ViewBag.IDPhongBan = new SelectList(pb, "IDPhongBan", "TenPhongBan");
@@ -228,7 +231,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             //ViewBag.LoaiHinh_DT = db_context.SH_PhanLoaiNCDT.Where(x => x.IDLoai == PhanLoaiNCDT_ID).FirstOrDefault().LoaiHinhDT_ID;
             ViewBag.ChuongTrinhDT_ID = new SelectList(db_context.SH_ChuongTrinhDT.Where(x => x.ID_NoiDungDT == data.NDID), "IDCTDT", "TenChuongTrinhDT", data.CTDT_ID);
 
-           
+
             ViewBag.Nam = db_context.SH_QuyDaoTao.First().AD_Nam;
             ViewBag.Quy = db_context.SH_QuyDaoTao.First().AD_Quy;
             ViewBag.BoPhan_ID = db_context.PhongBans.FirstOrDefault(x => x.IDPhongBan == IDPB).TenPhongBan;
@@ -239,13 +242,13 @@ namespace E_Learning.Controllers.DaoTaoTH
 
         public ActionResult DSFileDinhKem(int? page, int? IDLH)
         {
-            var data = (from a in db_context.SH_FileScanHoSo.Where(x => x.IDLH == IDLH) 
+            var data = (from a in db_context.SH_FileScanHoSo.Where(x => x.IDLH == IDLH)
                         select new FileScanHoSoView
                         {
                             ID = a.ID,
-                            IDLH= (int)a.IDLH,
+                            IDLH = (int)a.IDLH,
                             LinkFile = a.FileDinhKem,
-                            TenFile =a.TenFile
+                            TenFile = a.TenFile
                         }
                         ).ToList();
             if (page == null) page = 1;
@@ -261,7 +264,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var data = db_context.SH_HoSoDaoTao.Where(x => x.LHID == id ).FirstOrDefault();
+            var data = db_context.SH_HoSoDaoTao.Where(x => x.LHID == id).FirstOrDefault();
             if (data == null)
             {
                 return HttpNotFound();
@@ -270,7 +273,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             data.ID_NguoiXuLy = MyAuthentication.ID;
             data.NgayXuLy = DateTime.Now;
             // cập nhật tình trạng LopHoc
-            var lophoc = db_context.LopHocs.FirstOrDefault(x => x.IDLH ==  id);
+            var lophoc = db_context.LopHocs.FirstOrDefault(x => x.IDLH == id);
             lophoc.TinhTrang = 5;
 
             db_context.SaveChanges();
@@ -325,14 +328,14 @@ namespace E_Learning.Controllers.DaoTaoTH
                 var endDate = ((DateTime)_DO.NgayKTThucTe).Date.AddDays(1).AddTicks(-1);
 
                 var data = (from h in db_context.XNHocTaps.AsNoTracking()
-                            join hs in db_context.SH_HoSoDaoTao.Where(x=>x.TinhTrang == 1 && x.NgayXuLy >= startDate && x.NgayXuLy <= endDate) on h.LHID equals hs.LHID
+                            join hs in db_context.SH_HoSoDaoTao.Where(x => x.TinhTrang == 1 && x.NgayXuLy >= startDate && x.NgayXuLy <= endDate) on h.LHID equals hs.LHID
                             join l in db_context.LopHocs.AsNoTracking() on h.LHID equals l.IDLH
                             join nc in db_context.SH_NhuCauDT.AsNoTracking() on l.NCDT_ID equals nc.ID
                             join pp in db_context.SH_PhuongPhapDT.AsNoTracking() on nc.PhuongPhapDT_ID equals pp.ID
                             join n in db_context.NhanViens.AsNoTracking() on h.NVID equals n.ID
                             join p in db_context.PhongBans.AsNoTracking() on h.PBID equals p.IDPhongBan
                             join pb in db_context.PhongBans.AsNoTracking() on l.BoPhan_ID equals pb.IDPhongBan
-                            join nd in db_context.NoiDungDTs.AsNoTracking() on l.NDID equals nd.IDND 
+                            join nd in db_context.NoiDungDTs.AsNoTracking() on l.NDID equals nd.IDND
                             select new ConfirmEStudyValidation()
                             {
                                 IDHT = h.IDHT,
@@ -371,14 +374,14 @@ namespace E_Learning.Controllers.DaoTaoTH
                                     NgayBDThucTe = hs.NgayBDThucTe,
                                     NgayKTThucTe = hs.NgayKTThucTe,
                                     NgayXuLy = hs.NgayXuLy,
-                                    
+
                                 },
                                 noidungdt = new NoiDungDTTHView()
                                 {
-                                    IDND =nd.IDND,
-                                    NoiDung =nd.NoiDung,
+                                    IDND = nd.IDND,
+                                    NoiDung = nd.NoiDung,
                                     IDNguonGV = nd.IDNguonGV,
-                                    TenHoatDongDT =nd.SH_HoatDongDT.TenHoatDong,
+                                    TenHoatDongDT = nd.SH_HoatDongDT.TenHoatDong,
                                     TenLVDT = nd.LinhVucDT.TenLVDT,
                                     TenNguonGV = nd.SH_NguonGV.TenNguonGV,
                                     TenPPDT = pp.TenPhuongPhapDT
@@ -421,15 +424,23 @@ namespace E_Learning.Controllers.DaoTaoTH
                         worksheet.Cell(row, 6).Value = item.noidungdt.IDND;
                         worksheet.Cell(row, 7).Value = item.noidungdt.NoiDung;
                         worksheet.Cell(row, 8).Value = item.TenLH;
-                        worksheet.Cell(row, 9).Value = item.hosodaotao.NgayBDThucTe.Value.ToString("dd/MM/yyyy");
-                        worksheet.Cell(row, 10).Value = item.hosodaotao.NgayKTThucTe.Value.ToString("dd/MM/yyyy");
+                        //worksheet.Cell(row, 9).Value = item.hosodaotao.NgayBDThucTe.Value.ToString("dd/MM/yyyy");
+                        //worksheet.Cell(row, 10).Value = item.hosodaotao.NgayKTThucTe.Value.ToString("dd/MM/yyyy");
+
+                        // update 28/11/2025
+                        worksheet.Cell(row, 9).Value = item.hosodaotao.NgayBDThucTe;
+                        worksheet.Cell(row, 9).Style.DateFormat.Format = "dd/MM/yyyy";
+
+                        worksheet.Cell(row, 10).Value = item.hosodaotao.NgayKTThucTe;
+                        worksheet.Cell(row, 10).Style.DateFormat.Format = "dd/MM/yyyy";
+
                         worksheet.Cell(row, 11).Value = item.hosodaotao.ThoiLuongDT;
                         worksheet.Cell(row, 12).Value = item.noidungdt.TenHoatDongDT;
                         worksheet.Cell(row, 13).Value = item.noidungdt.TenLVDT;
                         worksheet.Cell(row, 14).Value = item.MaNV;
                         worksheet.Cell(row, 15).Value = item.HoTenHV;
                         worksheet.Cell(row, 16).Value = item.TenPB;
-                        worksheet.Cell(row, 17).Value = item.KetLuan ==1?"Đạt":item.KetLuan == 2?"Không đạt":"Không tham gia";
+                        worksheet.Cell(row, 17).Value = item.KetLuan == 1 ? "Đạt" : item.KetLuan == 2 ? "Không đạt" : "Không tham gia";
                         worksheet.Cell(row, 18).Value = item.noidungdt.TenPPDT;
                         worksheet.Cell(row, 19).Value = item.noidungdt.TenNguonGV;
                         worksheet.Cell(row, 20).Value = item.LyDoKhongTGia;

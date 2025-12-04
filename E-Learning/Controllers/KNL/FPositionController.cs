@@ -3563,6 +3563,7 @@ namespace E_Learning.Controllers
             var res = (from a in db.ViTriKNLs
                        join d in db.PhongBans
                        on a.IDPB equals d.IDPhongBan
+                       where d.IDPhongBan == MyAuthentication.IDPhongban
                        join e in db.KNL_PhanXuong
                         on a.IDPX equals e.ID into ul
                        from e in ul.DefaultIfEmpty()

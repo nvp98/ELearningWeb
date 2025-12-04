@@ -30,26 +30,36 @@ namespace E_Learning.Controllers.TieuBanDaoTao
             db.Configuration.ProxyCreationEnabled = false;
 
             var result = (from nv in db.NhanViens
-                          join vtKNL in db.ViTriKNLs on nv.IDVTKNL equals vtKNL.IDVT
-                          join tvTieuBan in db.BDT_ThanhVienTieuBan on nv.ID equals tvTieuBan.NhanVien_ID
-                          join vtTieuBan in db.BDT_ViTriTieuBan on tvTieuBan.ViTriTieuBan_ID equals vtTieuBan.ID
-                          join tieuBan in db.BDT_TieuBan on tvTieuBan.TieuBan_ID equals tieuBan.ID
+                          join vtKNL in db.ViTriKNLs
+                                on nv.IDVTKNL equals vtKNL.IDVT into joinedKNL
+                          from vtKNL in joinedKNL.DefaultIfEmpty()
+                          join tvTieuBan in db.BDT_ThanhVienTieuBan
+                                on nv.ID equals tvTieuBan.NhanVien_ID
+                          join vtTieuBan in db.BDT_ViTriTieuBan
+                                on tvTieuBan.ViTriTieuBan_ID equals vtTieuBan.ID
+                          join tieuBan in db.BDT_TieuBan
+                                on tvTieuBan.TieuBan_ID equals tieuBan.ID
                           select new ThanhVienTieuBanInfo
                           {
                               Id = tvTieuBan.ID,
-                              MaViTriKNL = (int)tvTieuBan.ViTriKNL_ID,
-                              TenViTriKNL = vtKNL.TenViTri,
+                              MaViTriKNL = tvTieuBan.ViTriKNL_ID ?? 0,
+                              TenViTriKNL = vtKNL != null ? vtKNL.TenViTri : "",
                               HoTen = nv.HoTen,
                               TenViTriTieuBan = vtTieuBan.TenViTri,
-                              NgayCapNhatGanNhat = (DateTime)tvTieuBan.NgayCapNhat,
-                              NgayDenHanCapNhat = (DateTime)tvTieuBan.NgayDenHanCapNhatLai,
-                              TrangThai = (int)tvTieuBan.TrangThai,
-                              PhongBanID = (int)tieuBan.PhongBan_ID,
-                              ViTriTieuBan_ID = (int)tvTieuBan.ViTriTieuBan_ID,
-                              HoTenNguoiThem = tvTieuBan.NhanVienThem_ID != null ? db.NhanViens.Where(nv => nv.ID == tvTieuBan.NhanVienThem_ID).Select(nv =>
-                              nv.HoTen).FirstOrDefault() ?? "" : "",
-                              HoTenNguoiSua = tvTieuBan.NhanVienSua_ID != null ? db.NhanViens.Where(nv => nv.ID == tvTieuBan.NhanVienSua_ID).Select(nv => nv.HoTen).FirstOrDefault() ?? "" : "",
-                              Email = tvTieuBan.Email != null ? tvTieuBan.Email.ToString() : "",
+                              NgayCapNhatGanNhat = tvTieuBan.NgayCapNhat ?? DateTime.MinValue,
+                              NgayDenHanCapNhat = tvTieuBan.NgayDenHanCapNhatLai ?? DateTime.MinValue,
+                              TrangThai = tvTieuBan.TrangThai ?? 0,
+                              PhongBanID = tieuBan.PhongBan_ID ?? 0,
+                              ViTriTieuBan_ID = tvTieuBan.ViTriTieuBan_ID ?? 0,
+                              HoTenNguoiThem = tvTieuBan.NhanVienThem_ID != null
+                                    ? (db.NhanViens.Where(x => x.ID == tvTieuBan.NhanVienThem_ID)
+                                                   .Select(x => x.HoTen)
+                                                   .FirstOrDefault() ?? "") : "",
+                              HoTenNguoiSua = tvTieuBan.NhanVienSua_ID != null
+                                    ? (db.NhanViens.Where(x => x.ID == tvTieuBan.NhanVienSua_ID)
+                                                   .Select(x => x.HoTen)
+                                                   .FirstOrDefault() ?? "") : "",
+                              Email = tvTieuBan.Email ?? ""
                           });
 
             if (phongBanFilter.HasValue && phongBanFilter != 0)

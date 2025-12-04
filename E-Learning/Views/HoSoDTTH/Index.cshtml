@@ -155,7 +155,7 @@
                                                 <a title="DS Lớp" class="fa fa-list-alt" id="@item.LHID" href="@Url.Action("XLHS" , "ToChucDTTH" , new { id = @item.LHID })"></a>
                                                 <a title="File đính kèm" target="_blank" href="@Url.Action("DSFileDinhKem","HoSoDTTH", new { IDLH = item.LHID})" class=" fa fa-file-alt"></a>
                                                 <a title="DS Câu Hỏi" class="fa fa-question-circle" href="@Url.Action("Question" , "ChuongTrinhDTTH" , new { id = item.manageClassValidation.IDDeThi })"></a>
-                                                @if (item.TinhTrang == 1 || item.TinhTrang ==0)
+                                                @if (ViewBag.CanViewAll == true && (item.TinhTrang == 1 || item.TinhTrang == 0))
                                                 {
                                                     <a title="Hủy hồ sơ" class="fa fa-times-circle text-danger"
                                                        href="@Url.Action("HuyHoSo", "HoSoDTTH", new { IDLH = item.LHID })"
@@ -277,4 +277,3 @@
         return confirm("Bạn có chắc muốn hủy hồ sơ này?");
     }
 </script>
-
