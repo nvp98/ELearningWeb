@@ -494,8 +494,13 @@ namespace E_Learning.Controllers.DaoTaoTH
 
             ViewBag.LoaiNCDT = nhuCauDT.PhanLoaiNCDT_ID;
             ViewBag.LoaiHinh_DT = db.SH_PhanLoaiNCDT.Where(x => x.IDLoai == nhuCauDT.PhanLoaiNCDT_ID).FirstOrDefault().LoaiHinhDT_ID;
-            ViewBag.Nam = db.SH_QuyDaoTao.First().AD_Nam;
-            ViewBag.Quy = db.SH_QuyDaoTao.First().AD_Quy;
+            //ViewBag.Nam = db.SH_QuyDaoTao.First().AD_Nam;
+            //ViewBag.Quy = db.SH_QuyDaoTao.First().AD_Quy;
+
+            // update 05122025
+            ViewBag.Nam = DateTime.Now.Year;
+            ViewBag.Quy = (DateTime.Now.Month - 1) / 3 + 1;
+
             ViewBag.PhuongPhapDT_ID = new SelectList(db.SH_PhuongPhapDT.Where(x=>x.ID == nhuCauDT.PhuongPhapDT_ID), "ID", "TenPhuongPhapDT",nhuCauDT.PhuongPhapDT_ID);
             var nv2 = db.NhanViens.Where(x => x.IDTinhTrangLV == 1 && x.IDPhongBan == IDPB).Select(x => new EmployeeValidation { ID = x.ID, HoTen = x.MaNV + " - " + x.HoTen + "-" + x.Vitri.TenViTri }).ToList();
             ViewBag.Selec = new SelectList(nv2, "ID", "HoTen",nhuCauDT.SH_ChiTiet_NCDT.FirstOrDefault().GiangVien_ID);
