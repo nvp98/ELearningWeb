@@ -389,6 +389,9 @@
     <Compile Include="Models\BaiThi.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Banners.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\BDT_LichSuPheDuyet.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
@@ -976,6 +979,7 @@
     <Content Include="Views\RewardType\Index.cshtml" />
     <Content Include="Views\RewardType\_DanhSachKhenThuongPartial.cshtml" />
     <Content Include="Views\NhuCauDTTH\GetNhanViensByNCDT.cshtml" />
+    <Content Include="Views\Home\ManageBanner.cshtml" />
     <None Include="Views\Shared\LayoutAdmin.cshtml" />
     <Content Include="Views\ToChucDTTH\Index.cshtml" />
     <Content Include="Views\ToChucDTTH\Create.cshtml" />

@@ -1381,6 +1381,17 @@ namespace E_Learning.Controllers
                 //    ListNV = new List<FCheckValidation>();
                 //}
                 //else ListNV = res;
+                //tính ngày đánh giá lại
+                DateTime dtt = DateTime.Now;
+                int currentQ = (dtt.Month - 1) / 3 + 1;
+                int nextQ = currentQ == 4 ? 1 : currentQ + 1;
+                int year = dtt.Year + (currentQ == 4 ? 1 : 0);
+                int lastMonth = nextQ * 3;
+
+                DateTime lastDayNextQuarter = new DateTime(year, lastMonth, 1).AddMonths(1).AddDays(-1);
+
+                string resultlastDayNextQuarter = lastDayNextQuarter.ToString("dd/MM/yyyy");
+
                 int month = DateTime.Now.Month; // hoặc date.Month
                 int quy = (month - 1) / 3 + 1;
                 int nam = DateTime.Now.Year;
@@ -1425,8 +1436,8 @@ namespace E_Learning.Controllers
                                 NgayDG = kq?.NgayDGGN != null ? kq?.NgayDGGN.Value.ToString("dd/MM/yyyy") : "",
                                 NgayTuDG = kq?.NgayTuDGGN != null ? kq?.NgayTuDGGN.Value.ToString("dd/MM/yyyy") : "",
                                 NgayDGLan1 = kq?.NgayDGGNLan1 != null ? kq?.NgayDGGNLan1.Value.ToString("dd/MM/yyyy") : "",
-                                NgayHanDGStr = kq?.KDAT != 0 && kq?.NgayDGGN != null ? kq?.NgayDGGN.Value.AddMonths(3).ToString("dd/MM/yyyy"):
-                                kq?.NgayDGGN != null? kq?.NgayDGGN.Value.AddMonths(6).ToString("dd/MM/yyyy"):""
+                                NgayHanDGStr = kq?.KDAT > 0 && kq?.NgayDGGN != null ? kq?.NgayDGGN.Value.AddMonths(3).ToString("dd/MM/yyyy"):
+                                               kq?.NgayDGGN != null && kq?.KDAT ==0 ? resultlastDayNextQuarter : ""
                             }).ToList();
                
             }

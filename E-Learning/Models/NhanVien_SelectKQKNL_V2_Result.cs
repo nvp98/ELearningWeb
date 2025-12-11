@@ -28,5 +28,6 @@ namespace E_Learning.Models
         public Nullable<int> TinhTrang_DuyetKNL { get; set; }
         public Nullable<int> TinhTrangKNL { get; set; }
         public Nullable<int> TongNLDuyet { get; set; }
+        public Nullable<int> KDAT { get; set; }
     }
 }

@@ -86,6 +86,17 @@ namespace E_Learning.Controllers.KNL
                 }
                 res = res.DistinctBy(x => x.MaNV).ToList();
                 resView = resView.DistinctBy(x => x.MaNV).ToList();
+
+                DateTime dt = DateTime.Now;
+                int currentQ = (dt.Month - 1) / 3 + 1;
+                int nextQ = currentQ == 4 ? 1 : currentQ + 1;
+                int year = dt.Year + (currentQ == 4 ? 1 : 0);
+                int lastMonth = nextQ * 3;
+
+                DateTime lastDayNextQuarter = new DateTime(year, lastMonth, 1).AddMonths(1).AddDays(-1);
+
+                string resultlastDayNextQuarter = lastDayNextQuarter.ToString("dd/MM/yyyy");
+
                 // Bổ sung Đánh giá cá nhân
                 var tongNLDoc = db.KNL_DocBangKNL.Count(x => x.IDNV == nv.ID && x.ID_ViTriKNL == vt.IDVT);
                 resNV = (from a in db.NhanVien_SelectKQKNL_V2(nv.ID,null,null,null)
@@ -102,11 +113,12 @@ namespace E_Learning.Controllers.KNL
                              TenKip = a.TenKip,
                              //MaViTri = a.MaViTri,
                              fileBMTCV = a.FilePath,
-                             NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+                             NgayDG = a?.NgayDG != null && IsInCurrentQuarter(a?.NgayDG) ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
                              TotalDat =  tongNLDoc,
                              Total = a.TongNLDuyet, // tổng NL duyệt
-                             NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
-                             NgayDGLan1 = a?.NgayDGGNLan1 != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDGGNLan1) : "",
+                             NgayHanDGStr = a?.KDAT >0 ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG.Value.AddMonths(3))  : resultlastDayNextQuarter,
+                             NgayTuDG = a?.NgayTuDG != null && IsInCurrentQuarter(a?.NgayTuDG) ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
+                             NgayDGLan1 = a?.NgayDGGNLan1 != null && IsInCurrentQuarter(a?.NgayDGGNLan1) ? String.Format("{0:dd/MM/yyyy}", a?.NgayDGGNLan1) : "",
                              TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL
                          }).ToList();
             }
@@ -152,7 +164,7 @@ namespace E_Learning.Controllers.KNL
         //                resView.AddRange(resV);
         //                res.AddRange(res1);
         //            }
-                    
+
         //        }
         //    }
         //    if (resView.Count == 0 && res.Count == 0)
@@ -161,6 +173,18 @@ namespace E_Learning.Controllers.KNL
         //    }
         //    return 1;
         //}
+
+        private bool IsInCurrentQuarter(DateTime? date)
+        {
+            if (date == null) return false;
+
+            DateTime now = DateTime.Now;
+
+            int currentQuarter = (now.Month - 1) / 3 + 1;
+            int dateQuarter = (date.Value.Month - 1) / 3 + 1;
+
+            return now.Year == date.Value.Year && currentQuarter == dateQuarter;
+        }
         public List<FCheckValidation> getListUser( ViTriKNL vt ,int? idpb,NhanVien nv)
         {
             var vt2 = checkMVT2(vt.MaViTri);
@@ -176,11 +200,11 @@ namespace E_Learning.Controllers.KNL
                                      IDKip = a.IDKip,
                                      //TenKip = a.TenKip,
                                      fileBMTCV = a.FilePath,
-                                     NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+                                     NgayDG = a?.NgayDG != null && IsInCurrentQuarter(a?.NgayDG) ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
                                      Total = a.TongNLDuyet,
                                      TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
-                                     NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
-                                     NgayDGLan1 = a?.NgayDGGNLan1 != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDGGNLan1) : "",
+                                     NgayTuDG = a?.NgayTuDG != null && IsInCurrentQuarter(a?.NgayTuDG) ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
+                                     NgayDGLan1 = a?.NgayDGGNLan1 != null && IsInCurrentQuarter(a?.NgayDGGNLan1) ? String.Format("{0:dd/MM/yyyy}", a?.NgayDGGNLan1) : "",
                                  }).ToList();
             //if(idpb ==null) idpb = 0;
 
@@ -308,11 +332,11 @@ namespace E_Learning.Controllers.KNL
                               IDKip = a.IDKip,
                               //TenKip = a.TenKip,
                               fileBMTCV = a.FilePath,
-                              NgayDG = a?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+                              NgayDG = a?.NgayDG != null && IsInCurrentQuarter(a?.NgayDG) ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
                               Total = a.TongNLDuyet,
                               TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
-                              NgayTuDG = a?.NgayTuDG != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
-                              NgayDGLan1 = a?.NgayDGGNLan1 != null ? String.Format("{0:dd/MM/yyyy}", a?.NgayDGGNLan1) : "",
+                              NgayTuDG = a?.NgayTuDG != null && IsInCurrentQuarter(a?.NgayTuDG) ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
+                              NgayDGLan1 = a?.NgayDGGNLan1 != null && IsInCurrentQuarter(a?.NgayDGGNLan1) ? String.Format("{0:dd/MM/yyyy}", a?.NgayDGGNLan1) : "",
                           }).ToList();
             //if (idpb == null) idpb = 0;
 

@@ -152,8 +152,8 @@
                                                                 <th colspan="7" class="text-center font-weight-bold">Chọn mức độ đạt được của nhân viên</th>
                                                                 <th rowspan="2" class="text-center">Ngày cập nhật</th>
                                                                 <th rowspan="2" class="text-center">Người đánh giá</th>
-                                                                <th rowspan="2" class="text-center">Ngày đến hạn đánh giá lại</th>
-                                                                <th rowspan="2" class="text-center">Hạn đánh giá lại</th>
+                                                                @*<th rowspan="2" class="text-center">Ngày đến hạn đánh giá lại</th>
+                                                                <th rowspan="2" class="text-center">Hạn đánh giá lại</th>*@
                                                                 <th rowspan="2" class="text-center" width="100px">Ghi chú</th>
                                                             </tr>
                                                             <tr>
@@ -257,7 +257,7 @@
                                                                             </td>*@
                                                                             <td class="text-center" width="60px">@Model[i].StrNgayDG</td>
                                                                             <td class="text-center">@Model[i].TenNVDG</td>
-                                                                            @if (@Model[i].NgayCanhBao < 0 && @Model[i].NgayCanhBao != -1000)
+                                                                            @*@if (@Model[i].NgayCanhBao < 0 && @Model[i].NgayCanhBao != -1000)
                                                                             {
                                                                                 <td class="bg-danger text-white">
                                                                                     @Model[i].NgayHanDG.ToString("dd/MM/yyyy")
@@ -281,7 +281,7 @@
                                                                                 </td>
                                                                                 <td class="text-danger">
                                                                                 </td>
-                                                                            }
+                                                                            }*@
 
                                                                             <td class="">
                                                                                 @Html.TextBoxFor(m => m[i].Note, new { @class = "border border-white w-100" })
@@ -431,7 +431,7 @@
                                                                                 </td>*@
                                                                                 <td class="text-center" width="60px">@Model[i].StrNgayDG</td>
                                                                                 <td class="text-center">@Model[i].TenNVDG</td>
-                                                                                @if (@Model[i].NgayCanhBao < 0 && @Model[i].NgayCanhBao != -1000)
+                                                                                @*@if (@Model[i].NgayCanhBao < 0 && @Model[i].NgayCanhBao != -1000)
                                                                                 {
                                                                                     <td class="bg-danger text-white">
                                                                                         @Model[i].NgayHanDG.ToString("dd/MM/yyyy")
@@ -455,7 +455,7 @@
                                                                                     </td>
                                                                                     <td class="text-danger">
                                                                                     </td>
-                                                                                }
+                                                                                }*@
                                                                                 <td class="">
                                                                                     @Html.TextBoxFor(m => m[i].Note, new { @class = "border border-white w-100" })
                                                                                 </td>
@@ -540,7 +540,7 @@
                                                                             </td>*@
                                                                             <td class="text-center" width="60px">@Model[i].StrNgayDG</td>
                                                                             <td class="text-center">@Model[i].TenNVDG</td>
-                                                                            @if (@Model[i].NgayCanhBao < 0 && @Model[i].NgayCanhBao != -1000)
+                                                                            @*@if (@Model[i].NgayCanhBao < 0 && @Model[i].NgayCanhBao != -1000)
                                                                             {
                                                                                 <td class="bg-danger text-white">
                                                                                     @Model[i].NgayHanDG.ToString("dd/MM/yyyy")
@@ -564,7 +564,7 @@
                                                                                 </td>
                                                                                 <td class="text-danger">
                                                                                 </td>
-                                                                            }
+                                                                            }*@
                                                                             <td class="">
                                                                                 @Html.TextBoxFor(m => m[i].Note, new { @class = "border border-white w-100" })
                                                                             </td>
