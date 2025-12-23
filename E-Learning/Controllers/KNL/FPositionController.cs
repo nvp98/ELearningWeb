@@ -6187,6 +6187,62 @@ namespace E_Learning.Controllers
                 
         } // trình ký bảng KNL
 
+        public ActionResult ExportViTriNoiDungDT()
+        {
+            var data =
+                (
+                    from vt in db.ViTriKNLs
+                    join pb in db.PhongBans
+                        on vt.IDPB equals pb.IDPhongBan
+                    join vtnndt in db.SH_ViTri_NDDT
+                        on vt.IDVT equals vtnndt.Vitri_ID into vtnndtGroup
+                    from vtnndt in vtnndtGroup.DefaultIfEmpty()
+                    join nd in db.NoiDungDTs
+                        on vtnndt.NoiDungDT_ID equals nd.IDND into ndGroup
+                    from nd in ndGroup.DefaultIfEmpty()
+                    select new
+                    {
+                        vt.TenViTri,
+                        pb.TenPhongBan,
+                        TenNoiDungDT = nd != null ? nd.NoiDung : ""
+                    }
+                ).ToList();
+
+            using (var workbook = new XLWorkbook())
+            {
+                var ws = workbook.Worksheets.Add("ViTri_NoiDungDT");
+
+                ws.Cell(1, 1).Value = "Tên vị trí";
+                ws.Cell(1, 2).Value = "Đơn vị";
+                ws.Cell(1, 3).Value = "Tên nội dung đào tạo";
+
+                ws.Range(1, 1, 1, 3).Style.Font.Bold = true;
+
+                int row = 2;
+                foreach (var item in data)
+                {
+                    ws.Cell(row, 1).Value = item.TenViTri;
+                    ws.Cell(row, 2).Value = item.TenPhongBan;
+                    ws.Cell(row, 3).Value = item.TenNoiDungDT;
+                    row++;
+                }
+
+                ws.Columns().AdjustToContents();
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    stream.Position = 0;
+
+                    return File(
+                        stream.ToArray(),
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "ViTri_PhongBan_NoiDungDT.xlsx"
+                    );
+                }
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

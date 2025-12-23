@@ -76,9 +76,9 @@
                 <input type="text" id="txtsearchVT" name="" placeholder="Nhập tên vị trí" class="form-control position-relative" style="top:-5px" value="@ViewBag.searchVT">
             </div>
             @*<div class="col-md-2">
-                <button type="button" id="btn-add" class="btn btn-primary m-l-auto" style="font-size:0.7rem"><i class="fa fa-user-plus">&nbsp;</i>&nbsp;Điều động nhân viên </button>
-                <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("ChangeNVGroup","FPosition")'></div>
-            </div>*@
+            <button type="button" id="btn-add" class="btn btn-primary m-l-auto" style="font-size:0.7rem"><i class="fa fa-user-plus">&nbsp;</i>&nbsp;Điều động nhân viên </button>
+            <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("ChangeNVGroup","FPosition")'></div>
+        </div>*@
             @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DE_KNL))
             {
                 <div class="col-md-2 flex1">
@@ -90,11 +90,11 @@
             }
 
             @*<div class="col-md-2">
-                <a class="fa fa-random float-right btn btn-warning" title="Nhân viên kiêm nhiệm" style="font-size:0.8rem" href="@Url.Action("UpdateNVKN", "FPosition")"
-                   >
-                    &nbsp;Nhân viên Kiêm nhiệm
-                </a>
-            </div>*@
+            <a class="fa fa-random float-right btn btn-warning" title="Nhân viên kiêm nhiệm" style="font-size:0.8rem" href="@Url.Action("UpdateNVKN", "FPosition")"
+               >
+                &nbsp;Nhân viên Kiêm nhiệm
+            </a>
+        </div>*@
             @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.TRAN_KNL))
             {
                 <div class="col-md-1 flex1">
@@ -158,26 +158,34 @@
                         &nbsp;DS bảng KNL
                     </a>
                 </div>
+                <div class="col-md-2 flex1">
+                    <a class="fa fa-file-excel float-right btn btn-primary"
+                       title="Export dữ liệu"
+                       href="@Url.Action("ExportViTriNoiDungDT", "FPosition")"
+                       onclick="return confirm('Export dữ liệu?')">
+                        &nbsp;Danh sách nội dung đào tạo theo vị trí
+                    </a>
+                </div>
             }
 
             @*@if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ED_KNL))
-            {
-                <div class="col-md-2">
-                    <button type="button" id="btn-copys" class="btn btn-secondary m-l-auto"><i class="fa fa-files-o">&nbsp;</i>&nbsp;Copy Dữ liệu </button>
-                    <div class=" modal fade" id="myModaleC" role="dialog" data-url='@Url.Action("CopyMapingData","FPosition")'></div>
-                    <script type="text/javascript">
-                        $("#btn-copys").click(function () {
-                            var url = $('#myModaleC').data('url');
-                            $.get(url, function (data) {
-                                $("#myModaleC").html(data);
-                                $("#ModalTitle").html("Copy Vị trí");
-                                $("#myModaleC").modal('show');
-                            });
-
+        {
+            <div class="col-md-2">
+                <button type="button" id="btn-copys" class="btn btn-secondary m-l-auto"><i class="fa fa-files-o">&nbsp;</i>&nbsp;Copy Dữ liệu </button>
+                <div class=" modal fade" id="myModaleC" role="dialog" data-url='@Url.Action("CopyMapingData","FPosition")'></div>
+                <script type="text/javascript">
+                    $("#btn-copys").click(function () {
+                        var url = $('#myModaleC').data('url');
+                        $.get(url, function (data) {
+                            $("#myModaleC").html(data);
+                            $("#ModalTitle").html("Copy Vị trí");
+                            $("#myModaleC").modal('show');
                         });
-                    </script>
-                </div>
-            }*@
+
+                    });
+                </script>
+            </div>
+        }*@
         </div>
         <div class="row">
             <div class="col-md-2">
