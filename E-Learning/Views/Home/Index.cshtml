@@ -182,8 +182,45 @@
     int baithiHT = baithi.Where(x => x.TinhTrang == true).Count();
     //List<BaiThi> baithiLoc = baithi.GroupBy(p => p.IDND).ToList();
 
-    var qthd = db.QT_BaiKiemTra.AsNoTracking().Where(x => x.IDNV == nhanvien.ID).ToList();
-    int SL_QTHDHT = qthd.Where(x => x.TinhTrang == 1).Count();
+    var danhSachQTHD = (
+        from pq in db.QT_PhanQuyen
+        join nd in db.QT_NoiDungQT on pq.QTHDID equals nd.IDQTHD
+        join dk in db.QT_DinhKy on pq.DKID equals dk.IDDK
+        where pq.IDVTKNL == nhanvien.IDVTKNL
+              && nd.TinhTrang == 1
+              && nd.NgayHieuLuc < DateTime.Now
+              && (nd.NgayHetHieuLuc == null || nd.NgayHetHieuLuc > DateTime.Now)
+        select new { pq.QTHDID, dk.MaDinhKy }
+    ).Distinct().ToList();
+
+    int TongQTHD = danhSachQTHD.Count;
+
+    int SL_QTHDHT = 0;
+
+    foreach (var qthd in danhSachQTHD)
+    {
+        var baiKT = db.QT_BaiKiemTra
+            .Where(x => x.IDNV == nhanvien.ID && x.QTHDID == qthd.QTHDID)
+            .OrderByDescending(x => x.LanKT)
+            .FirstOrDefault();
+
+        if (baiKT != null && baiKT.TinhTrang == 1)
+        {
+            if (qthd.MaDinhKy == 0)
+            {
+                SL_QTHDHT++;
+            }
+            else
+            {
+                var ngayKTTiep = baiKT.NgayHT?.AddMonths((int)qthd.MaDinhKy);
+                if (ngayKTTiep >= DateTime.Now)
+                {
+                    SL_QTHDHT++;
+                }
+            }
+        }
+    }
+
     // Nội quy lao động
     var nqld = db.NQ_KetQua.AsNoTracking().Where(x => x.IDNV == nhanvien.ID).ToList();
     int nqld_ht = nqld.Where(x => x.TinhTrang == 1).Count();
@@ -482,7 +519,7 @@
                             <a href="@Url.Action("Index","ListTestQT", new {IDNV = E_Learning.Models.MyAuthentication.ID,IDVTKNL=E_Learning.Models.MyAuthentication.IDVTKNL})" class="">
                                 <div class="card dashboard-product font-size-lg hover-shadow">
                                     <span>Quy trình/ Hướng dẫn</span>
-                                    <h2 class="dashboard-total-products font-weight-bold text-success">@SL_QTHDHT/@qthd.Count()</h2>
+                                    <h2 class="dashboard-total-products font-weight-bold text-success">@SL_QTHDHT/@TongQTHD</h2>
                                     <span class=""></span>Tổng số QT/HD đã hoàn thành
                                     <div class="side-box text-success ">
                                         <i class="fa fa-align-center fa-2x " aria-hidden="true"></i>
