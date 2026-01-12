@@ -48,7 +48,7 @@ namespace E_Learning.Controllers
         int Idquyen = MyAuthentication.IDQuyen;
         String ControllerName = "FPosition";
         // GET: FPosition
-        public async Task<ActionResult> Index(int? page, string search, string searchVT, int? IDPB,int? IDPX,int? IDNhom ,int? IDKhoi,int? IDTo)
+        public async Task<ActionResult> Index(int? page, string search, string searchVT, int? IDPB, int? IDPX, int? IDNhom, int? IDKhoi, int? IDTo)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             int idpb = MyAuthentication.IDPhongban;
@@ -75,34 +75,34 @@ namespace E_Learning.Controllers
                 .ToDictionary(g => g.Key, g => g.Count());
 
             // Map sang model
-            var res =  (from a in rawData
+            var res = (from a in rawData
                        join b in db.ViTriKNLs on a.IDVT equals b.IDVT
-                       select  new ViTriKNLValidation
-                        {
-                            IDVT = a.IDVT,
-                            TenViTri = a.TenViTri,
-                            IDPB = a.IDPhongBan,
-                            TenPhongBan = a.TenPhongBan,
-                            MaViTri = a.MaViTri,
-                            IDKhoi = a.IDKhoi,
-                            TenKhoi = a.TenKhoi,
-                            IDPX = a.IDPX,
-                            TenPX = a.TenPX,
-                            IDNhom = a.IDNhom,
-                            TenNhom = a.TenNhom,
-                            IDTo = a.IDTo,
-                            TenTo = a.TenTo,
-                            FilePath = a.FilePath,
-                            CountNV = a.SLNV ?? 0,
-                            CountKNL = a.SLNL,
-                            CountDGTC = a.SLDGTC,
-                            CountNVDDG = a.SLNVDDG,
-                            TinhTrang = a.TinhTrang,
-                            CountSLNDDT = dictSLNDDT.ContainsKey(a.IDVT) ? dictSLNDDT[a.IDVT] : 0,
-                            TinhTrang_DuyetKNL = b.TinhTrang_DuyetKNL,
-                            ID_NguoiTrinhKy = b.ID_NguoiTrinhKy,
-                            TongNLDuyet = b.TongNLDuyet
-                        }).ToList();
+                       select new ViTriKNLValidation
+                       {
+                           IDVT = a.IDVT,
+                           TenViTri = a.TenViTri,
+                           IDPB = a.IDPhongBan,
+                           TenPhongBan = a.TenPhongBan,
+                           MaViTri = a.MaViTri,
+                           IDKhoi = a.IDKhoi,
+                           TenKhoi = a.TenKhoi,
+                           IDPX = a.IDPX,
+                           TenPX = a.TenPX,
+                           IDNhom = a.IDNhom,
+                           TenNhom = a.TenNhom,
+                           IDTo = a.IDTo,
+                           TenTo = a.TenTo,
+                           FilePath = a.FilePath,
+                           CountNV = a.SLNV ?? 0,
+                           CountKNL = a.SLNL,
+                           CountDGTC = a.SLDGTC,
+                           CountNVDDG = a.SLNVDDG,
+                           TinhTrang = a.TinhTrang,
+                           CountSLNDDT = dictSLNDDT.ContainsKey(a.IDVT) ? dictSLNDDT[a.IDVT] : 0,
+                           TinhTrang_DuyetKNL = b.TinhTrang_DuyetKNL,
+                           ID_NguoiTrinhKy = b.ID_NguoiTrinhKy,
+                           TongNLDuyet = b.TongNLDuyet
+                       }).ToList();
 
             // Lọc theo quyền
             if (!ListQuyen.Contains(CONSTKEY.LOCK))
@@ -183,9 +183,9 @@ namespace E_Learning.Controllers
                 return 0;
             return model.IDVT;
         }
-        public int GetIDVTKNL(string TenVT,int? idpb)
+        public int GetIDVTKNL(string TenVT, int? idpb)
         {
-            var model = db.ViTriKNLs.Where(x => x.TenViTri == TenVT &&x.IDPB ==idpb).SingleOrDefault();
+            var model = db.ViTriKNLs.Where(x => x.TenViTri == TenVT && x.IDPB == idpb).SingleOrDefault();
             if (model == null)
                 return 0;
             return model.IDVT;
@@ -211,7 +211,7 @@ namespace E_Learning.Controllers
         {
             try
             {
-               if(_DO.TenViTri !=null &&_DO.IDPB != null && GetIDVT(_DO.TenViTri.Trim())==0)
+                if (_DO.TenViTri != null && _DO.IDPB != null && GetIDVT(_DO.TenViTri.Trim()) == 0)
                 {
                     //var aa = db.VitriKNL_insert(_DO.TenViTri, _DO.MaViTri, _DO.IDPB);
                 }
@@ -223,7 +223,7 @@ namespace E_Learning.Controllers
                         ListVT.Add(new ViTriKNLValidation() { TenViTri = collection[key], MaViTri = collection["MaViTri_" + key.Split('_')[1]] });
                     }
                 }
-               foreach (var item in ListVT)
+                foreach (var item in ListVT)
                 {
                     int idvt = GetIDVTKNL(item.TenViTri, _DO.IDPB);
                     if (idvt == 0)
@@ -244,10 +244,10 @@ namespace E_Learning.Controllers
                 //        {
                 //            var k = db.VitriKNL_insert(a,_DO.MaViTri, _DO.IDPB);
                 //        }
-                        
+
                 //    }
                 //}
-                
+
                 //db.VitriKNL_insert(_DO.TenViTri,_DO.IDPB);
                 TempData["msgSuccess"] = "<script>alert('Thêm mới thành công');</script>";
             }
@@ -286,7 +286,7 @@ namespace E_Learning.Controllers
                 {
                     var a = db.KNL_Nhom.Where(x => x.IDPhongBan == _DO.IDPB && x.IDNhom == _DO.IDNhom).FirstOrDefault();
                     var lsVT = db.ViTriKNLs.Where(x => x.IDPB == _DO.IDPB && x.IDNhom == _DO.IDNhom).ToList();
-                    foreach(var item in lsVT)
+                    foreach (var item in lsVT)
                     {
                         db.VitriKNL_update_VT(item.IDVT, a.IDKhoi, a.IDPhanXuong);
                         dtc++;
@@ -302,15 +302,15 @@ namespace E_Learning.Controllers
                         dtc++;
                     }
                 }
-                else if(_DO.IDPB != null && _DO.IDTo == null && _DO.IDNhom == null)
+                else if (_DO.IDPB != null && _DO.IDTo == null && _DO.IDNhom == null)
                 {
                     var lsVT = db.ViTriKNLs.Where(x => x.IDPB == _DO.IDPB && (x.IDTo != null || x.IDNhom != null)).ToList();
-                    foreach(var item in lsVT)
+                    foreach (var item in lsVT)
                     {
-                        if(item.IDNhom != null)
+                        if (item.IDNhom != null)
                         {
                             var a = db.KNL_Nhom.Where(x => x.IDPhongBan == _DO.IDPB && x.IDNhom == item.IDNhom).FirstOrDefault();
-                            if(a != null)
+                            if (a != null)
                             {
                                 db.VitriKNL_update_VT(item.IDVT, a.IDKhoi, a.IDPhanXuong);
                                 dtc++;
@@ -339,7 +339,7 @@ namespace E_Learning.Controllers
                 TempData["msgError"] = "<script>alert('Có lỗi khi thêm mới: " + e.Message + "');</script>";
             }
             //return View();
-            return RedirectToAction("Index", "FPosition", new { IDPB = _DO.IDPB,IDNhom =_DO.IDNhom,IDTo =_DO.IDTo });
+            return RedirectToAction("Index", "FPosition", new { IDPB = _DO.IDPB, IDNhom = _DO.IDNhom, IDTo = _DO.IDTo });
         }
 
 
@@ -351,7 +351,7 @@ namespace E_Learning.Controllers
                 TempData["msgError"] = "<script>alert('Bạn không có quyền thực hiện chức năng này');</script>";
                 return RedirectToAction("", "Home");
             }
-            var res = (from a in db.ViTriKNLs.Where(x=>x.IDVT==id)
+            var res = (from a in db.ViTriKNLs.Where(x => x.IDVT == id)
                        join d in db.PhongBans
                       on a.IDPB equals d.IDPhongBan
                        join e in db.KNL_PhanXuong
@@ -408,7 +408,7 @@ namespace E_Learning.Controllers
 
                 db.Configuration.ProxyCreationEnabled = false;
                 List<PhongBan> dt = db.PhongBans.ToList();
-                ViewBag.IDPB = new SelectList(dt, "IDPhongBan", "TenPhongBan",DO.IDPB);
+                ViewBag.IDPB = new SelectList(dt, "IDPhongBan", "TenPhongBan", DO.IDPB);
 
                 List<KNL_PhanXuong> px = db.KNL_PhanXuong.Where(x => x.IDPhongBan == DO.IDPB).ToList();
                 ViewBag.IDPX = new SelectList(px, "ID", "TenPX", DO.IDPX);
@@ -427,7 +427,7 @@ namespace E_Learning.Controllers
             return PartialView(DO);
         }
         [HttpPost]
-        public ActionResult Edit(ViTriKNLValidation _DO,int? IDPB)
+        public ActionResult Edit(ViTriKNLValidation _DO, int? IDPB)
         {
             try
             {
@@ -502,7 +502,7 @@ namespace E_Learning.Controllers
             return vtSelectDefault.Count();
         }
 
-        public ActionResult PerCheck(int id,string controll)
+        public ActionResult PerCheck(int id, string controll)
         {
 
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
@@ -804,14 +804,14 @@ namespace E_Learning.Controllers
 
                 TempData["msgSuccess"] = "<script>alert('Cập nhập thất bại " + e.Message + " ');</script>";
             }
-            if(controll == "SetVTPermision")  return RedirectToAction("SetVTPermision", "FPosition", new { IDPB = IDPB });
+            if (controll == "SetVTPermision") return RedirectToAction("SetVTPermision", "FPosition", new { IDPB = IDPB });
             return RedirectToAction("Index", "FPosition", new { IDPB = IDPB, IDKhoi = vt.IDKhoi, IDPX = vt.IDPX, IDTo = vt.IDTo, IDNhom = vt.IDNhom });
         }
         public ActionResult Delete(int id, int? IDPB)
         {
             try
             {
-                var aa = db.NhanViens.Where(x => x.IDVTKNL == id ).ToList();
+                var aa = db.NhanViens.Where(x => x.IDVTKNL == id).ToList();
                 var ab = db.KNL_LSDG.Where(x => x.VTID == id).ToList();
                 var ac = db.KNL_NVKiemNhiem.Where(x => x.IDVTKN == id).ToList();
                 if (aa.Count == 0 && ab.Count == 0 && ac.Count == 0) { db.VitriKNL_delete(id); db.QT_PhanQuyen.Where(x => x.IDVTKNL == id).ToList().RemoveAll(x => x.IDVTKNL == id); db.SaveChanges(); }
@@ -839,7 +839,7 @@ namespace E_Learning.Controllers
                 db.NhanViens.Where(x => x.IDVTKNL == id).ToList().ForEach(i => i.IDVTKNL = null);
                 db.KNL_NVKiemNhiem.Where(x => x.IDVTKN == id).ToList().RemoveAll(x => x.IDVTKN == id);
                 db.SaveChanges();
-                db.VitriKNL_update_TinhTrang(id,0);
+                db.VitriKNL_update_TinhTrang(id, 0);
             }
             catch (Exception e)
             {
@@ -963,13 +963,13 @@ namespace E_Learning.Controllers
                 vt = db.ViTriKNLs.Where(x => x.IDVT == _DO.IDKNL).FirstOrDefault();
                 if (!String.IsNullOrEmpty(_DO.NVDG))
                 {
-                    
+
                     //Regex.Replace(_DO.NVDG, @"[^0-9a-zA-Z]+", " ");
                     string tx = Regex.Replace(_DO.NVDG, @"[^0-9a-zA-Z]+", " ");
                     string[] NVS = tx.Split(new char[] { ' ' });
                     foreach (var item in NVS)
                     {
-                        var aa = db.NhanViens.Where(x => x.MaNV == item && x.IDTinhTrangLV ==1).Count();
+                        var aa = db.NhanViens.Where(x => x.MaNV == item && x.IDTinhTrangLV == 1).Count();
                         if (aa > 0)
                         {
                             db.Nhanvien_update_IDKNL(item, _DO.IDKNL);
@@ -1165,7 +1165,7 @@ namespace E_Learning.Controllers
                       select new ViTriKNLValidation
                       {
                           IDVT = a.IDVT,
-                          TenViTri = a.TenViTri  + "-" + f.TenNhom + "-" + g.TenTo  + "-" + e.TenPX + "-" + b.TenPhongBan,
+                          TenViTri = a.TenViTri + "-" + f.TenNhom + "-" + g.TenTo + "-" + e.TenPX + "-" + b.TenPhongBan,
                           IDNhom = a.IDNhom,
                           IDTo = a.IDTo,
                           MaViTri = a.MaViTri,
@@ -1271,9 +1271,9 @@ namespace E_Learning.Controllers
             if (IDPB == null) IDPB = 0;
 
             List<SetPermisionKNLValidation> res = new List<SetPermisionKNLValidation>();
-            if(IDPB != 0)
+            if (IDPB != 0)
             {
-                res = (from a in db.ViTriKNLs.Where(x=>x.IDPB == IDPB)
+                res = (from a in db.ViTriKNLs.Where(x => x.IDPB == IDPB)
                        join e in db.KNL_PhanXuong
                        on a.IDPX equals e.ID into ul
                        from e in ul.DefaultIfEmpty()
@@ -1382,15 +1382,22 @@ namespace E_Learning.Controllers
                 //}
                 //else ListNV = res;
                 //tính ngày đánh giá lại
-                DateTime dtt = DateTime.Now;
-                int currentQ = (dtt.Month - 1) / 3 + 1;
-                int nextQ = currentQ == 4 ? 1 : currentQ + 1;
-                int year = dtt.Year + (currentQ == 4 ? 1 : 0);
-                int lastMonth = nextQ * 3;
+                DateTime now = DateTime.Now;
 
-                DateTime lastDayNextQuarter = new DateTime(year, lastMonth, 1).AddMonths(1).AddDays(-1);
+                // Xác định quý hiện tại (1–4)
+                int currentQuarter = (now.Month - 1) / 3 + 1;
 
-                string resultlastDayNextQuarter = lastDayNextQuarter.ToString("dd/MM/yyyy");
+                // Tháng cuối của quý hiện tại
+                int lastMonthOfQuarter = currentQuarter * 3;
+
+                // Ngày cuối của tháng đó
+                DateTime lastDayOfQuarter = new DateTime(
+                    now.Year,
+                    lastMonthOfQuarter,
+                    DateTime.DaysInMonth(now.Year, lastMonthOfQuarter)
+                );
+
+                string resultlastDayNextQuarter = lastDayOfQuarter.ToString("dd/MM/yyyy");
 
                 int month = DateTime.Now.Month; // hoặc date.Month
                 int quy = (month - 1) / 3 + 1;
@@ -1398,48 +1405,48 @@ namespace E_Learning.Controllers
                 var kqQuy = db.KNL_LSDG_TheoQuy(nam, quy, null).ToList();
 
                 ListNV = (from a in res
-                            join kq in kqQuy on a.ID equals kq.NVID into ulkh
-                            from kq in ulkh.DefaultIfEmpty()
-                            select new FCheckValidation
-                            {
-                                MaNV = a.MaNV,
-                                IDNV = a.ID,
-                                IDVT = a.IDVT,
-                                TenVT = a.TenViTri + "-" + a.TenNhom + "-" + a.TenTo + "-" + a.MaPX + "-" + a.MaPB,
-                                TenNV = a.HoTen,
-                                IDNhom = a.IDNhom,
-                                IDPB = a.IDPB,
-                                IDKip = a.IDKip,
-                                TenKip = a.TenKip,
-                                MaViTri = a.MaViTri,
-                                TenPB = a.TenPhongBan,
-                                IDPX = a.IDPX,
-                                IDTo = a.IDTo,
-                                DGQuy = quy, // có thể để 0 nếu muốn mặc định khác
-                                DGNam = nam,
-                                Total = kq?.TONGNL ?? 0,
-                                TotalDat = kq?.DAT ?? 0,
-                                TotalVuot = kq?.VUOT ?? 0,
-                                TotalKDat = kq?.KDAT ?? 0,
-                                TotalKDGia = kq?.KDGia ?? 0,
-                                TotalChuaDGia = kq?.CHUADG ?? 0,
-                                TotalDatTu = kq?.DATTUDG ?? 0,
-                                TotalVuotTu = kq?.VUOTTUDG ?? 0,
-                                TotalKDatTu = kq?.KDATTUDG ?? 0,
-                                TotalKDGiaTu = kq?.KDGiaTuDG ?? 0,
-                                TotalChuaDGiaTu = kq?.CHUADGTuDG ?? 0,
-                                TotalDatTuLan1 = kq?.DATTUDGLan1 ?? 0,
-                                TotalVuotTuLan1 = kq?.VUOTTUDGLan1 ?? 0,
-                                TotalKDatTuLan1 = kq?.KDATTUDGLan1 ?? 0,
-                                TotalKDGiaTuLan1 = kq?.KDGiaTuDGLan1 ?? 0,
-                                TotalChuaDGiaTuLan1 = kq?.CHUADGTuDGLan1 ?? 0,
-                                NgayDG = kq?.NgayDGGN != null ? kq?.NgayDGGN.Value.ToString("dd/MM/yyyy") : "",
-                                NgayTuDG = kq?.NgayTuDGGN != null ? kq?.NgayTuDGGN.Value.ToString("dd/MM/yyyy") : "",
-                                NgayDGLan1 = kq?.NgayDGGNLan1 != null ? kq?.NgayDGGNLan1.Value.ToString("dd/MM/yyyy") : "",
-                                NgayHanDGStr = kq?.KDAT > 0 && kq?.NgayDGGN != null ? kq?.NgayDGGN.Value.AddMonths(3).ToString("dd/MM/yyyy"):
-                                               kq?.NgayDGGN != null && kq?.KDAT ==0 ? resultlastDayNextQuarter : ""
-                            }).ToList();
-               
+                          join kq in kqQuy on a.ID equals kq.NVID into ulkh
+                          from kq in ulkh.DefaultIfEmpty()
+                          select new FCheckValidation
+                          {
+                              MaNV = a.MaNV,
+                              IDNV = a.ID,
+                              IDVT = a.IDVT,
+                              TenVT = a.TenViTri + "-" + a.TenNhom + "-" + a.TenTo + "-" + a.MaPX + "-" + a.MaPB,
+                              TenNV = a.HoTen,
+                              IDNhom = a.IDNhom,
+                              IDPB = a.IDPB,
+                              IDKip = a.IDKip,
+                              TenKip = a.TenKip,
+                              MaViTri = a.MaViTri,
+                              TenPB = a.TenPhongBan,
+                              IDPX = a.IDPX,
+                              IDTo = a.IDTo,
+                              DGQuy = quy, // có thể để 0 nếu muốn mặc định khác
+                              DGNam = nam,
+                              Total = kq?.TONGNL ?? 0,
+                              TotalDat = kq?.DAT ?? 0,
+                              TotalVuot = kq?.VUOT ?? 0,
+                              TotalKDat = kq?.KDAT ?? 0,
+                              TotalKDGia = kq?.KDGia ?? 0,
+                              TotalChuaDGia = kq?.CHUADG ?? 0,
+                              TotalDatTu = kq?.DATTUDG ?? 0,
+                              TotalVuotTu = kq?.VUOTTUDG ?? 0,
+                              TotalKDatTu = kq?.KDATTUDG ?? 0,
+                              TotalKDGiaTu = kq?.KDGiaTuDG ?? 0,
+                              TotalChuaDGiaTu = kq?.CHUADGTuDG ?? 0,
+                              TotalDatTuLan1 = kq?.DATTUDGLan1 ?? 0,
+                              TotalVuotTuLan1 = kq?.VUOTTUDGLan1 ?? 0,
+                              TotalKDatTuLan1 = kq?.KDATTUDGLan1 ?? 0,
+                              TotalKDGiaTuLan1 = kq?.KDGiaTuDGLan1 ?? 0,
+                              TotalChuaDGiaTuLan1 = kq?.CHUADGTuDGLan1 ?? 0,
+                              NgayDG = kq?.NgayDGGN != null ? kq?.NgayDGGN.Value.ToString("dd/MM/yyyy") : "",
+                              NgayTuDG = kq?.NgayTuDGGN != null ? kq?.NgayTuDGGN.Value.ToString("dd/MM/yyyy") : "",
+                              NgayDGLan1 = kq?.NgayDGGNLan1 != null ? kq?.NgayDGGNLan1.Value.ToString("dd/MM/yyyy") : "",
+                              NgayHanDGStr = kq?.KDAT > 0 && kq?.NgayDGGN != null ? kq?.NgayDGGN.Value.AddMonths(3).ToString("dd/MM/yyyy") :
+                                             kq?.NgayDGGN != null && kq?.KDAT == 0 ? resultlastDayNextQuarter : ""
+                          }).ToList();
+
             }
             catch (Exception e)
             {
@@ -1536,7 +1543,7 @@ namespace E_Learning.Controllers
                         string[] NVS = tx.Split(new char[] { ' ' });
                         foreach (var item1 in NVS)
                         {
-                            var aa = db.NhanViens.Where(x => x.MaNV == item1 && x.IDTinhTrangLV ==1).Count();
+                            var aa = db.NhanViens.Where(x => x.MaNV == item1 && x.IDTinhTrangLV == 1).Count();
                             if (aa > 0)
                             {
                                 int? mvt = ToNullableInt(item.MaViTri);
@@ -1633,7 +1640,7 @@ namespace E_Learning.Controllers
                         var lsLoaiKNL = db.LoaiKNLs.Where(x => x.IDVT == IDN).ToList();
 
                         int? i = ToNullableInt(item);
-                        if(i != null)
+                        if (i != null)
                         {
                             var vtN = db.ViTriKNLs.Where(x => x.IDVT == i).FirstOrDefault();
                             var vtLoaiN = db.LoaiKNLs.Where(x => x.IDVT == i).ToList();
@@ -1658,11 +1665,11 @@ namespace E_Learning.Controllers
                                     {
                                         var a = db.LoaiKNLs.Where(x => x.IDLoai == data.IDLoaiNL).FirstOrDefault();
                                         int? b = GetIDLoaiNL(a.TenLoai, i);
-                                        db.KhungNangLuc_insert(data.TenNL, b, i, vtN.IDPB, data.DinhMuc, data.IsDanhGia, data.OrderBy,null);
+                                        db.KhungNangLuc_insert(data.TenNL, b, i, vtN.IDPB, data.DinhMuc, data.IsDanhGia, data.OrderBy, null);
                                     }
                                     else
                                     {
-                                        db.KhungNangLuc_insert(data.TenNL, data.IDLoaiNL, i, vtN.IDPB, data.DinhMuc, data.IsDanhGia, data.OrderBy,null);
+                                        db.KhungNangLuc_insert(data.TenNL, data.IDLoaiNL, i, vtN.IDPB, data.DinhMuc, data.IsDanhGia, data.OrderBy, null);
                                     }
 
                                 }
@@ -1702,11 +1709,11 @@ namespace E_Learning.Controllers
                                 {
                                     var a = db.LoaiKNLs.Where(x => x.IDLoai == data.IDLoaiNL).FirstOrDefault();
                                     int? b = GetIDLoaiNL(a.TenLoai, i);
-                                    db.KhungNangLuc_insert(data.TenNL, b, i, vtN.IDPB, data.DinhMuc, data.IsDanhGia, data.OrderBy,null);
+                                    db.KhungNangLuc_insert(data.TenNL, b, i, vtN.IDPB, data.DinhMuc, data.IsDanhGia, data.OrderBy, null);
                                 }
                                 else
                                 {
-                                    db.KhungNangLuc_insert(data.TenNL, data.IDLoaiNL, i, vtN.IDPB, data.DinhMuc, data.IsDanhGia, data.OrderBy,null);
+                                    db.KhungNangLuc_insert(data.TenNL, data.IDLoaiNL, i, vtN.IDPB, data.DinhMuc, data.IsDanhGia, data.OrderBy, null);
                                 }
 
                             }
@@ -1721,9 +1728,10 @@ namespace E_Learning.Controllers
                 int? pb2 = ToNullableInt(collection["IDDS"]);
                 int? px2 = ToNullableInt(collection["IDPX2"]);
 
-                if (pb1 != null && pb2 != null && px1 != null){
+                if (pb1 != null && pb2 != null && px1 != null)
+                {
                     var px = db.KNL_PhanXuong.Where(x => x.ID == px1).FirstOrDefault();
-                   
+
                     if (nhom1 != null)
                     {
                         var vt = db.ViTriKNLs.Where(x => x.IDNhom == nhom1).ToList();
@@ -1734,7 +1742,7 @@ namespace E_Learning.Controllers
                         db.SaveChanges();
                         foreach (var item in vt)
                         {
-                            db.VitriKNL_update(item.IDVT,item.TenViTri,item.MaViTri,pb2,item.IDKhoi, px2, item.IDNhom,item.IDTo,item.FilePath);
+                            db.VitriKNL_update(item.IDVT, item.TenViTri, item.MaViTri, pb2, item.IDKhoi, px2, item.IDNhom, item.IDTo, item.FilePath);
                         }
                     }
                     if (to1 != null)
@@ -1780,7 +1788,7 @@ namespace E_Learning.Controllers
                     }
 
                 }
-                else if(pb1 != null && pb2 != null && px1 == null)
+                else if (pb1 != null && pb2 != null && px1 == null)
                 {
                     if (nhom1 != null)
                     {
@@ -1823,11 +1831,12 @@ namespace E_Learning.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateVT(string TenVT,string MaVT,int? IDPB, int? IDK, int? IDPX, int? IDNhom, int? IDTo, string FilePath)
+        public ActionResult CreateVT(string TenVT, string MaVT, int? IDPB, int? IDK, int? IDPX, int? IDNhom, int? IDTo, string FilePath)
         {
             try
             {
-                if(TenVT != "") {
+                if (TenVT != "")
+                {
                     db.VitriKNL_insert(TenVT, MaVT, IDPB, IDK, IDPX, IDNhom, IDTo, FilePath);
                 }
             }
@@ -1884,7 +1893,7 @@ namespace E_Learning.Controllers
         }
 
         [HttpPost]
-        public ActionResult UploadFile(ViTriKNLValidation _DO,int? IDPB)
+        public ActionResult UploadFile(ViTriKNLValidation _DO, int? IDPB)
         {
 
             try
@@ -1895,7 +1904,7 @@ namespace E_Learning.Controllers
                     Directory.CreateDirectory(path);
                 }
                 //Use Namespace called :  System.IO  
-                string FileName = _DO.FileUpload != null ? DateTime.Now.ToString("yyyyMMddHHmmss") + "_"+"File" +_DO.IDVT.ToString() : "";
+                string FileName = _DO.FileUpload != null ? DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + "File" + _DO.IDVT.ToString() : "";
 
                 //To Get File Extension  
                 string FileExtension = _DO.FileUpload != null ? Path.GetExtension(_DO.FileUpload.FileName) : "";
@@ -2022,7 +2031,7 @@ namespace E_Learning.Controllers
                     {
                         if (K.IDNL != 0)
                         {
-                            var a = db.KhungNangLuc_update(K.IDNL, K.TenNL, K.IDLoaiNL, null, 0, null, null,null,null);
+                            var a = db.KhungNangLuc_update(K.IDNL, K.TenNL, K.IDLoaiNL, null, 0, null, null, null, null);
                         }
 
                     }
@@ -2033,7 +2042,7 @@ namespace E_Learning.Controllers
                 {
                     if (item.NLuc != null)
                     {
-                        var aa = db.KhungNangLuc_insert(item.NLuc, 1, null, 0, null, null,1,null);
+                        var aa = db.KhungNangLuc_insert(item.NLuc, 1, null, 0, null, null, 1, null);
                     }
                 }
 
@@ -2041,7 +2050,7 @@ namespace E_Learning.Controllers
                 {
                     if (item.NLuc != null)
                     {
-                        var aa = db.KhungNangLuc_insert(item.NLuc, 2, null, 0, null, null,1,null);
+                        var aa = db.KhungNangLuc_insert(item.NLuc, 2, null, 0, null, null, 1, null);
                     }
                 }
 
@@ -2119,7 +2128,7 @@ namespace E_Learning.Controllers
             // Lấy danh sách năng lực sau khi thêm/cập nhật
             var res = await (
                 from a in db.KhungNangLucs.Where(x => x.IDVT == id && x.IsDuyet == null)
-                join b in db.LoaiKNLs.Where(x => (x.IDVT == id || x.IDLoai == 1 || x.IDLoai == 2 )&& x.TinhTrang ==1)
+                join b in db.LoaiKNLs.Where(x => (x.IDVT == id || x.IDLoai == 1 || x.IDLoai == 2) && x.TinhTrang == 1)
                     on a.IDLoaiNL equals b.IDLoai
                 join c in db.ViTriKNLs on a.IDVT equals c.IDVT
                 join d in db.PhongBans on c.IDPB equals d.IDPhongBan
@@ -2155,13 +2164,14 @@ namespace E_Learning.Controllers
 
             foreach (var item in model)
             {
-                if (item.IDLoaiNL > 0 && item.TenLoaiNL != null) {
+                if (item.IDLoaiNL > 0 && item.TenLoaiNL != null)
+                {
                     var loainl = db.LoaiKNLs.FirstOrDefault(x => x.IDLoai == item.IDLoaiNL);
                     loainl.TenLoai = item.TenLoaiNL;
                     loainl.OrderBy = item.OrderBy;
                 }
-                 // cập nhật NL
-                 var knl = db.KhungNangLucs.FirstOrDefault(x => x.IDNL == item.IDNL);
+                // cập nhật NL
+                var knl = db.KhungNangLucs.FirstOrDefault(x => x.IDNL == item.IDNL);
                 if (knl != null)
                 {
                     knl.TenNL = item.TenNL;
@@ -2170,7 +2180,7 @@ namespace E_Learning.Controllers
                     knl.OrderBy = item.OrderBy;
                     knl.IsDuyet = null; //KNL lưu 
                 }
-                else if(item.IDLoaiNL > 0 && item.IDNL ==0 && item.TenNL != null)  // Add NL vao loai NL da co
+                else if (item.IDLoaiNL > 0 && item.IDNL == 0 && item.TenNL != null)  // Add NL vao loai NL da co
                 {
                     var newNL = new KhungNangLuc()
                     {
@@ -2185,7 +2195,7 @@ namespace E_Learning.Controllers
                     };
                     db.KhungNangLucs.Add(newNL);
                 }
-                else if(item.IDLoaiNL < 0 && item.IDNL == 0 && item.TenLoaiNL != null) //them moi loaiNl
+                else if (item.IDLoaiNL < 0 && item.IDNL == 0 && item.TenLoaiNL != null) //them moi loaiNl
                 {
                     // Thêm loai moi
                     var entity = new LoaiKNL
@@ -2193,13 +2203,13 @@ namespace E_Learning.Controllers
                         TenLoai = item.TenLoaiNL,
                         OrderBy = item.OrderBy,
                         IDVT = item.IDVT,
-                        TinhTrang =1
+                        TinhTrang = 1
                     };
                     db.LoaiKNLs.Add(entity);
                     db.SaveChanges();
                     mapIdLoai[(int)item.IDLoaiNL] = entity.IDLoai;
                 }
-                else if(item.IDLoaiNL <0 && item.IDNL == 0 && item.TenNL != null) // them nl moi hoan toan
+                else if (item.IDLoaiNL < 0 && item.IDNL == 0 && item.TenNL != null) // them nl moi hoan toan
                 {
                     int IDloai = (int)item.IDLoaiNL;
                     var newNL = new KhungNangLuc()
@@ -2226,7 +2236,7 @@ namespace E_Learning.Controllers
             return Json(loaiNL, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult CreateKNL(int id,int? IDPB)
+        public ActionResult CreateKNL(int id, int? IDPB)
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             ViewBag.QUYENCN = ListQuyen;
@@ -2235,13 +2245,13 @@ namespace E_Learning.Controllers
                 TempData["msgError"] = "<script>alert('Bạn không có quyền thực hiện chức năng này');</script>";
                 return RedirectToAction("", "Home");
             }
-                db.Configuration.ProxyCreationEnabled = false;
-                List<PhongBan> dt = db.PhongBans.Where(x=>x.IDPhongBan == IDPB).ToList();
-                ViewBag.IDPB = new SelectList(dt, "IDPhongBan", "TenPhongBan");
+            db.Configuration.ProxyCreationEnabled = false;
+            List<PhongBan> dt = db.PhongBans.Where(x => x.IDPhongBan == IDPB).ToList();
+            ViewBag.IDPB = new SelectList(dt, "IDPhongBan", "TenPhongBan");
 
-            List<ViTriKNL> vtt = db.ViTriKNLs.Where(x=>x.IDVT ==id).ToList();
+            List<ViTriKNL> vtt = db.ViTriKNLs.Where(x => x.IDVT == id).ToList();
             ViewBag.IDVT = new SelectList(vtt, "IDVT", "TenViTri");
-            List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => x.IDVT == id && x.IDLoai !=1 && x.IDLoai !=2 && x.TinhTrang == 1).OrderBy(x => x.OrderBy).ToList();
+            List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => x.IDVT == id && x.IDLoai != 1 && x.IDLoai != 2 && x.TinhTrang == 1).OrderBy(x => x.OrderBy).ToList();
             ViewBag.IDLoaiNL = loaiNL;
             ViewBag.SLIDVT = id;
             ViewBag.PBIDD = IDPB;
@@ -2253,7 +2263,7 @@ namespace E_Learning.Controllers
 
             try
             {
-                
+
                 var pb = ToNullableInt(collection["IDPB"]);
                 var vt = ToNullableInt(collection["IDVT"]);
                 var Item = new List<KeyValuePair<string, string>>();
@@ -2273,7 +2283,7 @@ namespace E_Learning.Controllers
                 {
 
                     Item.Add(new KeyValuePair<string, string>(key, collection[key]));
-                    if(key.Split('_')[0] == "nlchung")
+                    if (key.Split('_')[0] == "nlchung")
                     {
                         ListChung.Add(new AddNL() { NLuc = collection[key], DinhMuc = collection["dmchung_" + key.Split('_')[1]], IsDanhGia = collection["IsDanhGiachung_" + key.Split('_')[1]].Split(',')[0] });
                     }
@@ -2283,7 +2293,7 @@ namespace E_Learning.Controllers
                     }
                     if (key.Split('_')[0] == "nlLoai")
                     {
-                        ListLoaiUpdate.Add(new AddNL() { NLuc = collection[key], DinhMuc = collection["dmLoai_" + key.Split('_')[1]+ "_cmonLoai_"+ key.Split('_')[3]], IsDanhGia = collection["IsDanhGiaLoai_" + key.Split('_')[1] + "_cmonLoai_" + key.Split('_')[3]].Split(',')[0],IDLoai = key.Split('_')[3].ToString() });
+                        ListLoaiUpdate.Add(new AddNL() { NLuc = collection[key], DinhMuc = collection["dmLoai_" + key.Split('_')[1] + "_cmonLoai_" + key.Split('_')[3]], IsDanhGia = collection["IsDanhGiaLoai_" + key.Split('_')[1] + "_cmonLoai_" + key.Split('_')[3]].Split(',')[0], IDLoai = key.Split('_')[3].ToString() });
                     }
                     if (key.Split('_')[0] == "nlcmon" && key.Split('_')[2] == "cmon")
                     {
@@ -2293,7 +2303,7 @@ namespace E_Learning.Controllers
                         {
                             var am = db.LoaiKNL_insert(aa, vt, 1);
                             idloai = GetIDLoaiNL(aa.ToString(), vt);
-                            
+
                         }
                         var dmNL = collection["dmcmon_" + key.Split('_')[1] + "_cmon_" + key.Split('_')[3]];
                         var isdg = collection["IsDanhGiacmon_" + key.Split('_')[1] + "_cmon_" + key.Split('_')[3]].Split(',')[0];
@@ -2303,25 +2313,25 @@ namespace E_Learning.Controllers
 
                 }
                 //var addChung = Item.Where(x => x.Key.Split('_')[0] == "nlchung").ToList();
-                if (ListKNL?.Count > 0&& ListKNL !=null)
+                if (ListKNL?.Count > 0 && ListKNL != null)
                 {
-                    
+
                     foreach (var K in ListKNL)
                     {
-                        if(K.IDNL != 0)
+                        if (K.IDNL != 0)
                         {
-                            var a = db.KhungNangLuc_update(K.IDNL, K.TenNL, K.IDLoaiNL, K.IDVT, K.IDPB, ToNullableInt(K.DinhMuc.ToString()), GetDanhGia(K.DanhGia.ToString()), K.OrderBy,null);
+                            var a = db.KhungNangLuc_update(K.IDNL, K.TenNL, K.IDLoaiNL, K.IDVT, K.IDPB, ToNullableInt(K.DinhMuc.ToString()), GetDanhGia(K.DanhGia.ToString()), K.OrderBy, null);
                         }
 
                     }
                 }
-               
-                
+
+
                 foreach (var item in ListLoaiUpdate)
                 {
                     if (item.NLuc != null && pb != null && vt != null)
                     {
-                        var aa = db.KhungNangLuc_insert(item.NLuc, ToNullableInt(item.IDLoai), vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia),1,null);
+                        var aa = db.KhungNangLuc_insert(item.NLuc, ToNullableInt(item.IDLoai), vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia), 1, null);
                     }
                 }
 
@@ -2329,7 +2339,7 @@ namespace E_Learning.Controllers
                 {
                     if (item.NLuc != null && pb != null && vt != null)
                     {
-                        var aa = db.KhungNangLuc_insert(item.NLuc, 1, vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia),1,null);
+                        var aa = db.KhungNangLuc_insert(item.NLuc, 1, vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia), 1, null);
                     }
                 }
 
@@ -2337,14 +2347,14 @@ namespace E_Learning.Controllers
                 {
                     if (item.NLuc != null && pb != null && vt != null)
                     {
-                        var aa = db.KhungNangLuc_insert(item.NLuc, 2, vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia),1,null);
+                        var aa = db.KhungNangLuc_insert(item.NLuc, 2, vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia), 1, null);
                     }
                 }
                 foreach (var item in ListCmonNew)
                 {
                     if (item.NLuc != null && pb != null && vt != null)
                     {
-                        var aa = db.KhungNangLuc_insert(item.NLuc, ToNullableInt(item.IDLoai), vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia),1,null);
+                        var aa = db.KhungNangLuc_insert(item.NLuc, ToNullableInt(item.IDLoai), vt, pb, ToNullableInt(item.DinhMuc), GetDanhGia(item.IsDanhGia), 1, null);
                     }
                 }
 
@@ -2581,7 +2591,7 @@ namespace E_Learning.Controllers
                     }
                 }
 
-               
+
 
                 // luu lại file pdf
                 KNL_PheDuyetKNL pheduyet = db.KNL_PheDuyetKNL.Where(x => x.ID == idduyet).FirstOrDefault();
@@ -2815,11 +2825,11 @@ namespace E_Learning.Controllers
                        on a.IDPB equals d.IDPhongBan
                        select new ViTriKNLValidation
                        {
-                           IDVT =a.IDVT,
-                           IDPB =a.IDPB,
-                           MaViTri =a.MaViTri,
-                           TenPhongBan =d.TenPhongBan,
-                           TenViTri=a.TenViTri
+                           IDVT = a.IDVT,
+                           IDPB = a.IDPB,
+                           MaViTri = a.MaViTri,
+                           TenPhongBan = d.TenPhongBan,
+                           TenViTri = a.TenViTri
                        }).ToList();
 
             //if (IDPB == null) IDPB = 0;
@@ -2843,7 +2853,7 @@ namespace E_Learning.Controllers
             //    List<PhongBan> dt = db.PhongBans.ToList();
             //    ViewBag.IDPB = new SelectList(dt, "IDPhongBan", "TenPhongBan",idpb);
             //}
-           
+
             //if (Idquyen == 6 || (Idquyen == 5 && idns == idpb) || idpb == 3 || (Idquyen == 1 && idns == idpb) || isAll == 1)
             //{
             //    if (IDPB == null) IDPB = 0;
@@ -2901,7 +2911,7 @@ namespace E_Learning.Controllers
                     Item.Add(new KeyValuePair<string, string>(key, collection[key]));
                     if (key.Split('_')[0] == "tenvt")
                     {
-                        ListVT.Add(new ViTriKNLValidation() { TenViTri = collection[key], MaViTri = collection["mavt_" + key.Split('_')[1]]});
+                        ListVT.Add(new ViTriKNLValidation() { TenViTri = collection[key], MaViTri = collection["mavt_" + key.Split('_')[1]] });
                     }
 
                 }
@@ -2920,12 +2930,12 @@ namespace E_Learning.Controllers
 
                 foreach (var item in ListVT)
                 {
-                    if (item.TenViTri != null && pb != null )
+                    if (item.TenViTri != null && pb != null)
                     {
                         //var aa = db.VitriKNL_insert(item.TenViTri, item.MaViTri, pb);
                     }
                 }
-                
+
 
                 //db.VitriKNL_insert(_DO.TenViTri,_DO.IDPB);
                 TempData["msgSuccess"] = "<script>alert('Thêm mới thành công');</script>";
@@ -3006,7 +3016,7 @@ namespace E_Learning.Controllers
                 item.IsDuyet = 2;
                 //db.KhungNangLucs.Remove(item);
                 db.SaveChanges();
-                return Json(new { success = true,message="Xóa dữ liệu thành công!" });
+                return Json(new { success = true, message = "Xóa dữ liệu thành công!" });
             }
 
             return Json(new { success = false });
@@ -3062,9 +3072,9 @@ namespace E_Learning.Controllers
         //    }
         //    return RedirectToAction("CreateKNL", "FPosition", new { id = IDVT, IDPB = IDPB });
         //}
-        public int GetIDNangLuc(string tenNL, int? IDBP,int? IDLoaiNL)
+        public int GetIDNangLuc(string tenNL, int? IDBP, int? IDLoaiNL)
         {
-            var model = db.KhungNangLucs.Where(x => x.TenNL == tenNL && x.IDPB == IDBP && x.IDLoaiNL ==IDLoaiNL).FirstOrDefault();
+            var model = db.KhungNangLucs.Where(x => x.TenNL == tenNL && x.IDPB == IDBP && x.IDLoaiNL == IDLoaiNL).FirstOrDefault();
             if (model == null)
                 return 0;
             return model.IDNL;
@@ -3077,7 +3087,7 @@ namespace E_Learning.Controllers
         }
         public int GetDanhGia(string TenDG)
         {
-            if (TenDG == "True"||TenDG =="true") return 0;
+            if (TenDG == "True" || TenDG == "true") return 0;
             else return 1;
         }
         public int GetIDLoaiNL(string tenloai, int? idvt)
@@ -3102,10 +3112,10 @@ namespace E_Learning.Controllers
                 //Regex.Replace(_DO.NVDG, @"[^0-9a-zA-Z]+", " ");
                 string tx = Regex.Replace(lsnv, @"[^0-9a-zA-Z]+", " ");
                 string[] NVS = tx.Split(new char[] { ' ' });
-                
+
                 foreach (var item in NVS)
                 {
-                    var aa = db.NhanViens.Where(x => x.MaNV == item && x.IDTinhTrangLV ==1).ToList();
+                    var aa = db.NhanViens.Where(x => x.MaNV == item && x.IDTinhTrangLV == 1).ToList();
                     if (aa.Count > 0)
                     {
                         ListNV.Add(new EmployeeValidation { MaNV = aa.FirstOrDefault().MaNV, HoTen = aa.FirstOrDefault().MaNV + " - " + aa.FirstOrDefault().HoTen });
@@ -3138,7 +3148,7 @@ namespace E_Learning.Controllers
 
 
 
-        public JsonResult CheckListVT(string lsVTN,string lsVTD)
+        public JsonResult CheckListVT(string lsVTN, string lsVTD)
         {
             var ListNV = new List<EmployeeValidation>();
             if (!String.IsNullOrEmpty(lsVTN) && !String.IsNullOrEmpty(lsVTD))
@@ -3172,11 +3182,11 @@ namespace E_Learning.Controllers
             try
             {
                 var aa = db.NhanViens.Where(x => x.MaNV == manv).ToList();
-                if(aa.Count > 0)
+                if (aa.Count > 0)
                 {
                     db.Nhanvien_update_IDKNL(manv, null);
                 }
-                
+
             }
             catch (Exception e)
             {
@@ -3347,7 +3357,7 @@ namespace E_Learning.Controllers
                           IDTo = a.IDTo,
                           MaViTri = a.MaViTri,
                           IDPX = a.IDPX,
-                          IDPB =a.IDPB
+                          IDPB = a.IDPB
                       }).ToList();
             if (IDPB != null) vt = vt.Where(x => x.IDPB == IDPB).ToList();
             ViewBag.IDVT = new SelectList(vt, "IDVT", "TenViTri");
@@ -3357,7 +3367,7 @@ namespace E_Learning.Controllers
         public string checkMVT2(string mvt)
         {
             if (mvt is null) return "";
-            if (mvt.Length <2) return "";
+            if (mvt.Length < 2) return "";
             else return mvt.Substring(0, 2);
             //switch (mvt.Substring(0, 2))
             //{
@@ -3374,7 +3384,7 @@ namespace E_Learning.Controllers
         public string checkMVT3(string mvt)
         {
             if (mvt is null) return "";
-            if (mvt.Length <3) return "";
+            if (mvt.Length < 3) return "";
             else return mvt.Substring(0, 3);
         }
 
@@ -3531,7 +3541,7 @@ namespace E_Learning.Controllers
                         Worksheet.Cell(row, "AA").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "AA").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
-                        Worksheet.Cell(row, "AB").Value = data.TinhTrang ==0?"Hết hiệu lực":"Còn hiệu lực";
+                        Worksheet.Cell(row, "AB").Value = data.TinhTrang == 0 ? "Hết hiệu lực" : "Còn hiệu lực";
                         Worksheet.Cell(row, "AB").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                         Worksheet.Cell(row, "AB").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "AB").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
@@ -3564,7 +3574,7 @@ namespace E_Learning.Controllers
         {
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
             //var listKNL = db.KhungNangLucs.ToList();
-           
+
             var fir = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             //var KQKNLThang = db.KNL_KQ_SelectThang(fir).ToList();
             var KQKNLThang = db.KNL_KQ_SelectDDG().ToList();
@@ -3618,7 +3628,7 @@ namespace E_Learning.Controllers
                            //CountVTAuto =  CountListSetAuto(a)
                        }).OrderBy(x => x.IDPB).ToList();
             int i = 0;
-            foreach(var item in res)
+            foreach (var item in res)
             {
                 var vt = listVT.Where(x => x.IDVT == item.IDVT).FirstOrDefault();
                 item.CountVTAuto = getListSetAuto(vt).Count();
@@ -3651,7 +3661,7 @@ namespace E_Learning.Controllers
                                MaViTri = a.MaViTri,
                                TenPB = a.TenPhongBan
                            }).ToList();
-                
+
                 if (ListQuyen.Contains("VIEW_BP"))
                 {
                     res = res.Where(x => x.IDPB == idpb).ToList();
@@ -3670,7 +3680,7 @@ namespace E_Learning.Controllers
                     {
                         var KQDG = db.KNL_KQ_Select(item.IDNV, lastCheck?.ThangDG).ToList();
                         item.NgayDG = KQ.FirstOrDefault()?.NgayDG != null ? String.Format("{0:dd/MM/yyyy}", KQ.FirstOrDefault()?.NgayDG) : "";
-                        item.Total = lastCheck.ThangDG != null ? db.KNL_KQ_searchByIDNV(item.IDNV,lastCheck?.ThangDG,item.IDVT).Count() : 0;
+                        item.Total = lastCheck.ThangDG != null ? db.KNL_KQ_searchByIDNV(item.IDNV, lastCheck?.ThangDG, item.IDVT).Count() : 0;
                         item.TotalDat = KQDG != null ? KQDG.Where(x => x.DiemDG == x.DinhMuc && x.DiemDG != null).Count() : 0;
                         item.TotalKDat = KQDG != null ? KQDG.Where(x => x.DiemDG < x.DinhMuc && x.DiemDG != null).Count() : 0;
                         item.TotalVuot = KQDG != null ? KQDG.Where(x => x.DiemDG > x.DinhMuc && x.DiemDG != null).Count() : 0;
@@ -3702,12 +3712,12 @@ namespace E_Learning.Controllers
                                            join g in db.KNL_To
                                            on a.IDTo equals g.IDTo into ulk
                                            from g in ulk.DefaultIfEmpty()
-                                           join h in db.PhongBans 
+                                           join h in db.PhongBans
                                            on a.IDPB equals h.IDPhongBan
                                            select new ViTriKNLValidation
                                            {
                                                IDVT = a.IDVT,
-                                               TenViTri = a.TenViTri + "-" + f.TenNhom + "-" + g.TenTo + "-" + e.TenPX + "-"+h.MaPB,
+                                               TenViTri = a.TenViTri + "-" + f.TenNhom + "-" + g.TenTo + "-" + e.TenPX + "-" + h.MaPB,
                                                IDNhom = a.IDNhom,
                                                IDTo = a.IDTo,
                                                MaViTri = a.MaViTri,
@@ -3832,7 +3842,7 @@ namespace E_Learning.Controllers
                         Worksheet.Cell(row, "E").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                         Worksheet.Cell(row, "E").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "E").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-                        
+
 
                         Worksheet.Cell(row, "F").Value = data.IDVT;
                         Worksheet.Cell(row, "F").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
@@ -3894,11 +3904,11 @@ namespace E_Learning.Controllers
             }
         }
 
-        public ActionResult ExportToExcelNew(int? IDPB,int? IDPX, int? IDTo, int? IDNhom, int? Quy, int? Nam)
+        public ActionResult ExportToExcelNew(int? IDPB, int? IDPX, int? IDTo, int? IDNhom, int? Quy, int? Nam)
         {
             try
             {
-                if(Idquyen != 1) // Tài khoản admin xem tất cả
+                if (Idquyen != 1) // Tài khoản admin xem tất cả
                 {
                     IDPB = MyAuthentication.IDPhongban;
                 }
@@ -3906,7 +3916,7 @@ namespace E_Learning.Controllers
                 string fileNamemaunew = AppDomain.CurrentDomain.BaseDirectory + @"App_Data\ThongKeKQua_KNL_Temp.xlsx";
                 XLWorkbook Workbook = new XLWorkbook(fileNamemau);
                 IXLWorksheet Worksheet = Workbook.Worksheet("NhanVien_KNL");
-                List<ExportNhanVienKQKNL> DataKNL = GetNhanVienKNL1(IDPB, IDPX, IDTo,IDNhom, Quy,Nam);
+                List<ExportNhanVienKQKNL> DataKNL = GetNhanVienKNL1(IDPB, IDPX, IDTo, IDNhom, Quy, Nam);
                 int row = 5;
                 if (DataKNL.Count > 0)
                 {
@@ -4007,7 +4017,7 @@ namespace E_Learning.Controllers
                         Worksheet.Cell(row, "Q").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                         Worksheet.Cell(row, "Q").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
-                        Worksheet.Cell(row, "R").Value = data.NgayDGTu != null?"'"+ data.NgayDGTu.Value.ToString("dd/MM/yyyy"):"";
+                        Worksheet.Cell(row, "R").Value = data.NgayDGTu != null ? "'" + data.NgayDGTu.Value.ToString("dd/MM/yyyy") : "";
                         Worksheet.Cell(row, "R").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                         Worksheet.Cell(row, "R").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "R").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
@@ -4037,7 +4047,7 @@ namespace E_Learning.Controllers
                         Worksheet.Cell(row, "V").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                         Worksheet.Cell(row, "V").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
-                        Worksheet.Cell(row, "W").Value =data.NgayDGCap1 != null ? "'" + data.NgayDGCap1.Value.ToString("dd/MM/yyyy") : "";
+                        Worksheet.Cell(row, "W").Value = data.NgayDGCap1 != null ? "'" + data.NgayDGCap1.Value.ToString("dd/MM/yyyy") : "";
                         Worksheet.Cell(row, "W").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                         Worksheet.Cell(row, "W").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                         Worksheet.Cell(row, "W").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
@@ -4361,11 +4371,11 @@ namespace E_Learning.Controllers
                        select new ExportBoPhanKNL
                        {
                            TenPhongBan = a.TenPhongBan,
-                           MaPhongBan =a.MaPB,
+                           MaPhongBan = a.MaPB,
                            TotalVT = a.ToTalVT,
-                           VTDDG =a.VTDDG,
-                           TotalNV =a.TotalNV,
-                           NVDDG =a.NVDDG
+                           VTDDG = a.VTDDG,
+                           TotalNV = a.TotalNV,
+                           NVDDG = a.NVDDG
                        }).ToList();
             return res;
         }
@@ -4397,7 +4407,7 @@ namespace E_Learning.Controllers
             var res = (from a in nhanVien
                        let kq = knlKQ.Where(x => x.IDNV == a.ID &&
                                x.VTID == a.IDVT).ToList()
-                       let b = LSDG_KQ.Where(x=>x.NVID == a.ID && x.VTID == a.IDVT).FirstOrDefault()
+                       let b = LSDG_KQ.Where(x => x.NVID == a.ID && x.VTID == a.IDVT).FirstOrDefault()
                        let c = docKNL.Where(x => x.IDNV == a.ID && x.ID_ViTriKNL == a.IDVT)
                        select new ExportNhanVienKQKNL
                        {
@@ -4503,7 +4513,7 @@ namespace E_Learning.Controllers
                             var check = db.NhanViens.Where(x => x.MaNV == MaNV && x.IDTinhTrangLV == 1).Count();
                             int? IDVT = ToNullableInt(dt.Rows[i][4].ToString().Trim());
 
-                            if (IDVT != null && check>0) db.Nhanvien_update_IDKNL(MaNV, IDVT);
+                            if (IDVT != null && check > 0) db.Nhanvien_update_IDKNL(MaNV, IDVT);
                             //db_context.CauHoi_insert(NoiDungCH, DapAnA, DapAnB, DapAnC, DapAnD, Convert.ToInt32(DapAnDung), _DO.IDND, MyAuthentication.ID);
 
                         }
@@ -4540,7 +4550,7 @@ namespace E_Learning.Controllers
             ViewBag.IDVT = IDVT;
             ViewBag.TenPB = vt?.TenPhongBan ?? "";
 
-            var res = (from a in db.KhungNangLuc_SearchByIDVT(IDVT).Where(x=>x.IsDuyet == 1)
+            var res = (from a in db.KhungNangLuc_SearchByIDVT(IDVT).Where(x => x.IsDuyet == 1)
                        select new FValueValidation
                        {
                            IDNL = a.IDNL,
@@ -4560,9 +4570,9 @@ namespace E_Learning.Controllers
         }
 
 
-        public ActionResult ExportExcelNVien(object sender, EventArgs e,int? IDPB)
+        public ActionResult ExportExcelNVien(object sender, EventArgs e, int? IDPB)
         {
-            
+
             if (IDPB is null) IDPB = 0;
             //string constr = ConfigurationManager.ConnectionStrings["ELEARNINGEntities"].ConnectionString;
             string constr = ConfigurationManager.AppSettings["LinkExport"];
@@ -4610,7 +4620,7 @@ namespace E_Learning.Controllers
         {
             //string constr = ConfigurationManager.ConnectionStrings["ELEARNINGEntities"].ConnectionString;
             string constr = ConfigurationManager.AppSettings["LinkExport"];
-            string fileExport = "attachment;filename="+ nameFileExcel + ".xlsx";
+            string fileExport = "attachment;filename=" + nameFileExcel + ".xlsx";
             using (SqlConnection con = new SqlConnection(constr))
             {
                 using (SqlCommand cmd = new SqlCommand(StoreProcuduce, con)
@@ -4669,7 +4679,7 @@ namespace E_Learning.Controllers
                 if (listVT.Count > 0)
                 {
                     var tem = 0;
-                    foreach(var vt in listVT)
+                    foreach (var vt in listVT)
                     {
                         var dataKNL = GetDataExportKNL(vt.IDVT);
                         if (dataKNL != null)
@@ -4709,16 +4719,16 @@ namespace E_Learning.Controllers
                             Worksheet.Cell(row, "A").Value = "1. Thông tin chung ";
                             Worksheet.Cell(row, "A").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                             Worksheet.Cell(row, "A").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                           
+
 
                             //Worksheet.Cell(row, "A").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                             Worksheet.Range("A" + row + ":I" + row).Merge();
                             row = row + 1;
-                            Worksheet.Cell(row, "A").Value = "1.1. Vị trí công việc: "+dataKNL.TenViTri;
+                            Worksheet.Cell(row, "A").Value = "1.1. Vị trí công việc: " + dataKNL.TenViTri;
                             Worksheet.Cell(row, "A").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                             Worksheet.Cell(row, "A").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                             //Worksheet.Cell(row, "A").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-                            Worksheet.Range("A"+row+":I"+row).Merge();
+                            Worksheet.Range("A" + row + ":I" + row).Merge();
                             row = row + 1;
                             Worksheet.Cell(row, "A").Value = "1.2. Bộ phận: " + dataKNL.TenPhongBan;
                             Worksheet.Cell(row, "A").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
@@ -4777,9 +4787,9 @@ namespace E_Learning.Controllers
                             Worksheet.Range("B" + row + ":I" + row).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                             row = row + 1;
                             var b = 0;
-                            foreach(var data in dataKNL.LSFValue.Where(x=>x.IDLoaiNL ==1))
+                            foreach (var data in dataKNL.LSFValue.Where(x => x.IDLoaiNL == 1))
                             {
-                                Worksheet.Cell(row, "A").Value = b+1;
+                                Worksheet.Cell(row, "A").Value = b + 1;
                                 Worksheet.Cell(row, "A").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                                 Worksheet.Cell(row, "A").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                                 Worksheet.Cell(row, "A").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
@@ -4789,7 +4799,7 @@ namespace E_Learning.Controllers
                                 Worksheet.Cell(row, "B").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                                 Worksheet.Cell(row, "B").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
-                                Worksheet.Cell(row, "C").Value = data.DinhMuc ==0?"X":"";
+                                Worksheet.Cell(row, "C").Value = data.DinhMuc == 0 ? "X" : "";
                                 Worksheet.Cell(row, "C").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                                 Worksheet.Cell(row, "C").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                                 Worksheet.Cell(row, "C").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
@@ -4825,8 +4835,8 @@ namespace E_Learning.Controllers
                                 Worksheet.Cell(row, "I").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
 
                                 //Worksheet.Row(row).Height = 16;
-                                row =row + 1;
-                                b= b + 1;
+                                row = row + 1;
+                                b = b + 1;
 
                             }
                             Worksheet.Cell(row, "A").Value = "II";
@@ -4846,7 +4856,7 @@ namespace E_Learning.Controllers
                             Worksheet.Cell(row, "B").Style.Font.Bold = true;
                             row = row + 1;
                             var k = 0;
-                            foreach(var loaiNL in dataKNL.LSLoaiKNL)
+                            foreach (var loaiNL in dataKNL.LSLoaiKNL)
                             {
                                 Worksheet.Cell(row, "A").Value = k + 1;
                                 Worksheet.Cell(row, "A").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
@@ -4863,9 +4873,9 @@ namespace E_Learning.Controllers
                                 Worksheet.Cell(row, "B").Style.Font.Bold = true;
                                 row = row + 1;
                                 var de = 0;
-                                foreach(var data in dataKNL.LSFValue.Where(x=>x.IDLoaiNL == loaiNL.IDLoai))
+                                foreach (var data in dataKNL.LSFValue.Where(x => x.IDLoaiNL == loaiNL.IDLoai))
                                 {
-                                    Worksheet.Cell(row, "A").Value = (k+1)+"."+ (de + 1);
+                                    Worksheet.Cell(row, "A").Value = (k + 1) + "." + (de + 1);
                                     Worksheet.Cell(row, "A").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                                     Worksheet.Cell(row, "A").Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                                     Worksheet.Cell(row, "A").Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
@@ -5027,23 +5037,23 @@ namespace E_Learning.Controllers
             }
         }
 
-        private FExportKNLValidation GetDataExportKNL( int? IDVT)
+        private FExportKNLValidation GetDataExportKNL(int? IDVT)
         {
             var res = new FExportKNLValidation();
             var vt = db.VitriKNL_searchByIDVT(IDVT).FirstOrDefault();
 
-            var FKNL = (from a in db.KhungNangLuc_SearchByIDVT(IDVT).Where(x=>x.IsDuyet == 1)
-                       select new FValueValidation
-                       {
-                           IDNL = a.IDNL,
-                           TenNL = a.TenNL,
-                           IDLoaiNL = a.IDLoaiNL,
-                           IDVT = a.IDVT,
-                           TenViTri = vt.TenViTri+vt.TenTo != null? "-"+vt.TenTo:""+ vt.TenNhom != null ?"-"+ vt.TenNhom:"" + vt.TenPX!= null? "-" +vt.TenPX:"",
-                           IDPB = a.IDPB,
-                           DinhMuc = a.IsDanhGia != 0 ? a.DinhMuc : 0,
-                           IsDanhGia = a.IsDanhGia,
-                       }).ToList().OrderBy(x => x.OrderBy);
+            var FKNL = (from a in db.KhungNangLuc_SearchByIDVT(IDVT).Where(x => x.IsDuyet == 1)
+                        select new FValueValidation
+                        {
+                            IDNL = a.IDNL,
+                            TenNL = a.TenNL,
+                            IDLoaiNL = a.IDLoaiNL,
+                            IDVT = a.IDVT,
+                            TenViTri = vt.TenViTri + vt.TenTo != null ? "-" + vt.TenTo : "" + vt.TenNhom != null ? "-" + vt.TenNhom : "" + vt.TenPX != null ? "-" + vt.TenPX : "",
+                            IDPB = a.IDPB,
+                            DinhMuc = a.IsDanhGia != 0 ? a.DinhMuc : 0,
+                            IsDanhGia = a.IsDanhGia,
+                        }).ToList().OrderBy(x => x.OrderBy);
             var distinctIDLoaiNLs = FKNL.Where(x => x.IDLoaiNL != 1 && x.IDLoaiNL != 2)
                    .Select(x => x.IDLoaiNL)
                    .Distinct()
@@ -5054,7 +5064,7 @@ namespace E_Learning.Controllers
             res.LSFValue = FKNL.ToList();
             //res.TenViTri = vt.TenViTri + "-" + vt.TenTo + "-" + vt.TenNhom + "-" + vt.TenPX;
             res.TenViTri = vt.TenViTri;
-            if(!String.IsNullOrEmpty(vt.TenTo)) res.TenViTri += "-"+vt.TenTo;
+            if (!String.IsNullOrEmpty(vt.TenTo)) res.TenViTri += "-" + vt.TenTo;
             if (!String.IsNullOrEmpty(vt.TenNhom)) res.TenViTri += "-" + vt.TenNhom;
             if (!String.IsNullOrEmpty(vt.TenPX)) res.TenViTri += "-" + vt.TenPX;
             res.TenPhongBan = vt.TenPhongBan;
@@ -5062,36 +5072,36 @@ namespace E_Learning.Controllers
             return res;
         }
 
-        public ActionResult GetDataNVExport(JqueryDatatableParam param, int? IDPB,int? IDPX, int?  IDNhom, int? IDTo)
+        public ActionResult GetDataNVExport(JqueryDatatableParam param, int? IDPB, int? IDPX, int? IDNhom, int? IDTo)
         {
             if (IDPB == null) IDPB = 0;
             var employees = (from a in db.NhanVien_ExportKQKNL(IDPB)
-                       select new ExportNhanVienKQKNL
-                       {
-                           MaNV = a.MaNV,
-                           IDNV = a.ID,
-                           IDVT = a.IDVT,
-                           TenViTri = a.TenViTri,
-                           TenNV = a.HoTen,
-                           IDNhom = a.IDNhom,
-                           TenNhom = a.TenNhom,
-                           IDTo = a.IDTo,
-                           TenTo = a.TenTo,
-                           IDPX = a.IDPX,
-                           TenPX = a.TenPX,
-                           IDKip = a.IDKip,
-                           TenKip = a.TenKip,
-                           TenPhongBan = a.TenPhongBan,
-                           TotalNL = a.TotalNL,
-                           DAT = a.DAT,
-                           VUOT = a.VUOT,
-                           KDAT = a.KDAT,
-                           KDGIA = a.NODG,
-                           CHUADG = a.CHUADG,
-                           NgayDG = a.NgayDG == null ? "" : String.Format("{0:dd/MM/yyyy}", a?.NgayDG),
-                           HanDG = a.KDAT > 0?"Cần đánh giá lại sau " + (((DateTime)a.NgayDG).AddMonths(6) - DateTime.Now).Days + " ngày tới" : ""  ,
-                           NgayHanDG = a.KDAT > 0 ? String.Format("{0:dd/MM/yyyy}", ((DateTime)a.NgayDG).AddMonths(6)) : "",
-                       }).ToList();
+                             select new ExportNhanVienKQKNL
+                             {
+                                 MaNV = a.MaNV,
+                                 IDNV = a.ID,
+                                 IDVT = a.IDVT,
+                                 TenViTri = a.TenViTri,
+                                 TenNV = a.HoTen,
+                                 IDNhom = a.IDNhom,
+                                 TenNhom = a.TenNhom,
+                                 IDTo = a.IDTo,
+                                 TenTo = a.TenTo,
+                                 IDPX = a.IDPX,
+                                 TenPX = a.TenPX,
+                                 IDKip = a.IDKip,
+                                 TenKip = a.TenKip,
+                                 TenPhongBan = a.TenPhongBan,
+                                 TotalNL = a.TotalNL,
+                                 DAT = a.DAT,
+                                 VUOT = a.VUOT,
+                                 KDAT = a.KDAT,
+                                 KDGIA = a.NODG,
+                                 CHUADG = a.CHUADG,
+                                 NgayDG = a.NgayDG == null ? "" : String.Format("{0:dd/MM/yyyy}", a?.NgayDG),
+                                 HanDG = a.KDAT > 0 ? "Cần đánh giá lại sau " + (((DateTime)a.NgayDG).AddMonths(6) - DateTime.Now).Days + " ngày tới" : "",
+                                 NgayHanDG = a.KDAT > 0 ? String.Format("{0:dd/MM/yyyy}", ((DateTime)a.NgayDG).AddMonths(6)) : "",
+                             }).ToList();
 
             if (IDPX != null) employees = employees.Where(x => x.IDPX == IDPX).ToList();
             if (IDNhom != null) employees = employees.Where(x => x.IDNhom == IDNhom).ToList();
@@ -5152,26 +5162,26 @@ namespace E_Learning.Controllers
         public ActionResult GetDataNVVTKNL(JqueryDatatableParam param)
         {
             var employees = (from a in db.NhanVien_Export_ALL()
-                       select new ExportNhanVienKNL
-                       {
-                           MaNV = a.MaNV,
-                           IDNV = a.ID,
-                           IDVT = a.IDVT,
-                           TenViTri = a.TenViTri,
-                           TenNV = a.HoTen,
-                           //IDNhom = a.IDNhom,
-                           TenNhom = a.TenNhom,
-                           //IDTo = b.IDTo,
-                           TenTo = a.TenTo,
-                           //IDPB = a.IDPB,
-                           //IDPX = b.IDPX,
-                           TenPX = a.TenPX,
-                           IDKip = a.IDKip,
-                           TenKip = a.TenKip,
-                           MaViTri = a.MaViTri,
-                           TenPhongBan = a.TenPhongBan,
-                           TenPhongBanKNL =a.TenPBKNL
-                       }).ToList();
+                             select new ExportNhanVienKNL
+                             {
+                                 MaNV = a.MaNV,
+                                 IDNV = a.ID,
+                                 IDVT = a.IDVT,
+                                 TenViTri = a.TenViTri,
+                                 TenNV = a.HoTen,
+                                 //IDNhom = a.IDNhom,
+                                 TenNhom = a.TenNhom,
+                                 //IDTo = b.IDTo,
+                                 TenTo = a.TenTo,
+                                 //IDPB = a.IDPB,
+                                 //IDPX = b.IDPX,
+                                 TenPX = a.TenPX,
+                                 IDKip = a.IDKip,
+                                 TenKip = a.TenKip,
+                                 MaViTri = a.MaViTri,
+                                 TenPhongBan = a.TenPhongBan,
+                                 TenPhongBanKNL = a.TenPBKNL
+                             }).ToList();
 
             var displayResult = employees.Skip(param.iDisplayStart)
              .Take(param.iDisplayLength).ToList();
@@ -5208,7 +5218,7 @@ namespace E_Learning.Controllers
             if (IDPB == null) IDPB = 0;
 
 
-            var res = (from a in db.VitriKNL_Select(IDPB).Where(x=>x.IDPhongBan ==IDPB)
+            var res = (from a in db.VitriKNL_Select(IDPB).Where(x => x.IDPhongBan == IDPB)
                        select new ViTriKNLValidation
                        {
                            IDVT = a.IDVT,
@@ -5258,7 +5268,7 @@ namespace E_Learning.Controllers
             List<KNL_Khoi> khoi = db.KNL_Khoi.ToList();
             ViewBag.IDKhoi = new SelectList(khoi, "ID", "TenKhoi");
 
-            List<KNL_PhanXuong> px = db.KNL_PhanXuong.Where(x=>x.IDPhongBan == IDPB ).ToList();
+            List<KNL_PhanXuong> px = db.KNL_PhanXuong.Where(x => x.IDPhongBan == IDPB).ToList();
             ViewBag.IDPX = new SelectList(px, "ID", "TenPX");
 
             List<KNL_Nhom> nhom = db.KNL_Nhom.Where(x => x.IDPhongBan == IDPB).ToList();
@@ -5273,7 +5283,7 @@ namespace E_Learning.Controllers
             return View(res.ToList().ToPagedList(pageNumber, pageSize));
         }
         [HttpPost]
-        public ActionResult ChangePositon( FormCollection collection, List<ViTriKNLValidation> ListKQ)
+        public ActionResult ChangePositon(FormCollection collection, List<ViTriKNLValidation> ListKQ)
         {
 
             try
@@ -5287,7 +5297,7 @@ namespace E_Learning.Controllers
                 {
                     if (key.Split('_')[0] == "IDPB")
                     {
-                        ListVT.Add(new ViTriKNLValidation() { TenPhongBan = collection["IDPB_" + key.Split('_')[1]], TenKhoi = collection["IDKhoi_" + key.Split('_')[1]], TenPX = collection["IDPX_" + key.Split('_')[1]], TenNhom = collection["IDNhom_" + key.Split('_')[1]], TenTo = collection["IDTo_" + key.Split('_')[1]], MaViTri =  key.Split('_')[1] });
+                        ListVT.Add(new ViTriKNLValidation() { TenPhongBan = collection["IDPB_" + key.Split('_')[1]], TenKhoi = collection["IDKhoi_" + key.Split('_')[1]], TenPX = collection["IDPX_" + key.Split('_')[1]], TenNhom = collection["IDNhom_" + key.Split('_')[1]], TenTo = collection["IDTo_" + key.Split('_')[1]], MaViTri = key.Split('_')[1] });
                     }
                 }
                 foreach (var item in ListVT)
@@ -5309,10 +5319,10 @@ namespace E_Learning.Controllers
                         if (aa.Count > 0)
                         {
                             var vt = aa.FirstOrDefault();
-                            if(IDPX != 0)
+                            if (IDPX != 0)
                             {
                                 var checkKhoi = db.KNL_PhanXuong.Where(x => x.ID == IDPX).FirstOrDefault();
-                                IDK =  Int32.TryParse(checkKhoi.IDKhoi.ToString(), out IDK) ? IDK : 0;
+                                IDK = Int32.TryParse(checkKhoi.IDKhoi.ToString(), out IDK) ? IDK : 0;
                             }
                             db.VitriKNL_update(vt.IDVT, vt.TenViTri, vt.MaViTri, IDPB, IDK, IDPX, IDNhom, IDTo, vt.FilePath);
                             //ListNV.Add(new EmployeeValidation { ID = aa.FirstOrDefault().IDVT, HoTen = aa.FirstOrDefault().TenViTri });
@@ -5362,18 +5372,18 @@ namespace E_Learning.Controllers
                 int dtc = 0;
                 string msg = "";
                 var nguoiduyet = form.GetValue("NguoiDuyet");
-                if(nguoiduyet == null)
+                if (nguoiduyet == null)
                 {
                     TempData["msgSuccess"] = "<script>alert('Vui lòng chọn người duyệt KNL');</script>";
                     return RedirectToAction("Index", "FPosition", new { IDPB = _DO.IDPB, IDNhom = _DO.IDNhom, IDTo = _DO.IDTo });
                 }
-                if(_DO.IDPB == null && _DO.IDNhom == null && _DO.IDTo == null)
+                if (_DO.IDPB == null && _DO.IDNhom == null && _DO.IDTo == null)
                 {
                     TempData["msgSuccess"] = "<script>alert('Vui lòng chọn ít nhất 1 Bộ phận/Xưởng/Tổ/Nhóm');</script>";
                     return RedirectToAction("Index", "FPosition", new { IDPB = _DO.IDPB, IDNhom = _DO.IDNhom, IDTo = _DO.IDTo });
                 }
                 int IDNguoiDuyet = int.Parse(nguoiduyet.AttemptedValue.ToString());
-                if(_DO.IDPB != null && _DO.IDNhom != null)
+                if (_DO.IDPB != null && _DO.IDNhom != null)
                 {
                     var lsVT = db.ViTriKNLs.Where(x => x.IDPB == _DO.IDPB && x.IDNhom == _DO.IDNhom && x.MaViTri != "TBP" && x.MaViTri != "PBP" && x.TinhTrang != 0 && x.TinhTrang_DuyetKNL != 0).ToList();
                     foreach (var item in lsVT)
@@ -5438,7 +5448,7 @@ namespace E_Learning.Controllers
 
                     }
 
-                } 
+                }
                 else if (_DO.IDPB != null && _DO.IDTo != null)
                 {
                     var lsVT = db.ViTriKNLs.Where(x => x.IDPB == _DO.IDPB && x.IDTo == _DO.IDTo && x.MaViTri != "TBP" && x.MaViTri != "PBP" && x.TinhTrang != 0).ToList();
@@ -5547,7 +5557,8 @@ namespace E_Learning.Controllers
                         dtc++;
                     }
 
-                } else if(_DO.IDPB != null)
+                }
+                else if (_DO.IDPB != null)
                 {
                     var lsVT = db.ViTriKNLs.Where(x => x.IDPB == _DO.IDPB && x.MaViTri != "TBP" && x.MaViTri != "PBP").ToList();
                     foreach (var item in lsVT)
@@ -5627,7 +5638,7 @@ namespace E_Learning.Controllers
         }
 
 
-        public ActionResult TrinhKyBangKNL(int? IDVT ,int? IDPB)
+        public ActionResult TrinhKyBangKNL(int? IDVT, int? IDPB)
         {
             int idpb = MyAuthentication.IDPhongban;
             var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
@@ -5675,14 +5686,14 @@ namespace E_Learning.Controllers
                         UpdateKhungNangLucDG(_DO.IDVT, IDNguoiDuyet);
                         TempData["msgSuccess"] = "<script>alert('Trình ký thành công!');</script>";
                     }
-                        
+
                 }
 
                 if (dtc != 0)
                 {
                     msg = "Đã trình ký " + dtc + " Vị trí";
                 }
-               
+
             }
             catch (Exception e)
             {
@@ -5706,15 +5717,15 @@ namespace E_Learning.Controllers
                     // check KhungNangLuc_DG 
                     var knl_dg = db.KhungNangLuc_DG.FirstOrDefault(x => x.IDVT == id);
                     // cập nhật Vị trí KNL về tình trạng trước đó
-                    if(knl_dg != null) 
-                    { 
-                        vitriKNL.TinhTrang_DuyetKNL = 1; 
+                    if (knl_dg != null)
+                    {
+                        vitriKNL.TinhTrang_DuyetKNL = 1;
                     }
                     else
                     {
                         vitriKNL.TinhTrang_DuyetKNL = null;
                     }
-                    
+
                     vitriKNL.ID_NguoiTrinhKy = null;
                     db.SaveChanges();
                     // xóa bảng KNL đang lưu
@@ -5723,7 +5734,7 @@ namespace E_Learning.Controllers
                     {
                         db.KhungNangLuc_delete(nl.IDNL);
                     }
-                   
+
                     return Json(new { success = true, message = "Đã hủy trình ký!" });
                 }
                 else
@@ -5752,19 +5763,19 @@ namespace E_Learning.Controllers
             int idpb = MyAuthentication.IDPhongban;
             var manv = MyAuthentication.Username;
 
-            var res = (from a in db.KNL_PheDuyetKNL.Where(x=>x.IDVT == IDVT)
+            var res = (from a in db.KNL_PheDuyetKNL.Where(x => x.IDVT == IDVT)
                        select new KNL_PheDuyetKNLView
                        {
                            ID = a.ID,
                            IDVT = IDVT,
                            TenViTri = vt.TenViTri,
                            ID_NguoiDuyet = a.ID_NguoiDuyet,
-                           HoTenNguoiDuyet = a.NhanVien.MaNV +" - "+ a.NhanVien.HoTen,
+                           HoTenNguoiDuyet = a.NhanVien.MaNV + " - " + a.NhanVien.HoTen,
                            NgayDuyet = a.NgayDuyet,
-                           NgayTrinhKy =a.NgayTrinhKy,
+                           NgayTrinhKy = a.NgayTrinhKy,
                            TinhTrang = a.TinhTrang,
-                           File_KNL=a.File_KNL
-                       }).OrderByDescending(x=>x.NgayTrinhKy).ToList();
+                           File_KNL = a.File_KNL
+                       }).OrderByDescending(x => x.NgayTrinhKy).ToList();
 
             if (page == null) page = 1;
             int pageSize = 50;
@@ -5791,29 +5802,29 @@ namespace E_Learning.Controllers
                 TempData["msgSuccess"] = "<script>alert('Chưa có chữ ký vui lòng cập nhật chữ ký ');</script>";
                 return new RedirectResult("~/Login/CapNhatChuKy");
             }
-          
+
 
             var res = await (from a in db.KNL_PheDuyetKNL.Where(x => x.ID_NguoiDuyet == idnv)
-                       join b in db.ViTriKNLs on a.IDVT equals b.IDVT
-                       let maxNgayTrinhKy = db.KNL_PheDuyetKNL
-                                 .Where(y => y.IDVT == a.IDVT && y.ID_NguoiDuyet == a.ID_NguoiDuyet)
-                                 .Max(y => y.NgayTrinhKy)
-                       select new KNL_PheDuyetKNLView
-                       {
-                           ID = a.ID,
-                           IDVT = b.IDVT,
-                           TenViTri = b.TenViTri,
-                           ID_NguoiDuyet = a.ID_NguoiDuyet,
-                           HoTenNguoiDuyet = a.NhanVien.MaNV + " - " + a.NhanVien.HoTen,
-                           ID_NguoiTao = a.ID_NguoiTao,
-                           HoTenNguoiTao = a.NhanVien1.MaNV + " - " + a.NhanVien1.HoTen,
-                           NgayDuyet = a.NgayDuyet,
-                           NgayTrinhKy = a.NgayTrinhKy,
-                           TinhTrang = a.TinhTrang,
-                           File_KNL = a.File_KNL,
-                           IDPB = b.IDPB,
-                           IsLatest = a.NgayTrinhKy == maxNgayTrinhKy // Đánh dấu bản ghi mới nhất
-                       }).OrderByDescending(x => x.NgayTrinhKy).ThenBy(x => x.TinhTrang).ToListAsync();
+                             join b in db.ViTriKNLs on a.IDVT equals b.IDVT
+                             let maxNgayTrinhKy = db.KNL_PheDuyetKNL
+                                       .Where(y => y.IDVT == a.IDVT && y.ID_NguoiDuyet == a.ID_NguoiDuyet)
+                                       .Max(y => y.NgayTrinhKy)
+                             select new KNL_PheDuyetKNLView
+                             {
+                                 ID = a.ID,
+                                 IDVT = b.IDVT,
+                                 TenViTri = b.TenViTri,
+                                 ID_NguoiDuyet = a.ID_NguoiDuyet,
+                                 HoTenNguoiDuyet = a.NhanVien.MaNV + " - " + a.NhanVien.HoTen,
+                                 ID_NguoiTao = a.ID_NguoiTao,
+                                 HoTenNguoiTao = a.NhanVien1.MaNV + " - " + a.NhanVien1.HoTen,
+                                 NgayDuyet = a.NgayDuyet,
+                                 NgayTrinhKy = a.NgayTrinhKy,
+                                 TinhTrang = a.TinhTrang,
+                                 File_KNL = a.File_KNL,
+                                 IDPB = b.IDPB,
+                                 IsLatest = a.NgayTrinhKy == maxNgayTrinhKy // Đánh dấu bản ghi mới nhất
+                             }).OrderByDescending(x => x.NgayTrinhKy).ThenBy(x => x.TinhTrang).ToListAsync();
 
             if (page == null) page = 1;
             int pageSize = 100;
@@ -5836,7 +5847,7 @@ namespace E_Learning.Controllers
         //    {
         //        item.NgayDuyet = DateTime.Now;
         //        item.TinhTrang = 1;
-              
+
         //        // thêm bảng KNL ký vào table KhungNangLuc
         //        var knl = db.KhungNangLuc_SearchByIDVT(item.IDVT).Where(x => x.IsDuyet == 0).ToList();
         //        foreach (var nl in knl)
@@ -5854,7 +5865,7 @@ namespace E_Learning.Controllers
         //    TempData["msgSuccess"] = "<script>alert('Thành công');</script>";
         //    return RedirectToAction("PheDuyetKNL", "FPosition");
         //}
-        
+
         [HttpPost]
         public ActionResult ProcessSelected(List<int> selectedItems) // Phê duyệt tất cả DS KNL
         {
@@ -5875,7 +5886,7 @@ namespace E_Learning.Controllers
 
                     sH_KyDuyetNCDT.NgayDuyet = DateTime.Now;
                     sH_KyDuyetNCDT.TinhTrang = 1;
-                   
+
                     // thêm bảng KNL ký vào table KhungNangLuc
                     var knl = db.KhungNangLuc_SearchByIDVT(id).ToList();
                     foreach (var nl in knl)
@@ -5956,7 +5967,7 @@ namespace E_Learning.Controllers
             int idpb = MyAuthentication.IDPhongban;
             var manv = MyAuthentication.Username;
             int idnv = MyAuthentication.ID;
-            var listduyet = await db.KNL_PheDuyetKNL.Where(x => x.ID_NguoiDuyet ==  idnv && x.TinhTrang == 0 && x.IDVT == IDVT).ToListAsync();
+            var listduyet = await db.KNL_PheDuyetKNL.Where(x => x.ID_NguoiDuyet == idnv && x.TinhTrang == 0 && x.IDVT == IDVT).ToListAsync();
             if (listduyet.Count == 0)
             {
                 TempData["msgSuccess"] = "<script>alert('Không tồn tại dữ liệu phê duyệt');</script>";
@@ -5971,10 +5982,10 @@ namespace E_Learning.Controllers
                 item.TinhTrang = 1;
                 // thêm bảng KNL ký vào table KhungNangLuc
                 var knl = db.KhungNangLuc_SearchByIDVT(IDVT).ToList();
-              
+
                 foreach (var nl in knl)
                 {
-                    if(nl.IsDuyet == 0)
+                    if (nl.IsDuyet == 0)
                     {
                         db.KhungNangLuc_update(nl.IDNL, nl.TenNL, nl.IDLoaiNL, nl.IDVT, nl.IDPB, nl.DinhMuc, nl.IsDanhGia, nl.OrderBy, 1);
                         // cập nhật sang bảng KhungNangLuc_DG
@@ -5992,11 +6003,11 @@ namespace E_Learning.Controllers
                         //};
                         //db.KhungNangLuc_DG.Add(newNLDuyet);
                     }
-                    else if(nl.IsDuyet == 1) // update tinhtrang =2
+                    else if (nl.IsDuyet == 1) // update tinhtrang =2
                     {
                         db.KhungNangLuc_update(nl.IDNL, nl.TenNL, nl.IDLoaiNL, nl.IDVT, nl.IDPB, nl.DinhMuc, nl.IsDanhGia, nl.OrderBy, 2);
                     }
-                    
+
                 }
                 string filepath = ExportViewToPdf(item.ID, IDVT);
                 if (filepath != null)
@@ -6007,7 +6018,7 @@ namespace E_Learning.Controllers
                 var vitriKNL = db.ViTriKNLs.FirstOrDefault(x => x.IDVT == IDVT);
                 vitriKNL.TinhTrang_DuyetKNL = 1;
                 vitriKNL.NgayDuyetKNL = DateTime.Now;
-                vitriKNL.TongNLDuyet = knl.Where(x=>x.IsDuyet ==0).Count(); // Cập nhật Tổng các NL đang trình ký
+                vitriKNL.TongNLDuyet = knl.Where(x => x.IsDuyet == 0).Count(); // Cập nhật Tổng các NL đang trình ký
                 db.SaveChanges();
             }
 
@@ -6015,7 +6026,7 @@ namespace E_Learning.Controllers
             return RedirectToAction("PheDuyetKNL", "FPosition");
         }
 
-        public string ExportViewToPdf(int id,int? IDVT)
+        public string ExportViewToPdf(int id, int? IDVT)
         {
 
             // Lấy dữ liệu từ cơ sở dữ liệu (ví dụ)
@@ -6037,7 +6048,7 @@ namespace E_Learning.Controllers
                            DinhMuc = a.IsDanhGia != 0 ? a.DinhMuc : 0,
                            IsDanhGia = a.IsDanhGia,
                            IsDuyet = a.IsDuyet
-                       }).Where(x=>x.IsDuyet == 1).ToList().OrderBy(x => x.OrderBy);
+                       }).Where(x => x.IsDuyet == 1).ToList().OrderBy(x => x.OrderBy);
             var distinctIDLoaiNLs = res.Where(x => x.IDLoaiNL != 1 && x.IDLoaiNL != 2)
                    .Select(x => x.IDLoaiNL)
                    .Distinct()
@@ -6085,7 +6096,7 @@ namespace E_Learning.Controllers
                 }
 
                 document.Close();
-                string filename = $"{"KhungNangLuc_" +  vt?.IDVT + "_" + DateTime.Now.ToString("yyyyMMddHHmm")}.pdf";
+                string filename = $"{"KhungNangLuc_" + vt?.IDVT + "_" + DateTime.Now.ToString("yyyyMMddHHmm")}.pdf";
                 var folderPath = Server.MapPath("~/FileKNL/");
 
                 // Lưu file vào server và trả về path
@@ -6121,7 +6132,7 @@ namespace E_Learning.Controllers
         }
 
         // Hàm xử lý nội bộ, không trả về giá trị
-        private void UpdateKhungNangLucDG(int IDVT,int IDNguoiDuyet)
+        private void UpdateKhungNangLucDG(int IDVT, int IDNguoiDuyet)
         {
             var lsVT = db.ViTriKNLs.Where(x => x.IDVT == IDVT).FirstOrDefault();
             // xóa dữ liệu trùng trình ký trước chưa được duyệt
@@ -6184,7 +6195,7 @@ namespace E_Learning.Controllers
                 lsVT.ID_NguoiTrinhKy = MyAuthentication.ID;
                 db.SaveChanges();
             }
-                
+
         } // trình ký bảng KNL
 
         public ActionResult ExportViTriNoiDungDT()
