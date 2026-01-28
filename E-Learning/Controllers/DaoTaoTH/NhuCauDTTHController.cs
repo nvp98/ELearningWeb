@@ -1,4 +1,6 @@
 ﻿using Antlr.Runtime.Misc;
+using ClosedXML;
+using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Bibliography;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -6,33 +8,32 @@ using E_Learning.Common;
 using E_Learning.Models;
 using E_Learning.ModelsDTTH;
 using E_Learning.ModelsQTHD;
+using iText.Html2pdf;
+using iText.Kernel.Pdf.Event;
+using iText.Layout.Font;
+using iText.Signatures; // Nếu xử lý thêm ký số
+using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.tool.xml;
+using iTextSharp.tool.xml.html;
+using Org.BouncyCastle.Crypto;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using System.Web.UI.WebControls.WebParts;
-using iTextSharp.text;
-using Font = iTextSharp.text.Font;
-using System.Text;
-using iText.Html2pdf;
-using iText.Layout.Font;
-using iText.Signatures; // Nếu xử lý thêm ký số
-using Org.BouncyCastle.Crypto;
-using iText.Kernel.Pdf.Event;
-using iTextSharp.tool.xml.html;
-using ClosedXML.Excel;
-using ClosedXML;
 using System.Web.UI;
+using System.Web.UI.WebControls.WebParts;
+using Font = iTextSharp.text.Font;
 
 namespace E_Learning.Controllers.DaoTaoTH
 {
@@ -1565,12 +1566,25 @@ namespace E_Learning.Controllers.DaoTaoTH
 
             ViewBag.IdNCDT = id;
             ViewBag.search = search;
+            var listNhanVien = db.NhanViens.Where(x=>x.IDTinhTrangLV == 1).ToList();
+
+            var dsvt = db.SH_ViTri_NDDT.Where(x => x.NCDT_ID == id).ToList();
+            var dsnv = db.SH_KetQuaDaoTao.Where(x => x.NCDT_ID == id).ToList();
 
             var nhanVienList = (from nv in db.NhanViens
-                                join vtnd in db.SH_ViTri_NDDT on nv.IDVTKNL equals vtnd.Vitri_ID
                                 join pb in db.PhongBans on nv.IDPhongBan equals pb.IDPhongBan
                                 join vt in db.Vitris on nv.IDViTri equals vt.IDViTri
-                                where vtnd.NCDT_ID == id && nv.IDTinhTrangLV == 1
+                                where nv.IDTinhTrangLV == 1 && (
+                                      // 1️ Thuộc vị trí có NCDT
+                                      db.SH_ViTri_NDDT.Any(vtnd =>
+                                          vtnd.NCDT_ID == id &&
+                                          vtnd.Vitri_ID == nv.IDVTKNL)
+
+                                      // 2️ HOẶC thuộc ds nhân viên thêm
+                                      || db.SH_KetQuaDaoTao.Any(kq =>
+                                          kq.NCDT_ID == id &&
+                                          kq.NhanVien_ID == nv.ID)
+                                  )
                                 select new NhanVienViewDTTH
                                 {
                                     ID = nv.ID,
