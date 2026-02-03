@@ -1,0 +1,346 @@
+﻿
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
+<div class="modal-dialog text-left modal-xl" role="document" style="margin-left:300px">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Biểu đồ Radar - Kết quả đánh giá: @ViewBag.TenVT</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div>
+                Tiếng Việt chuẩn: Biểu đồ đánh giá năng lực – Định mức yêu cầu
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="quarterSelect" class="font-weight-bold">Chọn quý đánh giá:</label>
+                    <select id="quarterSelect" class="form-control">
+                        <option value="">-- Tất cả --</option>
+                        <option value="Q1">Quý 1</option>
+                        <option value="Q2">Quý 2</option>
+                        <option value="Q3">Quý 3</option>
+                        <option value="Q4">Quý 4</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="yearSelect" class="font-weight-bold">Năm:</label>
+                    <select id="yearSelect" class="form-control">
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button id="btnLoadChart" class="btn btn-primary" style="margin-top: 32px;">
+                        <i class="fa fa-refresh"></i> Tải biểu đồ
+                    </button>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-12 text-center">
+                    <h6 id="quarterInfo" class="text-primary font-weight-bold"></h6>
+                </div>
+            </div>
+            <div id="chartsContainer" class="row">
+                <!-- Charts will be dynamically added here -->
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div id="chartLegend" class="text-center"></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+
+<script type="text/javascript">
+    // Set font mặc định cho Chart.js để hỗ trợ tiếng Việt
+    Chart.defaults.font.family = '"Segoe UI", Tahoma, Arial, sans-serif';
+
+    $(document).ready(function () {
+        var idvt = @ViewBag.IDVT;
+        var radarCharts = [];
+
+        // Khởi tạo năm (5 năm gần nhất)
+        var currentYear = new Date().getFullYear();
+        for (var i = 0; i < 5; i++) {
+            var year = currentYear - i;
+            var option = $('<option></option>').val(year).text(year);
+            if (i === 0) option.prop('selected', true);
+            $('#yearSelect').append(option);
+        }
+
+        // Destroy charts khi đóng modal
+        $('.modal').on('hidden.bs.modal', function () {
+            if (radarCharts.length > 0) {
+                radarCharts.forEach(function (chart) {
+                    if (chart) {
+                        chart.destroy();
+                    }
+                });
+                radarCharts = [];
+            }
+            $('#quarterInfo').text('');
+            $('#chartLegend').html('');
+            $('#chartsContainer').html('');
+        });
+
+        // Định nghĩa màu sắc cho từng nhóm năng lực
+        var colors = [
+            { bg: 'rgba(54, 162, 235, 0.2)', border: 'rgba(54, 162, 235, 1)' },      // Xanh dương
+            { bg: 'rgba(255, 99, 132, 0.2)', border: 'rgba(255, 99, 132, 1)' },      // Đỏ
+            { bg: 'rgba(75, 192, 192, 0.2)', border: 'rgba(75, 192, 192, 1)' },      // Xanh lá
+            { bg: 'rgba(255, 206, 86, 0.2)', border: 'rgba(255, 206, 86, 1)' },      // Vàng
+            { bg: 'rgba(153, 102, 255, 0.2)', border: 'rgba(153, 102, 255, 1)' },    // Tím
+            { bg: 'rgba(255, 159, 64, 0.2)', border: 'rgba(255, 159, 64, 1)' }       // Cam
+        ];
+
+        // Hàm load dữ liệu biểu đồ
+        function loadChartData() {
+            var quarter = $('#quarterSelect').val();
+            var year = $('#yearSelect').val();
+
+            // Destroy các chart cũ
+            if (radarCharts.length > 0) {
+                radarCharts.forEach(function (chart) {
+                    if (chart) {
+                        chart.destroy();
+                    }
+                });
+                radarCharts = [];
+            }
+
+            // Gọi API để lấy dữ liệu
+            $.ajax({
+                url: '@Url.Action("GetRadarChartData", "FPosition")',
+                type: 'POST',
+                data: {
+                    IDVT: idvt,
+                    Quarter: quarter,
+                    Year: year
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // Hiển thị thông tin quý và tổng số nhân viên
+                        var infoText = response.quarter;
+                        if (response.tongNhanVien) {
+                            infoText += ' - Tổng số nhân viên: ' + response.tongNhanVien + ' người';
+                        }
+                        $('#quarterInfo').text(infoText);
+
+                        if (response.groups && response.groups.length > 0) {
+                            // Tạo biểu đồ cho từng nhóm năng lực
+                            response.groups.forEach(function (group, index) {
+                                var color = colors[index % colors.length];
+
+                                // Tạo container cho mỗi biểu đồ
+                                var colClass = response.groups.length === 1 ? 'col-md-12' :
+                                    response.groups.length === 2 ? 'col-md-6' :
+                                        'col-md-6';
+
+                                var chartHtml = '<div class="' + colClass + ' mb-4">' +
+                                    '<h6 class="text-center font-weight-bold text-info">' + group.tenLoai + '</h6>' +
+                                    '<div style="position: relative; height:400px;">' +
+                                    '<canvas id="radarChart_' + index + '"></canvas>' +
+                                    '</div>' +
+                                    '</div>';
+
+                                $('#chartsContainer').append(chartHtml);
+
+                                // Destroy chart cũ nếu có
+                                if (radarCharts[index]) {
+                                    radarCharts[index].destroy();
+                                }
+
+                                // Tạo biểu đồ radar mới
+                                var ctx = document.getElementById('radarChart_' + index).getContext('2d');
+                                radarCharts[index] = new Chart(ctx, {
+                                    type: 'radar',
+                                    data: {
+                                        labels: group.labels,
+                                        datasets: [
+                                            {
+                                                label: 'Điểm đánh giá thực tế',
+                                                data: group.data,
+                                                backgroundColor: color.bg,
+                                                borderColor: color.border,
+                                                borderWidth: 2,
+                                                pointBackgroundColor: color.border,
+                                                pointBorderColor: '#fff',
+                                                pointHoverBackgroundColor: '#fff',
+                                                pointHoverBorderColor: color.border,
+                                                pointRadius: 5,
+                                                pointHoverRadius: 7
+                                            },
+                                            {
+                                                label: 'Định mức yêu cầu',
+                                                data: group.dinhMuc,
+                                                backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                                                borderColor: 'rgba(255, 193, 7, 1)',
+                                                borderWidth: 2,
+                                                borderDash: [5, 5],
+                                                pointBackgroundColor: 'rgba(255, 193, 7, 1)',
+                                                pointBorderColor: '#fff',
+                                                pointHoverBackgroundColor: '#fff',
+                                                pointHoverBorderColor: 'rgba(255, 193, 7, 1)',
+                                                pointRadius: 4,
+                                                pointHoverRadius: 6,
+                                                pointStyle: 'triangle'
+                                            }
+                                        ]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        scales: {
+                                            r: {
+                                                angleLines: {
+                                                    display: true,
+                                                    color: 'rgba(0, 0, 0, 0.1)'
+                                                },
+                                                suggestedMin: 0,
+                                                suggestedMax: 5,
+                                                ticks: {
+                                                    stepSize: 1,
+                                                    backdropColor: 'transparent',
+                                                    font: {
+                                                        family: '"Segoe UI", Tahoma, Arial, sans-serif',
+                                                        size: 11
+                                                    }
+                                                },
+                                                pointLabels: {
+                                                    font: {
+                                                        family: '"Segoe UI", Tahoma, Arial, sans-serif',
+                                                        size: 10,
+                                                        weight: 'bold'
+                                                    },
+                                                    color: '#333'
+                                                },
+                                                grid: {
+                                                    color: 'rgba(0, 0, 0, 0.1)'
+                                                }
+                                            }
+                                        },
+                                        plugins: {
+                                            legend: {
+                                                display: true,
+                                                position: 'bottom',
+                                                labels: {
+                                                    font: {
+                                                        family: '"Segoe UI", Tahoma, Arial, sans-serif',
+                                                        size: 12
+                                                    },
+                                                    padding: 10,
+                                                    usePointStyle: true
+                                                }
+                                            },
+                                            tooltip: {
+                                                callbacks: {
+                                                    label: function (context) {
+                                                        var label = context.dataset.label + ': ' + context.parsed.r.toFixed(2) + ' điểm';
+
+                                                        // Thêm so sánh với định mức cho điểm thực tế
+                                                        if (context.datasetIndex === 0 && group.dinhMuc && group.dinhMuc[context.dataIndex]) {
+                                                            var dinhMuc = group.dinhMuc[context.dataIndex];
+                                                            var diff = context.parsed.r - dinhMuc;
+                                                            var diffText = diff >= 0 ? '+' + diff.toFixed(2) : diff.toFixed(2);
+                                                            label += ' (' + diffText + ' so với định mức ' + dinhMuc + ')';
+                                                        }
+
+                                                        return label;
+                                                    }
+                                                },
+                                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                                titleFont: {
+                                                    family: '"Segoe UI", Tahoma, Arial, sans-serif',
+                                                    size: 13
+                                                },
+                                                bodyFont: {
+                                                    family: '"Segoe UI", Tahoma, Arial, sans-serif',
+                                                    size: 12
+                                                },
+                                                padding: 10
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+
+                            // Hiển thị legend bổ sung
+                            var legendHtml = '<div class="alert alert-info">';
+                            legendHtml += '<strong>Ghi chú:</strong> Biểu đồ hiển thị so sánh giữa điểm đánh giá thực tế và mức định mức yêu cầu.<br>';
+                            legendHtml += ' <strong>Điểm thực tế</strong>: Trung bình kết quả đánh giá của tất cả nhân viên thuộc vị trí.<br>';
+                            legendHtml += ' <strong>Định mức yêu cầu</strong> (đường đứt nét): Mức điểm tối thiểu cần đạt được cho mỗi năng lực.<br>';
+                            legendHtml += 'Thang điểm: 0 - 5 (5 là cao nhất)';
+                            legendHtml += '</div>';
+                            $('#chartLegend').html(legendHtml);
+                        } else {
+                            $('#chartsContainer').html('<div class="col-md-12"><div class="alert alert-warning text-center">Không có dữ liệu năng lực cho vị trí này</div></div>');
+                        }
+
+                    } else {
+                        $('#chartsContainer').html('<div class="col-md-12"><div class="alert alert-danger">Có lỗi xảy ra: ' + response.message + '</div></div>');
+                    }
+                },
+                error: function () {
+                    $('#chartsContainer').html('<div class="col-md-12"><div class="alert alert-danger">Không thể tải dữ liệu biểu đồ</div></div>');
+                }
+            });
+        }
+
+        // Event khi click nút Tải biểu đồ
+        $('#btnLoadChart').on('click', function () {
+            loadChartData();
+        });
+
+        // Event khi thay đổi quý
+        $('#quarterSelect').on('change', function () {
+            loadChartData();
+        });
+
+        // Event khi thay đổi năm
+        $('#yearSelect').on('change', function () {
+            loadChartData();
+        });
+
+        // Load dữ liệu lần đầu
+        loadChartData();
+    });
+</script>
+
+<style>
+    .modal {
+        z-index: 9999 !important;
+    }
+
+    .modal-backdrop {
+        z-index: 9998 !important;
+    }
+
+    .modal-xl {
+        max-width: 90%;
+    }
+
+    .modal-dialog {
+        z-index: 10000 !important;
+    }
+
+    #chartsContainer canvas {
+        max-height: 400px;
+    }
+
+    #chartsContainer h6 {
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #17a2b8;
+    }
+
+    /* Force font cho toàn bộ modal */
+    .modal-content,
+    .modal-content * {
+        font-family: "Segoe UI", Tahoma, Arial, sans-serif !important;
+    }
+</style>

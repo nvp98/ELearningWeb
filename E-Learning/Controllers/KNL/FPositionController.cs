@@ -1203,6 +1203,178 @@ namespace E_Learning.Controllers
             return RedirectToAction("UpdateNVKN", "FPosition");
         }
 
+        public ActionResult ShowRadarChart(int IDVT)
+        {
+            Response.ContentType = "text/html; charset=utf-8";
+            Response.ContentEncoding = System.Text.Encoding.UTF8;
+            var vt = db.ViTriKNLs.Where(x => x.IDVT == IDVT).FirstOrDefault();
+            if (vt != null)
+            {
+                ViewBag.IDVT = IDVT;
+                ViewBag.TenVT = vt.TenViTri;
+            }
+            return PartialView();
+        }
+
+        [HttpPost]
+        public JsonResult GetRadarChartData(int IDVT, int? IDNV, string Quarter = "", int? Year = null)
+        {
+            try
+            {
+                // Xử lý tham số đầu vào
+                var now = DateTime.Now;
+                int? filterQuarter = null;
+                int filterYear = Year ?? now.Year;
+
+                // Parse Quarter nếu có (Q1, Q2, Q3, Q4)
+                if (!string.IsNullOrEmpty(Quarter))
+                {
+                    if (Quarter == "Q1") filterQuarter = 1;
+                    else if (Quarter == "Q2") filterQuarter = 2;
+                    else if (Quarter == "Q3") filterQuarter = 3;
+                    else if (Quarter == "Q4") filterQuarter = 4;
+                }
+
+                // Nếu không có quý được chọn, lấy quý hiện tại
+                if (!filterQuarter.HasValue && !Year.HasValue)
+                {
+                    filterQuarter = (now.Month - 1) / 3 + 1;
+                }
+
+                // Lấy danh sách nhân viên thuộc vị trí này (đang làm việc)
+                var nvIDs = db.NhanViens
+                    .Where(x => x.IDVTKNL == IDVT && x.IDTinhTrangLV == 1)
+                    .Select(x => x.ID)
+                    .ToList();
+
+                if (IDNV.HasValue)
+                {
+                    // Chỉ lấy NV cụ thể nếu được truyền vào
+                    nvIDs = nvIDs.Where(id => id == IDNV.Value).ToList();
+                }
+
+                // Lấy danh sách loại năng lực cho vị trí này
+                var loaiKNLList = db.LoaiKNLs.Where(x => x.IDVT == IDVT && x.TinhTrang == 1 || x.IDLoai == 1 || x.IDLoai == 2)
+                                             .OrderBy(x => x.OrderBy)
+                                             .ToList();
+
+                // Lấy danh sách năng lực của vị trí
+                var knlList = (from nl in db.KhungNangLucs.Where(x => x.IsDuyet == 1)
+                               join loai in db.LoaiKNLs on nl.IDLoaiNL equals loai.IDLoai
+                               where nl.IDVT == IDVT && nl.IsDanhGia == 1 && loai.TinhTrang == 1
+                               select new
+                               {
+                                   nl.IDNL,
+                                   nl.TenNL,
+                                   nl.IDLoaiNL,
+                                   nl.DinhMuc,  // Thêm định mức
+                                   loai.TenLoai,
+                                   loai.OrderBy
+                               }).ToList();
+
+                // Build query cho kết quả đánh giá với điều kiện lọc động
+                var resultQuery = from kq in db.KNL_KQ
+                                  join nl in db.KhungNangLucs on kq.IDNL equals nl.IDNL
+                                  join loai in db.LoaiKNLs on nl.IDLoaiNL equals loai.IDLoai
+                                  where nl.IDVT == IDVT &&
+                                        nvIDs.Contains(kq.IDNV ?? 0) &&  // Chỉ lấy NV thuộc vị trí này
+                                        kq.Nam == filterYear &&
+                                        loai.TinhTrang == 1
+                                  select new
+                                  {
+                                      IDNV = kq.IDNV,
+                                      IDNL = nl.IDNL,
+                                      TenNL = nl.TenNL,
+                                      IDLoaiNL = nl.IDLoaiNL,
+                                      TenLoai = loai.TenLoai,
+                                      OrderBy = loai.OrderBy,
+                                      DiemDG = kq.DiemDG,
+                                      Quy = kq.Quy
+                                  };
+
+                // Lọc theo quý nếu có
+                if (filterQuarter.HasValue)
+                {
+                    resultQuery = resultQuery.Where(x => x.Quy == filterQuarter.Value);
+                }
+
+                var resultList = resultQuery.ToList();
+
+                // Group theo loại năng lực
+                var groupedData = new List<object>();
+
+                foreach (var loaiKNL in loaiKNLList)
+                {
+                    // Lấy các năng lực thuộc loại này
+                    var nlTheoLoai = knlList.Where(x => x.IDLoaiNL == loaiKNL.IDLoai).ToList();
+
+                    if (nlTheoLoai.Any())
+                    {
+                        // Lấy định mức cho từng năng lực
+                        var dinhMucDict = nlTheoLoai.ToDictionary(x => x.IDNL, x => x.DinhMuc ?? 0);
+
+                        // Tính điểm TRUNG BÌNH của TẤT CẢ cá nhân cho từng năng lực
+                        var avgScores = resultList
+                            .Where(x => x.IDLoaiNL == loaiKNL.IDLoai)
+                            .GroupBy(x => new { x.IDNL, x.TenNL })
+                            .Select(g => new
+                            {
+                                IDNL = g.Key.IDNL,
+                                TenNL = g.Key.TenNL,
+                                SoLuongNV = g.Select(x => x.IDNV).Distinct().Count(), // Số NV được đánh giá
+                                DiemTB = g.Average(x => x.DiemDG ?? 0),  // Trung bình điểm của tất cả NV
+                                DinhMuc = dinhMucDict.ContainsKey(g.Key.IDNL) ? dinhMucDict[g.Key.IDNL] : 0
+                            })
+                            .OrderBy(x => x.TenNL)
+                            .ToList();
+
+                        // Nếu không có dữ liệu đánh giá, lấy danh sách năng lực với điểm 0
+                        if (!avgScores.Any())
+                        {
+                            avgScores = nlTheoLoai.Select(nl => new
+                            {
+                                IDNL = nl.IDNL,
+                                TenNL = nl.TenNL,
+                                SoLuongNV = 0,
+                                DiemTB = 0.0,
+                                DinhMuc = nl.DinhMuc ?? 0
+                            }).OrderBy(x => x.TenNL).ToList();
+                        }
+
+                        groupedData.Add(new
+                        {
+                            tenLoai = loaiKNL.TenLoai,
+                            labels = avgScores.Select(x => x.TenNL).ToArray(),
+                            data = avgScores.Select(x => Math.Round(x.DiemTB, 2)).ToArray(),
+                            dinhMuc = avgScores.Select(x => x.DinhMuc).ToArray(),  // Thêm định mức
+                            soLuongNV = avgScores.Select(x => x.SoLuongNV).ToArray()  // Thêm info số NV
+                        });
+                    }
+                }
+
+                // Tạo label hiển thị thông tin lọc
+                string quarterLabel = filterQuarter.HasValue
+                    ? $"Quý {filterQuarter}/{filterYear}"
+                    : $"Cả năm {filterYear}";
+
+                return Json(new
+                {
+                    success = true,
+                    groups = groupedData,
+                    quarter = quarterLabel,
+                    tongNhanVien = nvIDs.Count  // Tổng số NV thuộc vị trí
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = ex.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult ShowSetVTPermision(int? IDVT, string TenPB, string TenVT)
         {
             ViewBag.TenPB = TenPB;
