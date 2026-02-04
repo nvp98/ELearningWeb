@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -55,7 +54,9 @@
 
         <div class="card mb-4">
             <div class="card-header " style="border:none;">
-                <div class="font-italic text-danger"><p>Lưu ý: Cá nhân tự thực hiện đánh giá Khung năng lực cá nhân theo định kỳ </p></div>
+                <div class="font-italic text-danger">
+                    <p>Lưu ý: Cá nhân tự thực hiện đánh giá Khung năng lực cá nhân theo định kỳ </p>
+                </div>
             </div>
             <div class="card-body" style="padding-top:0">
                 <div class="card-header" style="background-color: azure">
@@ -99,11 +100,15 @@
                                     <td class="">@item.TenKip</td>
                                     <td>@item.TenVT</td>
                                     <td class="text-center">
-                                        <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                                        <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))"
+                                            class="" title="Xem" target="_blank"
+                                            style="text-decoration: underline; font-style: italic; "><i
+                                                class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
                                     </td>
 
                                     <td class="text-center p-0">
-                                        <a class="fa fa-history" target="_blank" title="Lịch sử Đánh giá" href="@Url.Action("Index", "FResult", new { IDNV = item.IDNV })">
+                                        <a class="fa fa-history" target="_blank" title="Lịch sử Đánh giá"
+                                            href="@Url.Action("Index", "FResult", new { IDNV = item.IDNV })">
                                         </a>
                                     </td>
                                     <td class="text-center">@item.NgayTuDG</td>
@@ -113,20 +118,23 @@
                                     <td class="text-center">
                                         @if (item.TinhTrang_DuyetKNL == 1)
                                         {
-                                            <a class="text-danger font-weight-bold" title="Đọc bảng KNL" href="@Url.Action("ReadKNL", "FCheck", new { IDNV = item.IDNV })"
-                                               onclick="return confirm('Bạn muốn đọc bảng KNL : @item.TenNV')">
+                                            <a class="text-danger font-weight-bold" title="Đọc bảng KNL"
+                                                href="@Url.Action("ReadKNL", "FCheck", new { IDNV = item.IDNV })"
+                                                onclick="return confirm('Bạn muốn đọc bảng KNL : @item.TenNV')">
                                                 @item.TotalDat / @item.Total
                                             </a>
-                                            <a class="fa fa-file" title="Đọc bảng KNL" href="@Url.Action("ReadKNL", "FCheck", new { IDNV = item.IDNV })"
-                                               onclick="return confirm('Bạn muốn đọc bảng KNL : @item.TenNV')">
+                                            <a class="fa fa-file" title="Đọc bảng KNL"
+                                                href="@Url.Action("ReadKNL", "FCheck", new { IDNV = item.IDNV })"
+                                                onclick="return confirm('Bạn muốn đọc bảng KNL : @item.TenNV')">
                                             </a>
                                         }
                                     </td>
                                     @if (item.TinhTrang_DuyetKNL == 1 && item.TotalDat >= item.Total && item.Total != 0)
                                     {
                                         <td class="text-center p-0">
-                                            <a class="fa fa-check-square-o fa-2x" title="Đánh giá" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
-                                               onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
+                                            <a class="fa fa-check-square-o fa-2x" title="Đánh giá"
+                                                href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
+                                                onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
                                             </a>
                                         </td>
                                     }
@@ -156,7 +164,10 @@
         {
             <div class="card mb-4">
                 <div class="card-header " style="border:none;">
-                    <div class="font-italic text-danger"><p>Lưu ý: Cần kiểm tra để đảm bảo <strong style="color: rgba(13, 27, 62, 0.7)"> Vị trí đánh giá</strong> trong danh sách đúng với thực tế trước khi thực hiện đánh giá </p></div>
+                    <div class="font-italic text-danger">
+                        <p>Lưu ý: Cần kiểm tra để đảm bảo <strong style="color: rgba(13, 27, 62, 0.7)"> Vị trí đánh
+                                giá</strong> trong danh sách đúng với thực tế trước khi thực hiện đánh giá </p>
+                    </div>
                 </div>
                 <div class="card-body" style="padding-top:0">
                     <div class="card-header" style="background-color: azure">
@@ -190,57 +201,66 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td class="text-center"> @RowNo@{RowNo++;}</td>
-                                        <td class="">@item.MaNV</td>
-                                        <td class="">@item.TenNV</td>
-                                        <td class="">@item.TenKip</td>
-                                        <td>@item.TenVT</td>
-                                        <td class="text-center">
-                                            <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
-                                        </td>
+                                        <td class="text-center"> @RowNo@{
+                                            RowNo++;
+                                        }
+                                    </td>
+                                    <td class="">@item.MaNV</td>
+                                    <td class="">@item.TenNV</td>
+                                    <td class="">@item.TenKip</td>
+                                    <td>@item.TenVT</td>
+                                    <td class="text-center">
+                                        <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))"
+                                            class="" title="Xem" target="_blank"
+                                            style="text-decoration: underline; font-style: italic; "><i
+                                                class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                                    </td>
+                                    <td class="text-center p-0">
+                                        <a class="fa fa-history" target="_blank" title="Lịch sử Đánh giá"
+                                            href="@Url.Action("Index", "FResult", new { IDNV = item.IDNV })">
+                                        </a>
+                                    </td>
+                                    <td class="text-center">@item.NgayTuDG</td>
+                                    <td class="text-center">@item.NgayDGLan1</td>
+                                    <td class="text-center">@item.NgayDG</td>
+
+                                    @if (item.TinhTrang_DuyetKNL == 1 && item.NgayTuDG != "")
+                                    {
                                         <td class="text-center p-0">
-                                            <a class="fa fa-history" target="_blank" title="Lịch sử Đánh giá" href="@Url.Action("Index", "FResult", new { IDNV = item.IDNV })">
+                                            <a class="fa fa-check-square-o" title="Đánh giá lần 1"
+                                                href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1), capDG = "1" })"
+                                                onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
+                                                Thẩm định
                                             </a>
                                         </td>
-                                        <td class="text-center">@item.NgayTuDG</td>
-                                        <td class="text-center">@item.NgayDGLan1</td>
-                                        <td class="text-center">@item.NgayDG</td>
-
-                                        @if (item.TinhTrang_DuyetKNL == 1 && item.NgayTuDG != "")
-                                        {
-                                            <td class="text-center p-0">
-                                                <a class="fa fa-check-square-o" title="Đánh giá lần 1" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1),capDG ="1" })"
-                                                   onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
-                                                    Thẩm định
-                                                </a>
-                                            </td>
-                                            <td class="text-center p-0">
-                                                <a class="fa fa-check-square-o " title="Đánh giá" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
-                                                   onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
-                                                    Phê duyệt
-                                                </a>
-                                            </td>
-                                        }
-                                        else if (item.TinhTrang_DuyetKNL == 1 && item.NgayTuDG == "")
-                                        {
-                                            <td></td>
-                                            <td class="text-danger">CBNV Chưa đánh giá</td>
-                                        }
-                                        else
-                                        {
-                                            <td></td>
-                                            <td class="text-danger">Bảng KNL chưa duyệt</td>
-                                        }
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                                        <td class="text-center p-0">
+                                            <a class="fa fa-check-square-o " title="Đánh giá"
+                                                href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
+                                                onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
+                                                Phê duyệt
+                                            </a>
+                                        </td>
+                                    }
+                                    else if (item.TinhTrang_DuyetKNL == 1 && item.NgayTuDG == "")
+                                    {
+                                        <td></td>
+                                        <td class="text-danger">CBNV Chưa đánh giá</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                        <td class="text-danger">Bảng KNL chưa duyệt</td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
-
-
             </div>
-        }
+
+
+        </div>
+                }
         @{
             var ListUserView = ViewBag.ListUserView as IEnumerable<FCheckValidation>; // ép kiểu
         }
@@ -278,55 +298,64 @@
                                 @foreach (var item in ViewBag.ListUserView)
                                 {
                                     <tr>
-                                        <td class="text-center"> @RowNo1@{RowNo1++;}</td>
-                                        <td class="">@item.MaNV</td>
-                                        <td class="">@item.TenNV</td>
-                                        <td class="">@item.TenKip</td>
-                                        <td>@item.TenVT</td>
-                                        <td class="text-center">
-                                            <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))" class="" title="Xem" target="_blank" style="text-decoration: underline; font-style: italic; "><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
-                                        </td>
+                                        <td class="text-center"> @RowNo1@{
+                                            RowNo1++;
+                                        }
+                                    </td>
+                                    <td class="">@item.MaNV</td>
+                                    <td class="">@item.TenNV</td>
+                                    <td class="">@item.TenKip</td>
+                                    <td>@item.TenVT</td>
+                                    <td class="text-center">
+                                        <a href="@Url.Content("~/FileJD/" + System.IO.Path.GetFileName(@item.fileBMTCV))"
+                                            class="" title="Xem" target="_blank"
+                                            style="text-decoration: underline; font-style: italic; "><i
+                                                class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+                                    </td>
+                                    <td class="text-center p-0">
+                                        <a class="fa fa-history" target="_blank" title="Lịch sử Đánh giá"
+                                            href="@Url.Action("Index", "FResult", new { IDNV = item.IDNV })">
+                                        </a>
+                                    </td>
+                                    <td class="text-center">@item.NgayTuDG</td>
+                                    <td class="text-center">@item.NgayDGLan1</td>
+                                    <td class="text-center">@item.NgayDG</td>
+                                    @if (item.TinhTrang_DuyetKNL == 1 && item.NgayTuDG != "")
+                                    {
                                         <td class="text-center p-0">
-                                            <a class="fa fa-history" target="_blank" title="Lịch sử Đánh giá" href="@Url.Action("Index", "FResult", new { IDNV = item.IDNV })">
+                                            <a class="fa fa-check-square-o " title="Đánh giá lần 1"
+                                                href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1), capDG = "1" })"
+                                                onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
+                                                Thẩm định
                                             </a>
                                         </td>
-                                        <td class="text-center">@item.NgayTuDG</td>
-                                        <td class="text-center">@item.NgayDGLan1</td>
-                                        <td class="text-center">@item.NgayDG</td>
-                                        @if (item.TinhTrang_DuyetKNL == 1 && item.NgayTuDG != "")
-                                        {
-                                            <td class="text-center p-0">
-                                                <a class="fa fa-check-square-o " title="Đánh giá lần 1" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1),capDG ="1" })"
-                                                   onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
-                                                    Thẩm định
-                                                </a>
-                                            </td>
-                                            <td class="text-center p-0">
-                                                <a class="fa fa-check-square-o " title="Đánh giá" href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
-                                                   onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
-                                                    Phê duyệt
-                                                </a>
-                                            </td>
-                                        }
-                                        else if (item.TinhTrang_DuyetKNL == 1 && item.NgayTuDG == "")
-                                        {
-                                            <td></td>
-                                            <td class="text-danger">CBNV Chưa đánh giá</td>
-                                        }
-                                        else
-                                        {
-                                            <td></td>
-                                            <td class="text-danger">Bảng KNL chưa duyệt</td>
-                                        }
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                                        <td class="text-center p-0">
+                                            <a class="fa fa-check-square-o " title="Đánh giá"
+                                                href="@Url.Action("Value", "FCheck", new { IDNV = item.IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) })"
+                                                onclick="return confirm('Bạn muốn đánh giá : @item.TenNV')">
+                                                Phê duyệt
+                                            </a>
+                                        </td>
+                                    }
+                                    else if (item.TinhTrang_DuyetKNL == 1 && item.NgayTuDG == "")
+                                    {
+                                        <td></td>
+                                        <td class="text-danger">CBNV Chưa đánh giá</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                        <td class="text-danger">Bảng KNL chưa duyệt</td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
+        </div>
 
-        }
+                }
 
 
     </div>
@@ -412,17 +441,15 @@
         background-clip: padding-box;
         border: 1px solid #ced4da;
         border-radius: .25rem;
-        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
         font-size: 1rem;
         font-weight: 400;
         line-height: 1.8;
         text-transform: capitalize;
     }
 
-        .chosen-container-single .chosen-single span {
-            text-transform: capitalize !important;
-            font-size: 16px !important;
-        }
+    .chosen-container-single .chosen-single span {
+        text-transform: capitalize !important;
+        font-size: 16px !important;
+    }
 </style>
-
-

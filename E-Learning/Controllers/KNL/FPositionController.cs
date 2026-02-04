@@ -1203,7 +1203,7 @@ namespace E_Learning.Controllers
             return RedirectToAction("UpdateNVKN", "FPosition");
         }
 
-        public ActionResult ShowRadarChart(int IDVT)
+        public ActionResult ShowRadarChart(int IDVT, int? IDNV)
         {
             Response.ContentType = "text/html; charset=utf-8";
             Response.ContentEncoding = System.Text.Encoding.UTF8;
@@ -1213,6 +1213,7 @@ namespace E_Learning.Controllers
                 ViewBag.IDVT = IDVT;
                 ViewBag.TenVT = vt.TenViTri;
             }
+            ViewBag.IDNV = IDNV;
             return PartialView();
         }
 
@@ -1253,31 +1254,36 @@ namespace E_Learning.Controllers
                     nvIDs = nvIDs.Where(id => id == IDNV.Value).ToList();
                 }
 
-                // Lấy danh sách loại năng lực cho vị trí này
-                var loaiKNLList = db.LoaiKNLs.Where(x => x.IDVT == IDVT && x.TinhTrang == 1 || x.IDLoai == 1 || x.IDLoai == 2)
-                                             .OrderBy(x => x.OrderBy)
-                                             .ToList();
+                // Lấy danh sách loại năng lực cho vị trí này (bao gồm cả loại chung: Năng lực chung, Năng lực lãnh đạo)
+                var loaiKNLList = db.LoaiKNLs
+                    .Where(x => (x.IDVT == IDVT || x.IDLoai == 1 || x.IDLoai == 2) && x.TinhTrang == 1)
+                    .OrderBy(x => x.OrderBy)
+                    .ToList();
 
-                // Lấy danh sách năng lực của vị trí
-                var knlList = (from nl in db.KhungNangLucs.Where(x => x.IsDuyet == 1)
+                // Lấy danh sách năng lực của vị trí (chỉ lấy những năng lực được đánh giá)
+                var knlList = (from nl in db.KhungNangLucs.Where(x => x.IsDuyet == 1 && x.IsDanhGia == 1)
                                join loai in db.LoaiKNLs on nl.IDLoaiNL equals loai.IDLoai
-                               where nl.IDVT == IDVT && nl.IsDanhGia == 1 && loai.TinhTrang == 1
+                               where nl.IDVT == IDVT && loai.TinhTrang == 1
                                select new
                                {
                                    nl.IDNL,
                                    nl.TenNL,
                                    nl.IDLoaiNL,
-                                   nl.DinhMuc,  // Thêm định mức
+                                   nl.DinhMuc,
                                    loai.TenLoai,
                                    loai.OrderBy
                                }).ToList();
 
+                // Lấy danh sách các loại năng lực có trong knlList (chỉ lấy những loại có năng lực)
+                var dsIDLoaiNL = knlList.Select(x => x.IDLoaiNL).Distinct().ToList();
+                var dsLoaiNL = loaiKNLList.Where(x => dsIDLoaiNL.Contains(x.IDLoai)).ToList();
+
                 // Build query cho kết quả đánh giá với điều kiện lọc động
                 var resultQuery = from kq in db.KNL_KQ
-                                  join nl in db.KhungNangLucs on kq.IDNL equals nl.IDNL
+                                  join nl in db.KhungNangLucs.Where(x => x.IsDuyet == 1 && x.IsDanhGia == 1) on kq.IDNL equals nl.IDNL
                                   join loai in db.LoaiKNLs on nl.IDLoaiNL equals loai.IDLoai
                                   where nl.IDVT == IDVT &&
-                                        nvIDs.Contains(kq.IDNV ?? 0) &&  // Chỉ lấy NV thuộc vị trí này
+                                        nvIDs.Contains(kq.IDNV ?? 0) &&
                                         kq.Nam == filterYear &&
                                         loai.TinhTrang == 1
                                   select new
@@ -1303,7 +1309,7 @@ namespace E_Learning.Controllers
                 // Group theo loại năng lực
                 var groupedData = new List<object>();
 
-                foreach (var loaiKNL in loaiKNLList)
+                foreach (var loaiKNL in dsLoaiNL)
                 {
                     // Lấy các năng lực thuộc loại này
                     var nlTheoLoai = knlList.Where(x => x.IDLoaiNL == loaiKNL.IDLoai).ToList();
@@ -1344,7 +1350,11 @@ namespace E_Learning.Controllers
                         groupedData.Add(new
                         {
                             tenLoai = loaiKNL.TenLoai,
-                            labels = avgScores.Select(x => x.TenNL).ToArray(),
+                            labels = avgScores.Select(x =>
+                                                        x.TenNL.Length > 40
+                                                            ? x.TenNL.Substring(0, 40) + "..."
+                                                            : x.TenNL
+                                                    ).ToArray(),
                             data = avgScores.Select(x => Math.Round(x.DiemTB, 2)).ToArray(),
                             dinhMuc = avgScores.Select(x => x.DinhMuc).ToArray(),  // Thêm định mức
                             soLuongNV = avgScores.Select(x => x.SoLuongNV).ToArray()  // Thêm info số NV

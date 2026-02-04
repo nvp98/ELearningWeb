@@ -1,6 +1,5 @@
-﻿
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
-<div class="modal-dialog text-left modal-xl" role="document" style="margin-left:300px">
+﻿<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
+<div class="modal-dialog text-left modal-xl" role="document" style="margin-left:300px;max-width:80%;">
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title">Biểu đồ Radar - Kết quả đánh giá: @ViewBag.TenVT</h5>
@@ -58,19 +57,29 @@
 
 <script type="text/javascript">
     // Set font mặc định cho Chart.js để hỗ trợ tiếng Việt
-    Chart.defaults.font.family = '"Segoe UI", Tahoma, Arial, sans-serif';
 
     $(document).ready(function () {
         var idvt = @ViewBag.IDVT;
+        var idnv = @(ViewBag.IDNV ?? "null");
         var radarCharts = [];
 
         // Khởi tạo năm (5 năm gần nhất)
         var currentYear = new Date().getFullYear();
+        var defaultYear = @(ViewBag.DefaultYear ?? "currentYear");
+        var defaultQuarter = '@(ViewBag.DefaultQuarter ?? "")';
+
         for (var i = 0; i < 5; i++) {
             var year = currentYear - i;
             var option = $('<option></option>').val(year).text(year);
-            if (i === 0) option.prop('selected', true);
+            if (year === defaultYear) {
+                option.prop('selected', true);
+            }
             $('#yearSelect').append(option);
+        }
+
+        // Chọn quý mặc định nếu có
+        if (defaultQuarter) {
+            $('#quarterSelect').val(defaultQuarter);
         }
 
         // Destroy charts khi đóng modal
@@ -113,16 +122,25 @@
                 radarCharts = [];
             }
 
+            // Reset container trước khi load dữ liệu mới
+            $('#chartsContainer').html('<div class="col-md-12 text-center"><i class="fa fa-spinner fa-spin fa-3x text-primary"></i><br/><p class="mt-2">Đang tải dữ liệu biểu đồ...</p></div>');
+            $('#quarterInfo').text('');
+            $('#chartLegend').html('');
+
             // Gọi API để lấy dữ liệu
             $.ajax({
                 url: '@Url.Action("GetRadarChartData", "FPosition")',
                 type: 'POST',
                 data: {
                     IDVT: idvt,
+                    IDNV: idnv,
                     Quarter: quarter,
                     Year: year
                 },
                 success: function (response) {
+                    // Xóa loading
+                    $('#chartsContainer').html('');
+
                     if (response.success) {
                         // Hiển thị thông tin quý và tổng số nhân viên
                         var infoText = response.quarter;

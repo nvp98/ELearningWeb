@@ -156,6 +156,28 @@
                                         {
                                             <a class="fa fa-th-list fa-2x" target="_blank" title="Xem kết quả" href="@Url.Action("FView", "FResult", new { IDNV = item.IDNV, Quy =item.DGQuy,Nam=item.DGNam,IDVT =item.IDVT })">
                                             </a>
+                                            <a id="btn-radar_@item.DGQuy" title="Biểu đồ radar"
+                                               class="fa fa-line-chart fa-2x text-primary mr-2"></a>
+                                            <div class="modal fade" id="myModaleRadar_@item.DGQuy" role="dialog"
+                                                 data-url='@Url.Action("ShowRadarChart", "FPosition", new { IDVT = item.IDVT, IDNV = item.IDNV })'>
+                                            </div>
+                                            <script type="text/javascript">
+                                                $("#btn-radar_@item.DGQuy").click(function () {
+                                                    var modalElement = $('#myModaleRadar_@item.DGQuy');
+                                                    var url = modalElement.data('url');
+
+                                                    $.get(url, function (data) {
+                                                        modalElement.html(data);
+                                                        //$("#ModalTitle").html("Biểu đồ Radar - Kết quả đánh giá");
+                                                        modalElement.modal('show');
+                                                    });
+                                                });
+
+                                                // Clear modal content khi đóng
+                                                $('#myModaleRadar_@item.DGQuy').on('hidden.bs.modal', function () {
+                                                    $(this).html('');
+                                                });
+                                            </script>
                                         }
                                     </td>
                                 </tr>

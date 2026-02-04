@@ -980,6 +980,7 @@
     <Content Include="Views\RewardType\_DanhSachKhenThuongPartial.cshtml" />
     <Content Include="Views\NhuCauDTTH\GetNhanViensByNCDT.cshtml" />
     <Content Include="Views\Home\ManageBanner.cshtml" />
+    <Content Include="Views\FPosition\ShowRadarChart.cshtml" />
     <None Include="Views\Shared\LayoutAdmin.cshtml" />
     <Content Include="Views\ToChucDTTH\Index.cshtml" />
     <Content Include="Views\ToChucDTTH\Create.cshtml" />
