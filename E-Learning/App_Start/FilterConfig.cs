@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using E_Learning.Filters;
+using System.Web;
 using System.Web.Mvc;
 
 namespace E_Learning
@@ -8,6 +9,7 @@ namespace E_Learning
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new VisitCounterFilter());
         }
     }
 }

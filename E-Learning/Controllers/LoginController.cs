@@ -41,6 +41,15 @@ namespace E_Learning.Controllers
                 {
                     string Cookie = string.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8}", user.ID, user.MaNV, user.HoTen, user.IDPhongBan, user.IDQuyen, user.IDViTri, user.IDQuyenKNL, user.IDVTKNL, user.MaViTri);
                     FormsAuthentication.SetAuthCookie(Cookie, false);
+
+                    _db.PageVisit.Add(new PageVisit
+                    {
+                        VisitDate = DateTime.Now,
+                        UserId = user.ID,
+                        IPAddress = Request.UserHostAddress
+                    });
+                    _db.SaveChanges();
+
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -55,6 +64,15 @@ namespace E_Learning.Controllers
                         {
                             string Cookie = string.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8}", user.ID, user.MaNV, user.HoTen, user.IDPhongBan, user.IDQuyen, user.IDViTri, user.IDQuyenKNL, user.IDVTKNL, user.MaViTri);
                             FormsAuthentication.SetAuthCookie(Cookie, false);
+
+                            _db.PageVisit.Add(new PageVisit
+                            {
+                                VisitDate = DateTime.Now,
+                                UserId = user.ID,
+                                IPAddress = Request.UserHostAddress
+                            });
+                            _db.SaveChanges();
+
                             return RedirectToAction("Index", "Home");
                         }
                     }

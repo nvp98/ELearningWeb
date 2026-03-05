@@ -159,6 +159,13 @@
                 <div class="scrollbar-sidebar overflow-auto">
                     <div class="app-sidebar__inner">
                         <ul class="vertical-nav-menu">
+                            <li class="app-sidebar__heading">Số lượt truy cập</li>
+                            <span>Hôm nay: @ViewBag.DailyVisits</span>
+                            <br />
+                            <span>Tuần này: @ViewBag.WeeklyVisits</span>
+                            <br />
+                            <span>Tháng này: @ViewBag.MonthlyVisits</span>
+
                             <li class="app-sidebar__heading">Tổng quan</li>
                             <li>
                                 <a href="@Url.Action("Index","EClassroom")">
@@ -246,36 +253,6 @@
                 </li>*@
                                 </ul>
                             </li>
-                            @*<li>
-                                <a href="">
-                                    <i class="metismenu-icon pe-7s-display1 font-weight-bold"></i>
-                                    Bảng Mô tả công việc
-                                </a>
-                                <ul>
-                                    <li>
-                                        <a href="@Url.Action("Index", "MoTaCongViec")" class="font-size-md font-weight-bold ">
-                                            <i class="pe-7s-users"></i>
-                                            &nbsp;&nbsp;Xem phổ biến và làm bài
-                                        </a>
-                                    </li>
-                                </ul>
-                                <ul>
-                                    <li>
-                                        <a href="@Url.Action("KetQuaLamBai", "MoTaCongViec")" class="font-size-md font-weight-bold ">
-                                            <i class="pe-7s-users"></i>
-                                            &nbsp;&nbsp;Kết quả làm bài
-                                        </a>
-                                    </li>
-                                </ul>
-                                <ul>
-                                    <li>
-                                        <a href="@Url.Action("ChamDiem", "MoTaCongViec")" class="font-size-md font-weight-bold ">
-                                            <i class="pe-7s-users"></i>
-                                            &nbsp;&nbsp;Bài thi đến tôi
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>*@
                             <li class="app-sidebar__heading">Thủ tục đào tạo</li>
                             @if (ListControll.Contains("NoiDungDTTH"))
                             {
@@ -395,7 +372,13 @@
                             }
 
 
-                            <li class="app-sidebar__heading">Bảng tin</li>
+                            <li class="app-sidebar__heading">Bản tin</li>
+                            <li>
+                                <a href="@Url.Action("Index","BanTinDaoTao")">
+                                    <i class="metismenu-icon pe-7s-expand1 font-weight-bold"></i>
+                                    Bản tin đào tạo
+                                </a>
+                            </li>
                             <li>
                                 <a href="@Url.Action("Index","DinhBien", new {IDPB = E_Learning.Models.MyAuthentication.IDPhongban})">
                                     <i class="metismenu-icon pe-7s-expand1 font-weight-bold"></i>
@@ -430,48 +413,48 @@
                                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                                     </a>
                                 }
-                            <ul id="LSTK">
-                                @if (ListControll.Contains("Account"))
-                                {
-                                    <li>
-                                        <a href="@Url.Action("Index", "Account")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Account" ? "mm-active" : "")">
-                                            <i class="pe-7s-users"></i>
-                                            &nbsp;&nbsp;Tài khoản
-                                        </a>
-                                    </li>
-                                    showQuanTri = 1;
-                                }
-                                @if (ListControll.Contains("FPermision"))
-                                {
-                                    <li>
-                                        <a href="@Url.Action("Index","FPermision")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FPermision" ? "mm-active" : "")">
-                                            <i class="pe-7s-config">
-                                            </i>&nbsp;&nbsp;Phân Quyền
-                                        </a>
-                                    </li>
-                                    showQuanTri = 1;
-                                }
-                                @if (ListControll.Contains("Notification"))
-                                {
-                                    <li>
-                                        <a href="@Url.Action("Index","Notification")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Notification" ? "mm-active" : "")">
-                                            <i class=" pe-7s-volume2">
-                                            </i>&nbsp;&nbsp;Cấu hình thông báo
-                                        </a>
-                                    </li>
-                                    showQuanTri = 1;
-                                }
-                                @if (ListControll.Contains("Home"))
-                                {
-                                    <li>
-                                        <a href="@Url.Action("ManageBanner","Home")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Home/ManageBanner" ? "mm-active" : "")">
-                                            <i class="pe-7s-photo"></i>
-                                            &nbsp;&nbsp;Cấu hình banner
-                                        </a>
-                                    </li>
-                                    showQuanTri = 1;
-                                }
-                            </ul>
+                                <ul id="LSTK">
+                                    @if (ListControll.Contains("Account"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "Account")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Account" ? "mm-active" : "")">
+                                                <i class="pe-7s-users"></i>
+                                                &nbsp;&nbsp;Tài khoản
+                                            </a>
+                                        </li>
+                                        showQuanTri = 1;
+                                    }
+                                    @if (ListControll.Contains("FPermision"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index","FPermision")" class="font-size-md font-weight-bold @(Context.Request.Path == "/FPermision" ? "mm-active" : "")">
+                                                <i class="pe-7s-config">
+                                                </i>&nbsp;&nbsp;Phân Quyền
+                                            </a>
+                                        </li>
+                                        showQuanTri = 1;
+                                    }
+                                    @if (ListControll.Contains("Notification"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index","Notification")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Notification" ? "mm-active" : "")">
+                                                <i class=" pe-7s-volume2">
+                                                </i>&nbsp;&nbsp;Cấu hình thông báo
+                                            </a>
+                                        </li>
+                                        showQuanTri = 1;
+                                    }
+                                    @if (ListControll.Contains("Home"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("ManageBanner","Home")" class="font-size-md font-weight-bold @(Context.Request.Path == "/Home/ManageBanner" ? "mm-active" : "")">
+                                                <i class="pe-7s-photo"></i>
+                                                &nbsp;&nbsp;Cấu hình banner
+                                            </a>
+                                        </li>
+                                        showQuanTri = 1;
+                                    }
+                                </ul>
                             </li>
                             <li class=" @((new List<String> { "FPosition/ListNVKNL", "FPosition/UpdateNVKN", "FPosition/SetVTPermision" }).Contains(Context.Request.Path.Remove(0,1)) ? "mm-active" : "")">
                                 @if ((new List<String> { "USER_KNL", "KN_KNL", "PER_KNL" }).Any(x => ListQFPosition.Contains(x)))
@@ -842,28 +825,6 @@
                                     }
                                 </ul>
                             </li>
-                            @*<li class=" @(Context.Request.Path == "/MoTaCongViec/DanhSachDe" || Context.Request.Path == "/MoTaCongViec/TaoDeKiemTra" ? "mm-active" : "")">
-                                @if ((new List<String> { "MoTaCongViec", "MoTaCongViec" }).Any(x => ListControll.Contains(x)))
-                                {
-                                    <a href="#" id="IDTK" class="">
-                                        <i class="metismenu-icon pe-7s-photo-gallery font-weight-bold">
-                                        </i>Bảng Mô tả công việc
-                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                                    </a>
-                                }
-                                <ul>
-                                    @if (ListControll.Contains("MoTaCongViec"))
-                                    {
-                                        <li>
-                                            <a href="@Url.Action("TaoDeKiemTra", "MoTaCongViec")" class=" font-weight-bold @(Context.Request.Path == "/MoTaCongViec/TaoDeKiemTra" ? "mm-active" : "")">
-                                                <i class=" pe-7s-graph3">
-                                                </i>&nbsp;&nbsp; Tạo đề kiểm tra
-                                            </a>
-                                        </li>
-                                    }
-
-                                </ul>
-                            </li>*@
 
                             @*@if (User.Identity.IsAuthenticated)
         {
