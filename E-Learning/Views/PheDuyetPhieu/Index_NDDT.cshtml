@@ -64,10 +64,10 @@
                                         <th class="text-center" width="300px" style="vertical-align:middle">Lĩnh vực đào tạo</th>
                                         <th class="text-center" width="300px" style="vertical-align:middle">Nhóm năng lực</th>
                                         <th class="text-center" width="300px" style="vertical-align:middle">Link Video NDĐT</th>
-                                        <th class="text-center" width="150px" style="vertical-align:middle">P.NS đăng nội dung</th>
-                                        <th class="text-center" width="150px" style="vertical-align:middle">Ngày đăng nội dung</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">P.CHN xác nhận</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Ngày xác nhận</th>
+                                        <th class="text-center" width="150px" style="vertical-align:middle">P.NS đăng nội dung</th>
+                                        <th class="text-center" width="150px" style="vertical-align:middle">Ngày đăng nội dung</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Tác giả xác nhận</th>
                                         <th class="text-center" width="150px" style="vertical-align:middle">Tình trạng</th>
                                     </tr>
@@ -96,7 +96,7 @@
                                                             P.NS Đăng nội dung
                                                         </button>
                                                     }
-                                                    else if(item.CapDuyet ==2 && item.NgayDuyetNDDT == null)
+                                                    else if (item.CapDuyet == 2 && item.NgayDuyetNDDT == null)
                                                     {
                                                         <a class="btn btn-success" title="Xóa" href="@Url.Action("XacNhanNDDT", "PheDuyetPhieu", new { id = item.ID_CTDT })"
                                                            onclick="return confirm('Bạn muốn duyệt : @item.NoiDungCTDT')">
@@ -134,19 +134,20 @@
                                                     <a href="@item.noidungdt.VideoND" target="_blank">Xem Video</a>
                                                 }
                                             </td>
-                                            <td class="">@item.TenNguoiDangNDDT</td>
-                                            @if (item.NgayDangNDDT != null)
+
+                                            <td class="">@item.TenNguoiDuyetNDDT</td>
+                                            @if (item.NgayDuyetNDDT != null)
                                             {
-                                                <td class="">@(((DateTime)item.NgayDangNDDT).ToString("dd/MM/yyyy HH:mm:ss"))</td>
+                                                <td class="">@(((DateTime)item.NgayDuyetNDDT).ToString("dd/MM/yyyy HH:mm:ss"))</td>
                                             }
                                             else
                                             {
                                                 <td class=""></td>
                                             }
-                                            <td class="">@item.TenNguoiDuyetNDDT</td>
-                                            @if (item.NgayDuyetNDDT != null)
+                                            <td class="">@item.TenNguoiDangNDDT</td>
+                                            @if (item.NgayDangNDDT != null)
                                             {
-                                                <td class="">@(((DateTime)item.NgayDuyetNDDT).ToString("dd/MM/yyyy HH:mm:ss"))</td>
+                                                <td class="">@(((DateTime)item.NgayDangNDDT).ToString("dd/MM/yyyy HH:mm:ss"))</td>
                                             }
                                             else
                                             {
