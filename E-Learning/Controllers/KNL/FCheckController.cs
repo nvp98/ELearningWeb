@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.SqlClient;
 using System.Web.UI.WebControls;
 
 namespace E_Learning.Controllers.KNL
@@ -979,132 +980,171 @@ namespace E_Learning.Controllers.KNL
         [HttpPost]
         public ActionResult ValueAjax()
         {
-            try
+            // Read the request body once before any retry attempt
+            Request.InputStream.Position = 0;
+            string body;
+            using (var reader = new StreamReader(Request.InputStream))
             {
-                string manv = MyAuthentication.Username;
-                var nv = db.NhanViens.FirstOrDefault(x => x.MaNV == manv);
-                Request.InputStream.Position = 0;
-                using (var reader = new StreamReader(Request.InputStream)) // xử lý dữ liệu lớn
+                body = reader.ReadToEnd();
+            }
+
+            var listKQ = JsonConvert.DeserializeObject<List<FValueDto>>(body);
+            if (listKQ == null || !listKQ.Any())
+                return Json(new { success = false, message = "Không parse được JSON" });
+
+            const int maxRetries = 3;
+            for (int attempt = 1; attempt <= maxRetries; attempt++)
+            {
+                // Use a fresh DbContext on each attempt to avoid stale tracked entities
+                using (var localDb = new ELEARNINGEntities())
                 {
-                    var body = reader.ReadToEnd();
-
-                    // Deserialize JSON list
-                    var listKQ = JsonConvert.DeserializeObject<List<FValueDto>>(body);
-
-                    if (listKQ == null)
-                        return Json(new { success = false, message = "Không parse được JSON" });
-
-                    // Lấy item đầu tiên
-                    var firstItem = listKQ.FirstOrDefault();
-
-                    int? IDNVDDG = firstItem.IDNV;
-                    int? IDVTDDG = firstItem.IDVT;
-                    int Quy = GetQuarter(DateTime.Now);
-                    int Nam = DateTime.Now.Year;
-
-                    var LSDG = db.KNL_LSDG_TheoQuy(Nam, Quy, IDNVDDG).FirstOrDefault(x => x.VTID == IDVTDDG);
-                    var KNL_KQCu = db.KNL_KQ_TheoQuy(Nam, Quy, IDNVDDG).Where(x => x.VTID == IDVTDDG).ToList();
-
-                    var LSDG_New = new KNL_LSDG()
+                    try
                     {
-                        NVID = IDNVDDG,
-                        VTID = IDVTDDG,
-                        Quy = Quy,
-                        Nam = Nam
-                    };
+                        string manv = MyAuthentication.Username;
+                        var nv = localDb.NhanViens.FirstOrDefault(x => x.MaNV == manv);
 
-                    if (LSDG == null)
-                    {
-                        db.KNL_LSDG.Add(LSDG_New);
-                        db.SaveChanges();
-                    }
+                        var firstItem = listKQ.First();
+                        int? IDNVDDG = firstItem.IDNV;
+                        int? IDVTDDG = firstItem.IDVT;
+                        int Quy = GetQuarter(DateTime.Now);
+                        int Nam = DateTime.Now.Year;
 
-                    int IDLS = LSDG == null ? LSDG_New.IDLS : LSDG.IDLS;
-
-                    foreach (var item in listKQ)
-                    {
-                        var checkKQ = KNL_KQCu.FirstOrDefault(x => x.IDNL == item.IDNL);
-                        int IDKQ = CheckKQID(item.DiemDG, item.DinhMuc, item.IsDanhGia);
-
-                        if (checkKQ == null) // thêm kết quả mới
+                        using (var transaction = localDb.Database.BeginTransaction())
                         {
-                            var KNL_KQ_New = new KNL_KQ()
+                            try
                             {
-                                IDNV = item.IDNV,
-                                IDNL = item.IDNL,
-                                Quy = Quy,
-                                Nam = Nam,
-                                IDLS = IDLS,
-                                VTID = item.IDVT,
-                                DiemDM = item.DinhMuc
-                            };
-                            db.KNL_KQ.Add(KNL_KQ_New);
-                            //db.SaveChanges();
-                            //item.IDKQ = KNL_KQ_New.IDKQ;
-                            if (item.IDNV == nv.ID)
-                            {
-                                KNL_KQ_New.DiemTuDG = item.DiemDG;
-                                KNL_KQ_New.NgayTuDG = DateTime.Now;
-                            }
-                            else if (item.CapDG == "1")
-                            {
-                                KNL_KQ_New.DiemDG_Lan1 = item.DiemDG;
-                                KNL_KQ_New.NgayDG_Lan1 = DateTime.Now;
-                                KNL_KQ_New.IDNguoiDG_Lan1 = nv.ID;
-                            }
-                            else
-                            {
-                                KNL_KQ_New.DiemDG = item.DiemDG;
-                                KNL_KQ_New.NgayDG = DateTime.Now;
-                                KNL_KQ_New.IDNVDG = nv.ID;
-                                KNL_KQ_New.Note = item.Note;
-                                KNL_KQ_New.KQID = IDKQ;
-                            }
-                            KNL_KQ_New.DiemDM = item.DinhMuc;
-                        }
-                        else // update kq cũ
-                        {
-                            var searchKQ = db.KNL_KQ.Find(item.IDKQ);
-                            if (searchKQ != null)
-                            {
-                                if (item.IDNV == nv.ID)
-                                {
-                                    searchKQ.DiemTuDG = item.DiemDG;
-                                    searchKQ.NgayTuDG = DateTime.Now;
-                                }
-                                else if (item.CapDG == "1")
-                                {
-                                    searchKQ.DiemDG_Lan1 = item.DiemDG;
-                                    searchKQ.NgayDG_Lan1 = DateTime.Now;
-                                    searchKQ.IDNguoiDG_Lan1 = nv.ID;
-                                }
-                                else
-                                {
-                                    searchKQ.DiemDG = item.DiemDG;
-                                    searchKQ.NgayDG = DateTime.Now;
-                                    searchKQ.IDNVDG = nv.ID;
-                                    searchKQ.Note = item.Note;
-                                    searchKQ.KQID = IDKQ;
-                                }
-                                searchKQ.DiemDM = item.DinhMuc;
-                            }
-                        }
+                                var LSDG = localDb.KNL_LSDG_TheoQuy(Nam, Quy, IDNVDDG).FirstOrDefault(x => x.VTID == IDVTDDG);
+                                var KNL_KQCu = localDb.KNL_KQ_TheoQuy(Nam, Quy, IDNVDDG).Where(x => x.VTID == IDVTDDG).ToList();
 
-                        //var searchKQ = db.KNL_KQ.Find(item.IDKQ);
+                                var LSDG_New = new KNL_LSDG()
+                                {
+                                    NVID = IDNVDDG,
+                                    VTID = IDVTDDG,
+                                    Quy = Quy,
+                                    Nam = Nam
+                                };
 
+                                if (LSDG == null)
+                                {
+                                    localDb.KNL_LSDG.Add(LSDG_New);
+                                    localDb.SaveChanges();
+                                }
+
+                                int IDLS = LSDG == null ? LSDG_New.IDLS : LSDG.IDLS;
+
+                                foreach (var item in listKQ)
+                                {
+                                    var checkKQ = KNL_KQCu.FirstOrDefault(x => x.IDNL == item.IDNL);
+                                    int IDKQ = CheckKQID(item.DiemDG, item.DinhMuc, item.IsDanhGia);
+
+                                    if (checkKQ == null) // thêm kết quả mới
+                                    {
+                                        var KNL_KQ_New = new KNL_KQ()
+                                        {
+                                            IDNV = item.IDNV,
+                                            IDNL = item.IDNL,
+                                            Quy = Quy,
+                                            Nam = Nam,
+                                            IDLS = IDLS,
+                                            VTID = item.IDVT,
+                                            DiemDM = item.DinhMuc
+                                        };
+                                        localDb.KNL_KQ.Add(KNL_KQ_New);
+                                        if (item.IDNV == nv.ID)
+                                        {
+                                            KNL_KQ_New.DiemTuDG = item.DiemDG;
+                                            KNL_KQ_New.NgayTuDG = DateTime.Now;
+                                        }
+                                        else if (item.CapDG == "1")
+                                        {
+                                            KNL_KQ_New.DiemDG_Lan1 = item.DiemDG;
+                                            KNL_KQ_New.NgayDG_Lan1 = DateTime.Now;
+                                            KNL_KQ_New.IDNguoiDG_Lan1 = nv.ID;
+                                        }
+                                        else
+                                        {
+                                            KNL_KQ_New.DiemDG = item.DiemDG;
+                                            KNL_KQ_New.NgayDG = DateTime.Now;
+                                            KNL_KQ_New.IDNVDG = nv.ID;
+                                            KNL_KQ_New.Note = item.Note;
+                                            KNL_KQ_New.KQID = IDKQ;
+                                        }
+                                        KNL_KQ_New.DiemDM = item.DinhMuc;
+                                    }
+                                    else // update kq cũ
+                                    {
+                                        var searchKQ = localDb.KNL_KQ.Find(item.IDKQ);
+                                        if (searchKQ != null)
+                                        {
+                                            if (item.IDNV == nv.ID)
+                                            {
+                                                searchKQ.DiemTuDG = item.DiemDG;
+                                                searchKQ.NgayTuDG = DateTime.Now;
+                                            }
+                                            else if (item.CapDG == "1")
+                                            {
+                                                searchKQ.DiemDG_Lan1 = item.DiemDG;
+                                                searchKQ.NgayDG_Lan1 = DateTime.Now;
+                                                searchKQ.IDNguoiDG_Lan1 = nv.ID;
+                                            }
+                                            else
+                                            {
+                                                searchKQ.DiemDG = item.DiemDG;
+                                                searchKQ.NgayDG = DateTime.Now;
+                                                searchKQ.IDNVDG = nv.ID;
+                                                searchKQ.Note = item.Note;
+                                                searchKQ.KQID = IDKQ;
+                                            }
+                                            searchKQ.DiemDM = item.DinhMuc;
+                                        }
+                                    }
+                                }
+
+                                localDb.SaveChanges();
+                                transaction.Commit();
+                                return Json(new { success = true, message = "Đánh giá thành công" });
+                            }
+                            catch
+                            {
+                                transaction.Rollback();
+                                throw;
+                            }
+                        }
                     }
-                    db.SaveChanges();
-                    return Json(new { success = true, message = "Đánh giá thành công" });
-
+                    catch (Exception e)
+                    {
+                        if (attempt < maxRetries && IsRetryableException(e))
+                        {
+                            System.Threading.Thread.Sleep(300 * attempt);
+                            continue;
+                        }
+                        return Json(new { success = false, message = "Cập nhật thất bại: " + e.Message });
+                    }
                 }
-
-
-
             }
-            catch (Exception e)
+            return Json(new { success = false, message = "Cập nhật thất bại sau nhiều lần thử lại" });
+        }
+
+        private bool IsRetryableException(Exception ex)
+        {
+            // Traverse the full exception chain — EF6 often wraps SqlException
+            // inside an EntityException or similar "transient failure" wrapper.
+            var current = ex;
+            while (current != null)
             {
-                return Json(new { success = false, message = "Cập nhật thất bại: " + e.Message });
+                if (current.Message != null && current.Message.IndexOf("transient", StringComparison.OrdinalIgnoreCase) >= 0)
+                    return true;
+
+                var sqlEx = current as SqlException;
+                if (sqlEx != null)
+                    foreach (SqlError err in sqlEx.Errors)
+                        // 1205 = deadlock victim, 1222 = lock request timeout, -2 = connection timeout
+                        if (err.Number == 1205 || err.Number == 1222 || err.Number == -2)
+                            return true;
+
+                current = current.InnerException;
             }
+            return false;
         }
 
         public ActionResult ReadKNL(int? IDNV)

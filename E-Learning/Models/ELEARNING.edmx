@@ -648,6 +648,15 @@
           <Property Name="NgayHT" Type="date" />
           <Property Name="TinhTrang" Type="int" />
         </EntityType>
+        <EntityType Name="PageVisit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VisitDate" Type="datetime" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="IPAddress" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="PhanQuyenHT">
           <Key>
             <PropertyRef Name="ID" />
@@ -2864,6 +2873,7 @@
           <EntitySet Name="NoiDungDTKCCD" EntityType="Self.NoiDungDTKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NQ_Chuong" EntityType="Self.NQ_Chuong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NQ_KetQua" EntityType="Self.NQ_KetQua" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PageVisit" EntityType="Self.PageVisit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhanQuyenHT" EntityType="Self.PhanQuyenHT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhieuXacNhanKCCD" EntityType="Self.PhieuXacNhanKCCD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhongBan" EntityType="Self.PhongBan" Schema="dbo" store:Type="Tables" />
@@ -5959,6 +5969,7 @@
             <Parameter Name="Quy" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="Banners" EntityType="ELEARNINGModel.Banners" />
+          <EntitySet Name="PageVisit" EntityType="ELEARNINGModel.PageVisit" />
         </EntityContainer>
         <ComplexType Name="CauHoi_DeThi_list_Result">
           <Property Type="Int32" Name="IDCH" Nullable="false" />
@@ -7139,6 +7150,15 @@
           <Property Name="SortOrder" Type="Int32" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="PageVisit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VisitDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="IPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -9598,6 +9618,16 @@
                 <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
                 <ScalarProperty Name="BannerPath" ColumnName="BannerPath" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PageVisit">
+            <EntityTypeMapping TypeName="ELEARNINGModel.PageVisit">
+              <MappingFragment StoreEntitySet="PageVisit">
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

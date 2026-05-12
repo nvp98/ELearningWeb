@@ -358,6 +358,7 @@
     <Compile Include="Controllers\SHistoryController.cs" />
     <Compile Include="Controllers\TieuBanDaoTao\TieuBanDaoTaoController.cs" />
     <Compile Include="Controllers\TLessonController.cs" />
+    <Compile Include="Filters\VisitCounterFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -681,6 +682,9 @@
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\NQ_KetQua.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PageVisit.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PdfWriterEvents .cs" />

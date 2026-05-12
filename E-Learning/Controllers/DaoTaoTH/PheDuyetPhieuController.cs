@@ -43,7 +43,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                 return new RedirectResult("~/Login/CapNhatChuKy");
             }
 
-            var valuesToCheck = db.SH_NhuCauDT.Where(x=>x.TinhTrang != 0).Select(k => k.ID).ToList();
+            var valuesToCheck = db.SH_NhuCauDT.Where(x => x.TinhTrang != 0).Select(k => k.ID).ToList();
             var res = (from a in db.SH_KyDuyetNCDT.Where(x => x.NguoiDuyet_ID == MyAuthentication.ID && valuesToCheck.Contains((int)x.NCDT_ID))
                        select new SH_KyDuyetNCDTView
                        {
@@ -61,17 +61,17 @@ namespace E_Learning.Controllers.DaoTaoTH
                 if (kyduyet.Count() > 1) // > 1 cấp duyệt 
                 {
                     var checkky = kyduyet.Where(x => x.CapDuyet < item.CapDuyet).ToList(); // check các cấp duyệt nhỏ hơn
-                    if (checkky.Count() != 0 )
+                    if (checkky.Count() != 0)
                     {
-                        if(checkky.Where(x=>x.TinhTrangDuyet == 0 || x.TinhTrangDuyet == 2).Count() != 0) // nếu chưa duyệt hoặc hủy thì ẩn
+                        if (checkky.Where(x => x.TinhTrangDuyet == 0 || x.TinhTrangDuyet == 2).Count() != 0) // nếu chưa duyệt hoặc hủy thì ẩn
                         {
-                            res = res.Where(x=>x.ID != item.ID).ToList();
+                            res = res.Where(x => x.ID != item.ID).ToList();
                         }
 
                     }
                 }
-                   
-               
+
+
             }
             if (page == null) page = 1;
             int pageSize = 100;
@@ -96,8 +96,8 @@ namespace E_Learning.Controllers.DaoTaoTH
                 return new RedirectResult("~/Login/CapNhatChuKy");
             }
 
-            var valuesToCheck = db.SH_ChuongTrinhDT.Where(x => (x.TinhTrang == 2 || x.TinhTrang == 1 || x.TinhTrang ==3 )).Select(k => k.IDCTDT).ToList();
-            var res = (from a in db.SH_KyDuyetCTDT.Where(x => (x.ID_NguoiKiemTra == MyAuthentication.ID ||x.ID_TPBP == MyAuthentication.ID || x.ID_PCHN == MyAuthentication.ID) && valuesToCheck.Contains((int)x.ID_CTDT) && (x.ID_NguoiDuyetNDDT == null||(x.NgayDuyetNDDT != null && x.ID_NguoiDuyetNDDT != null)))
+            var valuesToCheck = db.SH_ChuongTrinhDT.Where(x => (x.TinhTrang == 2 || x.TinhTrang == 1 || x.TinhTrang == 3)).Select(k => k.IDCTDT).ToList();
+            var res = (from a in db.SH_KyDuyetCTDT.Where(x => (x.ID_NguoiKiemTra == MyAuthentication.ID || x.ID_TPBP == MyAuthentication.ID || x.ID_PCHN == MyAuthentication.ID) && valuesToCheck.Contains((int)x.ID_CTDT) && (x.ID_NguoiDuyetNDDT == null || (x.NgayDuyetNDDT != null && x.ID_NguoiDuyetNDDT != null)))
                        select new SH_KyDuyetCTDTView
                        {
                            ID = a.ID,
@@ -110,12 +110,12 @@ namespace E_Learning.Controllers.DaoTaoTH
                            ID_PCHN = a.ID_PCHN,
                            NgayPCHN = a.NgayPCHN,
                            ID_NguoiDuyetNDDT = a.ID_NguoiDuyetNDDT,
-                           NgayDuyetNDDT= a.NgayDuyetNDDT,
+                           NgayDuyetNDDT = a.NgayDuyetNDDT,
                            ID_CTDT = a.ID_CTDT,
-                           NoiDungCTDT = db.SH_ChuongTrinhDT.Where(x=>x.IDCTDT == a.ID_CTDT).FirstOrDefault().TenChuongTrinhDT,
+                           NoiDungCTDT = db.SH_ChuongTrinhDT.Where(x => x.IDCTDT == a.ID_CTDT).FirstOrDefault().TenChuongTrinhDT,
                            NoiDungTrichYeu = db.SH_ChuongTrinhDT.Where(x => x.IDCTDT == a.ID_CTDT).FirstOrDefault().NoiDungTrichYeu,
-                           ID_TinhTrangCTDT = db.SH_ChuongTrinhDT.Where(x=>x.IDCTDT == a.ID_CTDT).FirstOrDefault().TinhTrang,
-                           IsDuyet =0
+                           ID_TinhTrangCTDT = db.SH_ChuongTrinhDT.Where(x => x.IDCTDT == a.ID_CTDT).FirstOrDefault().TinhTrang,
+                           IsDuyet = 0
                        }).OrderByDescending(x => x.NgayTao).ToList();
             int IDNV = MyAuthentication.ID;
             foreach (var item in res)
@@ -135,8 +135,8 @@ namespace E_Learning.Controllers.DaoTaoTH
                 }
                 else if (item.ID_TPBP == IDNV && item.NgayKTDuyet != null)
                 {
-                    var nv = db.NhanViens.Select(x => new { x.ID, x.HoTen,x.MaNV }).ToList();
-                    item.TenNguoiTao = nv.Where(x => x.ID == item.ID_NguoiTao).FirstOrDefault().MaNV +"-" + nv.Where(x => x.ID == item.ID_NguoiTao).FirstOrDefault().HoTen;
+                    var nv = db.NhanViens.Select(x => new { x.ID, x.HoTen, x.MaNV }).ToList();
+                    item.TenNguoiTao = nv.Where(x => x.ID == item.ID_NguoiTao).FirstOrDefault().MaNV + "-" + nv.Where(x => x.ID == item.ID_NguoiTao).FirstOrDefault().HoTen;
                     item.TenNguoiKiemTra = nv.Where(x => x.ID == item.ID_NguoiKiemTra).FirstOrDefault().MaNV + "-" + nv.Where(x => x.ID == item.ID_NguoiKiemTra).FirstOrDefault().HoTen;
                     item.TenTPBP = nv.Where(x => x.ID == item.ID_TPBP).FirstOrDefault()?.MaNV + "-" + nv.Where(x => x.ID == item.ID_TPBP).FirstOrDefault()?.HoTen;
                     item.TenPCHN = nv.Where(x => x.ID == item.ID_PCHN).FirstOrDefault()?.MaNV + "-" + nv.Where(x => x.ID == item.ID_PCHN).FirstOrDefault()?.HoTen;
@@ -162,8 +162,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                 }
                 else
                 {
-                    res = res.Where(x=>x.ID != item.ID).ToList();
-                };
+                    res = res.Where(x => x.ID != item.ID).ToList();
+                }
+                ;
             }
             if (page == null) page = 1;
             int pageSize = 100;
@@ -188,8 +189,10 @@ namespace E_Learning.Controllers.DaoTaoTH
                 return new RedirectResult("~/Login/CapNhatChuKy");
             }
 
-            var valuesToCheck = db.SH_ChuongTrinhDT.Where(x => x.NoiDungDT.IsDelete == true && x.TinhTrang ==2).Select(k => k.IDCTDT).ToList();
-            var res = (from a in db.SH_KyDuyetCTDT.Where(x => ((x.ID_NguoiDuyetNDDT == MyAuthentication.ID && x.NgayDangNDDT != null) ||(x.ID_NguoiTao == MyAuthentication.ID &&x.NgayDuyetNDDT != null) || x.ID_NguoiDangNDDT == MyAuthentication.ID) && valuesToCheck.Contains((int)x.ID_CTDT))
+            var valuesToCheck = db.SH_ChuongTrinhDT.Where(x => x.NoiDungDT.IsDelete == true && x.TinhTrang == 2).Select(k => k.IDCTDT).ToList();
+            var res = (from a in db.SH_KyDuyetCTDT.Where(x => ((x.ID_NguoiDuyetNDDT == MyAuthentication.ID) ||
+            (x.ID_NguoiTao == MyAuthentication.ID && x.NgayDuyetNDDT != null) ||
+            x.ID_NguoiDangNDDT == MyAuthentication.ID) && valuesToCheck.Contains((int)x.ID_CTDT))
                        join b in db.SH_ChuongTrinhDT on a.ID_CTDT equals b.IDCTDT
                        join c in db.NoiDungDTs on b.ID_NoiDungDT equals c.IDND
                        select new SH_KyDuyetCTDTView
@@ -197,7 +200,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                            ID = a.ID,
                            ID_NguoiTao = a.ID_NguoiTao,
                            NgayTao = a.NgayTao,
-                           TenNguoiTao = db.NhanViens.Where(x=>x.ID == a.ID_NguoiTao).Select(x => x.HoTen).FirstOrDefault(),
+                           TenNguoiTao = db.NhanViens.Where(x => x.ID == a.ID_NguoiTao).Select(x => x.HoTen).FirstOrDefault(),
                            ID_NguoiKiemTra = a.ID_NguoiKiemTra,
                            NgayKTDuyet = a.NgayKTDuyet,
                            ID_TPBP = a.ID_TPBP,
@@ -205,7 +208,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                            ID_PCHN = a.ID_PCHN,
                            NgayPCHN = a.NgayPCHN,
                            ID_NguoiDuyetNDDT = a.ID_NguoiDuyetNDDT,
-                           TenNguoiDuyetNDDT = db.NhanViens.Where(x => x.ID == a.ID_NguoiDuyetNDDT).Select(x=>x.HoTen).FirstOrDefault(),
+                           TenNguoiDuyetNDDT = db.NhanViens.Where(x => x.ID == a.ID_NguoiDuyetNDDT).Select(x => x.HoTen).FirstOrDefault(),
                            NgayDuyetNDDT = a.NgayDuyetNDDT,
                            ID_CTDT = a.ID_CTDT,
                            NoiDungCTDT = b.TenChuongTrinhDT,
@@ -216,7 +219,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                            ID_NguoiDangNDDT = a.ID_NguoiDangNDDT,
                            NgayDangNDDT = a.NgayDangNDDT,
                            TenNguoiDangNDDT = db.NhanViens.Where(x => x.ID == a.ID_NguoiDangNDDT).Select(x => x.HoTen).FirstOrDefault(),
-                           CapDuyet = a.ID_NguoiDangNDDT == MyAuthentication.ID?1:2
+                           CapDuyet = a.ID_NguoiDangNDDT == MyAuthentication.ID ? 1 : 2
                        }).OrderByDescending(x => x.NgayTao).ToList();
             int IDNV = MyAuthentication.ID;
             if (page == null) page = 1;
@@ -252,8 +255,8 @@ namespace E_Learning.Controllers.DaoTaoTH
                            //NCDT_ID = a.NCDT_ID,
                            ID_Duyet = a.IDLH,
                            NgayDuyet = a.NgayKiemTra,
-                           TinhTrangDuyet = a.NgayKiemTra != null?1:0,
-                           HoTen_NguoiTao = b.MaNV +" - " + b.HoTen,
+                           TinhTrangDuyet = a.NgayKiemTra != null ? 1 : 0,
+                           HoTen_NguoiTao = b.MaNV + " - " + b.HoTen,
                            NgayTao = a.NgayTao
                        }).OrderByDescending(x => x.NgayTao).ToList();
 
@@ -444,7 +447,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SH_ChuongTrinhDT chuongtrinh = db.SH_ChuongTrinhDT.Where(x=>x.IDCTDT == id).FirstOrDefault();
+            SH_ChuongTrinhDT chuongtrinh = db.SH_ChuongTrinhDT.Where(x => x.IDCTDT == id).FirstOrDefault();
             ViewBag.ID_ChuongtrinhDT = id;
             NoiDungDT noiDungDT = db.NoiDungDTs.Find(chuongtrinh.ID_NoiDungDT);
             if (noiDungDT == null)
@@ -467,7 +470,7 @@ namespace E_Learning.Controllers.DaoTaoTH
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult XuLyNDDT(NoiDungDT noiDungDT,int? ID_CTDT, int? capduyet)
+        public ActionResult XuLyNDDT(NoiDungDT noiDungDT, int? ID_CTDT, int? capduyet)
         {
             if (ModelState.IsValid)
             {
@@ -503,7 +506,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                     //existingRecord.IsDelete = false;
                     db.SaveChanges();
                 }
-                if(kyduyet.ID_NguoiDangNDDT == MyAuthentication.ID)
+                if (kyduyet.ID_NguoiDangNDDT == MyAuthentication.ID)
                 {
                     kyduyet.NgayDangNDDT = DateTime.Now;
                     db.SaveChanges();
@@ -538,13 +541,13 @@ namespace E_Learning.Controllers.DaoTaoTH
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            
-            var sH_KyDuyetNCDT = db.SH_KyDuyetNCDT.Where(x=>x.NCDT_ID == id && x.NguoiDuyet_ID == MyAuthentication.ID).ToList();
+
+            var sH_KyDuyetNCDT = db.SH_KyDuyetNCDT.Where(x => x.NCDT_ID == id && x.NguoiDuyet_ID == MyAuthentication.ID).ToList();
             if (sH_KyDuyetNCDT == null)
             {
                 return HttpNotFound();
             }
-            if(sH_KyDuyetNCDT.Count() > 1)
+            if (sH_KyDuyetNCDT.Count() > 1)
             {
                 foreach (var item in sH_KyDuyetNCDT)
                 {
@@ -562,9 +565,9 @@ namespace E_Learning.Controllers.DaoTaoTH
             }
             // kiểm tra và update SH_NCDT
             var checkDuyet = db.SH_KyDuyetNCDT.Where(x => x.NCDT_ID == id && x.TinhTrangDuyet != 1).ToList();
-            if(checkDuyet.Count == 0)
+            if (checkDuyet.Count == 0)
             {
-                var ncdt = db.SH_NhuCauDT.Where(x=>x.ID == id).FirstOrDefault();
+                var ncdt = db.SH_NhuCauDT.Where(x => x.ID == id).FirstOrDefault();
                 ncdt.TinhTrang = 1;
                 db.SaveChanges();
             }
@@ -638,7 +641,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             if ((sH_KyDuyetCTDT.ID_NguoiKiemTra == null && sH_KyDuyetCTDT.NgayTPBP != null && sH_KyDuyetCTDT.ID_PCHN == null)
               //|| (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.NgayTPBP != null && sH_KyDuyetCTDT.ID_PCHN == null)
               || (sH_KyDuyetCTDT.ID_NguoiKiemTra == null && sH_KyDuyetCTDT.NgayTPBP != null && sH_KyDuyetCTDT.NgayPCHN != null)
-              //|| (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.NgayTPBP != null && sH_KyDuyetCTDT.NgayPCHN != null)
+               //|| (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.NgayTPBP != null && sH_KyDuyetCTDT.NgayPCHN != null)
                ) // Hoàn thành
             {
                 nddt.IsDelete = false;
@@ -647,9 +650,9 @@ namespace E_Learning.Controllers.DaoTaoTH
                 db.SaveChanges();
             }
             if ((sH_KyDuyetCTDT.ID_NguoiKiemTra == null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.NgayPCHN != null)
-               //|| (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.NgayPCHN != null)
-               //|| (sH_KyDuyetCTDT.ID_NguoiKiemTra == null && sH_KyDuyetCTDT.NgayTPBP != null && sH_KyDuyetCTDT.NgayPCHN != null)
-               //|| (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.NgayTPBP != null && sH_KyDuyetCTDT.NgayPCHN != null)
+                //|| (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.NgayPCHN != null)
+                //|| (sH_KyDuyetCTDT.ID_NguoiKiemTra == null && sH_KyDuyetCTDT.NgayTPBP != null && sH_KyDuyetCTDT.NgayPCHN != null)
+                //|| (sH_KyDuyetCTDT.NgayKTDuyet != null && sH_KyDuyetCTDT.NgayTPBP != null && sH_KyDuyetCTDT.NgayPCHN != null)
                 ) // Hoàn thành
             {
                 nddt.IsDelete = false;
@@ -690,7 +693,7 @@ namespace E_Learning.Controllers.DaoTaoTH
             lophoc.NgayKiemTra = DateTime.Now;
             lophoc.TinhTrang = 1;
             // set tinh trạng XNHT
-            var listXNHT = db.XNHocTaps.Where(x=>x.LHID == id).ToList();
+            var listXNHT = db.XNHocTaps.Where(x => x.LHID == id).ToList();
             foreach (var item in listXNHT)
             {
                 item.TinhTrang = 1;
@@ -850,7 +853,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                 {
                     var sH_KyDuyetCTDT = db.SH_KyDuyetCTDT.Where(x => x.ID == id).FirstOrDefault();
                     var chuongtrinh = db.SH_ChuongTrinhDT.Where(x => x.IDCTDT == sH_KyDuyetCTDT.ID_CTDT).FirstOrDefault();
-                    var nddt = db.NoiDungDTs.FirstOrDefault(x=>x.IDND == chuongtrinh.ID_NoiDungDT);    
+                    var nddt = db.NoiDungDTs.FirstOrDefault(x => x.IDND == chuongtrinh.ID_NoiDungDT);
                     if (sH_KyDuyetCTDT.ID_NguoiKiemTra == IDNV)
                     {
                         sH_KyDuyetCTDT.NgayKTDuyet = DateTime.Now;
@@ -885,7 +888,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                     {
                         nddt.IsDelete = false;
                         chuongtrinh.TinhTrang = 1;
-                        
+
                         db.SaveChanges();
                     }
                     if ((sH_KyDuyetCTDT.NgayKTDuyet == null && sH_KyDuyetCTDT.ID_TPBP == null && sH_KyDuyetCTDT.ID_PCHN != null)

@@ -121,7 +121,8 @@ namespace E_Learning.Models
         public virtual DbSet<BDT_LichSuXoa> BDT_LichSuXoa { get; set; }
         public virtual DbSet<KhungNangLuc_DG> KhungNangLuc_DG { get; set; }
         public virtual DbSet<Banners> Banners { get; set; }
-
+        public virtual DbSet<PageVisit> PageVisit { get; set; }
+    
         public virtual int BaiThi_insert(Nullable<int> iDLH, Nullable<int> iDDeThi, Nullable<int> iDND, Nullable<int> iDNV, Nullable<int> iDPhongBan, Nullable<int> iDViTri, Nullable<double> diemSo, Nullable<System.DateTime> ngayThi, Nullable<bool> tinhTrang, Nullable<int> lanThi, ObjectParameter iDBaiThi)
         {
             var iDLHParameter = iDLH.HasValue ?

@@ -137,6 +137,7 @@
         <EntityTypeShape EntityType="ELEARNINGModel.KhungNangLuc_DG" Width="1.5" PointX="0.75" PointY="29.75" />
         <EntityTypeShape EntityType="ELEARNINGModel.KNL_LSDG" Width="1.5" PointX="30.375" PointY="3.75" />
         <EntityTypeShape EntityType="ELEARNINGModel.Banners" Width="1.5" PointX="0.75" PointY="24.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.PageVisit" Width="1.5" PointX="29.375" PointY="15.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
