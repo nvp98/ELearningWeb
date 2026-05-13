@@ -1,0 +1,76 @@
+@{
+    ViewBag.Title = "Chuẩn Bị Làm Bài Thi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model E_Learning.Models.QTUX_DeThi
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-note2 icon-gradient bg-grow-early"></i>
+                    </div>
+                    <div>
+                        Chuẩn Bị Làm Bài Thi
+                        <div class="page-title-subheading"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="main-card mb-3 card">
+                        <div class="card-body">
+                            <h5 class="card-title">@ViewBag.TenDeThi</h5>
+                            <div class="widget-content">
+                                <div class="widget-content-wrapper" style="padding: 10px 0;">
+                                    <div class="widget-content-left"><strong>Tổng số câu:</strong></div>
+                                    <div class="widget-content-right">@ViewBag.TongSoCau câu</div>
+                                </div>
+                                <div class="widget-content-wrapper" style="padding: 10px 0;">
+                                    <div class="widget-content-left"><strong>Điểm chuẩn:</strong></div>
+                                    <div class="widget-content-right">@ViewBag.DiemChuan điểm</div>
+                                </div>
+                                <div class="widget-content-wrapper" style="padding: 10px 0;">
+                                    <div class="widget-content-left"><strong>Thời gian làm bài:</strong></div>
+                                    <div class="widget-content-right">@ViewBag.ThoiGianLamBai phút</div>
+                                </div>
+                            </div>
+
+                            <div class="alert alert-info" style="margin-top: 20px;">
+                                <h6>Những lưu ý khi làm bài thi:</h6>
+                                <ul>
+                                    <li>Bạn sẽ có <strong>@ViewBag.ThoiGianLamBai phút</strong> để hoàn thành bài thi</li>
+                                    <li>Thời gian sẽ tự động kết thúc khi hết giờ</li>
+                                    <li>Bạn cần đạt ít nhất <strong>@ViewBag.DiemChuan điểm</strong> để vượt qua bài thi</li>
+                                    <li>Không được rời khỏi trang bài thi trong lúc làm bài</li>
+                                    <li>Sau khi nộp bài, bạn sẽ nhận được kết quả ngay lập tức</li>
+                                </ul>
+                            </div>
+
+                            <div style="text-align: center; margin-top: 30px;">
+                                <a href="@Url.Action("DoTest", "QTUXTest", new { deThiID = Model.ID })" class="btn btn-primary btn-lg">
+                                    <i class="fa fa-play"></i> Bắt Đầu Làm Bài Thi
+                                </a>
+                                <a href="@Url.Action("Index", "QTUXTest")" class="btn btn-secondary btn-lg">
+                                    <i class="fa fa-arrow-left"></i> Quay Lại
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+@using E_Learning.Models
+@model CauHoiViewModel
+
+@using (Html.BeginForm("EditQuestion", "NoiDungQTUX", FormMethod.Post))
+{
+    <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+        <input type="hidden" name="IDCauHoi" value="@Model.IDCauHoi" />
+        <input type="hidden" name="IDCauHoiDeThi" value="@ViewBag.IDCauHoiDeThi" />
+        <input type="hidden" name="IDDeThi" value="@ViewBag.IDDeThi" />
+
+        <div class="form-group">
+            <label>Nội Dung Câu Hỏi <span class="text-danger">*</span></label>
+            <textarea class="form-control" name="NoiDungCauHoi" rows="3" required>@Model.NoiDungCauHoi</textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Đáp Án A <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="DapAnA" value="@Model.DapAnA" required />
+        </div>
+
+        <div class="form-group">
+            <label>Đáp Án B <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="DapAnB" value="@Model.DapAnB" required />
+        </div>
+
+        <div class="form-group">
+            <label>Đáp Án C <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="DapAnC" value="@Model.DapAnC" required />
+        </div>
+
+        <div class="form-group">
+            <label>Đáp Án D <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="DapAnD" value="@Model.DapAnD" required />
+        </div>
+
+        <div class="form-group">
+            <label>Đáp Án Đúng <span class="text-danger">*</span></label>
+            <select class="form-control" name="IDDAĐung" required>
+                <option value="1" @(Model.IDDAĐung == 1 ? "selected" : "")>A</option>
+                <option value="2" @(Model.IDDAĐung == 2 ? "selected" : "")>B</option>
+                <option value="3" @(Model.IDDAĐung == 3 ? "selected" : "")>C</option>
+                <option value="4" @(Model.IDDAĐung == 4 ? "selected" : "")>D</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Điểm <span class="text-danger">*</span></label>
+            <input type="number" class="form-control" name="Diem" value="@Model.Diem" step="0.5" required />
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button type="submit" class="btn btn-primary">Cập Nhật Câu Hỏi</button>
+    </div>
+}

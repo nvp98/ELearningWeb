@@ -1,0 +1,147 @@
+﻿@{
+    ViewBag.Title = "Kết Quả Bài Thi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model List<E_Learning.Models.CTBaiThi>
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-note2 icon-gradient bg-grow-early"></i>
+                    </div>
+                    <div>
+                        Kết Quả Bài Thi
+                        <div class="page-title-subheading"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="main-card mb-3 card">
+                        <div class="card-body">
+                            <div class="alert @(ViewBag.TinhTrang == "Đạt" ? "alert-success" : "alert-danger")">
+                                <h4><strong>Kết Quả: @ViewBag.TinhTrang</strong></h4>
+                            </div>
+
+                            <div class="widget-content">
+                                <div class="widget-content-wrapper" style="padding: 15px 0;">
+                                    <div class="widget-content-left"><strong>Điểm Số:</strong></div>
+                                    <div class="widget-content-right text-primary" style="font-size: 24px;">
+                                        <strong>@ViewBag.DiemSo/@ViewBag.DiemChuan</strong></div>
+                                    </div>
+                                    <div class="widget-content-wrapper" style="padding: 15px 0;">
+                                        <div class="widget-content-left"><strong>Tên Đề Thi:</strong></div>
+                                        <div class="widget-content-right">@ViewBag.TenDeThi</div>
+                                    </div>
+                                    <div class="widget-content-wrapper" style="padding: 15px 0;">
+                                        <div class="widget-content-left"><strong>Lần Thi:</strong></div>
+                                        <div class="widget-content-right">Lần @ViewBag.LanThi</div>
+                                    </div>
+                                    <div class="widget-content-wrapper" style="padding: 15px 0;">
+                                        <div class="widget-content-left"><strong>Ngày Thi:</strong></div>
+                                        <div class="widget-content-right">@ViewBag.NgayThi</div>
+                                    </div>
+                                </div>
+
+                                <div style="margin-top: 30px;">
+                                    <h5>Chi Tiết Câu Trả Lời:</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-sm">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th width="50px">STT</th>
+                                                    <th>Câu Hỏi</th>
+                                                    <th width="80px">Đáp Án</th>
+                                                    <th width="80px">Kết Quả</th>
+                                                    <th width="80px">Điểm</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    int stt = 1;
+                                                }
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center">@stt</td>
+                                                        <td>
+                                                            @{
+                                                                var cauHoi = (ViewBag.CauHoiList as
+                                                        List<E_Learning.Models.CauHoiViewModel>).Where(x => x.IDCauHoi ==
+                                                        item.IDCauHoi).FirstOrDefault();
+                                                            }
+                                                            @if (cauHoi != null)
+                                                            {
+                                                                @cauHoi.NoiDungCauHoi
+                                                            }
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @{
+                                                                string[] answerLabels = { "", "A", "B", "C", "D" };
+                                                                string selectedAnswer = item.IDDApAnNV.HasValue &&
+                                                        item.IDDApAnNV.Value > 0 && item.IDDApAnNV.Value <= 4
+                                                                    ? answerLabels[item.IDDApAnNV.Value]
+                                                                    : "-";
+                                                                string correctAnswer = cauHoi != null && cauHoi.IDDAĐung > 0 &&
+                                                        cauHoi.IDDAĐung <= 4
+                                                                    ? answerLabels[cauHoi.IDDAĐung ?? 0]
+                                                                    : "-";
+                                                            }
+                                                            @if (selectedAnswer == correctAnswer && selectedAnswer != "-")
+                                                            {
+                                                                <span class="badge badge-success">@selectedAnswer - Đúng</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="badge badge-danger">@selectedAnswer - Sai (Đáp án:
+                                                                    @correctAnswer)</span>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @{
+                                                                    bool isCorrect = item.IDDApAnNV.HasValue && cauHoi != null &&
+                                                            item.IDDApAnNV.Value == cauHoi.IDDAĐung;
+                                                                }
+                                                                @if (isCorrect)
+                                                                {
+                                                                    <span class="text-success">✓</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="text-danger">✗</span>
+                                                                }
+                                                            </td>
+                                                            <td class="text-center">@(item.Diem ?? 0)</td>
+                                                        </tr>
+                                                        stt++;
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div style="text-align: center; margin-top: 30px;">
+                                        <a href="@Url.Action("ListQTUX", "QTUXView")" class="btn btn-primary btn-lg">
+                                            <i class="fa fa-list"></i> Quay Lại
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="app-wrapper-footer">
+                <div class="app-footer">
+                    <div class="app-footer__inner"></div>
+                </div>
+            </div>
+        </div>

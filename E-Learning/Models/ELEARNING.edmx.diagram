@@ -138,6 +138,14 @@
         <EntityTypeShape EntityType="ELEARNINGModel.KNL_LSDG" Width="1.5" PointX="30.375" PointY="3.75" />
         <EntityTypeShape EntityType="ELEARNINGModel.Banners" Width="1.5" PointX="0.75" PointY="24.75" />
         <EntityTypeShape EntityType="ELEARNINGModel.PageVisit" Width="1.5" PointX="29.375" PointY="15.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.QTUX_KetQua" Width="1.5" PointX="21.25" PointY="0.75" />
+        <EntityTypeShape EntityType="ELEARNINGModel.QTUX_LichHoc" Width="1.5" PointX="19" PointY="0.75" />
+        <AssociationConnector Association="ELEARNINGModel.FK__QTUX_Lich__IDDeT__7F76C749" />
+        <AssociationConnector Association="ELEARNINGModel.FK__QTUX_KetQu__IDNV__7405149D" />
+        <AssociationConnector Association="ELEARNINGModel.FK__QTUX_KetQ__NDDTI__7310F064" />
+        <AssociationConnector Association="ELEARNINGModel.FK__QTUX_Lich__NDDTI__006AEB82" />
+        <AssociationConnector Association="ELEARNINGModel.FK__QTUX_Lich__IDPho__015F0FBB" />
+        <EntityTypeShape EntityType="ELEARNINGModel.QTUX_DinhKy" Width="1.5" PointX="3.375" PointY="30.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

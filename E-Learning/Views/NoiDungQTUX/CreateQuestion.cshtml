@@ -1,0 +1,52 @@
+@using (Html.BeginForm("CreateQuestion", "NoiDungQTUX", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+        <input type="hidden" name="IDDeThi" value="@ViewBag.IDDeThi" />
+        
+        <div class="form-group">
+            <label>Nội Dung Câu Hỏi <span class="text-danger">*</span></label>
+            <textarea class="form-control" name="NoiDungCauHoi" rows="3" placeholder="Nhập nội dung câu hỏi"
+                      required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Đáp Án A <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="DapAnA" placeholder="Nhập đáp án A" required />
+        </div>
+
+        <div class="form-group">
+            <label>Đáp Án B <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="DapAnB" placeholder="Nhập đáp án B" required />
+        </div>
+
+        <div class="form-group">
+            <label>Đáp Án C <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="DapAnC" placeholder="Nhập đáp án C" required />
+        </div>
+
+        <div class="form-group">
+            <label>Đáp Án D <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="DapAnD" placeholder="Nhập đáp án D" required />
+        </div>
+
+        <div class="form-group">
+            <label>Đáp Án Đúng <span class="text-danger">*</span></label>
+            <select class="form-control" name="IDDAĐung" required>
+                <option value="">-- Chọn đáp án đúng --</option>
+                <option value="1">A</option>
+                <option value="2">B</option>
+                <option value="3">C</option>
+                <option value="4">D</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Điểm <span class="text-danger">*</span></label>
+            <input type="number" class="form-control" name="Diem" placeholder="1" value="1" step="0.5" required />
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button type="submit" class="btn btn-primary">Thêm Câu Hỏi</button>
+    </div>
+}

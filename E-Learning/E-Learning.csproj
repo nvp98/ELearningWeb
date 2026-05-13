@@ -343,6 +343,11 @@
     <Compile Include="Controllers\QTHD\NoiDungQTController.cs" />
     <Compile Include="Controllers\QTHD\PhanQuyenQTController.cs" />
     <Compile Include="Controllers\QTHD\ResultQTHDController.cs" />
+    <Compile Include="Controllers\QTUX\NoiDungQTUXController.cs" />
+    <Compile Include="Controllers\QTUX\QTUXTestController.cs" />
+    <Compile Include="Controllers\QTUX\QTUXUserController.cs" />
+    <Compile Include="Controllers\QTUX\QTUXViewController.cs" />
+    <Compile Include="Controllers\QTUX\ResultQTUXController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\STestController.cs" />
@@ -385,6 +390,9 @@
     <Compile Include="ModelsQTHD\ListTestQT.cs" />
     <Compile Include="ModelsQTHD\NoiDungQTView.cs" />
     <Compile Include="ModelsQTHD\PhanQuyenQT.cs" />
+    <Compile Include="ModelsQTUX\NoiQuyUXKQView.cs" />
+    <Compile Include="ModelsQTUX\NoiQuyUXView.cs" />
+    <Compile Include="ModelsQTUX\ResultQTUXView.cs" />
     <Compile Include="ModelsTieuBanDaoTao\ThanhVienTieuBanInfo.cs" />
     <Compile Include="ModelsTieuBanDaoTao\ThanhVienTieuBanViewModel.cs" />
     <Compile Include="Models\BaiThi.cs">
@@ -722,6 +730,18 @@
     <Compile Include="Models\PhongBan_ExportKNL_Result.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\QTUX_DinhKy.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QTUX_KetQua.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QTUX_LichHoc.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QTUX_LichHoc_getActiveDates_Result.cs">
+      <DependentUpon>ELEARNING.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\QT_BaiKiemTra.cs">
       <DependentUpon>ELEARNING.tt</DependentUpon>
     </Compile>
@@ -985,6 +1005,23 @@
     <Content Include="Views\NhuCauDTTH\GetNhanViensByNCDT.cshtml" />
     <Content Include="Views\Home\ManageBanner.cshtml" />
     <Content Include="Views\FPosition\ShowRadarChart.cshtml" />
+    <Content Include="Views\NoiDungQTUX\Create.cshtml" />
+    <Content Include="Views\NoiDungQTUX\Edit.cshtml" />
+    <Content Include="Views\NoiDungQTUX\Index.cshtml" />
+    <Content Include="Views\QTUXTest\DoTest.cshtml" />
+    <Content Include="Views\QTUXTest\Index.cshtml" />
+    <Content Include="Views\QTUXTest\PrepareTest.cshtml" />
+    <Content Include="Views\QTUXTest\TestResult.cshtml" />
+    <Content Include="Views\QTUXUser\Index.cshtml" />
+    <Content Include="Views\QTUXView\ListQTUX.cshtml" />
+    <Content Include="Views\ResultQTUX\Index.cshtml" />
+    <Content Include="Views\NoiDungQTUX\CreateExam.cshtml" />
+    <Content Include="Views\NoiDungQTUX\CreateQuestion.cshtml" />
+    <Content Include="Views\NoiDungQTUX\EditQuestion.cshtml" />
+    <Content Include="Views\NoiDungQTUX\ManageExams.cshtml" />
+    <Content Include="Views\NoiDungQTUX\ManageQuestions.cshtml" />
+    <Content Include="Views\QTUXView\Index.cshtml" />
+    <Content Include="Views\QTUXView\ListQTUX_backup.cshtml" />
     <None Include="Views\Shared\LayoutAdmin.cshtml" />
     <Content Include="Views\ToChucDTTH\Index.cshtml" />
     <Content Include="Views\ToChucDTTH\Create.cshtml" />

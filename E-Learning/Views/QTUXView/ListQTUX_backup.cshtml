@@ -1,0 +1,202 @@
+@{
+    ViewBag.Title = "Danh Sách Quy Tắc Ứng Xử";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.Models
+@model PagedList.IPagedList<NoiQuyUXKQView>
+@using PagedList.Mvc
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-portfolio icon-gradient bg-grow-early"></i>
+                    </div>
+                    <div>
+                        Quy Tắc Ứng Xử
+                        <div class="page-title-subheading"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="card col-lg-12">
+                    <div class="card-header">
+                        <div class="col-md-8 col-lg-10">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" id="txtsearch" name="" placeholder="Tìm kiếm" class="form-control" value="@ViewBag.search">
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.DropDownList("IDQTUX", null, "--Quy Tắc Ứng Xử--", new { id = "IDQTUX", @class = "form-control marginTB5", @style = "width:100%", })
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="tab-content" style="margin-top: 30px;">
+                            <div class="row">
+                                @foreach (var item in Model)
+                                {
+                                    <div class="col-md-6 col-xl-3">
+                                        <div class="card mb-3">
+                                            <div class="text-white">
+                                                <img src="@item.ImageND" style="width:100%">
+                                            </div>
+                                            <div class="widget-content">
+                                                <div class="content d-flex mb-3">
+                                                    <div class="widget-subheading font-weight-bold">@item.NoiDung.ToUpper()</div>
+                                                </div>
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+                                                    <div class="widget-content-left"><strong>Mã nội dung: </strong></div>
+                                                    <div class="widget-content-right">@item.MaND</div>
+                                                </div>
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+                                                    <div class="widget-content-left"><strong>Xem Video:</strong></div>
+                                                    @if (item.XNHT == 1)
+                                                    {
+                                                        <div class="widget-content-right text-success">Đã hoàn thành</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="widget-content-right text-danger">Chưa hoàn thành</div>
+                                                    }
+                                                </div>
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+                                                    <div class="widget-content-left"><strong>Xem Tài Liệu:</strong></div>
+                                                    @if (item.XNHTFile == 1)
+                                                    {
+                                                        <div class="widget-content-right text-success">Đã hoàn thành</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="widget-content-right text-danger">Chưa hoàn thành</div>
+                                                    }
+                                                </div>
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+                                                    <div class="widget-content-left"><strong>Bài Thi:</strong></div>
+                                                    @if (item.LanThi > 0)
+                                                    {
+                                                        @if (item.TinhTrangThi == 1)
+                                                        {
+                                                            <div class="widget-content-right text-success">Đạt - Điểm: @item.DiemSo</div>
+                                                        }
+                                                        else if (item.TinhTrangThi == 0)
+                                                        {
+                                                            <div class="widget-content-right text-warning">Chưa đạt - Lần thi: @item.LanThi - Điểm: @item.DiemSo</div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="widget-content-right text-info">Lần thi: @item.LanThi - Điểm: @item.DiemSo</div>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="widget-content-right text-danger">Chưa làm bài thi</div>
+                                                    }
+                                                </div>
+                                                @if (item.LanThi > 0 && item.NgayThi.HasValue)
+                                                {
+                                                    <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+                                                        <div class="widget-content-left"><strong>Ngày thi gần nhất:</strong></div>
+                                                        <div class="widget-content-right">@item.NgayThi?.ToString("dd/MM/yyyy HH:mm")</div>
+                                                    </div>
+                                                }
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0;">
+                                                    <div class="widget-content-right">
+                                                        @if (item.FileDinhKem != null && item.FileDinhKem.Length > 0)
+                                                        {
+                                                            if (item.XNHTFile != 1)
+                                                            {
+                                                                <a id="file_@item.IDND" href="@Url.Action("CompleteFile", "QTUXUser", new {id = @item.IDND, link = @item.FileDinhKem})" target="_blank">
+                                                                    <span class="btn-transition btn btn-outline-primary">Đọc Tài Liệu</span>
+                                                                </a>
+                                                                <script>
+                                                                $(document).ready(function () {
+                                                                    $('#file_@item.IDND').click(function (e) {
+                                                                        e.preventDefault();
+                                                                        var url = $(this).attr('href');
+                                                                        window.open(url, '_blank');
+                                                                        $.get(url, function () {
+                                                                            window.location.reload();
+                                                                        });
+                                                                    });
+                                                                });
+                                                                </script>
+                                                            }
+                                                            else
+                                                            {
+                                                                <a href="@item.FileDinhKem" target="_blank">
+                                                                    <span class="btn-transition btn btn-outline-primary">Đọc Tài Liệu</span>
+                                                                </a>
+                                                            }
+                                                        }
+                                                        @if (item.XNHT == 1)
+                                                        {
+                                                            <a id="@item.IDND" href="@Url.Action("Index" , "QTUXUser" , new { id = @item.IDND })" onclick="return confirm('Bạn muốn xem lại?')">
+                                                                <span class="btn-transition btn btn-outline-success">Xem Lại</span>
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a id="@item.IDND" href="@Url.Action("Index" , "QTUXUser" , new { id = @item.IDND })" onclick="return confirm('Bạn muốn xem?')">
+                                                                <span class="btn-transition btn btn-outline-success">Xem Nội Dung</span>
+                                                            </a>
+                                                        }
+                                                        @if (item.IDDeThi.HasValue)
+                                                        {
+                                                            if (item.TinhTrangThi == 1)
+                                                            {
+                                                                <a href="@Url.Action("Index", "QTUXTest", new { IDND = item.IDND })" title="Làm bài thi" onclick="return confirm('Bạn muốn làm lại bài thi?')">
+                                                                    <span class="btn-transition btn btn-outline-info">Làm Lại Bài Thi</span>
+                                                                </a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <a href="@Url.Action("Index", "QTUXTest", new { IDND = item.IDND })" title="Làm bài thi">
+                                                                    <span class="btn-transition btn btn-outline-warning">Làm Bài Thi</span>
+                                                                </a>
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#IDQTUX").chosen({
+        width: "100%"
+    });
+    $("#btn-search").on('click', function () {
+        var search = $('#txtsearch').val();
+        window.location.href = '@Url.Action("ListQTUX", "QTUXView")?search=' + search + '&IDQTUX=' + $('#IDQTUX').val();
+    });
+</script>

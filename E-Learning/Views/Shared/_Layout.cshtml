@@ -379,6 +379,13 @@
                                     Nội quy lao động
                                 </a>
                             </li>
+                             <li>
+                                <a href="@Url.Action("ListQTUX","QTUXView")">
+                                    <i class="metismenu-icon pe-7s-way font-weight-bold"></i>
+                                    Bộ quy tắc ứng xử
+                                </a>
+                            </li>
+                             
                             <li>
                                 <a href="@Url.Action("Index","TBKyLuat")">
                                     <i class="metismenu-icon pe-7s-ribbon font-weight-bold"></i>
@@ -669,6 +676,48 @@
                                             <a href="@Url.Action("Index", "ResultNQLD")" class=" font-weight-bold @(Context.Request.Path == "/ResultNQLD" ? "mm-active" : "")">
                                                 <i class=" pe-7s-graph3">
                                                 </i>&nbsp;&nbsp;Kết quả NQLĐ
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+
+                            <li class=" @(Context.Request.Path == "/NoiDungQTUX" || Context.Request.Path == "/ResultQTUX" || Context.Request.Path == "/QTUXTest" ? "mm-active" : "")">
+                                @if ((new List<String> { "NoiDungQTUX", "ResultQTUX", "QTUXTest" }).Any(x => ListControll.Contains(x)))
+                                {
+                                     <a href="#" id="IDTK" class="">
+                                        <i class="metismenu-icon pe-7s-photo-gallery font-weight-bold">
+                                        </i>Bộ quy tắc ứng xử
+                                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                    </a>
+                                }
+                               
+
+                                <ul id="LSTUX">
+                                    @if (ListControll.Contains("NoiDungQTUX"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "NoiDungQTUX")" class="font-size-md font-weight-bold @(Context.Request.Path == "/NoiDungQTUX" ? "mm-active" : "")">
+                                                <i class=" pe-7s-note2">
+                                                </i>&nbsp;&nbsp;Nội dung QTUX
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (ListControll.Contains("QTUXTest"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "QTUXTest")" class=" font-weight-bold @(Context.Request.Path == "/QTUXTest" ? "mm-active" : "")">
+                                                <i class=" pe-7s-note">
+                                                </i>&nbsp;&nbsp;Bài thi QTUX
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (ListControll.Contains("ResultQTUX"))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "ResultQTUX")" class=" font-weight-bold @(Context.Request.Path == "/ResultQTUX" ? "mm-active" : "")">
+                                                <i class=" pe-7s-graph3">
+                                                </i>&nbsp;&nbsp;Kết quả QTUX
                                             </a>
                                         </li>
                                     }

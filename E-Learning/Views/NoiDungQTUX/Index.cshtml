@@ -1,0 +1,192 @@
+@{
+    ViewBag.Title = "Quản Lý Quy Tắc Ứng Xử";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.Models
+@model PagedList.IPagedList<NoiQuyUXView>
+@using PagedList.Mvc
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+<script src="~/Content/assets/Chonse/chosen.jquery.js"></script>
+<link href="~/Content/assets/Chonse/chosen.css" rel="stylesheet" />
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-portfolio icon-gradient bg-grow-early"></i>
+                    </div>
+                    <div>
+                        Quản Lý Quy Tắc Ứng Xử
+                        <div class="page-title-subheading"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="card col-lg-12">
+                    <div class="card-header">
+                        <div class="col-md-8 col-lg-10">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" id="txtsearch" name="" placeholder="Tìm kiếm" class="form-control" value="@ViewBag.search">
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.DropDownList("IDQTUX", null, "--Quy Tắc Ứng Xử--", new { id = "IDQTUX", @class = "form-control marginTB5", @style = "width:100%", })
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary" id="btn-search"><i class="fa fa-search"></i> Tìm kiếm</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.ADD) || true)
+                        {
+                            <div class="col-md-2">
+                                <button type="button" id="btn-add" class="btn btn-primary m-l-auto pull-right"><i class="fa fa-plus">&nbsp;</i>&nbsp;Thêm mới </button>
+                                <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","NoiDungQTUX")'></div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="card-body">
+                        <div class="tab-content" style="margin-top: 30px;">
+                            <div class="row">
+                                @foreach (var item in Model)
+                                {
+                                    <div class="col-md-6 col-xl-3">
+                                        <div class="card mb-3">
+                                            <div class="text-white">
+                                                <img src="@item.ImageND" style="width:100%">
+                                            </div>
+                                            <div class="widget-content">
+                                                <div class="content d-flex mb-3">
+                                                    @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.DEL) || true)
+                                                    {
+                                                        <a class="fa fa-trash icon_action IconDel fsize-2 mr-2" title="Xóa" href="@Url.Action("Delete", "NoiDungQTUX", new { id = item.IDND })"
+                                                           onclick="return confirm('Bạn muốn xóa: @item.IDND')">
+                                                        </a>
+                                                    }
+                                                    @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT) || true)
+                                                    {
+                                                        <a id="btn-edit_@item.IDND" title="Sửa" class="fa fa-edit icon_action edit-custom fsize-2 mr-2"></a>
+                                                        <div class=" modal fade" id="myModaleK_@item.IDND" role="dialog" data-url='@Url.Action("Edit", "NoiDungQTUX", new { id = item.IDND})'></div>
+                                                        <script type="text/javascript">
+                                                            $("#btn-edit_@item.IDND").click(function () {
+                                                                var url = $('#myModaleK_@item.IDND').data('url');
+                                                                $.get(url, function (data) {
+                                                                    $("#myModaleK_@item.IDND").html(data);
+                                                                    $("#ModalTitle").html("Cập nhật Quy Tắc Ứng Xử");
+                                                                    $("#myModaleK_@item.IDND").modal('show');
+                                                                });
+                                                            });
+                                                        </script>
+                                                    }
+                                                    <div class="widget-subheading font-weight-bold">@item.NoiDung.ToUpper()</div>
+                                                </div>
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+                                                    <div class="widget-content-left"><strong>Mã nội dung: </strong></div>
+                                                    <div class="widget-content-right">@item.MaND</div>
+                                                </div>
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+                                                    <div class="widget-content-left"><strong>Hoàn thành xem Video:</strong></div>
+                                                    <div class="widget-content-right">@item.SLHT lượt</div>
+                                                </div>
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+                                                    <div class="widget-content-left"><strong>Hoàn thành xem File:</strong></div>
+                                                    <div class="widget-content-right">@item.SLHTFile lượt</div>
+                                                </div>
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+                                                    <div class="widget-content-left"><strong>Hoàn thành bài thi:</strong></div>
+                                                    <div class="widget-content-right">@item.SLHoanThanhThi lượt</div>
+                                                </div>
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0 0;">
+                                                    <div class="widget-content-left"><strong>Định Kỳ:</strong></div>
+                                                    <div class="widget-content-right">
+                                                        @if (item.DinhKy == null || item.DinhKy == 0)
+                                                        {
+                                                            <span class="badge badge-secondary">Không lặp lại</span>
+                                                        }
+                                                        else if (item.DinhKy == 6)
+                                                        {
+                                                            <span class="badge badge-primary">6 Tháng</span>
+                                                        }
+                                                        else if (item.DinhKy == 12)
+                                                        {
+                                                            <span class="badge badge-info">1 Năm</span>
+                                                        }
+                                                        else if (item.DinhKy == 24)
+                                                        {
+                                                            <span class="badge badge-success">2 Năm</span>
+                                                        }
+                                                        else if (item.DinhKy == 36)
+                                                        {
+                                                            <span class="badge badge-warning">3 Năm</span>
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="widget-content-wrapper" style="padding: .5rem 0;">
+                                                    <div class="widget-content-right">
+                                                        <a href="@Url.Action("ManageExams", "NoiDungQTUX", new { IDND = item.IDND })">
+                                                            <span class="btn-transition btn btn-outline-success">Quản Lý Đề Thi</span>
+                                                        </a>
+                                                        @if (item.FileDinhKem != null && item.FileDinhKem.Length > 0)
+                                                        {
+                                                            <a href="@item.FileDinhKem" target="_blank">
+                                                                <span class="btn-transition btn btn-outline-alternate">Đọc tài liệu</span>
+                                                            </a>
+                                                        }
+                                                        <a id="@item.IDND" href="@Url.Action("Index" , "QTUXView" , new { id = @item.IDND })">
+                                                            <span class="btn-transition btn btn-outline-info">Xem nội dung</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("Thêm mới Quy Tắc Ứng Xử");
+            $("#myModal").modal('show');
+        });
+    });
+    $("#IDQTUX").chosen({
+        width: "100%"
+    });
+    $("#btn-search").on('click', function () {
+        var search = $('#txtsearch').val();
+        window.location.href = '@Url.Action("Index", "NoiDungQTUX")?search=' + search + '&IDQTUX=' + $('#IDQTUX').val();
+    });
+</script>

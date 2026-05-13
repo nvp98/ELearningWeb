@@ -122,6 +122,9 @@ namespace E_Learning.Models
         public virtual DbSet<KhungNangLuc_DG> KhungNangLuc_DG { get; set; }
         public virtual DbSet<Banners> Banners { get; set; }
         public virtual DbSet<PageVisit> PageVisit { get; set; }
+        public virtual DbSet<QTUX_KetQua> QTUX_KetQua { get; set; }
+        public virtual DbSet<QTUX_LichHoc> QTUX_LichHoc { get; set; }
+        public virtual DbSet<QTUX_DinhKy> QTUX_DinhKy { get; set; }
     
         public virtual int BaiThi_insert(Nullable<int> iDLH, Nullable<int> iDDeThi, Nullable<int> iDND, Nullable<int> iDNV, Nullable<int> iDPhongBan, Nullable<int> iDViTri, Nullable<double> diemSo, Nullable<System.DateTime> ngayThi, Nullable<bool> tinhTrang, Nullable<int> lanThi, ObjectParameter iDBaiThi)
         {
@@ -4367,6 +4370,60 @@ namespace E_Learning.Models
                 new ObjectParameter("Quy", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_KhoiTaoDanhGiaMoiTuQuyTruoc", namParameter, quyParameter);
+        }
+    
+        public virtual int QTUX_KetQua__insert(Nullable<int> nDDTID, Nullable<int> iDNV, Nullable<int> xNHT, Nullable<int> xNTG, Nullable<int> xNHTFile, Nullable<System.DateTime> ngayHT, Nullable<System.DateTime> ngayTG, Nullable<int> tinhTrang, string ghiChu)
+        {
+            var nDDTIDParameter = nDDTID.HasValue ?
+                new ObjectParameter("NDDTID", nDDTID) :
+                new ObjectParameter("NDDTID", typeof(int));
+    
+            var iDNVParameter = iDNV.HasValue ?
+                new ObjectParameter("IDNV", iDNV) :
+                new ObjectParameter("IDNV", typeof(int));
+    
+            var xNHTParameter = xNHT.HasValue ?
+                new ObjectParameter("XNHT", xNHT) :
+                new ObjectParameter("XNHT", typeof(int));
+    
+            var xNTGParameter = xNTG.HasValue ?
+                new ObjectParameter("XNTG", xNTG) :
+                new ObjectParameter("XNTG", typeof(int));
+    
+            var xNHTFileParameter = xNHTFile.HasValue ?
+                new ObjectParameter("XNHTFile", xNHTFile) :
+                new ObjectParameter("XNHTFile", typeof(int));
+    
+            var ngayHTParameter = ngayHT.HasValue ?
+                new ObjectParameter("NgayHT", ngayHT) :
+                new ObjectParameter("NgayHT", typeof(System.DateTime));
+    
+            var ngayTGParameter = ngayTG.HasValue ?
+                new ObjectParameter("NgayTG", ngayTG) :
+                new ObjectParameter("NgayTG", typeof(System.DateTime));
+    
+            var tinhTrangParameter = tinhTrang.HasValue ?
+                new ObjectParameter("TinhTrang", tinhTrang) :
+                new ObjectParameter("TinhTrang", typeof(int));
+    
+            var ghiChuParameter = ghiChu != null ?
+                new ObjectParameter("GhiChu", ghiChu) :
+                new ObjectParameter("GhiChu", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("QTUX_KetQua__insert", nDDTIDParameter, iDNVParameter, xNHTParameter, xNTGParameter, xNHTFileParameter, ngayHTParameter, ngayTGParameter, tinhTrangParameter, ghiChuParameter);
+        }
+    
+        public virtual ObjectResult<QTUX_LichHoc_getActiveDates_Result> QTUX_LichHoc_getActiveDates(Nullable<System.DateTime> tuNgay, Nullable<System.DateTime> denNgay)
+        {
+            var tuNgayParameter = tuNgay.HasValue ?
+                new ObjectParameter("TuNgay", tuNgay) :
+                new ObjectParameter("TuNgay", typeof(System.DateTime));
+    
+            var denNgayParameter = denNgay.HasValue ?
+                new ObjectParameter("DenNgay", denNgay) :
+                new ObjectParameter("DenNgay", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<QTUX_LichHoc_getActiveDates_Result>("QTUX_LichHoc_getActiveDates", tuNgayParameter, denNgayParameter);
         }
     }
 }

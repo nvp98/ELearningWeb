@@ -800,6 +800,46 @@
           <Property Name="QTHDID" Type="int" />
           <Property Name="IDQT_LienQuan" Type="int" />
         </EntityType>
+        <EntityType Name="QTUX_DinhKy">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDNoiDungQTUX" Type="int" />
+          <Property Name="DinhKy" Type="int" />
+          <Property Name="NgayTao" Type="date" />
+        </EntityType>
+        <EntityType Name="QTUX_KetQua">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NDDTID" Type="int" Nullable="false" />
+          <Property Name="IDNV" Type="int" Nullable="false" />
+          <Property Name="XNHT" Type="int" />
+          <Property Name="XNTG" Type="int" />
+          <Property Name="XNHTFile" Type="int" />
+          <Property Name="NgayHT" Type="datetime" />
+          <Property Name="NgayTG" Type="datetime" />
+          <Property Name="TinhTrang" Type="int" />
+          <Property Name="GhiChu" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="QTUX_LichHoc">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDDeThi" Type="int" Nullable="false" />
+          <Property Name="NDDTID" Type="int" Nullable="false" />
+          <Property Name="IsKichHoat" Type="int" />
+          <Property Name="LoaiKhuonKy" Type="int" Nullable="false" />
+          <Property Name="NgayBatDau" Type="datetime" Nullable="false" />
+          <Property Name="NgayKetThuc" Type="datetime" />
+          <Property Name="NgayTrongTuan" Type="int" />
+          <Property Name="NgayTrongThang" Type="int" />
+          <Property Name="ChiSoThang" Type="int" />
+          <Property Name="IDPhongBan" Type="int" />
+        </EntityType>
         <EntityType Name="Quyen">
           <Key>
             <PropertyRef Name="IDQuyen" />
@@ -1149,6 +1189,66 @@
           <Property Name="LyDoKhongTGia" Type="nvarchar" MaxLength="250" />
           <Property Name="TinhTrang" Type="int" />
         </EntityType>
+        <Association Name="FK__QTUX_KetQ__NDDTI__7310F064">
+          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="1" />
+          <End Role="QTUX_KetQua" Type="Self.QTUX_KetQua" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NoiDungDT">
+              <PropertyRef Name="IDND" />
+            </Principal>
+            <Dependent Role="QTUX_KetQua">
+              <PropertyRef Name="NDDTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QTUX_KetQu__IDNV__7405149D">
+          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
+          <End Role="QTUX_KetQua" Type="Self.QTUX_KetQua" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NhanVien">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="QTUX_KetQua">
+              <PropertyRef Name="IDNV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QTUX_Lich__IDDeT__7F76C749">
+          <End Role="DeThi" Type="Self.DeThi" Multiplicity="1" />
+          <End Role="QTUX_LichHoc" Type="Self.QTUX_LichHoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeThi">
+              <PropertyRef Name="IDDeThi" />
+            </Principal>
+            <Dependent Role="QTUX_LichHoc">
+              <PropertyRef Name="IDDeThi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QTUX_Lich__IDPho__015F0FBB">
+          <End Role="PhongBan" Type="Self.PhongBan" Multiplicity="0..1" />
+          <End Role="QTUX_LichHoc" Type="Self.QTUX_LichHoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhongBan">
+              <PropertyRef Name="IDPhongBan" />
+            </Principal>
+            <Dependent Role="QTUX_LichHoc">
+              <PropertyRef Name="IDPhongBan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QTUX_Lich__NDDTI__006AEB82">
+          <End Role="NoiDungDT" Type="Self.NoiDungDT" Multiplicity="1" />
+          <End Role="QTUX_LichHoc" Type="Self.QTUX_LichHoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NoiDungDT">
+              <PropertyRef Name="IDND" />
+            </Principal>
+            <Dependent Role="QTUX_LichHoc">
+              <PropertyRef Name="NDDTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CauHoiDeThi_CauHoi">
           <End Role="CauHoi" Type="Self.CauHoi" Multiplicity="0..1" />
           <End Role="CauHoiDeThi" Type="Self.CauHoiDeThi" Multiplicity="*" />
@@ -2672,6 +2772,21 @@
         <Function Name="QT_Result_searchByIDQT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IDPB" Type="int" Mode="In" />
         </Function>
+        <Function Name="QTUX_KetQua__insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NDDTID" Type="int" Mode="In" />
+          <Parameter Name="IDNV" Type="int" Mode="In" />
+          <Parameter Name="XNHT" Type="int" Mode="In" />
+          <Parameter Name="XNTG" Type="int" Mode="In" />
+          <Parameter Name="XNHTFile" Type="int" Mode="In" />
+          <Parameter Name="NgayHT" Type="datetime" Mode="In" />
+          <Parameter Name="NgayTG" Type="datetime" Mode="In" />
+          <Parameter Name="TinhTrang" Type="int" Mode="In" />
+          <Parameter Name="GhiChu" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="QTUX_LichHoc_getActiveDates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TuNgay" Type="datetime" Mode="In" />
+          <Parameter Name="DenNgay" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="QuyenCN_insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TenQuyenCN" Type="nvarchar" Mode="In" />
           <Parameter Name="MaQuyen" Type="nvarchar" Mode="In" />
@@ -2886,6 +3001,9 @@
           <EntitySet Name="QT_NoiDungQT" EntityType="Self.QT_NoiDungQT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QT_PhanQuyen" EntityType="Self.QT_PhanQuyen" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QT_VanBanLQ" EntityType="Self.QT_VanBanLQ" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QTUX_DinhKy" EntityType="Self.QTUX_DinhKy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QTUX_KetQua" EntityType="Self.QTUX_KetQua" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QTUX_LichHoc" EntityType="Self.QTUX_LichHoc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Quyen" EntityType="Self.Quyen" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuyenCN" EntityType="Self.QuyenCN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuyenDetails" EntityType="Self.QuyenDetails" Schema="dbo" store:Type="Tables" />
@@ -2918,6 +3036,26 @@
           <EntitySet Name="Vitri" EntityType="Self.Vitri" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ViTriKNL" EntityType="Self.ViTriKNL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="XNHocTap" EntityType="Self.XNHocTap" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__QTUX_KetQ__NDDTI__7310F064" Association="Self.FK__QTUX_KetQ__NDDTI__7310F064">
+            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
+            <End Role="QTUX_KetQua" EntitySet="QTUX_KetQua" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QTUX_KetQu__IDNV__7405149D" Association="Self.FK__QTUX_KetQu__IDNV__7405149D">
+            <End Role="NhanVien" EntitySet="NhanVien" />
+            <End Role="QTUX_KetQua" EntitySet="QTUX_KetQua" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QTUX_Lich__IDDeT__7F76C749" Association="Self.FK__QTUX_Lich__IDDeT__7F76C749">
+            <End Role="DeThi" EntitySet="DeThi" />
+            <End Role="QTUX_LichHoc" EntitySet="QTUX_LichHoc" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QTUX_Lich__IDPho__015F0FBB" Association="Self.FK__QTUX_Lich__IDPho__015F0FBB">
+            <End Role="PhongBan" EntitySet="PhongBan" />
+            <End Role="QTUX_LichHoc" EntitySet="QTUX_LichHoc" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QTUX_Lich__NDDTI__006AEB82" Association="Self.FK__QTUX_Lich__NDDTI__006AEB82">
+            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
+            <End Role="QTUX_LichHoc" EntitySet="QTUX_LichHoc" />
+          </AssociationSet>
           <AssociationSet Name="FK_CauHoiDeThi_CauHoi" Association="Self.FK_CauHoiDeThi_CauHoi">
             <End Role="CauHoi" EntitySet="CauHoi" />
             <End Role="CauHoiDeThi" EntitySet="CauHoiDeThi" />
@@ -3192,6 +3330,7 @@
           <NavigationProperty Name="CauHoiDeThi" Relationship="Self.FK_CauHoiDeThi_DeThi" FromRole="DeThi" ToRole="CauHoiDeThi" />
           <NavigationProperty Name="NoiDungDT" Relationship="Self.FK_DeThi_NoiDungDT" FromRole="DeThi" ToRole="NoiDungDT" />
           <Property Name="FileDeThi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="QTUX_LichHoc" Relationship="ELEARNINGModel.FK__QTUX_Lich__IDDeT__7F76C749" FromRole="DeThi" ToRole="QTUX_LichHoc" />
         </EntityType>
         <EntityType Name="DinhBienVT">
           <Key>
@@ -3496,6 +3635,8 @@
           <NavigationProperty Name="SH_NhuCauDT" Relationship="Self.FK_NhuCauDT_NoiDungDT" FromRole="NoiDungDT" ToRole="SH_NhuCauDT" />
           <NavigationProperty Name="SH_ChuongTrinhDT" Relationship="Self.FK_SH_ChuongTrinhDT_NoiDungDT" FromRole="NoiDungDT" ToRole="SH_ChuongTrinhDT" />
           <NavigationProperty Name="LopHoc" Relationship="ELEARNINGModel.FK_LopHoc_NoiDungDT" FromRole="NoiDungDT" ToRole="LopHoc" />
+          <NavigationProperty Name="QTUX_KetQua" Relationship="ELEARNINGModel.FK__QTUX_KetQ__NDDTI__7310F064" FromRole="NoiDungDT" ToRole="QTUX_KetQua" />
+          <NavigationProperty Name="QTUX_LichHoc" Relationship="ELEARNINGModel.FK__QTUX_Lich__NDDTI__006AEB82" FromRole="NoiDungDT" ToRole="QTUX_LichHoc" />
         </EntityType>
         <EntityType Name="NoiDungDTKCCD">
           <Key>
@@ -3567,6 +3708,7 @@
           <NavigationProperty Name="SH_ChuongTrinhDT" Relationship="Self.FK_SH_ChuongTrinhDT_NhanVien" FromRole="NhanVien" ToRole="SH_ChuongTrinhDT" />
           <NavigationProperty Name="SH_NhuCauDT" Relationship="Self.FK_SH_NhuCauDT_NhanVien" FromRole="NhanVien" ToRole="SH_NhuCauDT" />
           <NavigationProperty Name="XNHocTap" Relationship="ELEARNINGModel.FK_XNHocTap_NhanVien" FromRole="NhanVien" ToRole="XNHocTap" />
+          <NavigationProperty Name="QTUX_KetQua" Relationship="ELEARNINGModel.FK__QTUX_KetQu__IDNV__7405149D" FromRole="NhanVien" ToRole="QTUX_KetQua" />
         </EntityType>
         <EntityType Name="NhomNLKCCD">
           <Key>
@@ -3624,6 +3766,7 @@
           <NavigationProperty Name="NhanVien" Relationship="Self.FK_NhanVien_PhongBan" FromRole="PhongBan" ToRole="NhanVien" />
           <NavigationProperty Name="SH_ChuongTrinhDT" Relationship="Self.FK_SH_ChuongTrinhDT_PhongBan" FromRole="PhongBan" ToRole="SH_ChuongTrinhDT" />
           <NavigationProperty Name="SH_NhuCauDT" Relationship="Self.FK_SH_NhuCauDT_PhongBan" FromRole="PhongBan" ToRole="SH_NhuCauDT" />
+          <NavigationProperty Name="QTUX_LichHoc" Relationship="ELEARNINGModel.FK__QTUX_Lich__IDPho__015F0FBB" FromRole="PhongBan" ToRole="QTUX_LichHoc" />
         </EntityType>
         <EntityType Name="QT_BaiKiemTra">
           <Key>
@@ -5970,6 +6113,44 @@
           </FunctionImport>
           <EntitySet Name="Banners" EntityType="ELEARNINGModel.Banners" />
           <EntitySet Name="PageVisit" EntityType="ELEARNINGModel.PageVisit" />
+          <EntitySet Name="QTUX_KetQua" EntityType="ELEARNINGModel.QTUX_KetQua" />
+          <EntitySet Name="QTUX_LichHoc" EntityType="ELEARNINGModel.QTUX_LichHoc" />
+          <AssociationSet Name="FK__QTUX_Lich__IDDeT__7F76C749" Association="ELEARNINGModel.FK__QTUX_Lich__IDDeT__7F76C749">
+            <End Role="DeThi" EntitySet="DeThi" />
+            <End Role="QTUX_LichHoc" EntitySet="QTUX_LichHoc" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QTUX_KetQu__IDNV__7405149D" Association="ELEARNINGModel.FK__QTUX_KetQu__IDNV__7405149D">
+            <End Role="NhanVien" EntitySet="NhanVien" />
+            <End Role="QTUX_KetQua" EntitySet="QTUX_KetQua" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QTUX_KetQ__NDDTI__7310F064" Association="ELEARNINGModel.FK__QTUX_KetQ__NDDTI__7310F064">
+            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
+            <End Role="QTUX_KetQua" EntitySet="QTUX_KetQua" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QTUX_Lich__NDDTI__006AEB82" Association="ELEARNINGModel.FK__QTUX_Lich__NDDTI__006AEB82">
+            <End Role="NoiDungDT" EntitySet="NoiDungDT" />
+            <End Role="QTUX_LichHoc" EntitySet="QTUX_LichHoc" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QTUX_Lich__IDPho__015F0FBB" Association="ELEARNINGModel.FK__QTUX_Lich__IDPho__015F0FBB">
+            <End Role="PhongBan" EntitySet="PhongBan" />
+            <End Role="QTUX_LichHoc" EntitySet="QTUX_LichHoc" />
+          </AssociationSet>
+          <FunctionImport Name="QTUX_KetQua__insert">
+            <Parameter Name="NDDTID" Mode="In" Type="Int32" />
+            <Parameter Name="IDNV" Mode="In" Type="Int32" />
+            <Parameter Name="XNHT" Mode="In" Type="Int32" />
+            <Parameter Name="XNTG" Mode="In" Type="Int32" />
+            <Parameter Name="XNHTFile" Mode="In" Type="Int32" />
+            <Parameter Name="NgayHT" Mode="In" Type="DateTime" />
+            <Parameter Name="NgayTG" Mode="In" Type="DateTime" />
+            <Parameter Name="TinhTrang" Mode="In" Type="Int32" />
+            <Parameter Name="GhiChu" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="QTUX_LichHoc_getActiveDates" ReturnType="Collection(ELEARNINGModel.QTUX_LichHoc_getActiveDates_Result)">
+            <Parameter Name="TuNgay" Mode="In" Type="DateTime" />
+            <Parameter Name="DenNgay" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="QTUX_DinhKy" EntityType="ELEARNINGModel.QTUX_DinhKy" />
         </EntityContainer>
         <ComplexType Name="CauHoi_DeThi_list_Result">
           <Property Type="Int32" Name="IDCH" Nullable="false" />
@@ -7159,6 +7340,77 @@
           <Property Name="VisitDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="IPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="QTUX_KetQua">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="XNHT" Type="Int32" />
+          <Property Name="XNTG" Type="Int32" />
+          <Property Name="XNHTFile" Type="Int32" />
+          <Property Name="NgayHT" Type="DateTime" Precision="3" />
+          <Property Name="NgayTG" Type="DateTime" Precision="3" />
+          <Property Name="TinhTrang" Type="Int32" />
+          <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="NhanVien" Relationship="ELEARNINGModel.FK__QTUX_KetQu__IDNV__7405149D" FromRole="QTUX_KetQua" ToRole="NhanVien" />
+          <NavigationProperty Name="NoiDungDT" Relationship="ELEARNINGModel.FK__QTUX_KetQ__NDDTI__7310F064" FromRole="QTUX_KetQua" ToRole="NoiDungDT" />
+        </EntityType>
+        <EntityType Name="QTUX_LichHoc">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IsKichHoat" Type="Int32" />
+          <Property Name="LoaiKhuonKy" Type="Int32" Nullable="false" />
+          <Property Name="NgayBatDau" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="NgayKetThuc" Type="DateTime" Precision="3" />
+          <Property Name="NgayTrongTuan" Type="Int32" />
+          <Property Name="NgayTrongThang" Type="Int32" />
+          <Property Name="ChiSoThang" Type="Int32" />
+          <NavigationProperty Name="DeThi" Relationship="ELEARNINGModel.FK__QTUX_Lich__IDDeT__7F76C749" FromRole="QTUX_LichHoc" ToRole="DeThi" />
+          <NavigationProperty Name="NoiDungDT" Relationship="ELEARNINGModel.FK__QTUX_Lich__NDDTI__006AEB82" FromRole="QTUX_LichHoc" ToRole="NoiDungDT" />
+          <NavigationProperty Name="PhongBan" Relationship="ELEARNINGModel.FK__QTUX_Lich__IDPho__015F0FBB" FromRole="QTUX_LichHoc" ToRole="PhongBan" />
+        </EntityType>
+        <Association Name="FK__QTUX_Lich__IDDeT__7F76C749">
+          <End Type="ELEARNINGModel.DeThi" Role="DeThi" Multiplicity="1" />
+          <End Type="ELEARNINGModel.QTUX_LichHoc" Role="QTUX_LichHoc" Multiplicity="*" />
+        </Association>
+        <Association Name="FK__QTUX_KetQu__IDNV__7405149D">
+          <End Type="ELEARNINGModel.NhanVien" Role="NhanVien" Multiplicity="1" />
+          <End Type="ELEARNINGModel.QTUX_KetQua" Role="QTUX_KetQua" Multiplicity="*" />
+        </Association>
+        <Association Name="FK__QTUX_KetQ__NDDTI__7310F064">
+          <End Type="ELEARNINGModel.NoiDungDT" Role="NoiDungDT" Multiplicity="1" />
+          <End Type="ELEARNINGModel.QTUX_KetQua" Role="QTUX_KetQua" Multiplicity="*" />
+        </Association>
+        <Association Name="FK__QTUX_Lich__NDDTI__006AEB82">
+          <End Type="ELEARNINGModel.NoiDungDT" Role="NoiDungDT" Multiplicity="1" />
+          <End Type="ELEARNINGModel.QTUX_LichHoc" Role="QTUX_LichHoc" Multiplicity="*" />
+        </Association>
+        <Association Name="FK__QTUX_Lich__IDPho__015F0FBB">
+          <End Type="ELEARNINGModel.PhongBan" Role="PhongBan" Multiplicity="0..1" />
+          <End Type="ELEARNINGModel.QTUX_LichHoc" Role="QTUX_LichHoc" Multiplicity="*" />
+        </Association>
+        <ComplexType Name="QTUX_LichHoc_getActiveDates_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="IDDeThi" Nullable="false" />
+          <Property Type="Int32" Name="NDDTID" Nullable="false" />
+          <Property Type="Int32" Name="LoaiKhuonKy" Nullable="false" />
+          <Property Type="DateTime" Name="NgayBatDau" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="NgayKetThuc" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="NgayTrongTuan" Nullable="true" />
+          <Property Type="Int32" Name="NgayTrongThang" Nullable="true" />
+          <Property Type="Int32" Name="IDPhongBan" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="QTUX_DinhKy">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDNoiDungQTUX" Type="Int32" />
+          <Property Name="DinhKy" Type="Int32" />
+          <Property Name="NgayTao" Type="DateTime" Precision="0" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -9628,6 +9880,101 @@
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QTUX_KetQua">
+            <EntityTypeMapping TypeName="ELEARNINGModel.QTUX_KetQua">
+              <MappingFragment StoreEntitySet="QTUX_KetQua">
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+                <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+                <ScalarProperty Name="NgayTG" ColumnName="NgayTG" />
+                <ScalarProperty Name="NgayHT" ColumnName="NgayHT" />
+                <ScalarProperty Name="XNHTFile" ColumnName="XNHTFile" />
+                <ScalarProperty Name="XNTG" ColumnName="XNTG" />
+                <ScalarProperty Name="XNHT" ColumnName="XNHT" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QTUX_LichHoc">
+            <EntityTypeMapping TypeName="ELEARNINGModel.QTUX_LichHoc">
+              <MappingFragment StoreEntitySet="QTUX_LichHoc">
+                <ScalarProperty Name="ChiSoThang" ColumnName="ChiSoThang" />
+                <ScalarProperty Name="NgayTrongThang" ColumnName="NgayTrongThang" />
+                <ScalarProperty Name="NgayTrongTuan" ColumnName="NgayTrongTuan" />
+                <ScalarProperty Name="NgayKetThuc" ColumnName="NgayKetThuc" />
+                <ScalarProperty Name="NgayBatDau" ColumnName="NgayBatDau" />
+                <ScalarProperty Name="LoaiKhuonKy" ColumnName="LoaiKhuonKy" />
+                <ScalarProperty Name="IsKichHoat" ColumnName="IsKichHoat" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK__QTUX_Lich__IDDeT__7F76C749" TypeName="ELEARNINGModel.FK__QTUX_Lich__IDDeT__7F76C749" StoreEntitySet="QTUX_LichHoc">
+            <EndProperty Name="QTUX_LichHoc">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <EndProperty Name="DeThi">
+              <ScalarProperty Name="IDDeThi" ColumnName="IDDeThi" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK__QTUX_KetQu__IDNV__7405149D" TypeName="ELEARNINGModel.FK__QTUX_KetQu__IDNV__7405149D" StoreEntitySet="QTUX_KetQua">
+            <EndProperty Name="QTUX_KetQua">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <EndProperty Name="NhanVien">
+              <ScalarProperty Name="ID" ColumnName="IDNV" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK__QTUX_KetQ__NDDTI__7310F064" TypeName="ELEARNINGModel.FK__QTUX_KetQ__NDDTI__7310F064" StoreEntitySet="QTUX_KetQua">
+            <EndProperty Name="QTUX_KetQua">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <EndProperty Name="NoiDungDT">
+              <ScalarProperty Name="IDND" ColumnName="NDDTID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK__QTUX_Lich__NDDTI__006AEB82" TypeName="ELEARNINGModel.FK__QTUX_Lich__NDDTI__006AEB82" StoreEntitySet="QTUX_LichHoc">
+            <EndProperty Name="QTUX_LichHoc">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <EndProperty Name="NoiDungDT">
+              <ScalarProperty Name="IDND" ColumnName="NDDTID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK__QTUX_Lich__IDPho__015F0FBB" TypeName="ELEARNINGModel.FK__QTUX_Lich__IDPho__015F0FBB" StoreEntitySet="QTUX_LichHoc">
+            <EndProperty Name="QTUX_LichHoc">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <EndProperty Name="PhongBan">
+              <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
+            </EndProperty>
+            <Condition ColumnName="IDPhongBan" IsNull="false" />
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="QTUX_KetQua__insert" FunctionName="ELEARNINGModel.Store.QTUX_KetQua__insert" />
+          <FunctionImportMapping FunctionImportName="QTUX_LichHoc_getActiveDates" FunctionName="ELEARNINGModel.Store.QTUX_LichHoc_getActiveDates">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ELEARNINGModel.QTUX_LichHoc_getActiveDates_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IDDeThi" ColumnName="IDDeThi" />
+                <ScalarProperty Name="NDDTID" ColumnName="NDDTID" />
+                <ScalarProperty Name="LoaiKhuonKy" ColumnName="LoaiKhuonKy" />
+                <ScalarProperty Name="NgayBatDau" ColumnName="NgayBatDau" />
+                <ScalarProperty Name="NgayKetThuc" ColumnName="NgayKetThuc" />
+                <ScalarProperty Name="NgayTrongTuan" ColumnName="NgayTrongTuan" />
+                <ScalarProperty Name="NgayTrongThang" ColumnName="NgayTrongThang" />
+                <ScalarProperty Name="IDPhongBan" ColumnName="IDPhongBan" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="QTUX_DinhKy">
+            <EntityTypeMapping TypeName="ELEARNINGModel.QTUX_DinhKy">
+              <MappingFragment StoreEntitySet="QTUX_DinhKy">
+                <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+                <ScalarProperty Name="DinhKy" ColumnName="DinhKy" />
+                <ScalarProperty Name="IDNoiDungQTUX" ColumnName="IDNoiDungQTUX" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

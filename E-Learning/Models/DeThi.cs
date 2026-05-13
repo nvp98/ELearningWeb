@@ -18,6 +18,7 @@ namespace E_Learning.Models
         public DeThi()
         {
             this.CauHoiDeThi = new HashSet<CauHoiDeThi>();
+            this.QTUX_LichHoc = new HashSet<QTUX_LichHoc>();
         }
     
         public int IDDeThi { get; set; }
@@ -34,5 +35,7 @@ namespace E_Learning.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CauHoiDeThi> CauHoiDeThi { get; set; }
         public virtual NoiDungDT NoiDungDT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QTUX_LichHoc> QTUX_LichHoc { get; set; }
     }
 }

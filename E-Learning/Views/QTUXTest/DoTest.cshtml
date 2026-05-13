@@ -1,0 +1,188 @@
+@{
+    ViewBag.Title = "Làm Bài Thi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model E_Learning.Models.DeThi
+
+<style>
+    .question-container {
+        margin: 20px 0;
+        padding: 15px;
+        border-left: 5px solid #007bff;
+        background-color: #f8f9fa;
+    }
+
+    .answer-option {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .answer-option:hover {
+        background-color: #e3f2fd;
+    }
+
+    .answer-option.selected {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .timer {
+        font-size: 24px;
+        font-weight: bold;
+        color: red;
+        text-align: center;
+        padding: 15px;
+        background-color: #fff3cd;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-note2 icon-gradient bg-grow-early"></i>
+                    </div>
+                    <div>
+                        @ViewBag.TenDeThi
+                        <div class="page-title-subheading"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="main-card mb-3 card">
+                        <div class="card-body">
+                            <div class="timer">
+                                Thời gian còn lại: <span id="timer">@(ViewBag.ThoiGianLamBai):00</span>
+                            </div>
+
+                            <form id="testForm">
+                                @{
+                                    int cauHoiIndex = 1;
+                                }
+                                @foreach (var cauHoi in ViewBag.CauHoiList as List<E_Learning.Models.CauHoiViewModel>)
+                                {
+                                    <div class="question-container">
+                                        <h6 class="mb-3">
+                                            <strong>Câu @(cauHoiIndex):</strong> @cauHoi.NoiDungCauHoi
+                                        </h6>
+
+                                        <div class="answer-options">
+                                            @{
+                                                var answers = new[] {
+                                                    new { Value = 1, Text = "A. " + cauHoi.DapAnA },
+                                                    new { Value = 2, Text = "B. " + cauHoi.DapAnB },
+                                                    new { Value = 3, Text = "C. " + cauHoi.DapAnC },
+                                                    new { Value = 4, Text = "D. " + cauHoi.DapAnD }
+                                                };
+                                            }
+                                            @foreach (var answer in answers)
+                                            {
+                                                <div class="answer-option"
+                                                     onclick="selectAnswer(@cauHoi.IDCauHoi, @answer.Value, this)">
+                                                    <input type="radio" name="cauHoi_@(cauHoi.IDCauHoi)" value="@answer.Value"
+                                                           style="display: none;">
+                                                    <span>@answer.Text</span>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    cauHoiIndex++;
+                                }
+
+                                <div style="text-align: center; margin-top: 30px;">
+                                    <button type="button" class="btn btn-success btn-lg"
+                                            onclick="submitTest(@ViewBag.BaiThiID)">
+                                        <i class="fa fa-check"></i> Nộp Bài Thi
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var timeLeft = @ViewBag.ThoiGianLamBai * 60;
+    var baiThiID = @ViewBag.BaiThiID;
+
+    function selectAnswer(cauHoiID, dapAnID, element) {
+        // Bỏ chọn tất cả đáp án khác
+        var parent = element.parentElement;
+        var options = parent.querySelectorAll('.answer-option');
+        options.forEach(opt => opt.classList.remove('selected'));
+
+        // Chọn đáp án hiện tại
+        element.classList.add('selected');
+        element.querySelector('input').checked = true;
+
+        // Lưu đáp án
+        saveAnswer(cauHoiID, dapAnID);
+    }
+
+    function saveAnswer(cauHoiID, dapAnID) {
+        $.ajax({
+            url: '@Url.Action("SaveAnswer", "QTUXTest")',
+            type: 'POST',
+            data: {
+                baiThiID: baiThiID,
+                cauHoiID: cauHoiID,
+                dapAnID: dapAnID
+            },
+            success: function (data) {
+                console.log('Đáp án đã được lưu');
+            },
+            error: function () {
+                console.log('Lỗi khi lưu đáp án');
+            }
+        });
+    }
+
+    function submitTest(baiThiID) {
+        if (confirm('Bạn có chắc muốn nộp bài thi? Bạn không thể chỉnh sửa sau khi nộp.')) {
+            $.ajax({
+                url: '@Url.Action("SubmitTest", "QTUXTest")',
+                type: 'POST',
+                data: { baiThiID: baiThiID },
+                success: function (result) {
+                    window.location.href = '@Url.Action("TestResult", "QTUXTest")?baiThiID=' + baiThiID;
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra khi nộp bài thi');
+                }
+            });
+        }
+    }
+
+    // Đếm ngược thời gian
+    setInterval(function () {
+        timeLeft--;
+        var minutes = Math.floor(timeLeft / 60);
+        var seconds = timeLeft % 60;
+        document.getElementById('timer').innerHTML = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+
+        if (timeLeft <= 0) {
+            alert('Hết thời gian làm bài!');
+            submitTest(baiThiID);
+        }
+    }, 1000);
+</script>

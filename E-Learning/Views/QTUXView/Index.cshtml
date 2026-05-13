@@ -1,0 +1,85 @@
+@{
+    ViewBag.Title = "Chi Tiết Quy Tắc Ứng Xử";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using E_Learning.Models
+@model List<ManageETContentValidation>
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-portfolio icon-gradient bg-grow-early"></i>
+                    </div>
+                    <div>
+                        Quy Tắc Ứng Xử
+                        <div class="page-title-subheading"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="row">
+                <div class="col-lg-12 ">
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <div class="main-card mb-3 card">
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <h4 class="card-title">@item.NoiDung</h4>
+                                        <p class="text-muted">Mã: @item.MaND</p>
+                                    </div>
+                                    <div class=" row ">
+                                        @if (!string.IsNullOrEmpty(item.ImageND))
+                                        {
+                                            <div class="mb-3 col-6">
+                                                <img src="@item.ImageND" class="img-fluid" alt="@item.NoiDung"
+                                                     style="max-height: 400px; object-fit: cover;">
+                                            </div>
+                                        }
+
+                                        @if (!string.IsNullOrEmpty(item.VideoND))
+                                        {
+                                            <div class="mb-3 col-6">
+                                                <h6><strong>Video:</strong></h6>
+                                                <video width="100%" height="auto" controls style="border-radius: 5px;">
+                                                    <source src="@item.VideoND" type="video/mp4">
+                                                    Trình duyệt của bạn không hỗ trợ video.
+                                                </video>
+                                            </div>
+                                        }
+                                    </div>
+                                    
+
+                                    <div style="text-align: center; margin-top: 30px;">
+                                        <a href="@Url.Action("Index", "NoiDungQTUX")" class="btn btn-primary btn-lg">
+                                            <i class="fa fa-arrow-left"></i> Quay Lại Danh Sách
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning">
+                            <h4>Không tìm thấy nội dung</h4>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-wrapper-footer">
+        <div class="app-footer">
+            <div class="app-footer__inner"></div>
+        </div>
+    </div>
+</div>

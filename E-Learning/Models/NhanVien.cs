@@ -22,6 +22,7 @@ namespace E_Learning.Models
             this.SH_ChuongTrinhDT = new HashSet<SH_ChuongTrinhDT>();
             this.SH_NhuCauDT = new HashSet<SH_NhuCauDT>();
             this.XNHocTap = new HashSet<XNHocTap>();
+            this.QTUX_KetQua = new HashSet<QTUX_KetQua>();
         }
     
         public int ID { get; set; }
@@ -57,5 +58,7 @@ namespace E_Learning.Models
         public virtual ICollection<SH_NhuCauDT> SH_NhuCauDT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<XNHocTap> XNHocTap { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QTUX_KetQua> QTUX_KetQua { get; set; }
     }
 }

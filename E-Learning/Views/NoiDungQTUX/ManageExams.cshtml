@@ -1,0 +1,126 @@
+@{
+    ViewBag.Title = "Quản Lý Đề Thi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using PagedList.Mvc
+@using E_Learning.Models
+@model PagedList.IPagedList<DeThi>
+<link href="~/Content/assets/css/PagedList.css" rel="stylesheet" />
+@{ 
+    ELEARNINGEntities db = new ELEARNINGEntities();
+}
+
+<div class="app-main__outer">
+    <div class="app-main__inner">
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon">
+                        <i class="pe-7s-note2 icon-gradient bg-grow-early"></i>
+                    </div>
+                    <div>
+                        Quản Lý Đề Thi: @ViewBag.TenND
+                    </div>
+                </div>
+                <div class="page-title-actions">
+                    <button type="button" class="btn-icon btn-icon-only btn btn-link" id="CreateExam"
+                            data-idnd="@ViewBag.IDND">
+                        <i class="pe-7s-plus"></i> Tạo Đề Thi
+                    </button>
+                    <a href="@Url.Action("Index", "NoiDungQTUX")" class="btn btn-primary">
+                        <i class="pe-7s-back"></i> Quay Lại
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main-card mb-3 card">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Mã Đề</th>
+                                    <th>Tên Đề</th>
+                                    <th>Điểm Chuẩn</th>
+                                    <th>Thời Gian (phút)</th>
+                                    <th>Số Câu</th>
+                                    <th>Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Count() > 0)
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        int soCau = db.CauHoiDeThis.Where(x => x.IDDeThi == item.IDDeThi).Count();
+                                        <tr>
+                                            <td>@item.MaDe</td>
+                                            <td>@item.TenDe</td>
+                                            <td>@item.DiemChuan</td>
+                                            <td>@item.ThoiGianLamBai</td>
+                                            <td><span class="badge badge-info">@soCau</span></td>
+                                            <td>
+                                                <a href="@Url.Action("ManageQuestions", "NoiDungQTUX", new { IDDeThi = item.IDDeThi })"
+                                                       class="btn btn-sm btn-info" title="Quản lý câu hỏi">
+                                                    <i class="pe-7s-edit"></i> Câu Hỏi
+                                                </a>
+                                                <button type="button" class="btn btn-sm btn-danger"
+                                                        onclick="deleteExam(@item.IDDeThi)">
+                                                    <i class="pe-7s-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" class="text-center">Chưa có đề thi nào</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div style="text-align:center">
+                    @Html.PagedListPager(Model, page => Url.Action("ManageExams", new { page, IDND = ViewBag.IDND }))
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCreateExam" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tạo Đề Thi Mới</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#CreateExam').click(function () {
+            var idnd = $(this).data('idnd');
+            $.get('@Url.Action("CreateExam", "NoiDungQTUX")', { IDND: idnd }, function (data) {
+                $('#modalBody').html(data);
+                $('#modalCreateExam').modal('show');
+            });
+        });
+    });
+
+    function deleteExam(id) {
+        if (confirm('Bạn có chắc chắn muốn xóa đề thi này?')) {
+            window.location.href = '@Url.Action("Index", "NoiDungQTUX")';
+        }
+    }
+</script>
