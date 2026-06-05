@@ -298,7 +298,7 @@
                                                 }
                                                 @if ((ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT) || MyAuthentication.ID == item.ID_NguoiTao)
                                                 {
-                                                    if (MyAuthentication.ID == item.ID_NguoiTao)
+                                                    if (MyAuthentication.ID == item.ID_NguoiTao || (ViewBag.QUYENCN as List<String>).Contains(CONSTKEY.EDIT))
                                                     {
                                                         <a id="btn-edit_@item.ID_NCDT" href="@Url.Action("Edit","NhuCauDTTH", new { id = item.ID_NCDT })" title="Edit" class="fa fa-edit icon_action"></a>
                                                     }
