@@ -540,11 +540,18 @@ namespace E_Learning.Controllers.DaoTaoTH
             ViewBag.PNS = new SelectList(nhanvien.Where(x => x.IDPhongBan == phongns.IDPhongBan), "ID", "HoTen", trinhky.Where(x => x.CapDuyet == 3).FirstOrDefault()?.NguoiDuyet_ID);
             ViewBag.BGD = new SelectList(nhanvien.Where(x => x.IDPhongBan == bangiamdoc.IDPhongBan), "ID", "HoTen", trinhky.Where(x => x.CapDuyet == 4).FirstOrDefault()?.NguoiDuyet_ID);
 
+            // User và BP lập NCĐT
+            var nvLap = db.NhanViens.Where(x=>x.ID == nhuCauDT.NguoiTao_ID).Select(x => new EmployeeValidation { ID = x.ID, HoTen = x.MaNV + " - " + x.HoTen, IDPhongBan = (int)x.IDPhongBan }).ToList();
+            var dsNhanVien = nhanvien.ToList();
+
+            dsNhanVien.AddRange(nvLap);
+            ViewBag.NguoiLap = new SelectList(dsNhanVien, "ID", "HoTen", nhuCauDT.NguoiTao_ID);
+
             var noiDungDTs = (from a in db.SH_NhuCauDT.Where(x => x.ID == id)
                               join b in db.SH_ChiTiet_NCDT on a.ID equals b.NhuCauDT_ID
                               join c in db.PhongBans on a.BoPhanLNC_ID equals c.IDPhongBan into uli
                               from c in uli.DefaultIfEmpty()
-                              join d in db.NhanViens.Where(x => x.IDTinhTrangLV == 1) on a.NguoiTao_ID equals d.ID
+                              join d in db.NhanViens on a.NguoiTao_ID equals d.ID
                               select new NhuCauDTTHView
                               {
                                   ID_NCDT = a.ID,
@@ -555,6 +562,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                                   BoPhanLNC_ID = a.BoPhanLNC_ID,
                                   TenBoPhan_LNC = c.TenPhongBan,
                                   NguoiTao = d.MaNV + "-" + d.HoTen,
+                                  ID_NguoiTao = (int)a.NguoiTao_ID,
                                   TinhTrang = a.TinhTrang,
                                   FileDinhKem = a.FileDinhKem,
                                   chiTietNhuCauDTTHView = new ChiTietNhuCauDTTHView
@@ -1664,6 +1672,56 @@ namespace E_Learning.Controllers.DaoTaoTH
                     stream.Position = 0;
                     return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachNhanVien.xlsx");
                 }
+            }
+        }
+
+        public ActionResult GetDSNguoiTao(int idNcdt)
+        {
+            var ncdt = db.SH_NhuCauDT.Find(idNcdt);
+            if (ncdt == null) return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+
+            var dsNhanVien = db.NhanViens
+                .Where(x => x.IDTinhTrangLV == 1)
+                .Select(x => new { ID = x.ID, HoTen = x.MaNV + " - " + x.HoTen })
+                .ToList();
+
+            // Nếu người tạo hiện tại đã nghỉ việc, vẫn thêm vào danh sách
+            var nguoiTaoHienTai = db.NhanViens.Where(x => x.ID == ncdt.NguoiTao_ID)
+                .Select(x => new { ID = x.ID, HoTen = x.MaNV + " - " + x.HoTen }).FirstOrDefault();
+            if (nguoiTaoHienTai != null && !dsNhanVien.Any(x => x.ID == nguoiTaoHienTai.ID))
+            {
+                dsNhanVien.Insert(0, nguoiTaoHienTai);
+            }
+
+            return Json(new
+            {
+                DsNhanVien = dsNhanVien,
+                NguoiTaoHienTai = ncdt.NguoiTao_ID,
+                IsHidden = ncdt.TinhTrang == -1
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DieuChinhNCDT(int idNcdt, int nguoiTaoId, bool hienThi)
+        {
+            try
+            {
+                var ncdt = db.SH_NhuCauDT.Find(idNcdt);
+                if (ncdt == null)
+                    return Json(new { success = false, message = "Không tìm thấy NCĐT." });
+
+                ncdt.NguoiTao_ID = nguoiTaoId;
+                //if (hienThi && ncdt.TinhTrang == -1)
+                //{
+                //    ncdt.TinhTrang = 0;
+                //}
+                db.SaveChanges();
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
             }
         }
     }

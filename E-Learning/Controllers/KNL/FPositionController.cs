@@ -6445,5 +6445,134 @@ namespace E_Learning.Controllers
             base.Dispose(disposing);
         }
 
+        public ActionResult DownloadViTriKNL(int? IDPB, int? IDPX, int? IDNhom, int? IDTo, int? IDKhoi)
+        {
+            try
+            {
+                var rawData = db.VitriKNL_Select(IDPB ?? 0).ToList();
+                if (IDPX != null && IDPX != 0) rawData = rawData.Where(x => x.IDPX == IDPX).ToList();
+                if (IDNhom != null && IDNhom != 0) rawData = rawData.Where(x => x.IDNhom == IDNhom).ToList();
+                if (IDTo != null && IDTo != 0) rawData = rawData.Where(x => x.IDTo == IDTo).ToList();
+                if (IDKhoi != null && IDKhoi != 0) rawData = rawData.Where(x => x.IDKhoi == IDKhoi).ToList();
+
+                using (var workbook = new XLWorkbook())
+                {
+                    var ws = workbook.Worksheets.Add("DanhSachViTri");
+
+                    // Header
+                    string[] headers = { "STT", "ID Vị trí", "Tên vị trí hiện tại", "Tên vị trí KNL mới", "Mã Vị trí", "Bộ Phận", "Khối", "Phân Xưởng", "Nhóm", "Tổ", "Tình trạng hiệu lực" };
+                    for (int c = 0; c < headers.Length; c++)
+                    {
+                        var cell = ws.Cell(1, c + 1);
+                        cell.Value = headers[c];
+                        cell.Style.Font.Bold = true;
+                        cell.Style.Fill.BackgroundColor = XLColor.LightBlue;
+                        cell.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    }
+
+                    int row = 2;
+                    int stt = 1;
+                    foreach (var item in rawData)
+                    {
+                        ws.Cell(row, 1).Value = stt++;            // A: STT
+                        ws.Cell(row, 2).Value = item.IDVT;        // B: ID Vị trí
+                        ws.Cell(row, 3).Value = item.TenViTri;    // C: Tên vị trí hiện tại
+                        ws.Cell(row, 4).Value = "";               // D: Tên vị trí KNL mới (để trống)
+                        ws.Cell(row, 5).Value = item.MaViTri;     // E: Mã Vị trí
+                        ws.Cell(row, 6).Value = item.TenPhongBan; // F: Bộ Phận
+                        ws.Cell(row, 7).Value = item.TenKhoi;     // G: Khối
+                        ws.Cell(row, 8).Value = item.TenPX;       // H: Phân Xưởng
+                        ws.Cell(row, 9).Value = item.TenNhom;     // I: Nhóm
+                        ws.Cell(row, 10).Value = item.TenTo;      // J: Tổ
+                        ws.Cell(row, 11).Value = item.TinhTrang == 0 ? "Không hiệu lực" : "Hiệu lực"; // K: Tình trạng
+
+                        for (int c = 1; c <= 11; c++)
+                            ws.Cell(row, c).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+
+                        // Tô vàng cột D: Tên vị trí KNL mới
+                        ws.Cell(row, 4).Style.Fill.BackgroundColor = XLColor.LightYellow;
+                        // Tô đỏ nhạt nếu không hiệu lực
+                        if (item.TinhTrang == 0)
+                            ws.Cell(row, 11).Style.Fill.BackgroundColor = XLColor.LightPink;
+                        row++;
+                    }
+
+                    ws.Columns().AdjustToContents();
+
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        stream.Position = 0;
+                        return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "DanhSachViTriKNL.xlsx");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["msgError"] = "<script>alert('Lỗi export: " + ex.Message + "');</script>";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ImportViTriKNL()
+        {
+            int successCount = 0, skipCount = 0;
+            try
+            {
+                HttpPostedFileBase file = Request.Files["FileImportVT"];
+                if (file == null || file.ContentLength == 0)
+                {
+                    TempData["msgError"] = "<script>alert('Vui lòng chọn file Excel.');</script>";
+                    return RedirectToAction("Index");
+                }
+                if (!file.FileName.EndsWith(".xlsx") && !file.FileName.EndsWith(".xls"))
+                {
+                    TempData["msgError"] = "<script>alert('Vui lòng chọn đúng định dạng file Excel (.xls, .xlsx)');</script>";
+                    return RedirectToAction("Index");
+                }
+
+                Stream stream = file.InputStream;
+                IExcelDataReader reader = file.FileName.EndsWith(".xls")
+                    ? ExcelReaderFactory.CreateBinaryReader(stream)
+                    : ExcelReaderFactory.CreateOpenXmlReader(stream);
+
+                DataSet result = reader.AsDataSet();
+                reader.Close();
+                DataTable dt = result.Tables[0];
+
+                for (int i = 1; i < dt.Rows.Count; i++) // bỏ qua header row 0
+                {
+                    string idvtStr = dt.Rows[i][1]?.ToString().Trim(); // cột B: ID Vị trí
+                    string tenMoi = dt.Rows[i][3]?.ToString().Trim();  // cột D: Tên vị trí KNL mới
+
+                    if (string.IsNullOrEmpty(idvtStr) || string.IsNullOrEmpty(tenMoi))
+                    {
+                        skipCount++;
+                        continue;
+                    }
+                    if (!int.TryParse(idvtStr, out int idvt))
+                    {
+                        skipCount++;
+                        continue;
+                    }
+
+                    var vt = db.ViTriKNLs.FirstOrDefault(x => x.IDVT == idvt);
+                    if (vt == null) { skipCount++; continue; }
+
+                    vt.TenViTri = tenMoi;
+                    successCount++;
+                }
+                db.SaveChanges();
+
+                TempData["msgSuccess"] = $"<script>alert('Import thành công {successCount} vị trí. Bỏ qua {skipCount} dòng.');</script>";
+            }
+            catch (Exception ex)
+            {
+                TempData["msgError"] = "<script>alert('Lỗi import: " + ex.Message + "');</script>";
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

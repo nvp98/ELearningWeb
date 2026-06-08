@@ -59,7 +59,9 @@
                             <div class="row col-md-12">
                                 <div class="col-10">
                                     <button type="button" onclick="window.location.href='/NhuCauDTTH/NCDT_ViewPRE/'+@Model.ID_NCDT;" class="btn btn-info float-right mr-2"><i class="fa fa-eye">&nbsp;</i>&nbsp;Xem trước </button>
+                                    <button type="button" onclick="openDieuChinhModal(@Model.ID_NCDT)" class="btn btn-secondary float-right mr-2"><i class="fa fa-pencil">&nbsp;</i>&nbsp;Điều chỉnh NCĐT </button>
                                 </div>
+                                
                                 <div class="col-2">
                                     <input type="submit" value="Lưu" name="action" id="submit" class="btn btn-primary pull-right float-right mr-2 " />
                                     <button type="submit" value="Trình Ký" name="action" id="btn-Import" class="btn btn-warning float-right mr-2"><i class="fa fa-plane">&nbsp;</i>&nbsp;Trình ký </button>
@@ -83,12 +85,20 @@
                     //});
                 </script>*@
                             </div>
+                            <div class="form-group col-md-6  " style="display:grid">
+                                <label class="mb-1 font-weight-bold">Người lập NCĐT</label>
+                                @Html.DropDownListFor(m => m.ID_NguoiTao, (SelectList)ViewBag.NguoiLap, new { id = "ID_NguoiTao", @class = "form-control marginTB5", @style = "width:100%", })
+                                @Html.ValidationMessageFor(model => model.ID_NguoiTao, "", new { @class = "text-danger", id = "err-noidung" })
+                            </div>
                             <div style=" margin: 1% 0% 1% 3%;">
+
                                 <h6>
                                     @*<b>Kính gửi:</b> - @Html.DropDownList("DSNguoiNhan", null, new { id = "NguoiNhan", @class = "", @style = "", }).<br />
                     – Căn cứ yêu cầu thực tế công việc của bộ phận; <br />
                     – Căn cứ vào trình độ năng lực của người lao động tại bộ phận.<br />*@
+
                                     <span class="row">  Bộ phận:&nbsp; <div class="col-md-2" style="margin:-5px">  @Html.DropDownListFor(m => m.BoPhanLNC_ID, (SelectList)ViewBag.IDPhongBan, new { id = "BoPhanLNC_ID", @class = "form-control marginTB5", @style = "width:100%", })</div>  &nbsp; đề xuất nhu cầu đào tạo của Bộ phận như sau:</span>
+
                                 </h6>
                             </div>
 
@@ -96,301 +106,301 @@
                             @Html.Hidden("PhanLoaiNCDT_ID", (int)ViewBag.LoaiNCDT)
                             @Html.HiddenFor(m => m.ID_NCDT)
                             @Html.HiddenFor(m => m.chiTietNhuCauDTTHView.SoLuongNguoi)
-                    <fieldset id="SubmitForm">
-                        <div class="row border border-light rounded bg-light">
-                            <div class="font-weight-bold col-12 text-danger">THÔNG TIN KHÓA ĐÀO TẠO</div>
-                            <div class="form-group col-md-6  " style="display:grid">
-                                <label class="mb-1 font-weight-bold">Tên khóa đào tạo<span class="text-danger">(*)</span></label>
-                                @Html.DropDownListFor(m => m.NoiDungDT_ID, (SelectList)ViewBag.IDNoiDungDT, new { id = "NoiDung_ID", @class = "form-control marginTB5", @style = "width:100%", })
-                                @Html.ValidationMessageFor(model => model.NoiDungDT_ID, "", new { @class = "text-danger", id = "err-noidung" })
-                            </div>
-                            <div class="form-group col-md-6  " style="display:grid">
-                                <label class="mb-1 font-weight-bold">Phương pháp đào tạo<span class="text-danger">(*)</span></label>
-                                @Html.DropDownListFor(m => m.PhuongPhapDT_ID, (SelectList)ViewBag.PhuongPhapDT_ID, new { id = "PhuongPhapDT_ID", @class = "form-control marginTB5", @style = "width:100%", })
-                                @Html.ValidationMessageFor(model => model.PhuongPhapDT_ID, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="font-weight-bold col-12 text-danger">Danh sách vị trí đào tạo</div>
-                        @if ((int)ViewBag.LoaiHinh_DT == 1) // nội bộ
-                        {
-                            <div class="row border border-light rounded mt-2 table-responsive1">
+                            <fieldset id="SubmitForm">
+                                <div class="row border border-light rounded bg-light">
+                                    <div class="font-weight-bold col-12 text-danger">THÔNG TIN KHÓA ĐÀO TẠO</div>
+                                    <div class="form-group col-md-6  " style="display:grid">
+                                        <label class="mb-1 font-weight-bold">Tên khóa đào tạo<span class="text-danger">(*)</span></label>
+                                        @Html.DropDownListFor(m => m.NoiDungDT_ID, (SelectList)ViewBag.IDNoiDungDT, new { id = "NoiDung_ID", @class = "form-control marginTB5", @style = "width:100%", })
+                                        @Html.ValidationMessageFor(model => model.NoiDungDT_ID, "", new { @class = "text-danger", id = "err-noidung" })
+                                    </div>
+                                    <div class="form-group col-md-6  " style="display:grid">
+                                        <label class="mb-1 font-weight-bold">Phương pháp đào tạo<span class="text-danger">(*)</span></label>
+                                        @Html.DropDownListFor(m => m.PhuongPhapDT_ID, (SelectList)ViewBag.PhuongPhapDT_ID, new { id = "PhuongPhapDT_ID", @class = "form-control marginTB5", @style = "width:100%", })
+                                        @Html.ValidationMessageFor(model => model.PhuongPhapDT_ID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="font-weight-bold col-12 text-danger">Danh sách vị trí đào tạo</div>
+                                @if ((int)ViewBag.LoaiHinh_DT == 1) // nội bộ
+                                {
+                                    <div class="row border border-light rounded mt-2 table-responsive1">
 
-                                <table class="table table-bordered  table-striped table-hover" cellspacing="0">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th style="vertical-align:middle">Tên vị trí</th>
-                                            <th style="vertical-align:middle">Tích chọn đào tạo</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="listVT">
-                                        @foreach (var item in ViewBag.DSVitri)
-                                        {
+                                        <table class="table table-bordered  table-striped table-hover" cellspacing="0">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th style="vertical-align:middle">Tên vị trí</th>
+                                                    <th style="vertical-align:middle">Tích chọn đào tạo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="listVT">
+                                                @foreach (var item in ViewBag.DSVitri)
+                                                {
+                                                    <tr>
+                                                        <th style="vertical-align:middle">@item.TenViTri </th>
+                                                        <th style="vertical-align:middle">
+                                                            <label>
+                                                                <input type="checkbox" name="SelectedItems" value="@item.ID" @(item.Tinhtrang == 1 ? "checked" : "")>
+                                                            </label>
+                                                        </th>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                                else
+                                {
+                                    var idncdt = Model.ID_NCDT;
+                                    var dsnv = (from a in db.SH_KetQuaDaoTao.Where(x => x.NCDT_ID == idncdt)
+                                                join b in db.NhanViens on a.NhanVien_ID equals b.ID
+                                                select new EmployeeValidation { ID = a.ID, MaNV = b.MaNV, HoTen = b.HoTen }).ToList();
+                                    var dsvitri = (from a in db.VitriKNL_search().ToList()
+                                                   join b in db.SH_ViTri_NDDT.Where(x => x.NCDT_ID == idncdt) on a.IDVT equals b.Vitri_ID
+                                                   select new ViTriKNLValidation { IDVT = b.ID, MaViTri = a.MaViTri, TenViTri = a.TenViTri }).ToList();
+                                    <div class="row">
+                                        <div class="col-md-6 overflow-auto border border-success rounded text-left mt-1 " style="display: grid; min-height: 40px; max-height: 100px; margin: 0 auto; margin-bottom: 10px; background-color: lightgray;" id="dsnvTruoc">
+                                            @foreach (var nv in dsnv)
+                                            {
+                                                <div data-id="nv_@nv.ID"><button class="btn-delete btn-danger" data-item="@nv.ID">Xóa</button> @nv.MaNV - @nv.HoTen </div>
+                                            }
+
+                                        </div>
+                                        <div class="col-md-6 overflow-auto border border-success rounded text-left mt-1" style="display: grid; min-height: 40px; max-height: 100px; margin: 0 auto; margin-bottom: 10px; background-color: lightgray;" id="dsvtTruoc">
+                                            @foreach (var nv in dsvitri)
+                                            {
+                                                <div data-id="vt_@nv.IDVT"><button class="btn-deleteVT btn-danger" data-item="@nv.IDVT">Xóa</button> @nv.MaViTri - @nv.TenViTri </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <script>
+                                        document.querySelectorAll('.btn-delete').forEach(button => {
+                                            button.addEventListener('click', function (e) {
+                                                e.preventDefault();
+                                                const item = this.dataset.item;
+
+                                                fetch('/NhuCauDTTH/DeleteNV', {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                    },
+                                                    body: JSON.stringify({ item: item }),
+                                                })
+                                                    .then(response => {
+                                                        if (response.ok) {
+                                                            // Xóa phần tử khỏi danh sách
+                                                            const row = document.querySelector(`div[data-id="nv_${item}"]`);
+                                                            if (row) row.remove();
+                                                        } else {
+                                                            alert('Có lỗi xảy ra.');
+                                                        }
+                                                    });
+                                            });
+                                        });
+                                        document.querySelectorAll('.btn-deleteVT').forEach(button => {
+                                            button.addEventListener('click', function (e) {
+                                                e.preventDefault();
+                                                const item = this.dataset.item;
+
+                                                fetch('/NhuCauDTTH/DeleteVT', {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                    },
+                                                    body: JSON.stringify({ item: item }),
+                                                })
+                                                    .then(response => {
+                                                        if (response.ok) {
+                                                            // Xóa phần tử khỏi danh sách
+                                                            const row = document.querySelector(`div[data-id="vt_${item}"]`);
+                                                            if (row) row.remove();
+                                                        } else {
+                                                            alert('Có lỗi xảy ra.');
+                                                        }
+                                                    });
+                                            });
+                                        });
+                                    </script>
+
+                                    <div class="row">
+                                        <div class=" col-md-6 mb-1" style="display:grid">
+                                            <label class="mb-1 font-weight-bold text-left">Danh sách Mã nhân viên</label>
+                                            @Html.TextAreaFor(model => model.DSNhanVien, new { @class = "form-control", @rows = 2, placeholder = "Nhập danh sách nhân viên", @id = "DSNhanVien", })
+                                            @Html.ValidationMessageFor(model => model.DSNhanVien, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class=" col-md-6 mb-1" style="display:grid">
+                                            <label class="mb-1 font-weight-bold text-left">Danh sách Mã vị trí</label>
+                                            @Html.TextAreaFor(model => model.DSViTri, new { @class = "form-control", @rows = 2, placeholder = "Nhập danh sách vị trí", @id = "DSViTri", })
+                                            @Html.ValidationMessageFor(model => model.DSViTri, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div id="checkNV" style="width:70px" class="btn btn-primary form-group col-md-3 checkNV m-auto ">
+                                        Check
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 overflow-auto border border-success rounded text-left mt-1" style="display: grid; min-height: 40px; max-height: 70px; margin: 0 auto;margin-bottom:10px" id="dsnv">
+                                        </div>
+                                        <div class="col-md-6 overflow-auto border border-success rounded text-left mt-1" style="display: grid; min-height: 40px; max-height: 70px; margin: 0 auto;margin-bottom:10px" id="dsvt">
+                                        </div>
+                                    </div>
+
+                                    <script type="text/javascript">
+                                        $(document).on("click", ".checkNV", function () {
+                                            /*var iddex = $(this).attr('id').split("_")[1];*/
+                                            $.get("/FPermision/CheckLSNV", { lsnv: $("#DSNhanVien").val() }, function (data) {
+                                                if (data[0] != null) {
+                                                    $("#dsnv").empty();
+                                                    /*$("#dsnv").append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")*/
+                                                    $.each(data, function (index, row) {
+                                                        $("#dsnv").append("<div>" + row.HoTen + "</div>")
+                                                    });
+
+                                                }
+                                                else {
+                                                    $("#dsnv").empty();
+                                                }
+                                            });
+                                            $.get("/NoiDungDTTH/CheckViTri", { dsnd: $("#DSViTri").val() }, function (data) {
+                                                if (data[0] != null) {
+                                                    $("#dsvt").empty();
+                                                    /*$("#dsnv").append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")*/
+                                                    $.each(data, function (index, row) {
+                                                        $("#dsvt").append("<div>" + row.TenViTri + "</div>")
+                                                    });
+
+                                                }
+                                                else {
+                                                    $("#dsvt").empty();
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                }
+
+                                <div class="row border border-light rounded mt-2">
+                                    <div class="font-weight-bold col-12 text-danger">ĐƠN VỊ ĐÀO TẠO/GIẢNG VIÊN</div>
+                                    <div class="form-group col-md-12">
+                                        <label class=" mb-1 font-weight-bold">Mã nhân viên - Họ và tên giảng viên (Nội bộ)<span class="text-danger">(*)</span></label>
+                                        @Html.DropDownListFor(m => m.chiTietNhuCauDTTHView.GiangVien_ID, (SelectList)ViewBag.Selec, "-- Chọn nhân viên --", new { id = "GiangVien_ID", @class = "form-control marginTB5", @style = "width:100%", })
+                                        @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.GiangVien_ID, "", new { @class = "text-danger", })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class=" mb-1 font-weight-bold">Họ tên giảng viên</label>
+                                        @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.TenGiangVien, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "TenGiangVien", })
+                                        @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.TenGiangVien, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class=" mb-1 font-weight-bold">Vị trí công việc</label>
+                                        @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.TenViTri, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "TenViTri", })
+                                        @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.TenViTri, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class=" mb-1 font-weight-bold">Đơn vị đào tạo thuê ngoài<span class="text-danger">(*)</span></label>
+                                        @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.DonViDT, new { @class = "form-control ", @rows = 1, placeholder = "Đơn vị đào tạo", @id = "DonViDT", })
+                                        @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.DonViDT, "", new { @class = "text-danger" })
+                                    </div>
+                                    @*<div class="form-group col-md-4">
+                        <label class=" mb-1 font-weight-bold">Vị trí công việc<span class="text-danger">(*)</span></label>
+                        @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.TenViTri, new { @class = "form-control ", @rows = 1, placeholder = "Vị trí công việc", @id = "TenViTri", })
+                        @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.TenViTri, "", new { @class = "text-danger" })
+                    </div>*@
+                                </div>
+
+                                <div class="row border border-light rounded mt-2">
+                                    <div class="font-weight-bold col-12 text-danger">THÔNG TIN ĐÀO TẠO<span class="text-danger">(*)</span></div>
+                                    <table class="table table-bordered table-striped table-hover" cellspacing="0">
+                                        <tbody>
                                             <tr>
-                                                <th style="vertical-align:middle">@item.TenViTri </th>
-                                                <th style="vertical-align:middle">
-                                                    <label>
-                                                        <input type="checkbox" name="SelectedItems" value="@item.ID" @(item.Tinhtrang == 1 ? "checked" : "")>
-                                                    </label>
-                                                </th>
+                                                <td>Đối tượng tham gia đào tạo</td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.DoiTuongDT, new { @class = "form-control ", @rows = 1, placeholder = "Thuê ngoài", @id = "DoiTuongDT", })
+                                                </td>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        }
-                        else
-                        {
-                            var idncdt = Model.ID_NCDT;
-                            var dsnv = (from a in db.SH_KetQuaDaoTao.Where(x => x.NCDT_ID == idncdt)
-                                        join b in db.NhanViens on a.NhanVien_ID equals b.ID
-                                        select new EmployeeValidation { ID = a.ID, MaNV = b.MaNV, HoTen = b.HoTen }).ToList();
-                            var dsvitri = (from a in db.VitriKNL_search().ToList()
-                                           join b in db.SH_ViTri_NDDT.Where(x => x.NCDT_ID == idncdt) on a.IDVT equals b.Vitri_ID
-                                           select new ViTriKNLValidation { IDVT = b.ID, MaViTri = a.MaViTri, TenViTri = a.TenViTri }).ToList();
-                            <div class="row">
-                                <div class="col-md-6 overflow-auto border border-success rounded text-left mt-1 " style="display: grid; min-height: 40px; max-height: 100px; margin: 0 auto; margin-bottom: 10px; background-color: lightgray;" id="dsnvTruoc">
-                                    @foreach (var nv in dsnv)
-                                    {
-                                        <div data-id="nv_@nv.ID"><button class="btn-delete btn-danger" data-item="@nv.ID">Xóa</button> @nv.MaNV - @nv.HoTen </div>
-                                    }
-
+                                            <tr>
+                                                <td>Tháng bắt đầu đào tạo (Tháng)</td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.ThoiGianDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "ThoiGianDT", @type = "number", })
+                                                    @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.ThoiGianDT, "", new { @class = "text-danger" })
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Định kỳ nhắc lại</td>
+                                                <td>
+                                                    @Html.DropDownListFor(m => m.MaDinhKy, (SelectList)ViewBag.IDDKNhacLai, "-- Định kỳ nhắc lại --", new { id = "MaDinhKy", @class = "form-control marginTB5", @style = "width:100%", })
+                                                    @Html.ValidationMessageFor(model => model.MaDinhKy, "", new { @class = "text-danger" })
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Thời lượng đào tạo (Giờ)</td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.ThoiLuong, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "ThoiLuong", @type = "number", })
+                                                    @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.ThoiLuong, "", new { @class = "text-danger" })
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Địa điểm đào tạo</td>
+                                                <td>
+                                                    @Html.TextAreaFor(model => model.chiTietNhuCauDTTHView.DiaDiemDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "DiaDiemDT", })
+                                                    @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.DiaDiemDT, "", new { @class = "text-danger" })
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ghi chú</td>
+                                                <td>
+                                                    @Html.TextAreaFor(model => model.chiTietNhuCauDTTHView.GhiChu, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "GhiChu", })
+                                                    @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.GhiChu, "", new { @class = "text-danger" })
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="col-md-6 overflow-auto border border-success rounded text-left mt-1" style="display: grid; min-height: 40px; max-height: 100px; margin: 0 auto; margin-bottom: 10px; background-color: lightgray;" id="dsvtTruoc">
-                                    @foreach (var nv in dsvitri)
-                                    {
-                                        <div data-id="vt_@nv.IDVT"><button class="btn-deleteVT btn-danger" data-item="@nv.IDVT">Xóa</button> @nv.MaViTri - @nv.TenViTri </div>
-                                    }
+                                @if ((int)ViewBag.LoaiHinh_DT == 2)
+                                {
+                                    <div class="row border border-light rounded mt-2">
+                                        <div class="font-weight-bold col-12 text-danger">File Đính kèm</div>
+
+
+                                        <div class="form-group col-md-12">
+                                            @if (Model.FileDinhKem != null)
+                                            {
+                                                <div class=""><a href="@Url.Content(Model.FileDinhKem)" target="_blank"><span class="font-weight-bold">Xem file đính kèm</a></div>
+                                            }
+                                            @Html.TextBoxFor(model => model.File, new { @class = "form-control ", @rows = 1, placeholder = "Đơn vị đào tạo", type = "file", @id = "File", })
+                                            @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                }
+                                <div class="row border border-light rounded mt-2">
+                                    <div class="font-weight-bold col-12 text-danger">THÔNG TIN PHÊ DUYỆT<span class="text-danger">(*)</span></div>
+                                    <table class="table table-bordered table-striped table-hover" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td width="300"><div class=" col-12 ">Bộ phận sử dụng (BP.SD):</div></td>
+                                                <td> @Html.DropDownListFor(m => m.CapDuyetView.BPSD, (SelectList)ViewBag.BPSD, "-- Chọn nhân viên --", new { id = "BPSD", @class = "form-control marginTB5", @style = "width:100%", })</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="300"><div class=" col-12 ">Phòng chức năng (PCHN):</div></td>
+                                                <td> @Html.DropDownListFor(m => m.CapDuyetView.PCHN, (SelectList)ViewBag.PCHN, "-- Chọn nhân viên --", new { id = "PCHN", @class = "form-control marginTB5", @style = "width:100%", })</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="300"><div class=" col-12 ">Phòng nhân sự (P.NS):</div></td>
+                                                <td> @Html.DropDownListFor(m => m.CapDuyetView.PNS, (SelectList)ViewBag.PNS, "-- Chọn nhân viên --", new { id = "PNS", @class = "form-control marginTB5", @style = "width:100%", })</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="300"><div class=" col-12 ">Ban giám đốc (BGĐ):</div></td>
+                                                <td>  @Html.DropDownListFor(m => m.CapDuyetView.BGD, (SelectList)ViewBag.BGD, "-- Chọn nhân viên --", new { id = "BGD", @class = "form-control marginTB5", @style = "width:100%", })</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                            </div>
-                            <script>
-                                document.querySelectorAll('.btn-delete').forEach(button => {
-                                    button.addEventListener('click', function (e) {
-                                        e.preventDefault();
-                                        const item = this.dataset.item;
 
-                                        fetch('/NhuCauDTTH/DeleteNV', {
-                                            method: 'POST',
-                                            headers: {
-                                                'Content-Type': 'application/json',
-                                            },
-                                            body: JSON.stringify({ item: item }),
-                                        })
-                                            .then(response => {
-                                                if (response.ok) {
-                                                    // Xóa phần tử khỏi danh sách
-                                                    const row = document.querySelector(`div[data-id="nv_${item}"]`);
-                                                    if (row) row.remove();
-                                                } else {
-                                                    alert('Có lỗi xảy ra.');
-                                                }
-                                            });
-                                    });
-                                });
-                                document.querySelectorAll('.btn-deleteVT').forEach(button => {
-                                    button.addEventListener('click', function (e) {
-                                        e.preventDefault();
-                                        const item = this.dataset.item;
-
-                                        fetch('/NhuCauDTTH/DeleteVT', {
-                                            method: 'POST',
-                                            headers: {
-                                                'Content-Type': 'application/json',
-                                            },
-                                            body: JSON.stringify({ item: item }),
-                                        })
-                                            .then(response => {
-                                                if (response.ok) {
-                                                    // Xóa phần tử khỏi danh sách
-                                                    const row = document.querySelector(`div[data-id="vt_${item}"]`);
-                                                    if (row) row.remove();
-                                                } else {
-                                                    alert('Có lỗi xảy ra.');
-                                                }
-                                            });
-                                    });
-                                });
-                            </script>
-
-                            <div class="row">
-                                <div class=" col-md-6 mb-1" style="display:grid">
-                                    <label class="mb-1 font-weight-bold text-left">Danh sách Mã nhân viên</label>
-                                    @Html.TextAreaFor(model => model.DSNhanVien, new { @class = "form-control", @rows = 2, placeholder = "Nhập danh sách nhân viên", @id = "DSNhanVien", })
-                                    @Html.ValidationMessageFor(model => model.DSNhanVien, "", new { @class = "text-danger" })
+                                <div class="btn-margin-top text-center">
+                                    @*<input type="submit" value="Lưu" id="submit" class="btn btn-warning pull-right ml-1" />*@
+                                    @*<input type="submit" value="Cập nhật" id="submit" class="btn btn-primary pull-right " />*@
+                                    @*<input type="reset" value="Hủy" id="cancel" class="btn btn-danger pull-right button_cancel mr-1" data-dismiss="modal" />*@
                                 </div>
-                                <div class=" col-md-6 mb-1" style="display:grid">
-                                    <label class="mb-1 font-weight-bold text-left">Danh sách Mã vị trí</label>
-                                    @Html.TextAreaFor(model => model.DSViTri, new { @class = "form-control", @rows = 2, placeholder = "Nhập danh sách vị trí", @id = "DSViTri", })
-                                    @Html.ValidationMessageFor(model => model.DSViTri, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div id="checkNV" style="width:70px" class="btn btn-primary form-group col-md-3 checkNV m-auto ">
-                                Check
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 overflow-auto border border-success rounded text-left mt-1" style="display: grid; min-height: 40px; max-height: 70px; margin: 0 auto;margin-bottom:10px" id="dsnv">
-                                </div>
-                                <div class="col-md-6 overflow-auto border border-success rounded text-left mt-1" style="display: grid; min-height: 40px; max-height: 70px; margin: 0 auto;margin-bottom:10px" id="dsvt">
-                                </div>
-                            </div>
-
-                            <script type="text/javascript">
-                                $(document).on("click", ".checkNV", function () {
-                                    /*var iddex = $(this).attr('id').split("_")[1];*/
-                                    $.get("/FPermision/CheckLSNV", { lsnv: $("#DSNhanVien").val() }, function (data) {
-                                        if (data[0] != null) {
-                                            $("#dsnv").empty();
-                                            /*$("#dsnv").append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")*/
-                                            $.each(data, function (index, row) {
-                                                $("#dsnv").append("<div>" + row.HoTen + "</div>")
-                                            });
-
-                                        }
-                                        else {
-                                            $("#dsnv").empty();
-                                        }
-                                    });
-                                    $.get("/NoiDungDTTH/CheckViTri", { dsnd: $("#DSViTri").val() }, function (data) {
-                                        if (data[0] != null) {
-                                            $("#dsvt").empty();
-                                            /*$("#dsnv").append("<option value ='" + null + "'>" + "--Chọn Phân Xưởng--" + "</option>")*/
-                                            $.each(data, function (index, row) {
-                                                $("#dsvt").append("<div>" + row.TenViTri + "</div>")
-                                            });
-
-                                        }
-                                        else {
-                                            $("#dsvt").empty();
-                                        }
-                                    });
-                                });
-                            </script>
-                        }
-
-                    <div class="row border border-light rounded mt-2">
-                        <div class="font-weight-bold col-12 text-danger">ĐƠN VỊ ĐÀO TẠO/GIẢNG VIÊN</div>
-                        <div class="form-group col-md-12">
-                            <label class=" mb-1 font-weight-bold">Mã nhân viên - Họ và tên giảng viên (Nội bộ)<span class="text-danger">(*)</span></label>
-                            @Html.DropDownListFor(m => m.chiTietNhuCauDTTHView.GiangVien_ID, (SelectList)ViewBag.Selec, "-- Chọn nhân viên --", new { id = "GiangVien_ID", @class = "form-control marginTB5", @style = "width:100%", })
-                            @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.GiangVien_ID, "", new { @class = "text-danger", })
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label class=" mb-1 font-weight-bold">Họ tên giảng viên</label>
-                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.TenGiangVien, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "TenGiangVien", })
-                            @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.TenGiangVien, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label class=" mb-1 font-weight-bold">Vị trí công việc</label>
-                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.TenViTri, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "TenViTri", })
-                            @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.TenViTri, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label class=" mb-1 font-weight-bold">Đơn vị đào tạo thuê ngoài<span class="text-danger">(*)</span></label>
-                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.DonViDT, new { @class = "form-control ", @rows = 1, placeholder = "Đơn vị đào tạo", @id = "DonViDT", })
-                            @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.DonViDT, "", new { @class = "text-danger" })
-                        </div>
-                        @*<div class="form-group col-md-4">
-            <label class=" mb-1 font-weight-bold">Vị trí công việc<span class="text-danger">(*)</span></label>
-            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.TenViTri, new { @class = "form-control ", @rows = 1, placeholder = "Vị trí công việc", @id = "TenViTri", })
-            @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.TenViTri, "", new { @class = "text-danger" })
-        </div>*@
-                    </div>
-
-                        <div class="row border border-light rounded mt-2">
-                            <div class="font-weight-bold col-12 text-danger">THÔNG TIN ĐÀO TẠO<span class="text-danger">(*)</span></div>
-                            <table class="table table-bordered table-striped table-hover" cellspacing="0">
-                                <tbody>
-                                    <tr>
-                                        <td>Đối tượng tham gia đào tạo</td>
-                                        <td>
-                                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.DoiTuongDT, new { @class = "form-control ", @rows = 1, placeholder = "Thuê ngoài", @id = "DoiTuongDT", })
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tháng bắt đầu đào tạo (Tháng)</td>
-                                        <td>
-                                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.ThoiGianDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "ThoiGianDT", @type = "number", })
-                                            @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.ThoiGianDT, "", new { @class = "text-danger" })
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Định kỳ nhắc lại</td>
-                                        <td>
-                                            @Html.DropDownListFor(m => m.MaDinhKy, (SelectList)ViewBag.IDDKNhacLai, "-- Định kỳ nhắc lại --", new { id = "MaDinhKy", @class = "form-control marginTB5", @style = "width:100%", })
-                                            @Html.ValidationMessageFor(model => model.MaDinhKy, "", new { @class = "text-danger" })
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Thời lượng đào tạo (Giờ)</td>
-                                        <td>
-                                            @Html.TextBoxFor(model => model.chiTietNhuCauDTTHView.ThoiLuong, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "ThoiLuong", @type = "number", })
-                                            @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.ThoiLuong, "", new { @class = "text-danger" })
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Địa điểm đào tạo</td>
-                                        <td>
-                                            @Html.TextAreaFor(model => model.chiTietNhuCauDTTHView.DiaDiemDT, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "DiaDiemDT", })
-                                            @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.DiaDiemDT, "", new { @class = "text-danger" })
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ghi chú</td>
-                                        <td>
-                                            @Html.TextAreaFor(model => model.chiTietNhuCauDTTHView.GhiChu, new { @class = "form-control ", @rows = 1, placeholder = "", @id = "GhiChu", })
-                                            @Html.ValidationMessageFor(model => model.chiTietNhuCauDTTHView.GhiChu, "", new { @class = "text-danger" })
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        @if ((int)ViewBag.LoaiHinh_DT == 2)
-                        {
-                            <div class="row border border-light rounded mt-2">
-                                <div class="font-weight-bold col-12 text-danger">File Đính kèm</div>
-
-
-                                <div class="form-group col-md-12">
-                                    @if (Model.FileDinhKem != null)
-                                    {
-                                        <div class=""><a href="@Url.Content(Model.FileDinhKem)" target="_blank"><span class="font-weight-bold">Xem file đính kèm</a></div>
-                                    }
-                                    @Html.TextBoxFor(model => model.File, new { @class = "form-control ", @rows = 1, placeholder = "Đơn vị đào tạo", type = "file", @id = "File", })
-                                    @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                        }
-                        <div class="row border border-light rounded mt-2">
-                            <div class="font-weight-bold col-12 text-danger">THÔNG TIN PHÊ DUYỆT<span class="text-danger">(*)</span></div>
-                            <table class="table table-bordered table-striped table-hover" cellspacing="0">
-                                <tbody>
-                                    <tr>
-                                        <td width="300"><div class=" col-12 ">Bộ phận sử dụng (BP.SD):</div></td>
-                                        <td> @Html.DropDownListFor(m => m.CapDuyetView.BPSD, (SelectList)ViewBag.BPSD, "-- Chọn nhân viên --", new { id = "BPSD", @class = "form-control marginTB5", @style = "width:100%", })</td>
-                                    </tr>
-                                    <tr>
-                                        <td width="300"><div class=" col-12 ">Phòng chức năng (PCHN):</div></td>
-                                        <td> @Html.DropDownListFor(m => m.CapDuyetView.PCHN, (SelectList)ViewBag.PCHN, "-- Chọn nhân viên --", new { id = "PCHN", @class = "form-control marginTB5", @style = "width:100%", })</td>
-                                    </tr>
-                                    <tr>
-                                        <td width="300"><div class=" col-12 ">Phòng nhân sự (P.NS):</div></td>
-                                        <td> @Html.DropDownListFor(m => m.CapDuyetView.PNS, (SelectList)ViewBag.PNS, "-- Chọn nhân viên --", new { id = "PNS", @class = "form-control marginTB5", @style = "width:100%", })</td>
-                                    </tr>
-                                    <tr>
-                                        <td width="300"><div class=" col-12 ">Ban giám đốc (BGĐ):</div></td>
-                                        <td>  @Html.DropDownListFor(m => m.CapDuyetView.BGD, (SelectList)ViewBag.BGD, "-- Chọn nhân viên --", new { id = "BGD", @class = "form-control marginTB5", @style = "width:100%", })</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="btn-margin-top text-center">
-                            @*<input type="submit" value="Lưu" id="submit" class="btn btn-warning pull-right ml-1" />*@
-                            @*<input type="submit" value="Cập nhật" id="submit" class="btn btn-primary pull-right " />*@
-                            @*<input type="reset" value="Hủy" id="cancel" class="btn btn-danger pull-right button_cancel mr-1" data-dismiss="modal" />*@
-                        </div>
-                    </fieldset>
+                            </fieldset>
 
                         }
                     </div>
@@ -412,11 +422,49 @@
     </div>
 </div>
 
+<!-- Modal Điều chỉnh NCĐT -->
+<div class="modal fade" id="dieuChinhModal" tabindex="-1" role="dialog" aria-labelledby="dieuChinhModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dieuChinhModalLabel"><i class="fa fa-pencil"></i> Điều chỉnh NCĐT</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="modal_ID_NCDT" value="" />
+                <div class="form-group">
+                    <label class="font-weight-bold">Người tạo NCĐT <span class="text-danger">(*)</span></label>
+                    <select id="modal_NguoiTao_ID" class="form-control chosen-select-modal" style="width:100%">
+                        <option value="">-- Chọn người tạo --</option>
+                    </select>
+                </div>
+                @*<div class="form-group">
+                    <label class="font-weight-bold">Trạng thái hiển thị</label>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="modal_HienThi" />
+                        <label class="form-check-label" for="modal_HienThi">Hiển thị lại NCĐT (bỏ ẩn)</label>
+                    </div>
+                </div>*@
+                <div id="modal_message" class="text-danger" style="display:none"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="saveDieuChinh()"><i class="fa fa-save"></i> Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
     <script>
         $("#IDPhongBan").chosen({
             width: "100%"
         });
         $("#NoiDung_ID").chosen({
+            width: "100%"
+        });
+        $("#ID_NguoiTao").chosen({
             width: "100%"
         });
         $(".ddlMultiSlectBox").chosen({
@@ -490,6 +538,58 @@
         });
 
 
+
+        // Khởi tạo chosen cho modal sau khi modal hiển thị xong
+        $('#dieuChinhModal').on('shown.bs.modal', function () {
+            $('#modal_NguoiTao_ID').chosen({ width: '100%' });
+        });
+
+        function openDieuChinhModal(idNcdt) {
+            $('#modal_ID_NCDT').val(idNcdt);
+            $('#modal_message').hide().text('');
+            $('#modal_HienThi').prop('checked', false);
+            // Load danh sách nhân viên
+            $.get('/NhuCauDTTH/GetDSNguoiTao', { idNcdt: idNcdt }, function (data) {
+                var sel = $('#modal_NguoiTao_ID');
+                sel.empty().append('<option value="">-- Chọn người tạo --</option>');
+                $.each(data.DsNhanVien, function (i, nv) {
+                    var selected = nv.ID == data.NguoiTaoHienTai ? 'selected' : '';
+                    sel.append('<option value="' + nv.ID + '" ' + selected + '>' + nv.HoTen + '</option>');
+                });
+                if (data.IsHidden) {
+                    $('#modal_HienThi').prop('checked', true);
+                }
+                $('#dieuChinhModal').modal('show');
+                // Trigger update chosen sau khi data đã load
+                $('#modal_NguoiTao_ID').trigger('chosen:updated');
+            });
+        }
+
+        function saveDieuChinh() {
+            var idNcdt = $('#modal_ID_NCDT').val();
+            var nguoiTaoId = $('#modal_NguoiTao_ID').val();
+            var hienThi = $('#modal_HienThi').is(':checked');
+            if (!nguoiTaoId) {
+                $('#modal_message').text('Vui lòng chọn người tạo.').show();
+                return;
+            }
+            $.post('/NhuCauDTTH/DieuChinhNCDT', {
+                idNcdt: idNcdt,
+                nguoiTaoId: nguoiTaoId,
+                hienThi: hienThi,
+                __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+            }, function (result) {
+                if (result.success) {
+                    $('#dieuChinhModal').modal('hide');
+                    alert('Điều chỉnh thành công!');
+                    location.reload();
+                } else {
+                    $('#modal_message').text(result.message || 'Có lỗi xảy ra.').show();
+                }
+            }).fail(function () {
+                $('#modal_message').text('Có lỗi xảy ra khi gửi yêu cầu.').show();
+            });
+        }
 
         $(document).ready(function () {
             $("#NoiDung_ID, #PhuongPhapDT_ID").on("change", function () {
