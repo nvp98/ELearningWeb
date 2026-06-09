@@ -666,7 +666,12 @@
             $("tr.TDCheck").find("td.text-center").prop('disabled', 'disabled');
         });
     </script>*@
-
+<div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.7); z-index: 9999; justify-content: center; align-items: center;">
+    <div class="text-center">
+        <div class="spinner-border text-danger" role="status" style="width: 3rem; height: 3rem;"></div>
+        <h5 class="mt-2 text-danger">Đang xử lý dữ liệu, vui lòng đợi...</h5>
+    </div>
+</div>
 
 
 
@@ -678,6 +683,8 @@
         btn.disabled = true;
         btn.value = "Đang xử lý...";
         var listKQ = [];
+        // 1. Hiển thị loading và khóa nút bấm tránh click trùng lặp
+        $('#loading-overlay').css('display', 'flex');
         $(".row-kq").each(function () {
             var $row = $(this);
 
@@ -736,7 +743,12 @@
                 alert("Có lỗi xảy ra khi gửi dữ liệu");
                 btn.disabled = false;
                 btn.value = "Xác Nhận";
-            }
+              },
+              complete: function () {
+                  // 3. Cho dù thành công hay thất bại, đều phải ẩn loading và trả lại trạng thái nút
+                  $('#loading-overlay').hide();
+                  $('#btnSave').prop('disabled', false).val('Xác Nhận');
+              }
         });
         }
 

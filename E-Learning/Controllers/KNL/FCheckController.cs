@@ -1009,13 +1009,24 @@ namespace E_Learning.Controllers.KNL
                         int Quy = GetQuarter(DateTime.Now);
                         int Nam = DateTime.Now.Year;
 
-                        using (var transaction = localDb.Database.BeginTransaction())
+                        // Read SP data BEFORE the transaction to avoid holding shared locks during writes
+                        var LSDG = localDb.KNL_LSDG_TheoQuy(Nam, Quy, IDNVDDG).FirstOrDefault(x => x.VTID == IDVTDDG);
+                        var KNL_KQCu = localDb.KNL_KQ_TheoQuy(Nam, Quy, IDNVDDG).Where(x => x.VTID == IDVTDDG).ToList();
+
+                        // Batch-fetch all KNL_KQ records in ONE query instead of N Find() calls inside the loop
+                        var existingKQIds = listKQ
+                            .Where(x => x.IDKQ.HasValue && x.IDKQ.Value > 0)
+                            .Select(x => x.IDKQ.Value)
+                            .Distinct()
+                            .ToList();
+                        var existingKQMap = existingKQIds.Any()
+                            ? localDb.KNL_KQ.Where(x => existingKQIds.Contains(x.IDKQ)).ToDictionary(x => x.IDKQ)
+                            : new Dictionary<int, KNL_KQ>();
+
+                        using (var transaction = localDb.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
                         {
                             try
                             {
-                                var LSDG = localDb.KNL_LSDG_TheoQuy(Nam, Quy, IDNVDDG).FirstOrDefault(x => x.VTID == IDVTDDG);
-                                var KNL_KQCu = localDb.KNL_KQ_TheoQuy(Nam, Quy, IDNVDDG).Where(x => x.VTID == IDVTDDG).ToList();
-
                                 var LSDG_New = new KNL_LSDG()
                                 {
                                     NVID = IDNVDDG,
@@ -1073,7 +1084,11 @@ namespace E_Learning.Controllers.KNL
                                     }
                                     else // update kq cũ
                                     {
-                                        var searchKQ = localDb.KNL_KQ.Find(item.IDKQ);
+                                        // Use pre-fetched dictionary — avoids a separate SELECT per item inside the transaction
+                                        KNL_KQ searchKQ = null;
+                                        if (item.IDKQ.HasValue && existingKQMap.TryGetValue(item.IDKQ.Value, out var found))
+                                            searchKQ = found;
+
                                         if (searchKQ != null)
                                         {
                                             if (item.IDNV == nv.ID)
