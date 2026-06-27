@@ -731,6 +731,7 @@ namespace E_Learning.Controllers.DaoTaoTH
                 data.IsCoCTDT = res.IsCoCTDT;
                 data.CTDT_ID = res.CTDT_ID;
                 data.NDID = (int)res.NDID;
+                data.NguoiTao_ID = res.NguoiTao_ID;
                 data.IsAll = true;
                 if (chitietGV != null)
                 {
@@ -774,6 +775,7 @@ namespace E_Learning.Controllers.DaoTaoTH
 
             ViewBag.ID_NhanVien = new SelectList(listNhanVien, "ID", "HoTen", IDGVCty);
             ViewBag.ID_NguoiKiemTra = new SelectList(listNhanVien.Where(x => x.IDPhongBan == IDPB), "ID", "HoTen", data?.NguoiKiemTra_ID);
+            ViewBag.NguoiLap_ID = new SelectList(listNhanVien, "ID", "HoTen", data?.NguoiTao_ID);
             ViewBag.PhuongPhapDT_ID = PhuongPhapDT_ID;
             ViewBag.PhanLoaiNCDT_ID = PhanLoaiNCDT_ID;
             ViewBag.LoaiNCDT = PhanLoaiNCDT_ID;
@@ -841,7 +843,7 @@ namespace E_Learning.Controllers.DaoTaoTH
 
 
                         lopHocExisting.NguoiKiemTra_ID = DTO.NguoiKiemTra_ID;
-                        lopHocExisting.NguoiTao_ID = lopHocExisting.NguoiTao_ID;
+                        lopHocExisting.NguoiTao_ID = DTO.NguoiTao_ID ?? lopHocExisting.NguoiTao_ID;
                         lopHocExisting.NgayTao = lopHocExisting.NgayTao;
                         lopHocExisting.IDDeThi = DTO.IDDeThi;
                         lopHocExisting.IsCoCTDT = DTO.IsCoCTDT;

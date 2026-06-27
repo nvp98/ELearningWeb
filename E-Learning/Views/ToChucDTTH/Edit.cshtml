@@ -104,6 +104,9 @@
                                 <h6>
                                     <span class="row">  Bộ phận:&nbsp; <div class="col-md-2" style="margin:-5px">  @Html.DropDownListFor(m => m.BoPhan_ID, (SelectList)ViewBag.IDPhongBan, new { id = "BoPhanLNC_ID", @class = "form-control marginTB5", @style = "width:100%", })</div>  &nbsp; lập tổ chức thực hiện đào tạo như sau:</span>
                                 </h6>
+                                <h6>
+                                    <span class="row align-items-center">  Người lập:&nbsp; <div class="col-md-3" style="margin:-5px">  @Html.DropDownListFor(m => m.NguoiTao_ID, (SelectList)ViewBag.NguoiLap_ID, "-- Chọn người lập --", new { id = "NguoiLap_ID", @class = "form-control marginTB5", @style = "width:100%", })</div></span>
+                                </h6>
                             </div>
 
                             @Html.AntiForgeryToken()
@@ -432,6 +435,9 @@
 </div>
 <script>
     $("#NguoiKiemTra_ID").chosen({
+        width: "100%"
+    });
+    $("#NguoiLap_ID").chosen({
         width: "100%"
     });
     //$("#NoiDung_ID").chosen({
