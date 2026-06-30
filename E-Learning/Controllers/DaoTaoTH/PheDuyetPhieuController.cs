@@ -97,7 +97,11 @@ namespace E_Learning.Controllers.DaoTaoTH
             }
 
             var valuesToCheck = db.SH_ChuongTrinhDT.Where(x => (x.TinhTrang == 2 || x.TinhTrang == 1 || x.TinhTrang == 3)).Select(k => k.IDCTDT).ToList();
-            var res = (from a in db.SH_KyDuyetCTDT.Where(x => (x.ID_NguoiKiemTra == MyAuthentication.ID || x.ID_TPBP == MyAuthentication.ID || x.ID_PCHN == MyAuthentication.ID) && ((x.NgayDangNDDT != null && x.ID_NguoiDangNDDT != null) || x.ID_NguoiDangNDDT == null) && valuesToCheck.Contains((int)x.ID_CTDT) && (x.ID_NguoiDuyetNDDT == null || (x.NgayDuyetNDDT != null && x.ID_NguoiDuyetNDDT != null)))
+            var res = (from a in db.SH_KyDuyetCTDT.Where(x =>
+            (x.ID_NguoiKiemTra == MyAuthentication.ID || x.ID_TPBP == MyAuthentication.ID || x.ID_PCHN == MyAuthentication.ID)
+            && (x.NgayDangNDDT != null && x.ID_NguoiDangNDDT != null)
+            && valuesToCheck.Contains((int)x.ID_CTDT)
+            && (x.NgayDuyetNDDT != null && x.ID_NguoiDuyetNDDT != null))
                        select new SH_KyDuyetCTDTView
                        {
                            ID = a.ID,
