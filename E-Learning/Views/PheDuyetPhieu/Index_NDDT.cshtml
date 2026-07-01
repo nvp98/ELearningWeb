@@ -90,7 +90,7 @@
                                                 <td class="text-center">
 
 
-                                                    @if (item.CapDuyet == 1 && item.ID_NguoiDuyetNDDT == null && item.NgayDuyetNDDT == null)
+                                                    @if (item.CapDuyet == 1 && item.ID_NguoiDuyetNDDT != null && item.NgayDuyetNDDT != null)
                                                     {
                                                         <button id="btn-edit_@item.ID_CTDT" data-url='@Url.Action("XuLyNDDT","PheDuyetPhieu", new { id = item.ID_CTDT })' class="btn btn-success">
                                                             P.NS Đăng nội dung
