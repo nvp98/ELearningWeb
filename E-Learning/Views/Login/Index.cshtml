@@ -1,5 +1,6 @@
 ﻿@{
     Layout = null;
+    string dynamicBg = ViewBag.LoginBackground;
 }
 @model E_Learning.Models.LoginValidation
 <!DOCTYPE html>
@@ -21,6 +22,14 @@
 {
     @Html.Raw(TempData["msglg"])
 }
+@if (!string.IsNullOrEmpty(dynamicBg))
+{
+    <style>
+        .bg-login {
+            background-image: url('@dynamicBg') !important;
+        }
+    </style>
+}
 
 <body class="bg-login">
 
@@ -33,7 +42,7 @@
                 <div class="card shadow-lg border-0 rounded-lg" style="background-color: rgba(0, 51, 102, 0.7) !important">
                     <div class="card-header">
                         <img src="~/Content/assets/images/logo-inverse.png"
-                            style="width:100%; height:auto; max-width:230px; margin: 0 auto;" />
+                             style="width:100%; height:auto; max-width:230px; margin: 0 auto;" />
                     </div>
                     <div class="card-body">
 
@@ -133,8 +142,10 @@
         <footer class="">
             <div class="">
                 <div class="">
-                    <div class="text-c">Copyright &copy; @DateTime.Now.Year Phòng Công nghệ thông tin và Chuyển đổi số<br /> Công ty CP
-                        Thép Hòa Phát Dung Quất </div>
+                    <div class="text-c">
+                        Copyright &copy; @DateTime.Now.Year Phòng Công nghệ thông tin và Chuyển đổi số<br /> Công ty CP
+                        Thép Hòa Phát Dung Quất
+                    </div>
                 </div>
             </div>
         </footer>

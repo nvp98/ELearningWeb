@@ -23,6 +23,13 @@ namespace E_Learning.Controllers
             FormsAuthentication.SignOut();
             Session.Clear();
             Session.Abandon();
+
+            var loginBg = _db.Banners
+                        .Where(x => x.Type == 2 && x.IsActive == true)
+                        .OrderByDescending(x => x.CreatedDate)
+                        .FirstOrDefault();
+
+            ViewBag.LoginBackground = loginBg?.BannerPath;
             return View();
         }
         public ActionResult Login()
