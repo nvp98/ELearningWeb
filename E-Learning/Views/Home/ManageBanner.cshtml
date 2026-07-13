@@ -21,37 +21,45 @@
             <div class="page-title-wrapper">
                 <div class="page-title-heading">
                     <div class="page-title-icon">
-                        <i class="pe-7s-id icon-gradient bg-grow-early">
-                        </i>
+                        <i class="pe-7s-id icon-gradient bg-grow-early"></i>
                     </div>
                     <div>
-                        Banners
-                        <div class="page-title-subheading">
-                        </div>
+                        Quản lý Banner & Background
+                        <div class="page-title-subheading">Cấu hình banner trang chủ và hình nền trang đăng nhập</div>
                     </div>
                 </div>
-
             </div>
         </div>
 
         <div class="card mb-4">
             <div class="card-header">
-
-                <div class="col-md-9">
-                    <div class="row">
+                <div class="row w-100">
+                    <div class="col-md-6 border-right">
+                        <h5>Thêm Banner Trang Chủ</h5>
                         <form method="post" enctype="multipart/form-data" action="/Home/AddBanner">
+                            <input type="hidden" name="type" value="1" />
                             <input type="file" name="files" multiple class="form-control mb-2" />
-                            <button type="submit" class="btn btn-primary">Thêm Banner</button>
+                            <button type="submit" class="btn btn-primary">Thêm Banner Trang Chủ</button>
+                        </form>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h5>Thêm Background Login</h5>
+                        <form method="post" enctype="multipart/form-data" action="/Home/AddBanner">
+                            <input type="hidden" name="type" value="2" />
+                            <input type="file" name="files" class="form-control mb-2" />
+                            <button type="submit" class="btn btn-success">Thêm Background Login</button>
                         </form>
                     </div>
                 </div>
             </div>
+
             <div class="card-body">
                 <div class="table-responsive">
-
                     <table class="table table-bordered mt-4">
                         <tr class="text-center">
-                            <th>Banner</th>
+                            <th>Hình ảnh</th>
+                            <th>Phân loại</th>
                             <th>Di chuyển</th>
                             <th>Hành động</th>
                         </tr>
@@ -59,16 +67,26 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td width="250">
-                                    <img src="@item.BannerPath" class="img-fluid" />
+                                <td width="250" class="text-center">
+                                    <img src="@item.BannerPath" class="img-fluid" style="max-height: 100px;" />
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center" valign="middle">
+                                    @if (item.Type == 1)
+                                    {
+                                        <span class="badge badge-primary">Banner Trang Chủ</span>
+                                    }
+                                    else if (item.Type == 2)
+                                    {
+                                        <span class="badge badge-success">Background Login</span>
+                                    }
+                                </td>
+                                <td class="text-center" valign="middle">
                                     <a href="/Home/MoveBanner/@item.ID?direction=up" class="btn btn-sm btn-outline-info">▲</a>
                                     <a href="/Home/MoveBanner/@item.ID?direction=down" class="btn btn-sm btn-outline-info">▼</a>
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center" valign="middle">
                                     <a href="/Home/DeleteBanner/@item.ID"
-                                       onclick="return confirm('Xóa banner này?');"
+                                       onclick="return confirm('Xóa mục này?');"
                                        class="btn btn-sm btn-danger">Xóa</a>
                                 </td>
                             </tr>

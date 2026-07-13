@@ -18,7 +18,7 @@ namespace E_Learning.Controllers
         public ActionResult Index()
         {
             var banners = db.Banners
-                    .Where(x => x.IsActive == true)
+                    .Where(x => x.IsActive == true && x.Type == 1)
                     .OrderBy(x => x.SortOrder)
                     .ToList();
 
@@ -117,7 +117,7 @@ namespace E_Learning.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddBanner(List<HttpPostedFileBase> files)
+        public ActionResult AddBanner(List<HttpPostedFileBase> files, int type)
         {
             if (files == null || !files.Any(file => file != null && file.ContentLength > 0))
             {
@@ -148,10 +148,12 @@ namespace E_Learning.Controllers
                     SortOrder = currentOrder,
                     IsActive = true,
                     CreatedDate = DateTime.Now,
+                    Type = type // 1 = Home page, 2 = Login page
                 });
             }
 
             db.SaveChanges();
+            TempData["msgSuccess"] = "<script>alert('Thêm thành công!');</script>";
 
             return RedirectToAction("ManageBanner");
         }
