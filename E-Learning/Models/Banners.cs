@@ -19,5 +19,6 @@ namespace E_Learning.Models
         public int SortOrder { get; set; }
         public bool IsActive { get; set; }
         public System.DateTime CreatedDate { get; set; }
+        public int Type { get; set; }
     }
 }

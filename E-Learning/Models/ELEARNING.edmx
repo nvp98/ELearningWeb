@@ -31,6 +31,7 @@
           <Property Name="SortOrder" Type="int" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="BDT_LichSuPheDuyet">
           <Key>
@@ -7150,6 +7151,7 @@
           <Property Name="SortOrder" Type="Int32" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="PageVisit">
           <Key>
@@ -9613,6 +9615,7 @@
           <EntitySetMapping Name="Banners">
             <EntityTypeMapping TypeName="ELEARNINGModel.Banners">
               <MappingFragment StoreEntitySet="Banners">
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
