@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
 using E_Learning.Models;
+using E_Learning.Services;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,16 @@ namespace E_Learning.Controllers.KNL
             int month = DateTime.Now.Month; // hoặc date.Month
             int quy = (month - 1) / 3 + 1;
             int nam = DateTime.Now.Year;
-            var kqQuy = db.KNL_LSDG_TheoQuy(nam,quy, null).Where(x=>x.IDVTKNL == IDVT).ToList();
-            var nhanvien = db.NhanViens.Where(x => x.IDTinhTrangLV == 1 && x.IDVTKNL == IDVT).ToList();
+            var kqQuy = KNLCacheService.GetLSDGTheoQuy<KNL_LSDG_TheoQuy_Result>(nam, quy, null,
+                () => db.KNL_LSDG_TheoQuy(nam, quy, null).ToList())
+                .Where(x => x.IDVTKNL == IDVT).ToList();
+            var nhanvien = IDVT.HasValue
+                ? KNLCacheService.GetNhanVienListByIDVT((int)IDVT, () =>
+                {
+                    return db.NhanViens.Where(x => x.IDTinhTrangLV == 1 && x.IDVTKNL == IDVT)
+                        .Select(e => new NhanVienCacheDto { ID = e.ID, MaNV = e.MaNV, HoTen = e.HoTen, IDPhongBan = e.IDPhongBan, IDVTKNL = e.IDVTKNL, IDTinhTrangLV = e.IDTinhTrangLV, IDKip = e.IDKip, IDQuyen = e.IDQuyen, IDQuyenKNL = e.IDQuyenKNL, MaViTri = e.MaViTri }).ToList();
+                })
+                : new System.Collections.Generic.List<NhanVienCacheDto>();
             //var res = new List<FCheckValidation>();
             var res = (from a in nhanvien
                         join kq in kqQuy on a.ID equals kq.NVID into ulkh

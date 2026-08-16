@@ -1,4 +1,5 @@
 ﻿using E_Learning.Models;
+using E_Learning.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,11 @@ namespace E_Learning.Controllers.KNL
         // GET: FResult
         public ActionResult Index(int? IDNV, int? Nam)
         {
-            var nv = db.NhanViens.Where(x => x.ID == IDNV).FirstOrDefault();
+            var nv = KNLCacheService.GetNhanVienById((int)IDNV, () =>
+            {
+                var e = db.NhanViens.Where(x => x.ID == IDNV).FirstOrDefault();
+                return e == null ? null : new NhanVienCacheDto { ID = e.ID, MaNV = e.MaNV, HoTen = e.HoTen, IDPhongBan = e.IDPhongBan, IDVTKNL = e.IDVTKNL, IDTinhTrangLV = e.IDTinhTrangLV, IDKip = e.IDKip, IDQuyen = e.IDQuyen, IDQuyenKNL = e.IDQuyenKNL, MaViTri = e.MaViTri };
+            });
             var vt = db.VitriKNL_searchByIDVT(nv.IDVTKNL).FirstOrDefault();
             ViewBag.IDVT = nv.IDVTKNL;
             ViewBag.HoTen = nv.MaNV +"-"+ nv.HoTen;
@@ -21,7 +26,8 @@ namespace E_Learning.Controllers.KNL
             ViewBag.BMTCV = vt?.FilePath;
 
             if (Nam == null) Nam = DateTime.Now.Year;
-            var kqQuy = db.KNL_LSDG_TheoQuy(Nam,null, IDNV).ToList();
+            var kqQuy = KNLCacheService.GetLSDGTheoQuy<KNL_LSDG_TheoQuy_Result>((int)Nam, null, IDNV,
+                () => db.KNL_LSDG_TheoQuy(Nam, null, IDNV).ToList());
 
             List<FResultValidation> KQua = new List<FResultValidation>();
             for(var quy=1; quy<=4;quy++)
@@ -76,7 +82,10 @@ namespace E_Learning.Controllers.KNL
             ViewBag.TenVT = nv.TenVT ?? "";
             ViewBag.QuyDG = Quy +"/"+ Nam;
 
-            var res = (from a in db.KNL_KQ_TheoQuy(Nam, Quy, IDNV).Where(x=>x.VTID == IDVT)
+            var cachedKQ = KNLCacheService.GetKQTheoQuy<KNL_KQ_TheoQuy_Result>((int)Nam, (int)Quy, IDNV,
+                () => db.KNL_KQ_TheoQuy(Nam, Quy, IDNV).ToList());
+
+            var res = (from a in cachedKQ.Where(x => x.VTID == IDVT)
                        select new FValueValidation
                        {
                            IDNV = (int?)nv.IDNV ?? null,

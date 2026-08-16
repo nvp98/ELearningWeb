@@ -1,4 +1,5 @@
 ﻿using E_Learning.Models;
+using E_Learning.Services;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -118,44 +119,51 @@ namespace E_Learning.Controllers.KNL
             ViewBag.TenViTri = vt?.TenViTri ?? "";
             ViewBag.TenPB = vt?.TenPhongBan ?? "";
             ViewBag.ThangDG = (DateTime?)dt ?? default(DateTime);
-            var DataRes = new GenKNLValidation();
 
-            var res = (from a in db.KhungNangLuc_SearchByIDVT(IDVT)
-                       select new FGenResultValidation
-                       {
-                           IDNL = a.IDNL,
-                           TenNL = a.TenNL,
-                           IDLoaiNL = a.IDLoaiNL,
-                           IDVT = a.IDVT,
-                           TenViTri = a.TenViTri,
-                           IDPB = a.IDPB,
-                           DinhMuc = a.IsDanhGia != 0 ? a.DinhMuc : 0,
-                           IsDanhGia = a.IsDanhGia,
-                       }).ToList().OrderBy(x => x.OrderBy);
-            foreach (var item in res)
+            string thangKey = dt.ToString("yyyy-MM");
+            return KNLCacheService.GetGenResult<FGenResultValidation>((int)IDVT, thangKey, () =>
             {
-                var kq = db.KNL_KQ_searchByIDNL(item.IDNL, dt).ToList();
-                item.Total = kq.Count();
-                item.TotalKDGia = kq.Where(x => x.DiemDG == null).Count();
-                item.TotalDat = kq.Where(x => x.DiemDG == item.DinhMuc).Count();
-                item.TotalVuot = kq.Where(x => x.DiemDG > item.DinhMuc).Count();
-                item.TotalKDat = kq.Where(x => x.DiemDG < item.DinhMuc).Count();
-                if (kq.Count() > 0)
-                {
-                    item.TileDat = item.TotalDat * 100 / item.Total;
-                    item.TileKDat = item.TotalKDat * 100 / item.Total;
-                    item.TileKDGia = item.TotalKDGia * 100 / item.Total;
-                    item.TileVuot = item.TotalVuot * 100 / item.Total;
-                }
-            }
-            //DataRes.ListGenNL = res.ToList();
-            //DataRes.TotalDG = res.Sum(x => x.Total);
-            //DataRes.TotalDat = res.Sum(x => x.TotalDat);
-            //DataRes.TotalKDat = res.Sum(x => x.TotalKDat);
-            //DataRes.TotalVuot = res.Sum(x => x.TotalVuot);
-            //DataRes.TotalKDGia = res.Sum(x => x.TotalKDGia);
+                var res = (from a in db.KhungNangLuc_SearchByIDVT(IDVT)
+                           select new FGenResultValidation
+                           {
+                               IDNL = a.IDNL,
+                               TenNL = a.TenNL,
+                               IDLoaiNL = a.IDLoaiNL,
+                               IDVT = a.IDVT,
+                               TenViTri = a.TenViTri,
+                               IDPB = a.IDPB,
+                               DinhMuc = a.IsDanhGia != 0 ? a.DinhMuc : 0,
+                               IsDanhGia = a.IsDanhGia,
+                               OrderBy = a.OrderBy,
+                           }).ToList().OrderBy(x => x.OrderBy).ToList();
 
-            return res.ToList();
+                // Fix N+1: load tất cả KQ của vị trí trong 1 query thay vì N lần
+                var allKQ = db.KNL_KQ
+                    .Where(x => x.VTID == IDVT
+                             && x.ThangDG.HasValue
+                             && x.ThangDG.Value.Year == dt.Year
+                             && x.ThangDG.Value.Month == dt.Month)
+                    .Select(x => new { x.IDNL, x.DiemDG })
+                    .ToList();
+
+                foreach (var item in res)
+                {
+                    var kq = allKQ.Where(x => x.IDNL == item.IDNL).ToList();
+                    item.Total    = kq.Count;
+                    item.TotalKDGia = kq.Count(x => x.DiemDG == null);
+                    item.TotalDat   = kq.Count(x => x.DiemDG == item.DinhMuc);
+                    item.TotalVuot  = kq.Count(x => x.DiemDG > item.DinhMuc);
+                    item.TotalKDat  = kq.Count(x => x.DiemDG != null && x.DiemDG < item.DinhMuc);
+                    if (item.Total > 0)
+                    {
+                        item.TileDat   = item.TotalDat   * 100 / item.Total;
+                        item.TileKDat  = item.TotalKDat  * 100 / item.Total;
+                        item.TileKDGia = item.TotalKDGia * 100 / item.Total;
+                        item.TileVuot  = item.TotalVuot  * 100 / item.Total;
+                    }
+                }
+                return res;
+            });
         }
     }
 }

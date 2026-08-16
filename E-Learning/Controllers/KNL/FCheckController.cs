@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Vml;
 using E_Learning.Models;
+using E_Learning.Services;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using PagedList;
@@ -34,7 +35,11 @@ namespace E_Learning.Controllers.KNL
             int? IDVTKNL = MyAuthentication.IDVTKNL;
             if (search == null) search = "";
             ViewBag.search = search;
-            var nv = db.NhanViens.Where(x => x.MaNV == manv).FirstOrDefault();
+            var nv = KNLCacheService.GetNhanVienByMaNV(manv, () =>
+            {
+                var e = db.NhanViens.Where(x => x.MaNV == manv).FirstOrDefault();
+                return e == null ? null : new NhanVienCacheDto { ID = e.ID, MaNV = e.MaNV, HoTen = e.HoTen, IDPhongBan = e.IDPhongBan, IDVTKNL = e.IDVTKNL, IDTinhTrangLV = e.IDTinhTrangLV, IDKip = e.IDKip, IDQuyen = e.IDQuyen, IDQuyenKNL = e.IDQuyenKNL, MaViTri = e.MaViTri };
+            });
             var vt = db.ViTriKNLs.Where(x => x.IDVT == IDVTKNL).FirstOrDefault();
             var kiemnhiem = db.KNL_NVKiemNhiem.Where(x => x.IDNV == idnv).ToList();
             var res = new List<FCheckValidation>();
@@ -186,27 +191,31 @@ namespace E_Learning.Controllers.KNL
 
             return now.Year == date.Value.Year && currentQuarter == dateQuarter;
         }
-        public List<FCheckValidation> getListUser(ViTriKNL vt, int? idpb, NhanVien nv)
+        public List<FCheckValidation> getListUser(ViTriKNL vt, int? idpb, NhanVienCacheDto nv)
         {
             var vt2 = checkMVT2(vt.MaViTri);
             var vt3 = checkMVT3(vt.MaViTri);
-            var res = (from a in db.KNL_GetNhanVienDanhGiaTT(vt.IDVT)
-                       select new FCheckValidation
-                       {
-                           MaNV = a.MaNV,
-                           IDNV = a.ID,
-                           IDVT = a.IDVT,
-                           TenVT = a.TenViTri,
-                           TenNV = a.HoTen,
-                           IDKip = a.IDKip,
-                           //TenKip = a.TenKip,
-                           fileBMTCV = a.FilePath,
-                           NgayDG = a?.NgayDG != null && IsInCurrentQuarter(a?.NgayDG) ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
-                           Total = a.TongNLDuyet,
-                           TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
-                           NgayTuDG = a?.NgayTuDG != null && IsInCurrentQuarter(a?.NgayTuDG) ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
-                           NgayDGLan1 = a?.NgayDGGNLan1 != null && IsInCurrentQuarter(a?.NgayDGGNLan1) ? String.Format("{0:dd/MM/yyyy}", a?.NgayDGGNLan1) : "",
-                       }).ToList();
+
+            // Cache raw SP results; mapping (IsInCurrentQuarter) luôn tính lại để đảm bảo chính xác theo thời điểm
+            var rawTT = KNLCacheService.GetNVDanhGiaTT<KNL_GetNhanVienDanhGiaTT_Result>(vt.IDVT,
+                () => db.KNL_GetNhanVienDanhGiaTT(vt.IDVT).ToList());
+
+            var res = rawTT.Select(a => new FCheckValidation
+            {
+                MaNV = a.MaNV,
+                IDNV = a.ID,
+                IDVT = a.IDVT,
+                TenVT = a.TenViTri,
+                TenNV = a.HoTen,
+                IDKip = a.IDKip,
+                //TenKip = a.TenKip,
+                fileBMTCV = a.FilePath,
+                NgayDG = a?.NgayDG != null && IsInCurrentQuarter(a?.NgayDG) ? String.Format("{0:dd/MM/yyyy}", a?.NgayDG) : "",
+                Total = a.TongNLDuyet,
+                TinhTrang_DuyetKNL = a.TinhTrang_DuyetKNL,
+                NgayTuDG = a?.NgayTuDG != null && IsInCurrentQuarter(a?.NgayTuDG) ? String.Format("{0:dd/MM/yyyy}", a?.NgayTuDG) : "",
+                NgayDGLan1 = a?.NgayDGGNLan1 != null && IsInCurrentQuarter(a?.NgayDGGNLan1) ? String.Format("{0:dd/MM/yyyy}", a?.NgayDGGNLan1) : "",
+            }).ToList();
             //if(idpb ==null) idpb = 0;
 
             //if (vt.IDNhom != null && vt2 == "PT")
@@ -318,7 +327,7 @@ namespace E_Learning.Controllers.KNL
             return res;
         }
 
-        public List<FCheckValidation> getListUerView(ViTriKNL vt, int? idpb, NhanVien nv)
+        public List<FCheckValidation> getListUerView(ViTriKNL vt, int? idpb, NhanVienCacheDto nv)
         {
             var vt2 = checkMVT2(vt.MaViTri);
             var vt3 = checkMVT3(vt.MaViTri);
@@ -438,13 +447,18 @@ namespace E_Learning.Controllers.KNL
             int Nam = dt.Year;
             // Thông tin nhân viên
             if (IDNV == null) IDNV = 0;
-            var nvv = db.NhanViens.FirstOrDefault(x => x.ID == IDNV && x.IDTinhTrangLV == 1);
+            var nvv = KNLCacheService.GetNhanVienById((int)IDNV, () =>
+            {
+                var e = db.NhanViens.FirstOrDefault(x => x.ID == IDNV && x.IDTinhTrangLV == 1);
+                return e == null ? null : new NhanVienCacheDto { ID = e.ID, MaNV = e.MaNV, HoTen = e.HoTen, IDPhongBan = e.IDPhongBan, IDVTKNL = e.IDVTKNL, IDTinhTrangLV = e.IDTinhTrangLV, IDKip = e.IDKip, IDQuyen = e.IDQuyen, IDQuyenKNL = e.IDQuyenKNL, MaViTri = e.MaViTri };
+            });
             var vt = db.ViTriKNLs.FirstOrDefault(x => x.IDVT == nvv.IDVTKNL);
             ViewBag.TenNV = nvv.MaNV + " - " + nvv.HoTen ?? "";
             ViewBag.TenVT = vt.TenViTri ?? "";
             ViewBag.ThangDG = (DateTime?)dt ?? default(DateTime);
-            // Kiểm tra đánh giá cũ
-            var kqprev = db.KNL_LSDG_TheoQuy(Nam, Quy, IDNV).ToList();
+            // Kiểm tra đánh giá cũ (cache 15 phút)
+            var kqprev = KNLCacheService.GetLSDGTheoQuy<KNL_LSDG_TheoQuy_Result>(Nam, Quy, IDNV,
+                () => db.KNL_LSDG_TheoQuy(Nam, Quy, IDNV).ToList());
             // Xoa Bang KNL cũ trong cùng Tháng khác vị trí
             if (kqprev.Count > 0)
             {
@@ -456,13 +470,20 @@ namespace E_Learning.Controllers.KNL
                         var k = db.KNL_LSDG_delete(x.IDLS);
                         var m = db.KNL_KQ_LSDG_delete(x.IDLS);
                     }
+                    // Xóa cache vì đã xóa dữ liệu cũ
+                    KNLCacheService.Invalidate(KNLCacheService.KeyLSDGTheoQuy(Nam, Quy, IDNV));
                 }
             }
-            // Lấy DS Đánh giá chi tiết
+            // Lấy DS Đánh giá chi tiết — load từ cache, join trong bộ nhớ
+            var cachedDocBang = KNLCacheService.GetDocBangKNL<KNL_DocBangKNL_IDNV_Result>(vt.IDVT, nvv.ID,
+                () => db.KNL_DocBangKNL_IDNV(vt.IDVT, nvv.ID).ToList());
+
+            var cachedKQTheoQuy = KNLCacheService.GetKQTheoQuy<KNL_KQ_TheoQuy_Result>(Nam, Quy, nvv.ID,
+                () => db.KNL_KQ_TheoQuy(Nam, Quy, nvv.ID).ToList());
 
             var joined =
-                        from knl in db.KNL_DocBangKNL_IDNV(vt.IDVT, nvv.ID)                // TVF 1
-                        join kq0 in db.KNL_KQ_TheoQuy(Nam, Quy, nvv.ID) on knl.IDNL equals kq0.IDNL
+                        from knl in cachedDocBang
+                        join kq0 in cachedKQTheoQuy on knl.IDNL equals kq0.IDNL
                             into gj
                         from kq in gj.DefaultIfEmpty()                                     // LEFT JOIN
                         select new { knl, kq };
@@ -597,7 +618,11 @@ namespace E_Learning.Controllers.KNL
             ViewBag.IDLoaiNL = new SelectList(loaiNL, "IDLoai", "TenLoai");
 
             string manv = MyAuthentication.Username;
-            var nvndg = db.NhanViens.Where(x => x.MaNV == manv).FirstOrDefault();
+            var nvndg = KNLCacheService.GetNhanVienByMaNV(manv, () =>
+            {
+                var e = db.NhanViens.Where(x => x.MaNV == manv).FirstOrDefault();
+                return e == null ? null : new NhanVienCacheDto { ID = e.ID, MaNV = e.MaNV, HoTen = e.HoTen, IDPhongBan = e.IDPhongBan, IDVTKNL = e.IDVTKNL, IDTinhTrangLV = e.IDTinhTrangLV, IDKip = e.IDKip, IDQuyen = e.IDQuyen, IDQuyenKNL = e.IDQuyenKNL, MaViTri = e.MaViTri };
+            });
 
             var vtt = db.ViTriKNLs.Where(x => x.IDVT == nvndg.IDVTKNL).FirstOrDefault();
             List<FCheckValidation> user = getListUser(vtt, nvv.IDPhongBan, nvndg);
@@ -621,7 +646,7 @@ namespace E_Learning.Controllers.KNL
             try
             {
                 string manv = MyAuthentication.Username;
-                var nv = db.NhanViens.Where(x => x.MaNV == manv).FirstOrDefault();
+                int nvId = MyAuthentication.ID;
                 // Nhân viên được đánh giá
                 int? IDNVDDG = ListKQ[0].IDNV;
                 int? IDVTDDG = ListKQ[0].IDVT;
@@ -668,7 +693,7 @@ namespace E_Learning.Controllers.KNL
                     }
                     // update bảng KNL_KQ
                     var searchKQ = db.KNL_KQ.Find(item.IDKQ);
-                    if (item.IDNV == nv.ID) // tự đánh giá
+                    if (item.IDNV == nvId) // tự đánh giá
                     {
                         searchKQ.DiemTuDG = item.DiemDG;
                         searchKQ.NgayTuDG = DateTime.Now;
@@ -677,14 +702,14 @@ namespace E_Learning.Controllers.KNL
                     {
                         searchKQ.DiemDG_Lan1 = item.DiemDG;
                         searchKQ.NgayDG_Lan1 = DateTime.Now;
-                        searchKQ.IDNguoiDG_Lan1 = nv.ID;
+                        searchKQ.IDNguoiDG_Lan1 = nvId;
 
                     }
                     else // Phê duyệt kết quả
                     {
                         searchKQ.DiemDG = item.DiemDG;
                         searchKQ.NgayDG = DateTime.Now;
-                        searchKQ.IDNVDG = nv.ID;
+                        searchKQ.IDNVDG = nvId;
                         searchKQ.Note = item.Note;
                         searchKQ.KQID = IDKQ; //tính điểm
                     }
@@ -1000,20 +1025,32 @@ namespace E_Learning.Controllers.KNL
                 {
                     try
                     {
-                        string manv = MyAuthentication.Username;
-                        var nv = localDb.NhanViens.FirstOrDefault(x => x.MaNV == manv);
+                        // Lấy ID người đánh giá từ FormsAuth ticket — không cần query DB
+                        int nvId = MyAuthentication.ID;
 
                         var firstItem = listKQ.First();
                         int? IDNVDDG = firstItem.IDNV;
                         int? IDVTDDG = firstItem.IDVT;
-                        int Quy = GetQuarter(DateTime.Now);
-                        int Nam = DateTime.Now.Year;
+                        var now = DateTime.Now; // capture 1 lần, tất cả records cùng timestamp
+                        int Quy = GetQuarter(now);
+                        int Nam = now.Year;
 
-                        // Read SP data BEFORE the transaction to avoid holding shared locks during writes
-                        var LSDG = localDb.KNL_LSDG_TheoQuy(Nam, Quy, IDNVDDG).FirstOrDefault(x => x.VTID == IDVTDDG);
-                        var KNL_KQCu = localDb.KNL_KQ_TheoQuy(Nam, Quy, IDNVDDG).Where(x => x.VTID == IDVTDDG).ToList();
+                        // Read SP data BEFORE the transaction (cache-aside, tránh giữ lock DB khi write)
+                        var allLSDG = KNLCacheService.GetLSDGTheoQuy<KNL_LSDG_TheoQuy_Result>(Nam, Quy, IDNVDDG,
+                            () => localDb.KNL_LSDG_TheoQuy(Nam, Quy, IDNVDDG).ToList());
+                        var LSDG = allLSDG.FirstOrDefault(x => x.VTID == IDVTDDG);
 
-                        // Batch-fetch all KNL_KQ records in ONE query instead of N Find() calls inside the loop
+                        var KNL_KQCu = KNLCacheService.GetKQTheoQuy<KNL_KQ_TheoQuy_Result>(Nam, Quy, IDNVDDG,
+                            () => localDb.KNL_KQ_TheoQuy(Nam, Quy, IDNVDDG).ToList())
+                            .Where(x => x.VTID == IDVTDDG).ToList();
+
+                        // O(n) lookup thay vì O(n²) FirstOrDefault trong vòng lặp
+                        var kqCuByIDNL = KNL_KQCu
+                            .Where(x => x.IDNL.HasValue)
+                            .GroupBy(x => x.IDNL.Value)
+                            .ToDictionary(g => g.Key, g => g.First());
+
+                        // Batch-fetch all KNL_KQ entities in ONE query instead of N Find() calls inside the loop
                         var existingKQIds = listKQ
                             .Where(x => x.IDKQ.HasValue && x.IDKQ.Value > 0)
                             .Select(x => x.IDKQ.Value)
@@ -1045,7 +1082,8 @@ namespace E_Learning.Controllers.KNL
 
                                 foreach (var item in listKQ)
                                 {
-                                    var checkKQ = KNL_KQCu.FirstOrDefault(x => x.IDNL == item.IDNL);
+                                    // O(1) dictionary lookup thay vì O(n) FirstOrDefault
+                                    kqCuByIDNL.TryGetValue(item.IDNL ?? 0, out var checkKQ);
                                     int IDKQ = CheckKQID(item.DiemDG, item.DinhMuc, item.IsDanhGia);
 
                                     if (checkKQ == null) // thêm kết quả mới
@@ -1061,22 +1099,22 @@ namespace E_Learning.Controllers.KNL
                                             DiemDM = item.DinhMuc
                                         };
                                         localDb.KNL_KQ.Add(KNL_KQ_New);
-                                        if (item.IDNV == nv.ID)
+                                        if (item.IDNV == nvId)
                                         {
                                             KNL_KQ_New.DiemTuDG = item.DiemDG;
-                                            KNL_KQ_New.NgayTuDG = DateTime.Now;
+                                            KNL_KQ_New.NgayTuDG = now;
                                         }
                                         else if (item.CapDG == "1")
                                         {
                                             KNL_KQ_New.DiemDG_Lan1 = item.DiemDG;
-                                            KNL_KQ_New.NgayDG_Lan1 = DateTime.Now;
-                                            KNL_KQ_New.IDNguoiDG_Lan1 = nv.ID;
+                                            KNL_KQ_New.NgayDG_Lan1 = now;
+                                            KNL_KQ_New.IDNguoiDG_Lan1 = nvId;
                                         }
                                         else
                                         {
                                             KNL_KQ_New.DiemDG = item.DiemDG;
-                                            KNL_KQ_New.NgayDG = DateTime.Now;
-                                            KNL_KQ_New.IDNVDG = nv.ID;
+                                            KNL_KQ_New.NgayDG = now;
+                                            KNL_KQ_New.IDNVDG = nvId;
                                             KNL_KQ_New.Note = item.Note;
                                             KNL_KQ_New.KQID = IDKQ;
                                         }
@@ -1091,22 +1129,22 @@ namespace E_Learning.Controllers.KNL
 
                                         if (searchKQ != null)
                                         {
-                                            if (item.IDNV == nv.ID)
+                                            if (item.IDNV == nvId)
                                             {
                                                 searchKQ.DiemTuDG = item.DiemDG;
-                                                searchKQ.NgayTuDG = DateTime.Now;
+                                                searchKQ.NgayTuDG = now;
                                             }
                                             else if (item.CapDG == "1")
                                             {
                                                 searchKQ.DiemDG_Lan1 = item.DiemDG;
-                                                searchKQ.NgayDG_Lan1 = DateTime.Now;
-                                                searchKQ.IDNguoiDG_Lan1 = nv.ID;
+                                                searchKQ.NgayDG_Lan1 = now;
+                                                searchKQ.IDNguoiDG_Lan1 = nvId;
                                             }
                                             else
                                             {
                                                 searchKQ.DiemDG = item.DiemDG;
-                                                searchKQ.NgayDG = DateTime.Now;
-                                                searchKQ.IDNVDG = nv.ID;
+                                                searchKQ.NgayDG = now;
+                                                searchKQ.IDNVDG = nvId;
                                                 searchKQ.Note = item.Note;
                                                 searchKQ.KQID = IDKQ;
                                             }
@@ -1117,6 +1155,22 @@ namespace E_Learning.Controllers.KNL
 
                                 localDb.SaveChanges();
                                 transaction.Commit();
+
+                                // Xóa cache sau khi lưu thành công
+                                var keysToInvalidate = new List<string>
+                                {
+                                    KNLCacheService.KeyKQTheoQuy(Nam, Quy, IDNVDDG),
+                                    KNLCacheService.KeyLSDGTheoQuy(Nam, Quy, IDNVDDG),
+                                    KNLCacheService.KeyLSDGTheoQuy(Nam, null, IDNVDDG),
+                                };
+                                if (IDVTDDG.HasValue)
+                                {
+                                    keysToInvalidate.Add(KNLCacheService.KeyNVDanhGiaTT((int)IDVTDDG));
+                                    keysToInvalidate.Add(KNLCacheService.KeyNVDanhGiaTC((int)IDVTDDG));
+                                    keysToInvalidate.Add(KNLCacheService.KeyGenResult((int)IDVTDDG, DateTime.Now.ToString("yyyy-MM")));
+                                }
+                                KNLCacheService.Invalidate(keysToInvalidate.ToArray());
+
                                 return Json(new { success = true, message = "Đánh giá thành công" });
                             }
                             catch
@@ -1220,8 +1274,8 @@ namespace E_Learning.Controllers.KNL
             try
             {
                 string manv = MyAuthentication.Username;
-                var nv = db.NhanViens.FirstOrDefault(x => x.MaNV == manv);
-                var listDocCu = db.KNL_DocBangKNL.Where(x => x.IDNV == nv.ID).ToList(); // xóa lịch sử đọc cũ và lưu vào cái ds mới
+                int nvId = MyAuthentication.ID;
+                var listDocCu = db.KNL_DocBangKNL.Where(x => x.IDNV == nvId).ToList(); // xóa lịch sử đọc cũ và lưu vào cái ds mới
                 db.KNL_DocBangKNL.RemoveRange(listDocCu);
                 db.SaveChanges();
                 foreach (var KQ in ListKQ)
