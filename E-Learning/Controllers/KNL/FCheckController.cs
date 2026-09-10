@@ -643,6 +643,8 @@ namespace E_Learning.Controllers.KNL
         [HttpPost]
         public ActionResult Value(List<FValueValidation> ListKQ)
         {
+            using (var transaction = db.Database.BeginTransaction())
+            {
             try
             {
                 string manv = MyAuthentication.Username;
@@ -689,10 +691,11 @@ namespace E_Learning.Controllers.KNL
                         };
                         db.KNL_KQ.Add(KNL_KQ_New);
                         db.SaveChanges();
-                        item.IDKQ = KNL_KQ_New.IDKQ; // gán lại IDKQ 
+                        item.IDKQ = KNL_KQ_New.IDKQ; // gán lại IDKQ
                     }
                     // update bảng KNL_KQ
                     var searchKQ = db.KNL_KQ.Find(item.IDKQ);
+                    if (searchKQ == null) continue;
                     if (item.IDNV == nvId) // tự đánh giá
                     {
                         searchKQ.DiemTuDG = item.DiemDG;
@@ -993,69 +996,80 @@ namespace E_Learning.Controllers.KNL
                 //}
 
                 TempData["msgSuccess"] = "<script>alert('Đánh giá thành công');</script>";
+                transaction.Commit();
             }
             catch (Exception e)
             {
-
+                transaction.Rollback();
                 TempData["msgSuccess"] = "<script>alert('Cập nhập thất bại " + e.Message + " ');</script>";
             }
+            } // end using transaction
 
             return RedirectToAction("Value", "FCheck", new { IDNV = ListKQ[0].IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1), capDG = ListKQ[0].capDG });
         }
         [HttpPost]
         public ActionResult ValueAjax()
         {
-            // Read the request body once before any retry attempt
             Request.InputStream.Position = 0;
             string body;
             using (var reader = new StreamReader(Request.InputStream))
-            {
                 body = reader.ReadToEnd();
-            }
 
             var listKQ = JsonConvert.DeserializeObject<List<FValueDto>>(body);
             if (listKQ == null || !listKQ.Any())
                 return Json(new { success = false, message = "Không parse được JSON" });
 
-            const int maxRetries = 3;
+            // ── Invariants: tính một lần, dùng chung cho tất cả retry attempts ───
+            int nvId = MyAuthentication.ID;
+            var firstItem = listKQ.First();
+            int? IDNVDDG = firstItem.IDNV;
+            int? IDVTDDG = firstItem.IDVT;
+            var now = DateTime.Now;
+            int Quy = GetQuarter(now);
+            int Nam = now.Year;
+
+            // ── existingKQIds: từ listKQ — không đổi giữa các retry ──────────────
+            var existingKQIds = listKQ
+                .Where(x => x.IDKQ.HasValue && x.IDKQ.Value > 0)
+                .Select(x => x.IDKQ.Value)
+                .Distinct()
+                .ToList();
+
+            // ── Cache keys: tính sẵn, dùng chung ────────────────────────────────
+            var keysToInvalidate = new List<string>
+            {
+                KNLCacheService.KeyKQTheoQuy(Nam, Quy, IDNVDDG),
+                KNLCacheService.KeyLSDGTheoQuy(Nam, Quy, IDNVDDG),
+                KNLCacheService.KeyLSDGTheoQuy(Nam, null, IDNVDDG),
+            };
+            if (IDVTDDG.HasValue)
+            {
+                keysToInvalidate.Add(KNLCacheService.KeyNVDanhGiaTT(IDVTDDG.Value));
+                keysToInvalidate.Add(KNLCacheService.KeyNVDanhGiaTC(IDVTDDG.Value));
+                keysToInvalidate.Add(KNLCacheService.KeyGenResult(IDVTDDG.Value, now.ToString("yyyy-MM")));
+            }
+
+            // ── Retry loop: cache reads + fresh DbContext + existingKQMap + transaction ─
+            // Cache reads nằm trong loop để lỗi transient khi query LSDG/KQ cũng được retry
+            // thay vì làm fail cả request ngay từ attempt đầu.
+            const int maxRetries = 4;
             for (int attempt = 1; attempt <= maxRetries; attempt++)
             {
-                // Use a fresh DbContext on each attempt to avoid stale tracked entities
                 using (var localDb = new ELEARNINGEntities())
                 {
                     try
                     {
-                        // Lấy ID người đánh giá từ FormsAuth ticket — không cần query DB
-                        int nvId = MyAuthentication.ID;
+                        var LSDG = KNLCacheService.GetLSDGTheoQuy<KNL_LSDG_TheoQuy_Result>(Nam, Quy, IDNVDDG,
+                                () => { using (var tmp = new ELEARNINGEntities()) return tmp.KNL_LSDG_TheoQuy(Nam, Quy, IDNVDDG).ToList(); })
+                            .FirstOrDefault(x => x.VTID == IDVTDDG);
 
-                        var firstItem = listKQ.First();
-                        int? IDNVDDG = firstItem.IDNV;
-                        int? IDVTDDG = firstItem.IDVT;
-                        var now = DateTime.Now; // capture 1 lần, tất cả records cùng timestamp
-                        int Quy = GetQuarter(now);
-                        int Nam = now.Year;
-
-                        // Read SP data BEFORE the transaction (cache-aside, tránh giữ lock DB khi write)
-                        var allLSDG = KNLCacheService.GetLSDGTheoQuy<KNL_LSDG_TheoQuy_Result>(Nam, Quy, IDNVDDG,
-                            () => localDb.KNL_LSDG_TheoQuy(Nam, Quy, IDNVDDG).ToList());
-                        var LSDG = allLSDG.FirstOrDefault(x => x.VTID == IDVTDDG);
-
-                        var KNL_KQCu = KNLCacheService.GetKQTheoQuy<KNL_KQ_TheoQuy_Result>(Nam, Quy, IDNVDDG,
-                            () => localDb.KNL_KQ_TheoQuy(Nam, Quy, IDNVDDG).ToList())
-                            .Where(x => x.VTID == IDVTDDG).ToList();
-
-                        // O(n) lookup thay vì O(n²) FirstOrDefault trong vòng lặp
-                        var kqCuByIDNL = KNL_KQCu
-                            .Where(x => x.IDNL.HasValue)
+                        var kqCuByIDNL = KNLCacheService.GetKQTheoQuy<KNL_KQ_TheoQuy_Result>(Nam, Quy, IDNVDDG,
+                                () => { using (var tmp = new ELEARNINGEntities()) return tmp.KNL_KQ_TheoQuy(Nam, Quy, IDNVDDG).ToList(); })
+                            .Where(x => x.VTID == IDVTDDG && x.IDNL.HasValue)
                             .GroupBy(x => x.IDNL.Value)
                             .ToDictionary(g => g.Key, g => g.First());
 
-                        // Batch-fetch all KNL_KQ entities in ONE query instead of N Find() calls inside the loop
-                        var existingKQIds = listKQ
-                            .Where(x => x.IDKQ.HasValue && x.IDKQ.Value > 0)
-                            .Select(x => x.IDKQ.Value)
-                            .Distinct()
-                            .ToList();
+                        // Batch-fetch tracked entities — cần fresh localDb mỗi attempt để EF tracking đúng
                         var existingKQMap = existingKQIds.Any()
                             ? localDb.KNL_KQ.Where(x => existingKQIds.Contains(x.IDKQ)).ToDictionary(x => x.IDKQ)
                             : new Dictionary<int, KNL_KQ>();
@@ -1064,31 +1078,27 @@ namespace E_Learning.Controllers.KNL
                         {
                             try
                             {
-                                var LSDG_New = new KNL_LSDG()
-                                {
-                                    NVID = IDNVDDG,
-                                    VTID = IDVTDDG,
-                                    Quy = Quy,
-                                    Nam = Nam
-                                };
-
+                                int IDLS;
                                 if (LSDG == null)
                                 {
-                                    localDb.KNL_LSDG.Add(LSDG_New);
-                                    localDb.SaveChanges();
+                                    var lsdgNew = new KNL_LSDG { NVID = IDNVDDG, VTID = IDVTDDG, Quy = Quy, Nam = Nam };
+                                    localDb.KNL_LSDG.Add(lsdgNew);
+                                    localDb.SaveChanges(); // cần để lấy IDLS do DB tự sinh
+                                    IDLS = lsdgNew.IDLS;
                                 }
-
-                                int IDLS = LSDG == null ? LSDG_New.IDLS : LSDG.IDLS;
+                                else
+                                {
+                                    IDLS = LSDG.IDLS;
+                                }
 
                                 foreach (var item in listKQ)
                                 {
-                                    // O(1) dictionary lookup thay vì O(n) FirstOrDefault
                                     kqCuByIDNL.TryGetValue(item.IDNL ?? 0, out var checkKQ);
-                                    int IDKQ = CheckKQID(item.DiemDG, item.DinhMuc, item.IsDanhGia);
+                                    int kqId = CheckKQID(item.DiemDG, item.DinhMuc, item.IsDanhGia);
 
-                                    if (checkKQ == null) // thêm kết quả mới
+                                    if (checkKQ == null)
                                     {
-                                        var KNL_KQ_New = new KNL_KQ()
+                                        var kqNew = new KNL_KQ
                                         {
                                             IDNV = item.IDNV,
                                             IDNL = item.IDNL,
@@ -1098,84 +1108,26 @@ namespace E_Learning.Controllers.KNL
                                             VTID = item.IDVT,
                                             DiemDM = item.DinhMuc
                                         };
-                                        localDb.KNL_KQ.Add(KNL_KQ_New);
-                                        if (item.IDNV == nvId)
-                                        {
-                                            KNL_KQ_New.DiemTuDG = item.DiemDG;
-                                            KNL_KQ_New.NgayTuDG = now;
-                                        }
-                                        else if (item.CapDG == "1")
-                                        {
-                                            KNL_KQ_New.DiemDG_Lan1 = item.DiemDG;
-                                            KNL_KQ_New.NgayDG_Lan1 = now;
-                                            KNL_KQ_New.IDNguoiDG_Lan1 = nvId;
-                                        }
-                                        else
-                                        {
-                                            KNL_KQ_New.DiemDG = item.DiemDG;
-                                            KNL_KQ_New.NgayDG = now;
-                                            KNL_KQ_New.IDNVDG = nvId;
-                                            KNL_KQ_New.Note = item.Note;
-                                            KNL_KQ_New.KQID = IDKQ;
-                                        }
-                                        KNL_KQ_New.DiemDM = item.DinhMuc;
+                                        ApplyScore(kqNew, item, nvId, now, kqId);
+                                        localDb.KNL_KQ.Add(kqNew);
                                     }
-                                    else // update kq cũ
+                                    else
                                     {
-                                        // Use pre-fetched dictionary — avoids a separate SELECT per item inside the transaction
-                                        KNL_KQ searchKQ = null;
-                                        if (item.IDKQ.HasValue && existingKQMap.TryGetValue(item.IDKQ.Value, out var found))
-                                            searchKQ = found;
-
-                                        if (searchKQ != null)
-                                        {
-                                            if (item.IDNV == nvId)
-                                            {
-                                                searchKQ.DiemTuDG = item.DiemDG;
-                                                searchKQ.NgayTuDG = now;
-                                            }
-                                            else if (item.CapDG == "1")
-                                            {
-                                                searchKQ.DiemDG_Lan1 = item.DiemDG;
-                                                searchKQ.NgayDG_Lan1 = now;
-                                                searchKQ.IDNguoiDG_Lan1 = nvId;
-                                            }
-                                            else
-                                            {
-                                                searchKQ.DiemDG = item.DiemDG;
-                                                searchKQ.NgayDG = now;
-                                                searchKQ.IDNVDG = nvId;
-                                                searchKQ.Note = item.Note;
-                                                searchKQ.KQID = IDKQ;
-                                            }
-                                            searchKQ.DiemDM = item.DinhMuc;
-                                        }
+                                        if (!item.IDKQ.HasValue || !existingKQMap.TryGetValue(item.IDKQ.Value, out var searchKQ))
+                                            continue;
+                                        searchKQ.DiemDM = item.DinhMuc;
+                                        ApplyScore(searchKQ, item, nvId, now, kqId);
                                     }
                                 }
 
                                 localDb.SaveChanges();
                                 transaction.Commit();
-
-                                // Xóa cache sau khi lưu thành công
-                                var keysToInvalidate = new List<string>
-                                {
-                                    KNLCacheService.KeyKQTheoQuy(Nam, Quy, IDNVDDG),
-                                    KNLCacheService.KeyLSDGTheoQuy(Nam, Quy, IDNVDDG),
-                                    KNLCacheService.KeyLSDGTheoQuy(Nam, null, IDNVDDG),
-                                };
-                                if (IDVTDDG.HasValue)
-                                {
-                                    keysToInvalidate.Add(KNLCacheService.KeyNVDanhGiaTT((int)IDVTDDG));
-                                    keysToInvalidate.Add(KNLCacheService.KeyNVDanhGiaTC((int)IDVTDDG));
-                                    keysToInvalidate.Add(KNLCacheService.KeyGenResult((int)IDVTDDG, DateTime.Now.ToString("yyyy-MM")));
-                                }
                                 KNLCacheService.Invalidate(keysToInvalidate.ToArray());
-
                                 return Json(new { success = true, message = "Đánh giá thành công" });
                             }
                             catch
                             {
-                                transaction.Rollback();
+                                try { transaction.Rollback(); } catch { }
                                 throw;
                             }
                         }
@@ -1184,7 +1136,7 @@ namespace E_Learning.Controllers.KNL
                     {
                         if (attempt < maxRetries && IsRetryableException(e))
                         {
-                            System.Threading.Thread.Sleep(300 * attempt);
+                            System.Threading.Thread.Sleep(500 * attempt);
                             continue;
                         }
                         return Json(new { success = false, message = "Cập nhật thất bại: " + e.Message });
@@ -1192,6 +1144,29 @@ namespace E_Learning.Controllers.KNL
                 }
             }
             return Json(new { success = false, message = "Cập nhật thất bại sau nhiều lần thử lại" });
+        }
+
+        private void ApplyScore(KNL_KQ kq, FValueDto item, int nvId, DateTime now, int kqId)
+        {
+            if (item.IDNV == nvId)
+            {
+                kq.DiemTuDG = item.DiemDG;
+                kq.NgayTuDG = now;
+            }
+            else if (item.CapDG == "1")
+            {
+                kq.DiemDG_Lan1 = item.DiemDG;
+                kq.NgayDG_Lan1 = now;
+                kq.IDNguoiDG_Lan1 = nvId;
+            }
+            else
+            {
+                kq.DiemDG = item.DiemDG;
+                kq.NgayDG = now;
+                kq.IDNVDG = nvId;
+                kq.Note = item.Note;
+                kq.KQID = kqId;
+            }
         }
 
         private bool IsRetryableException(Exception ex)
@@ -1207,9 +1182,15 @@ namespace E_Learning.Controllers.KNL
                 var sqlEx = current as SqlException;
                 if (sqlEx != null)
                     foreach (SqlError err in sqlEx.Errors)
-                        // 1205 = deadlock victim, 1222 = lock request timeout, -2 = connection timeout
-                        if (err.Number == 1205 || err.Number == 1222 || err.Number == -2)
+                        // 1205 = deadlock victim, 1222 = lock request timeout, -2 = connection timeout,
+                        // 53/64/121/10053/10054/10060/10061 = network/connection drop tới SQL Server nội bộ
+                        if (err.Number == 1205 || err.Number == 1222 || err.Number == -2 ||
+                            err.Number == 53 || err.Number == 64 || err.Number == 121 ||
+                            err.Number == 10053 || err.Number == 10054 || err.Number == 10060 || err.Number == 10061)
                             return true;
+
+                if (current is TimeoutException)
+                    return true;
 
                 current = current.InnerException;
             }

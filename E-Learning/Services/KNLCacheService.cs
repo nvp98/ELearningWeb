@@ -39,55 +39,65 @@ namespace E_Learning.Services
         }
 
         // ── Cache-aside generic (List) ────────────────────────────────────────
+        // Chỉ bọc try/catch quanh thao tác Redis — lỗi từ fetch() (DB) phải được
+        // ném ra ngoài nguyên trạng để caller (vd. retry loop) xử lý, không nuốt rồi gọi lại fetch() lần 2.
         private static List<T> GetOrSet<T>(string key, Func<List<T>> fetch, TimeSpan ttl)
         {
+            IDatabase db = null;
             try
             {
-                var db = Cache;
+                db = Cache;
                 if (db != null)
                 {
                     var cached = db.StringGet(key);
                     if (cached.HasValue)
                         return JsonConvert.DeserializeObject<List<T>>(cached);
                 }
-
-                var value = fetch();
-
-                if (db != null && value != null)
-                    db.StringSet(key, JsonConvert.SerializeObject(value), ttl);
-
-                return value;
             }
             catch
             {
-                return fetch();
+                db = null;
             }
+
+            var value = fetch();
+
+            if (db != null && value != null)
+            {
+                try { db.StringSet(key, JsonConvert.SerializeObject(value), ttl); }
+                catch { /* ghi cache lỗi — bỏ qua, không ảnh hưởng kết quả trả về */ }
+            }
+
+            return value;
         }
 
         // ── Cache-aside scalar (single object) ───────────────────────────────
         private static T GetOrSetSingle<T>(string key, Func<T> fetch, TimeSpan ttl) where T : class
         {
+            IDatabase db = null;
             try
             {
-                var db = Cache;
+                db = Cache;
                 if (db != null)
                 {
                     var cached = db.StringGet(key);
                     if (cached.HasValue)
                         return JsonConvert.DeserializeObject<T>(cached);
                 }
-
-                var value = fetch();
-
-                if (db != null && value != null)
-                    db.StringSet(key, JsonConvert.SerializeObject(value), ttl);
-
-                return value;
             }
             catch
             {
-                return fetch();
+                db = null;
             }
+
+            var value = fetch();
+
+            if (db != null && value != null)
+            {
+                try { db.StringSet(key, JsonConvert.SerializeObject(value), ttl); }
+                catch { /* ghi cache lỗi — bỏ qua, không ảnh hưởng kết quả trả về */ }
+            }
+
+            return value;
         }
 
         // ── Invalidate ────────────────────────────────────────────────────────
