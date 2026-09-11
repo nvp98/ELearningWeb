@@ -35,11 +35,8 @@ namespace E_Learning.Controllers.KNL
             int? IDVTKNL = MyAuthentication.IDVTKNL;
             if (search == null) search = "";
             ViewBag.search = search;
-            var nv = KNLCacheService.GetNhanVienByMaNV(manv, () =>
-            {
-                var e = db.NhanViens.Where(x => x.MaNV == manv).FirstOrDefault();
-                return e == null ? null : new NhanVienCacheDto { ID = e.ID, MaNV = e.MaNV, HoTen = e.HoTen, IDPhongBan = e.IDPhongBan, IDVTKNL = e.IDVTKNL, IDTinhTrangLV = e.IDTinhTrangLV, IDKip = e.IDKip, IDQuyen = e.IDQuyen, IDQuyenKNL = e.IDQuyenKNL, MaViTri = e.MaViTri };
-            });
+            var nvEntity = db.NhanViens.FirstOrDefault(x => x.MaNV == manv);
+            var nv = nvEntity == null ? null : new NhanVienCacheDto { ID = nvEntity.ID, MaNV = nvEntity.MaNV, HoTen = nvEntity.HoTen, IDPhongBan = nvEntity.IDPhongBan, IDVTKNL = nvEntity.IDVTKNL, IDTinhTrangLV = nvEntity.IDTinhTrangLV, IDKip = nvEntity.IDKip, IDQuyen = nvEntity.IDQuyen, IDQuyenKNL = nvEntity.IDQuyenKNL, MaViTri = nvEntity.MaViTri };
             var vt = db.ViTriKNLs.Where(x => x.IDVT == IDVTKNL).FirstOrDefault();
             var kiemnhiem = db.KNL_NVKiemNhiem.Where(x => x.IDNV == idnv).ToList();
             var res = new List<FCheckValidation>();
@@ -196,9 +193,7 @@ namespace E_Learning.Controllers.KNL
             var vt2 = checkMVT2(vt.MaViTri);
             var vt3 = checkMVT3(vt.MaViTri);
 
-            // Cache raw SP results; mapping (IsInCurrentQuarter) luôn tính lại để đảm bảo chính xác theo thời điểm
-            var rawTT = KNLCacheService.GetNVDanhGiaTT<KNL_GetNhanVienDanhGiaTT_Result>(vt.IDVT,
-                () => db.KNL_GetNhanVienDanhGiaTT(vt.IDVT).ToList());
+            var rawTT = db.KNL_GetNhanVienDanhGiaTT(vt.IDVT).ToList();
 
             var res = rawTT.Select(a => new FCheckValidation
             {
@@ -442,203 +437,122 @@ namespace E_Learning.Controllers.KNL
 
         public ActionResult Value(int? IDNV, DateTime dt, string capDG)
         {
-            // check Quy
             int Quy = GetQuarter(dt);
             int Nam = dt.Year;
-            // Thông tin nhân viên
             if (IDNV == null) IDNV = 0;
-            var nvv = KNLCacheService.GetNhanVienById((int)IDNV, () =>
-            {
-                var e = db.NhanViens.FirstOrDefault(x => x.ID == IDNV && x.IDTinhTrangLV == 1);
-                return e == null ? null : new NhanVienCacheDto { ID = e.ID, MaNV = e.MaNV, HoTen = e.HoTen, IDPhongBan = e.IDPhongBan, IDVTKNL = e.IDVTKNL, IDTinhTrangLV = e.IDTinhTrangLV, IDKip = e.IDKip, IDQuyen = e.IDQuyen, IDQuyenKNL = e.IDQuyenKNL, MaViTri = e.MaViTri };
-            });
+
+            // Thông tin nhân viên được đánh giá
+            var nvvEntity = db.NhanViens.FirstOrDefault(x => x.ID == IDNV && x.IDTinhTrangLV == 1);
+            if (nvvEntity == null) return View(new List<FValueValidation>());
+            var nvv = new NhanVienCacheDto { ID = nvvEntity.ID, MaNV = nvvEntity.MaNV, HoTen = nvvEntity.HoTen, IDPhongBan = nvvEntity.IDPhongBan, IDVTKNL = nvvEntity.IDVTKNL, IDTinhTrangLV = nvvEntity.IDTinhTrangLV, IDKip = nvvEntity.IDKip, IDQuyen = nvvEntity.IDQuyen, IDQuyenKNL = nvvEntity.IDQuyenKNL, MaViTri = nvvEntity.MaViTri };
+
             var vt = db.ViTriKNLs.FirstOrDefault(x => x.IDVT == nvv.IDVTKNL);
             ViewBag.TenNV = nvv.MaNV + " - " + nvv.HoTen ?? "";
-            ViewBag.TenVT = vt.TenViTri ?? "";
+            ViewBag.TenVT = vt?.TenViTri ?? "";
             ViewBag.ThangDG = (DateTime?)dt ?? default(DateTime);
-            // Kiểm tra đánh giá cũ (cache 15 phút)
-            var kqprev = KNLCacheService.GetLSDGTheoQuy<KNL_LSDG_TheoQuy_Result>(Nam, Quy, IDNV,
-                () => db.KNL_LSDG_TheoQuy(Nam, Quy, IDNV).ToList());
-            // Xoa Bang KNL cũ trong cùng Tháng khác vị trí
+
+            // Xóa lịch sử đánh giá cũ khác vị trí trong cùng quý
+            var kqprev = db.KNL_LSDG_TheoQuy(Nam, Quy, IDNV).ToList();
             if (kqprev.Count > 0)
             {
                 var listDgCu = kqprev.Where(x => x.VTID != vt.IDVT).ToList();
-                if (listDgCu.Count > 0)
+                foreach (var x in listDgCu)
                 {
-                    foreach (var x in listDgCu)
+                    db.KNL_LSDG_delete(x.IDLS);
+                    db.KNL_KQ_LSDG_delete(x.IDLS);
+                }
+            }
+
+            // Lấy dữ liệu đánh giá, join trong bộ nhớ
+            var docBang    = db.KNL_DocBangKNL_IDNV(vt.IDVT, nvv.ID).ToList();
+            var kqTheoQuy  = db.KNL_KQ_TheoQuy(Nam, Quy, nvv.ID).ToList();
+
+            var res = (from knl in docBang
+                       join kq0 in kqTheoQuy on knl.IDNL equals kq0.IDNL into gj
+                       from kq in gj.DefaultIfEmpty()
+                       select new { knl, kq })
+                .AsEnumerable()
+                .Select(x =>
+                {
+                    var knl = x.knl;
+                    var kq  = x.kq;
+
+                    int? diemChon;
+                    if (capDG == "1")                          diemChon = kq?.DiemDG_Lan1;
+                    else if (kq?.IDNV == MyAuthentication.ID) diemChon = kq?.DiemTuDG;
+                    else                                       diemChon = kq?.DiemDG;
+
+                    var dimMuc  = knl.IsDanhGia != 0 ? knl.DinhMuc : 0;
+                    var ngayDG  = kq?.NgayDG;
+                    DateTime? han3 = ngayDG?.AddMonths(3);
+                    DateTime? han6 = ngayDG?.AddMonths(6);
+
+                    int ngayCanhBao = (kq?.DiemDG != null && ngayDG != null)
+                        ? (kq.DiemDG < dimMuc ? (int)(han3.Value - DateTime.Now).TotalDays
+                                              : (int)(han6.Value - DateTime.Now).TotalDays)
+                        : -1000;
+
+                    DateTime? ngayHanDG = (kq?.DiemDG != null && ngayDG != null)
+                        ? (kq.DiemDG < dimMuc ? han3 : han6)
+                        : (DateTime?)null;
+
+                    return new FValueValidation
                     {
-                        var k = db.KNL_LSDG_delete(x.IDLS);
-                        var m = db.KNL_KQ_LSDG_delete(x.IDLS);
-                    }
-                    // Xóa cache vì đã xóa dữ liệu cũ
-                    KNLCacheService.Invalidate(KNLCacheService.KeyLSDGTheoQuy(Nam, Quy, IDNV));
-                }
-            }
-            // Lấy DS Đánh giá chi tiết — load từ cache, join trong bộ nhớ
-            var cachedDocBang = KNLCacheService.GetDocBangKNL<KNL_DocBangKNL_IDNV_Result>(vt.IDVT, nvv.ID,
-                () => db.KNL_DocBangKNL_IDNV(vt.IDVT, nvv.ID).ToList());
+                        IDNV        = nvv.ID,
+                        TenNV       = nvv.HoTen ?? "",
+                        IDNL        = knl.IDNL,
+                        TenNL       = kq?.TenNL ?? knl.TenNL,
+                        IDLoaiNL    = kq?.IDLoaiNL ?? knl.IDLoaiNL,
+                        IDVT        = kq?.VTID ?? knl.IDVT,
+                        TenViTri    = kq?.TenViTri ?? "",
+                        DinhMuc     = dimMuc,
+                        IsDanhGia   = knl.IsDanhGia,
+                        DiemDG      = diemChon,
+                        IDKQ        = (int?)kq?.IDKQ ?? null,
+                        Note        = kq?.Note,
+                        ThangDG     = dt,
+                        NgayDG      = ngayDG ?? default(DateTime),
+                        StrNgayDG   = ngayDG?.ToString("dd/MM/yyyy") ?? "",
+                        OrderBy     = knl.OrderBy,
+                        ColorKQ     = (kq?.DiemDG ?? 0m) < dimMuc ? "bg-danger" : "bg-success",
+                        IDNVDG      = kq?.IDNVDG,
+                        TenNVDG     = kq?.TenNguoiDanhGia,
+                        NgayCanhBao = ngayCanhBao,
+                        NgayHanDG   = ngayHanDG ?? default(DateTime),
+                        DiemCBNVDG  = kq?.DiemTuDG,
+                        NgayCBNVDG  = kq?.NgayTuDG,
+                        DiemDGLan1  = kq?.DiemDG_Lan1,
+                        NgayDGLan1  = kq?.NgayDG_Lan1,
+                        DiemDuyetDG = kq?.DiemDG,
+                        capDG       = capDG
+                    };
+                })
+                .OrderBy(x => x.OrderBy)
+                .ToList();
 
-            var cachedKQTheoQuy = KNLCacheService.GetKQTheoQuy<KNL_KQ_TheoQuy_Result>(Nam, Quy, nvv.ID,
-                () => db.KNL_KQ_TheoQuy(Nam, Quy, nvv.ID).ToList());
-
-            var joined =
-                        from knl in cachedDocBang
-                        join kq0 in cachedKQTheoQuy on knl.IDNL equals kq0.IDNL
-                            into gj
-                        from kq in gj.DefaultIfEmpty()                                     // LEFT JOIN
-                        select new { knl, kq };
-
-            //var res = (from  knl in db.KNL_DocBangKNL_IDNV(vt.IDVT,nvv.ID)
-            //          join kq in db.KNL_KQ_TheoQuy(Nam, Quy, nvv.ID) on knl.IDNL equals kq.IDNL
-            //          into gj from kq in gj.DefaultIfEmpty() // LEFT JOIN
-            //           select new FValueValidation
-            //          {
-            //              IDNV = (int?)nvv.ID ?? null,
-            //              TenNV = nvv.HoTen ?? "",
-            //              IDNL = kq.IDNL,
-            //              TenNL = kq.TenNL,
-            //              IDLoaiNL = kq.IDLoaiNL,
-            //              //TenLoaiNL = kq.Ten,
-            //              IDVT = kq.VTID,
-            //              TenViTri = kq.TenViTri,
-            //              //IDPB = a.IDPB,
-            //              //TenPhongBan = a.TenPhongBan,
-            //              DinhMuc = knl.IsDanhGia != 0 ? knl.DinhMuc : 0,
-            //              IsDanhGia = knl.IsDanhGia,
-            //              DiemDG = capDG =="1"?kq.DiemDG_Lan1:kq.IDNV == MyAuthentication.ID?kq.DiemTuDG: kq.DiemDG,
-            //              IDKQ = (int?)kq.IDKQ ?? null,
-            //              Note = kq.Note,
-            //              ThangDG = (DateTime?)dt ?? default(DateTime),
-            //              NgayDG = (DateTime?)kq.NgayDG ?? default(DateTime),
-            //              StrNgayDG = kq.NgayDG != null ? kq.NgayDG.Value.ToString("dd/MM/yyyy") : "",
-            //              OrderBy = knl.OrderBy,
-            //              //OrderByLoai = a.orByLoai,
-            //              ColorKQ = kq.DiemDG < knl.DinhMuc ? "bg-danger" : "bg-success",
-            //              //ColorKQ = "bg-light",
-            //              IDNVDG = kq.IDNVDG,
-            //              TenNVDG = kq.TenNguoiDanhGia,
-            //              NgayCanhBao = kq.DiemDG < knl.DinhMuc ? (((DateTime)kq.NgayDG).AddMonths(3) -DateTime.Now).Days : kq.DiemDG >= knl.DinhMuc? (((DateTime)kq.NgayDG).AddMonths(6) - DateTime.Now).Days : - 1000,
-            //              NgayHanDG = kq.DiemDG < knl.DinhMuc ? ((DateTime)kq.NgayDG).AddMonths(3): kq.DiemDG >= knl.DinhMuc? ((DateTime)kq.NgayDG).AddMonths(6) : default(DateTime),
-            //              DiemCBNVDG = kq.DiemTuDG,
-            //              NgayCBNVDG = kq.NgayTuDG,
-            //              DiemDGLan1 = kq.DiemDG_Lan1,
-            //              NgayDGLan1 = kq.NgayDG_Lan1,
-            //              DiemDuyetDG = kq.DiemDG,
-            //              capDG = capDG
-            //          }).ToList().OrderBy(x => x.OrderBy);
-            var res = joined
-    .AsEnumerable()    // chuyển sang LINQ to Objects để dùng AddMonths, ToString, DateTime.Now...
-    .Select(x =>
-    {
-        var knl = x.knl;
-        var kq = x.kq;   // có thể null
-
-        // chọn điểm theo cấp đánh giá (tránh lồng 3 ngôi mơ hồ)
-        int? diemChon;
-        if (capDG == "1") diemChon = kq?.DiemDG_Lan1;
-        else if (kq?.IDNV == MyAuthentication.ID) diemChon = kq?.DiemTuDG;
-        else diemChon = kq?.DiemDG;
-
-        var dimMuc = knl.IsDanhGia != 0 ? knl.DinhMuc : 0;
-        var ngayDG = kq?.NgayDG; // DateTime?
-
-        // tính hạn/cảnh báo (null-safe)
-        DateTime? han3 = ngayDG?.AddMonths(3);
-        DateTime? han6 = ngayDG?.AddMonths(6);
-        int ngayCanhBao =
-            (kq?.DiemDG != null && ngayDG != null)
-                ? ((kq.DiemDG < dimMuc)
-                        ? (int)(han3.Value - DateTime.Now).TotalDays
-                        : (int)(han6.Value - DateTime.Now).TotalDays)
-                : -1000;
-
-        DateTime? ngayHanDG =
-            (kq?.DiemDG != null && ngayDG != null)
-                ? (kq.DiemDG < dimMuc ? han3 : han6)
-                : (DateTime?)null;
-
-        return new FValueValidation
-        {
-            IDNV = (int?)nvv.ID ?? null,
-            TenNV = nvv.HoTen ?? "",
-            IDNL = knl.IDNL,                    // lấy từ KN L (luôn có)
-            TenNL = kq?.TenNL ?? knl.TenNL,      // kq có thì ưu tiên
-            IDLoaiNL = kq?.IDLoaiNL ?? knl.IDLoaiNL,
-            IDVT = kq?.VTID ?? knl.IDVT,
-            TenViTri = kq?.TenViTri ?? "",
-            DinhMuc = dimMuc,
-            IsDanhGia = knl.IsDanhGia,
-            DiemDG = diemChon,
-            IDKQ = (int?)kq?.IDKQ ?? null,
-            Note = kq?.Note,
-            ThangDG = (DateTime?)dt ?? default(DateTime),
-            NgayDG = ngayDG ?? default(DateTime),
-            StrNgayDG = ngayDG?.ToString("dd/MM/yyyy") ?? "",
-            OrderBy = knl.OrderBy,
-            ColorKQ = (kq?.DiemDG ?? 0m) < dimMuc ? "bg-danger" : "bg-success",
-            IDNVDG = kq?.IDNVDG,
-            TenNVDG = kq?.TenNguoiDanhGia,
-            NgayCanhBao = ngayCanhBao,
-            NgayHanDG = ngayHanDG ?? default(DateTime),
-            DiemCBNVDG = kq?.DiemTuDG,
-            NgayCBNVDG = kq?.NgayTuDG,
-            DiemDGLan1 = kq?.DiemDG_Lan1,
-            NgayDGLan1 = kq?.NgayDG_Lan1,
-            DiemDuyetDG = kq?.DiemDG,
-            capDG = capDG
-        };
-    })
-    .OrderBy(x => x.OrderBy)
-    .ToList();
-
-            List<int> danhSachGiuaLai = new List<int> { };
-            foreach (var item in res)
-            {
-                if (item.IDKQ != null)
-                {
-                    danhSachGiuaLai.Add((int)item.IDKQ);
-                }
-            }
-            var duLieuXoa = db.KNL_KQ
-                    .Where(x => !danhSachGiuaLai.Contains(x.IDKQ) && x.IDNV == IDNV && x.ThangDG == dt)
-                    .ToList();
-            if (duLieuXoa.Count != 0)
-            {
-                db.KNL_KQ.RemoveRange(duLieuXoa);
-                db.SaveChanges();
-            }
-
-
+            // Dropdown loại năng lực
             var distinctIDLoaiNLs = res.Where(x => x.IDLoaiNL != 1 && x.IDLoaiNL != 2)
-                   .Select(x => x.IDLoaiNL)
-                   .Distinct()
-                   .ToList();
-
-            List<LoaiKNL> loaiNL = db.LoaiKNLs.Where(x => distinctIDLoaiNLs.Contains(x.IDLoai)).OrderBy(x => x.OrderBy).ToList();
+                .Select(x => x.IDLoaiNL).Distinct().ToList();
+            var loaiNL = db.LoaiKNLs.Where(x => distinctIDLoaiNLs.Contains(x.IDLoai)).OrderBy(x => x.OrderBy).ToList();
             ViewBag.IDLoaiNL = new SelectList(loaiNL, "IDLoai", "TenLoai");
 
-            string manv = MyAuthentication.Username;
-            var nvndg = KNLCacheService.GetNhanVienByMaNV(manv, () =>
-            {
-                var e = db.NhanViens.Where(x => x.MaNV == manv).FirstOrDefault();
-                return e == null ? null : new NhanVienCacheDto { ID = e.ID, MaNV = e.MaNV, HoTen = e.HoTen, IDPhongBan = e.IDPhongBan, IDVTKNL = e.IDVTKNL, IDTinhTrangLV = e.IDTinhTrangLV, IDKip = e.IDKip, IDQuyen = e.IDQuyen, IDQuyenKNL = e.IDQuyenKNL, MaViTri = e.MaViTri };
-            });
+            // Dropdown chọn nhân viên (người đang đăng nhập)
+            string manv       = MyAuthentication.Username;
+            var nvndgEntity   = db.NhanViens.FirstOrDefault(x => x.MaNV == manv);
+            if (nvndgEntity == null) return View(res);
+            var nvndg = new NhanVienCacheDto { ID = nvndgEntity.ID, MaNV = nvndgEntity.MaNV, HoTen = nvndgEntity.HoTen, IDPhongBan = nvndgEntity.IDPhongBan, IDVTKNL = nvndgEntity.IDVTKNL, IDTinhTrangLV = nvndgEntity.IDTinhTrangLV, IDKip = nvndgEntity.IDKip, IDQuyen = nvndgEntity.IDQuyen, IDQuyenKNL = nvndgEntity.IDQuyenKNL, MaViTri = nvndgEntity.MaViTri };
 
-            var vtt = db.ViTriKNLs.Where(x => x.IDVT == nvndg.IDVTKNL).FirstOrDefault();
-            List<FCheckValidation> user = getListUser(vtt, nvv.IDPhongBan, nvndg);
-            var aaa = db.KNL_NVKiemNhiem.Where(x => x.IDNV == nvndg.ID).ToList();
-            if (aaa.Count > 0)
+            var vtt  = db.ViTriKNLs.FirstOrDefault(x => x.IDVT == nvndg.IDVTKNL);
+            var user = getListUser(vtt, nvv.IDPhongBan, nvndg);
+            foreach (var kkn in db.KNL_NVKiemNhiem.Where(x => x.IDNV == nvndg.ID).ToList())
             {
-                foreach (var item in aaa)
-                {
-                    var vt1 = db.ViTriKNLs.Where(x => x.IDVT == item.IDVTKN).FirstOrDefault();
-                    var res1 = getListUser(vt1, vt1.IDPB, nvndg);
-                    user.AddRange(res1);
-                }
+                var vt1 = db.ViTriKNLs.FirstOrDefault(x => x.IDVT == kkn.IDVTKN);
+                if (vt1 != null) user.AddRange(getListUser(vt1, vt1.IDPB, nvndg));
             }
             user = user.Where(x => x.IDNV == IDNV).DistinctBy(x => x.MaNV).ToList();
             ViewBag.LSUser = new SelectList(user, "IDNV", "TenNV", IDNV);
-            return View(res.ToList());
+
+            return View(res);
         }
         [HttpPost]
         public ActionResult Value(List<FValueValidation> ListKQ)
@@ -1008,7 +922,7 @@ namespace E_Learning.Controllers.KNL
             return RedirectToAction("Value", "FCheck", new { IDNV = ListKQ[0].IDNV, dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1), capDG = ListKQ[0].capDG });
         }
         [HttpPost]
-        public ActionResult ValueAjax()
+        public async Task<ActionResult> ValueAjax()
         {
             Request.InputStream.Position = 0;
             string body;
@@ -1019,131 +933,33 @@ namespace E_Learning.Controllers.KNL
             if (listKQ == null || !listKQ.Any())
                 return Json(new { success = false, message = "Không parse được JSON" });
 
-            // ── Invariants: tính một lần, dùng chung cho tất cả retry attempts ───
             int nvId = MyAuthentication.ID;
             var firstItem = listKQ.First();
-            int? IDNVDDG = firstItem.IDNV;
-            int? IDVTDDG = firstItem.IDVT;
             var now = DateTime.Now;
-            int Quy = GetQuarter(now);
-            int Nam = now.Year;
 
-            // ── existingKQIds: từ listKQ — không đổi giữa các retry ──────────────
-            var existingKQIds = listKQ
-                .Where(x => x.IDKQ.HasValue && x.IDKQ.Value > 0)
-                .Select(x => x.IDKQ.Value)
-                .Distinct()
-                .ToList();
+            int capDG;
+            if (firstItem.IDNV == nvId)       capDG = 0;
+            else if (firstItem.CapDG == "1")  capDG = 1;
+            else                               capDG = 2;
 
-            // ── Cache keys: tính sẵn, dùng chung ────────────────────────────────
-            var keysToInvalidate = new List<string>
+            try
             {
-                KNLCacheService.KeyKQTheoQuy(Nam, Quy, IDNVDDG),
-                KNLCacheService.KeyLSDGTheoQuy(Nam, Quy, IDNVDDG),
-                KNLCacheService.KeyLSDGTheoQuy(Nam, null, IDNVDDG),
-            };
-            if (IDVTDDG.HasValue)
-            {
-                keysToInvalidate.Add(KNLCacheService.KeyNVDanhGiaTT(IDVTDDG.Value));
-                keysToInvalidate.Add(KNLCacheService.KeyNVDanhGiaTC(IDVTDDG.Value));
-                keysToInvalidate.Add(KNLCacheService.KeyGenResult(IDVTDDG.Value, now.ToString("yyyy-MM")));
+                var prev = db.Database.CommandTimeout;
+                db.Database.CommandTimeout = 120;
+                await db.Database.ExecuteSqlCommandAsync(
+                    "EXEC dbo.KNL_UpsertDanhGia @IDNVDG, @CapDG, @NgayDG, @JsonKQ",
+                    new SqlParameter("@IDNVDG", nvId),
+                    new SqlParameter("@CapDG",  capDG),
+                    new SqlParameter("@NgayDG", now),
+                    new SqlParameter("@JsonKQ", System.Data.SqlDbType.NVarChar, -1) { Value = body }
+                );
+                db.Database.CommandTimeout = prev;
+                return Json(new { success = true, message = "Đánh giá thành công" });
             }
-
-            // ── Retry loop: cache reads + fresh DbContext + existingKQMap + transaction ─
-            // Cache reads nằm trong loop để lỗi transient khi query LSDG/KQ cũng được retry
-            // thay vì làm fail cả request ngay từ attempt đầu.
-            const int maxRetries = 4;
-            for (int attempt = 1; attempt <= maxRetries; attempt++)
+            catch (Exception e)
             {
-                using (var localDb = new ELEARNINGEntities())
-                {
-                    try
-                    {
-                        var LSDG = KNLCacheService.GetLSDGTheoQuy<KNL_LSDG_TheoQuy_Result>(Nam, Quy, IDNVDDG,
-                                () => { using (var tmp = new ELEARNINGEntities()) return tmp.KNL_LSDG_TheoQuy(Nam, Quy, IDNVDDG).ToList(); })
-                            .FirstOrDefault(x => x.VTID == IDVTDDG);
-
-                        var kqCuByIDNL = KNLCacheService.GetKQTheoQuy<KNL_KQ_TheoQuy_Result>(Nam, Quy, IDNVDDG,
-                                () => { using (var tmp = new ELEARNINGEntities()) return tmp.KNL_KQ_TheoQuy(Nam, Quy, IDNVDDG).ToList(); })
-                            .Where(x => x.VTID == IDVTDDG && x.IDNL.HasValue)
-                            .GroupBy(x => x.IDNL.Value)
-                            .ToDictionary(g => g.Key, g => g.First());
-
-                        // Batch-fetch tracked entities — cần fresh localDb mỗi attempt để EF tracking đúng
-                        var existingKQMap = existingKQIds.Any()
-                            ? localDb.KNL_KQ.Where(x => existingKQIds.Contains(x.IDKQ)).ToDictionary(x => x.IDKQ)
-                            : new Dictionary<int, KNL_KQ>();
-
-                        using (var transaction = localDb.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
-                        {
-                            try
-                            {
-                                int IDLS;
-                                if (LSDG == null)
-                                {
-                                    var lsdgNew = new KNL_LSDG { NVID = IDNVDDG, VTID = IDVTDDG, Quy = Quy, Nam = Nam };
-                                    localDb.KNL_LSDG.Add(lsdgNew);
-                                    localDb.SaveChanges(); // cần để lấy IDLS do DB tự sinh
-                                    IDLS = lsdgNew.IDLS;
-                                }
-                                else
-                                {
-                                    IDLS = LSDG.IDLS;
-                                }
-
-                                foreach (var item in listKQ)
-                                {
-                                    kqCuByIDNL.TryGetValue(item.IDNL ?? 0, out var checkKQ);
-                                    int kqId = CheckKQID(item.DiemDG, item.DinhMuc, item.IsDanhGia);
-
-                                    if (checkKQ == null)
-                                    {
-                                        var kqNew = new KNL_KQ
-                                        {
-                                            IDNV = item.IDNV,
-                                            IDNL = item.IDNL,
-                                            Quy = Quy,
-                                            Nam = Nam,
-                                            IDLS = IDLS,
-                                            VTID = item.IDVT,
-                                            DiemDM = item.DinhMuc
-                                        };
-                                        ApplyScore(kqNew, item, nvId, now, kqId);
-                                        localDb.KNL_KQ.Add(kqNew);
-                                    }
-                                    else
-                                    {
-                                        if (!item.IDKQ.HasValue || !existingKQMap.TryGetValue(item.IDKQ.Value, out var searchKQ))
-                                            continue;
-                                        searchKQ.DiemDM = item.DinhMuc;
-                                        ApplyScore(searchKQ, item, nvId, now, kqId);
-                                    }
-                                }
-
-                                localDb.SaveChanges();
-                                transaction.Commit();
-                                KNLCacheService.Invalidate(keysToInvalidate.ToArray());
-                                return Json(new { success = true, message = "Đánh giá thành công" });
-                            }
-                            catch
-                            {
-                                try { transaction.Rollback(); } catch { }
-                                throw;
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        if (attempt < maxRetries && IsRetryableException(e))
-                        {
-                            System.Threading.Thread.Sleep(500 * attempt);
-                            continue;
-                        }
-                        return Json(new { success = false, message = "Cập nhật thất bại: " + e.Message });
-                    }
-                }
+                return Json(new { success = false, message = "Cập nhật thất bại: " + e.Message });
             }
-            return Json(new { success = false, message = "Cập nhật thất bại sau nhiều lần thử lại" });
         }
 
         private void ApplyScore(KNL_KQ kq, FValueDto item, int nvId, DateTime now, int kqId)
