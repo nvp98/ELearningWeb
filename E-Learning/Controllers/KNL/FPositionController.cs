@@ -4091,7 +4091,7 @@ namespace E_Learning.Controllers
             try
             {
                 var ListQuyen = new HomeController().GetPermisionCN(Idquyen, ControllerName);
-                if (Idquyen != 1 && ListQuyen.Contains("VIEW_ALL")) // Tài khoản admin xem tất cả
+                if (Idquyen != 1 && !ListQuyen.Contains("VIEW_ALL")) // Tài khoản admin xem tất cả
                 {
                     IDPB = MyAuthentication.IDPhongban;
                 }
